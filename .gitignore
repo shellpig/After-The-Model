@@ -1,0 +1,30 @@
+# Godot 4+ specific ignores
+.godot/
+*.translation
+
+# Imported translations (automatically generated from CSV files)
+*.csv.import
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+
+# System/tool-specific ignores
+.DS_Store
+Thumbs.db
+
+# IDE / editor local config
+.idea/
+.vscode/
+
+# Claude Code local tooling (per CLAUDE.md: never commit)
+.claude/
+
+# Python venv (used by agent-sprite-forge pipeline)
+.venv/
+__pycache__/
+*.pyc
+
+# Historical archive
+舊文件/

@@ -1,0 +1,45 @@
+A 2D side-scrolling video game background. STRICTLY orthographic side view, like Hollow Knight, The Last Night, Limbo, Inside, Castlevania: Symphony of the Night, Dead Cells, Blasphemous, or Ranx (1990).
+
+## VIEW RULES (HIGHEST PRIORITY — VIOLATION = FAIL)
+
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective. No vanishing point. No foreshortening.
+- The camera is positioned EXACTLY PERPENDICULAR to the buildings. We see ONLY the FLAT FRONT FACADES.
+- NO side walls of buildings are visible.
+- NO alley receding into depth. Alleys are just dark vertical slits in the building wall, not tunnels going inward.
+- The ground is a PERFECTLY HORIZONTAL LINE. No tilted plane. No streets receding to a horizon.
+- Depth is created ONLY by stacking flat parallax layers: foreground, midground, background. Each layer is FLAT.
+- Think of it as cardboard cutout stage flats arranged in front of a camera, NOT a 3D scene.
+- The image must read as a flat stage composition, not a 3/4 comic panel.
+
+## Composition Discipline
+
+Use Mike Mignola-like restraint and stage composition: large simple silhouettes, controlled shapes, not dense clutter. The value structure should be approximately 60% deep shadow, 30% muted midtone, 10% bright accent light. The brightest area is the convenience store interior and its wet ground reflection. Keep the scene readable as a playable side-scroller background.
+
+## Scene Content
+
+A cyberpunk city block at night, viewed from across the street. Three flat parallax layers ONLY:
+
+- FOREGROUND (closest, sharpest): a perfectly horizontal wet ground line, puddle reflections, one trash bin, one vending machine.
+- MIDGROUND (the subject): the flat front facade of a 24-hour unmanned convenience store, glowing warm-white interior visible through glass. To the right of the store, a flat dark alley slit with a fire escape silhouette painted on the building wall. The alley does NOT recede into depth; it is just a dark vertical strip.
+- BACKGROUND (faded, smaller, no detail): silhouettes of taller buildings plus ONE cyan-glowing aerial billboard in muted teal mist. All background buildings are flat shapes, not 3D buildings.
+
+## STRICT DO NOT
+
+- DO NOT use any perspective lines.
+- DO NOT show building side walls.
+- DO NOT make alleys recede into depth.
+- DO NOT have streets disappearing to a horizon.
+- DO NOT use 3/4 view comic panel composition.
+- DO NOT add readable text or signage letters.
+- DO NOT fill walls with graffiti, posters, stickers.
+- DO NOT add cars, dumpsters, piled debris.
+- No anime lighting, no photorealism, no 3D render look.
+- No UI, no logo, no frame, no signature, no watermark.
+
+## Comic Technique
+
+American indie cyberpunk comic aesthetic with Mike Mignola-style heavy black shape discipline. Hand-inked varied line weight, not uniform digital linework. Strong chiaroscuro: large deep purple-black ink shapes against concentrated light sources. Halftone dots only in midtones, especially on ground, walls, and mist. Flat cel-shade only; no smooth gradients. Occasional subtle risograph misregistration for print-era feel, but keep the image clean and readable.
+
+## Color
+
+Deep teal base, ink purple-black shadows, cold cyan accents, grayish blue midtones. Warm faded cream highlights only inside the convenience store and on its ground reflections. Neon magenta or cyan only on small light sources such as sign glow, vending machine glow, puddle reflections, and the single aerial billboard. No pure white; the lightest value is faded warm cream. No pure black; the darkest value is deep purple-black.

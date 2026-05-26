@@ -1,0 +1,127 @@
+A 2D side-scrolling video game background. STRICTLY orthographic
+side view, like Hollow Knight, The Last Night, Limbo, or Ranx (1990).
+
+## SCENE FRAMING
+
+The city block scene fills the ENTIRE frame from sky (top) to wet
+street (bottom). NO external "out of scene" structure framing the
+image. Depth is created ONLY by stacking flat parallax layers
+(foreground / midground / background), each layer is FLAT, like
+cardboard stage flats arranged in front of a camera.
+
+## SCALE REFERENCE (use a concrete object)
+
+The convenience store glass door visible at center is approximately
+1/3 of the frame height — clearly visible, well-lit. A standing
+adult human character would be slightly shorter than the door,
+about 25-28% of the frame height. ALL street objects (trash bin,
+vending machine, signs) are scaled relative to this door.
+
+## VIEW RULES (HIGHEST PRIORITY — VIOLATION = FAIL)
+
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective. No vanishing point.
+  No foreshortening.
+- The camera is positioned EXACTLY PERPENDICULAR to the buildings.
+  We see ONLY the FLAT FRONT FACADES.
+- NO side walls of buildings are visible.
+- NO alley receding into depth — alleys are just dark vertical slits
+  in the building wall, not tunnels going inward.
+- The ground is a PERFECTLY HORIZONTAL LINE. No tilted plane.
+  No streets receding to a horizon.
+- Depth is created ONLY by stacking flat parallax layers
+  (foreground / midground / background), each layer is FLAT.
+- Think of it as cardboard cutout stage flats arranged in front of
+  a camera, NOT a 3D scene.
+- Reference games for this exact view: Hollow Knight backgrounds,
+  The Last Night promotional art (when viewed flat), Limbo, Inside,
+  Castlevania: Symphony of the Night, Dead Cells, Blasphemous.
+
+## FLAT PROFILE PRINCIPLE (game-design rule)
+
+This is a PLAYABLE 2D side-scroller level. Every street object is
+a CARDBOARD CUTOUT against the building facade — flat side profile,
+no volumetric depth.
+
+- AVOID: 3/4 view of any prop, volumetric vehicles, things sticking
+  out toward the viewer
+- PREFER: flat side profiles for trash bins, vending machines,
+  street signs, fire escapes (flat against wall), benches
+- The street floor remains CLEAR for a horizontal walking path
+
+## VERTICAL LAYOUT
+
+- BOTTOM 15-20% of frame: the wet street + sidewalk (where the
+  player walks)
+- MIDDLE 40-50%: the convenience store facade + immediately
+  adjacent buildings + signs
+- TOP 30-40%: night sky + distant building silhouettes + one or
+  two distant aerial ads
+
+The player walks on a thin horizontal strip at the bottom. The
+rest of the frame is non-playable visual context.
+
+## Composition Discipline
+
+- ~60% deep shadow / solid dark (right-side dark building, alley
+  slits, far-background buildings in silhouette, night sky)
+- ~30% midtones (street, midground building textures, mist)
+- ~10% bright (convenience store warm interior light, one or two
+  small neon signs, wet ground reflections)
+- Only ONE focal point: the convenience store warm interior light
+
+## Scene Content
+
+A cyberpunk city block at night, viewed from across the street.
+Three flat parallax layers ONLY:
+
+### FOREGROUND (closest, sharpest)
+- Wet street ground line at the bottom
+- ONE flat trash bin (left of store)
+- ONE flat vending machine (also near store, flat front)
+- Faint puddle reflections of neon signs
+
+### MIDGROUND (the subject — the convenience store)
+- The flat front of a 24-hour unmanned convenience store, brick
+  or concrete facade
+- Warm-white interior light visible through the glass front
+- TWO or THREE small flat neon signs above the store (cyan /
+  magenta / faded yellow), abstract glyphs, NO readable text
+- To the right of the store: a flat dark alley slit with a fire
+  escape silhouette painted on the building wall (the alley does
+  NOT recede into depth — just a dark vertical strip)
+
+### BACKGROUND (faded, smaller, no detail)
+- Silhouettes of taller buildings in muted teal mist
+- ONE cyan-glowing aerial billboard or advertisement
+- All shown as FLAT silhouette shapes, NOT 3D buildings
+
+## STRICT DO NOT
+
+- DO NOT use any perspective lines
+- DO NOT show building side walls
+- DO NOT make alleys recede into depth — flat vertical slit only
+- DO NOT have streets disappearing to a horizon
+- DO NOT use 3/4 view comic panel composition
+- DO NOT add readable text or signage letters (will be gibberish)
+- DO NOT fill walls with graffiti, posters, stickers
+- DO NOT add cars, dumpsters, piled debris
+- DO NOT add NPCs (a single distant silhouette is OK if used)
+- DO NOT add anime lighting, photorealism, or 3D render look
+
+## Comic Technique
+
+American indie cyberpunk comic (HD 2D, NOT pixel art). Mike Mignola
+heavy black for shadow shapes and the right-side dark building.
+Frank Miller contrast. Paul Pope linework. Hand-inked varied
+weight lines (thick outlines, thin interior, solid black for
+darkest areas with no lines). Halftone dots in midtones only
+(mist, ground, side walls). Flat cel-shade, no gradients.
+
+## Color
+
+Overall: deep teal, ink purple-black, gray-blue (cool night
+cyberpunk). Warm accents (faded amber, faded cream) only INSIDE
+the convenience store glass and in the wet ground reflection.
+Neon (cyan, magenta) only on the few store signs and the distant
+aerial billboard. No pure white (lightest = faded cream). No
+pure black (darkest = deep purple-black).

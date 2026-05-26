@@ -1,0 +1,42 @@
+Near-future 2030 lower-class cyberpunk city street corner cross-section, 2D side-scrolling game environment concept art.
+
+Scene:
+Nighttime street corner in the lower level of the city. In the center is a 24-hour unmanned convenience store. The entrance has glowing neon signage made of abstract unreadable shapes, a vending machine, and trash bins packed with discarded objects. On the right side is a narrow alley with a metal fire escape climbing toward the rooftops. On the left side, the street extends outward into the distance, with more low-rise buildings and a few airborne advertising projections. The ground is wet old concrete with puddles, oil stains, cigarette butts, stepped-on paper scraps, and street graffiti.
+
+Core style: American cyberpunk comic art plus traces-of-memory aesthetics.
+
+The whole image should feel like an object that has been used for a long time:
+- crooked, faded, peeling storefront signs
+- walls covered in layered old posters, stickers, spray paint, and graffiti, newer marks covering older marks
+- scratched metal surfaces, rust, welded repair marks
+- vending machine with stickers, dents from being kicked, hand-patched price labels without readable text
+- every object should carry traces that people were once here
+
+Comic technique:
+- American independent cyberpunk comic style
+- influenced by Heavy Metal magazine, Paul Pope, Brandon Graham's King City, Geof Darrow, and Sean Murphy
+- hand-drawn ink linework with varied line weight, not uniform digital 1-pixel outlines
+- large deep shadow shapes for silhouette and contrast
+- halftone / screentone texture in midtone shadow areas
+- flat cel-shading, no smooth gradient transitions
+- occasional 1-2 pixel risograph color misregistration
+
+Color:
+- overall muted, deep, low-saturation palette
+- base colors: deep purple-black, deep teal, muddy plum, dusty olive
+- small accent colors: burnt orange, faded mustard, cold cyan, oxblood
+- neon magenta and cyan only on light sources such as signs, ads, vending machine glow, and vehicle lights
+- no pure white; brightest value should be faded warm cream
+- no pure black; darkest value should be deep purple-black
+
+Composition:
+- pure 2D side view, eye-level player viewpoint standing at the street corner
+- wide horizontal side-scroller composition
+- readable parallax depth: foreground trash bins and hanging signs, midground convenience store and alley entrance, background building silhouettes and airborne ads
+- depth should come from layered silhouettes and overlap, not strong perspective
+- no characters, no vehicles as the main subject, no UI
+
+Forbidden:
+- no readable text, no UI, no logos, no frame, no signature, no watermark
+- no overly clean smooth surfaces
+- no Japanese anime lighting, no photorealism, no 3D-rendered look

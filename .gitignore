@@ -5,6 +5,9 @@
 # Imported translations (automatically generated from CSV files)
 *.csv.import
 
+# Godot per-file import metadata (auto-regenerated when assets imported)
+*.import
+
 # Mono-specific ignores
 .mono/
 data_*/

@@ -1,0 +1,130 @@
+A 2D side-scrolling video game background. STRICTLY orthographic
+cross-section side view. Camera framing matches a typical
+side-scroller scene (Hollow Knight, The Last Night).
+
+## SCENE FRAMING
+
+The cross-section room INTERIOR fills the ENTIRE frame. Back wall,
+floor, ceiling, and left+right walls of the room extend to the
+edges of the frame. NO external building structure visible.
+NO pipes, NO graffiti, NO wires OUTSIDE the room. There is no
+"outside the room" in this composition — only the room's interior.
+
+## SCALE REFERENCE (use a concrete object)
+
+A door visible inside the room (on the far right wall) is exactly
+1/3 of the frame height — clearly visible, not hidden in shadow.
+A standing adult human character would be slightly shorter than
+the door, about 28% of the frame height. ALL furniture is scaled
+relative to this door.
+
+## VIEW RULES
+
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective.
+- Cross-section: front wall REMOVED, we look directly INTO the room.
+- Furniture in pure SIDE PROFILE. No 3/4 view.
+- Floor and ceiling are perfectly horizontal lines.
+- Window in back wall shows a FLAT painted cityscape backdrop.
+
+## FLAT PROFILE PRINCIPLE (CRITICAL — game-design rule)
+
+This is a PLAYABLE 2D side-scroller level. Every object is a
+CARDBOARD CUTOUT against the wall — flat side profile, no
+volumetric depth, no items sticking out toward viewer.
+
+- AVOID: thick armchairs, round tables, plush sofas.
+- PREFER: wall shelves, flat desks against wall, hanging items,
+  low beds against wall, posters, flat-front appliances.
+- Objects "stack against the wall" leaving a CLEAR HORIZONTAL
+  WALKING PATH along the floor.
+
+## Composition Discipline
+
+- ~40% deep shadow (ceiling corners, dim walls, behind/under
+  furniture)
+- ~40% midtones (walls, floor, furniture in dim light)
+- ~20% bright (window cityscape, bedside lamp, CRT monitor)
+- Focal point: window with cyberpunk city outside
+
+## Scene Content — THREE ZONES, ALL FLAT-PROFILE
+
+A cramped studio apartment of a tired blue-collar AI maintenance
+worker who quietly collects pre-AI-era relics. NO living/lounge
+area. NO couch. NO standalone TV.
+
+### ZONE A — Sleeping (LEFT)
+- A small low bed against left wall, flat profile, rumpled blanket
+- A small bedside crate
+- ONE warm-glow bedside lamp on the crate
+
+### ZONE B — Work Desk + Collector (CENTER, the main feature)
+- A LARGE flat work desk under the window, thin profile, against
+  back wall
+- On the desk: ONLY ONE old CRT monitor with faint amber glow.
+  Just ONE monitor. Not two, not three.
+- On the desk: a half-disassembled AI robot head or open circuit
+  board, small hand tool silhouettes (screwdriver, soldering iron),
+  stack of paper work tickets, ONE EMPTY mug or cup (NOT a drink,
+  NOT coffee, NOT soda — just an empty mug)
+- ABOVE the desk on the wall: a shelf with 4-5 collected old
+  objects in silhouette — old photo frame, cassette tapes, small
+  radio, folded paper map
+- A flat-profile office chair tucked under the desk
+
+### ZONE C — Kitchen corner + Door (RIGHT)
+- A small flat-front mini-fridge (chest-high)
+- A microwave on top of it
+- A flat sink + countertop next to it, electric kettle
+- ONE shelf above with 2-3 cheap canned items
+- A DOOR at the far right edge (1/3 frame height, clearly visible)
+
+### Wall decorations
+- ABOVE BED (ZONE A): TWO underground music posters / indie idol
+  gig flyers. Lo-fi photocopied DIY-zine aesthetic, abstract band
+  silhouettes or harsh-contrast singer portraits. Style references:
+  Joy Division "Unknown Pleasures", Throbbing Gristle posters,
+  punk zine cutouts. Slightly torn, taped corners.
+  NO READABLE TEXT.
+- BETWEEN ZONE B AND C: small holographic wall clock (single
+  cyan light point)
+- BY THE DOOR: work coverall jacket on a hook, work boots
+  silhouette on floor below
+
+### Cyberpunk environmental details (subtle, INSIDE the room only)
+- Exposed wiring along one INTERIOR wall corner
+- Tangled cables under/behind the work desk
+- An AC window unit attached below the window
+- A few dark cracks or stains on the walls (cheap apartment)
+
+## STRICT DO NOT
+
+- DO NOT show any "outside the room" structure (no pipes around
+  the room, no graffiti on outside walls, no building structure
+  framing the room)
+- DO NOT add more than ONE monitor on the work desk
+- DO NOT add ANY drinks, soda cans, food, coffee — only ONE
+  empty mug at most
+- DO NOT add a couch, armchair, sofa, ottoman
+- DO NOT add a standalone TV stand
+- DO NOT make furniture 3D-volumetric — flat profile only
+- DO NOT clutter floor — keep walking path clear
+- DO NOT use perspective lines
+- DO NOT show furniture in 3/4 view
+- DO NOT make window a 3D view (FLAT backdrop only)
+- DO NOT hide the door — the door must be clearly visible as
+  scale reference
+- DO NOT add readable text on posters, signs, books, monitors
+- DO NOT add anime lighting, photorealism, or 3D render look
+
+## Comic Technique
+
+American indie cyberpunk comic (HD 2D, not pixel art). Mike Mignola
+heavy black, Frank Miller contrast, Paul Pope linework. Hand-inked
+varied weight. Halftone in midtones only. Flat cel-shade.
+
+## Color
+
+Deep teal + ink purple-black + gray-blue overall. Warm accents
+(faded amber, burnt orange) only on bedside lamp and CRT monitor.
+Neon (cyan, magenta) only on cityscape backdrop and wall clock.
+Posters use desaturated print colors. No pure white, no pure black.

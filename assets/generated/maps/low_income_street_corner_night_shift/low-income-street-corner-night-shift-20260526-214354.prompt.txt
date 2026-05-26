@@ -1,0 +1,61 @@
+A 2030 low-income cyberpunk city street corner, horizontal cross-section
+view for a 2D side-scrolling game scene concept.
+
+## Scene
+Late night, just after rain. At center, a 24-hour unmanned convenience
+store with warm white interior light spilling through the glass onto
+the wet ground. A flickering neon sign and a vending machine outside.
+On the right, a narrow alley with a metal fire escape stretching to
+rooftops; cardboard boxes piled near the alley mouth. On the left, the
+street extends outward with more low-rise buildings, aerial advertisement
+projections, and a thin rain mist in the distance. The ground is wet,
+puddles reflecting neon. The street is almost empty — only a blurred
+silhouette of one passerby in the far distance.
+
+## Core Style: American Cyberpunk Comic × "Tired Night Shift in a City That No Longer Needs Humans"
+
+The whole image captures a single moment of a city where humans are
+no longer essential, still running tonight but eerily quiet:
+- Strong light-dark contrast; the convenience store light is the
+  emotional center of the frame
+- Large fields of shadow and deep color; light concentrated on windows,
+  signs, and water reflections
+- Wet atmosphere; neon light stretching long on the ground
+- One or two signs flickering / showing CRT ghosting
+- Lonely, cold, but with a faint warmth (convenience store amber glow)
+
+## Comic Technique
+- American indie cyberpunk comic aesthetic
+- Influenced by: Frank Miller's Sin City (light-dark contrast),
+  Sean Murphy's Tokyo Ghost, Paul Pope, Becky Cloonan
+- Hand-inked line work with varying line weight
+- **Strong chiaroscuro**: large black ink shapes versus strong light
+  sources (high contrast is the primary visual signature)
+- Halftone dots used in midtones — especially ground, walls, rain mist
+- Flat cel-shade; no smooth gradient transitions
+- Occasional risograph misregistration for print-era feel
+
+## Color
+- Overall deep, cold, near-monochrome feel; only small accent splashes
+- Base: deep teal, ink purple-black, cold cyan, grayish blue
+- Warm accents (only on light sources and inside the store):
+  burnt orange, faded mustard, warm white interior light
+- Neon (magenta, cyan) on signs, puddle reflections, aerial ads
+- No pure white (lightest = warm cream / faded cream, concentrated
+  inside the store)
+- No pure black (darkest = deep purple-black)
+
+## Composition
+- Strict 2D side view, eye-level on the street
+- Multi-layer parallax: foreground (puddles, debris, sign reflections) /
+  midground (convenience store, alley entrance) /
+  background (rain mist, building silhouettes, aerial ads)
+- Compositional emphasis on "central light source + surrounding darkness"
+  — stage-lighting effect
+
+## Do NOT
+No text, UI, logo, frame, signature, watermark.
+No daytime scene. No dry scene (must have wetness / post-rain / reflections).
+No anime-style lighting.
+No photorealistic look.
+No 3D-rendered appearance.

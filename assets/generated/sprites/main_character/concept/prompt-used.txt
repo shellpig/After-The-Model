@@ -1,0 +1,11 @@
+Near-future low-class cyberpunk life exploration game main character, 2D side-view character concept art for sprite production.
+
+The character is an AI Cleaner / maintenance worker and part-time Gleaner. By day, they clean up physical failures caused by AI systems: malfunctioning cleaning robots, stuck delivery drones, broken vending machines, and other machine-society accidents. Off duty, they collect forgotten traces of the pre-AI world from city corners.
+
+Age around 30 to 32. Full-body human character. Practical worn work clothes, scuffed but not dirty, no reflective safety vest, no high-visibility vest. Faded teal-gray utility jacket or work jumpsuit, subtle worn fabric edges, compact tool belt, small repair pouches, protective goggles, headlamp, sturdy work boots. Carries a flashlight, small old camera on a strap, notebook, and compact audio recorder. Quiet, tired, skilled, observant, grounded, not heroic, not a stylish mercenary, not a combat character.
+
+Pixel-inspired HD 2D side-view game art, readable silhouette, stable grounded proportions, suitable for later sprite sheet production for both PC and mobile. Muted cyberpunk palette with faded teal-gray workwear, dirty yellow small utility accents only, soft neon reflections, restrained human warmth against cold machine-worker gear.
+
+Full body centered, feet clearly visible, neutral standing pose with slight fatigue, no cropped limbs, no large weapon, no combat pose, no dramatic effects.
+
+Plain solid #FF00FF magenta background for chroma key cleanup. No text, no UI, no logo, no labels.

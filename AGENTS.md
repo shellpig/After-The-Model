@@ -7,7 +7,7 @@
 - **類型**：2D 橫向探索 / 都市漫遊 / 碎片化敘事
 - **目標平台**：Steam（Windows/macOS/Linux）+ iOS + Android
 - **引擎**：Godot 4.6.3 / GDScript
-- **目前進度**：概念與技術方向已確認，準備開始 PC MVP（一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務）
+- **目前進度**：概念、技術方向、美術風格（HD 2D 插畫 + riso）、視角（純 2D 側捲 + light platforming）均已確認，準備開始 PC MVP（一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務）
 
 ## New Conversation Opening Check
 
@@ -17,7 +17,8 @@ At conversation start, read in this layered order. Ignore `舊文件/`.
 1. `AGENTS.md`（本檔）
 2. `遊戲概念.md`（世界觀、玩家定位、氛圍）
 3. `技術概念.md`（架構、工具鏈、MVP 架構決策）
-4. `git log --oneline -10`（近期變更）
+4. `Art Bible.md`（美術方向、限色、構圖紀律、3 個視覺錨點）
+5. `git log --oneline -10`（近期變更）
 
 **Layer 2 — 規劃中文件（存在則讀，目前可能尚未產出）：**
 - `遊戲規格書.md` — 場景 / NPC / 任務 / 系統規格、驗收條件
@@ -65,6 +66,11 @@ Default output paths:
 - Sprite/non-location outputs: `C:\_work\AI_Work\Projects\AfterTheModel\assets\generated\sprites\<asset_name>\<action_or_variant>\`
 
 Keep generated raw images, processed transparent sheets, frame PNGs, GIF previews, prompts, and metadata inside the chosen asset folder unless the user explicitly requests a different path.
+
+Image generation handling:
+
+- Built-in `image_gen` may save new images under Codex's generated image cache first. After every generation, copy the actual PNG/image file back into the selected project output folder. Do not leave only the prompt text in the project folder.
+- Use unique timestamp-style suffixes down to seconds for generated prompt and image filenames to avoid collisions, for example `main-character-concept-20260525-164029.png` and `main-character-concept-20260525-164029.prompt.txt`. Do not reuse generic names such as `prompt-used.txt` or `concept.png` when creating new generated assets.
 
 
 ## 文件

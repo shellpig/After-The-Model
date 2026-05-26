@@ -1,0 +1,149 @@
+A 2D side-scrolling video game background. STRICTLY orthographic
+side view, like Hollow Knight, The Last Night, Limbo, or Ranx (1990).
+
+## SCENE FRAMING
+
+The subway concourse INTERIOR fills the ENTIRE frame. Floor,
+ceiling, and back wall extend to the edges. NO external structure
+visible. There is no "outside the hall" in this composition.
+
+## HORIZONTAL LAYOUT (CRITICAL — three zones)
+
+- LEFT EDGE (only ~10-15% of frame width): Only the BOTTOM TIP
+  of an escalator is visible — just the last 2-3 steps where it
+  meets the floor + a short section of the diagonal handrail
+  beginning to rise. The escalator EXITS THE TOP of the frame
+  within the leftmost 10-15% of width. Most of the escalator is
+  OFF-FRAME, above. This is JUST AN INTERACTION PROP, not a
+  visual feature.
+
+- CENTER (~70-75% of frame width): A wide, mostly EMPTY subway
+  corridor — the breathing space where the player walks. Back
+  wall carries the visual interest (signage, pipes, decay), but
+  the corridor floor is clear.
+
+- RIGHT EDGE (only ~15-20% of frame width): ONE OR TWO turnstile
+  gates, flat side profile, small and unobtrusive. JUST INTERACTION
+  PROPS, not a visual feature.
+
+## VERTICAL LAYOUT (CRITICAL)
+
+- BOTTOM 15-20% of frame: the walking floor (a thin horizontal
+  strip)
+- REMAINING 80-85%: back wall, ceiling, signage, pipes — all
+  NON-PLAYABLE visual context
+
+The player should NEVER feel they can move UP or DOWN in the
+floor area. The floor is a thin strip for left-right walking only.
+DO NOT make the floor take more than 20% of frame height.
+
+## SCALE REFERENCE
+
+A turnstile gate on the right is approximately 18-20% of frame
+height — small, just a prop. A standing adult human character is
+slightly taller than the turnstile, about 22-25% of frame height.
+
+## VIEW RULES
+
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective. No vanishing point.
+- Floor and ceiling are perfectly horizontal lines.
+- Escalator shown in PURE SIDE PROFILE — diagonal rail, flat
+  repeating step pattern, NO receding stairs.
+- Turnstile gates shown as flat vertical units, NOT in 3/4 view.
+- Back wall is a flat backdrop.
+
+## FLAT PROFILE PRINCIPLE
+
+Every object is a CARDBOARD CUTOUT against the wall — flat side
+profile. Floor remains CLEAR for a horizontal walking path.
+
+## Composition Discipline
+
+- ~40% deep shadow (ceiling area, dim corners, shadowed wall
+  sections)
+- ~45% midtones (tile walls, floor)
+- ~15% bright (one ceiling light strip, warm glow at escalator
+  top, turnstile indicators, hologram column)
+- Most of the frame is QUIET CORRIDOR. Escalator and turnstiles
+  are recognizable but NOT visually dominant.
+
+## Scene Content
+
+### LEFT EDGE — Escalator (just a hint, ~10-15% width)
+- Only the BOTTOM tip of the escalator visible:
+  - 2-3 final steps where it meets the floor
+  - A short section of the diagonal handrail beginning to rise
+- Both handrail and steps EXIT THE TOP of the frame within
+  this narrow leftmost band
+- A faint WARM yellow / amber glow above the escalator
+  (suggesting "the surface is up there")
+- DO NOT show the full diagonal length
+- DO NOT show the upper portion
+
+### CENTER — Empty Corridor (~70-75% width, the breathing space)
+- Wide, mostly empty walking floor (only 15-20% of frame height
+  vertically, BOTTOM of frame)
+- Back wall with subtle tile pattern, occupies much of upper
+  frame
+- Sparse details on the back wall (in the upper 60-70%
+  vertically):
+  - ONE large signage panel with abstract glyphs and arrow icons,
+    NO readable text
+  - ONE small surveillance camera mounted HIGH on the back wall
+  - ONE old paper subway map taped to the wall, faded, abstract
+    shapes, NO readable text, taped corners, slightly torn
+  - Subtle wall cracks, water stains
+- Ceiling: institutional concrete/tile, ONE long fluorescent / LED
+  light strip (pale cyan-white), slightly flickering
+- Exposed pipes / wiring along the ceiling edge
+
+### RIGHT EDGE — Turnstile Gates (just a hint, ~15-20% width)
+- ONE OR TWO turnstile gates, flat side profile
+- Each gate only 18-20% of frame height (waist-high, small)
+- Each gate has a small glowing cyan or magenta indicator
+- ONE thin vertical holographic info column near the gates,
+  flickering cyan
+- Beyond the gates: implied platform, but scene ENDS at frame
+  edge — NO platform visible, NO train
+
+### Floor (thin strip)
+- Worn tile / concrete with subtle grid pattern
+- Faint reflections only near bright spots
+- One small wear detail: a faint stain or discarded paper
+  silhouette
+
+## STRICT DO NOT
+
+- DO NOT show the full escalator — only the bottom tip
+- DO NOT show 3 or 4 turnstiles — MAXIMUM TWO
+- DO NOT make the floor more than 20% of frame height
+- DO NOT make turnstiles taller than 20% of frame height
+- DO NOT make the escalator dominate the left side — it should
+  feel like a small interaction prop in the corner
+- DO NOT show any structure "outside the hall"
+- DO NOT use perspective lines
+- DO NOT make the escalator recede into depth
+- DO NOT show 3/4 view of any object
+- DO NOT show the platform beyond the gates
+- DO NOT add trains or NPCs
+- DO NOT cover walls with posters or graffiti (one faded subway
+  map is OK)
+- DO NOT add readable text — all signage is abstract glyphs
+- DO NOT make it look futuristic-clean
+- DO NOT add anime lighting, photorealism, or 3D render look
+
+## Comic Technique
+
+American indie cyberpunk comic (HD 2D, NOT pixel art). Mike Mignola
+heavy black for ceiling and dim corners. Frank Miller contrast.
+Paul Pope linework. Hand-inked varied weight lines. Halftone dots
+in midtones only. Flat cel-shade, no gradients.
+
+## Color
+
+Overall: deep teal, gray-blue, ink purple-black (cool, institutional,
+underground). Warm accent: ONE warm yellow / amber glow at the
+escalator top (the only warm spot, signaling "surface is up
+there"). Neon: cyan and magenta on turnstile indicators and
+hologram column. Flickering ceiling light is pale cyan-white.
+No pure white, no pure black.

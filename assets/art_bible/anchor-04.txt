@@ -1,0 +1,304 @@
+A 2D side-scrolling video game background. STRICTLY orthographic
+side view. This is the WEALTHY DISTRICT counterpart to the
+low-income convenience store scene (anchor-01) — same scale,
+same view rules, same FLAT PROFILE discipline, but INVERTED
+aesthetic: harder contrast, harder blacks, no human warmth, AI
+gatekeeping presence.
+
+## SCENE FRAMING
+
+The city block scene fills the ENTIRE frame from sky (top, only
+a thin strip) to polished wet pavement (bottom). NO external
+structure framing. The MIDGROUND luxury building takes up most
+of the vertical frame. Depth ONLY by stacking flat parallax
+layers (foreground / midground / background), each layer FLAT.
+
+## SCALE REFERENCE (match the convenience store anchor)
+
+The nightclub entrance door (tinted glass) is approximately
+1/3 of the frame height — clearly visible. A standing adult
+human character would be slightly shorter than the door, about
+25-28% of frame height. SAME SCALE as the convenience store
+in anchor-01. All street objects (velvet rope, auto-vehicle,
+security gate) scaled relative to this door.
+
+## VIEW RULES (HIGHEST PRIORITY — VIOLATION = FAIL)
+
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective. No vanishing
+  point. No foreshortening.
+- Camera EXACTLY PERPENDICULAR to buildings. ONLY flat front
+  facades visible.
+- NO side walls of buildings visible.
+- Streets do NOT recede to a horizon.
+- Depth ONLY by flat parallax layers, cardboard-cutout style.
+- Reference: Hollow Knight, The Last Night, Limbo flat
+  backdrops.
+
+## FLAT PROFILE PRINCIPLE (game-design rule)
+
+Every street object is a CARDBOARD CUTOUT against the building
+facade — flat side profile, no volumetric depth. Floor remains
+CLEAR for a horizontal walking path. Same rule as 平民區
+anchors.
+
+## ★ BUILDING FOOTPRINT RULE (CRITICAL — read before painting) ★
+
+The luxury building is a MONOLITHIC TOWER with UNIFORM WIDTH
+from the ground floor up through the top of the frame. The
+upper floors are NOT narrower than the ground floor. There is
+NO podium-and-tower shape, NO setback, NO stepped pyramid.
+
+WRONG: ground floor wide, upper floors a slim tower rising
+from a wide base (this is residential-podium architecture, the
+opposite of what we want).
+
+CORRECT: ground floor and upper floors are the SAME WIDTH,
+sharing one continuous vertical facade plane. The whole visible
+slab of the building is ONE business — the luxury nightclub
+occupies floors 1 + 2 + 3 as a single venue.
+
+## ★ VISIBLE BUILDING SCOPE (CRITICAL) ★
+
+We see ONLY: the ground floor (1F) + the second floor (2F)
++ the bottom slice of the third floor (3F). The building
+continues UP and EXITS the top of the frame — the viewer
+should sense the tower keeps going above, but we don't show it.
+
+DO NOT cram 4-5 floors of windows into the frame. The 2F+3F
+zone is ONE TALL VISUAL ELEMENT (the nightclub's upper venue),
+not a stack of residential floors.
+
+## VERTICAL LAYOUT
+
+- BOTTOM 10-12%: polished wet pavement (where the player walks)
+- 1F (~25-30% height): nightclub ground-floor entrance — tall
+  tinted glass door with warm gold interior glow, gold/brass
+  LED signage strip above the door, automated cyber-purple
+  biometric security gate beside the door
+- 2F + 3F COMBINED (~50-55% height): ONE TALL FACADE SLAB
+  that is STILL the nightclub. Split HORIZONTALLY into two
+  halves:
+  - ONE HALF (left OR right): a COLOSSAL 2-story-tall window
+    showing the nightclub's upper venue interior — warm gold
+    glow dominant
+  - THE OTHER HALF: dark marble facade carrying a MASSIVE
+    2-story-tall gold-inlaid corporate / brand emblem
+  - A clean vertical dark-marble pier divides the two halves
+- TOP 5-8%: cornice / roof cap implied, faint hint the building
+  continues above frame; thin strip of cold black night sky
+  with adjacent skyscraper silhouettes peeking in the background
+
+## Composition Discipline (HARD CONTRAST — theatrical)
+
+- ~45-50% deep cold ink black (the dark marble facade,
+  including the upper logo half, the sky, vertical pier
+  between window and logo, recessed doorway — 富人區 buys
+  hard black, this is "為所欲為")
+- ~25% midtones (wet pavement, security gate chrome, vehicle
+  body)
+- ~25-30% bright (gold glow from ground entrance, gold
+  signage, gold 2F-3F window interior, gold logo inlay,
+  cyber-purple scanner glow, cyber-purple holo ad in BG)
+- DUAL focal point cluster at the GROUND FLOOR entrance:
+  (1) WARM — the GOLD glow from the nightclub entrance door
+  (2) COOL — the CYBER PURPLE biometric scanner beside the door
+- SECONDARY focal point in the upper half: the massive 2-story
+  gold window showing the venue's interior (the "lifestyle
+  showcase") + the massive 2-story gold logo (the "brand
+  intimidation")
+
+## Scene Content
+
+A 2030 wealthy-district city block at night, viewed from across
+the street. Three flat parallax layers ONLY:
+
+### FOREGROUND (closest, sharpest)
+- Polished wet pavement, faintly reflective, NO oil stains,
+  NO trash, NO debris
+- ONE velvet rope barrier on a chrome stanchion (left of the
+  club entrance) — flat side profile
+- ONE sleek autonomous luxury vehicle parked at the curb on
+  the right side, flat side profile, near-black body with
+  gold trim, NO wheels visible (hover-style low rider),
+  small cyber-purple sensor strip running along its side
+- Faint gold reflection of the club's signage and window on
+  the wet pavement
+- Faint cyber-purple reflection from the security scanner
+
+### MIDGROUND (the subject — the luxury nightclub, floors 1+2+3)
+
+The ENTIRE visible slab of this building is ONE nightclub
+venue. Uniform building width top to bottom. Dark marble +
+glass material throughout.
+
+GROUND FLOOR (1F):
+- Tall tinted glass entrance door (1/3 frame height), warm
+  GOLD / champagne interior glow visible through the glass —
+  the warmest spot in the frame
+- ABOVE THE DOOR: ONE clean horizontal LED signage strip in
+  brushed gold / brass tones, abstract geometric glyphs,
+  NO readable text
+- BESIDE THE ENTRANCE: an AUTOMATED SECURITY GATE / scanner
+  pylon (NOT a human bouncer) — chrome and dark glass, a
+  cyber-purple biometric reader panel glowing on its front,
+  a faint cyber-purple scanning beam projected at standing
+  head height
+- The rest of the 1F facade is dark marble with subtle gold
+  inlay lines
+
+SECOND + THIRD FLOOR (2F + 3F, one continuous slab, half
+window + half logo):
+
+★ ONE HALF (pick left OR right): a COLOSSAL 2-STORY-TALL
+WINDOW — a single floor-to-ceiling expanse of tinted glass
+spanning both floors as one unbroken pane. Through it, the
+nightclub's upper venue interior is visible as flat silhouette
+shapes:
+  - A large hanging chandelier or suspended sculptural light
+    fixture, silhouetted against warm gold backlight
+  - A mezzanine balcony cutting across at mid-window height
+  - A spiral staircase silhouette connecting the mezzanine
+    down (implying it continues to the ground floor)
+  - A bar counter silhouette on the mezzanine
+  - Sparse silhouettes of tall narrow bar tables or sculptural
+    seating
+  - NO visible human figures (or at most ONE tiny silhouette
+    of a server / staff that reads as set dressing, not a
+    character — humans are luxury, mostly absent)
+  - Overall warm gold interior glow dominant, glowing through
+    the entire window
+- The window's frame is brushed gold or thin dark chrome ★
+
+★ THE OTHER HALF: dark marble facade carrying a MASSIVE
+2-STORY-TALL CORPORATE / BRAND EMBLEM:
+  - An abstract geometric sigil (NO readable text, NO letters)
+  - Inlaid in brushed GOLD or polished brass, sitting flush
+    against the dark marble
+  - Optionally subtle gold backlight behind the emblem edges
+    (so the sigil reads even at night)
+  - The emblem is the SECOND largest gold element in the frame
+    after the window
+  - Surface around it: clean uninterrupted dark marble, NO
+    other windows, NO ornaments ★
+
+★ A CLEAN VERTICAL DARK-MARBLE PIER divides the two halves —
+a single thin band of dark marble running floor-2-to-frame-top,
+visually splitting "window" and "logo" sides ★
+
+ROOF / TOP EDGE (only 5-8% of frame at top):
+- A subtle cornice or cap, dark marble, suggesting the
+  building continues UP off-frame
+- Optionally: a tiny faint cyber-purple security drone
+  hovering at the corner of the roof, OR a sliver of a
+  hover-vehicle dock platform implied at the building edge
+- Do NOT clutter this top strip — it's just an upward hint
+
+### BACKGROUND (faded, smaller, less detail)
+- Silhouettes of adjacent pristine glass-and-steel
+  skyscrapers in deep cold black, partially visible behind
+  / beside the main tower
+- Uniform pattern of small lit windows on those background
+  towers (gold and dark, NO cyan), no variation
+- ONE cyber-purple holographic aerial projection (corporate
+  / AI ad), abstract geometric, NO readable text, hovering
+  between the towers in the top strip of sky
+- Deep cold black night sky behind (no stars, no clouds)
+- All as FLAT silhouettes, NOT 3D buildings
+
+## STRICT DO NOT
+
+- DO NOT add graffiti, posters, stickers, peeling paint
+- DO NOT add trash, debris, alley clutter, dumpsters
+- DO NOT show flickering or broken neon
+- DO NOT show fire escapes, exposed pipes, weathered surfaces
+- DO NOT use perspective lines or vanishing points
+- DO NOT show building side walls
+- DO NOT make streets recede to a horizon
+- DO NOT add readable text or signage letters
+- DO NOT make the building stepped or pyramid-shaped — ground
+  floor and upper floors are the SAME WIDTH
+- DO NOT cram multiple small residential-style windows into
+  2F or 3F — the 2F+3F facade is ONE WINDOW + ONE LOGO,
+  nothing else
+- DO NOT show 4-5 floors of windows stacked — visible scope
+  is 1F + 2F + bit of 3F only; upper floors are off-frame
+- DO NOT use pure white (lightest = faded cream, used very
+  sparingly)
+- DO NOT use cyan or cool-white LED ANYWHERE — those belong
+  to 平民區. Background tech lights here are CYBER PURPLE only.
+- DO NOT use ink purple-black (that's 平民區's black). 富人區
+  uses NEAR-PURE COLD INK BLACK — no purple tint, no warm
+  tint, the hardest black in the bible (~2% off true #000000)
+- DO NOT add faded amber, burnt orange, or rust tones
+- DO NOT add visible NPCs in the foreground (no patrons in
+  line, no people on the street) — humans are absent
+- DO NOT show a human bouncer — the gate is automated
+- DO NOT add anime lighting, photorealism, or 3D render look
+- DO NOT make the upper-floor logo look like a billboard or
+  signage panel — it's INLAID into the marble, part of the
+  architecture
+
+## Comic Technique
+
+American indie cyberpunk comic (HD 2D, NOT pixel art). Style
+references for THIS scene specifically:
+- Mike Mignola heavy-black mastery APPLIES STRONGLY here (the
+  dark marble facade is a giant black mass; the logo-side
+  half is an exercise in negative space)
+- Frank Miller Sin City contrast (extreme black-vs-bright)
+- Sean Murphy (Tokyo Ghost) corporate-side scenes
+- Geof Darrow's precise high-tech linework for the security
+  gate and vehicle
+- Moebius's clean futurism for the geometric emblem
+
+Hand-inked lines, SHARPER and more geometric than 平民區
+(this is corporate luxury architecture). Line weight varies
+but with cleaner intentionality. Halftone dots LIGHTER and
+sparser than 平民區 (this is a glossy luxury magazine, not a
+riso zine). Flat cel-shade, no gradients.
+
+## Color (the KEY contrast vs 平民區)
+
+DOMINANT BASE — NEAR-PURE COLD INK BLACK
+- The tower facade (both 1F and the logo-half of 2F+3F), the
+  sky, the recessed doorway, the vehicle body, the marble pier
+- The HARDEST black in the bible — no purple, no warm
+  undertone, just deep cold black (~2% off true black to
+  respect Ch1 rule)
+- 富人區 can afford hard black — this is the "為所欲為" signal
+
+PRIMARY WARM ACCENT — GOLD / CHAMPAGNE / BRUSHED BRASS
+Only on:
+- Ground floor: entrance interior glow, signage strip,
+  subtle facade inlay lines
+- 2F+3F window: dominant warm gold interior glow filling
+  the entire 2-story window
+- 2F+3F logo: brushed gold inlay of the corporate emblem
+- Subtle gold trim on the autonomous vehicle
+- Faint gold reflection on the wet pavement
+
+GOLD is the visual signature of 富人區's wealth. Where
+平民區's warmth is faded amber / burnt orange (cheap, real,
+defiant), 富人區's warmth is gold / brass (expensive, polished,
+hollow).
+
+PRIMARY COOL ACCENT — CYBER PURPLE / UV VIOLET
+(saturated, cooler than 平民區's purple-black, definitely
+violet not blue — the AI-presence color across the entire
+game). Only on:
+- The automated security gate's biometric scanner panel
+- The faint scanning beam projected from the gate
+- The cyber-purple aerial holographic ad in the background
+- The sensor strip on the autonomous vehicle
+- Optionally a tiny security drone hint at the roof corner
+
+CYBER PURPLE = "AI is watching, AI is gatekeeping, AI is
+here." Surgical, not decorative.
+
+MIDTONES — polished slate, dark chrome, deep cold blue-gray
+(only for the wet pavement, the security gate body, vehicle
+chrome highlights)
+
+NO pure white. NO pure black (but get as close as the bible
+allows). NO cyan, NO cool-white LED. NO ink purple-black. NO
+faded amber, NO burnt orange, NO rust.

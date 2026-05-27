@@ -1,0 +1,323 @@
+A 2D side-scrolling video game background. STRICTLY orthographic
+side view. This is the AI DISTRICT anchor — counterpart to
+anchor-01 (平民區 convenience store) and anchor-04 (富人區
+nightclub) but with INVERTED scale, INVERTED contrast, and
+INVERTED warmth.
+
+This is a THRESHOLD scene: an AI infrastructure facility's
+small employee entrance, with a glimpse of the vast server
+interior visible through the door.
+
+## SCENE FRAMING
+
+The frame is dominated by the MONUMENTAL off-white facade of
+an AI facility. Pavement at bottom, vast blank wall extending
+from above the entrance to the TOP OF FRAME (and implied
+beyond). NO sky-and-buildings layered framing — the building
+IS the sky here. Adjacent AI facilities visible at left and
+right edges as similar massive blocks.
+
+## ★ MONUMENTAL SCALE RULE (CRITICAL — read before painting) ★
+
+This scene BREAKS the scale convention from anchor-01 and
+anchor-04 ON PURPOSE. In those anchors, the door was ~1/3 of
+frame height and the building felt human-scaled. Here, the
+human-scaled element is TINY relative to the building.
+
+HARD LIMITS:
+- The entrance door is ONLY ~12-15% of frame height — about
+  one-third the size of the door in anchor-01 / anchor-04.
+- A standing adult human silhouette would be ~10-12% of frame
+  height — a small dot against the wall.
+- The building facade above the entrance occupies ~75-80% of
+  frame height — uninterrupted off-white mass extending beyond
+  the top of frame.
+- The viewer's FIRST READ must be: "a giant blank wall with a
+  tiny door, and the wall keeps going up out of frame."
+
+WRONG: door at 1/3 frame height (that's anchor-01/04 scale —
+makes this feel like a small business); building roof visible
+within frame (we never see the roof — building extends beyond);
+crowded street decorations cluttering foreground.
+
+CORRECT: door is small, wall is vast, sky is barely visible
+or completely absent (the building has eaten the sky); street
+is empty of all decoration.
+
+## SCALE REFERENCE
+
+The entrance door is ~12-15% of frame height. ALL other
+elements scale relative to this: the biometric scanner pylon
+beside the door is door-height; a parked maintenance vehicle
+(if any) is door-height; a tiny human silhouette visible
+THROUGH the door is shorter than the door.
+
+## VIEW RULES (HIGHEST PRIORITY — VIOLATION = FAIL)
+
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective on the building
+  facade. No vanishing point. No foreshortening.
+- Camera EXACTLY PERPENDICULAR to the AI facility's front wall.
+- ONLY flat front facades visible. NO side walls of buildings.
+- The street/pavement is a perfectly horizontal flat line.
+- Depth ONLY by stacking flat parallax layers.
+
+## ★ ONE INTERIOR-DEPTH EXCEPTION ★
+
+The only place this scene shows depth is THROUGH the open
+glass entrance door — looking INTO the facility. Through that
+single rectangular aperture, the interior corridor recedes
+inward and we see a SHALLOW DEPTH GLIMPSE: a vestibule, then
+a corridor, then a far-away suggestion of server racks. This
+is the ONE place where the viewer's eye is allowed to travel
+INTO the picture instead of across it. Everything OUTSIDE the
+door remains strictly flat orthographic.
+
+The interior depth is rendered as flat silhouette layers
+(near vestibule shape, mid corridor shape, far server-hall
+shape) — NOT as true perspective. Think Hollow Knight's
+interior peeks, not Bioshock photoreal corridors.
+
+## FLAT PROFILE PRINCIPLE
+
+Every street object (if any) is a CARDBOARD CUTOUT, flat side
+profile. Floor is CLEAR for a horizontal walking path. But
+this scene has very FEW street objects — the AI district
+doesn't decorate its streets.
+
+## VERTICAL LAYOUT
+
+- BOTTOM 8-10%: clean off-white industrial concrete pavement
+  (where the player walks), faintly reflective but not wet —
+  this district is too sterile for puddles
+- LOWER 12-15%: the small employee entrance — glass door with
+  glimpse of interior through it, biometric scanner pylon
+  beside the door
+- UPPER 75-80%: the VAST off-white facade extending up,
+  uninterrupted except for tiny details (a small corporate
+  sigil very high up, a thin cyber-purple status LED strip,
+  almost nothing else)
+- TOP EDGE: NO sky visible OR only a sliver of cold pale
+  off-white sky (haze, cooling vapor, AI district has no
+  visible "night" — the air itself is sterilized cold white)
+
+## Composition Discipline (INVERTED from the human districts)
+
+This scene INVERTS the Mignola heavy-black tradition used in
+平民區 and 富人區. Here:
+
+- The OUTSIDE is bright, flat, uniform, cold off-white.
+- The INSIDE (through the door) is the dark recessed void.
+- The dramatic contrast is INSIDE-OUT instead of outside-in.
+
+Ratio:
+- ~70-75% off-white (vast facade + sky strip + pavement)
+- ~12-15% cool gray-blue (subtle shadow, structural geometry
+  lines, door frame, scanner body, adjacent facility seams)
+- ~5-8% deep ink void (ONLY inside the visible interior recess
+  through the door — the corridor's deep end fades to dark)
+- ~5-7% cyber purple (scanner panel + scanning beam + status
+  LED strips on the facade + LED specks deep inside the
+  server hall recess + a small holo element somewhere)
+- ~0% warm color — NO amber, NO gold, NO orange. The absence
+  of warmth IS the statement.
+
+Focal point cluster:
+(1) PRIMARY — the deep cyber-purple LED specks visible at the
+    BACK of the interior recess (the server hall hum, glimpsed
+    through the door, the actual heart of this place)
+(2) SECONDARY — the cyber-purple biometric scanner panel and
+    its scanning beam beside the door (the gatekeeper at the
+    boundary)
+
+These are the only TWO saturated spots in the entire frame.
+When the protagonist enters this frame, his burnt-orange
+narrative-marker color will be the only WARM thing in the
+entire image — visually screaming "this person doesn't
+belong here."
+
+## Scene Content
+
+A 2030 AI-district city block. Three flat parallax layers:
+
+### FOREGROUND (closest, almost EMPTY)
+- Clean off-white industrial concrete pavement at the bottom
+- NO velvet ropes, NO posters, NO trash, NO graffiti
+- NO parked luxury vehicles (this is not 富人區)
+- NO street furniture, NO benches, NO trash bins, NO street
+  signs
+- Optionally: ONE small flat-profile automated maintenance
+  cart parked near the entrance, off-white with cyber-purple
+  status LED (door-height)
+- Pavement has faint geometric joint lines (clean grid),
+  not weathering
+
+### MIDGROUND (the AI facility — vast wall + small threshold)
+
+The wall:
+- A MASSIVE off-white facade dominating the frame
+- Material: smooth panels with subtle vertical seams every
+  several frame-widths (almost no detail to break up the mass)
+- Slight cool blue-white tint to the off-white surface
+- VERY HIGH UP on the facade (in the upper third of the frame
+  height): ONE small corporate sigil — abstract geometric,
+  inlaid in a slightly darker cool gray-blue (NOT gold — that
+  belongs to 富人區), tiny relative to the wall
+- A thin vertical cyber-purple LED indicator strip running
+  alongside the entrance recess (status / power indication)
+- NO windows above the entrance (this is infrastructure, not
+  offices for humans)
+- NO ornamentation, NO decoration, NO logos shouting at the
+  street
+
+The entrance (small, ~12-15% frame height):
+- A recessed alcove in the facade
+- Inside the alcove: tall narrow glass door (or sliding glass
+  panels), the glass is faintly tinted cool
+- Door is OPEN or transparent enough to see THROUGH
+- BESIDE the door (in the alcove): a biometric scanner pylon
+  — chrome and dark glass, with a cyber-purple biometric
+  reader panel glowing on its front, a faint cyber-purple
+  scanning beam projected at standing head height
+- Above the alcove: a thin cyber-purple LED strip marking
+  the threshold (the only "signage" — no readable text, no
+  business name)
+
+THE INTERIOR GLIMPSE (through the door — the soul of the scene):
+- Looking inward through the door, we see flat silhouette
+  layers receding:
+  - NEAR layer (just inside): a small vestibule with another
+    glass inner door, off-white walls, cyber-purple floor
+    indicator strip
+  - MID layer (through the inner door): a corridor extending
+    inward, walls fading from off-white to cool gray to deep
+    void as it goes back
+  - FAR layer (at the deep end of the corridor): a hint of
+    the SERVER HALL — tall dark silhouettes of server racks
+    arranged like cathedral columns, dotted with cyber-purple
+    LED indicators glowing like distant stars in a dark space
+- The depth fades to DEEP INK BLACK at the far end (this is
+  where the Mignola-black mass lives in this scene — INSIDE
+  the building, not outside)
+- Optionally: ONE tiny silhouette of a maintenance worker
+  (the implied protagonist's colleague — or the implied
+  player position) walking deep in the corridor, dwarfed by
+  the architecture, very small
+
+### BACKGROUND (faded, smaller — more AI facilities)
+- Adjacent AI infrastructure buildings flanking left and
+  right of the main facility, partial views
+- Same monolithic off-white mass, same uniform construction,
+  same minimal openings
+- A few of them have small cyber-purple status indicators
+- One distant facility might show a similar small employee
+  entrance, suggesting "this is the AI district, every
+  building is like this"
+- Sky (if visible at all, only a thin strip): cold pale
+  off-white haze, NO stars, NO clouds, NO color
+- Optionally: ONE thin cyber-purple security drone hovering
+  high between the facilities (a small purple dot)
+- Optionally: ONE distant cyber-purple holographic aerial
+  ad — abstract geometric, NO readable text
+
+## STRICT DO NOT
+
+- DO NOT make the entrance door 1/3 frame height (that's
+  anchor-01/04 scale — wrong for this anchor)
+- DO NOT show the building's roof — building extends beyond
+  frame top
+- DO NOT add windows above the entrance — the facade is
+  blank
+- DO NOT add street decorations (no posters, no signs, no
+  vehicles unless one small maintenance cart, no street
+  furniture)
+- DO NOT add NPCs visible on the street outside (humans are
+  absent from AI district streets — only a tiny silhouette
+  INSIDE the building corridor is OK)
+- DO NOT add weathering, graffiti, peeling paint — surfaces
+  are mirror-clean
+- DO NOT use ANY warm color — no amber, no gold, no orange,
+  no rust. The complete absence of warmth is the visual
+  statement.
+- DO NOT use cyan or magenta — those are 平民區's faded
+  ambient neons. Cyber purple is the only saturated color
+  allowed here.
+- DO NOT use brushed gold or brass — those are 富人區's
+  signature. AI district uses cool gray-blue for darker
+  accents.
+- DO NOT use big Mignola black masses on the OUTSIDE — the
+  outside is bright off-white. The Mignola-black lives ONLY
+  inside the interior recess at the deep end of the corridor.
+- DO NOT use pure white (lightest = off-white with a faint
+  cool blue tint, just shy of true #FFFFFF)
+- DO NOT use pure black ANYWHERE — even the interior recess
+  bottoms out at deep ink near-black, not #000000
+- DO NOT use perspective lines on the building's exterior
+  facade — flat orthographic only
+- DO NOT use anime lighting, photorealism, or 3D render look
+
+## Comic Technique
+
+American indie cyberpunk comic (HD 2D, NOT pixel art) — but
+with a DIFFERENT visual register from the human-district
+anchors. Style references for THIS scene:
+- Moebius's clean futurism (especially his Arzach landscapes
+  with monumental architecture)
+- Geof Darrow's precise geometric detail (used SPARINGLY here
+  — most surface is BLANK)
+- Mike Mignola's heavy black mass — but INVERTED, used ONLY
+  for the deep interior corridor recess, NOT for the exterior
+- Late Tsutomu Nihei (BLAME!) architectural inhuman scale
+- Architectural rendering / corporate brochure cleanness
+
+Hand-inked lines, but the cleanest, most geometric, most
+technical-drawing-like of any anchor in the bible. Line
+weight uniform and sharp. Halftone dots ABSENT or extremely
+sparse (this is NOT a riso zine — the AI district doesn't
+have print texture; it has algorithmic cleanness). Flat
+cel-shade, no gradients.
+
+The line vocabulary should feel "drawn by a machine for a
+machine" rather than "drawn by a tired person with feelings."
+
+## Color (the AI-DISTRICT signature palette)
+
+DOMINANT BASE — OFF-WHITE WITH COOL BLUE TINT
+- The facade, the sky strip, the pavement, the interior near
+  walls
+- Almost-white but visibly cool, sterile, like fluorescent
+  laboratory light — NEVER pure #FFFFFF, always with a faint
+  blue undertone
+- "Almost white, but white that doesn't feel like sunlight"
+
+STRUCTURAL ACCENT — COOL GRAY-BLUE
+- Door frame, scanner pylon body, structural seams in the
+  facade, the high-up corporate sigil, the maintenance cart
+- Used SPARINGLY for geometric definition
+- This is the AI district's "dark" — it never goes to true
+  black on the exterior
+
+INTERIOR VOID — DEEP INK NEAR-BLACK (only INSIDE the corridor)
+- The far end of the interior corridor recess fades to deep
+  ink near-black
+- This is where the Mignola-black mass lives — hidden inside
+  the building, glimpsed through the door
+- The void contains the server hall
+
+★ SATURATED ACCENT — CYBER PURPLE / UV VIOLET ★
+- The biometric scanner panel + its scanning beam
+- A thin LED indicator strip alongside the entrance
+- A few LED specks deep inside the corridor (server hall hum
+  glimpsed at the far end — the "stars in the void")
+- Optionally: tiny security drone, optional holo ad in BG,
+  status LED on maintenance cart
+- THIS IS THE NATIVE COLOR OF THE AI DISTRICT — not an alien
+  intrusion (as it would be in 平民區), but the natural
+  language of the place
+- Surgical, geometric, never decorative
+
+NO warm color. NO amber, NO gold, NO orange. NO cyan, NO
+magenta. NO faded neon glow. NO weathering color. The frame
+should feel COLOR-STARVED so that when the protagonist (with
+his orange narrative-marker patches) enters the scene, he
+becomes the only saturated warm thing in the entire image —
+visually proving "you don't belong here."

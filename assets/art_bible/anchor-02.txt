@@ -38,13 +38,49 @@ volumetric depth, no items sticking out toward viewer.
 - Objects "stack against the wall" leaving a CLEAR HORIZONTAL
   WALKING PATH along the floor.
 
+## ★ ORANGE SCALE RULE (CRITICAL — read before painting) ★
+
+Saturated burnt orange is the NARRATIVE MARKER COLOR of 平民區.
+It loses all meaning if it covers a large area. It must always
+appear as a SMALL ACCENT ELEMENT, never as a flat colored field.
+
+This room belongs to the protagonist — a tired AI-maintenance
+worker who quietly collects pre-AI-era objects. The orange in
+this room is HIS MARK: the things he keeps lit because they
+mean something to him.
+
+HARD LIMITS:
+- TOTAL orange surface across the entire frame: ~1-2% of pixels
+  MAXIMUM. Not 5%, not 10%.
+- NO single orange element may be larger than one band poster
+  on the wall (roughly head-height × half-head-width).
+- Orange is always a SHAPE (a graphic on a poster, a label on a
+  cassette, a small icon, a sticker, a stripe) — NEVER a
+  background-fill.
+- Maximum TWO orange spots: (1) ONE band poster's graphic above
+  the bed [primary], (2) ONE small accent on a shelf collector
+  object [supporting]. Anything else orange = wrong.
+
+CORRECT: an orange graphic / silhouette on ONE band poster; an
+orange label on a single cassette tape on the collector shelf;
+a small orange sticker on the CRT monitor or work desk.
+
+WRONG: the entire poster painted orange; multiple posters all
+orange; orange wash across the shelf; orange book spines lined
+up; orange filling any object's whole surface.
+
 ## Composition Discipline
 
 - ~40% deep shadow (ceiling corners, dim walls, behind/under
   furniture)
 - ~40% midtones (walls, floor, furniture in dim light)
-- ~20% bright (window cityscape, bedside lamp, CRT monitor)
-- Focal point: window with cyberpunk city outside
+- ~20% bright (window cityscape, bedside lamp, CRT monitor,
+  small orange accents) — within the bright portion, the ORANGE
+  occupies only ~1-2% of frame, the rest is amber comfort glow
+  and cyan/magenta backdrop neon
+- Focal points: window with cyberpunk city outside AND the band
+  poster above the bed (the orange graphic on it is the only
+  saturated warm color in the room)
 
 ## Scene Content — THREE ZONES, ALL FLAT-PROFILE
 
@@ -55,7 +91,8 @@ area. NO couch. NO standalone TV.
 ### ZONE A — Sleeping (LEFT)
 - A small low bed against left wall, flat profile, rumpled blanket
 - A small bedside crate
-- ONE warm-glow bedside lamp on the crate
+- ONE warm-glow bedside lamp on the crate (faded amber, NOT
+  saturated orange — interior comfort warm)
 
 ### ZONE B — Work Desk + Collector (CENTER, the main feature)
 - A LARGE flat work desk under the window, thin profile, against
@@ -69,6 +106,12 @@ area. NO couch. NO standalone TV.
 - ABOVE the desk on the wall: a shelf with 4-5 collected old
   objects in silhouette — old photo frame, cassette tapes, small
   radio, folded paper map
+- ★ ONE of these shelf objects carries a small BURNT-ORANGE
+  accent (the SUPPORTING orange marker) — e.g., an orange
+  label on a cassette tape, an orange sticker on the radio,
+  or an orange-spined notebook. Just ONE object, small accent
+  only. This is "the one relic he polished, the one he won't
+  let fade." ★
 - A flat-profile office chair tucked under the desk
 
 ### ZONE C — Kitchen corner + Door (RIGHT)
@@ -85,6 +128,12 @@ area. NO couch. NO standalone TV.
   Joy Division "Unknown Pleasures", Throbbing Gristle posters,
   punk zine cutouts. Slightly torn, taped corners.
   NO READABLE TEXT.
+  ★ ONLY ONE of the two posters carries a SATURATED BURNT-ORANGE
+  graphic element (a band silhouette, an iconic shape, an
+  underline stripe). This is the PRIMARY orange marker of the
+  room — "the band that mattered to him, he keeps that poster
+  bright". The other poster has NO orange — fully monochrome /
+  desaturated. ★
 - BETWEEN ZONE B AND C: small holographic wall clock (single
   cyan light point)
 - BY THE DOOR: work coverall jacket on a hook, work boots
@@ -115,6 +164,18 @@ area. NO couch. NO standalone TV.
   scale reference
 - DO NOT add readable text on posters, signs, books, monitors
 - DO NOT add anime lighting, photorealism, or 3D render look
+- ★ DO NOT paint any object's BACKGROUND in orange. Orange is a
+  small accent ON objects, never the field. ★
+- ★ DO NOT let orange occupy more than ~2% of total frame area. ★
+- ★ DO NOT make BOTH posters carry orange — only ONE poster has
+  the orange graphic. The other is monochrome. ★
+- DO NOT spread orange to more than two spots. Maximum:
+  (1) ONE band poster's graphic [primary], (2) ONE shelf
+  object's small accent [supporting]
+- DO NOT use pure white (lightest = faded cream)
+- DO NOT use pure black (darkest = deep purple-black)
+- DO NOT use gold or brass tones (that's 富人區's signature)
+- DO NOT use saturated cyber-UV-violet (that's the AI district)
 
 ## Comic Technique
 
@@ -124,7 +185,21 @@ varied weight. Halftone in midtones only. Flat cel-shade.
 
 ## Color
 
-Deep teal + ink purple-black + gray-blue overall. Warm accents
-(faded amber, burnt orange) only on bedside lamp and CRT monitor.
-Neon (cyan, magenta) only on cityscape backdrop and wall clock.
-Posters use desaturated print colors. No pure white, no pure black.
+Deep teal + ink purple-black + gray-blue overall (cool night
+cyberpunk apartment). Warm accents (faded amber) only on bedside
+lamp and CRT monitor (interior comfort warm, NOT the focal
+orange). Neon (cyan, magenta, optionally violet) only on the
+cityscape backdrop through the window and the wall clock. Posters
+use desaturated print colors except for the one with the orange
+graphic.
+
+★ SIGNATURE ACCENT — SATURATED BURNT ORANGE ★
+- ONE band poster's graphic element above the bed [PRIMARY]
+- ONE small accent on a shelf collector object [SUPPORTING]
+- The ONLY fully-saturated warm color in the room
+- Total orange surface ≤ 2% of frame
+- Narrative: "the things he refuses to let fade — the band that
+  mattered, the relic he polished. His mark on the room."
+
+No pure white, no pure black. No gold or brass (that's 富人區).
+No saturated cyber-UV-violet (that's the AI district).

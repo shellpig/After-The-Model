@@ -60,14 +60,46 @@ no volumetric depth.
 The player walks on a thin horizontal strip at the bottom. The
 rest of the frame is non-playable visual context.
 
+## ★ ORANGE SCALE RULE (CRITICAL — read before painting) ★
+
+Saturated burnt orange is the NARRATIVE MARKER COLOR of 平民區.
+It loses all meaning if it covers a large area. It must always
+appear as a SMALL ACCENT ELEMENT, never as a flat colored field.
+
+HARD LIMITS:
+- TOTAL orange surface across the entire frame: ~1-2% of pixels
+  MAXIMUM. Not 5%, not 10%.
+- NO single orange element may be larger than the small wall
+  poster (roughly head-height × half-head-width).
+- Orange is always a SHAPE (a thin tube, a glyph, an icon, a
+  stripe, a small panel) — NEVER a background-fill behind other
+  things.
+- Maximum TWO orange spots in the frame: (1) a small accent on
+  the convenience store signage [primary], (2) ONE small wall
+  element near the store [supporting]. Anything else orange = wrong.
+
+CORRECT: a thin burnt-orange neon tube underlining the sign;
+a single glowing orange glyph on a dark sign panel; a small
+orange icon in the corner of the signage; an orange stripe at
+the base of the sign; a small orange neon shape mounted beside
+the sign.
+
+WRONG: the entire signage panel painted orange; a wide orange
+band across the facade; orange covering the whole sign background;
+orange wash over multiple objects.
+
 ## Composition Discipline
 
 - ~60% deep shadow / solid dark (right-side dark building, alley
   slits, far-background buildings in silhouette, night sky)
 - ~30% midtones (street, midground building textures, mist)
-- ~10% bright (convenience store warm interior light, one or two
-  small neon signs, wet ground reflections)
-- Only ONE focal point: the convenience store warm interior light
+- ~10% bright (convenience store warm interior light, small neon
+  signs, wet ground reflections) — within this ~10%, the ORANGE
+  accent occupies only ~1-2% of frame, the rest is amber interior
+  glow and cyan/magenta neon
+- Only ONE primary focal point: a small saturated burnt-orange
+  accent on the convenience store signage — the only fully
+  saturated warm color, against the dark cool surroundings
 
 ## Scene Content
 
@@ -78,14 +110,32 @@ Three flat parallax layers ONLY:
 - Wet street ground line at the bottom
 - ONE flat trash bin (left of store)
 - ONE flat vending machine (also near store, flat front)
-- Faint puddle reflections of neon signs
+- Puddle reflections — the orange sign accent reflects as a small
+  bright pinprick; the cyan/magenta neons reflect as their usual
+  neon smears
 
 ### MIDGROUND (the subject — the convenience store)
 - The flat front of a 24-hour unmanned convenience store, brick
   or concrete facade
-- Warm-white interior light visible through the glass front
-- TWO or THREE small flat neon signs above the store (cyan /
-  magenta / faded yellow), abstract glyphs, NO readable text
+- Warm-white / faded-amber interior light visible through the
+  glass front (interior comfort warm, NOT the focal orange)
+- ONE rectangular SIGN PANEL mounted above the store door. The
+  PANEL itself is dark / weathered metal or faded paint, with
+  abstract glyph shapes on it.
+  - The orange appears ONLY as a small accent within or beside
+    this panel, NOT as the panel's background.
+  - Acceptable orange forms (pick ONE): (a) a thin burnt-orange
+    neon tube outlining or underlining the panel; (b) a single
+    burnt-orange glyph or small icon on an otherwise dark panel;
+    (c) a small burnt-orange accent stripe at the top or bottom
+    edge of the panel; (d) a small separate burnt-orange neon
+    shape mounted at the corner of the panel.
+- TWO or THREE small neon signs elsewhere on the facade (cyan /
+  magenta / optionally violet), abstract glyphs, NO readable text
+- ON THE WALL beside the store: ONE small intentional element
+  carrying a touch of orange — either (a) a band-tour poster
+  with an orange graphic, half-peeled, or (b) a small graffiti
+  tag in orange spray paint. JUST ONE such element.
 - To the right of the store: a flat dark alley slit with a fire
   escape silhouette painted on the building wall (the alley does
   NOT recede into depth — just a dark vertical strip)
@@ -94,6 +144,8 @@ Three flat parallax layers ONLY:
 - Silhouettes of taller buildings in muted teal mist
 - ONE cyan-glowing aerial billboard or advertisement
 - All shown as FLAT silhouette shapes, NOT 3D buildings
+- NO orange ANYWHERE in the background — orange lives only on
+  the midground sign accent + the one wall marker
 
 ## STRICT DO NOT
 
@@ -103,10 +155,27 @@ Three flat parallax layers ONLY:
 - DO NOT have streets disappearing to a horizon
 - DO NOT use 3/4 view comic panel composition
 - DO NOT add readable text or signage letters (will be gibberish)
-- DO NOT fill walls with graffiti, posters, stickers
+- DO NOT fill walls with graffiti, posters, stickers (one band
+  poster OR one small graffiti tag is the maximum wall element)
 - DO NOT add cars, dumpsters, piled debris
 - DO NOT add NPCs (a single distant silhouette is OK if used)
 - DO NOT add anime lighting, photorealism, or 3D render look
+- ★ DO NOT paint the signage panel's BACKGROUND in orange. The
+  panel is dark; orange is a small accent ON it. ★
+- ★ DO NOT let orange occupy more than ~2% of total frame area
+  combined across all elements. ★
+- ★ DO NOT use orange as a filled rectangle, banner, or wide
+  stripe. Orange must always be a small SHAPE (tube line, glyph,
+  icon, accent bar shorter than half the door width). ★
+- DO NOT spread orange across multiple locations. Maximum two
+  spots: (1) the sign accent [primary], (2) the small wall
+  element [supporting]
+- DO NOT use pure white (lightest = faded cream)
+- DO NOT use pure black (darkest = deep purple-black)
+- DO NOT use gold or brass tones (that's 富人區's signature)
+- DO NOT use saturated cyber-UV-violet (that's the AI district's
+  AI-presence color — magenta and faded violet for ambient neon
+  are fine)
 
 ## Comic Technique
 
@@ -121,7 +190,21 @@ darkest areas with no lines). Halftone dots in midtones only
 
 Overall: deep teal, ink purple-black, gray-blue (cool night
 cyberpunk). Warm accents (faded amber, faded cream) only INSIDE
-the convenience store glass and in the wet ground reflection.
-Neon (cyan, magenta) only on the few store signs and the distant
-aerial billboard. No pure white (lightest = faded cream). No
-pure black (darkest = deep purple-black).
+the convenience store glass and in the wet ground reflection
+(interior comfort warm, NOT the focal orange). Neon (cyan,
+magenta, optionally violet) only on the few store signs and the
+distant aerial billboard.
+
+★ SIGNATURE ACCENT — SATURATED BURNT ORANGE ★
+- Small accent element(s) on the store signage [PRIMARY]
+- ONE small wall poster OR graffiti tag near the store [SUPPORTING]
+- The ONLY fully-saturated WARM color in the frame
+- Total orange surface ≤ 2% of frame
+- Narrative meaning: "the human will to be remembered, kept
+  brighter than the city that's trying to forget us" — when
+  players see saturated burnt orange anywhere in the game, they
+  should read it as "a human left a mark here, on purpose."
+
+No pure white (lightest = faded cream). No pure black (darkest =
+deep purple-black). No gold or brass (that's 富人區). No saturated
+cyber-UV-violet (that's the AI district).

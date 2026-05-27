@@ -57,13 +57,47 @@ slightly taller than the turnstile, about 22-25% of frame height.
 Every object is a CARDBOARD CUTOUT against the wall — flat side
 profile. Floor remains CLEAR for a horizontal walking path.
 
+## ★ ORANGE SCALE RULE (CRITICAL — read before painting) ★
+
+Saturated burnt orange is the NARRATIVE MARKER COLOR of 平民區.
+It loses all meaning if it covers a large area. It must always
+appear as a SMALL ACCENT ELEMENT, never as a flat colored field.
+
+The subway is institutional, anonymous, uniform — orange here
+belongs to the PEOPLE who passed through, not the system itself.
+The transit authority doesn't paint things orange; the riders do.
+
+HARD LIMITS:
+- TOTAL orange surface across the entire frame: ~1-2% of pixels
+  MAXIMUM. Not 5%, not 10%.
+- NO single orange element may be larger than the small subway
+  map taped to the wall (roughly head-height × half-head-width).
+- Orange is always a SHAPE (a route line on the map, a graffiti
+  tag, a sticker, a stripe) — NEVER a background-fill, NEVER
+  on official signage.
+- Maximum TWO orange spots: (1) ONE hand-marked route line on
+  the paper subway map [primary], (2) ONE small graffiti tag or
+  sticker on the wall [supporting]. Anything else orange = wrong.
+
+CORRECT: ONE highlighted orange route line on the faded paper
+subway map (someone marked it by hand); a small burnt-orange
+graffiti tag on the wall near the turnstile; an orange sticker
+slapped on a pipe.
+
+WRONG: orange transit signage; orange ceiling lights; orange
+floor tiles; orange covering the whole subway map; multiple
+graffiti tags all orange.
+
 ## Composition Discipline
 
 - ~40% deep shadow (ceiling area, dim corners, shadowed wall
   sections)
 - ~45% midtones (tile walls, floor)
 - ~15% bright (one ceiling light strip, warm glow at escalator
-  top, turnstile indicators, hologram column)
+  top, turnstile indicators, hologram column, small orange
+  accents) — within the bright portion, the ORANGE occupies only
+  ~1-2% of frame, the rest is amber escalator glow and
+  cyan/magenta indicators
 - Most of the frame is QUIET CORRIDOR. Escalator and turnstiles
   are recognizable but NOT visually dominant.
 
@@ -76,7 +110,8 @@ profile. Floor remains CLEAR for a horizontal walking path.
 - Both handrail and steps EXIT THE TOP of the frame within
   this narrow leftmost band
 - A faint WARM yellow / amber glow above the escalator
-  (suggesting "the surface is up there")
+  (suggesting "the surface is up there" — interior comfort
+  warm, NOT the focal orange)
 - DO NOT show the full diagonal length
 - DO NOT show the upper portion
 
@@ -88,14 +123,23 @@ profile. Floor remains CLEAR for a horizontal walking path.
 - Sparse details on the back wall (in the upper 60-70%
   vertically):
   - ONE large signage panel with abstract glyphs and arrow icons,
-    NO readable text
+    NO readable text. NO orange on official signage.
   - ONE small surveillance camera mounted HIGH on the back wall
-  - ONE old paper subway map taped to the wall, faded, abstract
-    shapes, NO readable text, taped corners, slightly torn
+  - ★ ONE old paper subway map taped to the wall, faded,
+    abstract route shapes, NO readable text, taped corners,
+    slightly torn. ONE of the route lines on this map is drawn
+    in SATURATED BURNT ORANGE — clearly hand-marked by a rider,
+    not by the transit authority. This is the PRIMARY orange
+    marker of the scene — "someone left their route here, the
+    human's mark on the system." ★
   - Subtle wall cracks, water stains
 - Ceiling: institutional concrete/tile, ONE long fluorescent / LED
   light strip (pale cyan-white), slightly flickering
 - Exposed pipes / wiring along the ceiling edge
+- ★ ON THE WALL near the turnstile or beside a pipe: ONE small
+  burnt-orange graffiti tag or sticker — the SUPPORTING orange
+  marker. Maybe an abstract symbol, a hand-drawn shape, a small
+  tag. JUST ONE. ★
 
 ### RIGHT EDGE — Turnstile Gates (just a hint, ~15-20% width)
 - ONE OR TWO turnstile gates, flat side profile
@@ -127,10 +171,25 @@ profile. Floor remains CLEAR for a horizontal walking path.
 - DO NOT show the platform beyond the gates
 - DO NOT add trains or NPCs
 - DO NOT cover walls with posters or graffiti (one faded subway
-  map is OK)
+  map + one small graffiti tag is the maximum)
 - DO NOT add readable text — all signage is abstract glyphs
 - DO NOT make it look futuristic-clean
 - DO NOT add anime lighting, photorealism, or 3D render look
+- ★ DO NOT put orange on OFFICIAL signage, the ceiling lights,
+  the turnstile indicators, the hologram column, or any
+  transit-authority element. Orange belongs only to rider-made
+  marks (the hand-drawn map line + the graffiti tag). ★
+- ★ DO NOT let orange occupy more than ~2% of total frame area. ★
+- ★ DO NOT spread orange to more than two spots. Maximum:
+  (1) ONE hand-marked route line on the paper map [primary],
+  (2) ONE small graffiti tag or sticker on the wall [supporting] ★
+- DO NOT confuse the escalator-top amber glow with the orange
+  marker — that amber is faded interior comfort warm, NOT
+  saturated orange
+- DO NOT use pure white (lightest = faded cream)
+- DO NOT use pure black (darkest = deep purple-black)
+- DO NOT use gold or brass tones (that's 富人區's signature)
+- DO NOT use saturated cyber-UV-violet (that's the AI district)
 
 ## Comic Technique
 
@@ -142,8 +201,20 @@ in midtones only. Flat cel-shade, no gradients.
 ## Color
 
 Overall: deep teal, gray-blue, ink purple-black (cool, institutional,
-underground). Warm accent: ONE warm yellow / amber glow at the
-escalator top (the only warm spot, signaling "surface is up
-there"). Neon: cyan and magenta on turnstile indicators and
-hologram column. Flickering ceiling light is pale cyan-white.
-No pure white, no pure black.
+underground). Warm accent at escalator top: faded yellow / amber
+glow signaling "surface is up there" (interior comfort warm, NOT
+the focal orange). Neon: cyan and magenta on turnstile indicators
+and hologram column. Flickering ceiling light is pale cyan-white.
+
+★ SIGNATURE ACCENT — SATURATED BURNT ORANGE ★
+- ONE hand-marked route line on the faded paper subway map
+  [PRIMARY]
+- ONE small graffiti tag or sticker on the wall [SUPPORTING]
+- The ONLY fully-saturated warm color in the frame
+- Total orange surface ≤ 2% of frame
+- Narrative: "the riders' marks on a system that forgot them —
+  the route someone needed to remember, the tag someone left
+  to prove they passed through."
+
+No pure white, no pure black. No gold or brass (that's 富人區).
+No saturated cyber-UV-violet (that's the AI district).

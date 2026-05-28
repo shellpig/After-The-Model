@@ -107,14 +107,31 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_action_pressed("interact_primary"):
+		_sync_active_pane_from_focus_owner()
 		_handle_item_move()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("interact_secondary"):
+		_sync_active_pane_from_focus_owner()
 		_emit_dual_action("view")
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("interact_tertiary"):
+		_sync_active_pane_from_focus_owner()
 		_emit_dual_action("discard")
 		get_viewport().set_input_as_handled()
+
+func _sync_active_pane_from_focus_owner() -> void:
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if focus_owner == null:
+		return
+	if focus_owner.get_parent() == left_grid:
+		active_pane = "left"
+	elif focus_owner.get_parent() == right_grid:
+		active_pane = "right"
+
+func _get_grid_focused_index(grid: Control) -> int:
+	if grid.has_method("get_focused_index"):
+		return grid.get_focused_index()
+	return grid.focused_index
 
 func _emit_dual_action(action: String) -> void:
 	var items_array: Array
@@ -122,11 +139,11 @@ func _emit_dual_action(action: String) -> void:
 	var pane: String
 	if active_pane == "left":
 		items_array = GameState.get_inventory()
-		index = left_grid.focused_index
+		index = _get_grid_focused_index(left_grid)
 		pane = "left"
 	else:
 		items_array = GameState.get_container(container_id)
-		index = right_grid.focused_index
+		index = _get_grid_focused_index(right_grid)
 		pane = "right"
 	var slot: Dictionary = items_array[index] if index < items_array.size() else {}
 	item_action_requested.emit(action, slot.get("instance_id", ""), pane)
@@ -139,12 +156,12 @@ func _handle_item_move() -> void:
 
 	if active_pane == "left":
 		items_array = GameState.get_inventory()
-		index = left_grid.focused_index
+		index = _get_grid_focused_index(left_grid)
 		target_id = container_id
 		target_panel = right_panel  # toast appears above target panel
 	else:
 		items_array = GameState.get_container(container_id)
-		index = right_grid.focused_index
+		index = _get_grid_focused_index(right_grid)
 		target_id = "player_inventory"
 		target_panel = left_panel
 

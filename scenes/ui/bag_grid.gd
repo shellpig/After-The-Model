@@ -103,6 +103,13 @@ func set_focused_index(index: int) -> void:
 		if target_button:
 			target_button.grab_focus()
 
+func get_focused_index() -> int:
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if focus_owner != null and focus_owner.get_parent() == self:
+		var index := focus_owner.get_index()
+		focused_index = clamp(index, 0, 14)
+	return focused_index
+
 func _ensure_slots_exist() -> void:
 	while get_child_count() < 15:
 		_create_slot_button(get_child_count())
@@ -218,8 +225,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not _input_active:
 		return
 
-	var row: int = int(focused_index / 5)
-	var col: int = int(focused_index % 5)
+	var current_index := get_focused_index()
+	var row: int = int(current_index / 5)
+	var col: int = int(current_index % 5)
 
 	if event.is_action_pressed("ui_left") or event.is_action_pressed("move_left"):
 		if col > 0:
@@ -252,5 +260,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _emit_item_action(action: String) -> void:
 	var items := GameState.get_inventory()
-	var slot: Dictionary = items[focused_index] if focused_index < items.size() else {}
+	var current_index := get_focused_index()
+	var slot: Dictionary = items[current_index] if current_index < items.size() else {}
 	item_action_requested.emit(action, slot.get("instance_id", ""))

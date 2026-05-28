@@ -81,6 +81,13 @@ func set_focused_index(index: int) -> void:
 		if target_button:
 			target_button.grab_focus()
 
+func get_focused_index() -> int:
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if focus_owner != null and focus_owner.get_parent() == self and slot_count > 0:
+		var index := focus_owner.get_index()
+		focused_index = clampi(index, 0, slot_count - 1)
+	return focused_index
+
 func _create_slot_button(index: int) -> void:
 	var button := Button.new()
 	button.custom_minimum_size = Vector2(64, 64)
@@ -163,8 +170,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not _input_active:
 		return
 
-	var row: int = int(focused_index / 5)
-	var col: int = int(focused_index % 5)
+	var current_index := get_focused_index()
+	var row: int = int(current_index / 5)
+	var col: int = int(current_index % 5)
 	var max_rows: int = int(slot_count / 5)
 
 	if event.is_action_pressed("ui_left") or event.is_action_pressed("move_left"):

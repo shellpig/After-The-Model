@@ -16,6 +16,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0yl8"]
 size = Vector2(82, 146)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
+size = Vector2(130, 210)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5mejr"]
 size = Vector2(71.5, 131.5)
 
@@ -85,6 +88,16 @@ prompt_text = "E: 打開櫥櫃"
 position = Vector2(1091, 561)
 shape = SubResource("RectangleShape2D_n0yl8")
 debug_color = Color(0.89592755, 0.31852657, 0, 0.41960785)
+
+[node name="FridgeStorageArea" type="Area2D" parent="Interactables" unique_id=1983745443]
+script = ExtResource("2_n0yl8")
+interaction_id = "fridge_storage"
+prompt_text = "E: 打開冰箱"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FridgeStorageArea" unique_id=1807628310]
+position = Vector2(965, 585)
+shape = SubResource("RectangleShape2D_fridge")
+debug_color = Color(0.42, 0.74, 0.9, 0.41960785)
 
 [node name="BedSleepArea" type="Area2D" parent="Interactables" unique_id=1846612427]
 script = ExtResource("2_n0yl8")

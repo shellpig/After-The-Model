@@ -3,7 +3,7 @@
 > 全部美術產出（不管是 AI 生、人手繪、或外包）都要照本書走。
 > 第 5 張 sprite 之前必須完成 Must 章節（已於 `AGENTS.md` 規範）。
 
-## 章節索引
+## 章節索引（更新後請同步本段）
 
 | # | 章節 | 狀態 |
 |---|---|---|
@@ -11,7 +11,7 @@
 | 2 | 色盤（Palette） | ✅ 已定稿 |
 | 3 | 角色（Characters） | ✅ 已定稿 |
 | 4 | 環境 / 場景（Environments） | ⬜ TBD |
-| 5 | 道具與機械（Props & Mechanicals） | ⬜ TBD |
+| 5 | 道具與機械（Props & Mechanicals） | ⚠️ 僅 MVP item icon 子集已定稿；全章 TBD |
 | 6 | 光照與時段（Lighting & TimeOfDay） | ⬜ TBD |
 | 7 | UI / 字體 | ⬜ Post-MVP |
 | 8 | 動畫指引（Animation） | ⬜ Post-MVP |
@@ -465,4 +465,81 @@ in /assets/art_bible/
 
 ---
 
-*Chapter 4「環境」、Chapter 5「道具與機械」會在 MVP 場景規格定下來之後再寫（目前 anchor 系列已建立 5 個錨點，可作為環境繪製的工作模板）。*
+## Chapter 5 — Item Icon（MVP）
+
+> Chapter 5「道具與機械」全章會在 MVP 場景規格定下來後完整撰寫。本段先鎖定 **背包 / 容器格內 item icon** 的最小規格，供 Phase 1-B 起的 UI 使用。
+
+### 一句話定位
+
+```text
+icon 是平民區的隨身物品縮影
+跟主角同調，但比角色 sprite 更安靜
+不搶畫面，看一眼就懂是什麼
+```
+
+### 規格
+
+| 項目 | 規格 |
+|---|---|
+| 解析度 | 64×64 像素，透明 PNG |
+| 背景 | **完全透明**，不留底色框 |
+| 視角 | 由上往下 15° 俯視；不正側、不正視 |
+| 線稿粗細 | 1–2 px，色用深褐或黑（依物品材質可調） |
+| 限色 | 從 Ch2 平民區色盤挑 3–5 色，避免飽和過高 |
+| 陰影 | 單側 cell shading，光源統一右上 45°；不畫漸層 |
+| Halftone | 可微量保留作 riso 顆粒，**不可** 蓋過主體輪廓 |
+| 構圖 | 物件置中，邊緣留 4–6 px 安全距離 |
+
+### 橙色規則
+
+延伸 Ch2 ORANGE SCALE RULE：
+
+- 一般 item icon **不使用橙色**（屬環境物件）。
+- 例外：**主角隨身標記物**可帶橙色點綴（例如手套背板、徽章標記），但橙色面積 ≤ icon 總面積 10%。
+- 富人區 / AI 區出處的 item 不可帶橙色（後續 chapter 補）。
+
+### 不可出現
+
+- ❌ 寫實渲染、photoreal、AI generic icon style
+- ❌ 漸層、發光、外加邊框光
+- ❌ 高彩度卡通配色
+- ❌ 圓角矩形背景（純透明）
+- ❌ 文字、數字、品牌 logo（破破爛爛的標籤線條可，但不寫字）
+
+### Phase 1 MVP Icon 清單
+
+對應 `ITEMS_DB` 四個 stub 物品，依本章規格繪製，輸出 64×64 透明 PNG 到：
+
+```text
+assets/generated/sprites/items/<item_id>/icon.png
+```
+
+| item_id | 中文名 | 視覺重點 | 色彩錨點 |
+|---|---|---|---|
+| `old_work_badge` | 磨損的工作證 | 舊式工作識別證，照片模糊；金屬掛繩或塑膠卡套；磨損痕跡明顯 | 卡其 / 灰金 / 暗褐；可微帶主角橙（識別條） |
+| `fingerless_gloves` | 無指工作手套 | 黑底耐磨工作手套，**背手板亮橙色**（主角標記）| 黑 + 暗灰 + 主角橙（背手板） |
+| `canned_food` | 合成罐頭 | 便宜合成肉罐頭，標籤可破損但能辨識「肉」感 | 鋼灰 / 暗紅標籤 / 米黃高光 |
+| `faded_jacket` | 隱士防風夾克 | 低調防雨夾克，深色，口袋深；鬆垂質感 | 藏青 / 深灰 / 暗褐領口 |
+
+### 生成流程
+
+依 AGENTS.md「Generate 2D Asset Shorthand」：
+
+```text
+$generate2dsprite
+  asset_name: <item_id>
+  output: assets/generated/sprites/items/<item_id>/
+```
+
+生成後將正式採用版命名為 `icon.png` 放在 `items/<item_id>/icon.png`，過程稿與 prompt 文字留在同資料夾。
+
+### 驗收
+
+- 4 個 icon 並排觀看時，輪廓辨識度足夠（瞇眼看仍能區分）。
+- 沒有任一張用了 Ch2 限色之外的顏色。
+- 沒有橙色出現在 `old_work_badge`（除小面積識別條）、`canned_food`、`faded_jacket` 上。
+- 把任一 icon 放到背包 64x64 slot 中央，邊緣不貼齊也不溢出。
+
+---
+
+*Chapter 4「環境」會在 MVP 場景規格定下來之後再寫（目前 anchor 系列已建立 5 個錨點，可作為環境繪製的工作模板）。Chapter 5 上述段落為 MVP icon 子集，全章「道具與機械」延後。*

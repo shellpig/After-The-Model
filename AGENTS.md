@@ -7,7 +7,13 @@
 - **類型**：2D 橫向探索 / 都市漫遊 / 碎片化敘事
 - **目標平台**：Steam（Windows/macOS/Linux）+ iOS + Android
 - **引擎**：Godot 4.6.3 / GDScript
-- **目前進度**：概念、技術方向、美術風格（HD 2D 插畫 + riso）、視角（純 2D 側捲 + light platforming）均已確認，準備開始 PC MVP（一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務）
+- **目前進度**：概念、技術方向、美術風格（HD 2D 插畫 + riso）、視角（純 2D 側捲 + light platforming）均已確認。MVP 範圍為一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務。
+  - **Phase 1-A** ✅ GameState autoload（credits / 背包 / 裝備 / 知識 / 筆記 / 容器 / signals）+ 公寓大門知識 gate
+  - **Phase 1-B** 待開工：UIMode autoload + 背包 UI（`I`）
+  - Phase 1-C / 1-D / 1-E：筆記 UI / 容器資料化 + 雙欄 / 物品操作（查看 / 丟棄 / 裝備）
+  - **Phase 2** 公寓解謎（取得 `identity_door_unlock_method` 路徑設計）
+  - Phase 3+：SceneRouter、第二個場景、NPC、零工
+  - 詳細規劃見 `遊戲規格書.md > Phase 規劃`
 
 ## New Conversation Opening Check
 

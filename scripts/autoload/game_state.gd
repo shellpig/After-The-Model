@@ -1,0 +1,507 @@
+extends Node
+
+# Signals
+signal inventory_changed
+signal container_changed(container_id: String)
+signal credits_changed(new_value: int)
+signal knowledge_added(id: String)
+signal notes_changed
+signal equipment_changed
+
+# Variables
+var credits: int = 0
+var inventory_slots: int = 15
+var inventory: Array[Dictionary] = []
+var equipment: Dictionary = {
+	"clothing": [],     # Limit: 1
+	"hand": [],         # Limit: 2
+	"accessory": []     # Limit: 2
+}
+var knowledge: Dictionary = {}
+var notes: Array[Dictionary] = []
+var external_containers: Dictionary = {}
+
+# MVP Temporary Stub DB
+const ITEMS_DB := {
+	"old_work_badge": {
+		"id": "old_work_badge",
+		"name": "磨損的工作證",
+		"description": "一張舊式的工作識別證，上面的照片已經有些模糊。",
+		"category": "key_item",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": false,
+		"usable": false,
+		"equipment_slot": ""
+	},
+	"fingerless_gloves": {
+		"id": "fingerless_gloves",
+		"name": "無指工作手套",
+		"description": "耐磨的黑底工作手套，背手板染著亮橙色。",
+		"category": "equipment",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": true,
+		"usable": true,
+		"equipment_slot": "hand"
+	},
+	"canned_food": {
+		"id": "canned_food",
+		"name": "合成罐頭",
+		"description": "便宜的合成肉罐頭，雖然味道一般但能填飽肚子。",
+		"category": "consumable",
+		"stackable": true,
+		"max_stack": 5,
+		"discardable": true,
+		"usable": true,
+		"equipment_slot": ""
+	},
+	"faded_jacket": {
+		"id": "faded_jacket",
+		"name": "隱士防風夾克",
+		"description": "一件低調的防雨夾克，兩側口袋極深。",
+		"category": "equipment",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": true,
+		"usable": true,
+		"equipment_slot": "clothing"
+	}
+}
+
+const EQUIPMENT_LIMITS := {
+	"clothing": 1,
+	"hand": 2,
+	"accessory": 2
+}
+
+var _last_instance_id: int = 0
+
+func _ready() -> void:
+	# Initialize inventory slots with empty dictionaries
+	inventory.clear()
+	for i in range(inventory_slots):
+		inventory.append({})
+
+func generate_instance_id() -> String:
+	_last_instance_id += 1
+	return "item_%04d" % _last_instance_id
+
+# ==========================================
+# Credits API
+# ==========================================
+func get_credits() -> int:
+	return credits
+
+func add_credits(amount: int) -> void:
+	set_credits(credits + amount)
+
+func set_credits(value: int) -> void:
+	var old_credits = credits
+	credits = max(0, value)
+	if credits != old_credits:
+		credits_changed.emit(credits)
+
+# ==========================================
+# Knowledge / Notes API
+# ==========================================
+func has_knowledge(id: String) -> bool:
+	return knowledge.get(id, false)
+
+func add_knowledge(note: Dictionary) -> void:
+	var note_id: String = note.get("id", "")
+	var category: String = note.get("category", "")
+	var title: String = note.get("title", "")
+	var body: String = note.get("body", "")
+	
+	if note_id.is_empty() or category.is_empty() or title.is_empty() or body.is_empty():
+		return # Invalid schema
+		
+	var new_note = {
+		"id": note_id,
+		"category": category,
+		"title": title,
+		"body": body,
+		"status": note.get("status", "active")
+	}
+	
+	# Find and update existing note or append new one
+	var found = false
+	for i in range(notes.size()):
+		if notes[i].get("id") == note_id:
+			notes[i] = new_note
+			found = true
+			break
+			
+	if not found:
+		notes.append(new_note)
+		
+	if category == "身份":
+		if not knowledge.get(note_id, false):
+			knowledge[note_id] = true
+			knowledge_added.emit(note_id)
+			
+	notes_changed.emit()
+
+func get_notes(category: String) -> Array[Dictionary]:
+	var filtered: Array[Dictionary] = []
+	for note in notes:
+		if note.get("category") == category:
+			filtered.append(note)
+	return filtered.duplicate(true)
+
+func get_all_notes() -> Array[Dictionary]:
+	return notes.duplicate(true)
+
+# ==========================================
+# Inventory API
+# ==========================================
+func get_inventory() -> Array[Dictionary]:
+	return inventory.duplicate(true)
+
+func add_item(item_id: String, count: int = 1) -> bool:
+	if count <= 0:
+		return false
+		
+	if not ITEMS_DB.has(item_id):
+		return false
+		
+	var item_meta: Dictionary = ITEMS_DB[item_id]
+	var stackable: bool = item_meta.get("stackable", false)
+	var max_stack: int = item_meta.get("max_stack", 1)
+	
+	# Atomic implementation
+	var temp_inventory = inventory.duplicate(true)
+	var remaining = count
+	
+	if stackable:
+		# 1. Try to merge into existing non-full stacks
+		for i in range(temp_inventory.size()):
+			var slot = temp_inventory[i]
+			if not slot.is_empty() and slot.get("item_id") == item_id:
+				var current_qty: int = slot.get("quantity", 0)
+				if current_qty < max_stack:
+					var add_qty = min(remaining, max_stack - current_qty)
+					slot["quantity"] = current_qty + add_qty
+					remaining -= add_qty
+					if remaining <= 0:
+						break
+						
+	# 2. Fill empty slots
+	if remaining > 0:
+		for i in range(temp_inventory.size()):
+			var slot = temp_inventory[i]
+			if slot.is_empty():
+				var add_qty = min(remaining, max_stack)
+				temp_inventory[i] = {
+					"instance_id": generate_instance_id(),
+					"item_id": item_id,
+					"quantity": add_qty
+				}
+				remaining -= add_qty
+				if remaining <= 0:
+					break
+					
+	if remaining > 0:
+		return false # Not enough space to add all units
+		
+	inventory = temp_inventory
+	_sort_container(inventory)
+	inventory_changed.emit()
+	return true
+
+func remove_item(item_id: String, count: int = 1) -> bool:
+	if count <= 0:
+		return false
+		
+	# Atomic implementation
+	var temp_inventory = inventory.duplicate(true)
+	var remaining = count
+	var cleared_instances := []
+	
+	# Remove items starting from non-equipped items, or just standard scan
+	# Scanning slots
+	for i in range(temp_inventory.size()):
+		var slot = temp_inventory[i]
+		if not slot.is_empty() and slot.get("item_id") == item_id:
+			var current_qty: int = slot.get("quantity", 0)
+			var sub_qty = min(remaining, current_qty)
+			slot["quantity"] = current_qty - sub_qty
+			remaining -= sub_qty
+			if slot["quantity"] == 0:
+				var instance_id: String = slot.get("instance_id", "")
+				if not instance_id.is_empty():
+					cleared_instances.append(instance_id)
+				temp_inventory[i] = {}
+			if remaining <= 0:
+				break
+				
+	if remaining > 0:
+		return false # Not enough items found to satisfy the count
+		
+	# Apply unequip side-effects only after the entire operation is guaranteed to succeed
+	for instance_id in cleared_instances:
+		_force_unequip_if_present(instance_id)
+		
+	inventory = temp_inventory
+	_sort_container(inventory)
+	inventory_changed.emit()
+	return true
+
+# ==========================================
+# Equipment API
+# ==========================================
+func get_equipment() -> Dictionary:
+	return equipment.duplicate(true)
+
+func equip(instance_id: String) -> bool:
+	if instance_id.is_empty():
+		return false
+		
+	# 1. Find item in backpack
+	var found_item: Dictionary = {}
+	for slot in inventory:
+		if not slot.is_empty() and slot.get("instance_id") == instance_id:
+			found_item = slot
+			break
+			
+	if found_item.is_empty():
+		return false
+		
+	var item_id: String = found_item.get("item_id", "")
+	var item_meta: Dictionary = ITEMS_DB.get(item_id, {})
+	var slot_type: String = item_meta.get("equipment_slot", "")
+	
+	if slot_type.is_empty() or not EQUIPMENT_LIMITS.has(slot_type):
+		return false
+		
+	# Check if already equipped
+	if equipment[slot_type].has(instance_id):
+		return true
+		
+	# Check limits
+	var limit: int = EQUIPMENT_LIMITS[slot_type]
+	if equipment[slot_type].size() >= limit:
+		return false # Slot is full
+		
+	equipment[slot_type].append(instance_id)
+	_sort_container(inventory)
+	equipment_changed.emit()
+	inventory_changed.emit()
+	return true
+
+func unequip(equipment_type: String, slot_index: int) -> bool:
+	if not equipment.has(equipment_type):
+		return false
+		
+	var slot_list: Array = equipment[equipment_type]
+	if slot_index < 0 or slot_index >= slot_list.size():
+		return false
+		
+	slot_list.remove_at(slot_index)
+	_sort_container(inventory)
+	equipment_changed.emit()
+	inventory_changed.emit()
+	return true
+
+func _force_unequip_if_present(instance_id: String) -> void:
+	if instance_id.is_empty():
+		return
+	var changed = false
+	for slot_type in equipment:
+		var slot_list: Array = equipment[slot_type]
+		if slot_list.has(instance_id):
+			slot_list.erase(instance_id)
+			changed = true
+	if changed:
+		equipment_changed.emit()
+
+func _is_equipped(instance_id: String) -> bool:
+	if instance_id.is_empty():
+		return false
+	for slot_type in equipment:
+		if equipment[slot_type].has(instance_id):
+			return true
+	return false
+
+# ==========================================
+# External Container Minimal API
+# ==========================================
+func configure_container(container_id: String, slot_count: int) -> void:
+	if container_id.is_empty() or slot_count <= 0:
+		return
+	if not external_containers.has(container_id):
+		var slots: Array[Dictionary] = []
+		for i in range(slot_count):
+			slots.append({})
+		external_containers[container_id] = slots
+
+func get_container(container_id: String) -> Array[Dictionary]:
+	if external_containers.has(container_id):
+		return external_containers[container_id].duplicate(true)
+	return []
+
+func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
+	if target_container_id.is_empty() or instance_id.is_empty():
+		return false
+		
+	# Find source
+	var source_container_id = ""
+	var source_slots: Array = []
+	var item_to_move: Dictionary = {}
+	var source_slot_index = -1
+	
+	# Check backpack first
+	for i in range(inventory.size()):
+		var slot = inventory[i]
+		if not slot.is_empty() and slot.get("instance_id") == instance_id:
+			source_container_id = "player_inventory"
+			source_slots = inventory
+			item_to_move = slot
+			source_slot_index = i
+			break
+			
+	# Check external containers if not in backpack
+	if source_container_id.is_empty():
+		for container_key in external_containers:
+			var container_list: Array = external_containers[container_key]
+			for i in range(container_list.size()):
+				var slot = container_list[i]
+				if not slot.is_empty() and slot.get("instance_id") == instance_id:
+					source_container_id = container_key
+					source_slots = container_list
+					item_to_move = slot
+					source_slot_index = i
+					break
+			if not source_container_id.is_empty():
+				break
+				
+	if source_container_id.is_empty() or item_to_move.is_empty():
+		return false # Item not found
+		
+	# Direction constraints check
+	var is_to_backpack = (target_container_id == "player_inventory")
+	if is_to_backpack:
+		# source must be external and target is backpack
+		if source_container_id == "player_inventory":
+			return false # Moving backpack to backpack (noop/invalid)
+	else:
+		# source must be backpack and target must be a configured external container
+		if source_container_id != "player_inventory":
+			return false # Container-to-container is blocked in MVP
+		if not external_containers.has(target_container_id):
+			return false # Target container not configured
+			
+	var target_slots: Array = inventory if is_to_backpack else external_containers[target_container_id]
+	
+	# Atomic Space Check
+	var item_id: String = item_to_move.get("item_id", "")
+	var item_meta: Dictionary = ITEMS_DB.get(item_id, {})
+	var stackable: bool = item_meta.get("stackable", false)
+	var max_stack: int = item_meta.get("max_stack", 1)
+	
+	var temp_source = source_slots.duplicate(true)
+	var temp_target = target_slots.duplicate(true)
+	
+	var target_accomodated_index = -1
+	var is_merge = false
+	
+	if stackable:
+		# Look for non-full stack in target
+		for i in range(temp_target.size()):
+			var slot = temp_target[i]
+			if not slot.is_empty() and slot.get("item_id") == item_id:
+				var qty: int = slot.get("quantity", 0)
+				if qty < max_stack:
+					target_accomodated_index = i
+					is_merge = true
+					break
+					
+	if target_accomodated_index == -1:
+		# Look for first empty slot in target
+		for i in range(temp_target.size()):
+			var slot = temp_target[i]
+			if slot.is_empty():
+				target_accomodated_index = i
+				is_merge = false
+				break
+				
+	if target_accomodated_index == -1:
+		return false # Target has no space (Full)
+		
+	# Deduct 1 unit from source
+	var source_slot = temp_source[source_slot_index]
+	var source_qty: int = source_slot.get("quantity", 1)
+	source_qty -= 1
+	if source_qty <= 0:
+		# If we clear a slot, check if it's currently equipped and unequip it first
+		if source_container_id == "player_inventory":
+			_force_unequip_if_present(instance_id)
+		temp_source[source_slot_index] = {}
+	else:
+		source_slot["quantity"] = source_qty
+		
+	# Add 1 unit to target
+	if is_merge:
+		var target_slot = temp_target[target_accomodated_index]
+		var target_qty: int = target_slot.get("quantity", 0)
+		target_slot["quantity"] = target_qty + 1
+	else:
+		# Create new slot in target
+		# Since it's a new slot, generate a fresh instance ID
+		var new_instance_id = generate_instance_id()
+		temp_target[target_accomodated_index] = {
+			"instance_id": new_instance_id,
+			"item_id": item_id,
+			"quantity": 1
+		}
+		
+	# Auto-sort both sides
+	_sort_container(temp_source)
+	_sort_container(temp_target)
+	
+	# Apply mutations
+	if is_to_backpack:
+		external_containers[source_container_id] = temp_source
+		inventory = temp_target
+	else:
+		inventory = temp_source
+		external_containers[target_container_id] = temp_target
+		
+	# Emit signals
+	inventory_changed.emit()
+	if is_to_backpack:
+		container_changed.emit(source_container_id)
+	else:
+		container_changed.emit(target_container_id)
+		
+	return true
+
+# ==========================================
+# Internal Helpers
+# ==========================================
+func _sort_container(slots: Array) -> void:
+	var equipped_items := []
+	var regular_items := []
+	var empty_slots_count := 0
+	
+	for slot in slots:
+		if slot.is_empty():
+			empty_slots_count += 1
+		else:
+			var instance_id: String = slot.get("instance_id", "")
+			if _is_equipped(instance_id):
+				equipped_items.append(slot)
+			else:
+				regular_items.append(slot)
+				
+	# Sort regular items alphabetically by item_id
+	regular_items.sort_custom(func(a, b):
+		return a.get("item_id", "").naturalnocasecmp_to(b.get("item_id", "")) < 0
+	)
+	
+	slots.clear()
+	slots.append_array(equipped_items)
+	slots.append_array(regular_items)
+	for i in range(empty_slots_count):
+		slots.append({})

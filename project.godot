@@ -54,6 +54,10 @@ interact_tertiary={
 ]
 }
 
+[autoload]
+
+GameState="*res://scripts/autoload/game_state.gd"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

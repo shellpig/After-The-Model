@@ -31,3 +31,7 @@ __pycache__/
 
 # Historical archive
 舊文件/
+
+# Export build outputs (Windows / macOS / Linux / iOS / Android / Web)
+# export_presets.cfg 本身要 commit, 它是 preset source of truth; 只忽略產物。
+builds/

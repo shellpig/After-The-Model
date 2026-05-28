@@ -10,7 +10,7 @@ const CONTAINERS := {
 	"cabinet_storage": {
 		"title": "櫥櫃",
 		"cols": 5,
-		"rows": 3,
+		"rows": 6,
 		"skin": "cabinet",
 		"panel_position": Vector2(844.0, 64.0)
 	},
@@ -23,21 +23,16 @@ const CONTAINERS := {
 	}
 }
 
+
 const MESSAGE_CHARS_PER_SECOND := 3.0
 const MESSAGE_PADDING := Vector2(32.0, 20.0)
-const CONTAINER_SLOT_SIZE := Vector2(64.0, 64.0)
-const CONTAINER_SLOT_GAP := 4.0
-const CONTAINER_PANEL_PADDING := Vector2(16.0, 16.0)
-const CONTAINER_TITLE_HEIGHT := 24.0
-
 @onready var prompt_panel: Control = $UI/PromptPanel
 @onready var prompt_label: Label = $UI/PromptPanel/MarginContainer/PromptLabel
-@onready var container_panel: Control = $UI/ContainerPanel
-@onready var container_title_label: Label = $UI/ContainerPanel/VBoxContainer/ContainerTitleLabel
-@onready var container_grid: GridContainer = $UI/ContainerPanel/VBoxContainer/GridContainer
 @onready var message_box: Control = $UI/MessageBox
 @onready var message_label: Label = $UI/MessageBox/MarginContainer/MessageLabel
 @onready var player: Node2D = $Player
+@onready var dual_pane_container: Control = $UI/DualPaneContainer
+
 
 @onready var ui_overlay: ColorRect = $UI/UIOverlay
 @onready var inventory_panel: PanelContainer = $UI/InventoryPanel
@@ -52,16 +47,24 @@ var message_full_text := ""
 var message_elapsed := 0.0
 
 func _ready() -> void:
-	_apply_container_panel_style("cabinet")
 	_apply_message_box_style()
 	prompt_panel.visible = false
 	prompt_label.visible = true
-	container_panel.visible = false
 	message_box.visible = false
 	message_label.visible = true
 	ui_overlay.visible = false
 	inventory_panel.visible = false
 	notebook_panel.visible = false
+	dual_pane_container.visible = false
+
+	# Preload containers for Phase 1-D
+	GameState.configure_container("cabinet_storage", 30)  # 5 x 6
+	GameState.configure_container("fridge_storage", 10)   # 5 x 2
+
+	var _ok_jacket := GameState.seed_container("cabinet_storage", "faded_jacket", 1)
+	var _ok_cabinet_food := GameState.seed_container("cabinet_storage", "canned_food", 2)
+	var _ok_fridge_food := GameState.seed_container("fridge_storage", "canned_food", 3)
+
 
 	# Preload inventory robustly
 	var has_item := false
@@ -205,9 +208,9 @@ func _refresh_current_interactable() -> void:
 
 	# Only clear/hide panels if we are not in a UI mode
 	if UIMode.get_mode() == UIMode.Mode.NONE:
-		container_panel.visible = false
 		message_box.visible = false
 		_clear_message_typewriter()
+
 
 	if current_interactable == null:
 		prompt_panel.visible = false
@@ -241,7 +244,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	ui_overlay.visible = (new_mode != UIMode.Mode.NONE)
 
 	inventory_panel.visible = (new_mode == UIMode.Mode.INVENTORY)
-	container_panel.visible = (new_mode == UIMode.Mode.CONTAINER)
+	dual_pane_container.visible = (new_mode == UIMode.Mode.CONTAINER)
 	message_box.visible = (new_mode == UIMode.Mode.MESSAGE)
 	notebook_panel.visible = (new_mode == UIMode.Mode.NOTEBOOK)
 
@@ -251,15 +254,23 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	bag_grid.set_input_active(new_mode == UIMode.Mode.INVENTORY)
 	notebook_panel.set_input_active(new_mode == UIMode.Mode.NOTEBOOK)
 
+	# Centralized dual-pane activate/deactivate (no lingering input grabs)
+	if new_mode == UIMode.Mode.CONTAINER and current_interactable != null:
+		var c_id: String = current_interactable.interaction_id
+		var c_data: Dictionary = CONTAINERS.get(c_id, {})
+		var c_slot_count: int = c_data.get("cols", 1) * c_data.get("rows", 1)
+		var c_title: String = c_data.get("title", "儲物空間")
+		dual_pane_container.set_input_active(true, c_id, c_slot_count, c_title)
+		prompt_panel.visible = false
+	else:
+		dual_pane_container.set_input_active(false)
+
 	if new_mode == UIMode.Mode.INVENTORY:
 		var items := GameState.get_inventory()
 		bag_grid.initialize_grid(items)
 		bag_grid.set_focused_index(0)
 		credits_label.text = "Credits: %d" % GameState.get_credits()
 		prompt_panel.visible = false
-	elif new_mode == UIMode.Mode.CONTAINER:
-		_setup_container(current_interactable.interaction_id)
-		_update_prompt()
 	elif new_mode == UIMode.Mode.MESSAGE:
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.NOTEBOOK:
@@ -268,94 +279,6 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	elif new_mode == UIMode.Mode.NONE:
 		_update_prompt()
 
-func _setup_container(container_id: String) -> void:
-	var container_data: Dictionary = CONTAINERS.get(container_id, {})
-	container_title_label.text = container_data.get("title", "")
-	container_grid.columns = container_data.get("cols", 1)
-	var skin_id: String = container_data.get("skin", "cabinet")
-	container_panel.position = container_data.get("panel_position", container_panel.position)
-	_apply_container_panel_style(skin_id)
-
-	var slot_count: int = container_data.get("cols", 1) * container_data.get("rows", 1)
-	while container_grid.get_child_count() < slot_count:
-		var slot := Button.new()
-		slot.custom_minimum_size = CONTAINER_SLOT_SIZE
-		container_grid.add_child(slot)
-
-	for index in range(container_grid.get_child_count()):
-		var slot := container_grid.get_child(index)
-		slot.visible = index < slot_count
-		_apply_container_slot_style(slot, skin_id)
-
-	_resize_container_panel(container_data.get("cols", 1), container_data.get("rows", 1))
-
-func _resize_container_panel(cols: int, rows: int) -> void:
-	var width: float = cols * CONTAINER_SLOT_SIZE.x + max(cols - 1, 0) * CONTAINER_SLOT_GAP + CONTAINER_PANEL_PADDING.x * 2.0
-	var height: float = rows * CONTAINER_SLOT_SIZE.y + max(rows - 1, 0) * CONTAINER_SLOT_GAP + CONTAINER_PANEL_PADDING.y * 2.0 + CONTAINER_TITLE_HEIGHT
-	container_panel.size = Vector2(width, height)
-
-func _apply_container_panel_style(skin_id: String) -> void:
-	var panel_style := StyleBoxFlat.new()
-	if skin_id == "fridge":
-		panel_style.bg_color = Color(0.42, 0.50, 0.52, 0.86)
-		panel_style.border_color = Color(0.72, 0.86, 0.88, 1.0)
-	else:
-		panel_style.bg_color = Color(0.16, 0.10, 0.06, 0.88)
-		panel_style.border_color = Color(0.48, 0.27, 0.12, 1.0)
-	panel_style.border_width_left = 2
-	panel_style.border_width_top = 2
-	panel_style.border_width_right = 2
-	panel_style.border_width_bottom = 2
-	panel_style.corner_radius_top_left = 4
-	panel_style.corner_radius_top_right = 4
-	panel_style.corner_radius_bottom_left = 4
-	panel_style.corner_radius_bottom_right = 4
-	panel_style.content_margin_left = 16
-	panel_style.content_margin_top = 12
-	panel_style.content_margin_right = 16
-	panel_style.content_margin_bottom = 16
-	container_panel.add_theme_stylebox_override("panel", panel_style)
-
-	container_title_label.add_theme_font_size_override("font_size", 18)
-	if skin_id == "fridge":
-		container_title_label.add_theme_color_override("font_color", Color(0.94, 0.96, 0.90, 1.0))
-	else:
-		container_title_label.add_theme_color_override("font_color", Color(0.96, 0.82, 0.58, 1.0))
-
-	container_grid.add_theme_constant_override("h_separation", 4)
-	container_grid.add_theme_constant_override("v_separation", 4)
-
-func _apply_container_slot_style(slot: Control, skin_id: String) -> void:
-	var normal_style := StyleBoxFlat.new()
-	if skin_id == "fridge":
-		normal_style.bg_color = Color(0.48, 0.62, 0.66, 0.45)
-		normal_style.border_color = Color(0.68, 0.86, 0.90, 1.0)
-	else:
-		normal_style.bg_color = Color(0.10, 0.07, 0.04, 0.80)
-		normal_style.border_color = Color(0.36, 0.22, 0.12, 1.0)
-	normal_style.border_width_left = 1
-	normal_style.border_width_top = 1
-	normal_style.border_width_right = 1
-	normal_style.border_width_bottom = 1
-
-	var hover_style := normal_style.duplicate()
-	if skin_id == "fridge":
-		hover_style.bg_color = Color(0.62, 0.80, 0.86, 0.62)
-		hover_style.border_color = Color(0.82, 0.96, 1.0, 1.0)
-	else:
-		hover_style.bg_color = Color(0.18, 0.11, 0.06, 0.92)
-		hover_style.border_color = Color(0.70, 0.42, 0.18, 1.0)
-
-	var pressed_style := normal_style.duplicate()
-	if skin_id == "fridge":
-		pressed_style.bg_color = Color(0.36, 0.48, 0.52, 0.86)
-	else:
-		pressed_style.bg_color = Color(0.07, 0.04, 0.025, 0.95)
-
-	slot.add_theme_stylebox_override("normal", normal_style)
-	slot.add_theme_stylebox_override("hover", hover_style)
-	slot.add_theme_stylebox_override("pressed", pressed_style)
-	slot.add_theme_stylebox_override("focus", hover_style)
 
 func _apply_message_box_style() -> void:
 	var message_style := StyleBoxFlat.new()
@@ -423,9 +346,7 @@ func _update_prompt() -> void:
 
 	match current_interactable.interaction_id:
 		"cabinet_storage", "fridge_storage":
-			var container_data: Dictionary = CONTAINERS.get(current_interactable.interaction_id, {})
-			var title: String = container_data.get("title", "")
-			prompt_label.text = "Esc : 關閉%s" % title if container_panel.visible else current_interactable.prompt_text
+			prompt_label.text = current_interactable.prompt_text
 		"bed_sleep", "door_exit":
 			prompt_label.text = "E: 關閉訊息" if message_box.visible else current_interactable.prompt_text
 		_:

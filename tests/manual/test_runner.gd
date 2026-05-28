@@ -16,13 +16,16 @@ func _ready() -> void:
 	
 	# 2. Verify InputMap Actions
 	print("Checking InputMap actions...")
-	var actions = ["open_inventory", "open_notebook", "ui_cancel"]
+	var actions = ["open_inventory", "open_notebook", "ui_cancel",
+	               "ui_page_up", "ui_page_down",
+	               "move_left", "move_right", "move_up", "move_down"]
 	for action in actions:
 		if not InputMap.has_action(action):
 			printerr("FAIL: InputMap action '" + action + "' is missing!")
 			get_tree().quit(1)
 			return
 		print("PASS: InputMap action '" + action + "' exists.")
+
 		
 	# 3. Load & Instantiate apartment_room.tscn
 	print("Loading res://apartment_room.tscn...")
@@ -42,6 +45,7 @@ func _ready() -> void:
 	var ui_nodes = {
 		"UIOverlay": "UI/UIOverlay",
 		"NotebookPanel": "UI/NotebookPanel",
+		"DualPaneContainer": "UI/DualPaneContainer",
 		"InventoryPanel": "UI/InventoryPanel",
 		"BagGrid": "UI/InventoryPanel/VBoxContainer/BagGrid",
 		"CreditsLabel": "UI/InventoryPanel/VBoxContainer/HBoxContainer/CreditsLabel",
@@ -108,26 +112,54 @@ func _ready() -> void:
 		return
 	print("PASS: Door unlock method is NOT preloaded.")
 
+	# Verify Phase 1-D container seeding
+	print("Verifying Phase 1-D container seeding...")
+
+	var cabinet_slots = GameState.get_container("cabinet_storage")
+	if cabinet_slots.size() != 30:
+		printerr("FAIL: cabinet_storage should have 30 slots, got %d" % cabinet_slots.size())
+		get_tree().quit(1)
+		return
+	print("PASS: cabinet_storage has 30 slots.")
+
+	var fridge_slots = GameState.get_container("fridge_storage")
+	if fridge_slots.size() != 10:
+		printerr("FAIL: fridge_storage should have 10 slots, got %d" % fridge_slots.size())
+		get_tree().quit(1)
+		return
+	print("PASS: fridge_storage has 10 slots.")
+
+	# After scene _ready, cabinet should contain faded_jacket + 2 canned_food, fridge should contain 3 canned_food
+	var found_jacket := false
+	for slot in cabinet_slots:
+		if not slot.is_empty() and slot.get("item_id") == "faded_jacket":
+			found_jacket = true
+			break
+	if not found_jacket:
+		printerr("FAIL: faded_jacket not seeded into cabinet_storage")
+		get_tree().quit(1)
+		return
+	print("PASS: faded_jacket seeded into cabinet_storage.")
+
+
 	# 4c. Verify UI Sibling Drawing Z-Order
 	print("Verifying UI sibling drawing Z-Order...")
 	var ui_parent = room_instance.get_node("UI")
 	var children = ui_parent.get_children()
 	var overlay_idx = children.find(room_instance.get_node("UI/UIOverlay"))
 	var notebook_idx = children.find(room_instance.get_node("UI/NotebookPanel"))
+	var dual_pane_idx = children.find(room_instance.get_node("UI/DualPaneContainer"))
 	var inventory_idx = children.find(room_instance.get_node("UI/InventoryPanel"))
-	if overlay_idx == -1 or notebook_idx == -1 or inventory_idx == -1:
+	if overlay_idx == -1 or notebook_idx == -1 or dual_pane_idx == -1 or inventory_idx == -1:
 		printerr("FAIL: Sibling nodes not found in UI children list!")
 		get_tree().quit(1)
 		return
-	if overlay_idx > notebook_idx:
-		printerr("FAIL: UIOverlay is listed after NotebookPanel, meaning it draws above it!")
+	if not (overlay_idx < notebook_idx and notebook_idx < dual_pane_idx and dual_pane_idx < inventory_idx):
+		printerr("FAIL: UI sibling Z-order is wrong! Expected overlay < notebook < dual_pane < inventory.")
 		get_tree().quit(1)
 		return
-	if notebook_idx > inventory_idx:
-		printerr("FAIL: NotebookPanel is listed after InventoryPanel, meaning it draws above it!")
-		get_tree().quit(1)
-		return
-	print("PASS: UI sibling Z-order sequences are correct (Overlay -> Notebook -> Inventory).")
+	print("PASS: UI sibling Z-order correct (Overlay -> Notebook -> DualPane -> Inventory).")
+
 
 	# 5. Verify ITEMS_DB icon paths on disk
 	print("Verifying ITEMS_DB icon paths...")

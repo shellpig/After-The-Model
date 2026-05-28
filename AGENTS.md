@@ -11,7 +11,8 @@
   - **Phase 1-A** ✅ GameState autoload（credits / 背包 / 裝備 / 知識 / 筆記 / 容器 / signals）+ 公寓大門知識 gate
   - **Phase 1-B** ✅ UIMode autoload + 背包 UI（`I`）
   - **Phase 1-C** ✅ 筆記 UI（`J`）
-  - Phase 1-D / 1-E 待開工：容器資料化 + 雙欄 / 物品操作（查看 / 丟棄 / 裝備）
+  - **Phase 1-D** ✅ 容器資料化（櫥櫃 5x6 / 冰箱 5x2）+ 雙欄 panel + 跨欄 focus + E 移動 1 個 + 「放不下了。」FloatingToast
+  - Phase 1-E 待開工：物品操作（查看 / 丟棄 / 裝備）
   - **Phase 2** 公寓解謎（取得 `identity_door_unlock_method` 路徑設計）
   - Phase 3+：SceneRouter、第二個場景、NPC、零工
   - 詳細規劃見 `遊戲規格書.md > Phase 規劃`
@@ -109,7 +110,7 @@ Image generation handling:
 | agent-sprite-forge | `C:\_work\AI_Work\Tools\agent-sprite-forge` | AI 生成 2D sprite / map / prop |
 | Godot 4.6.3 editor | `C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64.exe` | 引擎（GUI 版） |
 | Godot 4.6.3 console | `C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe` | 引擎（CLI 版，用於 `--version` / headless export） |
-| Godot export templates | `C:\Users\User\AppData\Roaming\Godot\export_templates\4.6.3.stable\` | ⚠️ **待安裝**（匯出 .exe/.apk/.ipa 必需，回家裝） |
+| Godot export templates | `C:\Users\User\AppData\Roaming\Godot\export_templates\4.6.3.stable\` | ✅ 已安裝（Windows / Linux / macOS / iOS / Android / Web 全平台 templates 齊全） |
 | Codex DeepSeek home | `C:\_work\AI_Work\Tools\codex-deepseek-home` | DS reviewer 環境 |
 
 ## Art Bible 規則

@@ -4,18 +4,18 @@
 [ext_resource type="Script" uid="uid://ufsk4hoih1si" path="res://apartment_room.gd" id="1_n0yl8"]
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://player.gd" id="2_5mejr"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://interactable_area.gd" id="2_n0yl8"]
-[ext_resource type="Texture2D" uid="uid://dk86bgcqc42hu" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2.png" id="3_n0yl8"]
-[ext_resource type="Texture2D" uid="uid://dhq1prdk2ccio" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1.png" id="4_e02yx"]
-[ext_resource type="Texture2D" uid="uid://pbi2apgurokw" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3.png" id="5_gmkd7"]
-[ext_resource type="Texture2D" uid="uid://b4y4l4k5oklgs" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4.png" id="6_skhg1"]
-[ext_resource type="Texture2D" uid="uid://dk35h65y1keoj" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5.png" id="7_h536o"]
-[ext_resource type="Texture2D" uid="uid://bb83brkdd2580" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6.png" id="8_v52ki"]
-[ext_resource type="Texture2D" uid="uid://dxuwx3lokvkox" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7.png" id="9_7hwvl"]
-[ext_resource type="Texture2D" uid="uid://cay4ke2iubbda" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8.png" id="10_ukt85"]
-[ext_resource type="PackedScene" path="res://scenes/ui/bag_grid.tscn" id="11_bag_grid"]
-[ext_resource type="Script" path="res://scenes/ui/panel_footer_hint.gd" id="12_panel_footer_hint"]
-[ext_resource type="PackedScene" path="res://scenes/ui/notebook_panel.tscn" id="13_notebook_panel"]
-
+[ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="5_skhg1"]
+[ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="6_h536o"]
+[ext_resource type="Texture2D" uid="uid://bex22wmsbwi1m" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="7_v52ki"]
+[ext_resource type="Texture2D" uid="uid://sofbn2kttwre" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="8_7hwvl"]
+[ext_resource type="Texture2D" uid="uid://dutevb0poruvl" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="9_ukt85"]
+[ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="10_ijsgt"]
+[ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="11_5417i"]
+[ext_resource type="PackedScene" uid="uid://d47a0c22bdab" path="res://scenes/ui/bag_grid.tscn" id="11_bag_grid"]
+[ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_ndo03"]
+[ext_resource type="Script" uid="uid://bv1gw1aoadlob" path="res://scenes/ui/panel_footer_hint.gd" id="12_panel_footer_hint"]
+[ext_resource type="PackedScene" uid="uid://c1o8x312e752u" path="res://scenes/ui/notebook_panel.tscn" id="13_notebook_panel"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dual_pane_container.tscn" id="14_dual_pane"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0yl8"]
 size = Vector2(33, 146)
@@ -33,7 +33,7 @@ size = Vector2(72, 220)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_n0yl8")
+"texture": ExtResource("5_skhg1")
 }],
 "loop": true,
 "name": &"idle",
@@ -41,38 +41,44 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_e02yx")
+"texture": ExtResource("6_h536o")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_n0yl8")
+"texture": ExtResource("5_skhg1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_gmkd7")
+"texture": ExtResource("7_v52ki")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_skhg1")
+"texture": ExtResource("8_7hwvl")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_h536o")
+"texture": ExtResource("9_ukt85")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_v52ki")
+"texture": ExtResource("10_ijsgt")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_7hwvl")
+"texture": ExtResource("11_5417i")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_ukt85")
+"texture": ExtResource("12_ndo03")
 }],
 "loop": true,
 "name": &"walk",
-"speed": 10.0
+"speed": 8.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5417i"]
 size = Vector2(49, 356)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n0yl8"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
 bg_color = Color(0.12, 0.14, 0.18, 0.88)
 border_width_left = 2
 border_width_top = 2
@@ -81,14 +87,8 @@ border_width_bottom = 2
 border_color = Color(0.78, 0.42, 0.2, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
-corner_radius_bottom_left = 4
 corner_radius_bottom_right = 4
-content_margin_left = 16
-content_margin_top = 16
-content_margin_right = 16
-content_margin_bottom = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n0yl8"]
+corner_radius_bottom_left = 4
 
 [node name="ApartmentRoom" type="Node2D" unique_id=682637434]
 position = Vector2(-20, 0)
@@ -150,10 +150,9 @@ position = Vector2(690, 700)
 script = ExtResource("2_5mejr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1380120049]
-position = Vector2(23, -180)
-scale = Vector2(1.9, 1.9)
+position = Vector2(23, -185)
 sprite_frames = SubResource("SpriteFrames_ijsgt")
-animation = &"walk"
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1154710583]
 position = Vector2(24, -172)
@@ -195,99 +194,25 @@ visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 
-[node name="ContainerPanel" type="PanelContainer" parent="UI" unique_id=82748761]
-visible = false
-offset_left = 844.0
-offset_top = 64.0
-offset_right = 1189.0
-offset_bottom = 270.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_n0yl8")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/ContainerPanel" unique_id=979535298]
-layout_mode = 2
 
-[node name="ContainerTitleLabel" type="Label" parent="UI/ContainerPanel/VBoxContainer" unique_id=1610840616]
-layout_mode = 2
-text = "櫥櫃"
-
-[node name="GridContainer" type="GridContainer" parent="UI/ContainerPanel/VBoxContainer" unique_id=117866664]
-layout_mode = 2
-columns = 5
-
-[node name="Button" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1866170609]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button2" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1326702305]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button3" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=711063709]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button4" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1630690972]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button5" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=777653742]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button6" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1962949764]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button7" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1422417553]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button8" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1490106601]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button9" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=104405137]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button10" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=592371054]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button11" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=897608457]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button12" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=129759185]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button13" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1124015260]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button14" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1969975504]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="Button15" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1272530234]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="UIOverlay" type="ColorRect" parent="UI"]
+[node name="UIOverlay" type="ColorRect" parent="UI" unique_id=2082854504]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.3)
 mouse_filter = 2
+color = Color(0, 0, 0, 0.3)
 
-[node name="NotebookPanel" parent="UI" instance=ExtResource("13_notebook_panel")]
+[node name="NotebookPanel" parent="UI" unique_id=965635372 instance=ExtResource("13_notebook_panel")]
 visible = false
 
-[node name="InventoryPanel" type="PanelContainer" parent="UI"]
+[node name="DualPaneContainer" parent="UI" instance=ExtResource("14_dual_pane")]
+visible = false
+
+[node name="InventoryPanel" type="PanelContainer" parent="UI" unique_id=248646203]
 visible = false
 custom_minimum_size = Vector2(368, 256)
 anchors_preset = 8
@@ -303,33 +228,33 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_inventory")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/InventoryPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/InventoryPanel" unique_id=171443926]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/InventoryPanel/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/InventoryPanel/VBoxContainer" unique_id=940108994]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="UI/InventoryPanel/VBoxContainer/HBoxContainer"]
+[node name="TitleLabel" type="Label" parent="UI/InventoryPanel/VBoxContainer/HBoxContainer" unique_id=1505830368]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94, 0.92, 0.84, 1)
 theme_override_font_sizes/font_size = 18
 text = "背包"
 
-[node name="Spacer" type="Control" parent="UI/InventoryPanel/VBoxContainer/HBoxContainer"]
+[node name="Spacer" type="Control" parent="UI/InventoryPanel/VBoxContainer/HBoxContainer" unique_id=1071545685]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CreditsLabel" type="Label" parent="UI/InventoryPanel/VBoxContainer/HBoxContainer"]
+[node name="CreditsLabel" type="Label" parent="UI/InventoryPanel/VBoxContainer/HBoxContainer" unique_id=329164499]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94, 0.92, 0.84, 1)
 theme_override_font_sizes/font_size = 18
 text = "Credits: 0"
 
-[node name="BagGrid" parent="UI/InventoryPanel/VBoxContainer" instance=ExtResource("11_bag_grid")]
+[node name="BagGrid" parent="UI/InventoryPanel/VBoxContainer" unique_id=1518608023 instance=ExtResource("11_bag_grid")]
 layout_mode = 2
 
-[node name="PanelFooterHint" type="Label" parent="UI/InventoryPanel/VBoxContainer"]
+[node name="PanelFooterHint" type="Label" parent="UI/InventoryPanel/VBoxContainer" unique_id=65964271]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 theme_override_font_sizes/font_size = 14

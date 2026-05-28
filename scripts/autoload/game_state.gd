@@ -484,6 +484,48 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 		
 	return true
 
+func seed_container(container_id: String, item_id: String, count: int) -> bool:
+	if not external_containers.has(container_id) or not ITEMS_DB.has(item_id) or count <= 0:
+		return false
+
+	var slots: Array = external_containers[container_id]
+	var item_meta: Dictionary = ITEMS_DB[item_id]
+	var stackable: bool = item_meta.get("stackable", false)
+	var max_stack: int = item_meta.get("max_stack", 1)
+
+	var remaining: int = count
+
+	# 1. Merge into existing non-full stacks
+	if stackable:
+		for i in range(slots.size()):
+			var slot: Dictionary = slots[i]
+			if not slot.is_empty() and slot.get("item_id") == item_id:
+				var qty: int = slot.get("quantity", 0)
+				if qty < max_stack:
+					var to_add: int = min(remaining, max_stack - qty)
+					slots[i]["quantity"] = qty + to_add
+					remaining -= to_add
+					if remaining <= 0:
+						break
+
+	# 2. Place remainder in empty slots
+	if remaining > 0:
+		for i in range(slots.size()):
+			if slots[i].is_empty():
+				var to_add: int = min(remaining, max_stack if stackable else 1)
+				slots[i] = {
+					"instance_id": generate_instance_id(),
+					"item_id": item_id,
+					"quantity": to_add
+				}
+				remaining -= to_add
+				if remaining <= 0:
+					break
+
+	_sort_container(slots)
+	container_changed.emit(container_id)
+	return remaining == 0
+
 # ==========================================
 # Internal Helpers
 # ==========================================

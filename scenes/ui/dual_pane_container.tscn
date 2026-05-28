@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/dual_pane_container.gd" id="1_dual_pane"]
+[ext_resource type="PackedScene" path="res://scenes/ui/bag_grid.tscn" id="2_bag_grid"]
+[ext_resource type="PackedScene" path="res://scenes/ui/external_grid.tscn" id="3_external_grid"]
+
+[node name="DualPaneContainer" type="PanelContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dual_pane")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="BackpackPanel" type="PanelContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(368, 256)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/BackpackPanel"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="HBoxContainer/BackpackPanel/VBoxContainer"]
+layout_mode = 2
+text = "背包 (Credits: 0)"
+horizontal_alignment = 1
+
+[node name="BagGrid" parent="HBoxContainer/BackpackPanel/VBoxContainer" instance=ExtResource("2_bag_grid")]
+layout_mode = 2
+
+[node name="FooterHint" type="Label" parent="HBoxContainer/BackpackPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "E: 移動    Esc: 關閉"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContainerPanel" type="PanelContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(368, 0)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ContainerPanel"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="HBoxContainer/ContainerPanel/VBoxContainer"]
+layout_mode = 2
+text = "儲物空間"
+horizontal_alignment = 1
+
+[node name="ExternalGrid" parent="HBoxContainer/ContainerPanel/VBoxContainer" instance=ExtResource("3_external_grid")]
+layout_mode = 2
+
+[node name="FooterHint" type="Label" parent="HBoxContainer/ContainerPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "E: 移動    Esc: 關閉"
+horizontal_alignment = 1
+vertical_alignment = 1

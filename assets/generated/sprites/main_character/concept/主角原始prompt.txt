@@ -1,0 +1,263 @@
+A character design sheet for a 2D side-scrolling cyberpunk game'sprotagonist. Single character, full body, standing pose, SOLIDflat magenta background (#FF00FF — NO gradients, NO scene, NOshadow on ground, NO context behind the character — pure single-color chroma backdrop for asset compositing).
+
+CHARACTER CORE
+
+Male, late 20s to mid 30s, lean working-class build (not heroic,not muscular — just used, real). East-Asian features acceptable.
+
+Face:
+
+Tired, slightly hollow under the eyes
+
+Dark stubble, several days unshaven
+
+Messy dark hair, slightly long but not styled
+
+★ Goggles pushed up on the forehead (signature element) ★
+
+Calm, unreadable expression — not angry, not sad, not heroic
+
+POSE & VIEW
+
+FULL BODY, head to boots, ~85-90% of frame height
+
+Slight 3/4 turn (~30° off frontal)
+
+Standing relaxed, weight on one leg, arms hanging naturally
+
+★ Both hands visible at sides, back of hands facing forwardso the gloves' orange panels can be clearly seen ★
+
+Character centered in frame
+
+★ SILHOUETTE RULE (CRITICAL — read before painting) ★
+
+This character must read at 192px tall game-sprite scale. ThreeRULES enforce silhouette readability:
+
+THREE DISTINCT COLOR ZONES, top to bottom:
+
+TORSO ZONE (jacket + collar): cool deep teal
+
+LEG ZONE (pants): warm faded military olive / khaki-brown
+
+FOOT ZONE (boots): dark gray-brownThe jacket and pants must be CLEARLY DIFFERENT (cool vs warm)— NOT a jumpsuit / one-piece look.
+
+ANKLE SILHOUETTE BREAK:
+
+Pants TUCKED INTO the boots at the ankle, creating avisible bunched fabric ring at the boot top
+
+ORANGE MARKERS — large enough to read at 192px:
+
+Right shoulder patch (small-playing-card sized)
+
+Fingerless gloves with large orange back-of-hand panels(both hands)
+
+OUTFIT
+
+THE JACKET (signature top silhouette):
+
+★ TALL STAND-UP COLLAR rising to mid-jaw height — cleantrapezoid shape framing the neck ★
+
+★ DIAGONAL ASYMMETRIC FRONT ZIPPER from LEFT shoulder downto RIGHT hip (off-center, clean diagonal across chest) ★
+
+★ SLEEVES ROLLED UP TO THE FOREARMS — fabric bunched atelbow, lower arms bare (so the gloves are clearly visible) ★
+
+Material: worn dense cotton / canvas, slightly faded
+
+Color: ★ DEEP TEAL — distinctly COOL ★
+
+Length: hip-length
+
+Two simple flat chest pockets, FLUSH, NO dangling tools
+
+A simple dark t-shirt visible at the collar
+
+THE PANTS:
+
+★ COLOR: FADED MILITARY OLIVE / KHAKI-BROWN — distinctlyWARM, clearly DIFFERENT from the jacket's cool teal ★
+
+Cut: straight cargo work pants
+
+Two cargo pockets on the thighs, FLAT and CLOSED
+
+Mild wear, slight fading at the knees
+
+★ Cuffs TUCKED INTO the boots — pants gather at the ankle,visible bunched fabric ring at the boot top ★
+
+THE BOOTS:
+
+★ HIGH-CUT COMBAT / TACTICAL WORK BOOTS, ankle-high orslightly above ★
+
+Dark gray-brown leather, honestly scuffed
+
+★ VISIBLE LACING all the way up the front (crisscrosspattern) ★
+
+★ ONE HORIZONTAL STRAP / BUCKLE detail wrapping the upperankle ★
+
+Chunky lugged sole
+
+★ THE GLOVES (NEW — supporting orange marker) ★
+
+★ FINGERLESS WORK GLOVES on BOTH hands ★
+
+Style: tactical / mechanic fingerless gloves — fingers cutoff above the second knuckle (knuckle area exposed)
+
+BASE COLOR: deep near-black (dark charcoal, not pure black)
+
+★ ORANGE BACK-OF-HAND PANEL: a large solid SATURATED BURNTORANGE panel covering most of the back of the hand — fromthe wrist cuff up to and INCLUDING the knuckle area ★
+
+Orange panel covers ~60-70% of the visible back of theglove (BIG and chunky, NOT a thin stripe or small accent)
+
+The orange panel has a slight hand-painted / customizedfeel (uneven edges, maybe a darker hand-drawn symbol stenciledon top — small simple shape, no readable text)
+
+Wrist closure: a simple black velcro strap (no orange here)
+
+Palm side: all black (only visible if hand is turned)
+
+Both gloves are IDENTICAL — matching pair, the protagonist'suniform
+
+Narrative meaning: "his hands are his work — the gloves protectthem, and he painted them orange so anyone in any district cansee his hands moving."
+
+NO VISIBLE TOOLS ON THE BODY:
+
+NO tool belt with dangling tools
+
+NO flashlight at the hip
+
+NO camera around the neck
+
+NO notebook in a back pocket
+
+Everything functional lives INSIDE the bag
+
+THE BAG (plain — no orange here)
+
+A worn canvas / leather messenger / sling bag slung diagonallyacross the body, hanging at the right hip
+
+Strap runs from LEFT shoulder down across the chest to theRIGHT hip (opposite diagonal from the jacket zipper — soft Xacross the torso)
+
+Bag is CLOSED (flap down, simple buckle or strap closure)
+
+Size: about head-sized, not bulky
+
+Color: ★ PLAIN dark teal-brown, slightly faded — NO patch,NO orange trim, NO decoration. The bag is honest and cleanof markers. ★
+
+Material: weathered canvas with leather reinforcements
+
+★ ORANGE MARKERS (CRITICAL) ★
+
+PRIMARY orange marker:
+
+★ A CLOTH PATCH SEWN ONTO THE RIGHT SHOULDER OF THE JACKET ★
+
+Size: small-playing-card sized (~2 fingers wide, ~2.5 fingerstall) — large enough to read at 192px
+
+Saturated burnt orange background with a CLEAR HIGH-CONTRASTdarker print/silhouette graphic on it (an abstract undergroundband logo or pre-AI subculture emblem)
+
+The graphic should be SIMPLE — readable at 192px (boldsilhouette shape, not fine detail)
+
+Hand-sewn imperfectly, edges slightly frayed
+
+SUPPORTING orange marker:
+
+★ The FINGERLESS GLOVES' large orange back-of-hand panels(see THE GLOVES section above) ★
+
+Both hands matching — this is the protagonist's signaturevisible at any distance
+
+HARD LIMITS:
+
+ONLY the shoulder patch and the glove back panels — no otherorange on the character
+
+NO orange piping, NO orange laces, NO orange seams, NOorange button, NO orange bag patch, NO orange anywhere onthe t-shirt, NO orange on pants or boots
+
+The orange is concentrated in UPPER body + hands so itreads even at 192px game sprite size and even when thecharacter is back-lit or shadowed
+
+STRICT DO NOT
+
+DO NOT make the jacket and pants the same color or closeshades — they must read as cool-vs-warm contrast
+
+DO NOT make the pants gray-blue or dark teal (must be warmolive/khaki)
+
+DO NOT add a tool belt, tool harness, or any hanging tools
+
+DO NOT make the camera, flashlight, notebook, or anyinstrument visible
+
+DO NOT add weapons of any kind
+
+DO NOT add orange to the bag (the bag is plain)
+
+DO NOT add orange piping, laces, seams, buttons, or anyadditional orange elements beyond the shoulder patch andthe glove back panels
+
+DO NOT make the glove orange panel small or thin — it mustcover MOST of the back of the hand
+
+DO NOT make the gloves fingered / full-finger — they mustbe fingerless (cut above the second knuckle)
+
+DO NOT make the boots generic short ankle boots — must beHIGH-CUT with visible lacing and horizontal strap detail
+
+DO NOT have pants cuffed OUTSIDE the boots — tucked IN withvisible fabric bunching at the boot top
+
+DO NOT use orange as a filled garment color (no orangejacket, no orange pants, no orange boots, no orange t-shirt)
+
+DO NOT add gold or brass tones (that's 富人區)
+
+DO NOT add cyber-purple to the character (that's the AIdistrict)
+
+DO NOT use pure white (lightest = faded cream)
+
+DO NOT use pure black (darkest = deep purple-black, includingon gloves)
+
+DO NOT make him heroic — no exaggerated muscle definition
+
+DO NOT use anime stylization (no big eyes, no spiky hair,no cute features)
+
+DO NOT use chibi or superhero proportions — realistic 7-8head-tall body proportions
+
+DO NOT add background scenery, ground shadow, or atmosphericeffects — pure flat magenta background only
+
+Comic Technique
+
+American indie cyberpunk comic (HD 2D, NOT pixel art). Matchthe visual register of anchor-01 / anchor-02 / anchor-03:
+
+Mike Mignola heavy-black mastery — strong black silhouetteedge on the body, the boots, the bag, the hair, the gloves
+
+Frank Miller contrast for the jacket folds
+
+Paul Pope linework with breathing organic varied weight
+
+Hand-inked lines (thick on outer silhouette, thin on interiordetail, solid black for darkest folds)
+
+Halftone dots applied to jacket midtones and pants
+
+Flat cel-shade, no gradients, no soft lighting
+
+Color
+
+THREE-ZONE PALETTE (top to bottom, cool→warm→neutral):
+
+JACKET / COLLAR / SHOULDERS: deep teal, distinctly cool
+
+T-SHIRT (visible at collar): dark purple-black
+
+PANTS: faded military olive / khaki-brown, distinctly warm
+
+BOOTS: dark gray-brown leather
+
+BAG: plain dark teal-brown
+
+GLOVES: deep near-black base
+
+HAIR: deep ink near-black
+
+SKIN: warm muted tan, tired complexion
+
+GOGGLES on forehead: dark gray-blue frame, faded amber lenstint
+
+★ THE ONLY SATURATED COLOR ON HIM IS BURNT ORANGE ★
+
+Right shoulder patch (small-playing-card sized)
+
+Both gloves' back-of-hand panels (large, chunky, ~60-70% ofglove backside)
+
+All in upper body / hands — readable at 192px
+
+NO pure white, NO pure black, NO gold/brass, NO cyber-purple,NO saturated cyan/magenta on the character itself.
+
+BACKGROUND: pure SOLID SATURATED MAGENTA (#FF00FF) — forchroma-key compositing. NO gradient, NO texture, NO atmosphericeffects, NO ground shadow, NO context.

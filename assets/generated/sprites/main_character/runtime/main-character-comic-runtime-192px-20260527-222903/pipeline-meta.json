@@ -1,0 +1,64 @@
+{
+  "target": "asset",
+  "mode": "sheet",
+  "prompt": "",
+  "role": "",
+  "input": "C:\\Users\\User\\Downloads\\ChatGPT Image 2026\u5e745\u670827\u65e5 \u4e0b\u534810_25_24.png",
+  "threshold": 145,
+  "edge_threshold": 210,
+  "duration": 200,
+  "rows": 1,
+  "cols": 1,
+  "cell_size": 256,
+  "fit_scale": 0.75,
+  "trim_border": 4,
+  "edge_clean_depth": 8,
+  "align": "feet",
+  "shared_scale": false,
+  "component_mode": "largest",
+  "component_padding": 0,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "character-1"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        941,
+        1672
+      ],
+      "component_mode": "largest",
+      "component_count": 11,
+      "selected_component_area": 511880,
+      "selected_component_bbox": [
+        199,
+        41,
+        733,
+        1644
+      ],
+      "crop_bbox": [
+        199,
+        41,
+        733,
+        1644
+      ],
+      "edge_touch": false,
+      "output_size": [
+        63,
+        192
+      ],
+      "paste_position": [
+        96,
+        32
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}

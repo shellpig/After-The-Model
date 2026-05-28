@@ -1,0 +1,61 @@
+改為
+## ★ RENDERING STYLE (CRITICAL — most important rule) ★
+This is a FLAT CEL-SHADED INDIE COMIC BOOK ILLUSTRATION, NOT
+a painted concept art, NOT a digital painting, NOT a semi-
+realistic render. Treat the character like a panel from a
+1990s American indie comic zine printed on cheap paper.
+LINE WORK (MUST BE PRESENT AND DOMINANT):
+- Bold HAND-INKED BLACK OUTLINES of varying weight around
+  every shape — THICK on outer silhouette, THIN inside
+- The black line is the PRIMARY visual element, not the color
+- Lines should look DRAWN BY HAND with a brush pen — slight
+  organic wobble, not clinical CAD precision
+- Solid black silhouette wedges for the darkest folds and
+  shadow shapes (Mignola heavy-black mastery applies)
+SHADING (FLAT CEL-SHADE, NOTHING ELSE):
+- Each garment / surface has AT MOST 3 TONES: base color,
+  one shadow tone, occasionally one highlight tone
+- HARD-EDGED transitions between tones — NO gradients, NO
+  airbrush, NO soft falloff, NO ambient occlusion smoothness
+- NO photorealistic fabric texture, NO realistic cloth weave
+- NO rendered skin texture, NO subsurface scattering, NO
+  realistic hair strands
+HALFTONE TEXTURE:
+- Visible HALFTONE DOT PATTERN in midtone areas (jacket
+  midtones, pants midtones, skin shadow areas)
+- The halftone dots are part of the aesthetic — embrace the
+  printed-zine look
+FACE TREATMENT (MOST DIFFERENT FROM PAINTERLY):
+- Eyes: simple SMALL DARK INK SHAPES — two small marks, NOT
+  detailed photoreal eyeballs with iris and reflection
+- Mouth: a single short ink line, NOT shaded lips
+- Nose: a few suggestive lines, NOT rendered
+- Skin: flat tan base + ONE shadow tone (under jaw, eye
+  sockets) — NOT subsurface-scattering skin
+- Stubble: a few dots / quick marks, NOT individual hair detail
+- The whole face should look like ~10 hand-drawn ink marks
+  on flat skin color, NOT a painted portrait
+STYLE REFERENCES (REQUIRED — channel these specifically):
+- Mike Mignola's Hellboy comic book panels (flat color + heavy
+  black + minimal face)
+- Paul Pope's THB / Battling Boy character art
+- Sean Murphy's Tokyo Ghost inked figures
+- Brandon Graham's King City character work
+- Streets of Rage 4 character sprites (HD 2D, flat cel-shade,
+  visible outlines)
+- Hyper Light Drifter character portraits (flat color blocks)
+- Hollow Knight character art (silhouette-first, flat color)
+DO NOT REFERENCE: concept art, digital painting, semi-
+realistic illustration, ArtStation portraits, anime cel art,
+3D renders, photorealistic character art.
+## STRICT DO NOT (rendering)
+- DO NOT use gradients, airbrush, or soft shading
+- DO NOT use photorealistic skin / fabric / hair texture
+- DO NOT render the face with realistic features — face must
+  be ~10 hand-drawn ink marks on flat skin
+- DO NOT paint detailed fabric folds — fabric folds are
+  HAND-DRAWN INK LINES, not painted shadow
+- DO NOT make the character look like ArtStation concept art
+- DO NOT make the character look semi-realistic
+- DO NOT match the rendering style of the previous painterly
+  attempts — this is a HARD RESET to flat cel-shade

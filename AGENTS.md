@@ -134,6 +134,19 @@ Image generation handling:
 
 若驗證中發現問題，只列出問題、影響範圍與建議修法，等待使用者下一步指示。
 
+### Godot Headless 驗證
+
+在目前 Windows / sandbox 環境中，Godot headless 直接在 sandbox 內執行會因無法開啟 `user://logs/godot*.log` 而 crash（signal 11）。
+
+執行 Godot headless 驗證時，不要先跑 sandbox 版再讓它 crash；直接用 escalated 權限執行同一命令並回報這是已知 sandbox log 權限限制。
+
+常用命令：
+
+```powershell
+C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . res://tests/manual/test_runner.tscn
+C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . -s res://tests/manual/verify_game_state.gd
+```
+
 ## 修改程式碼授權規則
 
 除非使用者明確要求「修」、「修改」、「實作」、「處理某個 phase」、「commit」或「提交」，否則不得修改任何程式碼、文件或設定檔。

@@ -32,7 +32,7 @@ func initialize_grid(items: Array) -> void:
 		child.queue_free()
 
 	for i in range(slot_count):
-		_create_slot_button()
+		_create_slot_button(i)
 
 	for i in range(slot_count):
 		var slot_button := get_child(i) as Button
@@ -81,10 +81,12 @@ func set_focused_index(index: int) -> void:
 		if target_button:
 			target_button.grab_focus()
 
-func _create_slot_button() -> void:
+func _create_slot_button(index: int) -> void:
 	var button := Button.new()
 	button.custom_minimum_size = Vector2(64, 64)
 	button.focus_mode = Control.FOCUS_ALL
+	button.focus_entered.connect(_on_slot_focus_entered.bind(index))
+	button.pressed.connect(_on_slot_pressed.bind(index))
 
 	var normal_style := StyleBoxFlat.new()
 	normal_style.bg_color = Color(0.08, 0.10, 0.12, 0.80)
@@ -148,6 +150,14 @@ func _create_slot_button() -> void:
 	qty.offset_bottom = -2
 
 	add_child(button)
+
+func _on_slot_focus_entered(index: int) -> void:
+	if slot_count <= 0:
+		return
+	focused_index = clampi(index, 0, slot_count - 1)
+
+func _on_slot_pressed(index: int) -> void:
+	set_focused_index(index)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _input_active:

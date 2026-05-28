@@ -105,12 +105,14 @@ func set_focused_index(index: int) -> void:
 
 func _ensure_slots_exist() -> void:
 	while get_child_count() < 15:
-		_create_slot_button()
+		_create_slot_button(get_child_count())
 
-func _create_slot_button() -> void:
+func _create_slot_button(index: int) -> void:
 	var button := Button.new()
 	button.custom_minimum_size = Vector2(64, 64)
 	button.focus_mode = Control.FOCUS_ALL
+	button.focus_entered.connect(_on_slot_focus_entered.bind(index))
+	button.pressed.connect(_on_slot_pressed.bind(index))
 	
 	# Apply normal style: desaturated dark blue-grey slot background
 	var normal_style := StyleBoxFlat.new()
@@ -205,6 +207,12 @@ func _create_slot_button() -> void:
 	marker_panel.offset_right = -2
 	
 	add_child(button)
+
+func _on_slot_focus_entered(index: int) -> void:
+	focused_index = clamp(index, 0, 14)
+
+func _on_slot_pressed(index: int) -> void:
+	set_focused_index(index)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _input_active:

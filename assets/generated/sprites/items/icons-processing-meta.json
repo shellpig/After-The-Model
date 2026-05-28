@@ -1,0 +1,78 @@
+[
+  {
+    "item_id": "fingerless_gloves",
+    "source": "C:\\Users\\User\\Downloads\\Black_fingerless_glove_icon_202605281909.jpeg",
+    "alpha_pixels": 1841,
+    "source_bbox": [
+      199,
+      160,
+      819,
+      879
+    ],
+    "resized": [
+      47,
+      54
+    ],
+    "paste": [
+      8,
+      5
+    ]
+  },
+  {
+    "item_id": "faded_jacket",
+    "source": "C:\\Users\\User\\Downloads\\Jacket_icon_cyberpunk_setting_202605281909.jpeg",
+    "alpha_pixels": 1944,
+    "source_bbox": [
+      169,
+      101,
+      848,
+      934
+    ],
+    "resized": [
+      44,
+      54
+    ],
+    "paste": [
+      10,
+      5
+    ]
+  },
+  {
+    "item_id": "canned_food",
+    "source": "C:\\Users\\User\\Downloads\\Canned_food_icon_cyberpunk_202605281909.jpeg",
+    "alpha_pixels": 2514,
+    "source_bbox": [
+      204,
+      229,
+      820,
+      796
+    ],
+    "resized": [
+      54,
+      50
+    ],
+    "paste": [
+      5,
+      7
+    ]
+  },
+  {
+    "item_id": "old_work_badge",
+    "source": "C:\\Users\\User\\Downloads\\Worn_employee_ID_card_202605281909.jpeg",
+    "alpha_pixels": 1879,
+    "source_bbox": [
+      143,
+      114,
+      869,
+      897
+    ],
+    "resized": [
+      50,
+      54
+    ],
+    "paste": [
+      7,
+      5
+    ]
+  }
+]

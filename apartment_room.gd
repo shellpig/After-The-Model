@@ -33,13 +33,14 @@ const MESSAGE_PADDING := Vector2(32.0, 20.0)
 @onready var player: Node2D = $Player
 @onready var dual_pane_container: Control = $UI/DualPaneContainer
 
-
 @onready var ui_overlay: ColorRect = $UI/UIOverlay
 @onready var inventory_panel: PanelContainer = $UI/InventoryPanel
 @onready var bag_grid: Control = $UI/InventoryPanel/VBoxContainer/BagGrid
 @onready var credits_label: Label = $UI/InventoryPanel/VBoxContainer/HBoxContainer/CreditsLabel
 @onready var panel_footer_hint: Control = $UI/InventoryPanel/VBoxContainer/PanelFooterHint
 @onready var notebook_panel: Control = $UI/NotebookPanel
+@onready var item_detail_modal: Control = $UI/ItemDetailModal
+@onready var confirm_dialog: Control = $UI/ConfirmDialog
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
@@ -56,6 +57,8 @@ func _ready() -> void:
 	inventory_panel.visible = false
 	notebook_panel.visible = false
 	dual_pane_container.visible = false
+	item_detail_modal.visible = false
+	confirm_dialog.visible = false
 
 	# Preload containers for Phase 1-D
 	GameState.configure_container("cabinet_storage", 30)  # 5 x 6
@@ -109,6 +112,12 @@ func _ready() -> void:
 	UIMode.mode_changed.connect(_on_ui_mode_changed)
 	panel_footer_hint.set_hints(panel_footer_hint, ["E: 裝備/卸下", "R: 查看", "T: 丟棄", "Esc/I: 關閉"])
 
+	# Phase 1-E: enable item actions for the standalone bag_grid
+	if bag_grid.has_method("set_item_actions_enabled"):
+		bag_grid.set_item_actions_enabled(true)
+	bag_grid.item_action_requested.connect(_on_bag_item_action)
+	dual_pane_container.item_action_requested.connect(_on_dual_pane_item_action)
+
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)
@@ -120,17 +129,18 @@ func _process(_delta: float) -> void:
 
 	# Layered UI input handling
 	if current_mode != UIMode.Mode.NONE:
+		# Bug 1 fix: _process poll is not affected by set_input_as_handled; guard explicitly.
+		if item_detail_modal.visible:
+			return
+		if current_mode == UIMode.Mode.CONFIRM:
+			return
+
 		if current_mode == UIMode.Mode.INVENTORY:
 			if Input.is_action_just_pressed("open_inventory") or Input.is_action_just_pressed("ui_cancel"):
 				UIMode.set_mode(UIMode.Mode.NONE)
 				return
 			if Input.is_action_just_pressed("open_notebook"):
 				UIMode.set_mode(UIMode.Mode.NOTEBOOK)
-				return
-			if Input.is_action_just_pressed("interact_primary") or \
-			   Input.is_action_just_pressed("interact_secondary") or \
-			   Input.is_action_just_pressed("interact_tertiary"):
-				# Swallow E, R, T inputs inside the backpack
 				return
 		elif current_mode == UIMode.Mode.NOTEBOOK:
 			if Input.is_action_just_pressed("open_notebook") or Input.is_action_just_pressed("ui_cancel"):
@@ -241,6 +251,11 @@ func _get_interactable_position(interactable: Area2D) -> Vector2:
 	return interactable.global_position
 
 func _on_ui_mode_changed(new_mode: int) -> void:
+	# Bug 4 fix: CONFIRM mode — show dialog but don't touch overlay/panels/dual-pane state
+	if new_mode == UIMode.Mode.CONFIRM:
+		confirm_dialog.visible = true
+		return
+
 	ui_overlay.visible = (new_mode != UIMode.Mode.NONE)
 
 	inventory_panel.visible = (new_mode == UIMode.Mode.INVENTORY)
@@ -254,16 +269,18 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	bag_grid.set_input_active(new_mode == UIMode.Mode.INVENTORY)
 	notebook_panel.set_input_active(new_mode == UIMode.Mode.NOTEBOOK)
 
-	# Centralized dual-pane activate/deactivate (no lingering input grabs)
+	# Bug 3 fix: only call set_input_active(true) if not already active (guard prevents resetting active_pane)
 	if new_mode == UIMode.Mode.CONTAINER and current_interactable != null:
-		var c_id: String = current_interactable.interaction_id
-		var c_data: Dictionary = CONTAINERS.get(c_id, {})
-		var c_slot_count: int = c_data.get("cols", 1) * c_data.get("rows", 1)
-		var c_title: String = c_data.get("title", "儲物空間")
-		dual_pane_container.set_input_active(true, c_id, c_slot_count, c_title)
+		if not dual_pane_container.is_input_active:
+			var c_id: String = current_interactable.interaction_id
+			var c_data: Dictionary = CONTAINERS.get(c_id, {})
+			var c_slot_count: int = c_data.get("cols", 1) * c_data.get("rows", 1)
+			var c_title: String = c_data.get("title", "儲物空間")
+			dual_pane_container.set_input_active(true, c_id, c_slot_count, c_title)
 		prompt_panel.visible = false
 	else:
-		dual_pane_container.set_input_active(false)
+		if new_mode != UIMode.Mode.CONTAINER:
+			dual_pane_container.set_input_active(false)
 
 	if new_mode == UIMode.Mode.INVENTORY:
 		var items := GameState.get_inventory()
@@ -277,8 +294,110 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		notebook_panel.load_notebook_data()
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.NONE:
+		item_detail_modal.visible = false
+		confirm_dialog.visible = false
 		_update_prompt()
 
+# ==========================================
+# Phase 1-E: Item Action Routing
+# ==========================================
+
+func _on_bag_item_action(action: String, instance_id: String) -> void:
+	if UIMode.get_mode() != UIMode.Mode.INVENTORY:
+		return
+	if instance_id.is_empty():
+		return
+
+	var item_id := ""
+	for slot in GameState.get_inventory():
+		if slot.get("instance_id", "") == instance_id:
+			item_id = slot.get("item_id", "")
+			break
+	var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
+
+	match action:
+		"view":
+			bag_grid.set_input_active(false)
+			item_detail_modal.show_modal(instance_id, bag_grid, bag_grid.focused_index, inventory_panel)
+		"discard":
+			_start_discard_flow(instance_id, item_meta, bag_grid, bag_grid.focused_index)
+		"equip_toggle":
+			_handle_equip_toggle(instance_id, item_meta)
+
+func _on_dual_pane_item_action(action: String, instance_id: String, source_pane: String) -> void:
+	if UIMode.get_mode() != UIMode.Mode.CONTAINER:
+		return
+	if instance_id.is_empty():
+		return
+
+	var item_id := _find_item_id_anywhere(instance_id)
+	var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
+	var active_grid: Control = dual_pane_container.left_grid if source_pane == "left" else dual_pane_container.right_grid
+	var active_idx: int = active_grid.focused_index
+	var anchor_panel: Control = dual_pane_container.left_panel if source_pane == "left" else dual_pane_container.right_panel
+
+	match action:
+		"view":
+			item_detail_modal.show_modal(instance_id, active_grid, active_idx, anchor_panel)
+		"discard":
+			_start_discard_flow(instance_id, item_meta, active_grid, active_idx)
+
+func _handle_equip_toggle(instance_id: String, item_meta: Dictionary) -> void:
+	if item_meta.get("category", "") != "equipment":
+		return
+
+	if GameState.is_equipped(instance_id):
+		GameState.unequip_by_instance(instance_id)
+	else:
+		if not GameState.equip(instance_id):
+			FloatingToast.show_toast(
+				"這類裝備已經滿了，先卸下身上的再裝備新的。",
+				inventory_panel
+			)
+
+func _start_discard_flow(instance_id: String, item_meta: Dictionary,
+						 restore_grid: Control, restore_index: int) -> void:
+	var item_name: String = item_meta.get("name", "物品")
+	# Finding 2 fix: compute toast_panel BEFORE entering CONFIRM (while UIMode is still INVENTORY or CONTAINER)
+	var toast_panel := _get_active_panel()
+
+	if not item_meta.get("discardable", true):
+		FloatingToast.show_toast("無法丟棄 " + item_name, toast_panel)
+		return
+	if GameState.is_equipped(instance_id):
+		FloatingToast.show_toast("請先卸下再丟棄", toast_panel)
+		return
+
+	UIMode.enter_confirm()
+	confirm_dialog.show_dialog(
+		"確定要丟棄 " + item_name + "？",
+		_on_discard_confirmed.bind(instance_id, item_name, toast_panel),
+		restore_grid,
+		restore_index
+	)
+
+func _on_discard_confirmed(instance_id: String, item_name: String, toast_panel: Control) -> void:
+	if GameState.discard_item(instance_id):
+		FloatingToast.show_toast("已丟棄 " + item_name, toast_panel)
+
+# ==========================================
+# Helpers
+# ==========================================
+
+func _get_active_panel() -> Control:
+	if UIMode.get_mode() == UIMode.Mode.INVENTORY:
+		return inventory_panel
+	return dual_pane_container
+
+func _find_item_id_anywhere(instance_id: String) -> String:
+	for slot in GameState.get_inventory():
+		if slot.get("instance_id", "") == instance_id:
+			return slot.get("item_id", "")
+	for c_id in GameState.external_containers.keys():
+		for slot in GameState.get_container(c_id):
+			if slot.get("instance_id", "") == instance_id:
+				return slot.get("item_id", "")
+	return ""
 
 func _apply_message_box_style() -> void:
 	var message_style := StyleBoxFlat.new()

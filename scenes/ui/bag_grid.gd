@@ -2,19 +2,32 @@ extends GridContainer
 class_name BagGrid
 
 signal boundary_crossed(direction: String, row: int)
+signal item_action_requested(action: String, instance_id: String)
 
 var focused_index: int = 0
 var _input_active: bool = false
 var _items_data: Array = []
+var _item_actions_enabled: bool = false
 
 func _ready() -> void:
 	self.columns = 5
 	# Ensure separators are 4px per spec
 	add_theme_constant_override("h_separation", 4)
 	add_theme_constant_override("v_separation", 4)
-	
+
 	# Dynamically pre-populate 15 slots if they don't exist
 	_ensure_slots_exist()
+
+	# Connect inventory_changed so equipped markers refresh without reopening the UI
+	if not GameState.inventory_changed.is_connected(_on_inventory_changed):
+		GameState.inventory_changed.connect(_on_inventory_changed)
+
+func _on_inventory_changed() -> void:
+	if _input_active:
+		initialize_grid(GameState.get_inventory())
+
+func set_item_actions_enabled(enabled: bool) -> void:
+	_item_actions_enabled = enabled
 
 func set_input_active(active: bool) -> void:
 	_input_active = active
@@ -219,4 +232,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		if row < 2:
 			set_focused_index(focused_index + 5)
 		get_viewport().set_input_as_handled()
+	elif _item_actions_enabled and event.is_action_pressed("interact_primary"):
+		_emit_item_action("equip_toggle")
+		get_viewport().set_input_as_handled()
+	elif _item_actions_enabled and event.is_action_pressed("interact_secondary"):
+		_emit_item_action("view")
+		get_viewport().set_input_as_handled()
+	elif _item_actions_enabled and event.is_action_pressed("interact_tertiary"):
+		_emit_item_action("discard")
+		get_viewport().set_input_as_handled()
 
+func _emit_item_action(action: String) -> void:
+	var items := GameState.get_inventory()
+	var slot: Dictionary = items[focused_index] if focused_index < items.size() else {}
+	item_action_requested.emit(action, slot.get("instance_id", ""))

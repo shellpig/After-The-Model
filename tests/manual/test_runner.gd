@@ -49,7 +49,9 @@ func _ready() -> void:
 		"InventoryPanel": "UI/InventoryPanel",
 		"BagGrid": "UI/InventoryPanel/VBoxContainer/BagGrid",
 		"CreditsLabel": "UI/InventoryPanel/VBoxContainer/HBoxContainer/CreditsLabel",
-		"PanelFooterHint": "UI/InventoryPanel/VBoxContainer/PanelFooterHint"
+		"PanelFooterHint": "UI/InventoryPanel/VBoxContainer/PanelFooterHint",
+		"ItemDetailModal": "UI/ItemDetailModal",
+		"ConfirmDialog": "UI/ConfirmDialog"
 	}
 	
 	for node_name in ui_nodes:
@@ -150,15 +152,18 @@ func _ready() -> void:
 	var notebook_idx = children.find(room_instance.get_node("UI/NotebookPanel"))
 	var dual_pane_idx = children.find(room_instance.get_node("UI/DualPaneContainer"))
 	var inventory_idx = children.find(room_instance.get_node("UI/InventoryPanel"))
-	if overlay_idx == -1 or notebook_idx == -1 or dual_pane_idx == -1 or inventory_idx == -1:
+	var modal_idx = children.find(room_instance.get_node_or_null("UI/ItemDetailModal"))
+	var confirm_idx = children.find(room_instance.get_node_or_null("UI/ConfirmDialog"))
+	if overlay_idx == -1 or notebook_idx == -1 or dual_pane_idx == -1 or inventory_idx == -1 or modal_idx == -1 or confirm_idx == -1:
 		printerr("FAIL: Sibling nodes not found in UI children list!")
 		get_tree().quit(1)
 		return
-	if not (overlay_idx < notebook_idx and notebook_idx < dual_pane_idx and dual_pane_idx < inventory_idx):
-		printerr("FAIL: UI sibling Z-order is wrong! Expected overlay < notebook < dual_pane < inventory.")
+	if not (overlay_idx < notebook_idx and notebook_idx < dual_pane_idx and dual_pane_idx < inventory_idx
+			and inventory_idx < modal_idx and modal_idx < confirm_idx):
+		printerr("FAIL: UI sibling Z-order is wrong! Expected overlay < notebook < dual_pane < inventory < modal < confirm.")
 		get_tree().quit(1)
 		return
-	print("PASS: UI sibling Z-order correct (Overlay -> Notebook -> DualPane -> Inventory).")
+	print("PASS: UI sibling Z-order correct (Overlay -> Notebook -> DualPane -> Inventory -> Modal -> Confirm).")
 
 
 	# 5. Verify ITEMS_DB icon paths on disk
@@ -186,7 +191,23 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: UIMode APIs verified.")
-	
+
+	# 7. Verify UIMode Phase 1-E CONFIRM APIs
+	print("Verifying UIMode CONFIRM APIs (Phase 1-E)...")
+	if not UIMode.has_method("enter_confirm") or not UIMode.has_method("exit_confirm"):
+		printerr("FAIL: UIMode lacks enter_confirm / exit_confirm!")
+		get_tree().quit(1)
+		return
+	print("PASS: UIMode CONFIRM APIs verified.")
+
+	# 8. Verify GameState Phase 1-E APIs
+	print("Verifying GameState Phase 1-E APIs...")
+	if not GameState.has_method("unequip_by_instance") or not GameState.has_method("discard_item"):
+		printerr("FAIL: GameState lacks unequip_by_instance / discard_item!")
+		get_tree().quit(1)
+		return
+	print("PASS: GameState Phase 1-E APIs verified.")
+
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")

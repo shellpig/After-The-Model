@@ -1,6 +1,8 @@
 extends PanelContainer
 class_name DualPaneContainer
 
+signal item_action_requested(action: String, instance_id: String, source_pane: String)
+
 @onready var left_panel: PanelContainer = $HBoxContainer/BackpackPanel
 @onready var right_panel: PanelContainer = $HBoxContainer/ContainerPanel
 
@@ -22,6 +24,10 @@ func _ready() -> void:
 
 	left_grid.boundary_crossed.connect(_on_left_grid_boundary_crossed)
 	right_grid.boundary_crossed.connect(_on_right_grid_boundary_crossed)
+
+	# Ensure left BagGrid does NOT handle E/R/T item actions (DualPane owns that routing)
+	if left_grid.has_method("set_item_actions_enabled"):
+		left_grid.set_item_actions_enabled(false)
 
 	GameState.inventory_changed.connect(func():
 		if is_input_active:
@@ -64,8 +70,8 @@ func refresh_ui() -> void:
 	left_grid.initialize_grid(GameState.get_inventory())
 	right_grid.initialize_grid(GameState.get_container(container_id))
 
-	left_footer.text = "E: 移動    Esc: 關閉"
-	right_footer.text = "E: 移動    Esc: 關閉"
+	left_footer.text = "E: 移動    R: 查看    T: 丟棄    Esc: 關閉"
+	right_footer.text = "E: 移動    R: 查看    T: 丟棄    Esc: 關閉"
 
 	# Re-grab focus on same index to keep focus locked after transfers (per spec line 575)
 	if active_pane == "left":
@@ -103,6 +109,27 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact_primary"):
 		_handle_item_move()
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("interact_secondary"):
+		_emit_dual_action("view")
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("interact_tertiary"):
+		_emit_dual_action("discard")
+		get_viewport().set_input_as_handled()
+
+func _emit_dual_action(action: String) -> void:
+	var items_array: Array
+	var index: int
+	var pane: String
+	if active_pane == "left":
+		items_array = GameState.get_inventory()
+		index = left_grid.focused_index
+		pane = "left"
+	else:
+		items_array = GameState.get_container(container_id)
+		index = right_grid.focused_index
+		pane = "right"
+	var slot: Dictionary = items_array[index] if index < items_array.size() else {}
+	item_action_requested.emit(action, slot.get("instance_id", ""), pane)
 
 func _handle_item_move() -> void:
 	var items_array: Array

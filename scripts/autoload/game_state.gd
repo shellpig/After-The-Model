@@ -294,6 +294,17 @@ func equip(instance_id: String) -> bool:
 	inventory_changed.emit()
 	return true
 
+func unequip_by_instance(instance_id: String) -> bool:
+	for slot_type in equipment:
+		var slot_list: Array = equipment[slot_type]
+		if slot_list.has(instance_id):
+			slot_list.erase(instance_id)
+			_sort_container(inventory)
+			equipment_changed.emit()
+			inventory_changed.emit()
+			return true
+	return false
+
 func unequip(equipment_type: String, slot_index: int) -> bool:
 	if not equipment.has(equipment_type):
 		return false
@@ -484,6 +495,64 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 		
 	return true
 
+func discard_item(instance_id: String) -> bool:
+	if instance_id.is_empty():
+		return false
+
+	var source_id := ""
+	var source_slots: Array = []
+	var slot_index := -1
+	var item_id_found := ""
+
+	for i in range(inventory.size()):
+		if inventory[i].get("instance_id", "") == instance_id:
+			source_id = "player_inventory"
+			source_slots = inventory
+			slot_index = i
+			item_id_found = inventory[i].get("item_id", "")
+			break
+
+	if source_id.is_empty():
+		for c_key in external_containers:
+			var c: Array = external_containers[c_key]
+			for i in range(c.size()):
+				if c[i].get("instance_id", "") == instance_id:
+					source_id = c_key
+					source_slots = c
+					slot_index = i
+					item_id_found = c[i].get("item_id", "")
+					break
+			if not source_id.is_empty():
+				break
+
+	if source_id.is_empty() or slot_index == -1:
+		return false
+
+	var item_meta: Dictionary = ITEMS_DB.get(item_id_found, {})
+	if not item_meta.get("discardable", true):
+		return false
+	if _is_equipped(instance_id):
+		return false
+
+	var stackable: bool = item_meta.get("stackable", false)
+	if stackable:
+		var qty: int = source_slots[slot_index].get("quantity", 1)
+		if qty <= 1:
+			source_slots[slot_index] = {}
+		else:
+			source_slots[slot_index]["quantity"] = qty - 1
+	else:
+		source_slots[slot_index] = {}
+
+	_sort_container(source_slots)
+
+	if source_id == "player_inventory":
+		inventory_changed.emit()
+	else:
+		container_changed.emit(source_id)
+
+	return true
+
 func seed_container(container_id: String, item_id: String, count: int) -> bool:
 	if not external_containers.has(container_id) or not ITEMS_DB.has(item_id) or count <= 0:
 		return false
@@ -545,7 +614,7 @@ func _sort_container(slots: Array) -> void:
 				regular_items.append(slot)
 				
 	# Sort regular items alphabetically by item_id
-	regular_items.sort_custom(func(a, b):
+	regular_items.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return a.get("item_id", "").naturalnocasecmp_to(b.get("item_id", "")) < 0
 	)
 	

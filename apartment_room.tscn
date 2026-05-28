@@ -16,6 +16,8 @@
 [ext_resource type="Script" uid="uid://bv1gw1aoadlob" path="res://scenes/ui/panel_footer_hint.gd" id="12_panel_footer_hint"]
 [ext_resource type="PackedScene" uid="uid://c1o8x312e752u" path="res://scenes/ui/notebook_panel.tscn" id="13_notebook_panel"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dual_pane_container.tscn" id="14_dual_pane"]
+[ext_resource type="PackedScene" path="res://scenes/ui/item_detail_modal.tscn" id="15_item_modal"]
+[ext_resource type="PackedScene" path="res://scenes/ui/confirm_dialog.tscn" id="16_confirm_dialog"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0yl8"]
 size = Vector2(33, 146)
@@ -261,3 +263,9 @@ theme_override_font_sizes/font_size = 14
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("12_panel_footer_hint")
+
+[node name="ItemDetailModal" parent="UI" instance=ExtResource("15_item_modal")]
+visible = false
+
+[node name="ConfirmDialog" parent="UI" instance=ExtResource("16_confirm_dialog")]
+visible = false

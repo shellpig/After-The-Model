@@ -5,6 +5,7 @@ signal mode_changed(new_mode: int)
 enum Mode { NONE, INVENTORY, CONTAINER, NOTEBOOK, MESSAGE, CONFIRM }
 
 var current_mode: int = Mode.NONE
+var _caller_mode: int = Mode.NONE
 
 func get_mode() -> int:
 	return current_mode
@@ -17,3 +18,13 @@ func set_mode(new_mode: int) -> void:
 
 func is_world_input_blocked() -> bool:
 	return current_mode != Mode.NONE
+
+func enter_confirm() -> void:
+	_caller_mode = current_mode
+	current_mode = Mode.CONFIRM
+	mode_changed.emit(Mode.CONFIRM)
+
+func exit_confirm() -> void:
+	current_mode = _caller_mode
+	_caller_mode = Mode.NONE
+	mode_changed.emit(current_mode)

@@ -41,6 +41,7 @@ func _ready() -> void:
 	print("Verifying UI node structures inside Room...")
 	var ui_nodes = {
 		"UIOverlay": "UI/UIOverlay",
+		"NotebookPanel": "UI/NotebookPanel",
 		"InventoryPanel": "UI/InventoryPanel",
 		"BagGrid": "UI/InventoryPanel/VBoxContainer/BagGrid",
 		"CreditsLabel": "UI/InventoryPanel/VBoxContainer/HBoxContainer/CreditsLabel",
@@ -64,6 +65,13 @@ func _ready() -> void:
 				get_tree().quit(1)
 				return
 			print("PASS: UIOverlay mouse_filter set to IGNORE.")
+		elif node_name == "NotebookPanel":
+			var panel = node as Control
+			if panel.custom_minimum_size != Vector2(880, 560):
+				printerr("FAIL: NotebookPanel custom_minimum_size is not 880x560! Got: ", panel.custom_minimum_size)
+				get_tree().quit(1)
+				return
+			print("PASS: NotebookPanel custom minimum size is 880x560.")
 		elif node_name == "InventoryPanel":
 			var panel = node as PanelContainer
 			if panel.custom_minimum_size != Vector2(368, 256):
@@ -72,6 +80,55 @@ func _ready() -> void:
 				return
 			print("PASS: InventoryPanel custom minimum size is 368x256.")
 			
+	# 4b. Verify Story Preloads (Relaxed Contains Checks)
+	print("Verifying preloaded story notes (relaxed)...")
+	var categories_to_check = {
+		"身份": "identity_apartment_is_mine",
+		"工作": "work_ai_cleanup_role",
+		"線索": "clue_door_sensor_scratch"
+	}
+	for cat in categories_to_check:
+		var expected_id: String = categories_to_check[cat]
+		var notes = GameState.get_notes(cat)
+		var found = false
+		for note in notes:
+			if note.get("id") == expected_id:
+				found = true
+				break
+		if not found:
+			printerr("FAIL: Story note with ID '" + expected_id + "' was not preloaded in category '" + cat + "'!")
+			get_tree().quit(1)
+			return
+		print("PASS: Story note '" + expected_id + "' preloaded.")
+
+	# Verify door unlock method is NOT preloaded
+	if GameState.has_knowledge("identity_door_unlock_method"):
+		printerr("FAIL: Door unlock method identity_door_unlock_method is preloaded, but it must NOT be preloaded!")
+		get_tree().quit(1)
+		return
+	print("PASS: Door unlock method is NOT preloaded.")
+
+	# 4c. Verify UI Sibling Drawing Z-Order
+	print("Verifying UI sibling drawing Z-Order...")
+	var ui_parent = room_instance.get_node("UI")
+	var children = ui_parent.get_children()
+	var overlay_idx = children.find(room_instance.get_node("UI/UIOverlay"))
+	var notebook_idx = children.find(room_instance.get_node("UI/NotebookPanel"))
+	var inventory_idx = children.find(room_instance.get_node("UI/InventoryPanel"))
+	if overlay_idx == -1 or notebook_idx == -1 or inventory_idx == -1:
+		printerr("FAIL: Sibling nodes not found in UI children list!")
+		get_tree().quit(1)
+		return
+	if overlay_idx > notebook_idx:
+		printerr("FAIL: UIOverlay is listed after NotebookPanel, meaning it draws above it!")
+		get_tree().quit(1)
+		return
+	if notebook_idx > inventory_idx:
+		printerr("FAIL: NotebookPanel is listed after InventoryPanel, meaning it draws above it!")
+		get_tree().quit(1)
+		return
+	print("PASS: UI sibling Z-order sequences are correct (Overlay -> Notebook -> Inventory).")
+
 	# 5. Verify ITEMS_DB icon paths on disk
 	print("Verifying ITEMS_DB icon paths...")
 	var items = GameState.ITEMS_DB

@@ -44,6 +44,7 @@ const CONTAINER_TITLE_HEIGHT := 24.0
 @onready var bag_grid: Control = $UI/InventoryPanel/VBoxContainer/BagGrid
 @onready var credits_label: Label = $UI/InventoryPanel/VBoxContainer/HBoxContainer/CreditsLabel
 @onready var panel_footer_hint: Control = $UI/InventoryPanel/VBoxContainer/PanelFooterHint
+@onready var notebook_panel: Control = $UI/NotebookPanel
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
@@ -60,6 +61,7 @@ func _ready() -> void:
 	message_label.visible = true
 	ui_overlay.visible = false
 	inventory_panel.visible = false
+	notebook_panel.visible = false
 
 	# Preload inventory robustly
 	var has_item := false
@@ -70,6 +72,36 @@ func _ready() -> void:
 	if not has_item:
 		GameState.add_item("fingerless_gloves", 1)
 		GameState.add_item("old_work_badge", 1)
+
+	# Preload 3 story notes for Phase 1-C
+	GameState.add_knowledge({
+		"id": "identity_apartment_is_mine",
+		"category": "身份",
+		"title": "這裡是我的公寓",
+		"body": "你雖然不記得名字, 但這裡的氣味、磨損的痕跡、書桌的擺法...都是你熟悉的。",
+		"status": "active"
+	})
+	GameState.add_knowledge({
+		"id": "work_ai_cleanup_role",
+		"category": "工作",
+		"title": "AI 善後員",
+		"body": "你似乎從事 AI 改變世界後的清理工作。但具體是清什麼, 你現在還想不起來。",
+		"status": "active"
+	})
+	GameState.add_knowledge({
+		"id": "clue_door_sensor_scratch",
+		"category": "線索",
+		"title": "門旁感應器的刮痕",
+		"body": "門旁的感應器有長期使用的刮痕。看起來是右手手套經常碰過的位置。",
+		"status": "active"
+	})
+	GameState.add_knowledge({
+		"id": "clue_long_scroll_test",
+		"category": "線索",
+		"title": "測試長筆記捲動",
+		"body": "這是一篇用來測試右側全文欄 Page Up / Page Down 滾動功能的長筆記。\n第一行：AI 改變了整個世界，留下無盡的殘骸與記憶。\n第二行：善後員在雨夜中漫步，霓虹燈光在積水中折射出破碎的色彩。\n第三行：感應器的深處發出微弱的嗡嗡聲，似乎在訴說著昔日的故事。\n第四行：這間小公寓是你在這個冰冷都市中的唯一庇護所。\n第五行：牆上的 riso 海報已經泛黃，邊角微微捲起。\n第六行：你需要集齊所有的線索，才能想起來大門的密碼鎖開法。\n第七行：右手套上的磨損痕跡，暗示著你過去頻繁的清理工作。\n第八行：門外的警笛聲漸漸遠去，夜雨依然下個不停。\n第九行：這是一篇長筆記，請按下 Page Down 鍵來體驗全文滾動！\n第十行：測試結束，感謝您的配合！",
+		"status": "active"
+	})
 
 	UIMode.mode_changed.connect(_on_ui_mode_changed)
 	panel_footer_hint.set_hints(panel_footer_hint, ["E: 裝備/卸下", "R: 查看", "T: 丟棄", "Esc/I: 關閉"])
@@ -89,10 +121,20 @@ func _process(_delta: float) -> void:
 			if Input.is_action_just_pressed("open_inventory") or Input.is_action_just_pressed("ui_cancel"):
 				UIMode.set_mode(UIMode.Mode.NONE)
 				return
+			if Input.is_action_just_pressed("open_notebook"):
+				UIMode.set_mode(UIMode.Mode.NOTEBOOK)
+				return
 			if Input.is_action_just_pressed("interact_primary") or \
 			   Input.is_action_just_pressed("interact_secondary") or \
 			   Input.is_action_just_pressed("interact_tertiary"):
 				# Swallow E, R, T inputs inside the backpack
+				return
+		elif current_mode == UIMode.Mode.NOTEBOOK:
+			if Input.is_action_just_pressed("open_notebook") or Input.is_action_just_pressed("ui_cancel"):
+				UIMode.set_mode(UIMode.Mode.NONE)
+				return
+			if Input.is_action_just_pressed("open_inventory"):
+				UIMode.set_mode(UIMode.Mode.INVENTORY)
 				return
 		elif current_mode == UIMode.Mode.MESSAGE:
 			if Input.is_action_just_pressed("interact_primary") or Input.is_action_just_pressed("ui_cancel"):
@@ -101,6 +143,9 @@ func _process(_delta: float) -> void:
 			if Input.is_action_just_pressed("open_inventory"):
 				UIMode.set_mode(UIMode.Mode.INVENTORY)
 				return
+			if Input.is_action_just_pressed("open_notebook"):
+				UIMode.set_mode(UIMode.Mode.NOTEBOOK)
+				return
 		elif current_mode == UIMode.Mode.CONTAINER:
 			if Input.is_action_just_pressed("ui_cancel"):
 				UIMode.set_mode(UIMode.Mode.NONE)
@@ -108,11 +153,17 @@ func _process(_delta: float) -> void:
 			if Input.is_action_just_pressed("open_inventory"):
 				UIMode.set_mode(UIMode.Mode.INVENTORY)
 				return
+			if Input.is_action_just_pressed("open_notebook"):
+				UIMode.set_mode(UIMode.Mode.NOTEBOOK)
+				return
 		return # Block world actions when UI is open
 
 	# NONE Mode: process opening keys & world interactions
 	if Input.is_action_just_pressed("open_inventory"):
 		UIMode.set_mode(UIMode.Mode.INVENTORY)
+		return
+	if Input.is_action_just_pressed("open_notebook"):
+		UIMode.set_mode(UIMode.Mode.NOTEBOOK)
 		return
 
 	_refresh_current_interactable()
@@ -192,11 +243,13 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	inventory_panel.visible = (new_mode == UIMode.Mode.INVENTORY)
 	container_panel.visible = (new_mode == UIMode.Mode.CONTAINER)
 	message_box.visible = (new_mode == UIMode.Mode.MESSAGE)
+	notebook_panel.visible = (new_mode == UIMode.Mode.NOTEBOOK)
 
 	if new_mode != UIMode.Mode.MESSAGE:
 		_clear_message_typewriter()
 
 	bag_grid.set_input_active(new_mode == UIMode.Mode.INVENTORY)
+	notebook_panel.set_input_active(new_mode == UIMode.Mode.NOTEBOOK)
 
 	if new_mode == UIMode.Mode.INVENTORY:
 		var items := GameState.get_inventory()
@@ -206,8 +259,11 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.CONTAINER:
 		_setup_container(current_interactable.interaction_id)
-		prompt_panel.visible = false
+		_update_prompt()
 	elif new_mode == UIMode.Mode.MESSAGE:
+		prompt_panel.visible = false
+	elif new_mode == UIMode.Mode.NOTEBOOK:
+		notebook_panel.load_notebook_data()
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.NONE:
 		_update_prompt()
@@ -369,7 +425,7 @@ func _update_prompt() -> void:
 		"cabinet_storage", "fridge_storage":
 			var container_data: Dictionary = CONTAINERS.get(current_interactable.interaction_id, {})
 			var title: String = container_data.get("title", "")
-			prompt_label.text = "E: 關閉%s" % title if container_panel.visible else current_interactable.prompt_text
+			prompt_label.text = "Esc : 關閉%s" % title if container_panel.visible else current_interactable.prompt_text
 		"bed_sleep", "door_exit":
 			prompt_label.text = "E: 關閉訊息" if message_box.visible else current_interactable.prompt_text
 		_:

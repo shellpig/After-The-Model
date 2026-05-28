@@ -1,0 +1,27 @@
+HD 2D illustration with riso print grain, cyberpunk near-future setting.
+Inventory icon, 64x64 pixels, fully transparent background, no border, no card,
+no rounded rectangle. Single object centered, 4-6 pixel safe margin from edges.
+View angle: slight top-down 15 degrees, not pure side, not pure top.
+Line art: 1-2 pixel dark brown or black outlines, clean.
+Shading: flat cell shading, single light source from top-right 45 degrees,
+no gradients, no glow, no rim light.
+Halftone: subtle riso grain only on shaded sides, never overpowering the subject.
+Color palette: 3-5 desaturated colors picked from a plebeian district palette,
+no high saturation, no neon, no rainbow.
+Do NOT include: text, numbers, brand logos, photoreal rendering,
+anime exaggeration, chibi proportions, background, ground shadow.
+[Style preamble above]
+
+Subject: A single black fingerless work glove (right hand), seen at slight
+top-down angle. Heavy-duty padded fabric, reinforced palm,
+finger holes cleanly cut. The back-of-hand panel features a bright orange
+patch or stripe — this is the main character's signature mark.
+
+Palette anchors:
+- Glove main: matte black with subtle grey-black variation
+- Reinforcement panels: dark charcoal grey (#3A3A3A range)
+- Stitching: dim brown line work
+- Back-of-hand patch: signature orange (saturated but not neon, like #C66A28),
+  occupying 10-15% of icon area
+
+Output: assets/generated/sprites/items/fingerless_gloves/icon.png

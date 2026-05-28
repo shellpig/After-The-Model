@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://cay4ke2iubbda" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8.png" id="10_ukt85"]
 [ext_resource type="PackedScene" path="res://scenes/ui/bag_grid.tscn" id="11_bag_grid"]
 [ext_resource type="Script" path="res://scenes/ui/panel_footer_hint.gd" id="12_panel_footer_hint"]
+[ext_resource type="PackedScene" path="res://scenes/ui/notebook_panel.tscn" id="13_notebook_panel"]
 
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0yl8"]
@@ -282,6 +283,9 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.3)
 mouse_filter = 2
+
+[node name="NotebookPanel" parent="UI" instance=ExtResource("13_notebook_panel")]
+visible = false
 
 [node name="InventoryPanel" type="PanelContainer" parent="UI"]
 visible = false

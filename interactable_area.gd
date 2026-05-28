@@ -6,6 +6,7 @@ signal player_exited(interactable: Area2D)
 @export var interaction_id := ""
 @export var prompt_text := ""
 @export var message_id := ""
+@export var required_knowledge := ""
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)

@@ -1,7 +1,9 @@
 extends Node2D
 
 const MESSAGES := {
-	"bed_bad_sleep": "你心中有事, 睡得並不好..."
+	"bed_bad_sleep": "你心中有事, 根本睡不著...",
+	"door_locked": "門上了鎖, 而你發現自己不知道如何打開...",
+	"door_opened": "你想起來了。門鎖不是壞了, 是你忘了操作方式。"
 }
 
 const CONTAINERS := {
@@ -72,6 +74,8 @@ func _process(_delta: float) -> void:
 			match current_interactable.interaction_id:
 				"bed_sleep":
 					_toggle_message()
+				"door_exit":
+					_handle_door_interaction()
 
 func _on_interactable_entered(interactable: Area2D) -> void:
 	if not nearby_interactables.has(interactable):
@@ -137,6 +141,20 @@ func _toggle_message() -> void:
 		_start_message_typewriter(MESSAGES.get(message_id, ""))
 	else:
 		_clear_message_typewriter()
+	_update_prompt()
+
+func _handle_door_interaction() -> void:
+	container_panel.visible = false
+	message_box.visible = not message_box.visible
+
+	if not message_box.visible:
+		_clear_message_typewriter()
+		_update_prompt()
+		return
+
+	var required_knowledge: String = current_interactable.required_knowledge
+	var message_id := "door_opened" if GameState.has_knowledge(required_knowledge) else "door_locked"
+	_start_message_typewriter(MESSAGES.get(message_id, ""))
 	_update_prompt()
 
 func _setup_container(container_id: String) -> void:
@@ -297,7 +315,7 @@ func _update_prompt() -> void:
 			var container_data: Dictionary = CONTAINERS.get(current_interactable.interaction_id, {})
 			var title: String = container_data.get("title", "")
 			prompt_label.text = "E: 關閉%s" % title if container_panel.visible else current_interactable.prompt_text
-		"bed_sleep":
+		"bed_sleep", "door_exit":
 			prompt_label.text = "E: 關閉訊息" if message_box.visible else current_interactable.prompt_text
 		_:
 			prompt_label.text = current_interactable.prompt_text

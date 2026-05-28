@@ -14,13 +14,16 @@
 [ext_resource type="Texture2D" uid="uid://cay4ke2iubbda" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8.png" id="10_ukt85"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0yl8"]
-size = Vector2(82, 146)
+size = Vector2(33, 146)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
-size = Vector2(130, 210)
+size = Vector2(33, 210)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5mejr"]
 size = Vector2(71.5, 131.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(72, 220)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ijsgt"]
 animations = [{
@@ -85,7 +88,7 @@ interaction_id = "cabinet_storage"
 prompt_text = "E: 打開櫥櫃"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/CabinetStorageArea" unique_id=129799259]
-position = Vector2(1091, 561)
+position = Vector2(1091.5, 561)
 shape = SubResource("RectangleShape2D_n0yl8")
 debug_color = Color(0.89592755, 0.31852657, 0, 0.41960785)
 
@@ -95,7 +98,7 @@ interaction_id = "fridge_storage"
 prompt_text = "E: 打開冰箱"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FridgeStorageArea" unique_id=1807628310]
-position = Vector2(965, 585)
+position = Vector2(940.5, 585)
 shape = SubResource("RectangleShape2D_fridge")
 debug_color = Color(0.42, 0.74, 0.9, 0.41960785)
 
@@ -109,6 +112,18 @@ message_id = "bed_bad_sleep"
 position = Vector2(180, 641)
 shape = SubResource("RectangleShape2D_5mejr")
 debug_color = Color(0.058775872, 0.65022326, 5.7756904e-07, 0.41960785)
+
+[node name="DoorExitArea" type="Area2D" parent="Interactables" unique_id=2083651122]
+script = ExtResource("2_n0yl8")
+interaction_id = "door_exit"
+prompt_text = "E: 開門"
+message_id = "door_locked"
+required_knowledge = "identity_door_unlock_method"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DoorExitArea" unique_id=1083751122]
+position = Vector2(1261, 585)
+shape = SubResource("RectangleShape2D_door")
+debug_color = Color(0.9, 0.1, 0.1, 0.42)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1571826996]
 position = Vector2(690, 700)

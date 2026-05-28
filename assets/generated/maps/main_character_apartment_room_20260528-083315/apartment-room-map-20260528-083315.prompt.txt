@@ -1,0 +1,44 @@
+g2d 用 assets/art_bible/anchor-02-apartment-interior.jpeg 這張圖，
+做一個 Godot 用的主角房間 side-view room map，寬度 1 個螢幕。
+
+Map type:
+- side-view room scene
+- single primary walk line
+- interaction hotspots
+- limited jump interaction support
+
+使用單張背景圖方案，不拆 parallax layers。
+家具本身先不拆成獨立物件，先作為 baked background 使用。
+
+輸出：
+- background image
+- primary walk line guide
+- optional jump platform guide
+- left/right movement bounds
+- collision guide
+- interaction zones
+- spawn point
+- camera bounds
+- Godot placement notes
+
+玩家主要沿固定地面 Y 軸左右移動。
+primary_walk_line_y 放在畫面下方，比左邊床腳再低一點，約 Y=700。
+
+角色可以跳，但不是自由平台關卡。
+跳躍只用於少數明確互動，例如跳到椅子上，才可以按到某個較高的按鈕。
+如果需要可跳上的家具，請用 invisible StaticBody2D / CollisionShape2D 標示可站立平台。
+目前可先標示：
+- 桌前椅子作為 optional jump platform
+
+阻擋角色移動：
+- 最左邊牆壁
+- 最右邊牆壁
+
+互動區：
+- 左邊的床
+- 桌上的電腦螢幕
+- 冰箱
+- 右邊門口的櫥櫃
+
+所有互動區都是 invisible Area2D，角色靠近時顯示互動提示。
+如果互動區需要跳到椅子上才碰得到，請標示為 elevated interaction hotspot。

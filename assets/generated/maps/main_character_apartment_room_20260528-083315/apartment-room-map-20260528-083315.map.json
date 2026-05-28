@@ -1,0 +1,137 @@
+{
+  "map_id": "main_character_apartment_room",
+  "created_at": "2026-05-28T08:33:15+08:00",
+  "source_image": "assets/art_bible/anchor-02-apartment-interior.jpeg",
+  "background_image": "assets/generated/maps/main_character_apartment_room_20260528-083315/background.jpeg",
+  "image_size": {
+    "width": 1376,
+    "height": 768
+  },
+  "godot_target": {
+    "scene_type": "side_view_room_scene",
+    "render_model": "single_baked_background",
+    "movement_model": "single_primary_walk_line_with_limited_jump_support",
+    "coordinate_origin": "top_left_pixels"
+  },
+  "camera_bounds": {
+    "x": 0,
+    "y": 0,
+    "width": 1376,
+    "height": 768
+  },
+  "player": {
+    "primary_walk_line_y": 700,
+    "spawn_point": {
+      "x": 690,
+      "y": 700,
+      "notes": "Start near the desk/chair area. Adjust in Godot if the sprite overlaps furniture too much."
+    },
+    "horizontal_movement_bounds": {
+      "min_x": 64,
+      "max_x": 1312,
+      "notes": "Bounds are for the player origin/feet point, not the full sprite rectangle."
+    }
+  },
+  "blocking_collision": [
+    {
+      "id": "left_wall_block",
+      "type": "StaticBody2D",
+      "shape": "rect",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 32,
+        "height": 768
+      },
+      "purpose": "Prevent walking past the left wall."
+    },
+    {
+      "id": "right_wall_block",
+      "type": "StaticBody2D",
+      "shape": "rect",
+      "rect": {
+        "x": 1344,
+        "y": 0,
+        "width": 32,
+        "height": 768
+      },
+      "purpose": "Prevent walking past the right wall."
+    }
+  ],
+  "optional_jump_platforms": [
+    {
+      "id": "desk_chair_platform",
+      "type": "StaticBody2D",
+      "shape": "rect",
+      "rect": {
+        "x": 690,
+        "y": 555,
+        "width": 145,
+        "height": 34
+      },
+      "top_y": 555,
+      "notes": "Optional standable chair seat for limited jump interactions. Tune after testing player sprite feet alignment."
+    }
+  ],
+  "interaction_zones": [
+    {
+      "id": "bed",
+      "label": "Bed",
+      "type": "Area2D",
+      "shape": "rect",
+      "rect": {
+        "x": 35,
+        "y": 520,
+        "width": 360,
+        "height": 195
+      },
+      "interaction": "Show prompt when player is near the bed."
+    },
+    {
+      "id": "computer_monitor",
+      "label": "Computer Monitor",
+      "type": "Area2D",
+      "shape": "rect",
+      "rect": {
+        "x": 525,
+        "y": 390,
+        "width": 150,
+        "height": 140
+      },
+      "interaction": "Show prompt when player is near the desk computer.",
+      "elevated": false
+    },
+    {
+      "id": "fridge",
+      "label": "Fridge",
+      "type": "Area2D",
+      "shape": "rect",
+      "rect": {
+        "x": 905,
+        "y": 445,
+        "width": 140,
+        "height": 260
+      },
+      "interaction": "Show prompt when player is near the fridge."
+    },
+    {
+      "id": "door_cabinet",
+      "label": "Cabinet Near Door",
+      "type": "Area2D",
+      "shape": "rect",
+      "rect": {
+        "x": 1040,
+        "y": 500,
+        "width": 220,
+        "height": 175
+      },
+      "interaction": "Show prompt when player is near the cabinet by the door."
+    }
+  ],
+  "notes": [
+    "This bundle intentionally keeps furniture baked into the background for MVP speed.",
+    "All interaction zones should be invisible Area2D nodes in Godot.",
+    "The primary_walk_line_y is a starting estimate and can be tuned directly in Godot without regenerating art.",
+    "The chair platform is optional. Remove it if jump interactions feel unnecessary in this room."
+  ]
+}

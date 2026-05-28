@@ -1,0 +1,153 @@
+Use the earlier visible character image as the strict character design reference.
+Use the immediately visible 2x4 layout guide only for invisible cell count, spacing, centering, and safe padding.
+The final sprite sheet must NOT show guide lines, blue boxes, white background, labels, borders, or any layout marks.
+
+The character must match the reference's face, hair, goggles on forehead, teal-blue high-collar work jacket with diagonal zipper, dark undershirt, olive cargo pants, heavy black work boots, crossbody messenger bag, fingerless gloves with orange glove-back patches, and the orange shoulder patch on the right sleeve.
+
+Create a side-view 8-frame WALK CYCLE sprite sheet for this character.
+
+SHEET FORMAT:
+- Exactly 8 equal cells arranged in a 2x4 grid, 2 rows and 4 columns.
+- Frame order reads left-to-right, top row first, then bottom row.
+- Row 1: Frame 1, 2, 3, 4.
+- Row 2: Frame 5, 6, 7, 8.
+- Character body height should be identical in every frame.
+- Foot ground baseline must be consistent in every frame.
+- Solid #FF00FF magenta background filling every cell completely.
+- Character faces RIGHT in all 8 frames.
+- Character horizontally centered within each cell, with generous left and right padding.
+- NO text, NO labels, NO frame borders, NO logos, NO UI, NO grid lines.
+
+ART STYLE:
+- Hand-inked indie cyberpunk comic style, matching the reference exactly.
+- Flat cel-shading, base plus one shadow tone per material, no gradients.
+- Halftone texture in midtones.
+- Deep purple-black ink outlines with hand-drawn line weight variation.
+- Same muted teal / gray-blue / olive / ink purple-black palette as the reference.
+- Saturated burnt orange only on the right shoulder patch and the glove backs.
+- No anime lighting, no photorealism, no 3D render look, no painterly rendering.
+
+============================================================
+★★★ MIRROR DIRECTIVE — READ THIS FIRST ★★★
+============================================================
+This walk cycle has TWO DIFFERENT leading feet, not one.
+
+  Frames 1, 2, 3, 4: the RIGHT foot is the LEADING (forward) foot.
+  Frames 5, 6, 7, 8: the LEFT foot is the LEADING (forward) foot.
+
+This is a HARD requirement. If frames 5-8 also show the right foot
+forward, the entire sheet is wrong and must be redone.
+
+Quick visual check before drawing:
+  - In Frame 1 the RIGHT boot is closer to the right edge of the cell.
+  - In Frame 5 the LEFT boot is closer to the right edge of the cell.
+  - Frames 5-8 are the literal left-right mirror of frames 1-4, with
+    every "right" body part swapped with every "left" body part.
+
+Across the full 8-frame cycle the character takes TWO steps:
+one with the right foot, then one with the left foot.
+
+CANONICAL 8-FRAME WALK CYCLE:
+The cycle is two mirrored half-cycles. Half-cycle B, frames 5-8, is the left-right step counterpart of half-cycle A, frames 1-4. Frame 8 must transition cleanly back to Frame 1.
+
+============================================================
+BODY HEIGHT IS NEARLY CONSTANT
+============================================================
+The character's overall vertical position changes by only a few pixels
+across the entire cycle. You should barely notice it.
+
+  Contact frames (F1, F5): body at neutral height. Stand tall.
+  Down frames    (F2, F6): body LOWER by only 2-3 pixels. The knee bends
+                            SLIGHTLY. The character is NOT squatting.
+                            The character is NOT crouching.
+                            The character is NOT leaning forward.
+                            If a viewer cannot tell the body is lower
+                            without a side-by-side comparison, you got it right.
+  Passing frames (F3, F7): body BACK at neutral height. Standing tall again,
+                            supported by one straight vertical leg. The other
+                            leg passes through with the knee bent.
+                            This is NOT a low pose. This is NOT a squat.
+                            This is the TALLEST moment, equal to Contact.
+  Up frames      (F4, F8): body HIGHER by only 2-3 pixels, lifted by the
+                            push-off forefoot. Subtle.
+
+WRONG: a deep squat, a forward hunch, knees buckling, body dropping
+       by 10+ pixels, body folding forward at the waist.
+RIGHT: a tired upright walk where the head bobs gently up and down by
+       a tiny amount.
+
+Imagine a horizontal line through the character's hips:
+       F1 ─── neutral
+       F2 ─── 2 to 3 px below neutral
+       F3 ─── neutral
+       F4 ─── 2 to 3 px above neutral
+       F5 ─── neutral
+       F6 ─── 2 to 3 px below neutral
+       F7 ─── neutral
+       F8 ─── 2 to 3 px above neutral
+That hip line must NEVER drop more than 3 pixels below neutral.
+
+ARMS AND LEGS ARE COUNTER-PHASED:
+- When the RIGHT foot is forward, the LEFT arm swings forward.
+- When the LEFT foot is forward, the RIGHT arm swings forward.
+- Arm swing amplitude is smaller than leg stride, subdued and tired.
+
+Frame 1 - Contact-R:
+- Right foot forward, heel touching ground, toe slightly raised.
+- Left foot back, only toe touching ground, heel lifted.
+- Widest stride.
+- Left arm forward, right arm back.
+
+Frame 2 - Down-R:
+- Right foot flat on ground, right knee slightly bent absorbing weight.
+- Left toe just left the ground.
+- Body and head slightly lower.
+- Arms closer to torso; jacket hem and bag drop subtly.
+
+Frame 3 - Passing-R:
+- Right leg vertical, supporting body.
+- Left knee passes forward through centerline; legs overlap in side view.
+- Body at neutral height.
+- Arms near torso, mid-swing.
+
+Frame 4 - Up-R:
+- Right heel lifted, right forefoot pushes back against ground.
+- Left leg swings forward in air, not yet touching down.
+- Body and head slightly higher.
+- Right arm forward, left arm back.
+
+Frame 5 - Contact-L:
+- Left foot forward heel-strike.
+- Right foot back, toe touching, heel lifted.
+- Right arm forward, left arm back.
+
+Frame 6 - Down-L:
+- Left foot flat, left knee slightly bent.
+- Right toe leaving ground.
+- Body and head slightly lower.
+- Arms closer to torso.
+
+Frame 7 - Passing-L:
+- Left leg vertical and supporting.
+- Right knee passes forward through centerline.
+- Body back at neutral height.
+- Arms near torso.
+
+Frame 8 - Up-L:
+- Left heel lifted, left forefoot pushing back.
+- Right leg swinging forward in air.
+- Body slightly higher.
+- Left arm forward, right arm back, leading naturally into Frame 1.
+
+RIGID-BODY RULES:
+- Body height must remain identical in every frame.
+- The head, torso, jacket silhouette, and messenger bag are stable shapes. They translate slightly with body bob but do not change shape, size, or proportion.
+- The messenger bag stays on the same side of the body in every frame. Crossbody strap is never flipped.
+- Supporting foot sole sits on the same ground baseline in every frame.
+- Only arms, legs, jacket hem, and pant cuffs animate visibly.
+- Hands hold nothing. No weapon, no tools, no VFX, no dust, no ground shadow.
+- Full body visible in every cell, never cropped.
+- Both orange patches remain visible and in consistent character positions across all frames.
+
+MOTION TONE:
+Subdued, grounded, tired low-income night-shift walk. Not heroic, not energetic, not a march. The character walks like someone who has been on their feet for ten hours.

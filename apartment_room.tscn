@@ -1,0 +1,227 @@
+[gd_scene format=3 uid="uid://f6ts2mjiaoqf"]
+
+[ext_resource type="Texture2D" uid="uid://dk8hb7bebvlki" path="res://assets/generated/maps/main_character_apartment_room_20260528-083315/ApartmaneRoombackground.jpeg" id="1_85vrf"]
+[ext_resource type="Script" uid="uid://ufsk4hoih1si" path="res://apartment_room.gd" id="1_n0yl8"]
+[ext_resource type="Script" uid="uid://be3d6512et52u" path="res://player.gd" id="2_5mejr"]
+[ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://interactable_area.gd" id="2_n0yl8"]
+[ext_resource type="Texture2D" uid="uid://dk86bgcqc42hu" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2.png" id="3_n0yl8"]
+[ext_resource type="Texture2D" uid="uid://dhq1prdk2ccio" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1.png" id="4_e02yx"]
+[ext_resource type="Texture2D" uid="uid://pbi2apgurokw" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3.png" id="5_gmkd7"]
+[ext_resource type="Texture2D" uid="uid://b4y4l4k5oklgs" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4.png" id="6_skhg1"]
+[ext_resource type="Texture2D" uid="uid://dk35h65y1keoj" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5.png" id="7_h536o"]
+[ext_resource type="Texture2D" uid="uid://bb83brkdd2580" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6.png" id="8_v52ki"]
+[ext_resource type="Texture2D" uid="uid://dxuwx3lokvkox" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7.png" id="9_7hwvl"]
+[ext_resource type="Texture2D" uid="uid://cay4ke2iubbda" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8.png" id="10_ukt85"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n0yl8"]
+size = Vector2(82, 146)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5mejr"]
+size = Vector2(71.5, 131.5)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ijsgt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_n0yl8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_e02yx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_n0yl8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_gmkd7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_skhg1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_h536o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_v52ki")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_7hwvl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ukt85")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5417i"]
+size = Vector2(49, 356)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n0yl8"]
+
+[node name="ApartmentRoom" type="Node2D" unique_id=682637434]
+position = Vector2(-20, 0)
+script = ExtResource("1_n0yl8")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=621640049]
+position = Vector2(9.536743e-07, -2.9999995)
+scale = Vector2(0.96, 0.96)
+texture = ExtResource("1_85vrf")
+centered = false
+
+[node name="Interactables" type="Node2D" parent="." unique_id=1554492103]
+
+[node name="CabinetStorageArea" type="Area2D" parent="Interactables" unique_id=1669864421]
+script = ExtResource("2_n0yl8")
+interaction_id = "cabinet_storage"
+prompt_text = "E: 打開櫥櫃"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/CabinetStorageArea" unique_id=129799259]
+position = Vector2(1091, 561)
+shape = SubResource("RectangleShape2D_n0yl8")
+debug_color = Color(0.89592755, 0.31852657, 0, 0.41960785)
+
+[node name="BedSleepArea" type="Area2D" parent="Interactables" unique_id=1846612427]
+script = ExtResource("2_n0yl8")
+interaction_id = "bed_sleep"
+prompt_text = "E: 睡覺去"
+message_id = "bed_bad_sleep"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BedSleepArea" unique_id=797134175]
+position = Vector2(180, 641)
+shape = SubResource("RectangleShape2D_5mejr")
+debug_color = Color(0.058775872, 0.65022326, 5.7756904e-07, 0.41960785)
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1571826996]
+position = Vector2(690, 700)
+script = ExtResource("2_5mejr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1380120049]
+position = Vector2(23, -180)
+scale = Vector2(1.9, 1.9)
+sprite_frames = SubResource("SpriteFrames_ijsgt")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1154710583]
+position = Vector2(24, -172)
+shape = SubResource("RectangleShape2D_5417i")
+debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=660579809]
+
+[node name="PromptPanel" type="PanelContainer" parent="UI" unique_id=1479308709]
+visible = false
+offset_left = 278.0
+offset_top = 102.0
+offset_right = 561.0
+offset_bottom = 220.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/PromptPanel" unique_id=1873456195]
+layout_mode = 2
+
+[node name="PromptLabel" type="Label" parent="UI/PromptPanel/MarginContainer" unique_id=1808618806]
+visible = false
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "E: 打開櫥櫃"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MessageBox" type="PanelContainer" parent="UI" unique_id=284873442]
+offset_left = 310.0
+offset_top = 163.0
+offset_right = 1046.0
+offset_bottom = 497.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MessageBox" unique_id=568000141]
+layout_mode = 2
+
+[node name="MessageLabel" type="Label" parent="UI/MessageBox/MarginContainer" unique_id=110822957]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+
+[node name="ContainerPanel" type="PanelContainer" parent="UI" unique_id=82748761]
+visible = false
+offset_left = 844.0
+offset_top = 64.0
+offset_right = 1189.0
+offset_bottom = 270.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_n0yl8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/ContainerPanel" unique_id=979535298]
+layout_mode = 2
+
+[node name="ContainerTitleLabel" type="Label" parent="UI/ContainerPanel/VBoxContainer" unique_id=1610840616]
+layout_mode = 2
+text = "櫥櫃"
+
+[node name="GridContainer" type="GridContainer" parent="UI/ContainerPanel/VBoxContainer" unique_id=117866664]
+layout_mode = 2
+columns = 5
+
+[node name="Button" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1866170609]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1326702305]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=711063709]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1630690972]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button5" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=777653742]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button6" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1962949764]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button7" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1422417553]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button8" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1490106601]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button9" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=104405137]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button10" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=592371054]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button11" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=897608457]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button12" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=129759185]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button13" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1124015260]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button14" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1969975504]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Button15" type="Button" parent="UI/ContainerPanel/VBoxContainer/GridContainer" unique_id=1272530234]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2

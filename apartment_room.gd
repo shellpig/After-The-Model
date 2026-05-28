@@ -39,6 +39,12 @@ const CONTAINER_TITLE_HEIGHT := 24.0
 @onready var message_label: Label = $UI/MessageBox/MarginContainer/MessageLabel
 @onready var player: Node2D = $Player
 
+@onready var ui_overlay: ColorRect = $UI/UIOverlay
+@onready var inventory_panel: PanelContainer = $UI/InventoryPanel
+@onready var bag_grid: Control = $UI/InventoryPanel/VBoxContainer/BagGrid
+@onready var credits_label: Label = $UI/InventoryPanel/VBoxContainer/HBoxContainer/CreditsLabel
+@onready var panel_footer_hint: Control = $UI/InventoryPanel/VBoxContainer/PanelFooterHint
+
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
 var message_full_text := ""
@@ -52,6 +58,21 @@ func _ready() -> void:
 	container_panel.visible = false
 	message_box.visible = false
 	message_label.visible = true
+	ui_overlay.visible = false
+	inventory_panel.visible = false
+
+	# Preload inventory robustly
+	var has_item := false
+	for slot in GameState.get_inventory():
+		if not slot.is_empty():
+			has_item = true
+			break
+	if not has_item:
+		GameState.add_item("fingerless_gloves", 1)
+		GameState.add_item("old_work_badge", 1)
+
+	UIMode.mode_changed.connect(_on_ui_mode_changed)
+	panel_footer_hint.set_hints(panel_footer_hint, ["E: 裝備/卸下", "R: 查看", "T: 丟棄", "Esc/I: 關閉"])
 
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
@@ -59,6 +80,40 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	_update_message_typewriter(_delta)
+
+	var current_mode := UIMode.get_mode()
+
+	# Layered UI input handling
+	if current_mode != UIMode.Mode.NONE:
+		if current_mode == UIMode.Mode.INVENTORY:
+			if Input.is_action_just_pressed("open_inventory") or Input.is_action_just_pressed("ui_cancel"):
+				UIMode.set_mode(UIMode.Mode.NONE)
+				return
+			if Input.is_action_just_pressed("interact_primary") or \
+			   Input.is_action_just_pressed("interact_secondary") or \
+			   Input.is_action_just_pressed("interact_tertiary"):
+				# Swallow E, R, T inputs inside the backpack
+				return
+		elif current_mode == UIMode.Mode.MESSAGE:
+			if Input.is_action_just_pressed("interact_primary") or Input.is_action_just_pressed("ui_cancel"):
+				UIMode.set_mode(UIMode.Mode.NONE)
+				return
+			if Input.is_action_just_pressed("open_inventory"):
+				UIMode.set_mode(UIMode.Mode.INVENTORY)
+				return
+		elif current_mode == UIMode.Mode.CONTAINER:
+			if Input.is_action_just_pressed("ui_cancel"):
+				UIMode.set_mode(UIMode.Mode.NONE)
+				return
+			if Input.is_action_just_pressed("open_inventory"):
+				UIMode.set_mode(UIMode.Mode.INVENTORY)
+				return
+		return # Block world actions when UI is open
+
+	# NONE Mode: process opening keys & world interactions
+	if Input.is_action_just_pressed("open_inventory"):
+		UIMode.set_mode(UIMode.Mode.INVENTORY)
+		return
 
 	_refresh_current_interactable()
 
@@ -69,13 +124,17 @@ func _process(_delta: float) -> void:
 
 	if Input.is_action_just_pressed("interact_primary"):
 		if CONTAINERS.has(current_interactable.interaction_id):
-			_toggle_container()
+			UIMode.set_mode(UIMode.Mode.CONTAINER)
 		else:
 			match current_interactable.interaction_id:
 				"bed_sleep":
-					_toggle_message()
+					_start_message_typewriter(MESSAGES.get(current_interactable.message_id, ""))
+					UIMode.set_mode(UIMode.Mode.MESSAGE)
 				"door_exit":
-					_handle_door_interaction()
+					var required_knowledge: String = current_interactable.required_knowledge
+					var message_id := "door_opened" if GameState.has_knowledge(required_knowledge) else "door_locked"
+					_start_message_typewriter(MESSAGES.get(message_id, ""))
+					UIMode.set_mode(UIMode.Mode.MESSAGE)
 
 func _on_interactable_entered(interactable: Area2D) -> void:
 	if not nearby_interactables.has(interactable):
@@ -92,9 +151,12 @@ func _refresh_current_interactable() -> void:
 		return
 
 	current_interactable = closest_interactable
-	container_panel.visible = false
-	message_box.visible = false
-	_clear_message_typewriter()
+
+	# Only clear/hide panels if we are not in a UI mode
+	if UIMode.get_mode() == UIMode.Mode.NONE:
+		container_panel.visible = false
+		message_box.visible = false
+		_clear_message_typewriter()
 
 	if current_interactable == null:
 		prompt_panel.visible = false
@@ -124,38 +186,31 @@ func _get_interactable_position(interactable: Area2D) -> Vector2:
 
 	return interactable.global_position
 
-func _toggle_container() -> void:
-	message_box.visible = false
-	_clear_message_typewriter()
-	container_panel.visible = not container_panel.visible
-	if container_panel.visible:
+func _on_ui_mode_changed(new_mode: int) -> void:
+	ui_overlay.visible = (new_mode != UIMode.Mode.NONE)
+
+	inventory_panel.visible = (new_mode == UIMode.Mode.INVENTORY)
+	container_panel.visible = (new_mode == UIMode.Mode.CONTAINER)
+	message_box.visible = (new_mode == UIMode.Mode.MESSAGE)
+
+	if new_mode != UIMode.Mode.MESSAGE:
+		_clear_message_typewriter()
+
+	bag_grid.set_input_active(new_mode == UIMode.Mode.INVENTORY)
+
+	if new_mode == UIMode.Mode.INVENTORY:
+		var items := GameState.get_inventory()
+		bag_grid.initialize_grid(items)
+		bag_grid.set_focused_index(0)
+		credits_label.text = "Credits: %d" % GameState.get_credits()
+		prompt_panel.visible = false
+	elif new_mode == UIMode.Mode.CONTAINER:
 		_setup_container(current_interactable.interaction_id)
-	_update_prompt()
-
-func _toggle_message() -> void:
-	container_panel.visible = false
-	message_box.visible = not message_box.visible
-
-	var message_id: String = current_interactable.message_id
-	if message_box.visible:
-		_start_message_typewriter(MESSAGES.get(message_id, ""))
-	else:
-		_clear_message_typewriter()
-	_update_prompt()
-
-func _handle_door_interaction() -> void:
-	container_panel.visible = false
-	message_box.visible = not message_box.visible
-
-	if not message_box.visible:
-		_clear_message_typewriter()
+		prompt_panel.visible = false
+	elif new_mode == UIMode.Mode.MESSAGE:
+		prompt_panel.visible = false
+	elif new_mode == UIMode.Mode.NONE:
 		_update_prompt()
-		return
-
-	var required_knowledge: String = current_interactable.required_knowledge
-	var message_id := "door_opened" if GameState.has_knowledge(required_knowledge) else "door_locked"
-	_start_message_typewriter(MESSAGES.get(message_id, ""))
-	_update_prompt()
 
 func _setup_container(container_id: String) -> void:
 	var container_data: Dictionary = CONTAINERS.get(container_id, {})

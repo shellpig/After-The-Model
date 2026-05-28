@@ -32,7 +32,8 @@ const ITEMS_DB := {
 		"max_stack": 1,
 		"discardable": false,
 		"usable": false,
-		"equipment_slot": ""
+		"equipment_slot": "",
+		"icon_path": "res://assets/generated/sprites/items/old_work_badge/icon.png"
 	},
 	"fingerless_gloves": {
 		"id": "fingerless_gloves",
@@ -43,7 +44,8 @@ const ITEMS_DB := {
 		"max_stack": 1,
 		"discardable": true,
 		"usable": true,
-		"equipment_slot": "hand"
+		"equipment_slot": "hand",
+		"icon_path": "res://assets/generated/sprites/items/fingerless_gloves/icon.png"
 	},
 	"canned_food": {
 		"id": "canned_food",
@@ -54,7 +56,8 @@ const ITEMS_DB := {
 		"max_stack": 5,
 		"discardable": true,
 		"usable": true,
-		"equipment_slot": ""
+		"equipment_slot": "",
+		"icon_path": "res://assets/generated/sprites/items/canned_food/icon.png"
 	},
 	"faded_jacket": {
 		"id": "faded_jacket",
@@ -65,7 +68,8 @@ const ITEMS_DB := {
 		"max_stack": 1,
 		"discardable": true,
 		"usable": true,
-		"equipment_slot": "clothing"
+		"equipment_slot": "clothing",
+		"icon_path": "res://assets/generated/sprites/items/faded_jacket/icon.png"
 	}
 }
 
@@ -323,6 +327,9 @@ func _is_equipped(instance_id: String) -> bool:
 		if equipment[slot_type].has(instance_id):
 			return true
 	return false
+
+func is_equipped(instance_id: String) -> bool:
+	return _is_equipped(instance_id)
 
 # ==========================================
 # External Container Minimal API

@@ -11,6 +11,11 @@ func _ready() -> void:
 	anim.play("idle")
 
 func _physics_process(delta: float) -> void:
+	if UIMode.is_world_input_blocked():
+		velocity = Vector2.ZERO
+		anim.play("idle")
+		return
+
 	var dir := Input.get_axis("move_left", "move_right")
 
 	position.x += dir * speed * delta

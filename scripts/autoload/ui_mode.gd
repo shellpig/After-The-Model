@@ -1,0 +1,19 @@
+extends Node
+
+signal mode_changed(new_mode: int)
+
+enum Mode { NONE, INVENTORY, CONTAINER, NOTEBOOK, MESSAGE, CONFIRM }
+
+var current_mode: int = Mode.NONE
+
+func get_mode() -> int:
+	return current_mode
+
+func set_mode(new_mode: int) -> void:
+	if current_mode == new_mode:
+		return
+	current_mode = new_mode
+	mode_changed.emit(current_mode)
+
+func is_world_input_blocked() -> bool:
+	return current_mode != Mode.NONE

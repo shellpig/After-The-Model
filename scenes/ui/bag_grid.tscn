@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4690c22bdab"]
+
+[ext_resource type="Script" path="res://scenes/ui/bag_grid.gd" id="1_script"]
+
+[node name="BagGrid" type="GridContainer"]
+columns = 5
+script = ExtResource("1_script")

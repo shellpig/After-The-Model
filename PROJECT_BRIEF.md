@@ -169,7 +169,7 @@ note_id
 | 2-A | ✅ 完成 | 公寓線索 examine：桌上電腦 `work_ai_cleanup_role`、左牆錄音機 `identity_gleaner`；`note_id` export；`has_note()` 去重 |
 | 2-B | ✅ 完成 | 解碼手套 + `worn_rubiks_cube` -> `decoder_cube`；手套線索筆記；R 查看 fallback |
 | 2-C | ⬜ 待開工 | `accepted_item` 白名單 + `deposit_locked` 容器擴充，純資料層 |
-| 2-D | ⬜ 待開工 | 偵測終端 + 聲納 reveal 隱藏插槽 |
+| 2-D | ⬜ 待開工 | 投影時鐘（偵測終端）+ 營養棒線索麵包屑 + 聲納 reveal 隱藏插槽 |
 | 2-E | ⬜ 待開工 | 插槽放入 -> 電磁聲響 / MessageBox / `identity_door_unlock_method` -> 開門整合 |
 | 3+ | ⬜ 待規劃 | SceneRouter、第二場景、NPC 對話、第一個零工任務 |
 

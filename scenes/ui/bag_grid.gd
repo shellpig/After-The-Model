@@ -43,19 +43,19 @@ func set_input_active(active: bool) -> void:
 func initialize_grid(items: Array) -> void:
 	_items_data = items
 	_ensure_slots_exist()
-	
+
 	for i in range(15):
 		var slot_button := get_child(i) as Button
 		if not slot_button:
 			continue
-			
+
 		var icon_rect := slot_button.get_node("Icon") as TextureRect
 		var quantity_label := slot_button.get_node("Quantity") as Label
 		var equip_marker := slot_button.get_node("EquippedMarker") as Control
 		var placeholder_label := slot_button.get_node("Placeholder") as Label
-		
+
 		var slot_data: Dictionary = items[i] if i < items.size() else {}
-		
+
 		if slot_data.is_empty():
 			# Empty slot
 			icon_rect.texture = null
@@ -67,14 +67,14 @@ func initialize_grid(items: Array) -> void:
 			var item_id: String = slot_data.get("item_id", "")
 			var quantity: int = slot_data.get("quantity", 1)
 			var instance_id: String = slot_data.get("instance_id", "")
-			
+
 			var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
 			var icon_path: String = item_meta.get("icon_path", "")
-			
+
 			var tex: Texture2D = null
 			if not icon_path.is_empty():
 				tex = load(icon_path) as Texture2D
-				
+
 			if tex:
 				icon_rect.texture = tex
 				placeholder_label.visible = false
@@ -82,14 +82,14 @@ func initialize_grid(items: Array) -> void:
 				# Show fallback red '?' placeholder per spec
 				icon_rect.texture = null
 				placeholder_label.visible = true
-			
+
 			# Quantity label (only if quantity > 1)
 			if quantity > 1:
 				quantity_label.text = str(quantity)
 				quantity_label.visible = true
 			else:
 				quantity_label.visible = false
-				
+
 			# Equipped marker (E tag top-right)
 			if not instance_id.is_empty() and GameState.is_equipped(instance_id):
 				equip_marker.visible = true
@@ -120,7 +120,7 @@ func _create_slot_button(index: int) -> void:
 	button.focus_mode = Control.FOCUS_ALL
 	button.focus_entered.connect(_on_slot_focus_entered.bind(index))
 	button.pressed.connect(_on_slot_pressed.bind(index))
-	
+
 	# Apply normal style: desaturated dark blue-grey slot background
 	var normal_style := StyleBoxFlat.new()
 	normal_style.bg_color = Color(0.08, 0.10, 0.12, 0.80)
@@ -129,7 +129,7 @@ func _create_slot_button(index: int) -> void:
 	normal_style.border_width_top = 1
 	normal_style.border_width_right = 1
 	normal_style.border_width_bottom = 1
-	
+
 	# Apply focus style: 2px flat orange border (#c76b33)
 	var focus_style := normal_style.duplicate() as StyleBoxFlat
 	focus_style.border_color = Color(0.78, 0.42, 0.20, 1.0)
@@ -137,12 +137,12 @@ func _create_slot_button(index: int) -> void:
 	focus_style.border_width_top = 2
 	focus_style.border_width_right = 2
 	focus_style.border_width_bottom = 2
-	
+
 	button.add_theme_stylebox_override("normal", normal_style)
 	button.add_theme_stylebox_override("hover", normal_style) # Disables hovering color shift to let keyboard focus stand out
 	button.add_theme_stylebox_override("pressed", normal_style)
 	button.add_theme_stylebox_override("focus", focus_style)
-	
+
 	# Icon child (centered absolutely inside 64x64 slot)
 	var icon_rect := TextureRect.new()
 	icon_rect.name = "Icon"
@@ -151,7 +151,7 @@ func _create_slot_button(index: int) -> void:
 	icon_rect.position = Vector2(8, 8)
 	icon_rect.size = Vector2(48, 48)
 	button.add_child(icon_rect)
-	
+
 	# Fallback Label (Red '?' placeholder)
 	var placeholder := Label.new()
 	placeholder.name = "Placeholder"
@@ -161,20 +161,20 @@ func _create_slot_button(index: int) -> void:
 	placeholder.visible = false
 	placeholder.position = Vector2(8, 8)
 	placeholder.size = Vector2(48, 48)
-	
+
 	# Add red backplate to placeholder label
 	var label_style := StyleBoxFlat.new()
 	label_style.bg_color = Color(0.8, 0.2, 0.2, 1.0)
 	placeholder.add_theme_stylebox_override("normal", label_style)
 	button.add_child(placeholder)
-	
+
 	# Quantity Label
 	var qty := Label.new()
 	qty.name = "Quantity"
 	qty.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	qty.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	qty.visible = false
-	
+
 	# Ensure small font size and outline for readability per spec
 	qty.add_theme_font_size_override("font_size", 14)
 	qty.add_theme_color_override("font_color", Color.WHITE)
@@ -189,30 +189,30 @@ func _create_slot_button(index: int) -> void:
 	qty.offset_right = -4
 	qty.offset_top = -20
 	qty.offset_bottom = -2
-	
-	# Equipped Marker (white-background 12x12 panel with a dark letter "E")
-	var marker_panel := PanelContainer.new()
-	marker_panel.name = "EquippedMarker"
-	marker_panel.custom_minimum_size = Vector2(12, 12)
-	marker_panel.visible = false
-	
-	var marker_style := StyleBoxFlat.new()
-	marker_style.bg_color = Color.WHITE
-	marker_panel.add_theme_stylebox_override("panel", marker_style)
-	
+
+	# Equipped Marker (white-background 12x12 label with a dark letter "E")
 	var marker_label := Label.new()
+	marker_label.name = "EquippedMarker"
 	marker_label.text = "E"
 	marker_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	marker_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	marker_label.custom_minimum_size = Vector2(12, 12)
+	marker_label.visible = false
+
+	var marker_style := StyleBoxFlat.new()
+	marker_style.bg_color = Color.WHITE
+	marker_style.content_margin_left = 0
+	marker_style.content_margin_top = 0
+	marker_style.content_margin_right = 0
+	marker_style.content_margin_bottom = 0
+	marker_label.add_theme_stylebox_override("normal", marker_style)
+
 	marker_label.add_theme_color_override("font_color", Color.BLACK)
 	marker_label.add_theme_font_size_override("font_size", 10)
-	marker_panel.add_child(marker_label)
-	
-	button.add_child(marker_panel)
-	marker_panel.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	marker_panel.offset_top = 2
-	marker_panel.offset_right = -2
-	
+
+	button.add_child(marker_label)
+	marker_label.position = Vector2(50, 2)
+
 	add_child(button)
 
 func _on_slot_focus_entered(index: int) -> void:

@@ -1,0 +1,12 @@
+HD 2D illustration with riso print grain, cyberpunk near-future setting.
+Inventory icon, 64x64 pixels, fully transparent background, no border, no card,
+no rounded rectangle. Single object centered, 4-6 pixel safe margin from edges.
+View angle: slight top-down 15 degrees, not pure side, not pure top.
+Line art: 1-2 pixel dark brown or black outlines, clean.
+Shading: flat cell shading, single light source from top-right 45 degrees,
+no gradients, no glow, no rim light.
+Halftone: subtle riso grain only on shaded sides, never overpowering the subject.
+Color palette: 3-5 desaturated colors picked from a plebeian district palette,
+no high saturation, no neon, no rainbow.
+Do NOT include: text, numbers, brand logos, photoreal rendering,
+anime exaggeration, chibi proportions, background, ground shadow.

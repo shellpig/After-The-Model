@@ -7,6 +7,7 @@ signal credits_changed(new_value: int)
 signal knowledge_added(id: String)
 signal notes_changed
 signal equipment_changed
+signal item_moved(move: Dictionary)
 
 # Variables
 var credits: int = 0
@@ -38,14 +39,15 @@ const ITEMS_DB := {
 	"fingerless_gloves": {
 		"id": "fingerless_gloves",
 		"name": "無指工作手套",
-		"description": "耐磨的黑底工作手套，背手板染著亮橙色。",
+		"description": "半截手套, 指節處的布料磨得發亮。右手食指內側有一圈細小的接點, 不像普通手套該有的東西。你戴上時, 指尖有極輕微的、像是在「讀取」什麼的震動。",
 		"category": "equipment",
 		"stackable": false,
 		"max_stack": 1,
 		"discardable": true,
 		"usable": true,
 		"equipment_slot": "hand",
-		"icon_path": "res://assets/generated/sprites/items/fingerless_gloves/icon.png"
+		"icon_path": "res://assets/generated/sprites/items/fingerless_gloves/icon.png",
+		"can_decode": true
 	},
 	"canned_food": {
 		"id": "canned_food",
@@ -70,6 +72,31 @@ const ITEMS_DB := {
 		"usable": true,
 		"equipment_slot": "clothing",
 		"icon_path": "res://assets/generated/sprites/items/faded_jacket/icon.png"
+	},
+	"worn_rubiks_cube": {
+		"id": "worn_rubiks_cube",
+		"name": "普通魔術方塊",
+		"description": "一個褪色的舊塑料魔術方塊，邊角已經磨損，很久沒有人玩過了。普通得不能再普通。",
+		"category": "misc",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": true,
+		"usable": true,
+		"equipment_slot": "",
+		"icon_path": "res://assets/generated/sprites/items/worn_rubiks_cube/icon.png",
+		"decodable_to": "decoder_cube"
+	},
+	"decoder_cube": {
+		"id": "decoder_cube",
+		"name": "在公寓裡找到的解碼方塊",
+		"description": "配色與接點完全改變的方塊。上面印有細微的導電迴路與一圈感應觸點。你的手套指尖在碰到它時，會發出輕微的同步震動。",
+		"category": "misc",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": true,
+		"usable": true,
+		"equipment_slot": "",
+		"icon_path": "res://assets/generated/sprites/items/decoder_cube/icon.png"
 	}
 }
 
@@ -123,10 +150,10 @@ func add_knowledge(note: Dictionary) -> void:
 	var category: String = note.get("category", "")
 	var title: String = note.get("title", "")
 	var body: String = note.get("body", "")
-	
+
 	if note_id.is_empty() or category.is_empty() or title.is_empty() or body.is_empty():
 		return # Invalid schema
-		
+
 	var new_note = {
 		"id": note_id,
 		"category": category,
@@ -134,7 +161,7 @@ func add_knowledge(note: Dictionary) -> void:
 		"body": body,
 		"status": note.get("status", "active")
 	}
-	
+
 	# Find and update existing note or append new one
 	var found = false
 	for i in range(notes.size()):
@@ -142,15 +169,15 @@ func add_knowledge(note: Dictionary) -> void:
 			notes[i] = new_note
 			found = true
 			break
-			
+
 	if not found:
 		notes.append(new_note)
-		
+
 	if category == "身份":
 		if not knowledge.get(note_id, false):
 			knowledge[note_id] = true
 			knowledge_added.emit(note_id)
-			
+
 	notes_changed.emit()
 
 func get_notes(category: String) -> Array[Dictionary]:
@@ -172,18 +199,18 @@ func get_inventory() -> Array[Dictionary]:
 func add_item(item_id: String, count: int = 1) -> bool:
 	if count <= 0:
 		return false
-		
+
 	if not ITEMS_DB.has(item_id):
 		return false
-		
+
 	var item_meta: Dictionary = ITEMS_DB[item_id]
 	var stackable: bool = item_meta.get("stackable", false)
 	var max_stack: int = item_meta.get("max_stack", 1)
-	
+
 	# Atomic implementation
 	var temp_inventory = inventory.duplicate(true)
 	var remaining = count
-	
+
 	if stackable:
 		# 1. Try to merge into existing non-full stacks
 		for i in range(temp_inventory.size()):
@@ -196,7 +223,7 @@ func add_item(item_id: String, count: int = 1) -> bool:
 					remaining -= add_qty
 					if remaining <= 0:
 						break
-						
+
 	# 2. Fill empty slots
 	if remaining > 0:
 		for i in range(temp_inventory.size()):
@@ -211,10 +238,10 @@ func add_item(item_id: String, count: int = 1) -> bool:
 				remaining -= add_qty
 				if remaining <= 0:
 					break
-					
+
 	if remaining > 0:
 		return false # Not enough space to add all units
-		
+
 	inventory = temp_inventory
 	_sort_container(inventory)
 	inventory_changed.emit()
@@ -223,12 +250,12 @@ func add_item(item_id: String, count: int = 1) -> bool:
 func remove_item(item_id: String, count: int = 1) -> bool:
 	if count <= 0:
 		return false
-		
+
 	# Atomic implementation
 	var temp_inventory = inventory.duplicate(true)
 	var remaining = count
 	var cleared_instances := []
-	
+
 	# Remove items starting from non-equipped items, or just standard scan
 	# Scanning slots
 	for i in range(temp_inventory.size()):
@@ -245,14 +272,14 @@ func remove_item(item_id: String, count: int = 1) -> bool:
 				temp_inventory[i] = {}
 			if remaining <= 0:
 				break
-				
+
 	if remaining > 0:
 		return false # Not enough items found to satisfy the count
-		
+
 	# Apply unequip side-effects only after the entire operation is guaranteed to succeed
 	for instance_id in cleared_instances:
 		_force_unequip_if_present(instance_id)
-		
+
 	inventory = temp_inventory
 	_sort_container(inventory)
 	inventory_changed.emit()
@@ -267,33 +294,33 @@ func get_equipment() -> Dictionary:
 func equip(instance_id: String) -> bool:
 	if instance_id.is_empty():
 		return false
-		
+
 	# 1. Find item in backpack
 	var found_item: Dictionary = {}
 	for slot in inventory:
 		if not slot.is_empty() and slot.get("instance_id") == instance_id:
 			found_item = slot
 			break
-			
+
 	if found_item.is_empty():
 		return false
-		
+
 	var item_id: String = found_item.get("item_id", "")
 	var item_meta: Dictionary = ITEMS_DB.get(item_id, {})
 	var slot_type: String = item_meta.get("equipment_slot", "")
-	
+
 	if slot_type.is_empty() or not EQUIPMENT_LIMITS.has(slot_type):
 		return false
-		
+
 	# Check if already equipped
 	if equipment[slot_type].has(instance_id):
 		return true
-		
+
 	# Check limits
 	var limit: int = EQUIPMENT_LIMITS[slot_type]
 	if equipment[slot_type].size() >= limit:
 		return false # Slot is full
-		
+
 	equipment[slot_type].append(instance_id)
 	_sort_container(inventory)
 	equipment_changed.emit()
@@ -314,11 +341,11 @@ func unequip_by_instance(instance_id: String) -> bool:
 func unequip(equipment_type: String, slot_index: int) -> bool:
 	if not equipment.has(equipment_type):
 		return false
-		
+
 	var slot_list: Array = equipment[equipment_type]
 	if slot_index < 0 or slot_index >= slot_list.size():
 		return false
-		
+
 	slot_list.remove_at(slot_index)
 	_sort_container(inventory)
 	equipment_changed.emit()
@@ -368,13 +395,13 @@ func get_container(container_id: String) -> Array[Dictionary]:
 func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 	if target_container_id.is_empty() or instance_id.is_empty():
 		return false
-		
+
 	# Find source
 	var source_container_id = ""
 	var source_slots: Array = []
 	var item_to_move: Dictionary = {}
 	var source_slot_index = -1
-	
+
 	# Check backpack first
 	for i in range(inventory.size()):
 		var slot = inventory[i]
@@ -384,7 +411,7 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 			item_to_move = slot
 			source_slot_index = i
 			break
-			
+
 	# Check external containers if not in backpack
 	if source_container_id.is_empty():
 		for container_key in external_containers:
@@ -399,10 +426,10 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 					break
 			if not source_container_id.is_empty():
 				break
-				
+
 	if source_container_id.is_empty() or item_to_move.is_empty():
 		return false # Item not found
-		
+
 	# Direction constraints check
 	var is_to_backpack = (target_container_id == "player_inventory")
 	if is_to_backpack:
@@ -415,21 +442,21 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 			return false # Container-to-container is blocked in MVP
 		if not external_containers.has(target_container_id):
 			return false # Target container not configured
-			
+
 	var target_slots: Array = inventory if is_to_backpack else external_containers[target_container_id]
-	
+
 	# Atomic Space Check
 	var item_id: String = item_to_move.get("item_id", "")
 	var item_meta: Dictionary = ITEMS_DB.get(item_id, {})
 	var stackable: bool = item_meta.get("stackable", false)
 	var max_stack: int = item_meta.get("max_stack", 1)
-	
+
 	var temp_source = source_slots.duplicate(true)
 	var temp_target = target_slots.duplicate(true)
-	
+
 	var target_accomodated_index = -1
 	var is_merge = false
-	
+
 	if stackable:
 		# Look for non-full stack in target
 		for i in range(temp_target.size()):
@@ -440,7 +467,7 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 					target_accomodated_index = i
 					is_merge = true
 					break
-					
+
 	if target_accomodated_index == -1:
 		# Look for first empty slot in target
 		for i in range(temp_target.size()):
@@ -449,10 +476,10 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 				target_accomodated_index = i
 				is_merge = false
 				break
-				
+
 	if target_accomodated_index == -1:
 		return false # Target has no space (Full)
-		
+
 	# Deduct 1 unit from source
 	var source_slot = temp_source[source_slot_index]
 	var source_qty: int = source_slot.get("quantity", 1)
@@ -464,12 +491,14 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 		temp_source[source_slot_index] = {}
 	else:
 		source_slot["quantity"] = source_qty
-		
+
 	# Add 1 unit to target
+	var target_instance_id := ""
 	if is_merge:
 		var target_slot = temp_target[target_accomodated_index]
 		var target_qty: int = target_slot.get("quantity", 0)
 		target_slot["quantity"] = target_qty + 1
+		target_instance_id = target_slot.get("instance_id", "")
 	else:
 		# Create new slot in target
 		# Since it's a new slot, generate a fresh instance ID
@@ -479,11 +508,12 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 			"item_id": item_id,
 			"quantity": 1
 		}
-		
+		target_instance_id = new_instance_id
+
 	# Auto-sort both sides
 	_sort_container(temp_source)
 	_sort_container(temp_target)
-	
+
 	# Apply mutations
 	if is_to_backpack:
 		external_containers[source_container_id] = temp_source
@@ -491,14 +521,23 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 	else:
 		inventory = temp_source
 		external_containers[target_container_id] = temp_target
-		
+
 	# Emit signals
+	var move_payload = {
+		"source_container_id": source_container_id,
+		"target_container_id": target_container_id,
+		"source_instance_id": instance_id,
+		"target_instance_id": target_instance_id,
+		"item_id": item_id
+	}
+	item_moved.emit(move_payload)
+
 	inventory_changed.emit()
 	if is_to_backpack:
 		container_changed.emit(source_container_id)
 	else:
 		container_changed.emit(target_container_id)
-		
+
 	return true
 
 func discard_item(instance_id: String) -> bool:
@@ -601,6 +640,32 @@ func seed_container(container_id: String, item_id: String, count: int) -> bool:
 	container_changed.emit(container_id)
 	return remaining == 0
 
+func change_item_id(instance_id: String, new_item_id: String) -> bool:
+	if instance_id.is_empty() or not ITEMS_DB.has(new_item_id):
+		return false
+
+	# Find in backpack
+	for i in range(inventory.size()):
+		var slot = inventory[i]
+		if not slot.is_empty() and slot.get("instance_id") == instance_id:
+			slot["item_id"] = new_item_id
+			_sort_container(inventory)
+			inventory_changed.emit()
+			return true
+
+	# Find in external containers
+	for container_key in external_containers:
+		var container_list: Array = external_containers[container_key]
+		for i in range(container_list.size()):
+			var slot = container_list[i]
+			if not slot.is_empty() and slot.get("instance_id") == instance_id:
+				slot["item_id"] = new_item_id
+				_sort_container(container_list)
+				container_changed.emit(container_key)
+				return true
+
+	return false
+
 # ==========================================
 # Internal Helpers
 # ==========================================
@@ -608,7 +673,7 @@ func _sort_container(slots: Array) -> void:
 	var equipped_items := []
 	var regular_items := []
 	var empty_slots_count := 0
-	
+
 	for slot in slots:
 		if slot.is_empty():
 			empty_slots_count += 1
@@ -618,12 +683,12 @@ func _sort_container(slots: Array) -> void:
 				equipped_items.append(slot)
 			else:
 				regular_items.append(slot)
-				
+
 	# Sort regular items alphabetically by item_id
 	regular_items.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return a.get("item_id", "").naturalnocasecmp_to(b.get("item_id", "")) < 0
 	)
-	
+
 	slots.clear()
 	slots.append_array(equipped_items)
 	slots.append_array(regular_items)

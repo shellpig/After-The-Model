@@ -5,7 +5,8 @@ const MESSAGES := {
 	"door_locked": "門上了鎖, 而你發現自己不知道如何打開...",
 	"door_opened": "你想起來了。門鎖不是壞了, 是你忘了操作方式。",
 	"desk_computer_msg": "螢幕還亮著, 一份新的派工單正自己跳出來, 沒有寄件人。",
-	"tape_recorder_msg": "錄音機裡卡著一捲帶子。按下播放, 是首沒人記得的老歌, 雜訊裡有人輕輕跟著哼。"
+	"tape_recorder_msg": "錄音機裡卡著一捲帶子。按下播放, 是首沒人記得的老歌, 雜訊裡有人輕輕跟著哼。",
+	"decoder_cube_decoded": "當你戴著無指手套拿起魔術方塊時，指尖的接點突然傳來一陣微弱的電流，方塊的接縫處隨之亮起了一道黯淡的迴路光芒。方塊的結構在微弱的喀噠聲中重新排列——它被解碼了。"
 }
 
 const NOTES := {
@@ -21,6 +22,20 @@ const NOTES := {
 		"category": "身份",
 		"title": "拾遺者",
 		"body": "牆上整排都是舊帶子, 老歌、舊廣播、不知道誰的留言。這些早該被善後員銷毀的東西, 你卻一捲一捲留了下來。你一邊清除過去, 一邊偷偷把它撿回家。",
+		"status": "active"
+	},
+	"clue_gloves_decoder": {
+		"id": "clue_gloves_decoder",
+		"category": "線索",
+		"title": "不只是手套",
+		"body": "這雙手套你戴得很習慣, 習慣到忘了它哪裡不對勁。指尖那圈接點碰到某些東西時, 會有反應。你還想不起它是用來「讀」什麼的——但你的手記得。",
+		"status": "active"
+	},
+	"clue_decoder_cube": {
+		"id": "clue_decoder_cube",
+		"category": "線索",
+		"title": "解碼方塊",
+		"body": "一種普遍用於解開設備功能的道具, 性質有點像鑰匙。放入對應的插槽, 就能開啟特定功能。",
 		"status": "active"
 	}
 }
@@ -43,7 +58,7 @@ const CONTAINERS := {
 }
 
 
-const MESSAGE_CHARS_PER_SECOND := 3.0
+const MESSAGE_CHARS_PER_SECOND := 6.0
 const MESSAGE_PADDING := Vector2(32.0, 20.0)
 @onready var prompt_panel: Control = $UI/PromptPanel
 @onready var prompt_label: Label = $UI/PromptPanel/MarginContainer/PromptLabel
@@ -67,6 +82,9 @@ var message_full_text := ""
 var message_elapsed := 0.0
 var _last_mode: int = UIMode.Mode.NONE
 var _pending_toast_title: String = ""
+var _mode_before_message: int = UIMode.Mode.NONE
+var _pending_inspect_modal: Dictionary = {}
+var _message_just_opened: bool = false
 
 func _ready() -> void:
 	_apply_message_box_style()
@@ -88,6 +106,7 @@ func _ready() -> void:
 	var _ok_jacket := GameState.seed_container("cabinet_storage", "faded_jacket", 1)
 	var _ok_cabinet_food := GameState.seed_container("cabinet_storage", "canned_food", 2)
 	var _ok_fridge_food := GameState.seed_container("fridge_storage", "canned_food", 3)
+	var _ok_rubik := GameState.seed_container("cabinet_storage", "worn_rubiks_cube", 1)
 
 
 	# Preload inventory robustly
@@ -136,6 +155,8 @@ func _ready() -> void:
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)
 
+	GameState.item_moved.connect(_on_item_moved)
+
 func _process(_delta: float) -> void:
 	_update_message_typewriter(_delta)
 
@@ -144,7 +165,7 @@ func _process(_delta: float) -> void:
 	# Layered UI input handling
 	if current_mode != UIMode.Mode.NONE:
 		# Bug 1 fix: _process poll is not affected by set_input_as_handled; guard explicitly.
-		if item_detail_modal.visible:
+		if item_detail_modal.visible and current_mode != UIMode.Mode.MESSAGE:
 			return
 		if current_mode == UIMode.Mode.CONFIRM:
 			return
@@ -164,13 +185,34 @@ func _process(_delta: float) -> void:
 				UIMode.set_mode(UIMode.Mode.INVENTORY)
 				return
 		elif current_mode == UIMode.Mode.MESSAGE:
+			if _message_just_opened:
+				_message_just_opened = false
+				return
 			if Input.is_action_just_pressed("interact_primary") or Input.is_action_just_pressed("ui_cancel"):
-				UIMode.set_mode(UIMode.Mode.NONE)
+				if not _pending_inspect_modal.is_empty():
+					UIMode.set_mode(_mode_before_message)
+					var grid: Control = _pending_inspect_modal.get("restore_grid")
+					if grid and grid.has_method("set_input_active"):
+						grid.set_input_active(false)
+					item_detail_modal.show_modal(
+						_pending_inspect_modal.get("instance_id"),
+						_pending_inspect_modal.get("restore_grid"),
+						_pending_inspect_modal.get("restore_index"),
+						_pending_inspect_modal.get("anchor_node")
+					)
+					_pending_inspect_modal.clear()
+				elif item_detail_modal.visible:
+					UIMode.set_mode(_mode_before_message)
+					item_detail_modal.refresh_modal()
+				else:
+					UIMode.set_mode(UIMode.Mode.NONE)
 				return
 			if Input.is_action_just_pressed("open_inventory"):
+				_pending_inspect_modal.clear()
 				UIMode.set_mode(UIMode.Mode.INVENTORY)
 				return
 			if Input.is_action_just_pressed("open_notebook"):
+				_pending_inspect_modal.clear()
 				UIMode.set_mode(UIMode.Mode.NOTEBOOK)
 				return
 		elif current_mode == UIMode.Mode.CONTAINER:
@@ -279,6 +321,11 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		confirm_dialog.visible = true
 		return
 
+	if new_mode == UIMode.Mode.MESSAGE:
+		_message_just_opened = true
+		if _last_mode != UIMode.Mode.MESSAGE:
+			_mode_before_message = _last_mode
+
 	ui_overlay.visible = (new_mode != UIMode.Mode.NONE)
 
 	inventory_panel.visible = (new_mode == UIMode.Mode.INVENTORY)
@@ -318,7 +365,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.NONE:
 		if _last_mode == UIMode.Mode.MESSAGE and not _pending_toast_title.is_empty():
-			FloatingToast.show_toast("已記入筆記：" + _pending_toast_title, inventory_panel)
+			FloatingToast.show_toast("已記入筆記：" + _pending_toast_title, player)
 		_pending_toast_title = ""
 		item_detail_modal.visible = false
 		confirm_dialog.visible = false
@@ -347,8 +394,22 @@ func _on_bag_item_action(action: String, instance_id: String) -> void:
 
 	match action:
 		"view":
-			bag_grid.set_input_active(false)
-			item_detail_modal.show_modal(instance_id, bag_grid, bag_grid.focused_index, inventory_panel)
+			var decodable_to: String = item_meta.get("decodable_to", "")
+			if not decodable_to.is_empty() and _player_has_decoding_ability():
+				_pending_inspect_modal = {
+					"instance_id": instance_id,
+					"restore_grid": bag_grid,
+					"restore_index": bag_grid.focused_index,
+					"anchor_node": inventory_panel
+				}
+				_execute_item_decoding(instance_id, decodable_to)
+			else:
+				if item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
+					GameState.add_knowledge(NOTES["clue_gloves_decoder"])
+					FloatingToast.show_toast("已記入筆記：" + NOTES["clue_gloves_decoder"].title, player)
+
+				bag_grid.set_input_active(false)
+				item_detail_modal.show_modal(instance_id, bag_grid, bag_grid.focused_index, inventory_panel)
 		"discard":
 			_start_discard_flow(instance_id, item_meta, bag_grid, bag_grid.focused_index)
 		"equip_toggle":
@@ -368,7 +429,21 @@ func _on_dual_pane_item_action(action: String, instance_id: String, source_pane:
 
 	match action:
 		"view":
-			item_detail_modal.show_modal(instance_id, active_grid, active_idx, anchor_panel)
+			var decodable_to: String = item_meta.get("decodable_to", "")
+			if not decodable_to.is_empty() and _player_has_decoding_ability():
+				_pending_inspect_modal = {
+					"instance_id": instance_id,
+					"restore_grid": active_grid,
+					"restore_index": active_idx,
+					"anchor_node": anchor_panel
+				}
+				_execute_item_decoding(instance_id, decodable_to)
+			else:
+				if item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
+					GameState.add_knowledge(NOTES["clue_gloves_decoder"])
+					FloatingToast.show_toast("已記入筆記：" + NOTES["clue_gloves_decoder"].title, player)
+
+				item_detail_modal.show_modal(instance_id, active_grid, active_idx, anchor_panel)
 		"discard":
 			_start_discard_flow(instance_id, item_meta, active_grid, active_idx)
 
@@ -376,6 +451,7 @@ func _handle_equip_toggle(instance_id: String, item_meta: Dictionary) -> void:
 	if item_meta.get("category", "") != "equipment":
 		return
 
+	var item_id: String = item_meta.get("id", "")
 	if GameState.is_equipped(instance_id):
 		GameState.unequip_by_instance(instance_id)
 	else:
@@ -384,6 +460,9 @@ func _handle_equip_toggle(instance_id: String, item_meta: Dictionary) -> void:
 				"這類裝備已經滿了，先卸下身上的再裝備新的。",
 				inventory_panel
 			)
+		elif item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
+			GameState.add_knowledge(NOTES["clue_gloves_decoder"])
+			FloatingToast.show_toast("已記入筆記：" + NOTES["clue_gloves_decoder"].title, player)
 
 func _start_discard_flow(instance_id: String, item_meta: Dictionary,
 						 restore_grid: Control, restore_index: int) -> void:
@@ -473,8 +552,20 @@ func _update_message_typewriter(delta: float) -> void:
 func _resize_message_box_for_text(text: String) -> void:
 	var font: Font = message_label.get_theme_font("font")
 	var font_size: int = message_label.get_theme_font_size("font_size")
+
+	var max_width: float = 800.0
 	var text_size: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
-	message_box.size = text_size + MESSAGE_PADDING * 2.0
+
+	if text_size.x > max_width:
+		message_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		message_label.custom_minimum_size = Vector2(max_width - MESSAGE_PADDING.x * 2.0, 0.0)
+		message_box.size = Vector2(max_width, 0.0)
+	else:
+		message_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+		message_label.custom_minimum_size = Vector2.ZERO
+		message_box.size = text_size + MESSAGE_PADDING * 2.0
+
+	message_box.reset_size()
 
 	var viewport_size: Vector2 = get_viewport_rect().size
 	message_box.position = (viewport_size - message_box.size) * 0.5
@@ -500,3 +591,32 @@ func _update_prompt() -> void:
 			prompt_label.text = "E: 關閉訊息" if message_box.visible else current_interactable.prompt_text
 		_:
 			prompt_label.text = current_interactable.prompt_text
+
+func _player_has_decoding_ability() -> bool:
+	var eq := GameState.get_equipment()
+	var hand_instances: Array = eq.get("hand", [])
+	for instance_id in hand_instances:
+		var item_id := _find_item_id_anywhere(instance_id)
+		if not item_id.is_empty():
+			var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
+			if item_meta.get("can_decode", false):
+				return true
+	return false
+
+func _execute_item_decoding(instance_id: String, target_item_id: String) -> void:
+	var success = GameState.change_item_id(instance_id, target_item_id)
+	if success:
+		GameState.add_knowledge(NOTES["clue_decoder_cube"])
+		_start_message_typewriter(MESSAGES["decoder_cube_decoded"])
+		UIMode.set_mode(UIMode.Mode.MESSAGE)
+
+func _on_item_moved(move: Dictionary) -> void:
+	var target_container_id: String = move.get("target_container_id", "")
+	var item_id: String = move.get("item_id", "")
+	var target_instance_id: String = move.get("target_instance_id", "")
+
+	if target_container_id == "player_inventory":
+		var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
+		var decodable_to: String = item_meta.get("decodable_to", "")
+		if not decodable_to.is_empty() and _player_has_decoding_ability():
+			_execute_item_decoding(target_instance_id, decodable_to)

@@ -1,0 +1,40 @@
+[
+  {
+    "item_id": "decoder_cube",
+    "source": "C:\\Users\\User\\Downloads\\Decoder_cube_icon_circuit_paths_202605292142.jpeg",
+    "alpha_pixels": 2331,
+    "source_bbox": [
+      125,
+      100,
+      899,
+      924
+    ],
+    "resized": [
+      51,
+      54
+    ],
+    "paste": [
+      6,
+      5
+    ]
+  },
+  {
+    "item_id": "worn_rubiks_cube",
+    "source": "C:\\Users\\User\\Downloads\\Rubik's_cube_worn_plastic_202605292141.jpeg",
+    "alpha_pixels": 2284,
+    "source_bbox": [
+      137,
+      112,
+      887,
+      922
+    ],
+    "resized": [
+      50,
+      54
+    ],
+    "paste": [
+      7,
+      5
+    ]
+  }
+]

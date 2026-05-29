@@ -5,6 +5,7 @@ extends PanelContainer
 
 var _restore_grid: Control = null
 var _restore_index: int = 0
+var _last_instance_id: String = ""
 
 @onready var icon_rect: TextureRect = $VBoxContainer/IconRect
 @onready var name_label: Label = $VBoxContainer/NameLabel
@@ -35,6 +36,7 @@ func _apply_style() -> void:
 	add_theme_stylebox_override("panel", panel_style)
 
 func show_modal(instance_id: String, restore_grid: Control, restore_index: int, anchor_node: Control = null) -> void:
+	_last_instance_id = instance_id
 	_restore_grid = restore_grid
 	_restore_index = restore_index
 	_fill_content(instance_id)
@@ -42,6 +44,10 @@ func show_modal(instance_id: String, restore_grid: Control, restore_index: int, 
 	# Position after visible so size is computed
 	await get_tree().process_frame
 	_position_for_anchor(anchor_node)
+
+func refresh_modal() -> void:
+	if not _last_instance_id.is_empty():
+		_fill_content(_last_instance_id)
 
 func close_modal() -> void:
 	visible = false
@@ -107,7 +113,7 @@ func _position_for_anchor(anchor_node: Control = null) -> void:
 	global_position = anchor_pos + Vector2((anchor_size.x - size.x) * 0.5, (anchor_size.y - size.y) * 0.5)
 
 func _input(event: InputEvent) -> void:
-	if not visible:
+	if not visible or UIMode.get_mode() == UIMode.Mode.MESSAGE:
 		return
 	get_viewport().set_input_as_handled()
 	if event.is_action_pressed("interact_secondary") or event.is_action_pressed("ui_cancel"):

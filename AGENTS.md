@@ -29,10 +29,10 @@ At conversation start, read in this layered order. Ignore `舊文件/`.
 5. `遊戲規格書.md`（全遊戲通用系統規格與驗收條件；場景專屬規格 link 到 `subdocs/地點/`）
 6. `git log --oneline -10`（近期變更）
 
-**Layer 2 — 規劃中文件（存在則讀，目前可能尚未產出）：**
-- `開發設計方針.md` — 實作細節、檔案結構、Autoload 簽名、資料契約（系統長到 3-4 個再從規格書拆出）
-- `測試指南.md` — Godot 測試流程、手動驗收清單（第一個 phase 收尾時建立）
-- `驗證後已知問題.md` — 待修清單與已接受的邊界決定（第一個 phase 收尾時建立）
+**Layer 2 — 實作 / 測試文件：**
+- `開發設計方針.md` ✅ 實作細節、檔案結構、Autoload 簽名、資料契約（自 Phase 2 起新寫，不 backfill Phase 1）
+- `測試指南.md` ✅ Godot 測試流程、手動驗收清單（自 Phase 2 起新寫，不 backfill Phase 1）
+- `驗證後已知問題.md` — 待修清單與已接受的邊界決定（Phase 2-E 收尾時建立）
 
 **Layer 3 — 任務相關細節與實作參考：**
 
@@ -90,12 +90,12 @@ Image generation handling:
 - `技術概念.md` — 引擎選型、MVP 架構決策、發佈路線
 - `Art Bible.md` — 美術方向、限色、構圖紀律、視覺錨點
 - `遊戲規格書.md` — 全遊戲通用系統規格與驗收條件（前身為 `遊戲架構.md`，2026-05-28 改名）
+- `開發設計方針.md` — 實作層：檔案結構、Autoload 簽名、資料契約（implementer-owned，自 Phase 2 起新寫，不 backfill Phase 1）
+- `測試指南.md` — 測試流程與手動驗收清單（verifier-owned，自 Phase 2 起新寫，不 backfill Phase 1）
 - `subdocs/地點/主角公寓.md` — 第一個場景（公寓室內探索）的敘事、互動物、驗收方向
 
 **規劃中：**
-- `開發設計方針.md` — 實作指引（檔案清單、Autoload 簽名、資料契約）。系統長到 3-4 個再從規格書拆出。
-- `測試指南.md` — 測試流程與手動驗收清單。第一個 phase 收尾時建立。
-- `驗證後已知問題.md` — 驗收問題追蹤與已接受的邊界決定。第一個 phase 收尾時建立。
+- `驗證後已知問題.md` — 驗收問題追蹤與已接受的邊界決定。Phase 2-E 收尾時建立。
 - `PROJECT_BRIEF.md` — 專案總覽與 Phase 進度表。規格書 + 設計方針合計 > 100 KB 時才建立；在那之前 `AGENTS.md` 即事實上的 brief。
 
 技術主線與架構決策維護在 `技術概念.md`，避免雙份內容漂移。

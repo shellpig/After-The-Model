@@ -90,7 +90,6 @@ func _ready() -> void:
 	print("Verifying preloaded story notes (relaxed)...")
 	var categories_to_check = {
 		"身份": "identity_apartment_is_mine",
-		"工作": "work_ai_cleanup_role",
 		"線索": "clue_door_sensor_scratch"
 	}
 	for cat in categories_to_check:
@@ -106,6 +105,13 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("PASS: Story note '" + expected_id + "' preloaded.")
+
+	# Verify work_ai_cleanup_role is NOT preloaded in Phase 2
+	if GameState.has_note("work_ai_cleanup_role"):
+		printerr("FAIL: Story note work_ai_cleanup_role is preloaded, but it must NOT be preloaded!")
+		get_tree().quit(1)
+		return
+	print("PASS: Story note work_ai_cleanup_role is NOT preloaded.")
 
 	# Verify door unlock method is NOT preloaded
 	if GameState.has_knowledge("identity_door_unlock_method"):

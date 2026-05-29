@@ -112,6 +112,12 @@ func set_credits(value: int) -> void:
 func has_knowledge(id: String) -> bool:
 	return knowledge.get(id, false)
 
+func has_note(id: String) -> bool:
+	for note in notes:
+		if note.get("id") == id:
+			return true
+	return false
+
 func add_knowledge(note: Dictionary) -> void:
 	var note_id: String = note.get("id", "")
 	var category: String = note.get("category", "")

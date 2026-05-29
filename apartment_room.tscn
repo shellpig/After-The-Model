@@ -107,7 +107,7 @@ centered = false
 [node name="CabinetStorageArea" type="Area2D" parent="Interactables" unique_id=1669864421]
 script = ExtResource("2_n0yl8")
 interaction_id = "cabinet_storage"
-prompt_text = "E: 打開櫥櫃"
+prompt_text = "E: █ 翻找櫥櫃殘留"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/CabinetStorageArea" unique_id=129799259]
 position = Vector2(1091.5, 561)
@@ -117,7 +117,7 @@ debug_color = Color(0.89592755, 0.31852657, 0, 0.41960785)
 [node name="FridgeStorageArea" type="Area2D" parent="Interactables" unique_id=1983745443]
 script = ExtResource("2_n0yl8")
 interaction_id = "fridge_storage"
-prompt_text = "E: 打開冰箱"
+prompt_text = "E: █ 開啟低溫儲藏"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FridgeStorageArea" unique_id=1807628310]
 position = Vector2(940.5, 585)
@@ -127,7 +127,7 @@ debug_color = Color(0.42, 0.74, 0.9, 0.41960785)
 [node name="BedSleepArea" type="Area2D" parent="Interactables" unique_id=1846612427]
 script = ExtResource("2_n0yl8")
 interaction_id = "bed_sleep"
-prompt_text = "E: 睡覺去"
+prompt_text = "E: █ 躺上磨損床墊"
 message_id = "bed_bad_sleep"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BedSleepArea" unique_id=797134175]
@@ -138,7 +138,7 @@ debug_color = Color(0.058775872, 0.65022326, 5.7756904e-07, 0.41960785)
 [node name="DoorExitArea" type="Area2D" parent="Interactables" unique_id=2083651122]
 script = ExtResource("2_n0yl8")
 interaction_id = "door_exit"
-prompt_text = "E: 開門"
+prompt_text = "E: █ 驗證出口閘門"
 message_id = "door_locked"
 required_knowledge = "identity_door_unlock_method"
 
@@ -146,6 +146,30 @@ required_knowledge = "identity_door_unlock_method"
 position = Vector2(1261, 585)
 shape = SubResource("RectangleShape2D_door")
 debug_color = Color(0.9, 0.1, 0.1, 0.42)
+
+[node name="DeskComputerArea" type="Area2D" parent="Interactables"]
+script = ExtResource("2_n0yl8")
+interaction_id = "desk_computer"
+prompt_text = "E: █ 載入 CRT 數據"
+message_id = "desk_computer_msg"
+note_id = "work_ai_cleanup_role"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeskComputerArea"]
+position = Vector2(760, 585)
+shape = SubResource("RectangleShape2D_n0yl8")
+debug_color = Color(0.1, 0.9, 0.9, 0.42)
+
+[node name="TapeRecorderArea" type="Area2D" parent="Interactables"]
+script = ExtResource("2_n0yl8")
+interaction_id = "tape_recorder"
+prompt_text = "E: █ 撥放磁帶雜音"
+message_id = "tape_recorder_msg"
+note_id = "identity_gleaner"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TapeRecorderArea"]
+position = Vector2(380, 585)
+shape = SubResource("RectangleShape2D_n0yl8")
+debug_color = Color(0.9, 0.9, 0.1, 0.42)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1571826996]
 position = Vector2(690, 700)

@@ -3,7 +3,26 @@ extends Node2D
 const MESSAGES := {
 	"bed_bad_sleep": "你心中有事, 根本睡不著...",
 	"door_locked": "門上了鎖, 而你發現自己不知道如何打開...",
-	"door_opened": "你想起來了。門鎖不是壞了, 是你忘了操作方式。"
+	"door_opened": "你想起來了。門鎖不是壞了, 是你忘了操作方式。",
+	"desk_computer_msg": "螢幕還亮著, 一份新的派工單正自己跳出來, 沒有寄件人。",
+	"tape_recorder_msg": "錄音機裡卡著一捲帶子。按下播放, 是首沒人記得的老歌, 雜訊裡有人輕輕跟著哼。"
+}
+
+const NOTES := {
+	"work_ai_cleanup_role": {
+		"id": "work_ai_cleanup_role",
+		"category": "工作",
+		"title": "AI 善後員",
+		"body": "派工單一筆一筆自己跳出來, 地址、編號, 註記欄寫著「殘留清除」「記憶體焚毀」。從沒見過發派的人, 只有螢幕那頭簡短的指示, 從不寒暄, 也從不出錯。原來你靠這個過活——收拾 AI 留下的、人們不想再看見的東西。",
+		"status": "active"
+	},
+	"identity_gleaner": {
+		"id": "identity_gleaner",
+		"category": "身份",
+		"title": "拾遺者",
+		"body": "牆上整排都是舊帶子, 老歌、舊廣播、不知道誰的留言。這些早該被善後員銷毀的東西, 你卻一捲一捲留了下來。你一邊清除過去, 一邊偷偷把它撿回家。",
+		"status": "active"
+	}
 }
 
 const CONTAINERS := {
@@ -46,6 +65,8 @@ var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
 var message_full_text := ""
 var message_elapsed := 0.0
+var _last_mode: int = UIMode.Mode.NONE
+var _pending_toast_title: String = ""
 
 func _ready() -> void:
 	_apply_message_box_style()
@@ -79,19 +100,12 @@ func _ready() -> void:
 		GameState.add_item("fingerless_gloves", 1)
 		GameState.add_item("old_work_badge", 1)
 
-	# Preload 3 story notes for Phase 1-C
+	# Preload 2 story notes for Phase 2
 	GameState.add_knowledge({
 		"id": "identity_apartment_is_mine",
 		"category": "身份",
 		"title": "這裡是我的公寓",
 		"body": "你雖然不記得名字, 但這裡的氣味、磨損的痕跡、書桌的擺法...都是你熟悉的。",
-		"status": "active"
-	})
-	GameState.add_knowledge({
-		"id": "work_ai_cleanup_role",
-		"category": "工作",
-		"title": "AI 善後員",
-		"body": "你似乎從事 AI 改變世界後的清理工作。但具體是清什麼, 你現在還想不起來。",
 		"status": "active"
 	})
 	GameState.add_knowledge({
@@ -189,6 +203,15 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("interact_primary"):
 		if CONTAINERS.has(current_interactable.interaction_id):
 			UIMode.set_mode(UIMode.Mode.CONTAINER)
+		elif not current_interactable.note_id.is_empty():
+			var note_id: String = current_interactable.note_id
+			if not GameState.has_note(note_id):
+				_pending_toast_title = NOTES[note_id].title
+			else:
+				_pending_toast_title = ""
+			GameState.add_knowledge(NOTES[note_id])
+			_start_message_typewriter(MESSAGES.get(current_interactable.message_id, ""))
+			UIMode.set_mode(UIMode.Mode.MESSAGE)
 		else:
 			match current_interactable.interaction_id:
 				"bed_sleep":
@@ -294,9 +317,16 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		notebook_panel.load_notebook_data()
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.NONE:
+		if _last_mode == UIMode.Mode.MESSAGE and not _pending_toast_title.is_empty():
+			FloatingToast.show_toast("已記入筆記：" + _pending_toast_title, inventory_panel)
+		_pending_toast_title = ""
 		item_detail_modal.visible = false
 		confirm_dialog.visible = false
 		_update_prompt()
+
+	if new_mode == UIMode.Mode.INVENTORY or new_mode == UIMode.Mode.NOTEBOOK:
+		_pending_toast_title = ""
+	_last_mode = new_mode
 
 # ==========================================
 # Phase 1-E: Item Action Routing

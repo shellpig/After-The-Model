@@ -12,8 +12,8 @@
   - **Phase 1-B** ✅ UIMode autoload + 背包 UI（`I`）
   - **Phase 1-C** ✅ 筆記 UI（`J`）
   - **Phase 1-D** ✅ 容器資料化（櫥櫃 5x6 / 冰箱 5x2）+ 雙欄 panel + 跨欄 focus + E 移動 1 個 + 「放不下了。」FloatingToast
-  - Phase 1-E 待開工：物品操作（查看 / 丟棄 / 裝備）
-  - **Phase 2** 公寓解謎（取得 `identity_door_unlock_method` 路徑設計）
+  - **Phase 1-E** ✅ 物品操作（查看 R / 丟棄 T / 裝備 E）+ item grid focus routing 修補
+  - Phase 2 待開工：公寓解謎（取得 `identity_door_unlock_method` 路徑設計）
   - Phase 3+：SceneRouter、第二個場景、NPC、零工
   - 詳細規劃見 `遊戲規格書.md > Phase 規劃`
 

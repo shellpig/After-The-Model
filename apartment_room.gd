@@ -226,20 +226,20 @@ func _ready() -> void:
 	# Sonar Audio Players
 	_audio_ping = AudioStreamPlayer.new()
 	_audio_ping.name = "AudioPing"
-	if FileAccess.file_exists("res://assets/sound/sonar_ping.wav"):
-		_audio_ping.stream = load("res://assets/sound/sonar_ping.wav")
+	_audio_ping.stream = load("res://assets/sound/sonar_ping.wav")
+	_audio_ping.volume_db = 6.0
 	add_child(_audio_ping)
 
 	_audio_reveal = AudioStreamPlayer.new()
 	_audio_reveal.name = "AudioReveal"
-	if FileAccess.file_exists("res://assets/sound/hidden_slot_reveal.wav"):
-		_audio_reveal.stream = load("res://assets/sound/hidden_slot_reveal.wav")
+	_audio_reveal.stream = load("res://assets/sound/hidden_slot_reveal.wav")
+	_audio_reveal.volume_db = 6.0
 	add_child(_audio_reveal)
 
 	_audio_electromagnetic = AudioStreamPlayer.new()
 	_audio_electromagnetic.name = "AudioElectromagnetic"
-	if FileAccess.file_exists("res://assets/sound/slot_electromagnetic.wav"):
-		_audio_electromagnetic.stream = load("res://assets/sound/slot_electromagnetic.wav")
+	_audio_electromagnetic.stream = load("res://assets/sound/slot_electromagnetic.wav")
+	_audio_electromagnetic.volume_db = 6.0
 	add_child(_audio_electromagnetic)
 
 	for interactable in $Interactables.get_children():

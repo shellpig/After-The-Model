@@ -29,7 +29,7 @@ size = Vector2(33, 210)
 size = Vector2(71.5, 131.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
-size = Vector2(72, 220)
+size = Vector2(57, 220)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ijsgt"]
 animations = [{
@@ -72,7 +72,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5417i"]
-size = Vector2(49, 356)
+size = Vector2(49, 454)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
 content_margin_left = 16.0
@@ -141,7 +141,7 @@ message_id = "door_locked"
 required_knowledge = "identity_door_unlock_method"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DoorExitArea" unique_id=1083751122]
-position = Vector2(1261, 585)
+position = Vector2(1268.5, 585)
 shape = SubResource("RectangleShape2D_door")
 debug_color = Color(0.9, 0.1, 0.1, 0.42)
 
@@ -179,7 +179,7 @@ sprite_frames = SubResource("SpriteFrames_ijsgt")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1154710583]
-position = Vector2(24, -172)
+position = Vector2(24, -221)
 shape = SubResource("RectangleShape2D_5417i")
 debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)
 

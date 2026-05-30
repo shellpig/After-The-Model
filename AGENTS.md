@@ -13,7 +13,10 @@
   - **Phase 1-C** ✅ 筆記 UI（`J`）
   - **Phase 1-D** ✅ 容器資料化（櫥櫃 5x6 / 冰箱 5x2）+ 雙欄 panel + 跨欄 focus + E 移動 1 個 + 「放不下了。」FloatingToast
   - **Phase 1-E** ✅ 物品操作（查看 R / 丟棄 T / 裝備 E）+ item grid focus routing 修補
-  - Phase 2 待開工：公寓解謎（取得 `identity_door_unlock_method` 路徑設計）
+  - **Phase 2-A** ✅ 公寓線索 examine（桌上電腦 / 錄音機）+ `note_id` export + `has_note()` 去重
+  - **Phase 2-B** ✅ 解碼手套 + `worn_rubiks_cube`→`decoder_cube` + R 查看 fallback
+  - **Phase 2-C** ✅ 容器 `accepted_item` 白名單 + `deposit_locked` + `get_container_config()`
+  - Phase 2-D / 2-E 設計已定稿（投影時鐘聲納 reveal 插槽 / 放入→語音→開門 + MESSAGE·CONFIRM overlay 重構），待實作
   - Phase 3+：SceneRouter、第二個場景、NPC、零工
   - 詳細規劃見 `遊戲規格書.md > Phase 規劃`
 

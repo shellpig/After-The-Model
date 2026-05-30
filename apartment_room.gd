@@ -379,16 +379,18 @@ func _process(_delta: float) -> void:
 					_start_message_typewriter(MESSAGES.get(current_interactable.message_id, ""))
 					UIMode.enter_overlay(UIMode.Mode.MESSAGE)
 				"door_exit":
-					var required_knowledge: String = current_interactable.required_knowledge
-					if GameState.has_knowledge(required_knowledge):
+					if _slot_unlock_sequence_started:
+						if not GameState.has_knowledge("identity_door_unlock_method"):
+							GameState.add_knowledge(NOTES["identity_door_unlock_method"])
+
 						var existing_note: Dictionary = {}
 						for note in GameState.get_notes("身份"):
 							if note.get("id") == "identity_door_unlock_method":
 								existing_note = note
 								break
-						if not existing_note.is_empty() and not "【更新：踏出公寓】" in existing_note.get("body", ""):
+						if not existing_note.is_empty() and not "氣壓大門在背後合上" in existing_note.get("body", ""):
 							var updated_note = existing_note.duplicate()
-							updated_note.body = existing_note.get("body", "") + "\n\n【更新：踏出公寓】\n氣壓大門在背後合上，把這間發霉的安全溫室反鎖在身後。\n撲面而來的是深夜的冷雨，高架軌道上輕軌呼嘯而過，將鐵鏽與酸雨的水霧灑在你的護目鏡上。下層街區的霓虹招牌在積水裡折射出廉價的青色與桃紅。\n這裡沒有陽光，沒有申訴管道，只有成千上萬在 AI 陰影下掙扎討生活的普通人。\n你踏進了水窪，向雨夜走去。沒有回頭路了，你的名字和記憶，一定就藏在這座城市的某個夜班角落。"
+							updated_note.body = existing_note.get("body", "") + "\n\n氣壓大門在背後合上，把這間發霉的安全溫室反鎖在身後。\n迎面而來的是深夜的冷雨，高架軌道上輕軌呼嘯而過，將鐵鏽與酸雨的水霧灑在我的護目鏡上。下層街區的霓虹招牌在積水裡折射出廉價的青色與桃紅。\n這裡沒有陽光，沒有申訴管道，只有成千上萬在 AI 陰影下掙扎討生活的普通人。\n我踏進了水窪，邁向雨夜。已經沒有回頭路了，我的名字與記憶，一定就藏在這座城市的某個夜班角落。"
 							GameState.add_knowledge(updated_note)
 							_pending_toast_title = "已更新筆記：我鎖上的門"
 						_start_message_typewriter(MESSAGES.get("door_opened", ""))
@@ -509,10 +511,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		confirm_dialog.visible = false
 		_update_prompt()
 
-	if _last_mode == UIMode.Mode.MESSAGE:
-		if _slot_unlock_sequence_started and not GameState.has_knowledge("identity_door_unlock_method"):
-			GameState.add_knowledge(NOTES["identity_door_unlock_method"])
-			_pending_toast_title = NOTES["identity_door_unlock_method"].title
+	# Note addition deferred logic removed to handle it immediately inside door interaction instead
 
 	if _last_mode == UIMode.Mode.MESSAGE and not _pending_toast_title.is_empty():
 		if _pending_toast_title.begins_with("已更新") or _pending_toast_title.begins_with("已記入"):
@@ -787,6 +786,7 @@ func _execute_item_decoding(instance_id: String, target_item_id: String) -> void
 	var success = GameState.change_item_id(instance_id, target_item_id)
 	if success:
 		GameState.add_knowledge(NOTES["clue_decoder_cube"])
+		_play_electromagnetic_sound()
 		_start_message_typewriter(MESSAGES["decoder_cube_decoded"])
 		UIMode.enter_overlay(UIMode.Mode.MESSAGE)
 
@@ -805,7 +805,7 @@ func _on_container_changed(container_id: String) -> void:
 	if container_id == "apartment_slot":
 		var items := GameState.get_container("apartment_slot")
 		if items.size() > 0 and not items[0].is_empty() and items[0].get("item_id", "") == "decoder_cube":
-			if not _slot_unlock_sequence_started and not GameState.has_knowledge("identity_door_unlock_method"):
+			if not _slot_unlock_sequence_started:
 				_slot_unlock_sequence_started = true
 				_play_electromagnetic_sound()
 				_start_message_typewriter(MESSAGES["slot_unlocked"])

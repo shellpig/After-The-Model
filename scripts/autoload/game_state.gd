@@ -21,6 +21,8 @@ var equipment: Dictionary = {
 var knowledge: Dictionary = {}
 var notes: Array[Dictionary] = []
 var external_containers: Dictionary = {}
+var external_container_configs: Dictionary = {}
+
 
 # MVP Temporary Stub DB
 const ITEMS_DB := {
@@ -378,7 +380,7 @@ func is_equipped(instance_id: String) -> bool:
 # ==========================================
 # External Container Minimal API
 # ==========================================
-func configure_container(container_id: String, slot_count: int) -> void:
+func configure_container(container_id: String, slot_count: int, accepted_item: Array = [], deposit_locked: bool = false) -> void:
 	if container_id.is_empty() or slot_count <= 0:
 		return
 	if not external_containers.has(container_id):
@@ -386,6 +388,21 @@ func configure_container(container_id: String, slot_count: int) -> void:
 		for i in range(slot_count):
 			slots.append({})
 		external_containers[container_id] = slots
+
+		external_container_configs[container_id] = {
+			"slot_count": slot_count,
+			"accepted_item": accepted_item.duplicate(),
+			"deposit_locked": deposit_locked
+		}
+
+func get_container_config(container_id: String) -> Dictionary:
+	if external_container_configs.has(container_id):
+		return external_container_configs[container_id].duplicate(true)
+	return {
+		"slot_count": 0,
+		"accepted_item": [],
+		"deposit_locked": false
+	}
 
 func get_container(container_id: String) -> Array[Dictionary]:
 	if external_containers.has(container_id):
@@ -447,6 +464,19 @@ func move_one_item_to(target_container_id: String, instance_id: String) -> bool:
 
 	# Atomic Space Check
 	var item_id: String = item_to_move.get("item_id", "")
+
+	# Whitelist constraint check for target container
+	if not is_to_backpack:
+		var target_config = get_container_config(target_container_id)
+		var accepted: Array = target_config.get("accepted_item", [])
+		if not accepted.is_empty() and not accepted.has(item_id):
+			return false # Target container does not accept this item type
+
+	# Deposit lock constraint check for source container
+	if source_container_id != "player_inventory":
+		var source_config = get_container_config(source_container_id)
+		if source_config.get("deposit_locked", false):
+			return false # Cannot remove items from a locked deposit container
 	var item_meta: Dictionary = ITEMS_DB.get(item_id, {})
 	var stackable: bool = item_meta.get("stackable", false)
 	var max_stack: int = item_meta.get("max_stack", 1)

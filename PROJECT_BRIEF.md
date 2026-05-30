@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-05-29
+最後更新：2026-05-30
 
 ---
 
@@ -16,13 +16,14 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1-A ~ 1-E 完成；Phase 2-A / 2-B 已完成並驗證；下一步 2-C
+- **目前主線進度**：Phase 1-A ~ 1-E 完成；Phase 2-A / 2-B / 2-C 已完成並驗證；下一步 2-D
 
 最新 commit：
 
 ```text
+3c793e7 docs: design Phase 2-D sonar reveal + inventory use-verb fix
+e4fc0b2 Complete Phase 2-B decoder cube flow
 b5ac124 Implement Phase 2-A clue examine
-8aa6df9 Clarify Phase 2-A to 2-C specs
 ```
 
 ## 核心調性
@@ -108,14 +109,18 @@ UIMode    = res://scripts/autoload/ui_mode.gd
 - equipment
 - notes / knowledge
 - external containers
+- external container configs（`accepted_item` / `deposit_locked`）
 - item metadata stub `ITEMS_DB`
-- signals：`inventory_changed`、`container_changed`、`credits_changed`、`knowledge_added`、`notes_changed`、`equipment_changed`
+- signals：`inventory_changed`、`container_changed`、`credits_changed`、`knowledge_added`、`notes_changed`、`equipment_changed`、`item_moved`
 
 重要語意：
 
 - `has_knowledge(id)`：只用於劇情 gate，目前由 `category == "身份"` note 寫入。
 - `has_note(id)`：任意分類筆記存在判斷，供 examine / 一次性提示去重。
 - `move_one_item_to(...)`：物品搬運權威 API；UI 不直接改 GameState internals。
+- `get_container_config(container_id)`：回傳容器設定 deep copy，供 UI 判斷白名單 / 鎖定失敗訊息。
+- `accepted_item`：空陣列代表不限；非空時只允許清單內 item id 放入。
+- `deposit_locked`：可放入，但該容器內物品不可再取出。
 
 ### UIMode
 
@@ -168,7 +173,7 @@ note_id
 | 1-E | ✅ 完成 | 物品操作：R 查看、T 丟棄、E 裝備 / 卸下；ConfirmDialog；ItemDetailModal；focus routing 修補 |
 | 2-A | ✅ 完成 | 公寓線索 examine：桌上電腦 `work_ai_cleanup_role`、左牆錄音機 `identity_gleaner`；`note_id` export；`has_note()` 去重 |
 | 2-B | ✅ 完成 | 解碼手套 + `worn_rubiks_cube` -> `decoder_cube`；手套線索筆記；R 查看 fallback |
-| 2-C | ⬜ 待開工 | `accepted_item` 白名單 + `deposit_locked` 容器擴充，純資料層 |
+| 2-C | ✅ 完成 | `accepted_item` 白名單 + `deposit_locked` 容器擴充；`get_container_config()`；`item_moved` payload 驗證 |
 | 2-D | ⬜ 待開工 | 投影時鐘（偵測終端）+ 營養棒線索麵包屑 + 聲納 reveal 隱藏插槽 |
 | 2-E | ⬜ 待開工 | 插槽放入 -> 電磁聲響 / MessageBox / `identity_door_unlock_method` -> 開門整合 |
 | 3+ | ⬜ 待規劃 | SceneRouter、第二場景、NPC 對話、第一個零工任務 |
@@ -188,7 +193,7 @@ B8 放入 decoder_cube -> add_knowledge(identity_door_unlock_method)
 B9 開門 gate 通過
 ```
 
-目前玩家仍無完整通關路徑；2-A / 2-B 已完成前段 examine 線索與解碼方塊取得路徑。
+目前玩家仍無完整通關路徑；2-A / 2-B 已完成前段 examine 線索與解碼方塊取得路徑，2-C 已完成插槽所需資料層能力。
 
 ## 測試速查
 
@@ -199,7 +204,7 @@ C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . 
 C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . -s res://tests/manual/verify_game_state.gd
 ```
 
-最近 2-B 驗證結果：
+最近 2-C 驗證結果：
 
 ```text
 test_runner.tscn: PASS
@@ -240,7 +245,7 @@ verify_game_state.gd: PASS
 - `驗證後已知問題.md` 尚未建立；規劃於 Phase 2-E 收尾建立。
 - `subdocs/地點/主角公寓.md` 底部「已知落差 / 待修」有部分 Phase 1 歷史描述可能已過期；以 `AGENTS.md`、`遊戲規格書.md`、目前 code 與 git log 判斷最新狀態。
 - Phase 2-B 已實作並驗證；`worn_rubiks_cube`、`decoder_cube` 與解碼手套流程已存在於 code。
-- Phase 2-C 規格已定但尚未實作；不要假設 `accepted_item`、`deposit_locked` 已存在於 code。
+- Phase 2-C 已實作並驗證；`accepted_item`、`deposit_locked`、`get_container_config()` 與 `item_moved` payload 可供 2-D / 2-E 使用。
 - 大門目前只顯示 `door_opened` 訊息，不轉場；SceneRouter 留 Phase 3+。
 
 ## 下一步建議
@@ -248,16 +253,16 @@ verify_game_state.gd: PASS
 短線最合理下一步：
 
 ```text
-Phase 2-C
--> 擴充 configure_container accepted_item / deposit_locked
--> move_one_item_to 套用白名單與鎖定取出規則
--> get_container_config 回傳防外部修改的設定資料
--> 更新 verify_game_state headless 驗證
+Phase 2-D
+-> 新增營養棒線索麵包屑
+-> 投影時鐘依線索 gate 啟動聲納
+-> 聲納 reveal 隱藏插槽
+-> 插槽容器使用 2-C 的 accepted_item / deposit_locked config
 ```
 
-2-C 前必讀：
+2-D 前必讀：
 
-- `遊戲規格書.md > Phase 2 > 2-C 驗收意圖`
-- `開發設計方針.md > 2-C 容器白名單與鎖定`
-- `測試指南.md > 2-C 容器 accepted_item + deposit_locked`
+- `遊戲規格書.md > Phase 2 > 2-D 驗收意圖`
+- `開發設計方針.md > 2-D 偵測終端（投影時鐘）+ 聲納 reveal`
+- `測試指南.md > 2-D 投影時鐘 + 聲納 reveal 隱藏插槽`
 - `subdocs/地點/主角公寓.md > 隱藏插槽 / 解碼方塊放入路徑`

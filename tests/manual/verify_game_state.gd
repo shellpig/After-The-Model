@@ -7,6 +7,7 @@ var last_credits_signal_val = -1
 var inventory_signal_count = 0
 var container_signal_count = 0
 var last_container_signal_id = ""
+var last_item_moved_payload: Dictionary = {}
 
 func _init() -> void:
 	print("==================================================")
@@ -42,6 +43,7 @@ func run_tests() -> void:
 	test_atomic_move_verification()
 	test_signal_emitters_verification()
 	test_change_item_id_api()
+	test_container_whitelist_and_lock()
 
 	print("\n==================================================")
 	print("ALL ASSERTIONS PASSED SUCCESSFULLY! GameState is 100% Correct.")
@@ -57,6 +59,9 @@ func _on_inventory_changed() -> void:
 func _on_container_changed(id: String) -> void:
 	container_signal_count += 1
 	last_container_signal_id = id
+
+func _on_item_moved(move: Dictionary) -> void:
+	last_item_moved_payload = move
 
 # 1. Credits API Verification
 func test_credits_api() -> void:
@@ -430,4 +435,172 @@ func test_change_item_id_api() -> void:
 	inv = GameState.get_inventory()
 	assert(inv[0].get("item_id") == "decoder_cube", "Item ID should have changed to decoder_cube")
 	assert(inv[0].get("instance_id") == cube_instance_id, "Instance ID should remain identical")
+	print("  -> Passed.")
+
+func test_container_whitelist_and_lock() -> void:
+	print("Running Test 11: Whitelist and Lock Verification...")
+	inventory_signal_count = 0
+	container_signal_count = 0
+
+	# 1. Backward compatibility check
+	GameState.configure_container("cabinet_storage", 30)
+	var config_cab = GameState.get_container_config("cabinet_storage")
+	assert(config_cab.get("slot_count") == 30, "Cabinet slot count should be 30")
+	assert(config_cab.get("accepted_item") == [], "Cabinet accepted items should be empty by default")
+	assert(config_cab.get("deposit_locked") == false, "Cabinet deposit lock should be false by default")
+
+	# 2. Setup items in backpack
+	GameState.inventory.clear()
+	for i in range(GameState.inventory_slots):
+		GameState.inventory.append({})
+
+	var ok_food = GameState.add_item("canned_food", 1)
+	var ok_cube = GameState.add_item("decoder_cube", 1)
+	assert(ok_food == true, "Should add canned food")
+	assert(ok_cube == true, "Should add decoder cube")
+
+	var inv = GameState.get_inventory()
+	var canned_food_inst = ""
+	var decoder_cube_inst = ""
+	for slot in inv:
+		if not slot.is_empty():
+			if slot.get("item_id") == "canned_food":
+				canned_food_inst = slot.get("instance_id")
+			elif slot.get("item_id") == "decoder_cube":
+				decoder_cube_inst = slot.get("instance_id")
+
+	assert(not canned_food_inst.is_empty() and not decoder_cube_inst.is_empty(), "Instances must be found")
+
+	# 3. Configure puzzle slot with whitelist
+	GameState.configure_container("puzzle_slot", 1, ["decoder_cube"])
+	var config_puz = GameState.get_container_config("puzzle_slot")
+	assert(config_puz.get("accepted_item").has("decoder_cube") == true, "Puzzle accepted item must contain decoder_cube")
+
+	# Try to move non-whitelist item (canned_food) -> should fail
+	var move_fail = GameState.move_one_item_to("puzzle_slot", canned_food_inst)
+	assert(move_fail == false, "Moving non-whitelist item into puzzle slot should fail")
+
+	# Verify puzzle slot remains empty and canned food remains in inventory
+	var puz_container = GameState.get_container("puzzle_slot")
+	assert(puz_container[0] == {}, "Puzzle slot must remain empty after failed move")
+	inv = GameState.get_inventory()
+	assert(inv.any(func(s): return not s.is_empty() and s.get("instance_id") == canned_food_inst and s.get("quantity") == 1), "Canned food must remain in backpack")
+
+	# Move whitelist item (decoder_cube) -> should succeed
+	var move_ok = GameState.move_one_item_to("puzzle_slot", decoder_cube_inst)
+	assert(move_ok == true, "Moving whitelist item into puzzle slot should succeed")
+
+	puz_container = GameState.get_container("puzzle_slot")
+	assert(puz_container[0].get("item_id") == "decoder_cube", "Puzzle slot should contain the decoder cube")
+
+	# 4. Configure lock container
+	GameState.configure_container("locked_slot", 1, ["decoder_cube"], true)
+	var config_lock = GameState.get_container_config("locked_slot")
+	assert(config_lock.get("deposit_locked") == true, "Locked slot should have deposit_locked enabled")
+
+	# Retrieve the new instance ID inside puzzle_slot to move it to locked_slot
+	var cube_inst_in_puz = puz_container[0].get("instance_id")
+
+	# First move it back to inventory so we can put it into locked_slot
+	var move_back = GameState.move_one_item_to("player_inventory", cube_inst_in_puz)
+	assert(move_back == true, "Moving cube back to backpack should succeed")
+
+	inv = GameState.get_inventory()
+	var cube_inst_backpack = ""
+	for slot in inv:
+		if not slot.is_empty() and slot.get("item_id") == "decoder_cube":
+			cube_inst_backpack = slot.get("instance_id")
+
+	# Move to locked container
+	var move_to_lock = GameState.move_one_item_to("locked_slot", cube_inst_backpack)
+	assert(move_to_lock == true, "Moving cube to locked slot should succeed")
+
+	var locked_container = GameState.get_container("locked_slot")
+	assert(locked_container[0].get("item_id") == "decoder_cube", "Locked slot should contain decoder cube")
+	var cube_inst_in_lock = locked_container[0].get("instance_id")
+
+	# Attempt to retrieve from locked container -> should fail
+	var retrieve_fail = GameState.move_one_item_to("player_inventory", cube_inst_in_lock)
+	assert(retrieve_fail == false, "Extracting item from locked container must fail")
+
+	# Verify item remains in the locked container
+	locked_container = GameState.get_container("locked_slot")
+	assert(locked_container[0].get("item_id") == "decoder_cube", "Item must remain in the locked container")
+
+	# 5. Deep Copy Read Immunity check
+	var copy_config = GameState.get_container_config("puzzle_slot")
+	copy_config["accepted_item"].append("canned_food")
+	var fresh_config = GameState.get_container_config("puzzle_slot")
+	assert(fresh_config.get("accepted_item").has("canned_food") == false, "Config configuration must be deep-copy immuned against outer mutations")
+
+	# 6. Verify multiple whitelist IDs allowed
+	GameState.configure_container("multi_whitelist_slot", 2, ["decoder_cube", "canned_food"])
+	# Clear backpack and seed both
+	GameState.inventory.clear()
+	for i in range(GameState.inventory_slots):
+		GameState.inventory.append({})
+	var ok_f = GameState.add_item("canned_food", 1)
+	var ok_c = GameState.add_item("decoder_cube", 1)
+	assert(ok_f == true and ok_c == true, "Add items to backpack should succeed")
+
+	inv = GameState.get_inventory()
+	var canned_food_inst_m = ""
+	var decoder_cube_inst_m = ""
+	for slot in inv:
+		if not slot.is_empty():
+			if slot.get("item_id") == "canned_food":
+				canned_food_inst_m = slot.get("instance_id")
+			elif slot.get("item_id") == "decoder_cube":
+				decoder_cube_inst_m = slot.get("instance_id")
+
+	var move_ok_f = GameState.move_one_item_to("multi_whitelist_slot", canned_food_inst_m)
+	var move_ok_c = GameState.move_one_item_to("multi_whitelist_slot", decoder_cube_inst_m)
+	assert(move_ok_f == true, "Moving canned_food in multi-whitelist should succeed")
+	assert(move_ok_c == true, "Moving decoder_cube in multi-whitelist should succeed")
+
+	var multi_container = GameState.get_container("multi_whitelist_slot")
+	assert(multi_container[0].get("item_id") == "canned_food" or multi_container[1].get("item_id") == "canned_food", "Should contain canned_food")
+	assert(multi_container[0].get("item_id") == "decoder_cube" or multi_container[1].get("item_id") == "decoder_cube", "Should contain decoder_cube")
+
+	# 7. Verify item_moved signal payload structures
+	last_item_moved_payload = {}
+	GameState.item_moved.connect(_on_item_moved)
+
+	# Configure a clean test container
+	GameState.configure_container("signal_test_slot", 1)
+	# Setup backpack with one canned_food
+	GameState.inventory.clear()
+	for i in range(GameState.inventory_slots):
+		GameState.inventory.append({})
+	GameState.add_item("canned_food", 1)
+	inv = GameState.get_inventory()
+	var canned_food_inst_sig = inv[0].get("instance_id")
+
+	var move_sig_ok = GameState.move_one_item_to("signal_test_slot", canned_food_inst_sig)
+	assert(move_sig_ok == true, "Moving canned_food should succeed")
+
+	# Check payload dictionary keys and values
+	assert(last_item_moved_payload.has("source_container_id"), "Payload must contain source_container_id")
+	assert(last_item_moved_payload.has("target_container_id"), "Payload must contain target_container_id")
+	assert(last_item_moved_payload.has("source_instance_id"), "Payload must contain source_instance_id")
+	assert(last_item_moved_payload.has("target_instance_id"), "Payload must contain target_instance_id")
+	assert(last_item_moved_payload.has("item_id"), "Payload must contain item_id")
+
+	assert(last_item_moved_payload["source_container_id"] == "player_inventory", "Source container must be player_inventory")
+	assert(last_item_moved_payload["target_container_id"] == "signal_test_slot", "Target container must be signal_test_slot")
+	assert(last_item_moved_payload["source_instance_id"] == canned_food_inst_sig, "Source instance ID must match")
+	assert(last_item_moved_payload["item_id"] == "canned_food", "Item ID must match")
+	assert(not last_item_moved_payload["target_instance_id"].is_empty(), "Target instance ID must be non-empty")
+
+	# Clean up signal connection
+	GameState.item_moved.disconnect(_on_item_moved)
+
+	# 8. Verify configure_container does not overwrite existing configs
+	# puzzle_slot was configured as: (1, ["decoder_cube"], false)
+	GameState.configure_container("puzzle_slot", 10, ["canned_food"], true)
+	var config_re = GameState.get_container_config("puzzle_slot")
+	assert(config_re.get("slot_count") == 1, "Slot count should remain 1")
+	assert(config_re.get("accepted_item") == ["decoder_cube"], "Accepted items list should remain ['decoder_cube']")
+	assert(config_re.get("deposit_locked") == false, "Deposit locked should remain false")
+
 	print("  -> Passed.")

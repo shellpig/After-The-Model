@@ -439,6 +439,11 @@ func _get_closest_interactable() -> Area2D:
 		if not is_instance_valid(interactable):
 			continue
 
+		# If the interactable has a note associated with it, and the player already has that note,
+		# disable any further interaction.
+		if not interactable.note_id.is_empty() and GameState.has_note(interactable.note_id):
+			continue
+
 		if interactable.interaction_id == "projection_clock" and (not GameState.has_note("clue_projection_clock") or _sonar_revealed):
 			continue
 		if interactable.interaction_id == "apartment_slot" and not _sonar_revealed:
@@ -873,6 +878,8 @@ func _stop_sonar(revealed: bool) -> void:
 	sonar_ui.visible = false
 	if not revealed:
 		FloatingToast.show_toast("聲納超時關閉，定位失敗。", player)
+		if current_interactable != null:
+			_update_prompt()
 
 func _reveal_hidden_slot() -> void:
 	_stop_sonar(true)

@@ -176,22 +176,20 @@ note_id
 | 2-E | ✅ 完成 | 插槽放入 -> 電磁聲響 / MessageBox / `identity_door_unlock_method` -> 開門整合 |
 | 2-F | ✅ 完成 | 筆記內容/操作修正（測試長筆記改氛圍版「雨還沒停」、A/D 切分頁 + W/S 選筆記、與 Page Up/Down 停用）+ 公寓 BGM（`AudioStreamPlayer` loop / -12dB） |
 | 2-G | ✅ 完成 | 開場獨白序列：prone 甦醒 → 3 頁不可跳過 MessageBox（標題首行 + 6 字/秒）→ P3 起身動畫 `get_up` → 解鎖；每次進場都播；隱藏 T×3（1 秒內）跳頁捷徑 |
-| **3 — 公寓觸控化（手機可玩）** | ⬜ 待開工 | 把現有公寓 B0–B9 + 所有 UI 面板變成 iPhone 純觸控可玩；螢幕虛擬手把灌既有 InputMap action，面板邏輯零改動。詳見下方「Phase 3 子階段」 |
+| 3-A | ✅ 完成 | 顯示 / 橫向 / 觸控模擬設定：`project.godot` landscape、`emulate_*_from_touch`、`canvas_items`+`expand`；headless 回歸 PASS（commit `8b385c8`） |
+| 3-B | 🟦 待驗收 | 世界模式觸控：`TouchControls` autoload（layer 100）左下方向鍵走路 / 右下 E / 右上 背包·筆記；顯示規則 `visible` 恆真 + `OS.get_name()` 判 PC + PC 端觸控 toggle（棄用 `is_touchscreen_available`，Windows 觸控筆電誤判）；headless 自動測試 PASS、待 GUI 純觸控走查 |
+| 3-C | 🟦 待驗收 | 面板模式觸控：方向鍵移焦點、右下 E / R / T（情境感知顯隱）、面板開時右上「X 返回」=`ui_cancel`；headless PASS、**里程碑 PC 純觸控通關 B0–B9（GUI 實測未跑）** |
+| 3-D | 🟦 待驗收 | Safe area + 比例排版：按鈕內縮 `get_display_safe_area()`（test_runner 9.1 驗證）、D-pad 54 / 功能鍵 60（≥44px）；待 GUI 比例目視、真機座標換算待 3-E |
+| 3-E | ⬜ 待開工 | 真機導出 + iPhone 校正（需 Mac）：Mac+Xcode 免費簽名進 iPhone、真機純觸控通關、瀏海 / 效能校正 |
 | 4+ | ⬜ 待規劃 | （原 Phase 3+ 內容）SceneRouter、第二場景、NPC 對話、第一個零工任務；觸控規範沿用 Phase 3 |
+
+> 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
 ### Phase 3 子階段（公寓觸控化）
 
+> 子階段細項（狀態 + 概要）已併入上方「Phase 進度」主表（單一事實來源），此處不重列以免漂移。
+
 平台策略：最終 iOS、MVP 不做 Android；開發 / 驗收在 **Windows 桌面版 + 滑鼠模擬觸控**，真機在 **Mac + Xcode 免費簽名**進自己 iPhone（**不需付費 Apple Developer Program**，付費僅 TestFlight / 上架）。依賴線性：3-A → 3-B → 3-C → 3-D（皆 Windows）→ 3-E（需 Mac）。
-
-| 子階段 | 狀態 | 概要 | 環境 |
-|---|---|---|---|
-| 3-A 顯示 / 橫向 / 觸控模擬設定 | ✅ | `project.godot`：landscape、`emulate_*_from_touch`、`canvas_items`+`expand`；headless 回歸 PASS（commit `8b385c8`） | Windows |
-| 3-B 世界模式觸控 | 🟦 實作+自動測試過、待 GUI 純觸控走查 | `TouchControls` autoload（layer 100）：左下方向鍵走路、右下 E、右上 背包 / 筆記；顯示規則改為 `visible` 恆真 + `OS.get_name()` 判 PC + PC 端 toggle（棄用 `is_touchscreen_available` 因 Windows 觸控筆電誤判） | Windows |
-| 3-C 面板模式觸控 | 🟦 實作+自動測試過、待 GUI 里程碑走查 | 方向鍵移焦點、右下 E / R / T（升級為情境感知顯隱）、面板開時右上「X 返回」；**里程碑 = PC 純觸控通關 B0–B9（GUI 實測未跑）** | Windows |
-| 3-D Safe area + 比例排版 | 🟦 實作+自動測試過、待 GUI 比例目視 | 按鈕內縮 `get_display_safe_area()`（test_runner 9.1 驗證）、D-pad 54 / 功能鍵 60（≥44px）；真機座標換算待 3-E 校驗 | Windows |
-| 3-E 真機導出 + iPhone 校正 | ⬜ | Mac+Xcode 免費簽名進 iPhone、真機純觸控通關、瀏海 / 效能校正 | Mac |
-
-> 狀態圖例：✅ 完成（含可驗收）；🟦 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 未開工。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
 驗收意圖見 `遊戲規格書.md > Phase 規劃 > Phase 3`；實作契約見 `開發設計方針.md > Phase 3`；操作清單見 `測試指南.md > Phase 3`。
 

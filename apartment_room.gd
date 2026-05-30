@@ -246,7 +246,7 @@ func _ready() -> void:
 	_audio_ping = AudioStreamPlayer.new()
 	_audio_ping.name = "AudioPing"
 	_audio_ping.stream = load("res://assets/sound/sonar_ping.wav")
-	_audio_ping.volume_db = 6.0
+	_audio_ping.volume_db = 1.0
 	add_child(_audio_ping)
 
 	_audio_reveal = AudioStreamPlayer.new()
@@ -1047,10 +1047,10 @@ func _adjust_bgm_volume_dynamics() -> void:
 	var bgm_player = $BGMPlayer as AudioStreamPlayer
 	if is_instance_valid(bgm_player) and bgm_player.playing:
 		var pos := bgm_player.get_playback_position()
-		if pos < 7.5:
-			bgm_player.volume_db = 0.0
-		elif pos >= 7.5 and pos < 10.0:
-			var t := pos - 7.5
+		if pos < 6.5:
+			bgm_player.volume_db = 5.0
+		elif pos >= 6.5 and pos < 8.0:
+			var t := pos - 6.5
 			bgm_player.volume_db = lerp(0.0, -8.0, t)
 		else:
 			bgm_player.volume_db = -8.0

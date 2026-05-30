@@ -15,6 +15,7 @@ var _style_pressed: StyleBoxFlat
 @onready var btn_e: Button = $Control/Actions/BtnE
 @onready var btn_r: Button = $Control/Actions/BtnR
 @onready var btn_t: Button = $Control/Actions/BtnT
+@onready var spacer_actions: Control = $Control/Actions/SpacerActions
 
 @onready var btn_bag: Button = $Control/Menus/BtnBag
 @onready var btn_note: Button = $Control/Menus/BtnNote
@@ -83,6 +84,9 @@ func _simulate_action(action: String, pressed: bool) -> void:
 	Input.parse_input_event(event)
 
 func _apply_cyber_style() -> void:
+	# 決定目前平台的縮放比例 (非 PC 行動裝置縮放 1.5 倍，PC 維持 1.0)
+	var ui_scale := 1.5 if not is_pc_platform else 1.0
+
 	# Riso-inspired Cyberpunk 專用限色
 	var bg_color := Color(0.08, 0.10, 0.12, 0.80)             # 深灰藍
 	var border_color_normal := Color(0.22, 0.28, 0.29, 0.85)   # 鋼青灰
@@ -134,15 +138,34 @@ func _apply_cyber_style() -> void:
 
 	# 針對各按鈕調整合適的觸控尺寸 (滿足且大於 iOS HIG 44x44px 規範)
 	for btn in [btn_up, btn_down, btn_left, btn_right]:
-		btn.custom_minimum_size = Vector2(54, 54)
-		btn.add_theme_font_size_override("font_size", 22)
+		btn.custom_minimum_size = Vector2(54 * ui_scale, 54 * ui_scale)
+		btn.add_theme_font_size_override("font_size", int(22 * ui_scale))
 	
 	# 右上與右下所有功能按鈕統一採用 60x60 的正方形設計，字體統一為 18px，外觀尺寸絕對一致
 	for btn in [btn_e, btn_r, btn_t, btn_bag, btn_note, btn_close]:
-		btn.custom_minimum_size = Vector2(60, 60)
-		btn.add_theme_font_size_override("font_size", 18)
+		btn.custom_minimum_size = Vector2(60 * ui_scale, 60 * ui_scale)
+		btn.add_theme_font_size_override("font_size", int(18 * ui_scale))
 
-	# 針對切換按鍵套用專屬的長方形 HUD 扁平樣式，與鍵盤提示高度貼合
+	# 為 2x2 佈局中的 SpacerActions 套用與功能按鈕完全一致的 custom_minimum_size 以維持對齊
+	if spacer_actions:
+		spacer_actions.custom_minimum_size = Vector2(60 * ui_scale, 60 * ui_scale)
+
+	# 動態套用各容器內部的間距 Separation
+	var dpad = $Control/DPad
+	if dpad:
+		dpad.add_theme_constant_override("h_separation", int(6 * ui_scale))
+		dpad.add_theme_constant_override("v_separation", int(6 * ui_scale))
+	
+	var actions = $Control/Actions
+	if actions:
+		actions.add_theme_constant_override("h_separation", int(12 * ui_scale))
+		actions.add_theme_constant_override("v_separation", int(12 * ui_scale))
+	
+	var menus = $Control/Menus
+	if menus:
+		menus.add_theme_constant_override("separation", int(12 * ui_scale))
+
+	# 針對切換按鍵套用專屬的長方形 HUD 扁平樣式，與鍵盤提示高度貼合 (此按鈕僅 PC 端顯示，不隨手機 ui_scale 縮放)
 	btn_toggle.custom_minimum_size = Vector2(110, 32)
 	btn_toggle.add_theme_font_size_override("font_size", 14)
 	btn_toggle.add_theme_stylebox_override("normal", style_normal)
@@ -197,8 +220,9 @@ func _update_dynamic_button_visibility() -> void:
 		$Control/Menus.visible = false
 		return
 
-	# 3. 正常啟用狀態下，按鍵顯示規則：D-pad 與 Menus 只要觸控啟用皆顯示 (Menus 依 mode 決定 Bag/Note vs Close)
-	$Control/DPad.visible = true
+	# 3. 正常啟用狀態下，按鍵顯示規則：D-pad 僅在世界探索模式 (NONE) 顯示以避開對話及選單重疊；Actions 與 Menus 恆顯示
+	var show_dpad := (mode == UIMode.Mode.NONE)
+	$Control/DPad.visible = show_dpad
 	$Control/Actions.visible = true
 	$Control/Menus.visible = true
 

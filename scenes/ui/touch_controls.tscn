@@ -29,9 +29,8 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 32.0
-offset_top = -212.0
-offset_right = 206.0
 offset_bottom = -32.0
+grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/h_separation = 6
 theme_override_constants/v_separation = 6
@@ -68,29 +67,31 @@ text = "▼"
 [node name="Spacer5" type="Control" parent="Control/DPad"]
 layout_mode = 2
 
-[node name="Actions" type="HBoxContainer" parent="Control"]
+[node name="Actions" type="GridContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -250.0
-offset_top = -96.0
 offset_right = -32.0
 offset_bottom = -32.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_constants/separation = 12
-alignment = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 2
 
-[node name="BtnT" type="Button" parent="Control/Actions"]
+[node name="SpacerActions" type="Control" parent="Control/Actions"]
 layout_mode = 2
-text = "T"
 
 [node name="BtnR" type="Button" parent="Control/Actions"]
 layout_mode = 2
 text = "R"
+
+[node name="BtnT" type="Button" parent="Control/Actions"]
+layout_mode = 2
+text = "T"
 
 [node name="BtnE" type="Button" parent="Control/Actions"]
 layout_mode = 2
@@ -101,11 +102,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -312.0
 offset_top = 32.0
 offset_right = -32.0
-offset_bottom = 76.0
 grow_horizontal = 0
+grow_vertical = 2
 theme_override_constants/separation = 12
 alignment = 2
 

@@ -261,6 +261,11 @@ func _ready() -> void:
 	_audio_electromagnetic.volume_db = 6.0
 	add_child(_audio_electromagnetic)
 
+	# 強制開啟初始 Cozy Night BGM 的循環播放屬性，進行雙重防護
+	var bgm_player = $BGMPlayer as AudioStreamPlayer
+	if is_instance_valid(bgm_player) and bgm_player.stream:
+		bgm_player.stream.loop = true
+
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)

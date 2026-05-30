@@ -165,6 +165,21 @@ func _apply_cyber_style() -> void:
 	if menus:
 		menus.add_theme_constant_override("separation", int(12 * ui_scale))
 
+	# 動態調整各容器的邊距 (Offsets) 以進行平台適配 (行動端偏置貼邊以利操作，PC 模擬維持大間距)
+	if dpad and actions:
+		if not is_pc_platform:
+			# 行動端：手勢人體工學貼邊
+			dpad.offset_left = 64
+			dpad.offset_bottom = -16
+			actions.offset_right = -12
+			actions.offset_bottom = -12
+		else:
+			# PC 桌面端：維持 32 像素經典安全邊距
+			dpad.offset_left = 32
+			dpad.offset_bottom = -32
+			actions.offset_right = -32
+			actions.offset_bottom = -32
+
 	# 針對切換按鍵套用專屬的長方形 HUD 扁平樣式，與鍵盤提示高度貼合 (此按鈕僅 PC 端顯示，不隨手機 ui_scale 縮放)
 	btn_toggle.custom_minimum_size = Vector2(110, 32)
 	btn_toggle.add_theme_font_size_override("font_size", 14)

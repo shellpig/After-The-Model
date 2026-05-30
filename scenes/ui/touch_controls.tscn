@@ -1,0 +1,122 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/touch_controls.gd" id="1_touch_controls"]
+
+[node name="TouchControls" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_touch_controls")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BtnToggle" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 26.0
+offset_right = 430.0
+offset_bottom = 58.0
+text = "[ 觸控: 關 ]"
+
+[node name="DPad" type="GridContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -212.0
+offset_right = 206.0
+offset_bottom = -32.0
+grow_vertical = 0
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 3
+
+[node name="Spacer1" type="Control" parent="Control/DPad"]
+layout_mode = 2
+
+[node name="BtnUp" type="Button" parent="Control/DPad"]
+layout_mode = 2
+text = "▲"
+
+[node name="Spacer2" type="Control" parent="Control/DPad"]
+layout_mode = 2
+
+[node name="BtnLeft" type="Button" parent="Control/DPad"]
+layout_mode = 2
+text = "◀"
+
+[node name="Spacer3" type="Control" parent="Control/DPad"]
+layout_mode = 2
+
+[node name="BtnRight" type="Button" parent="Control/DPad"]
+layout_mode = 2
+text = "▶"
+
+[node name="Spacer4" type="Control" parent="Control/DPad"]
+layout_mode = 2
+
+[node name="BtnDown" type="Button" parent="Control/DPad"]
+layout_mode = 2
+text = "▼"
+
+[node name="Spacer5" type="Control" parent="Control/DPad"]
+layout_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -96.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="BtnT" type="Button" parent="Control/Actions"]
+layout_mode = 2
+text = "T"
+
+[node name="BtnR" type="Button" parent="Control/Actions"]
+layout_mode = 2
+text = "R"
+
+[node name="BtnE" type="Button" parent="Control/Actions"]
+layout_mode = 2
+text = "E"
+
+[node name="Menus" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -312.0
+offset_top = 32.0
+offset_right = -32.0
+offset_bottom = 76.0
+grow_horizontal = 0
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="BtnBag" type="Button" parent="Control/Menus"]
+layout_mode = 2
+text = "背包"
+
+[node name="BtnNote" type="Button" parent="Control/Menus"]
+layout_mode = 2
+text = "筆記"
+
+[node name="BtnClose" type="Button" parent="Control/Menus"]
+layout_mode = 2
+text = "X 返回"

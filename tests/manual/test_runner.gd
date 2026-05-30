@@ -214,6 +214,42 @@ func _ready() -> void:
 		return
 	print("PASS: GameState Phase 1-E APIs verified.")
 
+	# 9. Verify TouchControls Autoload & Platform Detection (Phase 3-C)
+	print("Verifying TouchControls Autoload & Platform Detection...")
+	var touch_controls = get_node_or_null("/root/TouchControls")
+	if not touch_controls:
+		printerr("FAIL: TouchControls autoload not found at /root/TouchControls!")
+		get_tree().quit(1)
+		return
+	
+	# Since this test runs on Windows (PC), is_pc_platform must be true
+	if not touch_controls.is_pc_platform:
+		printerr("FAIL: TouchControls.is_pc_platform should be true on Windows PC!")
+		get_tree().quit(1)
+		return
+	print("PASS: TouchControls.is_pc_platform is true on Windows PC.")
+	
+	# On PC, touch buttons should be disabled by default
+	if touch_controls.touch_buttons_enabled:
+		printerr("FAIL: TouchControls.touch_buttons_enabled should be false by default on PC!")
+		get_tree().quit(1)
+		return
+	print("PASS: TouchControls.touch_buttons_enabled is false by default on PC.")
+	
+	# On PC, BtnToggle should be visible by default in NONE mode
+	UIMode.set_mode(UIMode.Mode.NONE)
+	touch_controls._update_dynamic_button_visibility()
+	var btn_toggle = touch_controls.get_node_or_null("Control/BtnToggle")
+	if not btn_toggle:
+		printerr("FAIL: Control/BtnToggle node not found in TouchControls!")
+		get_tree().quit(1)
+		return
+	if not btn_toggle.visible:
+		printerr("FAIL: BtnToggle should be visible by default on PC in world mode!")
+		get_tree().quit(1)
+		return
+	print("PASS: TouchControls BtnToggle visibility and default state verified.")
+
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")

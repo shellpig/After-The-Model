@@ -169,12 +169,12 @@ func _apply_cyber_style() -> void:
 	if dpad and actions:
 		if not is_pc_platform:
 			# 行動端：手勢人體工學貼邊
-			dpad.offset_left = 64
-			dpad.offset_bottom = -16
-			actions.offset_right = -12
-			actions.offset_bottom = -12
+			dpad.offset_left = 80
+			dpad.offset_bottom = -8
+			actions.offset_right = -6
+			actions.offset_bottom = -6
 		else:
-			# PC 桌面端：維持 32 像素經典安全邊距
+			# PC 桌面端：維持 176 像素經典安全邊距
 			dpad.offset_left = 176
 			dpad.offset_bottom = -32
 			actions.offset_right = -32
@@ -373,14 +373,27 @@ func _update_safe_area() -> void:
 		return
 		
 	var window_px := DisplayServer.window_get_size()
-	var scale_x := viewport_size.x / float(window_px.x)
-	var scale_y := viewport_size.y / float(window_px.y)
+	if window_px.x == 0 or window_px.y == 0:
+		return
+
+	# 在 aspect = "keep" 模式下，計算遊戲視窗 16:9 在實體螢幕上的縮放比例與位置
+	var scale: float = min(float(window_px.x) / viewport_size.x, float(window_px.y) / viewport_size.y)
+	var v_phys_w: float = viewport_size.x * scale
+	var v_phys_h: float = viewport_size.y * scale
 	
-	var margin_left   = safe_rect.position.x * scale_x
-	var margin_top    = safe_rect.position.y * scale_y
-	var margin_right  = (window_px.x - safe_rect.end.x) * scale_x
-	var margin_bottom = (window_px.y - safe_rect.end.y) * scale_y
-	
+	# 遊戲 16:9 背景在實體螢幕上的左上角起點 (v_pos) 與右下角終點 (v_end)
+	var v_pos_x: float = (window_px.x - v_phys_w) / 2.0
+	var v_pos_y: float = (window_px.y - v_phys_h) / 2.0
+	var v_end_x: float = v_pos_x + v_phys_w
+	var v_end_y: float = v_pos_y + v_phys_h
+
+	# 計算安全邊界與遊戲背景之間的物理重疊長度，然後除以 scale 轉換回 1280x720 遊戲邏輯像素
+	# 如果實體 notch/safe_rect 已經落在遊戲畫面外的黑邊中，則對應內縮直接為 0
+	var margin_left: float   = max(0.0, (safe_rect.position.x - v_pos_x) / scale)
+	var margin_top: float    = max(0.0, (safe_rect.position.y - v_pos_y) / scale)
+	var margin_right: float  = max(0.0, (v_end_x - safe_rect.end.x) / scale)
+	var margin_bottom: float = max(0.0, (v_end_y - safe_rect.end.y) / scale)
+
 	control.offset_left = margin_left
 	control.offset_top = margin_top
 	control.offset_right = -margin_right

@@ -20,11 +20,18 @@ func is_world_input_blocked() -> bool:
 	return current_mode != Mode.NONE
 
 func enter_confirm() -> void:
-	_caller_mode = current_mode
-	current_mode = Mode.CONFIRM
-	mode_changed.emit(Mode.CONFIRM)
+	enter_overlay(Mode.CONFIRM)
 
 func exit_confirm() -> void:
+	exit_overlay()
+
+func enter_overlay(overlay_mode: int) -> void:
+	_caller_mode = current_mode
+	current_mode = overlay_mode
+	mode_changed.emit(current_mode)
+
+func exit_overlay() -> void:
 	current_mode = _caller_mode
 	_caller_mode = Mode.NONE
 	mode_changed.emit(current_mode)
+

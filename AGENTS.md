@@ -17,7 +17,7 @@
   - **Phase 2-B** ✅ 解碼手套 + `worn_rubiks_cube`→`decoder_cube` + R 查看 fallback
   - **Phase 2-C** ✅ 容器 `accepted_item` 白名單 + `deposit_locked` + `get_container_config()`
   - **Phase 2-D** ✅ 投影時鐘（偵測終端）+ 營養棒線索麵包屑 + 聲納 reveal 隱藏插槽
-  - Phase 2-E 設計已定稿（插槽放入→語音→開門 + MESSAGE·CONFIRM overlay 重構），待實作
+  - **Phase 2-E** ✅ 插槽放入→語音→開門 + MESSAGE·CONFIRM overlay 重構 (通關解謎鏈全線貫通)
   - Phase 3+：SceneRouter、第二個場景、NPC、零工
   - 詳細規劃見 `遊戲規格書.md > Phase 規劃`
 

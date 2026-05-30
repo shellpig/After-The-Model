@@ -16,14 +16,12 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1-A ~ 1-E 完成；Phase 2-A / 2-B / 2-C / 2-D 已完成並驗證；下一步 2-E
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈）已全數完成並驗證；下一步 Phase 3（新場景與轉場）
 
 最新 commit：
 
 ```text
-3c793e7 docs: design Phase 2-D sonar reveal + inventory use-verb fix
-e4fc0b2 Complete Phase 2-B decoder cube flow
-b5ac124 Implement Phase 2-A clue examine
+77abac5 feat: implement and refine Phase 2-D sonar reveal & nutrition bar clue flows
 ```
 
 ## 核心調性
@@ -175,7 +173,7 @@ note_id
 | 2-B | ✅ 完成 | 解碼手套 + `worn_rubiks_cube` -> `decoder_cube`；手套線索筆記；R 查看 fallback |
 | 2-C | ✅ 完成 | `accepted_item` 白名單 + `deposit_locked` 容器擴充；`get_container_config()`；`item_moved` payload 驗證 |
 | 2-D | ✅ 完成 | 投影時鐘（偵測終端）+ 營養棒線索麵包屑 + 聲納 reveal 隱藏插槽 |
-| 2-E | ⬜ 待開工 | 插槽放入 -> 電磁聲響 / MessageBox / `identity_door_unlock_method` -> 開門整合 |
+| 2-E | ✅ 完成 | 插槽放入 -> 電磁聲響 / MessageBox / `identity_door_unlock_method` -> 開門整合 |
 | 3+ | ⬜ 待規劃 | SceneRouter、第二場景、NPC 對話、第一個零工任務 |
 
 ## Phase 2 公寓解謎鏈
@@ -193,7 +191,7 @@ B8 放入 decoder_cube -> add_knowledge(identity_door_unlock_method)
 B9 開門 gate 通過
 ```
 
-目前玩家仍無完整通關路徑；2-A / 2-B 已完成前段 examine 線索與解碼方塊取得路徑，2-C 已完成插槽所需資料層能力。
+目前玩家已具備完整通關路徑（B0 ~ B9）；公寓解謎核心鏈已全數開發完成並通過自動與手動驗收。
 
 ## 各階段查閱地圖（文件 + 行範圍）
 

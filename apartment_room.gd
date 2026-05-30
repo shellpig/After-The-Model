@@ -3,11 +3,12 @@ extends Node2D
 const MESSAGES := {
 	"bed_bad_sleep": "你心中有事, 根本睡不著...",
 	"door_locked": "門上了鎖, 而你發現自己不知道如何打開...",
-	"door_opened": "你想起來了。門鎖不是壞了, 是你忘了操作方式。",
+	"door_opened": "你將手套貼上讀取器，綠燈閃爍。伴隨著液壓氣動沉悶的釋放聲，門鎖緩慢退開，滑出一條縫。門外灌進了深夜的冷雨、舊機油與高架鐵軌呼嘯而過的冷冽氣息。外頭是五彩斑斕的折射霓虹——你終於要回到那座把你遺忘的都市了。",
 	"desk_computer_msg": "螢幕還亮著, 一份新的派工單正自己跳出來, 沒有寄件人。",
 	"tape_recorder_msg": "錄音機裡卡著一捲帶子。按下播放, 是首沒人記得的老歌, 雜訊裡有人輕輕跟著哼。",
 	"decoder_cube_decoded": "當你戴著無指手套拿起魔術方塊時，指尖的接點突然傳來一陣微弱的電流，方塊的接縫處隨之亮起了一道黯淡的迴路光芒。方塊的結構在微弱的喀噠聲中重新排列——它被解碼了。",
-	"nutrition_bar_consume": "包裝比手感該有的輕。撕開才發現裡頭沒有營養棒, 只有一張折起來的紙——上面是你自己的字跡：「別信那個時鐘。」"
+	"nutrition_bar_consume": "包裝比手感該有的輕。撕開才發現裡頭沒有營養棒, 只有一張折起來的紙——上面是你自己的字跡：「別信那個時鐘。」",
+	"slot_unlocked": "方塊嵌進凹槽, 牆裡某個東西「喀」地鬆開了。你忽然想起來——這道門是你自己鎖上的。不是壞了, 是你親手裝了這套機關, 把自己關在裡面。連從裡面都打不開……當初到底是為了什麼?\n（門, 解鎖了。）"
 }
 
 const NOTES := {
@@ -44,6 +45,13 @@ const NOTES := {
 		"category": "線索",
 		"title": "別信那個時鐘",
 		"body": "營養棒的空包裝裡藏了張紙, 是你自己寫的。那台投影時鐘不只是時鐘——它底下還裝著別的東西。",
+		"status": "active"
+	},
+	"identity_door_unlock_method": {
+		"id": "identity_door_unlock_method",
+		"category": "身份",
+		"title": "我鎖上的門",
+		"body": "戴上手套那刻就該想起來的——指尖那圈接點, 是我自己改的。是我把那顆方塊解了碼, 用時鐘裡的舊終端掃出牆內的插槽, 再把它嵌進去。一整套機關, 全是我親手裝的。我把自己鎖在這裡, 連從裡面都打不開。可這道門不挑人——它一樣能把別人關在裡面。當初, 我到底是想鎖住誰?",
 		"status": "active"
 	}
 }
@@ -95,6 +103,8 @@ var sonar_ui: PanelContainer = null
 var sonar_label: Label = null
 var _audio_ping: AudioStreamPlayer = null
 var _audio_reveal: AudioStreamPlayer = null
+var _audio_electromagnetic: AudioStreamPlayer = null
+var _slot_unlock_sequence_started: bool = false
 
 var message_full_text := ""
 var message_elapsed := 0.0
@@ -226,11 +236,18 @@ func _ready() -> void:
 		_audio_reveal.stream = load("res://assets/sound/hidden_slot_reveal.wav")
 	add_child(_audio_reveal)
 
+	_audio_electromagnetic = AudioStreamPlayer.new()
+	_audio_electromagnetic.name = "AudioElectromagnetic"
+	if FileAccess.file_exists("res://assets/sound/slot_electromagnetic.wav"):
+		_audio_electromagnetic.stream = load("res://assets/sound/slot_electromagnetic.wav")
+	add_child(_audio_electromagnetic)
+
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)
 
 	GameState.item_moved.connect(_on_item_moved)
+	GameState.container_changed.connect(_on_container_changed)
 
 func _process(_delta: float) -> void:
 	_update_message_typewriter(_delta)
@@ -300,7 +317,7 @@ func _process(_delta: float) -> void:
 				return
 			if Input.is_action_just_pressed("interact_primary") or Input.is_action_just_pressed("ui_cancel"):
 				if not _pending_inspect_modal.is_empty():
-					UIMode.set_mode(_mode_before_message)
+					UIMode.exit_overlay()
 					var grid: Control = _pending_inspect_modal.get("restore_grid")
 					if grid and grid.has_method("set_input_active"):
 						grid.set_input_active(false)
@@ -312,18 +329,10 @@ func _process(_delta: float) -> void:
 					)
 					_pending_inspect_modal.clear()
 				elif item_detail_modal.visible:
-					UIMode.set_mode(_mode_before_message)
+					UIMode.exit_overlay()
 					item_detail_modal.refresh_modal()
 				else:
-					UIMode.set_mode(_mode_before_message)
-				return
-			if Input.is_action_just_pressed("open_inventory"):
-				_pending_inspect_modal.clear()
-				UIMode.set_mode(UIMode.Mode.INVENTORY)
-				return
-			if Input.is_action_just_pressed("open_notebook"):
-				_pending_inspect_modal.clear()
-				UIMode.set_mode(UIMode.Mode.NOTEBOOK)
+					UIMode.exit_overlay()
 				return
 		elif current_mode == UIMode.Mode.CONTAINER:
 			if Input.is_action_just_pressed("ui_cancel"):
@@ -363,17 +372,30 @@ func _process(_delta: float) -> void:
 				_pending_toast_title = ""
 			GameState.add_knowledge(NOTES[note_id])
 			_start_message_typewriter(MESSAGES.get(current_interactable.message_id, ""))
-			UIMode.set_mode(UIMode.Mode.MESSAGE)
+			UIMode.enter_overlay(UIMode.Mode.MESSAGE)
 		else:
 			match current_interactable.interaction_id:
 				"bed_sleep":
 					_start_message_typewriter(MESSAGES.get(current_interactable.message_id, ""))
-					UIMode.set_mode(UIMode.Mode.MESSAGE)
+					UIMode.enter_overlay(UIMode.Mode.MESSAGE)
 				"door_exit":
 					var required_knowledge: String = current_interactable.required_knowledge
-					var message_id := "door_opened" if GameState.has_knowledge(required_knowledge) else "door_locked"
-					_start_message_typewriter(MESSAGES.get(message_id, ""))
-					UIMode.set_mode(UIMode.Mode.MESSAGE)
+					if GameState.has_knowledge(required_knowledge):
+						var existing_note: Dictionary = {}
+						for note in GameState.get_notes("身份"):
+							if note.get("id") == "identity_door_unlock_method":
+								existing_note = note
+								break
+						if not existing_note.is_empty() and not "【更新：踏出公寓】" in existing_note.get("body", ""):
+							var updated_note = existing_note.duplicate()
+							updated_note.body = existing_note.get("body", "") + "\n\n【更新：踏出公寓】\n氣壓大門在背後合上，把這間發霉的安全溫室反鎖在身後。\n撲面而來的是深夜的冷雨，高架軌道上輕軌呼嘯而過，將鐵鏽與酸雨的水霧灑在你的護目鏡上。下層街區的霓虹招牌在積水裡折射出廉價的青色與桃紅。\n這裡沒有陽光，沒有申訴管道，只有成千上萬在 AI 陰影下掙扎討生活的普通人。\n你踏進了水窪，向雨夜走去。沒有回頭路了，你的名字和記憶，一定就藏在這座城市的某個夜班角落。"
+							GameState.add_knowledge(updated_note)
+							_pending_toast_title = "已更新筆記：我鎖上的門"
+						_start_message_typewriter(MESSAGES.get("door_opened", ""))
+						UIMode.enter_overlay(UIMode.Mode.MESSAGE)
+					else:
+						_start_message_typewriter(MESSAGES.get("door_locked", ""))
+						UIMode.enter_overlay(UIMode.Mode.MESSAGE)
 				"projection_clock":
 					_start_sonar()
 				"apartment_slot":
@@ -447,10 +469,10 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 
 	ui_overlay.visible = (new_mode != UIMode.Mode.NONE)
 
-	inventory_panel.visible = (new_mode == UIMode.Mode.INVENTORY)
-	dual_pane_container.visible = (new_mode == UIMode.Mode.CONTAINER)
+	inventory_panel.visible = (new_mode == UIMode.Mode.INVENTORY) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.INVENTORY)
+	dual_pane_container.visible = (new_mode == UIMode.Mode.CONTAINER) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.CONTAINER)
 	message_box.visible = (new_mode == UIMode.Mode.MESSAGE)
-	notebook_panel.visible = (new_mode == UIMode.Mode.NOTEBOOK)
+	notebook_panel.visible = (new_mode == UIMode.Mode.NOTEBOOK) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.NOTEBOOK)
 
 	if new_mode != UIMode.Mode.MESSAGE:
 		_clear_message_typewriter()
@@ -487,8 +509,16 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		confirm_dialog.visible = false
 		_update_prompt()
 
+	if _last_mode == UIMode.Mode.MESSAGE:
+		if _slot_unlock_sequence_started and not GameState.has_knowledge("identity_door_unlock_method"):
+			GameState.add_knowledge(NOTES["identity_door_unlock_method"])
+			_pending_toast_title = NOTES["identity_door_unlock_method"].title
+
 	if _last_mode == UIMode.Mode.MESSAGE and not _pending_toast_title.is_empty():
-		FloatingToast.show_toast("已記入筆記：" + _pending_toast_title, player)
+		if _pending_toast_title.begins_with("已更新") or _pending_toast_title.begins_with("已記入"):
+			FloatingToast.show_toast(_pending_toast_title, player)
+		else:
+			FloatingToast.show_toast("已記入筆記：" + _pending_toast_title, player)
 		_pending_toast_title = ""
 
 	if new_mode == UIMode.Mode.NOTEBOOK:
@@ -585,7 +615,7 @@ func _handle_item_use(instance_id: String, item_meta: Dictionary) -> void:
 		GameState.add_knowledge(note_data)
 		_start_message_typewriter(MESSAGES.get("nutrition_bar_consume", ""))
 		GameState.discard_item(instance_id)
-		UIMode.set_mode(UIMode.Mode.MESSAGE)
+		UIMode.enter_overlay(UIMode.Mode.MESSAGE)
 	else:
 		var toast_panel := _get_active_panel()
 		FloatingToast.show_toast("現在用不上。", toast_panel)
@@ -751,7 +781,7 @@ func _execute_item_decoding(instance_id: String, target_item_id: String) -> void
 	if success:
 		GameState.add_knowledge(NOTES["clue_decoder_cube"])
 		_start_message_typewriter(MESSAGES["decoder_cube_decoded"])
-		UIMode.set_mode(UIMode.Mode.MESSAGE)
+		UIMode.enter_overlay(UIMode.Mode.MESSAGE)
 
 func _on_item_moved(move: Dictionary) -> void:
 	var target_container_id: String = move.get("target_container_id", "")
@@ -763,6 +793,16 @@ func _on_item_moved(move: Dictionary) -> void:
 		var decodable_to: String = item_meta.get("decodable_to", "")
 		if not decodable_to.is_empty() and _player_has_decoding_ability():
 			_execute_item_decoding(target_instance_id, decodable_to)
+
+func _on_container_changed(container_id: String) -> void:
+	if container_id == "apartment_slot":
+		var items := GameState.get_container("apartment_slot")
+		if items.size() > 0 and not items[0].is_empty() and items[0].get("item_id", "") == "decoder_cube":
+			if not _slot_unlock_sequence_started and not GameState.has_knowledge("identity_door_unlock_method"):
+				_slot_unlock_sequence_started = true
+				_play_electromagnetic_sound()
+				_start_message_typewriter(MESSAGES["slot_unlocked"])
+				UIMode.enter_overlay(UIMode.Mode.MESSAGE)
 
 func _on_bag_grid_focus_changed(index: int) -> void:
 	_update_backpack_footer(index)
@@ -804,6 +844,12 @@ func _play_sonar_reveal() -> void:
 		_audio_reveal.play()
 	else:
 		print("[Sonar Reveal] CHIRP! Hidden Slot Revealed.")
+
+func _play_electromagnetic_sound() -> void:
+	if _audio_electromagnetic and _audio_electromagnetic.stream:
+		_audio_electromagnetic.play()
+	else:
+		print("[Slot Electromagnetic] CLANK! Electromagnetic Lock Connected.")
 
 func _start_sonar() -> void:
 	if _sonar_revealed:

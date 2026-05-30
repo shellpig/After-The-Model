@@ -20,10 +20,10 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/confirm_dialog.tscn" id="16_confirm_dialog"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0yl8"]
-size = Vector2(33, 146)
+size = Vector2(19.6875, 149)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fridge"]
-size = Vector2(33, 210)
+size = Vector2(23, 210)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5mejr"]
 size = Vector2(71.5, 131.5)
@@ -108,7 +108,7 @@ interaction_id = "cabinet_storage"
 prompt_text = "E: █ 翻找櫥櫃殘留"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/CabinetStorageArea" unique_id=129799259]
-position = Vector2(1091.5, 561)
+position = Vector2(1090.8438, 555)
 shape = SubResource("RectangleShape2D_n0yl8")
 debug_color = Color(0.89592755, 0.31852657, 0, 0.41960785)
 
@@ -118,7 +118,7 @@ interaction_id = "fridge_storage"
 prompt_text = "E: █ 開啟低溫儲藏"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FridgeStorageArea" unique_id=1807628310]
-position = Vector2(940.5, 585)
+position = Vector2(939.5, 585)
 shape = SubResource("RectangleShape2D_fridge")
 debug_color = Color(0.42, 0.74, 0.9, 0.41960785)
 
@@ -136,12 +136,12 @@ debug_color = Color(0.058775872, 0.65022326, 5.7756904e-07, 0.41960785)
 [node name="DoorExitArea" type="Area2D" parent="Interactables" unique_id=2083651122]
 script = ExtResource("2_n0yl8")
 interaction_id = "door_exit"
-prompt_text = "E: █ 驗證出口閘門"
+prompt_text = "E: █ 離開公寓"
 message_id = "door_locked"
 required_knowledge = "identity_door_unlock_method"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DoorExitArea" unique_id=1083751122]
-position = Vector2(1268.5, 585)
+position = Vector2(1251, 589)
 shape = SubResource("RectangleShape2D_door")
 debug_color = Color(0.9, 0.1, 0.1, 0.42)
 
@@ -153,7 +153,7 @@ message_id = "desk_computer_msg"
 note_id = "work_ai_cleanup_role"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeskComputerArea" unique_id=416549996]
-position = Vector2(560, 542)
+position = Vector2(562.125, 542)
 shape = SubResource("RectangleShape2D_n0yl8")
 debug_color = Color(0.1, 0.9, 0.9, 0.42)
 
@@ -176,7 +176,7 @@ prompt_text = "E: █ 啟動投影時鐘"
 required_knowledge = "clue_projection_clock"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ProjectionClockArea" unique_id=1988540002]
-position = Vector2(852, 537)
+position = Vector2(854, 539)
 shape = SubResource("RectangleShape2D_n0yl8")
 debug_color = Color(0.1, 0.9, 0.9, 0.42)
 
@@ -186,13 +186,14 @@ interaction_id = "apartment_slot"
 prompt_text = "E: █ 開啟隱藏插槽"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ApartmentSlotArea" unique_id=1988560002]
-position = Vector2(650, 543)
+position = Vector2(649.3125, 544)
 shape = SubResource("RectangleShape2D_n0yl8")
 debug_color = Color(0.9, 0.1, 0.9, 0.42)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1571826996]
 position = Vector2(690, 700)
 script = ExtResource("2_5mejr")
+max_x = 1200.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1380120049]
 position = Vector2(20, -184)
@@ -224,20 +225,6 @@ theme_override_font_sizes/font_size = 20
 text = "E: 打開櫥櫃"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="MessageBox" type="PanelContainer" parent="UI" unique_id=284873442]
-offset_left = 310.0
-offset_top = 163.0
-offset_right = 1046.0
-offset_bottom = 497.0
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/MessageBox" unique_id=568000141]
-layout_mode = 2
-
-[node name="MessageLabel" type="Label" parent="UI/MessageBox/MarginContainer" unique_id=110822957]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
 
 [node name="UIOverlay" type="ColorRect" parent="UI" unique_id=2082854504]
 visible = false
@@ -308,3 +295,17 @@ script = ExtResource("12_panel_footer_hint")
 [node name="ItemDetailModal" parent="UI" unique_id=203520702 instance=ExtResource("15_item_modal")]
 
 [node name="ConfirmDialog" parent="UI" unique_id=1190006774 instance=ExtResource("16_confirm_dialog")]
+
+[node name="MessageBox" type="PanelContainer" parent="UI" unique_id=284873442]
+offset_left = 310.0
+offset_top = 163.0
+offset_right = 1046.0
+offset_bottom = 497.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MessageBox" unique_id=568000141]
+layout_mode = 2
+
+[node name="MessageLabel" type="Label" parent="UI/MessageBox/MarginContainer" unique_id=110822957]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 40

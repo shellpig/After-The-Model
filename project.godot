@@ -32,6 +32,10 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation="landscape"
 
+[gui]
+
+theme/custom_font="res://assets/font/Noto_Sans_TC/static/NotoSansTC-Regular.ttf"
+
 [input]
 
 ui_cancel={

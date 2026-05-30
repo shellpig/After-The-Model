@@ -47,13 +47,13 @@ func _ready() -> void:
 	# Format footer hint text
 	if panel_footer_hint is PanelFooterHint:
 		panel_footer_hint.set_hints(self, [
-			"←/→: 切分類",
-			"↑/↓: 選筆記",
+			"A/D: 切分頁",
+			"W/S: 選筆記",
 			"I: 背包",
 			"Esc/J: 關閉"
 		])
 	else:
-		panel_footer_hint.text = "←/→: 切分類   ↑/↓: 選筆記   I: 背包   Esc/J: 關閉"
+		panel_footer_hint.text = "A/D: 切分頁   W/S: 選筆記   I: 背包   Esc/J: 關閉"
 
 	# Connect global state notes updates
 	GameState.notes_changed.connect(func():
@@ -213,11 +213,29 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not is_input_active:
 		return
 
-	if event.is_action_pressed("ui_right"):
+	if event.is_action_pressed("ui_right") or event.is_action_pressed("move_right"):
 		_change_tab(1)
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_left"):
+	elif event.is_action_pressed("ui_left") or event.is_action_pressed("move_left"):
 		_change_tab(-1)
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_up") or event.is_action_pressed("move_up"):
+		var current_focus = get_viewport().gui_get_focus_owner()
+		if current_focus != null and current_focus.get_parent() == list_vbox:
+			var idx = current_focus.get_index()
+			if idx > 0:
+				var target_btn = list_vbox.get_child(idx - 1) as Button
+				if target_btn != null:
+					target_btn.grab_focus()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_down") or event.is_action_pressed("move_down"):
+		var current_focus = get_viewport().gui_get_focus_owner()
+		if current_focus != null and current_focus.get_parent() == list_vbox:
+			var idx = current_focus.get_index()
+			if idx < list_vbox.get_child_count() - 1:
+				var target_btn = list_vbox.get_child(idx + 1) as Button
+				if target_btn != null:
+					target_btn.grab_focus()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_page_up") or event.is_action_pressed("ui_page_down"):
 		# Swallowed to turn off PgUp/PgDn functionality as requested

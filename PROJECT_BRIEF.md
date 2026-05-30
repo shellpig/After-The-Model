@@ -16,7 +16,7 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈）已全數完成並驗證；Phase 2-F（筆記內容/操作修正 + 公寓 BGM）規格定稿待實作；下一步 Phase 3（新場景與轉場）
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈及 2-F 筆記與 BGM 修正）已全數完成並驗證；下一步 Phase 3（新場景與轉場）
 
 最新 commit：
 
@@ -174,7 +174,7 @@ note_id
 | 2-C | ✅ 完成 | `accepted_item` 白名單 + `deposit_locked` 容器擴充；`get_container_config()`；`item_moved` payload 驗證 |
 | 2-D | ✅ 完成 | 投影時鐘（偵測終端）+ 營養棒線索麵包屑 + 聲納 reveal 隱藏插槽 |
 | 2-E | ✅ 完成 | 插槽放入 -> 電磁聲響 / MessageBox / `identity_door_unlock_method` -> 開門整合 |
-| 2-F | 📝 規格定稿待實作 | 筆記內容/操作修正（測試長筆記改氛圍版「雨還沒停」、A/D 切分頁 + W/S 選筆記、移除 Page Up/Down）+ 公寓 BGM（`AudioStreamPlayer` loop / -12dB） |
+| 2-F | ✅ 完成 | 筆記內容/操作修正（測試長筆記改氛圍版「雨還沒停」、A/D 切分頁 + W/S 選筆記、與 Page Up/Down 停用）+ 公寓 BGM（`AudioStreamPlayer` loop / -12dB） |
 | 3+ | ⬜ 待規劃 | SceneRouter、第二場景、NPC 對話、第一個零工任務 |
 
 ## Phase 2 公寓解謎鏈

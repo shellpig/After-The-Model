@@ -164,10 +164,10 @@ func _ready() -> void:
 		"status": "active"
 	})
 	GameState.add_knowledge({
-		"id": "clue_long_scroll_test",
-		"category": "線索",
-		"title": "測試長筆記捲動",
-		"body": "這是一篇用來測試右側全文欄 Page Up / Page Down 滾動功能的長筆記。\n第一行：AI 改變了整個世界，留下無盡的殘骸與記憶。\n第二行：善後員在雨夜中漫步，霓虹燈光在積水中折射出破碎的色彩。\n第三行：感應器的深處發出微弱的嗡嗡聲，似乎在訴說著昔日的故事。\n第四行：這間小公寓是你在這個冰冷都市中的唯一庇護所。\n第五行：牆上的 riso 海報已經泛黃，邊角微微捲起。\n第六行：你需要集齊所有的線索，才能想起來大門的密碼鎖開法。\n第七行：右手套上的磨損痕跡，暗示著你過去頻繁的清理工作。\n第八行：門外的警笛聲漸漸遠去，夜雨依然下個不停。\n第九行：這是一篇長筆記，請按下 Page Down 鍵來體驗全文滾動！\n第十行：測試結束，感謝您的配合！",
+		"id": "identity_rainy_night",
+		"category": "身份",
+		"title": "雨還沒停",
+		"body": "雨還在下。窗外的霓虹把積水染成一片溶開的顏色, 像誰把整座城市的記憶倒進了水溝裡。\n房間很安靜, 安靜到能聽見牆裡那點微弱的嗡嗡聲。\nAI 接手了大半個世界之後, 剩下的人就學著在縫隙裡活。我大概也是其中一個。\n有些晚上我會想不起自己是誰, 但只要還記得回到這裡, 好像就還沒真的輸掉什麼。",
 		"status": "active"
 	})
 
@@ -730,7 +730,7 @@ func _resize_message_box_for_text(text: String) -> void:
 	var text_size: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
 
 	if text_size.x > max_width:
-		message_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		message_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 		message_label.custom_minimum_size = Vector2(max_width - MESSAGE_PADDING.x * 2.0, 0.0)
 		message_box.size = Vector2(max_width, 0.0)
 	else:
@@ -740,8 +740,15 @@ func _resize_message_box_for_text(text: String) -> void:
 
 	message_box.reset_size()
 
+	# Center the box using both anchors and immediate offset calculation
+	message_box.anchors_preset = Control.PRESET_CENTER
+	message_box.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	message_box.grow_vertical = Control.GROW_DIRECTION_BOTH
+
 	var viewport_size: Vector2 = get_viewport_rect().size
-	message_box.position = (viewport_size - message_box.size) * 0.5
+	var target_size := message_box.get_combined_minimum_size()
+	message_box.size = target_size
+	message_box.position = (viewport_size - target_size) * 0.5
 
 func _position_prompt_above_player() -> void:
 	prompt_panel.reset_size()

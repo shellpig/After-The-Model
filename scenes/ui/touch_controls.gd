@@ -59,6 +59,10 @@ func _ready() -> void:
 	_update_dynamic_button_visibility()
 	_update_toggle_button_visual()
 
+	# 6. 監聽螢幕大小變動以動態更新安全區 (Safe Area)
+	get_viewport().size_changed.connect(_on_viewport_size_changed)
+	_update_safe_area()
+
 func _process(_delta: float) -> void:
 	if not visible:
 		return
@@ -307,3 +311,34 @@ func _update_dynamic_button_visibility() -> void:
 			btn_e.visible = true
 			btn_r.visible = false
 			btn_t.visible = false
+
+func _on_viewport_size_changed() -> void:
+	_update_safe_area()
+
+func _update_safe_area() -> void:
+	var control := $Control as Control
+	if not control:
+		return
+		
+	# PC 平台不需要 Safe Area 縮進 (PC 沒有瀏海，且 get_display_safe_area 在視窗化下有座標軸誤區)
+	if is_pc_platform:
+		control.offset_left = 0
+		control.offset_top = 0
+		control.offset_right = 0
+		control.offset_bottom = 0
+		return
+		
+	var safe_rect := DisplayServer.get_display_safe_area()
+	var viewport_size := get_viewport().get_visible_rect().size
+	if viewport_size.x == 0 or viewport_size.y == 0:
+		return
+		
+	var margin_left = safe_rect.position.x
+	var margin_top = safe_rect.position.y
+	var margin_right = viewport_size.x - safe_rect.end.x
+	var margin_bottom = viewport_size.y - safe_rect.end.y
+	
+	control.offset_left = margin_left
+	control.offset_top = margin_top
+	control.offset_right = -margin_right
+	control.offset_bottom = -margin_bottom

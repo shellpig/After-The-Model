@@ -16,7 +16,7 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證；下一步 **Phase 3 — 公寓觸控化（手機可玩）**，先做 3-A 顯示設定。原街道 / NPC / 任務擴張改稱 Phase 4+
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A 完成；3-B / 3-C / 3-D 程式實作完成且 headless 自動測試 PASS，唯 GUI 純觸控走查與 B0–B9 里程碑實測尚未執行；3-E（真機）待 Mac。原街道 / NPC / 任務擴張改稱 Phase 4+
 
 最新 commit：
 
@@ -185,11 +185,13 @@ note_id
 
 | 子階段 | 狀態 | 概要 | 環境 |
 |---|---|---|---|
-| 3-A 顯示 / 橫向 / 觸控模擬設定 | ⬜ | `project.godot`：landscape、`emulate_*_from_touch`、確認 `canvas_items`+`expand`；鍵盤回歸不退步 | Windows |
-| 3-B 世界模式觸控 | ⬜ | `TouchControls` CanvasLayer（autoload 掛最上層）：左下方向鍵走路、右下 E、右上 背包 / 筆記；觸控裝置 or debug 旗標才顯示 | Windows |
-| 3-C 面板模式觸控 | ⬜ | 方向鍵移焦點、右下 E / R / T、面板開時右上「X 返回」；**完成 = PC 純觸控通關 B0–B9 里程碑** | Windows |
-| 3-D Safe area + 比例排版 | ⬜ | 按鈕內縮 `get_display_safe_area()`、≥44px、19.5:9 不重疊 | Windows |
+| 3-A 顯示 / 橫向 / 觸控模擬設定 | ✅ | `project.godot`：landscape、`emulate_*_from_touch`、`canvas_items`+`expand`；headless 回歸 PASS（commit `8b385c8`） | Windows |
+| 3-B 世界模式觸控 | 🟦 實作+自動測試過、待 GUI 純觸控走查 | `TouchControls` autoload（layer 100）：左下方向鍵走路、右下 E、右上 背包 / 筆記；顯示規則改為 `visible` 恆真 + `OS.get_name()` 判 PC + PC 端 toggle（棄用 `is_touchscreen_available` 因 Windows 觸控筆電誤判） | Windows |
+| 3-C 面板模式觸控 | 🟦 實作+自動測試過、待 GUI 里程碑走查 | 方向鍵移焦點、右下 E / R / T（升級為情境感知顯隱）、面板開時右上「X 返回」；**里程碑 = PC 純觸控通關 B0–B9（GUI 實測未跑）** | Windows |
+| 3-D Safe area + 比例排版 | 🟦 實作+自動測試過、待 GUI 比例目視 | 按鈕內縮 `get_display_safe_area()`（test_runner 9.1 驗證）、D-pad 54 / 功能鍵 60（≥44px）；真機座標換算待 3-E 校驗 | Windows |
 | 3-E 真機導出 + iPhone 校正 | ⬜ | Mac+Xcode 免費簽名進 iPhone、真機純觸控通關、瀏海 / 效能校正 | Mac |
+
+> 狀態圖例：✅ 完成（含可驗收）；🟦 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 未開工。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
 驗收意圖見 `遊戲規格書.md > Phase 規劃 > Phase 3`；實作契約見 `開發設計方針.md > Phase 3`；操作清單見 `測試指南.md > Phase 3`。
 
@@ -307,13 +309,14 @@ verify_game_state.gd: PASS
 
 ## 下一步建議
 
-短線最合理下一步：**Phase 3-A 顯示 / 橫向 / 觸控模擬設定**（純 `project.godot` 設定，風險最低）。
+短線最合理下一步：**3-B~3-D 的 GUI 純觸控走查**（程式已實作、headless 自動測試 PASS，唯互動 / 視覺驗收未跑）。
 
 ```text
-Phase 3-A
--> project.godot：orientation=landscape、emulate_*_from_touch=true、確認 canvas_items+expand
--> 回歸：鍵盤仍可完整玩通 B0–B9、headless test PASS
--> 之後 3-B 起建 TouchControls 虛擬手把
+GUI 走查（Windows 桌面 + 滑鼠模擬觸控）
+-> 3-B：純螢幕按鈕走到大門 / 電腦 / 錄音機按 E、開背包 / 筆記
+-> 3-C 里程碑：純觸控從 2-G 開場（連點 T 三下）玩到 B9 開門
+-> 3-D：視窗拉成 ~19.5:9，目視按鈕不重疊 / 不遮 prompt·MessageBox·背包格
+-> 全部過後再進 3-E（需 Mac + Xcode）
 ```
 
 Phase 3 前必讀：

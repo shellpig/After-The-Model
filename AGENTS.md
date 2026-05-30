@@ -18,6 +18,7 @@
   - **Phase 2-C** ✅ 容器 `accepted_item` 白名單 + `deposit_locked` + `get_container_config()`
   - **Phase 2-D** ✅ 投影時鐘（偵測終端）+ 營養棒線索麵包屑 + 聲納 reveal 隱藏插槽
   - **Phase 2-E** ✅ 插槽放入→語音→開門 + MESSAGE·CONFIRM overlay 重構 (通關解謎鏈全線貫通)
+  - **Phase 2-F** 📝 規格定稿待實作：筆記內容/操作修正（測試長筆記改氛圍版「雨還沒停」、A/D 切分頁 + W/S 選筆記、移除 Page Up/Down）+ 公寓 BGM（`AudioStreamPlayer` loop、-12dB）
   - Phase 3+：SceneRouter、第二個場景、NPC、零工
   - 詳細規劃見 `遊戲規格書.md > Phase 規劃`
 

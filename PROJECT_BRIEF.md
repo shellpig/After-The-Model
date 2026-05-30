@@ -16,7 +16,7 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈及 2-F 筆記與 BGM 修正）已全數完成並驗證；下一步 Phase 3（新場景與轉場）
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證；下一步 **Phase 3 — 公寓觸控化（手機可玩）**，先做 3-A 顯示設定。原街道 / NPC / 任務擴張改稱 Phase 4+
 
 最新 commit：
 
@@ -176,7 +176,22 @@ note_id
 | 2-E | ✅ 完成 | 插槽放入 -> 電磁聲響 / MessageBox / `identity_door_unlock_method` -> 開門整合 |
 | 2-F | ✅ 完成 | 筆記內容/操作修正（測試長筆記改氛圍版「雨還沒停」、A/D 切分頁 + W/S 選筆記、與 Page Up/Down 停用）+ 公寓 BGM（`AudioStreamPlayer` loop / -12dB） |
 | 2-G | ✅ 完成 | 開場獨白序列：prone 甦醒 → 3 頁不可跳過 MessageBox（標題首行 + 6 字/秒）→ P3 起身動畫 `get_up` → 解鎖；每次進場都播；隱藏 T×3（1 秒內）跳頁捷徑 |
-| 3+ | ⬜ 待規劃 | SceneRouter、第二場景、NPC 對話、第一個零工任務 |
+| **3 — 公寓觸控化（手機可玩）** | ⬜ 待開工 | 把現有公寓 B0–B9 + 所有 UI 面板變成 iPhone 純觸控可玩；螢幕虛擬手把灌既有 InputMap action，面板邏輯零改動。詳見下方「Phase 3 子階段」 |
+| 4+ | ⬜ 待規劃 | （原 Phase 3+ 內容）SceneRouter、第二場景、NPC 對話、第一個零工任務；觸控規範沿用 Phase 3 |
+
+### Phase 3 子階段（公寓觸控化）
+
+平台策略：最終 iOS、MVP 不做 Android；開發 / 驗收在 **Windows 桌面版 + 滑鼠模擬觸控**，真機在 **Mac + Xcode 免費簽名**進自己 iPhone（**不需付費 Apple Developer Program**，付費僅 TestFlight / 上架）。依賴線性：3-A → 3-B → 3-C → 3-D（皆 Windows）→ 3-E（需 Mac）。
+
+| 子階段 | 狀態 | 概要 | 環境 |
+|---|---|---|---|
+| 3-A 顯示 / 橫向 / 觸控模擬設定 | ⬜ | `project.godot`：landscape、`emulate_*_from_touch`、確認 `canvas_items`+`expand`；鍵盤回歸不退步 | Windows |
+| 3-B 世界模式觸控 | ⬜ | `TouchControls` CanvasLayer（autoload 掛最上層）：左下方向鍵走路、右下 E、右上 背包 / 筆記；觸控裝置 or debug 旗標才顯示 | Windows |
+| 3-C 面板模式觸控 | ⬜ | 方向鍵移焦點、右下 E / R / T、面板開時右上「X 返回」；**完成 = PC 純觸控通關 B0–B9 里程碑** | Windows |
+| 3-D Safe area + 比例排版 | ⬜ | 按鈕內縮 `get_display_safe_area()`、≥44px、19.5:9 不重疊 | Windows |
+| 3-E 真機導出 + iPhone 校正 | ⬜ | Mac+Xcode 免費簽名進 iPhone、真機純觸控通關、瀏海 / 效能校正 | Mac |
+
+驗收意圖見 `遊戲規格書.md > Phase 規劃 > Phase 3`；實作契約見 `開發設計方針.md > Phase 3`；操作清單見 `測試指南.md > Phase 3`。
 
 ## Phase 2 公寓解謎鏈
 
@@ -288,23 +303,21 @@ verify_game_state.gd: PASS
 - `subdocs/地點/主角公寓.md` 底部「已知落差 / 待修」有部分 Phase 1 歷史描述可能已過期；以 `AGENTS.md`、`遊戲規格書.md`、目前 code 與 git log 判斷最新狀態。
 - Phase 2-B 已實作並驗證；`worn_rubiks_cube`、`decoder_cube` 與解碼手套流程已存在於 code。
 - Phase 2-C 已實作並驗證；`accepted_item`、`deposit_locked`、`get_container_config()` 與 `item_moved` payload 可供 2-D / 2-E 使用。
-- 大門目前只顯示 `door_opened` 訊息，不轉場；SceneRouter 留 Phase 3+。
+- 大門目前只顯示 `door_opened` 訊息，不轉場；SceneRouter 留 Phase 4+（轉場 / 新場景擴張）。
 
 ## 下一步建議
 
-短線最合理下一步：
+短線最合理下一步：**Phase 3-A 顯示 / 橫向 / 觸控模擬設定**（純 `project.godot` 設定，風險最低）。
 
 ```text
-Phase 2-E
--> 插槽放入 decoder_cube
--> 觸發電磁聲響 + 語音 MessageBox
--> 關閉 MessageBox 後，GameState 寫入 identity_door_unlock_method 知識
--> 大門互動取得解鎖方法後可通過 gate
+Phase 3-A
+-> project.godot：orientation=landscape、emulate_*_from_touch=true、確認 canvas_items+expand
+-> 回歸：鍵盤仍可完整玩通 B0–B9、headless test PASS
+-> 之後 3-B 起建 TouchControls 虛擬手把
 ```
 
-2-E 前必讀：
+Phase 3 前必讀：
 
-- `遊戲規格書.md > Phase 2 > 2-E 驗收意圖`
-- `開發設計方針.md > 2-E 插槽放入整合 + MESSAGE/CONFIRM overlay 重構`
-- `測試指南.md > 2-E 放入→語音→開門＋overlay 重構`
-- `subdocs/地點/主角公寓.md > 隱藏插槽 / 解碼方塊放入路徑`
+- `遊戲規格書.md > Phase 規劃 > Phase 3`（驗收意圖，3-A~3-E）
+- `開發設計方針.md > Phase 3 — 公寓觸控化（實作契約）`
+- `測試指南.md > Phase 3 — 公寓觸控化`

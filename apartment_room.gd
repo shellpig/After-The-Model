@@ -123,6 +123,7 @@ var _audio_ping: AudioStreamPlayer = null
 var _audio_reveal: AudioStreamPlayer = null
 var _audio_electromagnetic: AudioStreamPlayer = null
 var _slot_unlock_sequence_started: bool = false
+var _beyond_door_bgm_triggered: bool = false
 
 var message_full_text := ""
 var message_elapsed := 0.0
@@ -431,6 +432,9 @@ func _process(_delta: float) -> void:
 							_pending_toast_title = "已更新筆記：我鎖上的門"
 						_start_message_typewriter(MESSAGES.get("door_opened", ""))
 						UIMode.enter_overlay(UIMode.Mode.MESSAGE)
+						if not _beyond_door_bgm_triggered:
+							_beyond_door_bgm_triggered = true
+							_trigger_bgm_transition()
 					else:
 						_start_message_typewriter(MESSAGES.get("door_locked", ""))
 						UIMode.enter_overlay(UIMode.Mode.MESSAGE)
@@ -1038,13 +1042,46 @@ func _handle_opening_monologue_input() -> void:
 			_advance_opening_page()
 
 func _adjust_bgm_volume_dynamics() -> void:
+	if _beyond_door_bgm_triggered:
+		return
 	var bgm_player = $BGMPlayer as AudioStreamPlayer
 	if is_instance_valid(bgm_player) and bgm_player.playing:
 		var pos := bgm_player.get_playback_position()
-		if pos < 9.0:
-			bgm_player.volume_db = -5.0
-		elif pos >= 9.0 and pos < 10.0:
-			var t := pos - 9.0
-			bgm_player.volume_db = lerp(-5.0, -10.0, t)
+		if pos < 7.5:
+			bgm_player.volume_db = 0.0
+		elif pos >= 7.5 and pos < 10.0:
+			var t := pos - 7.5
+			bgm_player.volume_db = lerp(0.0, -8.0, t)
 		else:
-			bgm_player.volume_db = -10.0
+			bgm_player.volume_db = -8.0
+
+func _trigger_bgm_transition() -> void:
+	var old_player = $BGMPlayer as AudioStreamPlayer
+	if not is_instance_valid(old_player):
+		return
+		
+	var new_player := AudioStreamPlayer.new()
+	new_player.name = "BGMPlayer_New"
+	
+	var new_stream = load("res://assets/bgm/Beyond the Door.mp3")
+	if new_stream:
+		new_stream.loop = true
+		new_player.stream = new_stream
+		new_player.volume_db = -9.0
+		add_child(new_player)
+		new_player.play()
+		
+		var tween = create_tween()
+		tween.tween_property(old_player, "volume_db", -80.0, 5.0)
+		
+		tween.tween_callback(func():
+			old_player.stop()
+			new_player.name = "BGMPlayer"
+			old_player.queue_free()
+		)
+	else:
+		var tween = create_tween()
+		tween.tween_property(old_player, "volume_db", -80.0, 5.0)
+		tween.tween_callback(func():
+			old_player.stop()
+		)

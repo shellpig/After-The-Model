@@ -81,7 +81,6 @@ const OPENING_CHARS_PER_SECOND := 12.0
 const OPENING_MONOLOGUES := [
 	"[感官甦醒]\n\n耳鳴在腦袋深處擴散。 我貼著發霉的地板，能聞到舊機油與防潮石灰混合的酸澀霉味。 窗外，深夜輕軌的金屬車輪在酸雨裡滑過，發出尖銳且遙遠的摩擦聲。唯有書桌上那台老舊的 CRT 螢幕，還在無聲地閃爍著溫暖的琥珀色光芒。",
 	"[空白的記憶]\n\n我想不起來自己是誰。 腦袋裡空無一物，像是一張被反覆磁化、格式化過的空白磁帶。 當我嘗試撐起身體，赤裸的雙手撐在滿是沙塵的木地板上，指尖只傳來麻木與冰冷。沒有記憶，沒有溫度，連每一次呼吸都沉重得像是拖著鐵鍊。",
-	"[世界與我]\n\n在這個時代，世界早就被算好了。 龐大的演算法劃分好每條軌道與階級，剩下的人，只能在霓虹的縫隙裡像苔蘚一樣活著。我大概也是其中一個。 這裡沒有陽光，沒有名字，只有被時間與系統拋棄的死角。",
 	"[自囚與尋回]\n\n我掙扎著站起身，生鏽般的關節發出沉悶的喀噠聲。 公寓的大門亮著紅色的閉鎖指示燈。我不記得自己是怎麼進來的，更想不起該怎麼出去。 房間一片死寂，唯有那部 CRT 螢幕無聲地呼吸著。 既然已經退無可退……我就先從這間發霉的溫室開始，把我自己的記憶，一點一點撿回來。"
 ]
 
@@ -964,7 +963,7 @@ func _start_opening_page() -> void:
 		page_hint_label.visible = false
 		page_hint_label.modulate.a = 0.0
 	
-	if _opening_page_index == 3:
+	if _opening_page_index == 2:
 		player.anim.play("get_up")
 	
 	var text = OPENING_MONOLOGUES[_opening_page_index]
@@ -972,7 +971,7 @@ func _start_opening_page() -> void:
 
 func _show_page_hint() -> void:
 	if is_instance_valid(page_hint_label):
-		page_hint_label.text = "▼ 開始" if _opening_page_index == 3 else "▼ 繼續"
+		page_hint_label.text = "▼ 開始" if _opening_page_index == 2 else "▼ 繼續"
 		page_hint_label.visible = true
 		page_hint_label.modulate.a = 0.0
 		var tween = create_tween()

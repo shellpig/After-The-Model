@@ -175,7 +175,7 @@ note_id
 | 2-D | ✅ 完成 | 投影時鐘（偵測終端）+ 營養棒線索麵包屑 + 聲納 reveal 隱藏插槽 |
 | 2-E | ✅ 完成 | 插槽放入 -> 電磁聲響 / MessageBox / `identity_door_unlock_method` -> 開門整合 |
 | 2-F | ✅ 完成 | 筆記內容/操作修正（測試長筆記改氛圍版「雨還沒停」、A/D 切分頁 + W/S 選筆記、與 Page Up/Down 停用）+ 公寓 BGM（`AudioStreamPlayer` loop / -12dB） |
-| 2-G | 📝 規格定稿 | 開場獨白序列：prone 甦醒 → 4 頁不可跳過 MessageBox（標題首行 + 6 字/秒）→ P4 起身動畫 `get_up` → 解鎖；每次進場都播；隱藏 T×3（1 秒內）跳頁捷徑 |
+| 2-G | ✅ 完成 | 開場獨白序列：prone 甦醒 → 3 頁不可跳過 MessageBox（標題首行 + 6 字/秒）→ P3 起身動畫 `get_up` → 解鎖；每次進場都播；隱藏 T×3（1 秒內）跳頁捷徑 |
 | 3+ | ⬜ 待規劃 | SceneRouter、第二場景、NPC 對話、第一個零工任務 |
 
 ## Phase 2 公寓解謎鏈

@@ -1,0 +1,155 @@
+{
+  "source": "raw-generated.png",
+  "rows": 2,
+  "cols": 5,
+  "source_cell_size": [
+    396,
+    396
+  ],
+  "output_cell_size": [
+    512,
+    512
+  ],
+  "frames": [
+    {
+      "frame": 1,
+      "source_box": [
+        0,
+        0,
+        396,
+        396
+      ],
+      "output": "main-character-get-up-fixed-01.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "frame": 2,
+      "source_box": [
+        396,
+        0,
+        792,
+        396
+      ],
+      "output": "main-character-get-up-fixed-02.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "frame": 3,
+      "source_box": [
+        792,
+        0,
+        1188,
+        396
+      ],
+      "output": "main-character-get-up-fixed-03.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "frame": 4,
+      "source_box": [
+        1188,
+        0,
+        1584,
+        396
+      ],
+      "output": "main-character-get-up-fixed-04.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "frame": 5,
+      "source_box": [
+        1584,
+        0,
+        1980,
+        396
+      ],
+      "output": "main-character-get-up-fixed-05.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "frame": 6,
+      "source_box": [
+        0,
+        396,
+        396,
+        792
+      ],
+      "output": "main-character-get-up-fixed-06.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "frame": 7,
+      "source_box": [
+        396,
+        396,
+        792,
+        792
+      ],
+      "output": "main-character-get-up-fixed-07.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "frame": 8,
+      "source_box": [
+        792,
+        396,
+        1188,
+        792
+      ],
+      "output": "main-character-get-up-fixed-08.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "frame": 9,
+      "source_box": [
+        1188,
+        396,
+        1584,
+        792
+      ],
+      "output": "main-character-get-up-fixed-09.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "frame": 10,
+      "source_box": [
+        1584,
+        396,
+        1980,
+        792
+      ],
+      "output": "main-character-get-up-fixed-10.png",
+      "size": [
+        512,
+        512
+      ]
+    }
+  ]
+}

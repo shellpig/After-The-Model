@@ -1,0 +1,41 @@
+Use Image 1 as the exact starting pose reference: After-The-Model protagonist lying prone asleep, head on the RIGHT, boots on the LEFT. Use Image 2 as the exact final standing idle reference: same protagonist standing side-view, facing RIGHT. Use Image 3 only as an invisible 2x5 layout guide for cell count, spacing, centering, and safe padding. The final sprite sheet must NOT show layout guide lines, boxes, labels, borders, white background, or any guide marks.
+
+Create a 10-frame GETTING UP animation sprite sheet for the same protagonist, from lying asleep on the ground to standing idle. The animation will play in 1 second, so motion should read as a quick but tired wake-up and rise.
+
+SHEET FORMAT:
+- Exactly 10 equal cells arranged in a 2x5 grid, 2 rows and 5 columns.
+- Frame order reads left-to-right across the top row first, then left-to-right across the bottom row.
+- Solid #FF00FF magenta background filling every cell completely.
+- No text, no labels, no frame numbers, no grid lines, no borders, no UI.
+- Each frame is one isolated full-body character sprite only.
+- Character remains fully inside each cell with generous padding; no cropping, no limbs crossing cell edges.
+- Keep scale coherent across frames: prone frames use horizontal body length similar to Image 1, standing frame uses standing body height similar to Image 2.
+- Keep the ground/contact baseline visually consistent across the sequence.
+
+CHARACTER IDENTITY LOCK:
+Same character as references: tired East-Asian male protagonist, messy dark hair, goggles on forehead, deep teal high-collar jacket with diagonal zipper, dark undershirt, warm olive/khaki cargo pants, high-cut black work boots, crossbody messenger bag, fingerless gloves with orange back-of-hand panels, orange patch on right shoulder. Keep the same palette and silhouette. No redesign, no extra clothing, no tools, no weapon.
+
+ART STYLE:
+Hand-inked indie cyberpunk comic sprite, matching references: bold deep purple-black outlines, flat cel shading, hard-edged tones, visible halftone texture, muted teal / gray-blue / olive / ink purple-black palette. Saturated burnt orange only on the shoulder patch and glove backs. No anime, no photorealism, no 3D render, no painterly gradients, no soft airbrush.
+
+FRAME-BY-FRAME ACTION:
+Frame 1: lying prone asleep exactly like Image 1, head right, boots left, eyes closed.
+Frame 2: wakes slightly, head lifts a little, one hand presses into ground, torso still mostly prone.
+Frame 3: pushes up onto both forearms, chest lifted, knees beginning to draw in.
+Frame 4: rolls weight under body, one knee tucked forward, one hand planted, bag shifts but stays attached.
+Frame 5: kneeling low on one knee, torso hunched forward, one palm on ground for support.
+Frame 6: both feet/knees under body, crouched low, one hand still near ground, head up.
+Frame 7: rising from crouch, one boot planted, one knee bent, torso halfway upright.
+Frame 8: almost standing, body still bent forward, arms hanging tiredly, boots planted.
+Frame 9: straightening into idle, shoulders settling, arms near sides, same facing direction as Image 2.
+Frame 10: standing idle pose matching Image 2, side-view facing right, tired neutral posture.
+
+MOTION TONE:
+Tired, grounded, non-heroic. No leap, no dramatic action pose, no dust, no speed lines, no impact FX, no ground shadow, no background objects.
+
+QUALITY GUARDS:
+- Both orange glove backs and shoulder patch remain visible whenever physically possible.
+- Messenger bag stays on the same side and remains attached throughout.
+- Face direction remains right-facing through the sequence.
+- Avoid duplicated limbs, extra hands, extra sleeves, melted boots, or changing costume details.
+- The final image must be a clean sprite sheet on pure #FF00FF only.

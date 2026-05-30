@@ -19,6 +19,16 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/item_detail_modal.tscn" id="15_item_modal"]
 [ext_resource type="PackedScene" path="res://scenes/ui/confirm_dialog.tscn" id="16_confirm_dialog"]
 [ext_resource type="AudioStream" uid="uid://dhop31fp8chxu" path="res://assets/bgm/Echoes of a Cozy Night.mp3" id="17_bgm_stream"]
+[ext_resource type="Texture2D" uid="uid://dlm21iq3jv8is" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-01.png" id="18_gu1"]
+[ext_resource type="Texture2D" uid="uid://buv2bvsn8b3ut" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-02.png" id="18_gu2"]
+[ext_resource type="Texture2D" uid="uid://brfre5lxdvgiy" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-03.png" id="18_gu3"]
+[ext_resource type="Texture2D" uid="uid://cn86aos2nuhg0" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-04.png" id="18_gu4"]
+[ext_resource type="Texture2D" uid="uid://cc8f1tpjawgep" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-05.png" id="18_gu5"]
+[ext_resource type="Texture2D" uid="uid://svi1wkll74bb" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-06.png" id="18_gu6"]
+[ext_resource type="Texture2D" uid="uid://i240lvsmsfx4" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-07.png" id="18_gu7"]
+[ext_resource type="Texture2D" uid="uid://cgswxi137qnxy" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-08.png" id="18_gu8"]
+[ext_resource type="Texture2D" uid="uid://bdbo6hukb645n" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-09.png" id="18_gu9"]
+[ext_resource type="Texture2D" uid="uid://boky6mcqmfaot" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-10.png" id="18_gu10"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0yl8"]
 size = Vector2(19.6875, 149)
@@ -27,7 +37,7 @@ size = Vector2(19.6875, 149)
 size = Vector2(23, 210)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5mejr"]
-size = Vector2(71.5, 131.5)
+size = Vector2(106.75, 131.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
 size = Vector2(57, 220)
@@ -36,10 +46,53 @@ size = Vector2(57, 220)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("18_gu1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gu2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gu3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gu5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gu6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gu7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gu8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gu9")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gu10")
+}],
+"loop": false,
+"name": &"get_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("5_skhg1")
 }],
 "loop": true,
 "name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("18_gu1")
+}],
+"loop": true,
+"name": &"prone",
 "speed": 5.0
 }, {
 "frames": [{
@@ -103,7 +156,7 @@ centered = false
 
 [node name="BGMPlayer" type="AudioStreamPlayer" parent="." unique_id=1005902023]
 stream = ExtResource("17_bgm_stream")
-volume_db = -18.0
+volume_db = -10.0
 autoplay = true
 
 [node name="Interactables" type="Node2D" parent="." unique_id=1554492103]
@@ -135,7 +188,7 @@ prompt_text = "E: █ 躺上磨損床墊"
 message_id = "bed_bad_sleep"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BedSleepArea" unique_id=797134175]
-position = Vector2(180, 641)
+position = Vector2(197.625, 641)
 shape = SubResource("RectangleShape2D_5mejr")
 debug_color = Color(0.058775872, 0.65022326, 5.7756904e-07, 0.41960785)
 
@@ -302,6 +355,15 @@ script = ExtResource("12_panel_footer_hint")
 
 [node name="ConfirmDialog" parent="UI" unique_id=1190006774 instance=ExtResource("16_confirm_dialog")]
 
+[node name="WorldHUDLabel" type="Label" parent="UI" unique_id=568000143]
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 300.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.94, 0.92, 0.84, 0.7)
+theme_override_font_sizes/font_size = 18
+text = "A/D : 移動  I : 背包  J : 筆記"
+
 [node name="MessageBox" type="PanelContainer" parent="UI" unique_id=284873442]
 offset_left = 310.0
 offset_top = 163.0
@@ -315,3 +377,10 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
+
+[node name="PageHintLabel" type="Label" parent="UI/MessageBox" unique_id=568000142]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 16

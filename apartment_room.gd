@@ -3,7 +3,7 @@ extends Node2D
 const MESSAGES := {
 	"bed_bad_sleep": "你心中有事, 根本睡不著...",
 	"door_locked": "門上了鎖, 而你發現自己不知道如何打開...",
-	"door_opened": "你將手套貼上讀取器，綠燈閃爍。伴隨著液壓氣動沉悶的釋放聲，門鎖緩慢退開，滑出一條縫。門外灌進了深夜的冷雨、舊機油與高架鐵軌呼嘯而過的冷冽氣息。外頭是五彩斑斕的折射霓虹——你終於要回到那座把你遺忘的都市了。",
+	"door_opened": "你將手套貼上讀取器，綠燈閃爍。伴隨著液壓氣動沉悶的釋放聲，門鎖緩慢退開，滑出一條縫。門外灌進了深夜的冷雨、舊機油與高架鐵軌呼嘯而過的冷冽氣息。外頭是五彩斑斕的折射霓虹——你終於要回到那座把你遺忘的都市了。\n\n（你已經通關試玩版。）",
 	"desk_computer_msg": "螢幕還亮著, 一份新的派工單正自己跳出來, 沒有寄件人。",
 	"tape_recorder_msg": "錄音機裡卡著一捲帶子。按下播放, 是首沒人記得的老歌, 雜訊裡有人輕輕跟著哼。",
 	"decoder_cube_decoded": "當你戴著無指手套拿起魔術方塊時，指尖的接點突然傳來一陣微弱的電流，方塊的接縫處隨之亮起了一道黯淡的迴路光芒。方塊的結構在微弱的喀噠聲中重新排列——它被解碼了。",
@@ -74,8 +74,27 @@ var CONTAINERS := {
 }
 
 
-const MESSAGE_CHARS_PER_SECOND := 6.0
+const MESSAGE_CHARS_PER_SECOND := 12.0
 const MESSAGE_PADDING := Vector2(32.0, 20.0)
+
+const OPENING_CHARS_PER_SECOND := 12.0
+const OPENING_MONOLOGUES := [
+	"[感官甦醒]\n\n耳鳴在腦袋深處擴散。 我貼著發霉的地板，能聞到舊機油與防潮石灰混合的酸澀霉味。 窗外，深夜輕軌的金屬車輪在酸雨裡滑過，發出尖銳且遙遠的摩擦聲。唯有書桌上那台老舊的 CRT 螢幕，還在無聲地閃爍著溫暖的琥珀色光芒。",
+	"[空白的記憶]\n\n我想不起來自己是誰。 腦袋裡空無一物，像是一張被反覆磁化、格式化過的空白磁帶。 當我嘗試撐起身體，赤裸的雙手撐在滿是沙塵的木地板上，指尖只傳來麻木與冰冷。沒有記憶，沒有溫度，連每一次呼吸都沉重得像是拖著鐵鍊。",
+	"[世界與我]\n\n在這個時代，世界早就被算好了。 龐大的演算法劃分好每條軌道與階級，剩下的人，只能在霓虹的縫隙裡像苔蘚一樣活著。我大概也是其中一個。 這裡沒有陽光，沒有名字，只有被時間與系統拋棄的死角。",
+	"[自囚與尋回]\n\n我掙扎著站起身，生鏽般的關節發出沉悶的喀噠聲。 公寓的大門亮著紅色的閉鎖指示燈。我不記得自己是怎麼進來的，更想不起該怎麼出去。 房間一片死寂，唯有那部 CRT 螢幕無聲地呼吸著。 既然已經退無可退……我就先從這間發霉的溫室開始，把我自己的記憶，一點一點撿回來。"
+]
+
+@onready var page_hint_label: Label = $UI/MessageBox/PageHintLabel
+@onready var world_hud_label: Label = $UI/WorldHUDLabel
+
+var _opening_monologue_active: bool = false
+var _opening_page_index: int = 0
+var _opening_page_done: bool = false
+var _dev_skip_count: int = 0
+var _dev_skip_timer: float = 0.0
+var _current_chars_per_second := MESSAGE_CHARS_PER_SECOND
+
 @onready var prompt_panel: Control = $UI/PromptPanel
 @onready var prompt_label: Label = $UI/PromptPanel/MarginContainer/PromptLabel
 @onready var message_box: Control = $UI/MessageBox
@@ -249,8 +268,23 @@ func _ready() -> void:
 	GameState.item_moved.connect(_on_item_moved)
 	GameState.container_changed.connect(_on_container_changed)
 
+	player.anim.animation_finished.connect(_on_player_animation_finished)
+
+	# Start opening monologue sequence
+	_opening_monologue_active = true
+	_opening_page_index = 0
+	_opening_page_done = false
+	page_hint_label.text = ""
+	page_hint_label.visible = false
+	if is_instance_valid(world_hud_label):
+		world_hud_label.visible = false
+	player.anim.play("prone")
+	UIMode.set_mode(UIMode.Mode.MESSAGE)
+	_start_opening_page()
+
 func _process(_delta: float) -> void:
 	_update_message_typewriter(_delta)
+	_adjust_bgm_volume_dynamics()
 
 	if _sonar_active:
 		if UIMode.get_mode() == UIMode.Mode.NONE:
@@ -291,6 +325,9 @@ func _process(_delta: float) -> void:
 
 	# Layered UI input handling
 	if current_mode != UIMode.Mode.NONE:
+		if _opening_monologue_active:
+			_handle_opening_monologue_input()
+			return
 		# Bug 1 fix: _process poll is not affected by set_input_as_handled; guard explicitly.
 		if item_detail_modal.visible and current_mode != UIMode.Mode.MESSAGE:
 			return
@@ -480,6 +517,9 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	dual_pane_container.visible = (new_mode == UIMode.Mode.CONTAINER) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.CONTAINER)
 	message_box.visible = (new_mode == UIMode.Mode.MESSAGE)
 	notebook_panel.visible = (new_mode == UIMode.Mode.NOTEBOOK) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.NOTEBOOK)
+
+	if is_instance_valid(world_hud_label):
+		world_hud_label.visible = (new_mode == UIMode.Mode.NONE and not _opening_monologue_active)
 
 	if new_mode != UIMode.Mode.MESSAGE:
 		_clear_message_typewriter()
@@ -711,6 +751,7 @@ func _start_message_typewriter(text: String) -> void:
 	message_full_text = text
 	message_elapsed = 0.0
 	message_label.text = ""
+	_current_chars_per_second = OPENING_CHARS_PER_SECOND if _opening_monologue_active else MESSAGE_CHARS_PER_SECOND
 	_resize_message_box_for_text(message_full_text)
 
 func _clear_message_typewriter() -> void:
@@ -723,8 +764,12 @@ func _update_message_typewriter(delta: float) -> void:
 		return
 
 	message_elapsed += delta
-	var visible_chars: int = min(message_full_text.length(), int(floor(message_elapsed * MESSAGE_CHARS_PER_SECOND)))
+	var visible_chars: int = min(message_full_text.length(), int(floor(message_elapsed * _current_chars_per_second)))
 	message_label.text = message_full_text.substr(0, visible_chars)
+
+	if _opening_monologue_active and not _opening_page_done and visible_chars >= message_full_text.length():
+		_opening_page_done = true
+		_show_page_hint()
 
 func _resize_message_box_for_text(text: String) -> void:
 	var font: Font = message_label.get_theme_font("font")
@@ -908,3 +953,99 @@ func _reveal_hidden_slot() -> void:
 	_refresh_current_interactable()
 	
 	FloatingToast.show_toast("成功鎖定！牆內滑動插槽已開啟。", player)
+
+func _on_player_animation_finished() -> void:
+	if _opening_monologue_active and player.anim.animation == "get_up":
+		player.anim.play("idle")
+
+func _start_opening_page() -> void:
+	_opening_page_done = false
+	if is_instance_valid(page_hint_label):
+		page_hint_label.visible = false
+		page_hint_label.modulate.a = 0.0
+	
+	if _opening_page_index == 3:
+		player.anim.play("get_up")
+	
+	var text = OPENING_MONOLOGUES[_opening_page_index]
+	_start_message_typewriter(text)
+
+func _show_page_hint() -> void:
+	if is_instance_valid(page_hint_label):
+		page_hint_label.text = "▼ 開始" if _opening_page_index == 3 else "▼ 繼續"
+		page_hint_label.visible = true
+		page_hint_label.modulate.a = 0.0
+		var tween = create_tween()
+		tween.tween_property(page_hint_label, "modulate:a", 1.0, 0.5)
+
+func _advance_opening_page() -> void:
+	_opening_page_index += 1
+	if _opening_page_index >= OPENING_MONOLOGUES.size():
+		_end_opening_monologue()
+	else:
+		_start_opening_page()
+
+func _skip_opening_page() -> void:
+	if not _opening_monologue_active:
+		return
+	
+	_opening_page_done = true
+	var full_text = OPENING_MONOLOGUES[_opening_page_index]
+	message_label.text = full_text
+	message_elapsed = 99999.0 # Prevent truncation by _update_message_typewriter on next frame
+	_advance_opening_page()
+
+func _end_opening_monologue() -> void:
+	_opening_monologue_active = false
+	message_box.visible = false
+	if is_instance_valid(page_hint_label):
+		page_hint_label.visible = false
+	_clear_message_typewriter()
+	UIMode.set_mode(UIMode.Mode.NONE)
+	player.anim.play("idle")
+	_refresh_current_interactable()
+
+func _handle_opening_monologue_input() -> void:
+	# Debug skip: T key 3 times in 1 second
+	if Input.is_action_just_pressed("interact_tertiary"):
+		var now := Time.get_ticks_msec() / 1000.0
+		if now - _dev_skip_timer > 1.0:
+			_dev_skip_count = 1
+		else:
+			_dev_skip_count += 1
+		
+		_dev_skip_timer = now
+		
+		if _dev_skip_count >= 3:
+			_dev_skip_count = 0
+			_skip_opening_page()
+			return
+
+	if _opening_page_done:
+		var page_turn_pressed := (
+			Input.is_action_just_pressed("move_left") or
+			Input.is_action_just_pressed("move_right") or
+			Input.is_action_just_pressed("move_up") or
+			Input.is_action_just_pressed("move_down") or
+			Input.is_action_just_pressed("ui_left") or
+			Input.is_action_just_pressed("ui_right") or
+			Input.is_action_just_pressed("ui_up") or
+			Input.is_action_just_pressed("ui_down") or
+			Input.is_action_just_pressed("ui_accept") or
+			Input.is_action_just_pressed("interact_primary") or
+			Input.is_action_just_pressed("ui_cancel")
+		)
+		if page_turn_pressed:
+			_advance_opening_page()
+
+func _adjust_bgm_volume_dynamics() -> void:
+	var bgm_player = $BGMPlayer as AudioStreamPlayer
+	if is_instance_valid(bgm_player) and bgm_player.playing:
+		var pos := bgm_player.get_playback_position()
+		if pos < 9.0:
+			bgm_player.volume_db = -5.0
+		elif pos >= 9.0 and pos < 10.0:
+			var t := pos - 9.0
+			bgm_player.volume_db = lerp(-5.0, -10.0, t)
+		else:
+			bgm_player.volume_db = -10.0

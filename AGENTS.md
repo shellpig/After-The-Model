@@ -8,18 +8,7 @@
 - **目標平台**：Steam（Windows/macOS/Linux）+ iOS + Android
 - **引擎**：Godot 4.6.3 / GDScript
 - **目前進度**：概念、技術方向、美術風格（HD 2D 插畫 + riso）、視角（純 2D 側捲 + light platforming）均已確認。MVP 範圍為一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務。
-  - **Phase 1-A** ✅ GameState autoload（credits / 背包 / 裝備 / 知識 / 筆記 / 容器 / signals）+ 公寓大門知識 gate
-  - **Phase 1-B** ✅ UIMode autoload + 背包 UI（`I`）
-  - **Phase 1-C** ✅ 筆記 UI（`J`）
-  - **Phase 1-D** ✅ 容器資料化（櫥櫃 5x6 / 冰箱 5x2）+ 雙欄 panel + 跨欄 focus + E 移動 1 個 + 「放不下了。」FloatingToast
-  - **Phase 1-E** ✅ 物品操作（查看 R / 丟棄 T / 裝備 E）+ item grid focus routing 修補
-  - **Phase 2-A** ✅ 公寓線索 examine（桌上電腦 / 錄音機）+ `note_id` export + `has_note()` 去重
-  - **Phase 2-B** ✅ 解碼手套 + `worn_rubiks_cube`→`decoder_cube` + R 查看 fallback
-  - **Phase 2-C** ✅ 容器 `accepted_item` 白名單 + `deposit_locked` + `get_container_config()`
-  - **Phase 2-D** ✅ 投影時鐘（偵測終端）+ 營養棒線索麵包屑 + 聲納 reveal 隱藏插槽
-  - **Phase 2-E** ✅ 插槽放入→語音→開門 + MESSAGE·CONFIRM overlay 重構 (通關解謎鏈全線貫通)
-  - Phase 3+：SceneRouter、第二個場景、NPC、零工
-  - 詳細規劃見 `遊戲規格書.md > Phase 規劃`
+  - Phase 進度清單（單一事實來源）見 `PROJECT_BRIEF.md > Phase 進度`；詳細規劃見 `遊戲規格書.md > Phase 規劃`。
 
 ## New Conversation Opening Check
 

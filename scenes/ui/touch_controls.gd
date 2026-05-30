@@ -175,7 +175,7 @@ func _apply_cyber_style() -> void:
 			actions.offset_bottom = -12
 		else:
 			# PC 桌面端：維持 32 像素經典安全邊距
-			dpad.offset_left = 32
+			dpad.offset_left = 176
 			dpad.offset_bottom = -32
 			actions.offset_right = -32
 			actions.offset_bottom = -32

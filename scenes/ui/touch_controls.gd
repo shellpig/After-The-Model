@@ -333,10 +333,14 @@ func _update_safe_area() -> void:
 	if viewport_size.x == 0 or viewport_size.y == 0:
 		return
 		
-	var margin_left = safe_rect.position.x
-	var margin_top = safe_rect.position.y
-	var margin_right = viewport_size.x - safe_rect.end.x
-	var margin_bottom = viewport_size.y - safe_rect.end.y
+	var window_px := DisplayServer.window_get_size()
+	var scale_x := viewport_size.x / float(window_px.x)
+	var scale_y := viewport_size.y / float(window_px.y)
+	
+	var margin_left   = safe_rect.position.x * scale_x
+	var margin_top    = safe_rect.position.y * scale_y
+	var margin_right  = (window_px.x - safe_rect.end.x) * scale_x
+	var margin_bottom = (window_px.y - safe_rect.end.y) * scale_y
 	
 	control.offset_left = margin_left
 	control.offset_top = margin_top

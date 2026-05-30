@@ -235,8 +235,8 @@ func _update_dynamic_button_visibility() -> void:
 		$Control/Menus.visible = false
 		return
 
-	# 3. 正常啟用狀態下，按鍵顯示規則：D-pad 僅在世界探索模式 (NONE) 顯示以避開對話及選單重疊；Actions 與 Menus 恆顯示
-	var show_dpad := (mode == UIMode.Mode.NONE)
+	# 3. 正常啟用狀態下，按鍵顯示規則：D-pad 在世界探索與背包/容器/筆記本選單均顯示以利觸控焦點導航；僅在 MESSAGE (對話) 與 CONFIRM (確認彈窗) 時隱藏以防視覺遮擋
+	var show_dpad := mode in [UIMode.Mode.NONE, UIMode.Mode.INVENTORY, UIMode.Mode.CONTAINER, UIMode.Mode.NOTEBOOK]
 	$Control/DPad.visible = show_dpad
 	$Control/Actions.visible = true
 	$Control/Menus.visible = true

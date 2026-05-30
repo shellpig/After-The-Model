@@ -16,7 +16,7 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1-A ~ 1-E 完成；Phase 2-A / 2-B / 2-C 已完成並驗證；下一步 2-D
+- **目前主線進度**：Phase 1-A ~ 1-E 完成；Phase 2-A / 2-B / 2-C / 2-D 已完成並驗證；下一步 2-E
 
 最新 commit：
 
@@ -174,7 +174,7 @@ note_id
 | 2-A | ✅ 完成 | 公寓線索 examine：桌上電腦 `work_ai_cleanup_role`、左牆錄音機 `identity_gleaner`；`note_id` export；`has_note()` 去重 |
 | 2-B | ✅ 完成 | 解碼手套 + `worn_rubiks_cube` -> `decoder_cube`；手套線索筆記；R 查看 fallback |
 | 2-C | ✅ 完成 | `accepted_item` 白名單 + `deposit_locked` 容器擴充；`get_container_config()`；`item_moved` payload 驗證 |
-| 2-D | ⬜ 待開工 | 投影時鐘（偵測終端）+ 營養棒線索麵包屑 + 聲納 reveal 隱藏插槽 |
+| 2-D | ✅ 完成 | 投影時鐘（偵測終端）+ 營養棒線索麵包屑 + 聲納 reveal 隱藏插槽 |
 | 2-E | ⬜ 待開工 | 插槽放入 -> 電磁聲響 / MessageBox / `identity_door_unlock_method` -> 開門整合 |
 | 3+ | ⬜ 待規劃 | SceneRouter、第二場景、NPC 對話、第一個零工任務 |
 
@@ -294,16 +294,16 @@ verify_game_state.gd: PASS
 短線最合理下一步：
 
 ```text
-Phase 2-D
--> 新增營養棒線索麵包屑
--> 投影時鐘依線索 gate 啟動聲納
--> 聲納 reveal 隱藏插槽
--> 插槽容器使用 2-C 的 accepted_item / deposit_locked config
+Phase 2-E
+-> 插槽放入 decoder_cube
+-> 觸發電磁聲響 + 語音 MessageBox
+-> 關閉 MessageBox 後，GameState 寫入 identity_door_unlock_method 知識
+-> 大門互動取得解鎖方法後可通過 gate
 ```
 
-2-D 前必讀：
+2-E 前必讀：
 
-- `遊戲規格書.md > Phase 2 > 2-D 驗收意圖`
-- `開發設計方針.md > 2-D 偵測終端（投影時鐘）+ 聲納 reveal`
-- `測試指南.md > 2-D 投影時鐘 + 聲納 reveal 隱藏插槽`
+- `遊戲規格書.md > Phase 2 > 2-E 驗收意圖`
+- `開發設計方針.md > 2-E 插槽放入整合 + MESSAGE/CONFIRM overlay 重構`
+- `測試指南.md > 2-E 放入→語音→開門＋overlay 重構`
 - `subdocs/地點/主角公寓.md > 隱藏插槽 / 解碼方塊放入路徑`

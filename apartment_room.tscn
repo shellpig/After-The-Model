@@ -72,7 +72,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5417i"]
-size = Vector2(49, 454)
+size = Vector2(24, 454)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
 content_margin_left = 16.0
@@ -169,6 +169,27 @@ position = Vector2(398, 541)
 shape = SubResource("RectangleShape2D_n0yl8")
 debug_color = Color(0.9, 0.9, 0.1, 0.42)
 
+[node name="ProjectionClockArea" type="Area2D" parent="Interactables" unique_id=1988540001]
+script = ExtResource("2_n0yl8")
+interaction_id = "projection_clock"
+prompt_text = "E: █ 啟動投影時鐘"
+required_knowledge = "clue_projection_clock"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ProjectionClockArea" unique_id=1988540002]
+position = Vector2(852, 537)
+shape = SubResource("RectangleShape2D_n0yl8")
+debug_color = Color(0.1, 0.9, 0.9, 0.42)
+
+[node name="ApartmentSlotArea" type="Area2D" parent="Interactables" unique_id=1988560001]
+script = ExtResource("2_n0yl8")
+interaction_id = "apartment_slot"
+prompt_text = "E: █ 開啟隱藏插槽"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ApartmentSlotArea" unique_id=1988560002]
+position = Vector2(650, 543)
+shape = SubResource("RectangleShape2D_n0yl8")
+debug_color = Color(0.9, 0.1, 0.9, 0.42)
+
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1571826996]
 position = Vector2(690, 700)
 script = ExtResource("2_5mejr")
@@ -179,7 +200,7 @@ sprite_frames = SubResource("SpriteFrames_ijsgt")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1154710583]
-position = Vector2(24, -221)
+position = Vector2(30, -221)
 shape = SubResource("RectangleShape2D_5417i")
 debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)
 

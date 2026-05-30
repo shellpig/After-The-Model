@@ -3,6 +3,7 @@ class_name BagGrid
 
 signal boundary_crossed(direction: String, row: int)
 signal item_action_requested(action: String, instance_id: String)
+signal focus_changed(index: int)
 
 var focused_index: int = 0
 var _input_active: bool = false
@@ -102,6 +103,7 @@ func set_focused_index(index: int) -> void:
 		var target_button := get_child(focused_index) as Button
 		if target_button:
 			target_button.grab_focus()
+	focus_changed.emit(focused_index)
 
 func get_focused_index() -> int:
 	var focus_owner := get_viewport().gui_get_focus_owner()
@@ -217,6 +219,7 @@ func _create_slot_button(index: int) -> void:
 
 func _on_slot_focus_entered(index: int) -> void:
 	focused_index = clamp(index, 0, 14)
+	focus_changed.emit(focused_index)
 
 func _on_slot_pressed(index: int) -> void:
 	set_focused_index(index)

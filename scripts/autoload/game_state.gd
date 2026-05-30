@@ -99,6 +99,19 @@ const ITEMS_DB := {
 		"usable": true,
 		"equipment_slot": "",
 		"icon_path": "res://assets/generated/sprites/items/decoder_cube/icon.png"
+	},
+	"nutrition_bar_synth_blueberry": {
+		"id": "nutrition_bar_synth_blueberry",
+		"name": "合成藍莓口味營養棒",
+		"description": "一條包裝完好的合成藍莓口味營養棒，拿在手上感覺異常輕盈。",
+		"category": "consumable",
+		"stackable": true,
+		"max_stack": 5,
+		"discardable": true,
+		"usable": true,
+		"equipment_slot": "",
+		"icon_path": "res://assets/generated/sprites/items/synthetic_blueberry_nutrition_bar/icon.png",
+		"consume_grants_note": "clue_projection_clock"
 	}
 }
 

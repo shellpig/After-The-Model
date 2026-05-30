@@ -6,7 +6,8 @@ const MESSAGES := {
 	"door_opened": "你想起來了。門鎖不是壞了, 是你忘了操作方式。",
 	"desk_computer_msg": "螢幕還亮著, 一份新的派工單正自己跳出來, 沒有寄件人。",
 	"tape_recorder_msg": "錄音機裡卡著一捲帶子。按下播放, 是首沒人記得的老歌, 雜訊裡有人輕輕跟著哼。",
-	"decoder_cube_decoded": "當你戴著無指手套拿起魔術方塊時，指尖的接點突然傳來一陣微弱的電流，方塊的接縫處隨之亮起了一道黯淡的迴路光芒。方塊的結構在微弱的喀噠聲中重新排列——它被解碼了。"
+	"decoder_cube_decoded": "當你戴著無指手套拿起魔術方塊時，指尖的接點突然傳來一陣微弱的電流，方塊的接縫處隨之亮起了一道黯淡的迴路光芒。方塊的結構在微弱的喀噠聲中重新排列——它被解碼了。",
+	"nutrition_bar_consume": "包裝比手感該有的輕。撕開才發現裡頭沒有營養棒, 只有一張折起來的紙——上面是你自己的字跡：「別信那個時鐘。」"
 }
 
 const NOTES := {
@@ -37,10 +38,17 @@ const NOTES := {
 		"title": "解碼方塊",
 		"body": "一種普遍用於解開設備功能的道具, 性質有點像鑰匙。放入對應的插槽, 就能開啟特定功能。",
 		"status": "active"
+	},
+	"clue_projection_clock": {
+		"id": "clue_projection_clock",
+		"category": "線索",
+		"title": "別信那個時鐘",
+		"body": "營養棒的空包裝裡藏了張紙, 是你自己寫的。那台投影時鐘不只是時鐘——它底下還裝著別的東西。",
+		"status": "active"
 	}
 }
 
-const CONTAINERS := {
+var CONTAINERS := {
 	"cabinet_storage": {
 		"title": "櫥櫃",
 		"cols": 5,
@@ -78,6 +86,16 @@ const MESSAGE_PADDING := Vector2(32.0, 20.0)
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
+var _sonar_revealed: bool = false
+var _sonar_active: bool = false
+var _sonar_time_left: float = 10.0
+var _sonar_dwell_time: float = 0.0
+var _sonar_ping_timer: float = 0.0
+var sonar_ui: PanelContainer = null
+var sonar_label: Label = null
+var _audio_ping: AudioStreamPlayer = null
+var _audio_reveal: AudioStreamPlayer = null
+
 var message_full_text := ""
 var message_elapsed := 0.0
 var _last_mode: int = UIMode.Mode.NONE
@@ -106,6 +124,7 @@ func _ready() -> void:
 	var _ok_jacket := GameState.seed_container("cabinet_storage", "faded_jacket", 1)
 	var _ok_cabinet_food := GameState.seed_container("cabinet_storage", "canned_food", 2)
 	var _ok_fridge_food := GameState.seed_container("fridge_storage", "canned_food", 3)
+	var _ok_fridge_blueberry := GameState.seed_container("fridge_storage", "nutrition_bar_synth_blueberry", 1)
 	var _ok_rubik := GameState.seed_container("cabinet_storage", "worn_rubiks_cube", 1)
 
 
@@ -143,13 +162,69 @@ func _ready() -> void:
 	})
 
 	UIMode.mode_changed.connect(_on_ui_mode_changed)
-	panel_footer_hint.set_hints(panel_footer_hint, ["E: 裝備/卸下", "R: 查看", "T: 丟棄", "Esc/I: 關閉"])
-
+	
 	# Phase 1-E: enable item actions for the standalone bag_grid
 	if bag_grid.has_method("set_item_actions_enabled"):
 		bag_grid.set_item_actions_enabled(true)
 	bag_grid.item_action_requested.connect(_on_bag_item_action)
+	bag_grid.focus_changed.connect(_on_bag_grid_focus_changed)
 	dual_pane_container.item_action_requested.connect(_on_dual_pane_item_action)
+
+
+
+	# Sonar UI Panel Creation
+	sonar_ui = PanelContainer.new()
+	sonar_ui.name = "SonarUI"
+	sonar_ui.visible = false
+	sonar_ui.custom_minimum_size = Vector2(300, 100)
+	
+	var sonar_style := StyleBoxFlat.new()
+	sonar_style.bg_color = Color(0.08, 0.10, 0.12, 0.85)
+	sonar_style.border_color = Color(0.78, 0.42, 0.20, 1.0)
+	sonar_style.border_width_left = 2
+	sonar_style.border_width_top = 2
+	sonar_style.border_width_right = 2
+	sonar_style.border_width_bottom = 2
+	sonar_style.corner_radius_top_left = 4
+	sonar_style.corner_radius_top_right = 4
+	sonar_style.corner_radius_bottom_left = 4
+	sonar_style.corner_radius_bottom_right = 4
+	sonar_ui.add_theme_stylebox_override("panel", sonar_style)
+	
+	var margin_c := MarginContainer.new()
+	margin_c.add_theme_constant_override("margin_left", 16)
+	margin_c.add_theme_constant_override("margin_top", 16)
+	margin_c.add_theme_constant_override("margin_right", 16)
+	margin_c.add_theme_constant_override("margin_bottom", 16)
+	sonar_ui.add_child(margin_c)
+	
+	sonar_label = Label.new()
+	sonar_label.name = "SonarLabel"
+	sonar_label.add_theme_color_override("font_color", Color(0.94, 0.92, 0.84, 1.0))
+	sonar_label.add_theme_font_size_override("font_size", 16)
+	margin_c.add_child(sonar_label)
+	
+	$UI.add_child(sonar_ui)
+	sonar_ui.anchors_preset = Control.PRESET_CENTER_TOP
+	sonar_ui.anchor_left = 0.5
+	sonar_ui.anchor_right = 0.5
+	sonar_ui.offset_left = -150
+	sonar_ui.offset_right = 150
+	sonar_ui.offset_top = 80
+	sonar_ui.offset_bottom = 180
+
+	# Sonar Audio Players
+	_audio_ping = AudioStreamPlayer.new()
+	_audio_ping.name = "AudioPing"
+	if FileAccess.file_exists("res://assets/sound/sonar_ping.wav"):
+		_audio_ping.stream = load("res://assets/sound/sonar_ping.wav")
+	add_child(_audio_ping)
+
+	_audio_reveal = AudioStreamPlayer.new()
+	_audio_reveal.name = "AudioReveal"
+	if FileAccess.file_exists("res://assets/sound/hidden_slot_reveal.wav"):
+		_audio_reveal.stream = load("res://assets/sound/hidden_slot_reveal.wav")
+	add_child(_audio_reveal)
 
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
@@ -159,6 +234,41 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	_update_message_typewriter(_delta)
+
+	if _sonar_active:
+		if UIMode.get_mode() == UIMode.Mode.NONE:
+			_sonar_time_left -= _delta
+			if _sonar_time_left <= 0.0:
+				_stop_sonar(false)
+				return
+			else:
+				var target_x: float = 750.0
+				var slot_area := $Interactables.get_node_or_null("ApartmentSlotArea")
+				if slot_area:
+					target_x = _get_interactable_position(slot_area).x
+
+				var player_x := player.global_position.x
+				var dx: float = abs(player_x - target_x)
+				var ping_interval: float = lerp(0.2, 1.5, clamp(dx / 600.0, 0.0, 1.0))
+				_sonar_ping_timer += _delta
+				if _sonar_ping_timer >= ping_interval:
+					_sonar_ping_timer = 0.0
+					_play_sonar_ping()
+				
+				var strength: float = clamp(100.0 - (dx / 6.0), 0.0, 100.0)
+				if dx <= 30.0:
+					_sonar_dwell_time += _delta
+					if _sonar_dwell_time >= 4.0:
+						_reveal_hidden_slot()
+						return
+				else:
+					_sonar_dwell_time = 0.0
+				
+				sonar_label.text = "聲納探測中...\n強度: %d%%\n定位鎖定: %d%%\n剩餘時間: %.1fs" % [
+					int(strength),
+					int(clamp((_sonar_dwell_time / 4.0) * 100.0, 0.0, 100.0)),
+					_sonar_time_left
+				]
 
 	var current_mode := UIMode.get_mode()
 
@@ -205,7 +315,7 @@ func _process(_delta: float) -> void:
 					UIMode.set_mode(_mode_before_message)
 					item_detail_modal.refresh_modal()
 				else:
-					UIMode.set_mode(UIMode.Mode.NONE)
+					UIMode.set_mode(_mode_before_message)
 				return
 			if Input.is_action_just_pressed("open_inventory"):
 				_pending_inspect_modal.clear()
@@ -264,6 +374,10 @@ func _process(_delta: float) -> void:
 					var message_id := "door_opened" if GameState.has_knowledge(required_knowledge) else "door_locked"
 					_start_message_typewriter(MESSAGES.get(message_id, ""))
 					UIMode.set_mode(UIMode.Mode.MESSAGE)
+				"projection_clock":
+					_start_sonar()
+				"apartment_slot":
+					UIMode.set_mode(UIMode.Mode.CONTAINER)
 
 func _on_interactable_entered(interactable: Area2D) -> void:
 	if not nearby_interactables.has(interactable):
@@ -299,6 +413,11 @@ func _get_closest_interactable() -> Area2D:
 
 	for interactable in nearby_interactables:
 		if not is_instance_valid(interactable):
+			continue
+
+		if interactable.interaction_id == "projection_clock" and (not GameState.has_note("clue_projection_clock") or _sonar_revealed):
+			continue
+		if interactable.interaction_id == "apartment_slot" and not _sonar_revealed:
 			continue
 
 		var distance := player_position.distance_squared_to(_get_interactable_position(interactable))
@@ -364,14 +483,15 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		notebook_panel.load_notebook_data()
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.NONE:
-		if _last_mode == UIMode.Mode.MESSAGE and not _pending_toast_title.is_empty():
-			FloatingToast.show_toast("已記入筆記：" + _pending_toast_title, player)
-		_pending_toast_title = ""
 		item_detail_modal.visible = false
 		confirm_dialog.visible = false
 		_update_prompt()
 
-	if new_mode == UIMode.Mode.INVENTORY or new_mode == UIMode.Mode.NOTEBOOK:
+	if _last_mode == UIMode.Mode.MESSAGE and not _pending_toast_title.is_empty():
+		FloatingToast.show_toast("已記入筆記：" + _pending_toast_title, player)
+		_pending_toast_title = ""
+
+	if new_mode == UIMode.Mode.NOTEBOOK:
 		_pending_toast_title = ""
 	_last_mode = new_mode
 
@@ -394,26 +514,33 @@ func _on_bag_item_action(action: String, instance_id: String) -> void:
 
 	match action:
 		"view":
-			var decodable_to: String = item_meta.get("decodable_to", "")
-			if not decodable_to.is_empty() and _player_has_decoding_ability():
-				_pending_inspect_modal = {
-					"instance_id": instance_id,
-					"restore_grid": bag_grid,
-					"restore_index": bag_grid.focused_index,
-					"anchor_node": inventory_panel
-				}
-				_execute_item_decoding(instance_id, decodable_to)
+			if item_meta.has("consume_grants_note"):
+				_handle_item_use(instance_id, item_meta)
 			else:
-				if item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
-					GameState.add_knowledge(NOTES["clue_gloves_decoder"])
-					FloatingToast.show_toast("已記入筆記：" + NOTES["clue_gloves_decoder"].title, player)
+				var decodable_to: String = item_meta.get("decodable_to", "")
+				if not decodable_to.is_empty() and _player_has_decoding_ability():
+					_pending_inspect_modal = {
+						"instance_id": instance_id,
+						"restore_grid": bag_grid,
+						"restore_index": bag_grid.focused_index,
+						"anchor_node": inventory_panel
+					}
+					_execute_item_decoding(instance_id, decodable_to)
+				else:
+					if item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
+						GameState.add_knowledge(NOTES["clue_gloves_decoder"])
+						FloatingToast.show_toast("已記入筆記：" + NOTES["clue_gloves_decoder"].title, player)
 
-				bag_grid.set_input_active(false)
-				item_detail_modal.show_modal(instance_id, bag_grid, bag_grid.focused_index, inventory_panel)
+					bag_grid.set_input_active(false)
+					item_detail_modal.show_modal(instance_id, bag_grid, bag_grid.focused_index, inventory_panel)
 		"discard":
 			_start_discard_flow(instance_id, item_meta, bag_grid, bag_grid.focused_index)
 		"equip_toggle":
-			_handle_equip_toggle(instance_id, item_meta)
+			var category: String = item_meta.get("category", "")
+			if category == "consumable" or item_meta.has("consume_grants_note"):
+				_handle_item_use(instance_id, item_meta)
+			elif category == "equipment":
+				_handle_equip_toggle(instance_id, item_meta)
 
 func _on_dual_pane_item_action(action: String, instance_id: String, source_pane: String) -> void:
 	if UIMode.get_mode() != UIMode.Mode.CONTAINER:
@@ -429,23 +556,39 @@ func _on_dual_pane_item_action(action: String, instance_id: String, source_pane:
 
 	match action:
 		"view":
-			var decodable_to: String = item_meta.get("decodable_to", "")
-			if not decodable_to.is_empty() and _player_has_decoding_ability():
-				_pending_inspect_modal = {
-					"instance_id": instance_id,
-					"restore_grid": active_grid,
-					"restore_index": active_idx,
-					"anchor_node": anchor_panel
-				}
-				_execute_item_decoding(instance_id, decodable_to)
+			if item_meta.has("consume_grants_note"):
+				_handle_item_use(instance_id, item_meta)
 			else:
-				if item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
-					GameState.add_knowledge(NOTES["clue_gloves_decoder"])
-					FloatingToast.show_toast("已記入筆記：" + NOTES["clue_gloves_decoder"].title, player)
+				var decodable_to: String = item_meta.get("decodable_to", "")
+				if not decodable_to.is_empty() and _player_has_decoding_ability():
+					_pending_inspect_modal = {
+						"instance_id": instance_id,
+						"restore_grid": active_grid,
+						"restore_index": active_idx,
+						"anchor_node": anchor_panel
+					}
+					_execute_item_decoding(instance_id, decodable_to)
+				else:
+					if item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
+						GameState.add_knowledge(NOTES["clue_gloves_decoder"])
+						FloatingToast.show_toast("已記入筆記：" + NOTES["clue_gloves_decoder"].title, player)
 
-				item_detail_modal.show_modal(instance_id, active_grid, active_idx, anchor_panel)
+					item_detail_modal.show_modal(instance_id, active_grid, active_idx, anchor_panel)
 		"discard":
 			_start_discard_flow(instance_id, item_meta, active_grid, active_idx)
+
+func _handle_item_use(instance_id: String, item_meta: Dictionary) -> void:
+	var note_id: String = item_meta.get("consume_grants_note", "")
+	if not note_id.is_empty():
+		var note_data: Dictionary = NOTES.get(note_id, {})
+		_pending_toast_title = note_data.get("title", "")
+		GameState.add_knowledge(note_data)
+		_start_message_typewriter(MESSAGES.get("nutrition_bar_consume", ""))
+		GameState.discard_item(instance_id)
+		UIMode.set_mode(UIMode.Mode.MESSAGE)
+	else:
+		var toast_panel := _get_active_panel()
+		FloatingToast.show_toast("現在用不上。", toast_panel)
 
 func _handle_equip_toggle(instance_id: String, item_meta: Dictionary) -> void:
 	if item_meta.get("category", "") != "equipment":
@@ -620,3 +763,88 @@ func _on_item_moved(move: Dictionary) -> void:
 		var decodable_to: String = item_meta.get("decodable_to", "")
 		if not decodable_to.is_empty() and _player_has_decoding_ability():
 			_execute_item_decoding(target_instance_id, decodable_to)
+
+func _on_bag_grid_focus_changed(index: int) -> void:
+	_update_backpack_footer(index)
+
+func _update_backpack_footer(index: int) -> void:
+	if UIMode.get_mode() != UIMode.Mode.INVENTORY:
+		return
+	var items := GameState.get_inventory()
+	if index < 0 or index >= items.size() or items[index].is_empty():
+		panel_footer_hint.set_hints(panel_footer_hint, ["Esc/I: 關閉"])
+		return
+
+	var slot_data: Dictionary = items[index]
+	var item_id: String = slot_data.get("item_id", "")
+	var instance_id: String = slot_data.get("instance_id", "")
+	var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
+	var category: String = item_meta.get("category", "")
+
+	var hints := []
+	if category == "equipment":
+		if GameState.is_equipped(instance_id):
+			hints.append("E: 卸下")
+		else:
+			hints.append("E: 裝備")
+	elif category == "consumable" or item_meta.has("consume_grants_note"):
+		hints.append("E: 使用")
+
+	hints.append_array(["R: 查看", "T: 丟棄", "Esc/I: 關閉"])
+	panel_footer_hint.set_hints(panel_footer_hint, hints)
+
+func _play_sonar_ping() -> void:
+	if _audio_ping and _audio_ping.stream:
+		_audio_ping.play()
+	else:
+		print("[Sonar Ping] beep!")
+
+func _play_sonar_reveal() -> void:
+	if _audio_reveal and _audio_reveal.stream:
+		_audio_reveal.play()
+	else:
+		print("[Sonar Reveal] CHIRP! Hidden Slot Revealed.")
+
+func _start_sonar() -> void:
+	if _sonar_revealed:
+		return
+	_sonar_active = true
+	_sonar_time_left = 10.0
+	_sonar_dwell_time = 0.0
+	_sonar_ping_timer = 0.0
+	sonar_ui.visible = true
+	prompt_panel.visible = false
+
+func _stop_sonar(revealed: bool) -> void:
+	_sonar_active = false
+	sonar_ui.visible = false
+	if not revealed:
+		FloatingToast.show_toast("聲納超時關閉，定位失敗。", player)
+
+func _reveal_hidden_slot() -> void:
+	_stop_sonar(true)
+	_sonar_revealed = true
+	_play_sonar_reveal()
+
+	# Completely remove projection clock interaction
+	var clock = $Interactables.get_node_or_null("ProjectionClockArea")
+	if clock:
+		nearby_interactables.erase(clock)
+		clock.queue_free()
+	
+	# Configure slot container in GameState
+	GameState.configure_container("apartment_slot", 1, ["decoder_cube"], true)
+	
+	# Dynamic insertion in CONTAINERS DB
+	CONTAINERS["apartment_slot"] = {
+		"title": "隱藏插槽",
+		"cols": 1,
+		"rows": 1,
+		"skin": "cabinet",
+		"panel_position": Vector2(782.0, 64.0)
+	}
+
+	# Force prompt update
+	_refresh_current_interactable()
+	
+	FloatingToast.show_toast("成功鎖定！牆內滑動插槽已開啟。", player)

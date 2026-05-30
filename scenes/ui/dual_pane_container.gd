@@ -85,7 +85,7 @@ func _on_left_grid_boundary_crossed(direction: String, row: int) -> void:
 		left_grid.set_input_active(false)
 		right_grid.set_input_active(true)
 
-		var max_row: int = int(slot_count / 5) - 1
+		var max_row: int = int((slot_count - 1) / 5)
 		var target_row: int = clampi(row, 0, max_row)
 		var new_index: int = target_row * 5 + 0
 		right_grid.set_focused_index(new_index)
@@ -167,9 +167,15 @@ func _handle_item_move() -> void:
 
 	if index < items_array.size() and not items_array[index].is_empty():
 		var instance_id: String = items_array[index].get("instance_id", "")
+		var item_id: String = items_array[index].get("item_id", "")
 		var moved: bool = GameState.move_one_item_to(target_id, instance_id)
 		if not moved:
-			FloatingToast.show_toast("放不下了。", target_panel)
+			var target_config := GameState.get_container_config(target_id) if target_id != "player_inventory" else {}
+			var accepted: Array = target_config.get("accepted_item", [])
+			if not accepted.is_empty() and not accepted.has(item_id):
+				FloatingToast.show_toast("根本放不進去。", target_panel)
+			else:
+				FloatingToast.show_toast("放不下了。", target_panel)
 
 func _apply_panels_styling() -> void:
 	# Reuse the InventoryPanel skin to avoid color drift (same pattern as NotebookPanel)

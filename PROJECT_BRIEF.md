@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-05-30
+最後更新：2026-05-31
 
 ---
 
@@ -16,12 +16,12 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A 完成；3-B / 3-C / 3-D 程式實作完成且 headless 自動測試 PASS，唯 GUI 純觸控走查與 B0–B9 里程碑實測尚未執行；3-E（真機）待 Mac。原街道 / NPC / 任務擴張改稱 Phase 4+
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**規格已定稿，尚未開工；先做 4-A0 檔案結構整理，再進 Main / SceneRouter / GameUI。
 
 最新 commit：
 
 ```text
-77abac5 feat: implement and refine Phase 2-D sonar reveal & nutrition bar clue flows
+0723871 docs: 更新專案 Brief，標記 Phase 3-B~3-E 為已完成
 ```
 
 ## 核心調性
@@ -181,7 +181,14 @@ note_id
 | 3-C | ✅ 完成 | 面板模式觸控：方向鍵移焦點、右下 E / R / T（情境感知顯隱）、面板開時右上「X 返回」=`ui_cancel`；headless PASS、**里程碑 PC 純觸控通關 B0–B9（GUI 實測未跑）** |
 | 3-D | ✅ 完成 | Safe area + 比例排版：按鈕內縮 `get_display_safe_area()`（test_runner 9.1 驗證）、D-pad 54 / 功能鍵 60（≥44px）；待 GUI 比例目視、真機座標換算待 3-E |
 | 3-E | ✅ 完成 | 真機導出 + iPhone 校正（需 Mac）：Mac+Xcode 免費簽名進 iPhone、真機純觸控通關、瀏海 / 效能校正 |
-| 4+ | ⬜ 待規劃 | （原 Phase 3+ 內容）SceneRouter、第二場景、NPC 對話、第一個零工任務；觸控規範沿用 Phase 3 |
+| 4-A0 | ⬜ 待開工 | 檔案結構整理：root 的 `apartment_room.*` / `player.gd` / `interactable_area.gd` 搬進對應資料夾；純路徑變更、獨立 commit、遊戲仍可玩 |
+| 4-A | ⬜ 待開工 | `main.tscn` / `WorldRoot` / 最小 SceneRouter / SceneRegistry；仍載入公寓且行為不變 |
+| 4-B | ⬜ 待開工 | 抽出常駐 `GameUI`，持有 Prompt / Inventory / Notebook / DualPane / MessageBox / Toast 等共用 UI |
+| 4-C | ⬜ 待開工 | Level ↔ Main ↔ GameUI interaction contract；Level 只 emit 資料 / signal，不直接碰 UI node path |
+| 4-D | ⬜ 待開工 | TouchControls 改接 GameUI / Main contract，不再讀 level 私有欄位或 `UI/...` 固定路徑 |
+| 4-E | ⬜ 待開工 | 公寓完整遷移與 B0-B9 回歸；`apartment:wake_bed` 播開場，`apartment:from_street` 跳過開場 |
+| 4-F | ⬜ 待開工 | `street_stub` 第二場景 + 真轉場；公寓可到街道 stub，街道可回公寓 |
+| 4-G | ⬜ 待開工 | 未來系統 contract pass：`dialogue_id` / `quest_event_id` / `music_id` / `scene_id+entry_point_id` 插槽存在 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
@@ -192,6 +199,23 @@ note_id
 平台策略：最終 iOS、MVP 不做 Android；開發 / 驗收在 **Windows 桌面版 + 滑鼠模擬觸控**，真機在 **Mac + Xcode 免費簽名**進自己 iPhone（**不需付費 Apple Developer Program**，付費僅 TestFlight / 上架）。依賴線性：3-A → 3-B → 3-C → 3-D（皆 Windows）→ 3-E（需 Mac）。
 
 驗收意圖見 `遊戲規格書.md > Phase 規劃 > Phase 3`；實作契約見 `開發設計方針.md > Phase 3`；操作清單見 `測試指南.md > Phase 3`。
+
+### Phase 4 子階段（跨場景架構化）
+
+目的：採用 `main.tscn` 常駐宿主 + `WorldRoot` 動態關卡 + `GameUI` 常駐 CanvasLayer。Phase 4 只做跨場景 runtime 架構與未來系統 contract，不做完整 NPC 對話、完整任務、真存檔、完整 MusicManager、地鐵完整網路或街區正式美術量產。
+
+核心決策：
+
+- `GameUI` 不做 Autoload；放在 `main.tscn`，持有 Prompt / Inventory / Notebook / DualPane / MessageBox / ConfirmDialog / ItemDetailModal / FloatingToast。
+- `GameState` / `UIMode` / `TouchControls` 維持 Autoload。
+- SceneRouter 第一版可在 `main.gd`；所有轉場使用 `scene_id + entry_point_id`。
+- Entry points 固定：`apartment:wake_bed`（新遊戲，播開場）、`apartment:from_street`（回公寓，不播開場）、`street_stub:from_apartment`（從公寓出去）。
+- `player.tscn` 目前不存在；Phase 4 不新建 / 不抽出，只在 4-A0 搬 `player.gd + player.gd.uid`。各 level 可暫時內嵌 `Player` node 並共用 `player.gd`。
+- 每個子階段完成後遊戲都應仍可手動驗證；4-F 起應跨場景可玩。
+
+子階段依賴：4-A0 → 4-A → 4-B → 4-C → 4-D → 4-E → 4-F → 4-G。
+
+驗收意圖見 `遊戲規格書.md > Phase 4`；實作契約見 `開發設計方針.md > Phase 4`；操作清單見 `測試指南.md > Phase 4`。
 
 ## Phase 2 公寓解謎鏈
 
@@ -212,7 +236,7 @@ B9 開門 gate 通過
 
 ## 各階段查閱地圖（文件 + 行範圍）
 
-> 開某子階段前只讀對應行範圍，避免每次重掃整份規格。行號以 2026-05-30 版為準；大幅改寫後需校正。
+> 開某子階段前只讀對應行範圍，避免每次重掃整份規格。行號以 2026-05-31 版為準；大幅改寫後需校正。
 > 四份文件角色：**規格書**=驗收意圖（what must be true）／**設計方針**=實作契約（API・欄位・接線）／**測試指南**=操作清單（click-by-click）／**主角公寓**=敘事・互動物・線索文字。
 
 ### Phase 2 子階段（四份對照）
@@ -225,6 +249,20 @@ B9 開門 gate 通過
 | 2-D 投影時鐘＋聲納 reveal | 1560–1574 | 100–145 | 122–160 | 464–505 |
 | 2-E 放入→語音→開門＋overlay 重構 | 1575–1586 | 146–174 | 161–186 | 506–534 |
 | 2-G 開場獨白序列 | 1631–1646 | 199–234 | 209–244 | 383–416 |
+
+### Phase 4 子階段（三份對照）
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 4 總覽 | 1705–1807 | 333–339 | 285–288 |
+| 4-A0 檔案結構整理 | 1809–1818 | 340–399 | 289–298 |
+| 4-A Main / SceneRouter / SceneRegistry | 1820–1827 | 402–466 | 301–309 |
+| 4-B GameUI 抽離 | 1829–1835 | 468–552 | 312–319 |
+| 4-C Level interaction contract | 1837–1842 | 554–589 | 322–329 |
+| 4-D TouchControls 解耦 | 1844–1849 | 591–611 | 332–339 |
+| 4-E 公寓遷移 / B0-B9 回歸 | 1851–1859 | 613–650 | 342–355 |
+| 4-F 第二場景 stub / 真轉場 | 1861–1867 | 653–671 | 358–365 |
+| 4-G future contracts pass | 1870–1876 | 674–683 | 368–374 |
 
 共同前置（任一子階段都建議先掃一次）：
 
@@ -303,7 +341,8 @@ verify_game_state.gd: PASS
 - `subdocs/地點/主角公寓.md` 底部「已知落差 / 待修」有部分 Phase 1 歷史描述可能已過期；以 `AGENTS.md`、`遊戲規格書.md`、目前 code 與 git log 判斷最新狀態。
 - Phase 2-B 已實作並驗證；`worn_rubiks_cube`、`decoder_cube` 與解碼手套流程已存在於 code。
 - Phase 2-C 已實作並驗證；`accepted_item`、`deposit_locked`、`get_container_config()` 與 `item_moved` payload 可供 2-D / 2-E 使用。
-- 大門目前只顯示 `door_opened` 訊息，不轉場；SceneRouter 留 Phase 4+（轉場 / 新場景擴張）。
+- 大門目前只顯示 `door_opened` 訊息，不轉場；Phase 4-F 才改為真轉場到 `street_stub:from_apartment`。
+- Phase 4-A0 是純搬檔階段：不得新建 `player.tscn`，不得改遊戲邏輯；`project.godot` 主場景改到 `main.tscn` 留 4-A。
 
 ## 下一步建議
 

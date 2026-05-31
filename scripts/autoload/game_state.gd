@@ -10,7 +10,7 @@ signal equipment_changed
 signal item_moved(move: Dictionary)
 
 # Variables
-var credits: int = 0
+var credits: int = 300
 var inventory_slots: int = 15
 var inventory: Array[Dictionary] = []
 var equipment: Dictionary = {
@@ -144,7 +144,7 @@ func add_credits(amount: int) -> void:
 
 func set_credits(value: int) -> void:
 	var old_credits = credits
-	credits = max(0, value)
+	credits = clampi(value, 0, 9999999)
 	if credits != old_credits:
 		credits_changed.emit(credits)
 

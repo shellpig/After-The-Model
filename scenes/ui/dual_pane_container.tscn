@@ -1,10 +1,10 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://dx8h2bt43snqk"]
 
-[ext_resource type="Script" path="res://scenes/ui/dual_pane_container.gd" id="1_dual_pane"]
-[ext_resource type="PackedScene" path="res://scenes/ui/bag_grid.tscn" id="2_bag_grid"]
+[ext_resource type="Script" uid="uid://cwui5j1gfd0ob" path="res://scenes/ui/dual_pane_container.gd" id="1_dual_pane"]
+[ext_resource type="PackedScene" uid="uid://d47a0c22bdab" path="res://scenes/ui/bag_grid.tscn" id="2_bag_grid"]
 [ext_resource type="PackedScene" path="res://scenes/ui/external_grid.tscn" id="3_external_grid"]
 
-[node name="DualPaneContainer" type="PanelContainer"]
+[node name="DualPaneContainer" type="PanelContainer" unique_id=1636739161]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -14,54 +14,56 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dual_pane")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=376503485]
 layout_mode = 2
 alignment = 1
 
-[node name="BackpackPanel" type="PanelContainer" parent="HBoxContainer"]
+[node name="BackpackPanel" type="PanelContainer" parent="HBoxContainer" unique_id=1267353673]
 custom_minimum_size = Vector2(368, 256)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/BackpackPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/BackpackPanel" unique_id=91050454]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="HBoxContainer/BackpackPanel/VBoxContainer"]
+[node name="Title" type="Label" parent="HBoxContainer/BackpackPanel/VBoxContainer" unique_id=504763071]
 layout_mode = 2
-text = "背包 (Credits: 0)"
+text = "背包    credits : 300"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="BagGrid" parent="HBoxContainer/BackpackPanel/VBoxContainer" instance=ExtResource("2_bag_grid")]
+[node name="BagGrid" parent="HBoxContainer/BackpackPanel/VBoxContainer" unique_id=1686672205 instance=ExtResource("2_bag_grid")]
 layout_mode = 2
 
-[node name="FooterHint" type="Label" parent="HBoxContainer/BackpackPanel/VBoxContainer"]
+[node name="FooterHint" type="Label" parent="HBoxContainer/BackpackPanel/VBoxContainer" unique_id=1047212973]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 text = "E: 移動    Esc: 關閉"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ContainerPanel" type="PanelContainer" parent="HBoxContainer"]
+[node name="ContainerPanel" type="PanelContainer" parent="HBoxContainer" unique_id=147339877]
 custom_minimum_size = Vector2(368, 0)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ContainerPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ContainerPanel" unique_id=1303452524]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="HBoxContainer/ContainerPanel/VBoxContainer"]
+[node name="Title" type="Label" parent="HBoxContainer/ContainerPanel/VBoxContainer" unique_id=1796770308]
 layout_mode = 2
 text = "儲物空間"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="ExternalGrid" parent="HBoxContainer/ContainerPanel/VBoxContainer" instance=ExtResource("3_external_grid")]
+[node name="ExternalGrid" parent="HBoxContainer/ContainerPanel/VBoxContainer" unique_id=840324406 instance=ExtResource("3_external_grid")]
 layout_mode = 2
 
-[node name="FooterHint" type="Label" parent="HBoxContainer/ContainerPanel/VBoxContainer"]
+[node name="FooterHint" type="Label" parent="HBoxContainer/ContainerPanel/VBoxContainer" unique_id=1945357724]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 text = "E: 移動    Esc: 關閉"
 horizontal_alignment = 1
 vertical_alignment = 1

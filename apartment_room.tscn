@@ -338,7 +338,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94, 0.92, 0.84, 1)
 theme_override_font_sizes/font_size = 18
-text = "Credits: 0"
+text = "credits : 300"
 
 [node name="BagGrid" parent="UI/InventoryPanel/VBoxContainer" unique_id=1518608023 instance=ExtResource("11_bag_grid")]
 layout_mode = 2

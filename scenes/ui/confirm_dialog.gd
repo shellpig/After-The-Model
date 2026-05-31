@@ -57,12 +57,15 @@ func close_dialog() -> void:
 func _input(event: InputEvent) -> void:
 	if not visible:
 		return
-	get_viewport().set_input_as_handled()
-	if event.is_action_pressed("interact_primary"):
-		if _on_confirm.is_valid():
-			_on_confirm.call()
-		close_dialog()
-	elif event.is_action_pressed("ui_cancel"):
-		if _on_cancel.is_valid():
-			_on_cancel.call()
-		close_dialog()
+	
+	# 只攔截鍵盤、搖桿與模擬動作事件，允許實體滑鼠與觸控點擊穿透到 GUI 按鈕
+	if event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion or event is InputEventAction:
+		get_viewport().set_input_as_handled()
+		if event.is_action_pressed("interact_primary"):
+			if _on_confirm.is_valid():
+				_on_confirm.call()
+			close_dialog()
+		elif event.is_action_pressed("ui_cancel"):
+			if _on_cancel.is_valid():
+				_on_cancel.call()
+			close_dialog()

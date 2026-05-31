@@ -552,7 +552,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		var items := GameState.get_inventory()
 		bag_grid.initialize_grid(items)
 		bag_grid.set_focused_index(0)
-		credits_label.text = "Credits: %d" % GameState.get_credits()
+		credits_label.text = "credits : %d" % GameState.get_credits()
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.MESSAGE:
 		prompt_panel.visible = false

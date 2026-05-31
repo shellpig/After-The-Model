@@ -292,10 +292,9 @@ func _update_dynamic_button_visibility() -> void:
 				# R 鍵：任何佔用格均可查看詳細
 				btn_r.visible = true
 				
-				# T 鍵：可丟棄且目前非裝備中
-				var is_discardable = item_meta.get("discardable", true) and not GameState.is_equipped(instance_id)
-				btn_t.visible = is_discardable
-
+				# T 鍵：任何佔用格均顯示，交由後置 discard 流程進行攔截與 Toast 提示
+				btn_t.visible = true
+			
 		UIMode.Mode.CONTAINER:
 			# 雙欄儲存箱模式：根據 active_pane 以及對應 Focused 欄位狀態動態顯示
 			var dual_pane = scene.get_node_or_null("UI/DualPaneContainer")
@@ -326,12 +325,8 @@ func _update_dynamic_button_visibility() -> void:
 				btn_e.visible = true
 				btn_r.visible = true
 				
-				# T 鍵：可丟棄且目前非裝備中
-				var item_id: String = slot.get("item_id", "")
-				var instance_id: String = slot.get("instance_id", "")
-				var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
-				var is_discardable = item_meta.get("discardable", true) and not GameState.is_equipped(instance_id)
-				btn_t.visible = is_discardable
+				# T 鍵：任何佔用格均顯示，交由後置 discard 流程進行攔截與 Toast 提示
+				btn_t.visible = true
 
 		UIMode.Mode.NOTEBOOK:
 			# 筆記本模式：沒有任何 E/R/T 面板行為，全數隱藏

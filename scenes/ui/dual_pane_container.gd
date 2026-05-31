@@ -64,7 +64,7 @@ func set_input_active(active: bool, c_id: String = "", s_count: int = 0, title: 
 		right_grid.set_input_active(false)
 
 func refresh_ui() -> void:
-	left_title.text = "背包 (Credits: %d)" % GameState.get_credits()
+	left_title.text = "背包    credits : %d" % GameState.get_credits()
 	right_title.text = title_text
 
 	left_grid.initialize_grid(GameState.get_inventory())

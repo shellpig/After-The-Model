@@ -169,10 +169,10 @@ func _apply_cyber_style() -> void:
 	if dpad and actions:
 		if not is_pc_platform:
 			# 行動端：手勢人體工學貼邊
-			dpad.offset_left = 200
-			dpad.offset_bottom = 0
-			actions.offset_right = -6
-			actions.offset_bottom = 0
+			dpad.offset_left = 280
+			dpad.offset_bottom = 20
+			actions.offset_right = -10
+			actions.offset_bottom = 20
 		else:
 			# PC 桌面端：維持 176 像素經典安全邊距
 			dpad.offset_left = 176

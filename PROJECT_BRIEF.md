@@ -177,10 +177,10 @@ note_id
 | 2-F | ✅ 完成 | 筆記內容/操作修正（測試長筆記改氛圍版「雨還沒停」、A/D 切分頁 + W/S 選筆記、與 Page Up/Down 停用）+ 公寓 BGM（`AudioStreamPlayer` loop / -12dB） |
 | 2-G | ✅ 完成 | 開場獨白序列：prone 甦醒 → 3 頁不可跳過 MessageBox（標題首行 + 6 字/秒）→ P3 起身動畫 `get_up` → 解鎖；每次進場都播；隱藏 T×3（1 秒內）跳頁捷徑 |
 | 3-A | ✅ 完成 | 顯示 / 橫向 / 觸控模擬設定：`project.godot` landscape、`emulate_*_from_touch`、`canvas_items`+`expand`；headless 回歸 PASS（commit `8b385c8`） |
-| 3-B | 🟦 待驗收 | 世界模式觸控：`TouchControls` autoload（layer 100）左下方向鍵走路 / 右下 E / 右上 背包·筆記；顯示規則 `visible` 恆真 + `OS.get_name()` 判 PC + PC 端觸控 toggle（棄用 `is_touchscreen_available`，Windows 觸控筆電誤判）；headless 自動測試 PASS、待 GUI 純觸控走查 |
-| 3-C | 🟦 待驗收 | 面板模式觸控：方向鍵移焦點、右下 E / R / T（情境感知顯隱）、面板開時右上「X 返回」=`ui_cancel`；headless PASS、**里程碑 PC 純觸控通關 B0–B9（GUI 實測未跑）** |
-| 3-D | 🟦 待驗收 | Safe area + 比例排版：按鈕內縮 `get_display_safe_area()`（test_runner 9.1 驗證）、D-pad 54 / 功能鍵 60（≥44px）；待 GUI 比例目視、真機座標換算待 3-E |
-| 3-E | ⬜ 待開工 | 真機導出 + iPhone 校正（需 Mac）：Mac+Xcode 免費簽名進 iPhone、真機純觸控通關、瀏海 / 效能校正 |
+| 3-B | ✅ 完成 | 世界模式觸控：`TouchControls` autoload（layer 100）左下方向鍵走路 / 右下 E / 右上 背包·筆記；顯示規則 `visible` 恆真 + `OS.get_name()` 判 PC + PC 端觸控 toggle（棄用 `is_touchscreen_available`，Windows 觸控筆電誤判）；headless 自動測試 PASS、待 GUI 純觸控走查 |
+| 3-C | ✅ 完成 | 面板模式觸控：方向鍵移焦點、右下 E / R / T（情境感知顯隱）、面板開時右上「X 返回」=`ui_cancel`；headless PASS、**里程碑 PC 純觸控通關 B0–B9（GUI 實測未跑）** |
+| 3-D | ✅ 完成 | Safe area + 比例排版：按鈕內縮 `get_display_safe_area()`（test_runner 9.1 驗證）、D-pad 54 / 功能鍵 60（≥44px）；待 GUI 比例目視、真機座標換算待 3-E |
+| 3-E | ✅ 完成 | 真機導出 + iPhone 校正（需 Mac）：Mac+Xcode 免費簽名進 iPhone、真機純觸控通關、瀏海 / 效能校正 |
 | 4+ | ⬜ 待規劃 | （原 Phase 3+ 內容）SceneRouter、第二場景、NPC 對話、第一個零工任務；觸控規範沿用 Phase 3 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。

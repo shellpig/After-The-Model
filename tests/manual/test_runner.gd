@@ -266,7 +266,80 @@ func _ready() -> void:
 		return
 	print("PASS: TouchControls Safe Area dynamic offsets validated (strictly 0 on PC desktop).")
 
+	# 10. Verify Phase 4-A Main Scene, SceneRouter & SceneRegistry
+	print("Verifying Phase 4-A Main Scene configuration...")
+	var main_scene_setting = ProjectSettings.get_setting("application/run/main_scene")
+	if main_scene_setting != "res://scenes/main/main.tscn":
+		printerr("FAIL: Main scene setting in project.godot is not 'res://scenes/main/main.tscn'! Got: ", main_scene_setting)
+		get_tree().quit(1)
+		return
+	print("PASS: project.godot configured to use res://scenes/main/main.tscn.")
+	
+	print("Loading res://scenes/main/main.tscn...")
+	var main_scene = load("res://scenes/main/main.tscn")
+	if not main_scene:
+		printerr("FAIL: Could not load main.tscn!")
+		get_tree().quit(1)
+		return
+	print("PASS: main.tscn loaded successfully.")
+	
+	var main_instance = main_scene.instantiate()
+	add_child(main_instance)
+	print("PASS: main.tscn instantiated in scene tree.")
+	
+	print("Verifying Main scene hierarchy...")
+	var world_root_node = main_instance.get_node_or_null("WorldRoot")
+	if not world_root_node:
+		printerr("FAIL: WorldRoot node not found in Main scene!")
+		get_tree().quit(1)
+		return
+	print("PASS: WorldRoot node exists in Main.")
+	
+	print("Verifying SceneRouter APIs on Main...")
+	var required_methods = [
+		"transition_to", "reload_current_scene",
+		"get_current_scene_id", "get_current_entry_point_id"
+	]
+	for method in required_methods:
+		if not main_instance.has_method(method):
+			printerr("FAIL: Main script lacks required SceneRouter method: " + method)
+			get_tree().quit(1)
+			return
+		print("PASS: Main script has method: " + method)
+		
+	print("Verifying SceneRegistry config on Main...")
+	if not "SCENES" in main_instance:
+		printerr("FAIL: SCENES registry dictionary not found in main.gd!")
+		get_tree().quit(1)
+		return
+	var scenes_dict = main_instance.get("SCENES")
+	if not scenes_dict.has("apartment") or not scenes_dict.has("street_stub"):
+		printerr("FAIL: SCENES registry is missing 'apartment' or 'street_stub' keys!")
+		get_tree().quit(1)
+		return
+	
+	var apartment_config = scenes_dict["apartment"]
+	if apartment_config.get("path") != "res://scenes/levels/apartment/apartment_room.tscn":
+		printerr("FAIL: apartment path in registry is wrong!")
+		get_tree().quit(1)
+		return
+	if apartment_config.get("default_entry_point_id") != "wake_bed":
+		printerr("FAIL: apartment default_entry_point_id is wrong!")
+		get_tree().quit(1)
+		return
+		
+	var street_config = scenes_dict["street_stub"]
+	if street_config.get("path") != "res://scenes/levels/street_stub.tscn":
+		printerr("FAIL: street_stub path in registry is wrong!")
+		get_tree().quit(1)
+		return
+	print("PASS: SceneRegistry config verified.")
+	
+	# Clean up instantiated test nodes
+	main_instance.queue_free()
+
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")
 	get_tree().quit(0)
+

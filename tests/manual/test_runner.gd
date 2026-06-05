@@ -243,6 +243,7 @@ func _ready() -> void:
 	print("PASS: TouchControls.touch_buttons_enabled is false by default on PC.")
 	
 	# On PC, BtnToggle should be visible by default in NONE mode
+	ui_instance.set_monologue_active(false)
 	UIMode.set_mode(UIMode.Mode.NONE)
 	touch_controls._update_dynamic_button_visibility()
 	var btn_toggle = touch_controls.get_node_or_null("Control/BtnToggle")

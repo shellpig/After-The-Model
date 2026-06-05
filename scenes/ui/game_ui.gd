@@ -21,6 +21,8 @@ var _mode_before_message: int = UIMode.Mode.NONE
 var _message_just_opened: bool = false
 var _level_context: Node = null
 var _is_simple_message: bool = false
+var _monologue_active: bool = false
+var _current_prompt_data: Dictionary = {}
 
 # Typewriter variables for show_message
 var _message_full_text := ""
@@ -108,10 +110,7 @@ func _process(delta: float) -> void:
 	# UI Hotkey Navigation Handling
 	if current_mode == UIMode.Mode.NONE:
 		# Only allow opening UI if monologue is not active
-		var monologue_active := false
-		if _level_context and _level_context.get("_opening_monologue_active") != null:
-			monologue_active = _level_context._opening_monologue_active
-		if not monologue_active:
+		if not _monologue_active:
 			if Input.is_action_just_pressed("open_inventory"):
 				open_inventory()
 				return
@@ -155,6 +154,7 @@ func clear_world_context(level: Node = null) -> void:
 		_level_context = null
 
 func show_prompt(data: Dictionary) -> void:
+	_current_prompt_data = data
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		prompt_panel.visible = false
 		return
@@ -168,18 +168,20 @@ func show_prompt(data: Dictionary) -> void:
 		prompt_panel.position = player_screen_position + Vector2(-prompt_size.x * 0.45, -260.0)
 
 func hide_prompt() -> void:
+	_current_prompt_data = {}
 	prompt_panel.visible = false
 
 func has_current_interactable() -> bool:
-	if _level_context and _level_context.get("current_interactable") != null:
-		return true
-	return false
+	return not _current_prompt_data.is_empty()
 
 func is_touch_toggle_blocked() -> bool:
 	# Block touch controls toggle during monologue or message screens
-	if _level_context and _level_context.get("_opening_monologue_active") == true:
-		return true
-	return false
+	return _monologue_active
+
+func set_monologue_active(active: bool) -> void:
+	_monologue_active = active
+	if world_hud_label:
+		world_hud_label.visible = (UIMode.get_mode() == UIMode.Mode.NONE and not _monologue_active)
 
 func show_message(text: String, on_closed: Callable = Callable(), note_title: String = "") -> void:
 	_is_simple_message = true
@@ -307,7 +309,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	notebook_panel.visible = (new_mode == UIMode.Mode.NOTEBOOK) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.NOTEBOOK)
 
 	if is_instance_valid(world_hud_label):
-		world_hud_label.visible = (new_mode == UIMode.Mode.NONE and _level_context and not _level_context.get("_opening_monologue_active") == true)
+		world_hud_label.visible = (new_mode == UIMode.Mode.NONE and not _monologue_active)
 
 	bag_grid.set_input_active(new_mode == UIMode.Mode.INVENTORY)
 	notebook_panel.set_input_active(new_mode == UIMode.Mode.NOTEBOOK)
@@ -327,10 +329,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		item_detail_modal.visible = false
 		confirm_dialog.visible = false
 		if has_current_interactable():
-			var interactable = _level_context.current_interactable
-			show_prompt({
-				"prompt_text": interactable.prompt_text
-			})
+			show_prompt(_current_prompt_data)
 		else:
 			prompt_panel.visible = false
 

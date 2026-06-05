@@ -195,6 +195,8 @@ func _ready() -> void:
 
 	# Start opening monologue sequence
 	_opening_monologue_active = true
+	if game_ui:
+		game_ui.set_monologue_active(true)
 	_opening_page_index = 0
 	_opening_page_done = false
 	player.anim.play("prone")
@@ -540,6 +542,7 @@ func _skip_opening_page() -> void:
 func _end_opening_monologue() -> void:
 	_opening_monologue_active = false
 	if game_ui:
+		game_ui.set_monologue_active(false)
 		game_ui.close_message()
 	UIMode.set_mode(UIMode.Mode.NONE)
 	player.anim.play("idle")

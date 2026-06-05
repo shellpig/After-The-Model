@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://f6ts2mjiaoqf"]
 
 [ext_resource type="Texture2D" uid="uid://dk8hb7bebvlki" path="res://assets/generated/maps/main_character_apartment_room_20260528-083315/ApartmaneRoombackground.jpeg" id="1_85vrf"]
-[ext_resource type="Script" uid="uid://ufsk4hoih1si" path="res://apartment_room.gd" id="1_n0yl8"]
-[ext_resource type="Script" uid="uid://be3d6512et52u" path="res://player.gd" id="2_5mejr"]
-[ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://interactable_area.gd" id="2_n0yl8"]
+[ext_resource type="Script" uid="uid://ufsk4hoih1si" path="res://scenes/levels/apartment/apartment_room.gd" id="1_n0yl8"]
+[ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_5mejr"]
+[ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="2_n0yl8"]
 [ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="5_skhg1"]
 [ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="6_h536o"]
 [ext_resource type="Texture2D" uid="uid://bex22wmsbwi1m" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="7_v52ki"]

@@ -28,8 +28,8 @@ func _ready() -> void:
 
 		
 	# 3. Load & Instantiate apartment_room.tscn
-	print("Loading res://apartment_room.tscn...")
-	var room_scene = load("res://apartment_room.tscn")
+	print("Loading res://scenes/levels/apartment/apartment_room.tscn...")
+	var room_scene = load("res://scenes/levels/apartment/apartment_room.tscn")
 	if not room_scene:
 		printerr("FAIL: Could not load apartment_room.tscn!")
 		get_tree().quit(1)

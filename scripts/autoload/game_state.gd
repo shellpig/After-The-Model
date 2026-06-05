@@ -23,6 +23,61 @@ var notes: Array[Dictionary] = []
 var external_containers: Dictionary = {}
 var external_container_configs: Dictionary = {}
 
+const STORY_NOTES := {
+	"work_ai_cleanup_role": {
+		"id": "work_ai_cleanup_role",
+		"category": "工作",
+		"title": "AI 善後員",
+		"body": "派工單一筆一筆自己跳出來, 地址、編號, 註記欄寫著「殘留清除」「記憶體焚毀」。從沒見過發派的人, 只有螢幕那頭簡短的指示, 從不寒暄, 也從不出錯。原來你靠這個過活——收拾 AI 留下的、人們不想再看見的東西。",
+		"status": "active"
+	},
+	"identity_gleaner": {
+		"id": "identity_gleaner",
+		"category": "身份",
+		"title": "拾遺者",
+		"body": "牆上整排都是舊帶子, 老歌、舊廣播、不知道誰的留言。這些早該被善後員銷毀的東西, 你卻一捲一捲留了下來。你一邊清除過去, 一邊偷偷把它撿回家。",
+		"status": "active"
+	},
+	"clue_gloves_decoder": {
+		"id": "clue_gloves_decoder",
+		"category": "線索",
+		"title": "不只是手套",
+		"body": "這雙手套你戴得很習慣, 習慣到忘了它哪裡不對勁。指尖那圈接點碰到某些東西時, 會有反應。你還想不起它是用來「讀」什麼的——但你的手記得。",
+		"status": "active"
+	},
+	"clue_decoder_cube": {
+		"id": "clue_decoder_cube",
+		"category": "線索",
+		"title": "解碼方塊",
+		"body": "一種普遍用於解開設備功能的道具, 性質有點像鑰匙。放入對應的插槽, 就能開啟特定功能。",
+		"status": "active"
+	},
+	"clue_projection_clock": {
+		"id": "clue_projection_clock",
+		"category": "線索",
+		"title": "別信那個時鐘",
+		"body": "營養棒的空包裝裡藏了張紙, 是你自己寫的。那台投影時鐘不只是時鐘——它底下還裝著別的東西。",
+		"status": "active"
+	},
+	"identity_door_unlock_method": {
+		"id": "identity_door_unlock_method",
+		"category": "身份",
+		"title": "我鎖上的門",
+		"body": "戴上手套那刻就該想起來的——指尖那圈接點, 是我自己改的。是我把那顆方塊解了碼, 用時鐘裡的舊終端掃出牆內的插槽, 再把它嵌進去。一整套機關, 全是我親手裝的。我把自己鎖在這裡, 連從裡面都打不開。可這道門不挑人——它一樣能把別人關在裡面。當初, 我到底是想鎖住誰?",
+		"status": "active"
+	}
+}
+
+const STORY_MESSAGES := {
+	"bed_bad_sleep": "你心中有事, 根本睡不著...",
+	"door_locked": "門上了鎖, 而你發現自己不知道如何打開...",
+	"door_opened": "你將手套貼上讀取器，綠燈閃爍。伴隨著液壓氣動沉悶的釋放聲，門鎖緩慢退開，滑出一條縫。門外灌進了深夜的冷雨、舊機油與高架鐵軌呼嘯而過的冷冽氣息。外頭是五彩斑斕的折射霓虹——你終於要回到那座把你遺忘的都市了。\n\n（你已經通關試玩版。）",
+	"desk_computer_msg": "螢幕還亮著, 一份新的派工單正自己跳出來, 沒有寄件人。",
+	"tape_recorder_msg": "錄音機裡卡著一捲帶子。按下播放, 是首沒人記得的老歌, 雜訊裡有人輕輕跟著哼。",
+	"decoder_cube_decoded": "當你戴著無指手套拿起魔術方塊時，指尖的接點突然傳來一陣微弱的電流，方塊的接縫處隨之亮起了一道黯淡的迴路光芒。方塊的結構在微弱的喀噠聲中重新排列——它被解碼了。",
+	"nutrition_bar_consume": "包裝比手感該有的輕。撕開才發現裡頭沒有營養棒, 只有一張折起來的紙——上面是你自己的字跡：「別信那個時鐘。」",
+	"slot_unlocked": "方塊嵌進凹槽, 牆裡某個東西「喀」地鬆開了。你忽然想起來——這道門是你自己鎖上的。不是壞了, 是你親手裝了這套機關, 把自己關在裡面。連從裡面都打不開……當初到底是為了什麼?\n（門, 解鎖了。）"
+}
 
 # MVP Temporary Stub DB
 const ITEMS_DB := {

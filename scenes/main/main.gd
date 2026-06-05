@@ -22,6 +22,8 @@ var _current_scene_id: String = ""
 var _current_entry_point_id: String = ""
 
 func _ready() -> void:
+	# Register GameUI reference to TouchControls Autoload
+	TouchControls.set_game_ui(game_ui)
 	# Load default scene on start
 	transition_to("apartment", "wake_bed")
 
@@ -48,6 +50,12 @@ func transition_to(scene_id: String, entry_point_id: String = "", payload: Dicti
 	# Clear old level context and children from WorldRoot
 	game_ui.clear_world_context()
 	for child in world_root.get_children():
+		if child.has_signal("current_interactable_changed") and child.current_interactable_changed.is_connected(_on_level_current_interactable_changed):
+			child.current_interactable_changed.disconnect(_on_level_current_interactable_changed)
+		if child.has_signal("interaction_requested") and child.interaction_requested.is_connected(_on_level_interaction_requested):
+			child.interaction_requested.disconnect(_on_level_interaction_requested)
+		if child.has_signal("scene_transition_requested") and child.scene_transition_requested.is_connected(_on_level_scene_transition_requested):
+			child.scene_transition_requested.disconnect(_on_level_scene_transition_requested)
 		child.queue_free()
 		
 	var level := packed.instantiate()
@@ -60,6 +68,14 @@ func transition_to(scene_id: String, entry_point_id: String = "", payload: Dicti
 		level.prepare_entry_point(target_entry, payload)
 		
 	world_root.add_child(level)
+	
+	# Connect level signals for interaction contract
+	if level.has_signal("current_interactable_changed"):
+		level.current_interactable_changed.connect(_on_level_current_interactable_changed)
+	if level.has_signal("interaction_requested"):
+		level.interaction_requested.connect(_on_level_interaction_requested)
+	if level.has_signal("scene_transition_requested"):
+		level.scene_transition_requested.connect(_on_level_scene_transition_requested)
 	
 	# Apply final entry point positioning after node is ready
 	if level.has_method("set_entry_point"):
@@ -79,3 +95,34 @@ func get_current_scene_id() -> String:
 
 func get_current_entry_point_id() -> String:
 	return _current_entry_point_id
+
+func _on_level_current_interactable_changed(data: Dictionary) -> void:
+	if not data.is_empty():
+		game_ui.show_prompt(data)
+	else:
+		game_ui.hide_prompt()
+
+func _on_level_interaction_requested(data: Dictionary) -> void:
+	var type: String = data.get("type", "")
+	match type:
+		"message":
+			var text: String = data.get("message_text", "")
+			var on_closed: Callable = data.get("on_closed", Callable())
+			var note_title: String = data.get("note_title", "")
+			game_ui.show_message(text, on_closed, note_title)
+		"container":
+			var container_id: String = data.get("container_id", "")
+			var container_title: String = data.get("container_title", "")
+			var slot_count: int = data.get("container_slot_count", 0)
+			game_ui.open_container(container_id, container_title, slot_count)
+		"dialogue":
+			var dialogue_id: String = data.get("dialogue_id", "")
+			game_ui.show_message("對話系統未接入 (dialogue_id: %s)" % dialogue_id)
+		"transition":
+			var target_scene_id: String = data.get("target_scene_id", "")
+			var entry_point_id: String = data.get("entry_point_id", "")
+			var payload: Dictionary = data.get("payload", {})
+			transition_to(target_scene_id, entry_point_id, payload)
+
+func _on_level_scene_transition_requested(scene_id: String, entry_point_id: String, payload: Dictionary) -> void:
+	transition_to(scene_id, entry_point_id, payload)

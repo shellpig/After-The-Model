@@ -28,6 +28,13 @@ var _message_elapsed := 0.0
 var _current_chars_per_second := 12.0
 var _message_on_closed: Callable = Callable()
 
+var _pending_toast_title: String = ""
+var _pending_inspect_modal: Dictionary = {}
+var _audio_electromagnetic: AudioStreamPlayer = null
+
+const DECODER_NOTES := GameState.STORY_NOTES
+const DECODER_MESSAGES := GameState.STORY_MESSAGES
+
 func _ready() -> void:
 	prompt_panel.visible = false
 	prompt_label.visible = true
@@ -49,8 +56,29 @@ func _ready() -> void:
 	# Enable item actions for bag grid
 	if bag_grid.has_method("set_item_actions_enabled"):
 		bag_grid.set_item_actions_enabled(true)
+	
+	# Connect UI item actions
+	if bag_grid:
+		bag_grid.item_action_requested.connect(_on_bag_item_action)
+		bag_grid.focus_changed.connect(_on_bag_grid_focus_changed)
+	if dual_pane_container:
+		dual_pane_container.item_action_requested.connect(_on_dual_pane_item_action)
+
+	# Setup electromagnetic audio player
+	_audio_electromagnetic = AudioStreamPlayer.new()
+	_audio_electromagnetic.name = "AudioElectromagnetic"
+	_audio_electromagnetic.stream = load("res://assets/sound/slot_electromagnetic.wav")
+	_audio_electromagnetic.volume_db = 6.0
+	add_child(_audio_electromagnetic)
 
 func _process(delta: float) -> void:
+	if prompt_panel.visible and _level_context and _level_context.has_node("Player"):
+		var player_node := _level_context.get_node("Player") as Node2D
+		prompt_panel.reset_size()
+		var player_screen_position: Vector2 = player_node.get_global_transform_with_canvas().origin
+		var prompt_size := prompt_panel.size
+		prompt_panel.position = player_screen_position + Vector2(-prompt_size.x * 0.45, -260.0)
+
 	_update_message_typewriter(delta)
 	
 	var current_mode := UIMode.get_mode()
@@ -59,10 +87,65 @@ func _process(delta: float) -> void:
 			_message_just_opened = false
 			return
 		if _is_simple_message and (Input.is_action_just_pressed("interact_primary") or Input.is_action_just_pressed("ui_cancel")):
-			close_message()
-			if _message_on_closed.is_valid():
-				_message_on_closed.call()
-				_message_on_closed = Callable()
+			if not _pending_inspect_modal.is_empty():
+				close_message()
+				var grid: Control = _pending_inspect_modal.get("restore_grid")
+				if grid and grid.has_method("set_input_active"):
+					grid.set_input_active(false)
+				item_detail_modal.show_modal(
+					_pending_inspect_modal.get("instance_id"),
+					_pending_inspect_modal.get("restore_grid"),
+					_pending_inspect_modal.get("restore_index"),
+					_pending_inspect_modal.get("anchor_node")
+				)
+				_pending_inspect_modal.clear()
+			else:
+				close_message()
+				if _message_on_closed.is_valid():
+					_message_on_closed.call()
+					_message_on_closed = Callable()
+
+	# UI Hotkey Navigation Handling
+	if current_mode == UIMode.Mode.NONE:
+		# Only allow opening UI if monologue is not active
+		var monologue_active := false
+		if _level_context and _level_context.get("_opening_monologue_active") != null:
+			monologue_active = _level_context._opening_monologue_active
+		if not monologue_active:
+			if Input.is_action_just_pressed("open_inventory"):
+				open_inventory()
+				return
+			if Input.is_action_just_pressed("open_notebook"):
+				open_notebook()
+				return
+	elif current_mode == UIMode.Mode.INVENTORY:
+		# Guard against modal/confirm overrides
+		if not item_detail_modal.visible:
+			if Input.is_action_just_pressed("open_inventory") or Input.is_action_just_pressed("ui_cancel"):
+				close_all_ui()
+				return
+			if Input.is_action_just_pressed("open_notebook"):
+				open_notebook()
+				return
+	elif current_mode == UIMode.Mode.NOTEBOOK:
+		if Input.is_action_just_pressed("open_notebook") or Input.is_action_just_pressed("ui_cancel"):
+			close_all_ui()
+			return
+		if Input.is_action_just_pressed("open_inventory"):
+			open_inventory()
+			return
+	elif current_mode == UIMode.Mode.CONTAINER:
+		# Guard against modal/confirm overrides
+		if not item_detail_modal.visible:
+			if Input.is_action_just_pressed("ui_cancel"):
+				close_all_ui()
+				return
+			if Input.is_action_just_pressed("open_inventory"):
+				open_inventory()
+				return
+			if Input.is_action_just_pressed("open_notebook"):
+				open_notebook()
+				return
 
 func set_world_context(level: Node) -> void:
 	_level_context = level
@@ -77,6 +160,12 @@ func show_prompt(data: Dictionary) -> void:
 		return
 	prompt_label.text = data.get("prompt_text", "")
 	prompt_panel.visible = true
+	if _level_context and _level_context.has_node("Player"):
+		var player_node := _level_context.get_node("Player") as Node2D
+		prompt_panel.reset_size()
+		var player_screen_position: Vector2 = player_node.get_global_transform_with_canvas().origin
+		var prompt_size := prompt_panel.size
+		prompt_panel.position = player_screen_position + Vector2(-prompt_size.x * 0.45, -260.0)
 
 func hide_prompt() -> void:
 	prompt_panel.visible = false
@@ -92,7 +181,7 @@ func is_touch_toggle_blocked() -> bool:
 		return true
 	return false
 
-func show_message(text: String, on_closed: Callable = Callable()) -> void:
+func show_message(text: String, on_closed: Callable = Callable(), note_title: String = "") -> void:
 	_is_simple_message = true
 	_message_on_closed = on_closed
 	_message_full_text = text
@@ -100,6 +189,8 @@ func show_message(text: String, on_closed: Callable = Callable()) -> void:
 	message_label.text = ""
 	_current_chars_per_second = 12.0
 	_resize_message_box_for_text(_message_full_text)
+	if not note_title.is_empty():
+		_pending_toast_title = note_title
 	UIMode.enter_overlay(UIMode.Mode.MESSAGE)
 
 func begin_message(text: String, options: Dictionary = {}) -> void:
@@ -120,7 +211,13 @@ func is_message_finished() -> bool:
 
 func set_message_page_hint(text: String, visible: bool) -> void:
 	page_hint_label.text = text
-	page_hint_label.visible = visible
+	if visible:
+		page_hint_label.visible = true
+		page_hint_label.modulate.a = 0.0
+		var tween = create_tween()
+		tween.tween_property(page_hint_label, "modulate:a", 1.0, 0.5)
+	else:
+		page_hint_label.visible = false
 
 func close_message() -> void:
 	_is_simple_message = false
@@ -131,7 +228,7 @@ func close_message() -> void:
 	page_hint_label.visible = false
 	UIMode.exit_overlay()
 
-func show_toast(text: String, anchor_node: Control = null) -> void:
+func show_toast(text: String, anchor_node: CanvasItem = null) -> void:
 	FloatingToast.show_toast(text, anchor_node)
 
 func open_inventory() -> void:
@@ -163,7 +260,7 @@ func get_focused_item_context() -> Dictionary:
 				"available_actions": ["view", "discard", "equip_toggle"]
 			}
 	elif current_mode == UIMode.Mode.CONTAINER:
-		var is_left = (dual_pane_container.active_pane == 0)
+		var is_left = (dual_pane_container.active_pane == "left")
 		var grid: Control = dual_pane_container.left_grid if is_left else dual_pane_container.right_grid
 		var idx: int = grid.focused_index
 		var items = GameState.get_inventory() if is_left else GameState.get_container(dual_pane_container.container_id)
@@ -229,7 +326,23 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	elif new_mode == UIMode.Mode.NONE:
 		item_detail_modal.visible = false
 		confirm_dialog.visible = false
-		prompt_panel.visible = false
+		if has_current_interactable():
+			var interactable = _level_context.current_interactable
+			show_prompt({
+				"prompt_text": interactable.prompt_text
+			})
+		else:
+			prompt_panel.visible = false
+
+	if _last_mode == UIMode.Mode.MESSAGE and not _pending_toast_title.is_empty():
+		var anchor: Node2D = null
+		if _level_context and _level_context.has_node("Player"):
+			anchor = _level_context.get_node("Player")
+		if _pending_toast_title.begins_with("已更新") or _pending_toast_title.begins_with("已記入"):
+			show_toast(_pending_toast_title, anchor)
+		else:
+			show_toast("已記入筆記：" + _pending_toast_title, anchor)
+		_pending_toast_title = ""
 
 	_last_mode = new_mode
 
@@ -284,3 +397,204 @@ func _resize_message_box_for_text(text: String) -> void:
 	# Center the box horizontally and vertically
 	var viewport_size = get_viewport().get_visible_rect().size
 	message_box.global_position = (viewport_size - message_box.size) * 0.5
+
+# ==========================================
+# UI Item Action Routing & Execution
+# ==========================================
+
+func _on_bag_item_action(action: String, instance_id: String) -> void:
+	if UIMode.get_mode() != UIMode.Mode.INVENTORY:
+		return
+	if instance_id.is_empty():
+		return
+
+	var item_id := ""
+	for slot in GameState.get_inventory():
+		if slot.get("instance_id", "") == instance_id:
+			item_id = slot.get("item_id", "")
+			break
+	var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
+
+	match action:
+		"view":
+			if item_meta.has("consume_grants_note"):
+				_handle_item_use(instance_id, item_meta)
+			else:
+				var decodable_to: String = item_meta.get("decodable_to", "")
+				if not decodable_to.is_empty() and _player_has_decoding_ability():
+					_pending_inspect_modal = {
+						"instance_id": instance_id,
+						"restore_grid": bag_grid,
+						"restore_index": bag_grid.focused_index,
+						"anchor_node": inventory_panel
+					}
+					_execute_item_decoding(instance_id, decodable_to)
+				else:
+					if item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
+						GameState.add_knowledge(DECODER_NOTES["clue_gloves_decoder"])
+						var anchor = _level_context.get_node("Player") if _level_context and _level_context.has_node("Player") else null
+						show_toast("已記入筆記：" + DECODER_NOTES["clue_gloves_decoder"].title, anchor)
+
+					bag_grid.set_input_active(false)
+					item_detail_modal.show_modal(instance_id, bag_grid, bag_grid.focused_index, inventory_panel)
+		"discard":
+			_start_discard_flow(instance_id, item_meta, bag_grid, bag_grid.focused_index)
+		"equip_toggle":
+			var category: String = item_meta.get("category", "")
+			if category == "consumable" or item_meta.has("consume_grants_note"):
+				_handle_item_use(instance_id, item_meta)
+			elif category == "equipment":
+				_handle_equip_toggle(instance_id, item_meta)
+
+func _on_dual_pane_item_action(action: String, instance_id: String, source_pane: String) -> void:
+	if UIMode.get_mode() != UIMode.Mode.CONTAINER:
+		return
+	if instance_id.is_empty():
+		return
+
+	var item_id := _find_item_id_anywhere(instance_id)
+	var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
+	var active_grid: Control = dual_pane_container.left_grid if source_pane == "left" else dual_pane_container.right_grid
+	var active_idx: int = active_grid.focused_index
+	var anchor_panel: Control = dual_pane_container.left_panel if source_pane == "left" else dual_pane_container.right_panel
+
+	match action:
+		"view":
+			if item_meta.has("consume_grants_note"):
+				_handle_item_use(instance_id, item_meta)
+			else:
+				var decodable_to: String = item_meta.get("decodable_to", "")
+				if not decodable_to.is_empty() and _player_has_decoding_ability():
+					_pending_inspect_modal = {
+						"instance_id": instance_id,
+						"restore_grid": active_grid,
+						"restore_index": active_idx,
+						"anchor_node": anchor_panel
+					}
+					_execute_item_decoding(instance_id, decodable_to)
+				else:
+					if item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
+						GameState.add_knowledge(DECODER_NOTES["clue_gloves_decoder"])
+						var anchor = _level_context.get_node("Player") if _level_context and _level_context.has_node("Player") else null
+						show_toast("已記入筆記：" + DECODER_NOTES["clue_gloves_decoder"].title, anchor)
+
+					item_detail_modal.show_modal(instance_id, active_grid, active_idx, anchor_panel)
+		"discard":
+			_start_discard_flow(instance_id, item_meta, active_grid, active_idx)
+
+func _handle_item_use(instance_id: String, item_meta: Dictionary) -> void:
+	var note_id: String = item_meta.get("consume_grants_note", "")
+	if not note_id.is_empty():
+		var note_data: Dictionary = DECODER_NOTES.get(note_id, {})
+		_pending_toast_title = note_data.get("title", "")
+		GameState.add_knowledge(note_data)
+		show_message(DECODER_MESSAGES["nutrition_bar_consume"])
+		GameState.discard_item(instance_id)
+	else:
+		var toast_panel := _get_active_panel()
+		show_toast("現在用不上。", toast_panel)
+
+func _handle_equip_toggle(instance_id: String, item_meta: Dictionary) -> void:
+	if item_meta.get("category", "") != "equipment":
+		return
+
+	var item_id: String = item_meta.get("id", "")
+	if GameState.is_equipped(instance_id):
+		GameState.unequip_by_instance(instance_id)
+	else:
+		if not GameState.equip(instance_id):
+			show_toast(
+				"這類裝備已經滿了，先卸下身上的再裝備新的。",
+				inventory_panel
+			)
+		elif item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
+			GameState.add_knowledge(DECODER_NOTES["clue_gloves_decoder"])
+			var anchor = _level_context.get_node("Player") if _level_context and _level_context.has_node("Player") else null
+			show_toast("已記入筆記：" + DECODER_NOTES["clue_gloves_decoder"].title, anchor)
+
+func _start_discard_flow(instance_id: String, item_meta: Dictionary,
+						 restore_grid: Control, restore_index: int) -> void:
+	var item_name: String = item_meta.get("name", "物品")
+	var toast_panel := _get_active_panel()
+
+	if not item_meta.get("discardable", true):
+		show_toast("無法丟棄 " + item_name, toast_panel)
+		return
+	if GameState.is_equipped(instance_id):
+		show_toast("請先卸下再丟棄", toast_panel)
+		return
+
+	UIMode.enter_confirm()
+	confirm_dialog.show_dialog(
+		"確定要丟棄 " + item_name + "？",
+		_on_discard_confirmed.bind(instance_id, item_name, toast_panel),
+		restore_grid,
+		restore_index
+	)
+
+func _on_discard_confirmed(instance_id: String, item_name: String, toast_panel: Control) -> void:
+	if GameState.discard_item(instance_id):
+		show_toast("已丟棄 " + item_name, toast_panel)
+
+func _get_active_panel() -> Control:
+	if UIMode.get_mode() == UIMode.Mode.INVENTORY:
+		return inventory_panel
+	return dual_pane_container
+
+func _find_item_id_anywhere(instance_id: String) -> String:
+	for slot in GameState.get_inventory():
+		if slot.get("instance_id", "") == instance_id:
+			return slot.get("item_id", "")
+	for c_id in GameState.external_containers.keys():
+		for slot in GameState.get_container(c_id):
+			if slot.get("instance_id", "") == instance_id:
+				return slot.get("item_id", "")
+	return ""
+
+func _player_has_decoding_ability() -> bool:
+	var eq := GameState.get_equipment()
+	var hand_instances: Array = eq.get("hand", [])
+	for instance_id in hand_instances:
+		var item_id := _find_item_id_anywhere(instance_id)
+		if not item_id.is_empty():
+			var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
+			if item_meta.get("can_decode", false):
+				return true
+	return false
+
+func _execute_item_decoding(instance_id: String, target_item_id: String) -> void:
+	var success = GameState.change_item_id(instance_id, target_item_id)
+	if success:
+		GameState.add_knowledge(DECODER_NOTES["clue_decoder_cube"])
+		if _audio_electromagnetic:
+			_audio_electromagnetic.play()
+		show_message(DECODER_MESSAGES["decoder_cube_decoded"])
+
+func _on_bag_grid_focus_changed(index: int) -> void:
+	_update_backpack_footer(index)
+
+func _update_backpack_footer(index: int) -> void:
+	if UIMode.get_mode() != UIMode.Mode.INVENTORY:
+		return
+	var items := GameState.get_inventory()
+	if index < 0 or index >= items.size() or items[index].is_empty():
+		panel_footer_hint.set_hints(panel_footer_hint, ["Esc/I: 關閉"])
+		return
+
+	var slot_data: Dictionary = items[index]
+	var item_id: String = slot_data.get("item_id", "")
+	var instance_id: String = slot_data.get("instance_id", "")
+	var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
+	var category: String = item_meta.get("category", "")
+
+	var hints := []
+	if category == "equipment":
+		if GameState.is_equipped(instance_id):
+			hints.append("E: 卸下")
+		else:
+			hints.append("E: 裝備")
+	elif category == "consumable" or item_meta.has("consume_grants_note"):
+		hints.append("E: 使用")
+
+	hints.append_array(["R: 查看", "T: 丟棄", "Esc/I: 關閉"])
+	panel_footer_hint.set_hints(panel_footer_hint, hints)

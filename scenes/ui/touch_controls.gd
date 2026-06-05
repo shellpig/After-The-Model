@@ -6,6 +6,18 @@ var touch_buttons_enabled: bool = false
 var is_pc_platform: bool = false
 var _style_normal: StyleBoxFlat
 var _style_pressed: StyleBoxFlat
+var _game_ui: CanvasLayer = null
+
+func set_game_ui(gu: CanvasLayer) -> void:
+	_game_ui = gu
+
+func _get_game_ui() -> CanvasLayer:
+	if is_instance_valid(_game_ui):
+		return _game_ui
+	var tree := get_tree()
+	if tree and tree.root:
+		_game_ui = tree.root.find_child("GameUI", true, false) as CanvasLayer
+	return _game_ui
 
 @onready var btn_up: Button = $Control/DPad/BtnUp
 @onready var btn_down: Button = $Control/DPad/BtnDown
@@ -223,8 +235,10 @@ func _update_dynamic_button_visibility() -> void:
 	var is_pc := is_pc_platform
 	var is_world_mode := (mode == UIMode.Mode.NONE)
 	var monologue_active := false
-	if scene.get("_opening_monologue_active") != null:
-		monologue_active = scene._opening_monologue_active
+	
+	var gu = _get_game_ui()
+	if gu:
+		monologue_active = gu.is_touch_toggle_blocked()
 	
 	btn_toggle.visible = is_pc and is_world_mode and not monologue_active
 
@@ -258,75 +272,21 @@ func _update_dynamic_button_visibility() -> void:
 			btn_r.visible = false
 			btn_t.visible = false
 			
-			var current_interactable = scene.get("current_interactable")
-			btn_e.visible = (current_interactable != null)
+			var has_interactable := false
+			if gu:
+				has_interactable = gu.has_current_interactable()
+			btn_e.visible = has_interactable
 
-		UIMode.Mode.INVENTORY:
-			# 背包模式：根據當前 Focused 的物品欄位狀態動態顯示
-			var bag_grid = scene.get_node_or_null("UI/InventoryPanel/VBoxContainer/BagGrid")
-			if bag_grid == null:
-				btn_e.visible = false
-				btn_r.visible = false
-				btn_t.visible = false
-				return
-				
-			var focused_index: int = bag_grid.get_focused_index()
-			var items := GameState.get_inventory()
-			var slot: Dictionary = items[focused_index] if focused_index < items.size() else {}
-			
-			if slot.is_empty():
-				# 空格欄位：無動作可施，全數隱藏
-				btn_e.visible = false
-				btn_r.visible = false
-				btn_t.visible = false
+		UIMode.Mode.INVENTORY, UIMode.Mode.CONTAINER:
+			# 背包模式與雙欄儲存箱模式：均改由 GameUI 提供 focused item / action availability
+			if gu:
+				btn_e.visible = gu.can_primary_action()
+				btn_r.visible = gu.can_secondary_action()
+				btn_t.visible = gu.can_tertiary_action()
 			else:
-				var item_id: String = slot.get("item_id", "")
-				var instance_id: String = slot.get("instance_id", "")
-				var item_meta: Dictionary = GameState.ITEMS_DB.get(item_id, {})
-				var category: String = item_meta.get("category", "")
-				
-				# E 鍵：如果是裝備、或可消耗、或有特殊使用效果時顯示
-				var has_e_action = (category == "equipment") or (category == "consumable") or item_meta.has("consume_grants_note")
-				btn_e.visible = has_e_action
-				
-				# R 鍵：任何佔用格均可查看詳細
-				btn_r.visible = true
-				
-				# T 鍵：任何佔用格均顯示，交由後置 discard 流程進行攔截與 Toast 提示
-				btn_t.visible = true
-			
-		UIMode.Mode.CONTAINER:
-			# 雙欄儲存箱模式：根據 active_pane 以及對應 Focused 欄位狀態動態顯示
-			var dual_pane = scene.get_node_or_null("UI/DualPaneContainer")
-			if dual_pane == null or not dual_pane.is_input_active:
 				btn_e.visible = false
 				btn_r.visible = false
 				btn_t.visible = false
-				return
-				
-			var items_array: Array = []
-			var index: int = 0
-			if dual_pane.active_pane == "left":
-				items_array = GameState.get_inventory()
-				index = dual_pane._get_grid_focused_index(dual_pane.left_grid)
-			else:
-				items_array = GameState.get_container(dual_pane.container_id)
-				index = dual_pane._get_grid_focused_index(dual_pane.right_grid)
-				
-			var slot: Dictionary = items_array[index] if index < items_array.size() else {}
-			
-			if slot.is_empty():
-				# 空格欄位：無動作可施，全數隱藏
-				btn_e.visible = false
-				btn_r.visible = false
-				btn_t.visible = false
-			else:
-				# 佔用格：E 移動、R 查看詳細
-				btn_e.visible = true
-				btn_r.visible = true
-				
-				# T 鍵：任何佔用格均顯示，交由後置 discard 流程進行攔截與 Toast 提示
-				btn_t.visible = true
 
 		UIMode.Mode.NOTEBOOK:
 			# 筆記本模式：沒有任何 E/R/T 面板行為，全數隱藏

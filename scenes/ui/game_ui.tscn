@@ -1,0 +1,147 @@
+[gd_scene load_steps=10 format=3 uid="uid://c6yui46h2mjiaoqf3"]
+
+[ext_resource type="Script" path="res://scenes/ui/game_ui.gd" id="1_gameui"]
+[ext_resource type="PackedScene" uid="uid://c1o8x312e752u" path="res://scenes/ui/notebook_panel.tscn" id="2_notebook_panel"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dual_pane_container.tscn" id="3_dual_pane"]
+[ext_resource type="PackedScene" uid="uid://d47a0c22bdab" path="res://scenes/ui/bag_grid.tscn" id="4_bag_grid"]
+[ext_resource type="Script" path="res://scenes/ui/panel_footer_hint.gd" id="5_panel_footer_hint"]
+[ext_resource type="PackedScene" path="res://scenes/ui/item_detail_modal.tscn" id="6_item_modal"]
+[ext_resource type="PackedScene" path="res://scenes/ui/confirm_dialog.tscn" id="7_confirm_dialog"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.12, 0.14, 0.18, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.78, 0.42, 0.2, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="GameUI" type="CanvasLayer"]
+script = ExtResource("1_gameui")
+
+[node name="PromptPanel" type="PanelContainer" parent="."]
+visible = false
+offset_left = 278.0
+offset_top = 102.0
+offset_right = 561.0
+offset_bottom = 220.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PromptPanel"]
+layout_mode = 2
+
+[node name="PromptLabel" type="Label" parent="PromptPanel/MarginContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "E: 打開櫥櫃"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UIOverlay" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.3)
+
+[node name="NotebookPanel" parent="." instance=ExtResource("2_notebook_panel")]
+visible = false
+
+[node name="DualPaneContainer" parent="." instance=ExtResource("3_dual_pane")]
+visible = false
+
+[node name="InventoryPanel" type="PanelContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(368, 256)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -184.0
+offset_top = -128.0
+offset_right = 184.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_inventory")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="InventoryPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.84, 1)
+theme_override_font_sizes/font_size = 18
+text = "背包"
+
+[node name="Spacer" type="Control" parent="InventoryPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CreditsLabel" type="Label" parent="InventoryPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.84, 1)
+theme_override_font_sizes/font_size = 18
+text = "credits : 300"
+
+[node name="BagGrid" parent="InventoryPanel/VBoxContainer" instance=ExtResource("4_bag_grid")]
+layout_mode = 2
+
+[node name="PanelFooterHint" type="Label" parent="InventoryPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_panel_footer_hint")
+
+[node name="ItemDetailModal" parent="." instance=ExtResource("6_item_modal")]
+
+[node name="ConfirmDialog" parent="." instance=ExtResource("7_confirm_dialog")]
+
+[node name="WorldHUDLabel" type="Label" parent="."]
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 300.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.94, 0.92, 0.84, 0.7)
+theme_override_font_sizes/font_size = 18
+text = "A/D : 移動  I : 背包  J : 筆記"
+
+[node name="MessageBox" type="PanelContainer" parent="."]
+offset_left = 310.0
+offset_top = 163.0
+offset_right = 1046.0
+offset_bottom = 497.0
+
+[node name="MarginContainer" type="MarginContainer" parent="MessageBox"]
+layout_mode = 2
+
+[node name="MessageLabel" type="Label" parent="MessageBox/MarginContainer"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+
+[node name="PageHintLabel" type="Label" parent="MessageBox"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 16

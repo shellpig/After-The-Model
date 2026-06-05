@@ -16,6 +16,7 @@ const SCENES := {
 }
 
 @onready var world_root: Node2D = $WorldRoot
+@onready var game_ui: CanvasLayer = $GameUI
 
 var _current_scene_id: String = ""
 var _current_entry_point_id: String = ""
@@ -44,11 +45,15 @@ func transition_to(scene_id: String, entry_point_id: String = "", payload: Dicti
 		push_error("SceneRouter: Failed to load scene path: " + path)
 		return
 		
-	# Clear old children from WorldRoot
+	# Clear old level context and children from WorldRoot
+	game_ui.clear_world_context()
 	for child in world_root.get_children():
 		child.queue_free()
 		
 	var level := packed.instantiate()
+	
+	# Set world context on GameUI
+	game_ui.set_world_context(level)
 	
 	# Prepare entry point before adding to tree (e.g. for monologue condition checks)
 	if level.has_method("prepare_entry_point"):

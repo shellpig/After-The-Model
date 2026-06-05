@@ -37,26 +37,33 @@ func _ready() -> void:
 	print("PASS: apartment_room.tscn loaded successfully.")
 	
 	var room_instance = room_scene.instantiate()
+	
+	# Instantiate GameUI so that apartment_room.gd can retrieve its UI references
+	var ui_scene = load("res://scenes/ui/game_ui.tscn")
+	var ui_instance = ui_scene.instantiate()
+	add_child(ui_instance)
+	print("PASS: game_ui.tscn instantiated in scene tree.")
+	
 	add_child(room_instance)
 	print("PASS: apartment_room.tscn instantiated in scene tree.")
 	
 	# 4. Verify Relative Node Paths
-	print("Verifying UI node structures inside Room...")
+	print("Verifying UI node structures inside GameUI...")
 	var ui_nodes = {
-		"UIOverlay": "UI/UIOverlay",
-		"NotebookPanel": "UI/NotebookPanel",
-		"DualPaneContainer": "UI/DualPaneContainer",
-		"InventoryPanel": "UI/InventoryPanel",
-		"BagGrid": "UI/InventoryPanel/VBoxContainer/BagGrid",
-		"CreditsLabel": "UI/InventoryPanel/VBoxContainer/HBoxContainer/CreditsLabel",
-		"PanelFooterHint": "UI/InventoryPanel/VBoxContainer/PanelFooterHint",
-		"ItemDetailModal": "UI/ItemDetailModal",
-		"ConfirmDialog": "UI/ConfirmDialog"
+		"UIOverlay": "UIOverlay",
+		"NotebookPanel": "NotebookPanel",
+		"DualPaneContainer": "DualPaneContainer",
+		"InventoryPanel": "InventoryPanel",
+		"BagGrid": "InventoryPanel/VBoxContainer/BagGrid",
+		"CreditsLabel": "InventoryPanel/VBoxContainer/HBoxContainer/CreditsLabel",
+		"PanelFooterHint": "InventoryPanel/VBoxContainer/PanelFooterHint",
+		"ItemDetailModal": "ItemDetailModal",
+		"ConfirmDialog": "ConfirmDialog"
 	}
 	
 	for node_name in ui_nodes:
 		var path: String = ui_nodes[node_name]
-		var node = room_instance.get_node_or_null(path)
+		var node = ui_instance.get_node_or_null(path)
 		if not node:
 			printerr("FAIL: UI node '" + node_name + "' not found at path: " + path)
 			get_tree().quit(1)
@@ -152,14 +159,13 @@ func _ready() -> void:
 
 	# 4c. Verify UI Sibling Drawing Z-Order
 	print("Verifying UI sibling drawing Z-Order...")
-	var ui_parent = room_instance.get_node("UI")
-	var children = ui_parent.get_children()
-	var overlay_idx = children.find(room_instance.get_node("UI/UIOverlay"))
-	var notebook_idx = children.find(room_instance.get_node("UI/NotebookPanel"))
-	var dual_pane_idx = children.find(room_instance.get_node("UI/DualPaneContainer"))
-	var inventory_idx = children.find(room_instance.get_node("UI/InventoryPanel"))
-	var modal_idx = children.find(room_instance.get_node_or_null("UI/ItemDetailModal"))
-	var confirm_idx = children.find(room_instance.get_node_or_null("UI/ConfirmDialog"))
+	var children = ui_instance.get_children()
+	var overlay_idx = children.find(ui_instance.get_node("UIOverlay"))
+	var notebook_idx = children.find(ui_instance.get_node("NotebookPanel"))
+	var dual_pane_idx = children.find(ui_instance.get_node("DualPaneContainer"))
+	var inventory_idx = children.find(ui_instance.get_node("InventoryPanel"))
+	var modal_idx = children.find(ui_instance.get_node_or_null("ItemDetailModal"))
+	var confirm_idx = children.find(ui_instance.get_node_or_null("ConfirmDialog"))
 	if overlay_idx == -1 or notebook_idx == -1 or dual_pane_idx == -1 or inventory_idx == -1 or modal_idx == -1 or confirm_idx == -1:
 		printerr("FAIL: Sibling nodes not found in UI children list!")
 		get_tree().quit(1)

@@ -84,8 +84,18 @@ const OPENING_MONOLOGUES := [
 	"[自囚與尋回]\n\n我掙扎著站起身，生鏽般的關節發出沉悶的喀噠聲。 公寓的大門亮著紅色的閉鎖指示燈。我不記得自己是怎麼進來的，更想不起該怎麼出去。 房間一片死寂，唯有那部 CRT 螢幕無聲地呼吸著。 既然已經退無可退……我就先從這間發霉的溫室開始，把我自己的記憶，一點一點撿回來。"
 ]
 
-@onready var page_hint_label: Label = $UI/MessageBox/PageHintLabel
-@onready var world_hud_label: Label = $UI/WorldHUDLabel
+@onready var game_ui: CanvasLayer = _find_game_ui()
+
+func _find_game_ui() -> CanvasLayer:
+	var root := get_tree().root if is_inside_tree() else null
+	if root:
+		var gu = root.find_child("GameUI", true, false)
+		if gu:
+			return gu
+	return null
+
+@onready var page_hint_label: Label = game_ui.page_hint_label if game_ui else null
+@onready var world_hud_label: Label = game_ui.world_hud_label if game_ui else null
 
 var _opening_monologue_active: bool = false
 var _opening_page_index: int = 0
@@ -94,21 +104,21 @@ var _dev_skip_count: int = 0
 var _dev_skip_timer: float = 0.0
 var _current_chars_per_second := MESSAGE_CHARS_PER_SECOND
 
-@onready var prompt_panel: Control = $UI/PromptPanel
-@onready var prompt_label: Label = $UI/PromptPanel/MarginContainer/PromptLabel
-@onready var message_box: Control = $UI/MessageBox
-@onready var message_label: Label = $UI/MessageBox/MarginContainer/MessageLabel
+@onready var prompt_panel: Control = game_ui.prompt_panel if game_ui else null
+@onready var prompt_label: Label = game_ui.prompt_label if game_ui else null
+@onready var message_box: Control = game_ui.message_box if game_ui else null
+@onready var message_label: Label = game_ui.message_label if game_ui else null
 @onready var player: Node2D = $Player
-@onready var dual_pane_container: Control = $UI/DualPaneContainer
+@onready var dual_pane_container: Control = game_ui.dual_pane_container if game_ui else null
 
-@onready var ui_overlay: ColorRect = $UI/UIOverlay
-@onready var inventory_panel: PanelContainer = $UI/InventoryPanel
-@onready var bag_grid: Control = $UI/InventoryPanel/VBoxContainer/BagGrid
-@onready var credits_label: Label = $UI/InventoryPanel/VBoxContainer/HBoxContainer/CreditsLabel
-@onready var panel_footer_hint: Control = $UI/InventoryPanel/VBoxContainer/PanelFooterHint
-@onready var notebook_panel: Control = $UI/NotebookPanel
-@onready var item_detail_modal: Control = $UI/ItemDetailModal
-@onready var confirm_dialog: Control = $UI/ConfirmDialog
+@onready var ui_overlay: ColorRect = game_ui.ui_overlay if game_ui else null
+@onready var inventory_panel: PanelContainer = game_ui.inventory_panel if game_ui else null
+@onready var bag_grid: Control = game_ui.bag_grid if game_ui else null
+@onready var credits_label: Label = game_ui.credits_label if game_ui else null
+@onready var panel_footer_hint: Control = game_ui.panel_footer_hint if game_ui else null
+@onready var notebook_panel: Control = game_ui.notebook_panel if game_ui else null
+@onready var item_detail_modal: Control = game_ui.item_detail_modal if game_ui else null
+@onready var confirm_dialog: Control = game_ui.confirm_dialog if game_ui else null
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
@@ -193,11 +203,13 @@ func _ready() -> void:
 	UIMode.mode_changed.connect(_on_ui_mode_changed)
 	
 	# Phase 1-E: enable item actions for the standalone bag_grid
-	if bag_grid.has_method("set_item_actions_enabled"):
-		bag_grid.set_item_actions_enabled(true)
-	bag_grid.item_action_requested.connect(_on_bag_item_action)
-	bag_grid.focus_changed.connect(_on_bag_grid_focus_changed)
-	dual_pane_container.item_action_requested.connect(_on_dual_pane_item_action)
+	if bag_grid:
+		if bag_grid.has_method("set_item_actions_enabled"):
+			bag_grid.set_item_actions_enabled(true)
+		bag_grid.item_action_requested.connect(_on_bag_item_action)
+		bag_grid.focus_changed.connect(_on_bag_grid_focus_changed)
+	if dual_pane_container:
+		dual_pane_container.item_action_requested.connect(_on_dual_pane_item_action)
 
 
 
@@ -230,10 +242,12 @@ func _ready() -> void:
 	sonar_label = Label.new()
 	sonar_label.name = "SonarLabel"
 	sonar_label.add_theme_color_override("font_color", Color(0.94, 0.92, 0.84, 1.0))
-	sonar_label.add_theme_font_size_override("font_size", 16)
 	margin_c.add_child(sonar_label)
 	
-	$UI.add_child(sonar_ui)
+	if game_ui:
+		game_ui.add_child(sonar_ui)
+	else:
+		add_child(sonar_ui)
 	sonar_ui.anchors_preset = Control.PRESET_CENTER_TOP
 	sonar_ui.anchor_left = 0.5
 	sonar_ui.anchor_right = 0.5

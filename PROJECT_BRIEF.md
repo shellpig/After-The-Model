@@ -16,7 +16,7 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 檔案結構整理 + 4-A Main/SceneRouter/SceneRegistry 已完成並驗證（headless PASS）；下一步 4-B GameUI 抽離。
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 + 4-A + 4-B 已完成並驗證（headless PASS）；下一步 4-C Level interaction contract。
 
 ## 核心調性
 
@@ -66,6 +66,7 @@
 ├── scripts/components/
 │   └── interactable_area.gd                  # Area2D 互動物 export 欄位（4-A0 搬入）
 ├── scenes/ui/
+│   ├── game_ui.tscn / game_ui.gd            # 常駐 UI CanvasLayer（4-B 新增）
 │   ├── bag_grid.*                            # 背包格
 │   ├── external_grid.*                       # 外部容器格
 │   ├── dual_pane_container.*                 # 背包 + 容器雙欄
@@ -180,7 +181,7 @@ note_id
 | 3-E | ✅ 完成 | 真機導出 + iPhone 校正（需 Mac）：Mac+Xcode 免費簽名進 iPhone、真機純觸控通關、瀏海 / 效能校正 |
 | 4-A0 | ✅ 完成 | 檔案結構整理：`apartment_room.*`→`scenes/levels/apartment/`、`player.gd`→`scenes/actors/player/`、`interactable_area.gd`→`scripts/components/`（含 `.gd.uid` sidecar）；改 `.tscn` 3 path + `test_runner.gd` 1 字面量；headless PASS（搬檔後需 `--import` 重建 uid 快取）（commit `78be6de`）|
 | 4-A | ✅ 完成 | `main.tscn` + `main.gd`（SceneRouter + SceneRegistry inline）；`WorldRoot` 載入公寓；`transition_to(scene_id, entry_point_id)` API；`prepare_entry_point` → `add_child` → `set_entry_point` 順序；headless PASS |
-| 4-B | ⬜ 待開工 | 抽出常駐 `GameUI`，持有 Prompt / Inventory / Notebook / DualPane / MessageBox / Toast 等共用 UI |
+| 4-B | ✅ 完成 | `game_ui.tscn/gd` 常駐 CanvasLayer；共用 UI 節點從 `apartment_room.tscn` 搬入 GameUI；`show_message`/`begin_message` API + `_is_simple_message` 旗標防止獨白被 GameUI 提前關閉；FloatingToast 改掛 GameUI；headless PASS |
 | 4-C | ⬜ 待開工 | Level ↔ Main ↔ GameUI interaction contract；Level 只 emit 資料 / signal，不直接碰 UI node path |
 | 4-D | ⬜ 待開工 | TouchControls 改接 GameUI / Main contract，不再讀 level 私有欄位或 `UI/...` 固定路徑 |
 | 4-E | ⬜ 待開工 | 公寓完整遷移與 B0-B9 回歸；`apartment:wake_bed` 播開場，`apartment:from_street` 跳過開場 |
@@ -339,25 +340,27 @@ verify_game_state.gd: PASS
 - Phase 2-B 已實作並驗證；`worn_rubiks_cube`、`decoder_cube` 與解碼手套流程已存在於 code。
 - Phase 2-C 已實作並驗證；`accepted_item`、`deposit_locked`、`get_container_config()` 與 `item_moved` payload 可供 2-D / 2-E 使用。
 - 大門目前只顯示 `door_opened` 訊息，不轉場；Phase 4-F 才改為真轉場到 `street_stub:from_apartment`。
-- Phase 4-A0 已完成（純搬檔，未動遊戲邏輯）。Phase 4-A 已完成：`project.godot` 主場景改為 `res://scenes/main/main.tscn`；SceneRouter + SceneRegistry inline 在 `main.gd`；`apartment_room.gd` 尚無 `prepare_entry_point` / `set_entry_point`（`main.gd` 以 `has_method()` 守衛，安全跳過；完整入口邏輯待 4-E）。注意：日後再搬動 `.tscn`/`.gd` 後，headless 跑前需先 `--import` 重建 uid 快取。
+- Phase 4-A0 已完成（純搬檔，未動遊戲邏輯）。Phase 4-A 已完成：`project.godot` 主場景改為 `res://scenes/main/main.tscn`；SceneRouter + SceneRegistry inline 在 `main.gd`；`apartment_room.gd` 尚無 `prepare_entry_point` / `set_entry_point`（`main.gd` 以 `has_method()` 守衛，安全跳過；完整入口邏輯待 4-E）。
+- Phase 4-B 已完成：共用 UI 從 `apartment_room.tscn` 搬入 `game_ui.tscn`（CanvasLayer）；`apartment_room.gd` 透過 `_find_game_ui()` 取得 GameUI 節點參照（過渡方案，4-C 改為 contract）。`_is_simple_message` 旗標區分 `show_message`（GameUI 自動關閉）與 `begin_message`（caller 控制關閉），防止開場獨白被 GameUI 提前終結。`sonar_label` font_size override 已移除（用預設大小）。雙重 `_on_ui_mode_changed` handler 與冗餘 `_ready()` 初始化待 4-C 清理。
+- 日後再搬動 `.tscn`/`.gd` 後，headless 跑前需先 `--import` 重建 uid 快取。
 
 ## 下一步建議
 
-架構主線下一步：**4-B GameUI 抽離**（將 Prompt / Inventory / Notebook / DualPane / MessageBox / ConfirmDialog / ItemDetailModal / FloatingToast 從 apartment 搬進 `main.tscn` 的 `GameUI` CanvasLayer）。
+架構主線下一步：**4-C Level interaction contract**（Level 只 emit 資料/signal，不直接碰 GameUI 內部 node path；清理雙重 handler + 冗餘 _ready 初始化）。
 
-另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
+另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 
 ```text
 GUI 走查（Windows 桌面 + 滑鼠模擬觸控）
--> 4-A 目視：啟動遊戲確認開場獨白播放、玩家移動、互動、BGM 與 Phase 3 末一致
+-> 4-B 目視：啟動遊戲確認開場獨白三頁完整播放、背包/筆記/容器/MessageBox/Toast 行為不退化
 -> 3-B：純螢幕按鈕走到大門 / 電腦 / 錄音機按 E、開背包 / 筆記
 -> 3-C 里程碑：純觸控從 2-G 開場（連點 T 三下）玩到 B9 開門
 -> 3-D：視窗拉成 ~19.5:9，目視按鈕不重疊 / 不遮 prompt·MessageBox·背包格
 -> 全部過後再進 3-E（需 Mac + Xcode）
 ```
 
-Phase 4-B 前必讀：
+Phase 4-C 前必讀：
 
-- `遊戲規格書.md` 4-B 驗收意圖（行 1829–1835）
-- `開發設計方針.md` 4-B GameUI 抽離（行 468–552）
-- `測試指南.md` 4-B（行 312–319）
+- `遊戲規格書.md` 4-C 驗收意圖（行 1837–1842）
+- `開發設計方針.md` 4-C Level interaction contract（行 554–589）
+- `測試指南.md` 4-C（行 322–331）

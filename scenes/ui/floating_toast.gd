@@ -11,14 +11,18 @@ static func show_toast(text: String, anchor_node: CanvasItem = null) -> void:
 	var toast := toast_scene.instantiate() as FloatingToast
 
 	var tree: SceneTree = Engine.get_main_loop() as SceneTree
-	if tree == null or tree.current_scene == null:
+	if tree == null or tree.root == null:
 		return
-	# MVP: mount on current_scene/UI; SceneRouter phase will switch to a global UI autoload.
-	var ui_layer: Node = tree.current_scene.get_node_or_null("UI")
+	# Phase 4-B: mount on persistent GameUI node under root; fall back to local UI for isolated tests
+	var ui_layer = tree.root.find_child("GameUI", true, false)
 	if ui_layer != null:
 		ui_layer.add_child(toast)
 	else:
-		tree.current_scene.add_child(toast)
+		var local_ui = tree.current_scene.get_node_or_null("UI")
+		if local_ui != null:
+			local_ui.add_child(toast)
+		else:
+			tree.current_scene.add_child(toast)
 
 	toast.display(text, anchor_node)
 

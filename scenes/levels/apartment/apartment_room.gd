@@ -46,7 +46,24 @@ func _find_game_ui() -> CanvasLayer:
 			return gu
 	return null
 
+func prepare_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
+	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "wake_bed"
+	_entry_payload = payload.duplicate(true)
+
+func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
+	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "wake_bed"
+	match _entry_point_id:
+		"wake_bed":
+			pass
+		"from_street":
+			player.global_position = Vector2(1160.0, 700.0)
+			player.anim.play("idle")
+
+
+var _entry_point_id: String = "wake_bed"
+var _entry_payload: Dictionary = {}
 var _opening_monologue_active: bool = false
+
 var _opening_page_index: int = 0
 var _opening_page_done: bool = false
 var _dev_skip_count: int = 0
@@ -193,14 +210,20 @@ func _ready() -> void:
 
 	player.anim.animation_finished.connect(_on_player_animation_finished)
 
-	# Start opening monologue sequence
-	_opening_monologue_active = true
-	if game_ui:
-		game_ui.set_monologue_active(true)
-	_opening_page_index = 0
-	_opening_page_done = false
-	player.anim.play("prone")
-	_start_opening_page()
+	# Start opening monologue sequence if entry point is wake_bed
+	if _entry_point_id == "wake_bed":
+		_opening_monologue_active = true
+		if game_ui:
+			game_ui.set_monologue_active(true)
+		_opening_page_index = 0
+		_opening_page_done = false
+		player.anim.play("prone")
+		_start_opening_page()
+	else:
+		_opening_monologue_active = false
+		player.anim.play("idle")
+		UIMode.set_mode(UIMode.Mode.NONE)
+
 
 func _process(_delta: float) -> void:
 	_adjust_bgm_volume_dynamics()
@@ -307,8 +330,11 @@ func _process(_delta: float) -> void:
 						interaction_requested.emit({
 							"type": "message",
 							"message_text": MESSAGES.get("door_opened", ""),
-							"note_title": _pending_toast_title
+							"note_title": _pending_toast_title,
+							"on_closed": func():
+								scene_transition_requested.emit("street_stub", "from_apartment", {})
 						})
+
 						_pending_toast_title = ""
 						if not _beyond_door_bgm_triggered:
 							_beyond_door_bgm_triggered = true

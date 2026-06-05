@@ -342,8 +342,17 @@ func _ready() -> void:
 		return
 	print("PASS: SceneRegistry config verified.")
 	
+	# 11. Verify Phase 4-E Entry Point methods on apartment_room
+	print("Verifying Phase 4-E Entry Point APIs on apartment_room...")
+	if not room_instance.has_method("prepare_entry_point") or not room_instance.has_method("set_entry_point"):
+		printerr("FAIL: apartment_room.gd lacks prepare_entry_point or set_entry_point API!")
+		get_tree().quit(1)
+		return
+	print("PASS: apartment_room prepare_entry_point & set_entry_point APIs verified.")
+
 	# Clean up instantiated test nodes
 	main_instance.queue_free()
+
 
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")

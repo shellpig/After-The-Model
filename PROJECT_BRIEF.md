@@ -16,7 +16,7 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-D 已完成並驗證（headless PASS）；下一步 4-E 公寓完整遷移與 B0-B9 回歸。
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-E 已完成並驗證（headless PASS）；下一步 4-F 第二場景 stub + 真轉場。
 
 ## 核心調性
 
@@ -184,7 +184,7 @@ note_id
 | 4-B | ✅ 完成 | `game_ui.tscn/gd` 常駐 CanvasLayer；共用 UI 節點從 `apartment_room.tscn` 搬入 GameUI；`show_message`/`begin_message` API + `_is_simple_message` 旗標防止獨白被 GameUI 提前關閉；FloatingToast 改掛 GameUI；headless PASS |
 | 4-C | ✅ 完成 | Level interaction contract：`current_interactable_changed` / `interaction_requested` / `scene_transition_requested` signal；Main mediator 接 signal 轉 GameUI / SceneRouter；Level 不直接碰 UI node path；UI hotkey / item action routing / toast / prompt 跟蹤全部搬入 GameUI；NOTES/MESSAGES 統一至 `GameState.STORY_NOTES` / `STORY_MESSAGES`；headless PASS |
 | 4-D | ✅ 完成 | TouchControls 改接 GameUI contract：`set_game_ui()` + `_get_game_ui()` 注入；世界 E 用 `has_current_interactable()`；Inv/Container E/R/T 用 `can_primary/secondary/tertiary_action()`；PC toggle 用 `is_touch_toggle_blocked()`；不再讀 `scene.get("current_interactable")` / `UI/...` 固定路徑；headless PASS |
-| 4-E | ⬜ 待開工 | 公寓完整遷移與 B0-B9 回歸；`apartment:wake_bed` 播開場，`apartment:from_street` 跳過開場 |
+| 4-E | ✅ 完成 | `prepare_entry_point` / `set_entry_point` API；`wake_bed` 入口播開場 prone→monologue→idle，`from_street` 跳過開場直接 idle 於門邊；大門 `on_closed` callback emit `scene_transition_requested("street_stub", ...)`；公寓專屬 sonar/slot/BGM 留在 level 不誤搬 GameUI；無 `$UI/` 直接依賴、無 `change_scene_to_file`；headless PASS |
 | 4-F | ⬜ 待開工 | `street_stub` 第二場景 + 真轉場；公寓可到街道 stub，街道可回公寓 |
 | 4-G | ⬜ 待開工 | 未來系統 contract pass：`dialogue_id` / `quest_event_id` / `music_id` / `scene_id+entry_point_id` 插槽存在 |
 

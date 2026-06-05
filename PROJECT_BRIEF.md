@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-05-31
+最後更新：2026-06-05
 
 ---
 
@@ -16,12 +16,12 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**規格已定稿，尚未開工；先做 4-A0 檔案結構整理，再進 Main / SceneRouter / GameUI。
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 檔案結構整理已完成並驗證（headless PASS）；下一步 4-A Main / SceneRouter / GameUI 尚未開工。
 
 最新 commit：
 
 ```text
-0723871 docs: 更新專案 Brief，標記 Phase 3-B~3-E 為已完成
+78be6de refactor(4-A0): 將 root 關卡/角色/元件腳本搬入語意化資料夾
 ```
 
 ## 核心調性
@@ -62,12 +62,15 @@
 ```text
 .
 ├── project.godot
-├── apartment_room.tscn / apartment_room.gd   # 目前主場景 controller
-├── player.gd                                 # 主角移動；UI mode 時凍結
-├── interactable_area.gd                      # Area2D 互動物 export 欄位
+├── scenes/levels/apartment/
+│   ├── apartment_room.tscn / apartment_room.gd   # 目前主場景 controller（4-A0 搬入）
+├── scenes/actors/player/
+│   └── player.gd                             # 主角移動；UI mode 時凍結（4-A0 搬入）
 ├── scripts/autoload/
 │   ├── game_state.gd                         # credits / inventory / notes / containers / equipment
 │   └── ui_mode.gd                            # NONE / INVENTORY / CONTAINER / NOTEBOOK / MESSAGE / CONFIRM
+├── scripts/components/
+│   └── interactable_area.gd                  # Area2D 互動物 export 欄位（4-A0 搬入）
 ├── scenes/ui/
 │   ├── bag_grid.*                            # 背包格
 │   ├── external_grid.*                       # 外部容器格
@@ -181,7 +184,7 @@ note_id
 | 3-C | ✅ 完成 | 面板模式觸控：方向鍵移焦點、右下 E / R / T（情境感知顯隱）、面板開時右上「X 返回」=`ui_cancel`；headless PASS、**里程碑 PC 純觸控通關 B0–B9（GUI 實測未跑）** |
 | 3-D | ✅ 完成 | Safe area + 比例排版：按鈕內縮 `get_display_safe_area()`（test_runner 9.1 驗證）、D-pad 54 / 功能鍵 60（≥44px）；待 GUI 比例目視、真機座標換算待 3-E |
 | 3-E | ✅ 完成 | 真機導出 + iPhone 校正（需 Mac）：Mac+Xcode 免費簽名進 iPhone、真機純觸控通關、瀏海 / 效能校正 |
-| 4-A0 | ⬜ 待開工 | 檔案結構整理：root 的 `apartment_room.*` / `player.gd` / `interactable_area.gd` 搬進對應資料夾；純路徑變更、獨立 commit、遊戲仍可玩 |
+| 4-A0 | ✅ 完成 | 檔案結構整理：`apartment_room.*`→`scenes/levels/apartment/`、`player.gd`→`scenes/actors/player/`、`interactable_area.gd`→`scripts/components/`（含 `.gd.uid` sidecar）；改 `.tscn` 3 path + `test_runner.gd` 1 字面量；headless PASS（搬檔後需 `--import` 重建 uid 快取）（commit `78be6de`）|
 | 4-A | ⬜ 待開工 | `main.tscn` / `WorldRoot` / 最小 SceneRouter / SceneRegistry；仍載入公寓且行為不變 |
 | 4-B | ⬜ 待開工 | 抽出常駐 `GameUI`，持有 Prompt / Inventory / Notebook / DualPane / MessageBox / Toast 等共用 UI |
 | 4-C | ⬜ 待開工 | Level ↔ Main ↔ GameUI interaction contract；Level 只 emit 資料 / signal，不直接碰 UI node path |
@@ -342,11 +345,13 @@ verify_game_state.gd: PASS
 - Phase 2-B 已實作並驗證；`worn_rubiks_cube`、`decoder_cube` 與解碼手套流程已存在於 code。
 - Phase 2-C 已實作並驗證；`accepted_item`、`deposit_locked`、`get_container_config()` 與 `item_moved` payload 可供 2-D / 2-E 使用。
 - 大門目前只顯示 `door_opened` 訊息，不轉場；Phase 4-F 才改為真轉場到 `street_stub:from_apartment`。
-- Phase 4-A0 是純搬檔階段：不得新建 `player.tscn`，不得改遊戲邏輯；`project.godot` 主場景改到 `main.tscn` 留 4-A。
+- Phase 4-A0 已完成（純搬檔，未動遊戲邏輯）；`project.godot` 主場景仍是公寓 uid，改到 `main.tscn` 留 4-A。注意：日後再搬動 `.tscn`/`.gd` 後，headless 跑前需先 `--import` 重建 uid 快取，否則 ext_resource 會以 stale uid 解析回舊路徑。
 
 ## 下一步建議
 
-短線最合理下一步：**3-B~3-D 的 GUI 純觸控走查**（程式已實作、headless 自動測試 PASS，唯互動 / 視覺驗收未跑）。
+架構主線下一步：**4-A Main Host / SceneRouter / SceneRegistry**（4-A0 已完成，路徑已收斂，可進 main.tscn）。
+
+另一條短線：**3-B~3-D 的 GUI 純觸控走查**（程式已實作、headless 自動測試 PASS，唯互動 / 視覺驗收未跑）。
 
 ```text
 GUI 走查（Windows 桌面 + 滑鼠模擬觸控）

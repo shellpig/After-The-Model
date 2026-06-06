@@ -22,6 +22,7 @@ var knowledge: Dictionary = {}
 var notes: Array[Dictionary] = []
 var external_containers: Dictionary = {}
 var external_container_configs: Dictionary = {}
+var apartment_initialized: bool = false
 
 const STORY_NOTES := {
 	"work_ai_cleanup_role": {
@@ -71,7 +72,7 @@ const STORY_NOTES := {
 const STORY_MESSAGES := {
 	"bed_bad_sleep": "你心中有事, 根本睡不著...",
 	"door_locked": "門上了鎖, 而你發現自己不知道如何打開...",
-	"door_opened": "你將手套貼上讀取器，綠燈閃爍。伴隨著液壓氣動沉悶的釋放聲，門鎖緩慢退開，滑出一條縫。門外灌進了深夜的冷雨、舊機油與高架鐵軌呼嘯而過的冷冽氣息。外頭是五彩斑斕的折射霓虹——你終於要回到那座把你遺忘的都市了。\n\n（你已經通關試玩版。）",
+	"door_opened": "你將手套貼上讀取器，綠燈閃爍。伴隨著液壓氣動沉悶的釋放聲，門鎖緩慢退開，滑出一條縫。門外灌進了深夜的冷雨、舊機油與高架鐵軌呼嘯而過的冷冽氣息。外頭是五彩斑斕的折射霓虹——你終於要回到那座把你遺忘的都市了。",
 	"desk_computer_msg": "螢幕還亮著, 一份新的派工單正自己跳出來, 沒有寄件人。",
 	"tape_recorder_msg": "錄音機裡卡著一捲帶子。按下播放, 是首沒人記得的老歌, 雜訊裡有人輕輕跟著哼。",
 	"decoder_cube_decoded": "當你戴著無指手套拿起魔術方塊時，指尖的接點突然傳來一陣微弱的電流，方塊的接縫處隨之亮起了一道黯淡的迴路光芒。方塊的結構在微弱的喀噠聲中重新排列——它被解碼了。",

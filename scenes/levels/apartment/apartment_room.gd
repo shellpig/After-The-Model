@@ -89,48 +89,50 @@ var _beyond_door_bgm_triggered: bool = false
 var _pending_toast_title: String = ""
 
 func _ready() -> void:
-	# Preload containers for Phase 1-D
-	GameState.configure_container("cabinet_storage", 30)  # 5 x 6
-	GameState.configure_container("fridge_storage", 10)   # 5 x 2
+	if not GameState.apartment_initialized:
+		GameState.apartment_initialized = true
+		# Preload containers for Phase 1-D
+		GameState.configure_container("cabinet_storage", 30)  # 5 x 6
+		GameState.configure_container("fridge_storage", 10)   # 5 x 2
 
-	var _ok_jacket := GameState.seed_container("cabinet_storage", "faded_jacket", 1)
-	var _ok_cabinet_food := GameState.seed_container("cabinet_storage", "canned_food", 2)
-	var _ok_fridge_food := GameState.seed_container("fridge_storage", "canned_food", 3)
-	var _ok_fridge_blueberry := GameState.seed_container("fridge_storage", "nutrition_bar_synth_blueberry", 1)
-	var _ok_rubik := GameState.seed_container("cabinet_storage", "worn_rubiks_cube", 1)
+		var _ok_jacket := GameState.seed_container("cabinet_storage", "faded_jacket", 1)
+		var _ok_cabinet_food := GameState.seed_container("cabinet_storage", "canned_food", 2)
+		var _ok_fridge_food := GameState.seed_container("fridge_storage", "canned_food", 3)
+		var _ok_fridge_blueberry := GameState.seed_container("fridge_storage", "nutrition_bar_synth_blueberry", 1)
+		var _ok_rubik := GameState.seed_container("cabinet_storage", "worn_rubiks_cube", 1)
 
-	# Preload inventory robustly
-	var has_item := false
-	for slot in GameState.get_inventory():
-		if not slot.is_empty():
-			has_item = true
-			break
-	if not has_item:
-		GameState.add_item("fingerless_gloves", 1)
-		GameState.add_item("old_work_badge", 1)
+		# Preload inventory robustly
+		var has_item := false
+		for slot in GameState.get_inventory():
+			if not slot.is_empty():
+				has_item = true
+				break
+		if not has_item:
+			GameState.add_item("fingerless_gloves", 1)
+			GameState.add_item("old_work_badge", 1)
 
-	# Preload 2 story notes for Phase 2
-	GameState.add_knowledge({
-		"id": "identity_apartment_is_mine",
-		"category": "身份",
-		"title": "這裡是我的公寓",
-		"body": "你雖然不記得名字, 但這裡的氣味、磨損的痕跡、書桌的擺法...都是你熟悉的。",
-		"status": "active"
-	})
-	GameState.add_knowledge({
-		"id": "clue_door_sensor_scratch",
-		"category": "線索",
-		"title": "門旁感應器的刮痕",
-		"body": "門旁的感應器有長期使用的刮痕。看起來是右手手套經常碰過的位置。",
-		"status": "active"
-	})
-	GameState.add_knowledge({
-		"id": "identity_rainy_night",
-		"category": "身份",
-		"title": "雨還沒停",
-		"body": "雨還在下。窗外的霓虹把積水染成一片溶開的顏色, 像誰把整座城市的記憶倒進了水溝裡。\n房間很安靜, 安靜到能聽見牆裡那點微弱的嗡嗡聲。\nAI 接手了大半個世界之後, 剩下的人就學著在縫隙裡活。我大概也是其中一個。\n有些晚上我會想不起自己是誰, 但只要還記得回到這裡, 好像就還沒真的輸掉什麼。",
-		"status": "active"
-	})
+		# Preload 2 story notes for Phase 2
+		GameState.add_knowledge({
+			"id": "identity_apartment_is_mine",
+			"category": "身份",
+			"title": "這裡是我的公寓",
+			"body": "你雖然不記得名字, 但這裡的氣味、磨損的痕跡、書桌的擺法...都是你熟悉的。",
+			"status": "active"
+		})
+		GameState.add_knowledge({
+			"id": "clue_door_sensor_scratch",
+			"category": "線索",
+			"title": "門旁感應器的刮痕",
+			"body": "門旁的感應器有長期使用的刮痕。看起來是右手手套經常碰過的位置。",
+			"status": "active"
+		})
+		GameState.add_knowledge({
+			"id": "identity_rainy_night",
+			"category": "身份",
+			"title": "雨還沒停",
+			"body": "雨還在下。窗外的霓虹把積水染成一片溶開的顏色, 像誰把整座城市的記憶倒進了水溝裡。\n房間很安靜, 安靜到能聽見牆裡那點微弱的嗡嗡聲。\nAI 接手了大半個世界之後, 剩下的人就學著在縫隙裡活。我大概也是其中一個。\n有些晚上我會想不起自己是誰, 但只要還記得回到這裡, 好像就還沒真的輸掉什麼。",
+			"status": "active"
+		})
 
 	# Sonar UI Panel Creation
 	sonar_ui = PanelContainer.new()
@@ -312,7 +314,7 @@ func _process(_delta: float) -> void:
 						"message_text": MESSAGES.get(current_interactable.message_id, "")
 					})
 				"door_exit":
-					if _slot_unlock_sequence_started:
+					if _slot_unlock_sequence_started or GameState.has_knowledge("identity_door_unlock_method"):
 						if not GameState.has_knowledge("identity_door_unlock_method"):
 							GameState.add_knowledge(NOTES["identity_door_unlock_method"])
 
@@ -332,7 +334,7 @@ func _process(_delta: float) -> void:
 							"message_text": MESSAGES.get("door_opened", ""),
 							"note_title": _pending_toast_title,
 							"on_closed": func():
-								scene_transition_requested.emit("street_stub", "from_apartment", {})
+								scene_transition_requested.emit("apartment_entrance", "from_apartment", {})
 						})
 
 						_pending_toast_title = ""
@@ -640,7 +642,7 @@ func _trigger_bgm_transition() -> void:
 	var new_player := AudioStreamPlayer.new()
 	new_player.name = "BGMPlayer_New"
 	
-	var new_stream = load("res://assets/bgm/Beyond the Door.mp3")
+	var new_stream = load("res://assets/bgm/Faded Neon Departure.mp3")
 	if new_stream:
 		new_stream.loop = true
 		new_player.stream = new_stream

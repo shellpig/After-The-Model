@@ -1,0 +1,57 @@
+{
+  "map_id": "apartment_building_entrance",
+  "source_image": "res://assets/art_bible/map02_1_Apartment_building_entrance.jpeg",
+  "runtime_background": "res://assets/generated/maps/apartment_building_entrance_20260606-103835/apartment-building-entrance-godot-1280x720-20260606-103835.png",
+  "source_copy": "res://assets/generated/maps/apartment_building_entrance_20260606-103835/apartment-building-entrance-background-20260606-103835.png",
+  "guide_image": "res://assets/generated/maps/apartment_building_entrance_20260606-103835/apartment-building-entrance-godot-guide-1280x720-20260606-103835.png",
+  "engine_scene": "res://scenes/levels/street_stub.tscn",
+  "pipeline": {
+    "map_mode": "side_scroll_mode",
+    "visual_model": "baked_raster",
+    "runtime_object_model": "interactive_scene_objects",
+    "collision_model": "coarse_shapes",
+    "engine_target": "Godot_scene",
+    "visual_asset_source": "existing_assets",
+    "stage_canvas": [1280, 720]
+  },
+  "movement": {
+    "primary_walk_line_y": 660,
+    "min_x": 70,
+    "max_x": 1210,
+    "player_spawn": {
+      "entry_point_id": "from_apartment",
+      "position": [482, 660]
+    }
+  },
+  "collision": [
+    {
+      "id": "ground",
+      "type": "StaticBody2D",
+      "shape": "RectangleShape2D",
+      "position": [640, 669],
+      "size": [1140, 18]
+    }
+  ],
+  "interactables": [
+    {
+      "id": "back_to_apartment",
+      "type": "transition",
+      "target_scene_id": "apartment",
+      "entry_point_id": "from_street",
+      "position": [482, 527],
+      "size": [110, 210]
+    },
+    {
+      "id": "mailboxes",
+      "type": "message",
+      "position": [578, 511],
+      "size": [110, 210]
+    },
+    {
+      "id": "alley_view",
+      "type": "message",
+      "position": [1099, 516],
+      "size": [170, 250]
+    }
+  ]
+}

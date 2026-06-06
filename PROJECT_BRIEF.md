@@ -16,7 +16,7 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-E 已完成並驗證（headless PASS）；下一步 4-F 第二場景 stub + 真轉場。
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-F 已完成並驗證（headless PASS）；下一步 4-G future contracts pass。
 
 ## 核心調性
 
@@ -184,8 +184,8 @@ note_id
 | 4-B | ✅ 完成 | `game_ui.tscn/gd` 常駐 CanvasLayer；共用 UI 節點從 `apartment_room.tscn` 搬入 GameUI；`show_message`/`begin_message` API + `_is_simple_message` 旗標防止獨白被 GameUI 提前關閉；FloatingToast 改掛 GameUI；headless PASS |
 | 4-C | ✅ 完成 | Level interaction contract：`current_interactable_changed` / `interaction_requested` / `scene_transition_requested` signal；Main mediator 接 signal 轉 GameUI / SceneRouter；Level 不直接碰 UI node path；UI hotkey / item action routing / toast / prompt 跟蹤全部搬入 GameUI；NOTES/MESSAGES 統一至 `GameState.STORY_NOTES` / `STORY_MESSAGES`；headless PASS |
 | 4-D | ✅ 完成 | TouchControls 改接 GameUI contract：`set_game_ui()` + `_get_game_ui()` 注入；世界 E 用 `has_current_interactable()`；Inv/Container E/R/T 用 `can_primary/secondary/tertiary_action()`；PC toggle 用 `is_touch_toggle_blocked()`；不再讀 `scene.get("current_interactable")` / `UI/...` 固定路徑；headless PASS |
-| 4-E | ✅ 完成 | `prepare_entry_point` / `set_entry_point` API；`wake_bed` 入口播開場 prone→monologue→idle，`from_street` 跳過開場直接 idle 於門邊；大門 `on_closed` callback emit `scene_transition_requested("street_stub", ...)`；公寓專屬 sonar/slot/BGM 留在 level 不誤搬 GameUI；無 `$UI/` 直接依賴、無 `change_scene_to_file`；headless PASS |
-| 4-F | ⬜ 待開工 | `street_stub` 第二場景 + 真轉場；公寓可到街道 stub，街道可回公寓 |
+| 4-E | ✅ 完成 | `prepare_entry_point` / `set_entry_point` API；`wake_bed` 入口播開場 prone→monologue→idle，`from_street` 跳過開場直接 idle 於門邊；大門 `on_closed` callback emit `scene_transition_requested("apartment_entrance", ...)`；公寓專屬 sonar/slot/BGM 留在 level 不誤搬 GameUI；無 `$UI/` 直接依賴、無 `change_scene_to_file`；headless PASS |
+| 4-F | ✅ 完成 | `apartment_entrance` 第二場景 + 真轉場；大門開鎖後真轉場至街道，街道可回公寓且不重播獨白 |
 | 4-G | ⬜ 待開工 | 未來系統 contract pass：`dialogue_id` / `quest_event_id` / `music_id` / `scene_id+entry_point_id` 插槽存在 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
@@ -207,7 +207,7 @@ note_id
 - `GameUI` 不做 Autoload；放在 `main.tscn`，持有 Prompt / Inventory / Notebook / DualPane / MessageBox / ConfirmDialog / ItemDetailModal / FloatingToast。
 - `GameState` / `UIMode` / `TouchControls` 維持 Autoload。
 - SceneRouter 第一版可在 `main.gd`；所有轉場使用 `scene_id + entry_point_id`。
-- Entry points 固定：`apartment:wake_bed`（新遊戲，播開場）、`apartment:from_street`（回公寓，不播開場）、`street_stub:from_apartment`（從公寓出去）。
+- Entry points固定：`apartment:wake_bed`（新遊戲，播開場）、`apartment:from_street`（回公寓，不播開場）、`apartment_entrance:from_apartment`（從公寓出去）。
 - `player.tscn` 目前不存在；Phase 4 不新建 / 不抽出，只在 4-A0 搬 `player.gd + player.gd.uid`。各 level 可暫時內嵌 `Player` node 並共用 `player.gd`。
 - 每個子階段完成後遊戲都應仍可手動驗證；4-F 起應跨場景可玩。
 
@@ -339,14 +339,14 @@ verify_game_state.gd: PASS
 - `subdocs/地點/主角公寓.md` 底部「已知落差 / 待修」有部分 Phase 1 歷史描述可能已過期；以 `AGENTS.md`、`遊戲規格書.md`、目前 code 與 git log 判斷最新狀態。
 - Phase 2-B 已實作並驗證；`worn_rubiks_cube`、`decoder_cube` 與解碼手套流程已存在於 code。
 - Phase 2-C 已實作並驗證；`accepted_item`、`deposit_locked`、`get_container_config()` 與 `item_moved` payload 可供 2-D / 2-E 使用。
-- 大門目前只顯示 `door_opened` 訊息，不轉場；Phase 4-F 才改為真轉場到 `street_stub:from_apartment`。
+- 大門目前已實作真轉場，MessageBox 關閉後真轉場到 `apartment_entrance:from_apartment`。
 - Phase 4-A0 已完成（純搬檔，未動遊戲邏輯）。Phase 4-A 已完成：`project.godot` 主場景改為 `res://scenes/main/main.tscn`；SceneRouter + SceneRegistry inline 在 `main.gd`；`apartment_room.gd` 尚無 `prepare_entry_point` / `set_entry_point`（`main.gd` 以 `has_method()` 守衛，安全跳過；完整入口邏輯待 4-E）。
 - Phase 4-B 已完成：共用 UI 從 `apartment_room.tscn` 搬入 `game_ui.tscn`（CanvasLayer）；`apartment_room.gd` 透過 `_find_game_ui()` 取得 GameUI 節點參照（過渡方案，4-C 改為 contract）。`_is_simple_message` 旗標區分 `show_message`（GameUI 自動關閉）與 `begin_message`（caller 控制關閉），防止開場獨白被 GameUI 提前終結。`sonar_label` font_size override 已移除（用預設大小）。雙重 `_on_ui_mode_changed` handler 與冗餘 `_ready()` 初始化待 4-C 清理。
 - 日後再搬動 `.tscn`/`.gd` 後，headless 跑前需先 `--import` 重建 uid 快取。
 
 ## 下一步建議
 
-架構主線下一步：**4-C Level interaction contract**（Level 只 emit 資料/signal，不直接碰 GameUI 內部 node path；清理雙重 handler + 冗餘 _ready 初始化）。
+架構主線下一步：**4-G future contracts pass**。
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

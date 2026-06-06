@@ -1,0 +1,145 @@
+[gd_scene format=3 uid="uid://c1myh6cjuoytb"]
+
+[ext_resource type="Texture2D" uid="uid://bsvu4lfu2l6qp" path="res://assets/generated/maps/apartment_building_entrance_20260606-103835/apartment-building-entrance-godot-1280x720-20260606-103835.png" id="1_bg"]
+[ext_resource type="Script" uid="uid://bngofy3stmfc3" path="res://scenes/levels/apartment_entrance.gd" id="2_script"]
+[ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="3_player"]
+[ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="4_interactable"]
+[ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="5_walk1"]
+[ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="6_walk2"]
+[ext_resource type="Texture2D" uid="uid://bex22wmsbwi1m" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="7_walk3"]
+[ext_resource type="Texture2D" uid="uid://sofbn2kttwre" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="8_walk4"]
+[ext_resource type="Texture2D" uid="uid://dutevb0poruvl" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="9_walk5"]
+[ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="10_walk6"]
+[ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="11_walk7"]
+[ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_walk8"]
+[ext_resource type="AudioStream" uid="uid://dhiiewymd1ooy" path="res://assets/bgm/Faded Neon Departure.mp3" id="13_bgm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(1140, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_tall"]
+size = Vector2(54, 210)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_wide"]
+size = Vector2(81, 250)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_player"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_walk2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_walk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_walk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_walk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_walk4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_walk5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_walk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_walk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_walk8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(24, 454)
+
+[node name="ApartmentEntrance" type="Node2D" unique_id=956033372]
+script = ExtResource("2_script")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=352896336]
+texture = ExtResource("1_bg")
+centered = false
+
+[node name="Collision" type="Node2D" parent="." unique_id=474194036]
+
+[node name="Ground" type="StaticBody2D" parent="Collision" unique_id=638843618]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground" unique_id=2108991975]
+position = Vector2(638, 683)
+shape = SubResource("RectangleShape2D_ground")
+debug_color = Color(0.78, 0.42, 0.2, 0.35)
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=2101570958]
+
+[node name="from_apartment" type="Marker2D" parent="SpawnPoints" unique_id=1399035963]
+position = Vector2(482, 660)
+
+[node name="Interactables" type="Node2D" parent="." unique_id=542570424]
+
+[node name="BackToApartmentArea" type="Area2D" parent="Interactables" unique_id=70679196]
+script = ExtResource("4_interactable")
+interaction_id = "back_to_apartment"
+prompt_text = "E: █ 回到公寓"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BackToApartmentArea" unique_id=895055570]
+position = Vector2(467, 527)
+shape = SubResource("RectangleShape2D_interact_tall")
+debug_color = Color(0.9, 0.1, 0.1, 0.42)
+
+[node name="MailboxesArea" type="Area2D" parent="Interactables" unique_id=1790471034]
+script = ExtResource("4_interactable")
+interaction_id = "mailboxes"
+prompt_text = "E: █ 查看信箱牆"
+message_id = "mailboxes"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MailboxesArea" unique_id=867365419]
+position = Vector2(574, 511)
+shape = SubResource("RectangleShape2D_interact_tall")
+debug_color = Color(0.95, 0.6, 0, 0.42)
+
+[node name="AlleyViewArea" type="Area2D" parent="Interactables" unique_id=1302457912]
+script = ExtResource("4_interactable")
+interaction_id = "alley_view"
+prompt_text = "E: █ 望向暗巷"
+message_id = "alley_view"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/AlleyViewArea" unique_id=561969924]
+position = Vector2(1009.5, 516)
+shape = SubResource("RectangleShape2D_interact_wide")
+debug_color = Color(0.6, 0.2, 0.95, 0.42)
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=343229133]
+position = Vector2(482, 678.00006)
+scale = Vector2(0.54, 0.54)
+script = ExtResource("3_player")
+min_x = 70.0
+max_x = 1210.0
+walk_line_y = 660.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=219747971]
+position = Vector2(20, -184)
+sprite_frames = SubResource("SpriteFrames_player")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=2134738739]
+position = Vector2(30, -221)
+shape = SubResource("RectangleShape2D_player")
+debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)
+
+[node name="BGMPlayer" type="AudioStreamPlayer" parent="." unique_id=1433149409]
+stream = ExtResource("13_bgm")
+volume_db = -12.0
+autoplay = true

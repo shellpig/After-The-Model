@@ -7,8 +7,8 @@ const SCENES := {
 		"entry_points": ["wake_bed", "from_street"],
 		"music_id": "apartment_night"
 	},
-	"street_stub": {
-		"path": "res://scenes/levels/street_stub.tscn",
+	"apartment_entrance": {
+		"path": "res://scenes/levels/apartment_entrance.tscn",
 		"default_entry_point_id": "from_apartment",
 		"entry_points": ["from_apartment"],
 		"music_id": "street_rain"

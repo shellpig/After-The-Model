@@ -320,8 +320,8 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	var scenes_dict = main_instance.get("SCENES")
-	if not scenes_dict.has("apartment") or not scenes_dict.has("street_stub"):
-		printerr("FAIL: SCENES registry is missing 'apartment' or 'street_stub' keys!")
+	if not scenes_dict.has("apartment") or not scenes_dict.has("apartment_entrance"):
+		printerr("FAIL: SCENES registry is missing 'apartment' or 'apartment_entrance' keys!")
 		get_tree().quit(1)
 		return
 	
@@ -335,12 +335,58 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	var street_config = scenes_dict["street_stub"]
-	if street_config.get("path") != "res://scenes/levels/street_stub.tscn":
-		printerr("FAIL: street_stub path in registry is wrong!")
+	var street_config = scenes_dict["apartment_entrance"]
+	if street_config.get("path") != "res://scenes/levels/apartment_entrance.tscn":
+		printerr("FAIL: apartment_entrance path in registry is wrong!")
 		get_tree().quit(1)
 		return
 	print("PASS: SceneRegistry config verified.")
+
+	print("Loading res://scenes/levels/apartment_entrance.tscn...")
+	var street_scene = load("res://scenes/levels/apartment_entrance.tscn")
+	if not street_scene:
+		printerr("FAIL: Could not load apartment_entrance.tscn!")
+		get_tree().quit(1)
+		return
+	print("PASS: apartment_entrance.tscn loaded successfully.")
+
+	var street_instance = street_scene.instantiate()
+	add_child(street_instance)
+	print("PASS: apartment_entrance.tscn instantiated in scene tree.")
+
+	if not street_instance.has_signal("current_interactable_changed") or not street_instance.has_signal("interaction_requested") or not street_instance.has_signal("scene_transition_requested"):
+		printerr("FAIL: apartment_entrance lacks Level interaction contract signals!")
+		get_tree().quit(1)
+		return
+	if not street_instance.has_method("prepare_entry_point") or not street_instance.has_method("set_entry_point"):
+		printerr("FAIL: apartment_entrance lacks prepare_entry_point or set_entry_point API!")
+		get_tree().quit(1)
+		return
+
+	street_instance.set_entry_point("from_apartment", {})
+	var street_background = street_instance.get_node_or_null("Background")
+	if not street_background or street_background.texture == null:
+		printerr("FAIL: apartment_entrance Background texture failed to load!")
+		get_tree().quit(1)
+		return
+	var street_player = street_instance.get_node_or_null("Player")
+	if not street_player:
+		printerr("FAIL: apartment_entrance Player node missing!")
+		get_tree().quit(1)
+		return
+	if street_player.global_position != Vector2(482, 660):
+		printerr("FAIL: apartment_entrance from_apartment spawn is wrong! Got: ", street_player.global_position)
+		get_tree().quit(1)
+		return
+	if street_player.get("walk_line_y") != 660.0 or street_player.get("min_x") != 70.0 or street_player.get("max_x") != 1210.0:
+		printerr("FAIL: apartment_entrance player walk bounds are wrong!")
+		get_tree().quit(1)
+		return
+	if not street_instance.get_node_or_null("Interactables/BackToApartmentArea"):
+		printerr("FAIL: apartment_entrance back_to_apartment interactable missing!")
+		get_tree().quit(1)
+		return
+	print("PASS: apartment_entrance map scene, spawn, bounds, and contract verified.")
 	
 	# 11. Verify Phase 4-E Entry Point methods on apartment_room
 	print("Verifying Phase 4-E Entry Point APIs on apartment_room...")
@@ -351,6 +397,7 @@ func _ready() -> void:
 	print("PASS: apartment_room prepare_entry_point & set_entry_point APIs verified.")
 
 	# Clean up instantiated test nodes
+	street_instance.queue_free()
 	main_instance.queue_free()
 
 
@@ -358,4 +405,3 @@ func _ready() -> void:
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")
 	get_tree().quit(0)
-

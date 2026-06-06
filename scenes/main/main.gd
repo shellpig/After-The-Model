@@ -21,7 +21,23 @@ const SCENES := {
 var _current_scene_id: String = ""
 var _current_entry_point_id: String = ""
 
+# BGM Manager variables
+var _bgm_player1: AudioStreamPlayer
+var _bgm_player2: AudioStreamPlayer
+var _active_player: AudioStreamPlayer = null
+var _current_bgm_path: String = ""
+var _bgm_tween: Tween = null
+
 func _ready() -> void:
+	# Initialize BGM players
+	_bgm_player1 = AudioStreamPlayer.new()
+	_bgm_player1.name = "BGMPlayer1"
+	add_child(_bgm_player1)
+	
+	_bgm_player2 = AudioStreamPlayer.new()
+	_bgm_player2.name = "BGMPlayer2"
+	add_child(_bgm_player2)
+
 	# Register GameUI reference to TouchControls Autoload
 	TouchControls.set_game_ui(game_ui)
 	# Load default scene on start
@@ -126,3 +142,62 @@ func _on_level_interaction_requested(data: Dictionary) -> void:
 
 func _on_level_scene_transition_requested(scene_id: String, entry_point_id: String, payload: Dictionary) -> void:
 	transition_to(scene_id, entry_point_id, payload)
+
+# ==========================================
+# Global BGM Manager APIs
+# ==========================================
+func play_bgm(stream_path: String, fade_duration: float = 2.0) -> void:
+	if stream_path.is_empty():
+		stop_bgm(fade_duration)
+		return
+
+	if _current_bgm_path == stream_path:
+		if _active_player and not _active_player.playing:
+			_active_player.play()
+		return
+
+	var next_player: AudioStreamPlayer = _bgm_player2 if _active_player == _bgm_player1 else _bgm_player1
+	var prev_player: AudioStreamPlayer = _active_player
+
+	var stream := load(stream_path) as AudioStream
+	if not stream:
+		push_error("Main: Failed to load BGM stream: " + stream_path)
+		return
+
+	# Enable looping on stream safely
+	if "loop" in stream:
+		stream.loop = true
+	elif stream is AudioStreamOggVorbis:
+		stream.loop = true
+
+	next_player.stream = stream
+	next_player.volume_db = -80.0 # Start fully silent
+	next_player.play()
+
+	_active_player = next_player
+	_current_bgm_path = stream_path
+
+	if _bgm_tween:
+		_bgm_tween.kill()
+	_bgm_tween = create_tween()
+	_bgm_tween.set_parallel(true)
+	
+	_bgm_tween.tween_property(next_player, "volume_db", -12.0, fade_duration)
+	if prev_player:
+		_bgm_tween.tween_property(prev_player, "volume_db", -80.0, fade_duration)
+		_bgm_tween.chain().tween_callback(prev_player.stop)
+
+func stop_bgm(fade_duration: float = 2.0) -> void:
+	_current_bgm_path = ""
+	if not _active_player:
+		return
+	var prev_player = _active_player
+	_active_player = null
+	if _bgm_tween:
+		_bgm_tween.kill()
+	_bgm_tween = create_tween()
+	_bgm_tween.tween_property(prev_player, "volume_db", -80.0, fade_duration)
+	_bgm_tween.tween_callback(prev_player.stop)
+
+func get_active_bgm_player() -> AudioStreamPlayer:
+	return _active_player

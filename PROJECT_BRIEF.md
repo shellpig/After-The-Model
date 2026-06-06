@@ -16,7 +16,7 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-F 已完成並驗證（headless PASS）；下一步 4-G future contracts pass。
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-F 已完成並驗證（headless PASS）。**4-G 已取消**（其架構契約已被 4-A~4-F 滿足，placeholder 部分為丟棄工）；NPC / 對話 / Quest / Save 改於 Phase 5 做真系統。
 
 ## 核心調性
 
@@ -186,7 +186,7 @@ note_id
 | 4-D | ✅ 完成 | TouchControls 改接 GameUI contract：`set_game_ui()` + `_get_game_ui()` 注入；世界 E 用 `has_current_interactable()`；Inv/Container E/R/T 用 `can_primary/secondary/tertiary_action()`；PC toggle 用 `is_touch_toggle_blocked()`；不再讀 `scene.get("current_interactable")` / `UI/...` 固定路徑；headless PASS |
 | 4-E | ✅ 完成 | `prepare_entry_point` / `set_entry_point` API；`wake_bed` 入口播開場 prone→monologue→idle，`from_street` 跳過開場直接 idle 於門邊；大門 `on_closed` callback emit `scene_transition_requested("apartment_entrance", ...)`；公寓專屬 sonar/slot/BGM 留在 level 不誤搬 GameUI；無 `$UI/` 直接依賴、無 `change_scene_to_file`；headless PASS |
 | 4-F | ✅ 完成 | `apartment_entrance` 第二場景 + 真轉場；大門開鎖後真轉場至街道，街道可回公寓且不重播獨白 |
-| 4-G | ⬜ 待開工 | 未來系統 contract pass：`dialogue_id` / `quest_event_id` / `music_id` / `scene_id+entry_point_id` 插槽存在 |
+| 4-G | ❌ 取消 | 原為未來系統 contract pass（placeholder 插槽）。架構契約（`scene_id+entry_point_id` 通用轉場、各場景自管 BGM、SceneRouter 持穩定 scene id）已被 4-A~4-F 滿足；`dialogue_id` / `quest_event_id` 的 placeholder 屬丟棄工，故取消。真 NPC / 對話 / Quest / Save 移至 Phase 5 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
@@ -211,7 +211,7 @@ note_id
 - `player.tscn` 目前不存在；Phase 4 不新建 / 不抽出，只在 4-A0 搬 `player.gd + player.gd.uid`。各 level 可暫時內嵌 `Player` node 並共用 `player.gd`。
 - 每個子階段完成後遊戲都應仍可手動驗證；4-F 起應跨場景可玩。
 
-子階段依賴：4-A0 → 4-A → 4-B → 4-C → 4-D → 4-E → 4-F → 4-G。
+子階段依賴：4-A0 → 4-A → 4-B → 4-C → 4-D → 4-E → 4-F。（4-G 已取消，見上方 Phase 進度表。）
 
 驗收意圖見 `遊戲規格書.md > Phase 4`；實作契約見 `開發設計方針.md > Phase 4`；操作清單見 `測試指南.md > Phase 4`。
 
@@ -260,7 +260,7 @@ B9 開門 gate 通過
 | 4-D TouchControls 解耦 | 1844–1849 | 591–611 | 332–339 |
 | 4-E 公寓遷移 / B0-B9 回歸 | 1851–1859 | 613–650 | 342–355 |
 | 4-F 第二場景 stub / 真轉場 | 1861–1867 | 653–671 | 358–365 |
-| 4-G future contracts pass | 1870–1876 | 674–683 | 368–374 |
+| 4-G（已取消，原 future contracts pass） | 1870–1876 | 674–683 | 368–374 |
 
 共同前置（任一子階段都建議先掃一次）：
 
@@ -346,7 +346,7 @@ verify_game_state.gd: PASS
 
 ## 下一步建議
 
-架構主線下一步：**4-G future contracts pass**。
+架構主線下一步：**Phase 5 — NPC + 對話（真系統）**。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

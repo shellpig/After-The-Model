@@ -29,10 +29,10 @@ func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	player.anim.play("idle")
 
 func _ready() -> void:
-	if is_instance_valid(bgm_player) and bgm_player.stream:
-		bgm_player.stream.loop = true
-		if not bgm_player.playing:
-			bgm_player.play()
+	# 向宿主主控宣告播放 Faded Neon Departure 背景音樂
+	var main = get_tree().root.find_child("Main", true, false)
+	if main and main.has_method("play_bgm"):
+		main.play_bgm("res://assets/bgm/Faded Neon Departure.mp3")
 
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)

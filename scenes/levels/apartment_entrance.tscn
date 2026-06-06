@@ -12,7 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="10_walk6"]
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="11_walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_walk8"]
-[ext_resource type="AudioStream" uid="uid://dhiiewymd1ooy" path="res://assets/bgm/Faded Neon Departure.mp3" id="13_bgm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1140, 16)
@@ -127,7 +126,7 @@ scale = Vector2(0.54, 0.54)
 script = ExtResource("3_player")
 min_x = 70.0
 max_x = 1210.0
-walk_line_y = 660.0
+walk_line_y = 675.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=219747971]
 position = Vector2(20, -184)
@@ -140,6 +139,4 @@ shape = SubResource("RectangleShape2D_player")
 debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)
 
 [node name="BGMPlayer" type="AudioStreamPlayer" parent="." unique_id=1433149409]
-stream = ExtResource("13_bgm")
 volume_db = -12.0
-autoplay = true

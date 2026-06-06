@@ -73,7 +73,6 @@ var _dev_skip_timer: float = 0.0
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
-var _sonar_revealed: bool = false
 var _sonar_active: bool = false
 var _sonar_time_left: float = 10.0
 var _sonar_dwell_time: float = 0.0
@@ -83,8 +82,6 @@ var sonar_label: Label = null
 var _audio_ping: AudioStreamPlayer = null
 var _audio_reveal: AudioStreamPlayer = null
 var _audio_electromagnetic: AudioStreamPlayer = null
-var _slot_unlock_sequence_started: bool = false
-var _beyond_door_bgm_triggered: bool = false
 
 var _pending_toast_title: String = ""
 
@@ -198,10 +195,10 @@ func _ready() -> void:
 	_audio_electromagnetic.volume_db = 6.0
 	add_child(_audio_electromagnetic)
 
-	# 強制開啟初始 Cozy Night BGM 的循環播放屬性，進行雙重防護
-	var bgm_player = $BGMPlayer as AudioStreamPlayer
-	if is_instance_valid(bgm_player) and bgm_player.stream:
-		bgm_player.stream.loop = true
+	# 向宿主主控宣告播放 Cozy Night 背景音樂
+	var main = get_tree().root.find_child("Main", true, false)
+	if main and main.has_method("play_bgm"):
+		main.play_bgm("res://assets/bgm/Echoes of a Cozy Night.mp3", 0.0)
 
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
@@ -211,6 +208,24 @@ func _ready() -> void:
 	GameState.container_changed.connect(_on_container_changed)
 
 	player.anim.animation_finished.connect(_on_player_animation_finished)
+
+	# Restore persistent puzzle state if already solved
+	if GameState.apartment_sonar_revealed:
+		var clock = $Interactables.get_node_or_null("ProjectionClockArea")
+		if clock:
+			nearby_interactables.erase(clock)
+			clock.queue_free()
+		
+		# Ensure the slot container configuration is registered in GameState
+		GameState.configure_container("apartment_slot", 1, ["decoder_cube"], true)
+		
+		CONTAINERS["apartment_slot"] = {
+			"title": "隱藏插槽",
+			"cols": 1,
+			"rows": 1,
+			"skin": "cabinet",
+			"panel_position": Vector2(782.0, 64.0)
+		}
 
 	# Start opening monologue sequence if entry point is wake_bed
 	if _entry_point_id == "wake_bed":
@@ -223,6 +238,7 @@ func _ready() -> void:
 		_start_opening_page()
 	else:
 		_opening_monologue_active = false
+		GameState.apartment_beyond_door_bgm_triggered = true
 		player.anim.play("idle")
 		UIMode.set_mode(UIMode.Mode.NONE)
 
@@ -249,13 +265,24 @@ func _process(_delta: float) -> void:
 
 				var player_x := player.global_position.x
 				var dx: float = abs(player_x - target_x)
-				var ping_interval: float = lerp(0.2, 1.5, clamp(dx / 600.0, 0.0, 1.0))
+
+				var ping_interval: float
+				if dx <= 30.0:
+					ping_interval = 0.2
+				else:
+					ping_interval = lerp(0.2, 1.5, clamp((dx - 30.0) / 350.0, 0.0, 1.0))
+
 				_sonar_ping_timer += _delta
 				if _sonar_ping_timer >= ping_interval:
 					_sonar_ping_timer = 0.0
 					_play_sonar_ping()
 				
-				var strength: float = clamp(100.0 - (dx / 6.0), 0.0, 100.0)
+				var strength: float
+				if dx <= 30.0:
+					strength = 100.0
+				else:
+					strength = clamp(100.0 - ((dx - 30.0) / 4.0), 0.0, 100.0)
+
 				if dx <= 30.0:
 					_sonar_dwell_time += _delta
 					if _sonar_dwell_time >= 4.0:
@@ -314,33 +341,35 @@ func _process(_delta: float) -> void:
 						"message_text": MESSAGES.get(current_interactable.message_id, "")
 					})
 				"door_exit":
-					if _slot_unlock_sequence_started or GameState.has_knowledge("identity_door_unlock_method"):
+					if GameState.apartment_slot_unlocked or GameState.has_knowledge("identity_door_unlock_method"):
 						if not GameState.has_knowledge("identity_door_unlock_method"):
 							GameState.add_knowledge(NOTES["identity_door_unlock_method"])
 
-						var existing_note: Dictionary = {}
-						for note in GameState.get_notes("身份"):
-							if note.get("id") == "identity_door_unlock_method":
-								existing_note = note
-								break
-						if not existing_note.is_empty() and not "氣壓大門在背後合上" in existing_note.get("body", ""):
-							var updated_note = existing_note.duplicate()
-							updated_note.body = existing_note.get("body", "") + "\n\n氣壓大門在背後合上，把這間發霉的安全溫室反鎖在身後。\n迎面而來的是深夜的冷雨，高架軌道上輕軌呼嘯而過，將鐵鏽與酸雨的水霧灑在我的護目鏡上。下層街區的霓虹招牌在積水裡折射出廉價的青色與桃紅。\n這裡沒有陽光，沒有申訴管道，只有成千上萬在 AI 陰影下掙扎討生活的普通人。\n我踏進了水窪，邁向雨夜。已經沒有回頭路了，我的名字與記憶，一定就藏在這座城市的某個夜班角落。"
-							GameState.add_knowledge(updated_note)
-							_pending_toast_title = "已更新筆記：我鎖上的門"
-						
-						interaction_requested.emit({
-							"type": "message",
-							"message_text": MESSAGES.get("door_opened", ""),
-							"note_title": _pending_toast_title,
-							"on_closed": func():
-								scene_transition_requested.emit("apartment_entrance", "from_apartment", {})
-						})
+							var existing_note: Dictionary = {}
+							for note in GameState.get_notes("身份"):
+								if note.get("id") == "identity_door_unlock_method":
+									existing_note = note
+									break
+							if not existing_note.is_empty() and not "氣壓大門在背後合上" in existing_note.get("body", ""):
+								var updated_note = existing_note.duplicate()
+								updated_note.body = existing_note.get("body", "") + "\n\n氣壓大門在背後合上，把這間發霉的安全溫室反鎖在身後。\n迎面而來的是深夜的冷雨，高架軌道上輕軌呼嘯而過，將鐵鏽與酸雨的水霧灑在我的護目鏡上。下層街區的霓虹招牌在積水裡折射出廉價的青色與桃紅。\n這裡沒有陽光，沒有申訴管道，只有成千上萬在 AI 陰影下掙扎討生活的普通人。\n我踏進了水窪，邁向雨夜。已經沒有回頭路了，我的名字與記憶，一定就藏在這座城市的某個夜班角落。"
+								GameState.add_knowledge(updated_note)
+								_pending_toast_title = "已更新筆記：我鎖上的門"
+							
+							interaction_requested.emit({
+								"type": "message",
+								"message_text": MESSAGES.get("door_opened", ""),
+								"note_title": _pending_toast_title,
+								"on_closed": func():
+									scene_transition_requested.emit("apartment_entrance", "from_apartment", {})
+							})
 
-						_pending_toast_title = ""
-						if not _beyond_door_bgm_triggered:
-							_beyond_door_bgm_triggered = true
-							_trigger_bgm_transition()
+							_pending_toast_title = ""
+							if not GameState.apartment_beyond_door_bgm_triggered:
+								GameState.apartment_beyond_door_bgm_triggered = true
+								_trigger_bgm_transition()
+						else:
+							scene_transition_requested.emit("apartment_entrance", "from_apartment", {})
 					else:
 						interaction_requested.emit({
 							"type": "message",
@@ -395,9 +424,9 @@ func _get_closest_interactable() -> Area2D:
 		if not interactable.note_id.is_empty() and GameState.has_note(interactable.note_id):
 			continue
 
-		if interactable.interaction_id == "projection_clock" and (not GameState.has_note("clue_projection_clock") or _sonar_revealed):
+		if interactable.interaction_id == "projection_clock" and (not GameState.has_note("clue_projection_clock") or GameState.apartment_sonar_revealed):
 			continue
-		if interactable.interaction_id == "apartment_slot" and not _sonar_revealed:
+		if interactable.interaction_id == "apartment_slot" and not GameState.apartment_sonar_revealed:
 			continue
 
 		var distance := player_position.distance_squared_to(_get_interactable_position(interactable))
@@ -460,8 +489,8 @@ func _on_container_changed(container_id: String) -> void:
 	if container_id == "apartment_slot":
 		var items := GameState.get_container("apartment_slot")
 		if items.size() > 0 and not items[0].is_empty() and items[0].get("item_id", "") == "decoder_cube":
-			if not _slot_unlock_sequence_started:
-				_slot_unlock_sequence_started = true
+			if not GameState.apartment_slot_unlocked:
+				GameState.apartment_slot_unlocked = true
 				_play_electromagnetic_sound()
 				interaction_requested.emit({
 					"type": "message",
@@ -487,7 +516,7 @@ func _play_electromagnetic_sound() -> void:
 		print("[Slot Electromagnetic] CLANK! Electromagnetic Lock Connected.")
 
 func _start_sonar() -> void:
-	if _sonar_revealed:
+	if GameState.apartment_sonar_revealed:
 		return
 	_sonar_active = true
 	_sonar_time_left = 10.0
@@ -505,7 +534,7 @@ func _stop_sonar(revealed: bool) -> void:
 
 func _reveal_hidden_slot() -> void:
 	_stop_sonar(true)
-	_sonar_revealed = true
+	GameState.apartment_sonar_revealed = true
 	_play_sonar_reveal()
 
 	# Completely remove projection clock interaction
@@ -621,9 +650,12 @@ func _handle_opening_monologue_input() -> void:
 			_show_page_hint()
 
 func _adjust_bgm_volume_dynamics() -> void:
-	if _beyond_door_bgm_triggered:
+	if GameState.apartment_beyond_door_bgm_triggered:
 		return
-	var bgm_player = $BGMPlayer as AudioStreamPlayer
+	var main = get_tree().root.find_child("Main", true, false)
+	var bgm_player: AudioStreamPlayer = null
+	if main and main.has_method("get_active_bgm_player"):
+		bgm_player = main.get_active_bgm_player()
 	if is_instance_valid(bgm_player) and bgm_player.playing:
 		var pos := bgm_player.get_playback_position()
 		if pos < 6.5:
@@ -635,32 +667,6 @@ func _adjust_bgm_volume_dynamics() -> void:
 			bgm_player.volume_db = -8.0
 
 func _trigger_bgm_transition() -> void:
-	var old_player = $BGMPlayer as AudioStreamPlayer
-	if not is_instance_valid(old_player):
-		return
-		
-	var new_player := AudioStreamPlayer.new()
-	new_player.name = "BGMPlayer_New"
-	
-	var new_stream = load("res://assets/bgm/Faded Neon Departure.mp3")
-	if new_stream:
-		new_stream.loop = true
-		new_player.stream = new_stream
-		new_player.volume_db = -9.0
-		add_child(new_player)
-		new_player.play()
-		
-		var tween = create_tween()
-		tween.tween_property(old_player, "volume_db", -80.0, 5.0)
-		
-		tween.tween_callback(func():
-			old_player.stop()
-			new_player.name = "BGMPlayer"
-			old_player.queue_free()
-		)
-	else:
-		var tween = create_tween()
-		tween.tween_property(old_player, "volume_db", -80.0, 5.0)
-		tween.tween_callback(func():
-			old_player.stop()
-		)
+	var main = get_tree().root.find_child("Main", true, false)
+	if main and main.has_method("play_bgm"):
+		main.play_bgm("res://assets/bgm/Faded Neon Departure.mp3", 5.0)

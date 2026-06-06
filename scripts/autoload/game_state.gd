@@ -23,6 +23,10 @@ var notes: Array[Dictionary] = []
 var external_containers: Dictionary = {}
 var external_container_configs: Dictionary = {}
 var apartment_initialized: bool = false
+var apartment_sonar_revealed: bool = false
+var apartment_slot_unlocked: bool = false
+var apartment_beyond_door_bgm_triggered: bool = false
+
 
 const STORY_NOTES := {
 	"work_ai_cleanup_role": {

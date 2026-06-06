@@ -369,16 +369,21 @@ func _ready() -> void:
 		printerr("FAIL: apartment_entrance Background texture failed to load!")
 		get_tree().quit(1)
 		return
+	var street_camera = street_instance.get_node_or_null("Camera2D")
+	if not street_camera or not street_camera.enabled:
+		printerr("FAIL: apartment_entrance Camera2D is missing or disabled!")
+		get_tree().quit(1)
+		return
 	var street_player = street_instance.get_node_or_null("Player")
 	if not street_player:
 		printerr("FAIL: apartment_entrance Player node missing!")
 		get_tree().quit(1)
 		return
-	if street_player.global_position != Vector2(482, 660):
+	if street_player.global_position != Vector2(850, 675):
 		printerr("FAIL: apartment_entrance from_apartment spawn is wrong! Got: ", street_player.global_position)
 		get_tree().quit(1)
 		return
-	if street_player.get("walk_line_y") != 675.0 or street_player.get("min_x") != 70.0 or street_player.get("max_x") != 1210.0:
+	if street_player.get("walk_line_y") != 675.0 or street_player.get("min_x") != 80.0 or street_player.get("max_x") != 4000.0:
 		printerr("FAIL: apartment_entrance player walk bounds are wrong!")
 		get_tree().quit(1)
 		return

@@ -1,0 +1,78 @@
+{
+  "map_id": "apartment_building_entrance_2",
+  "source_image": "res://assets/art_bible/map02_2_Apartment_building_entrance.png",
+  "source_copy": "res://assets/generated/maps/apartment_building_entrance_2_20260606-112000/apartment-building-entrance-2-source-copy-20260606-112000.png",
+  "clean_source": "res://assets/generated/maps/apartment_building_entrance_2_20260606-112000/apartment-building-entrance-2-clean-20260606-112000.png",
+  "runtime_background": "res://assets/generated/maps/apartment_building_entrance_2_20260606-112000/apartment-building-entrance-2-godot-4080x720-20260606-112000.png",
+  "guide_image": "res://assets/generated/maps/apartment_building_entrance_2_20260606-112000/apartment-building-entrance-2-godot-guide-4080x720-20260606-112000.png",
+  "engine_scene": "res://scenes/levels/apartment_entrance.tscn",
+  "pipeline": {
+    "map_mode": "side_scroll_mode",
+    "visual_model": "baked_raster",
+    "runtime_object_model": "interactive_scene_objects",
+    "collision_model": "coarse_shapes",
+    "engine_target": "Godot_scene",
+    "visual_asset_source": "existing_assets",
+    "stage_canvas": [4080, 720],
+    "watermark_removed": true
+  },
+  "movement": {
+    "primary_walk_line_y": 675,
+    "min_x": 80,
+    "max_x": 4000,
+    "player_spawn": {
+      "entry_point_id": "from_apartment",
+      "position": [850, 675]
+    },
+    "camera": {
+      "viewport": [1280, 720],
+      "map_width": 4080,
+      "map_height": 720,
+      "follow_player_x": true,
+      "fixed_y": 360
+    }
+  },
+  "collision": [
+    {
+      "id": "ground",
+      "type": "StaticBody2D",
+      "shape": "RectangleShape2D",
+      "position": [2040, 684],
+      "size": [3920, 16]
+    }
+  ],
+  "interactables": [
+    {
+      "id": "back_to_apartment",
+      "type": "transition",
+      "target_scene_id": "apartment",
+      "entry_point_id": "from_street",
+      "position": [908, 523],
+      "size": [185, 255]
+    },
+    {
+      "id": "mailboxes",
+      "type": "message",
+      "position": [585, 493],
+      "size": [130, 215]
+    },
+    {
+      "id": "alley_view",
+      "type": "message",
+      "position": [2630, 503],
+      "size": [260, 345]
+    },
+    {
+      "id": "store_front",
+      "type": "message",
+      "position": [3365, 525],
+      "size": [510, 270]
+    },
+    {
+      "id": "vending_machine",
+      "type": "message",
+      "position": [3920, 533],
+      "size": [200, 285]
+    }
+  ]
+}

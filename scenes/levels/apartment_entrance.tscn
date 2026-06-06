@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c1myh6cjuoytb"]
 
-[ext_resource type="Texture2D" uid="uid://bsvu4lfu2l6qp" path="res://assets/generated/maps/apartment_building_entrance_20260606-103835/apartment-building-entrance-godot-1280x720-20260606-103835.png" id="1_bg"]
+[ext_resource type="Texture2D" uid="uid://c2rhpcvvcw7oj" path="res://assets/generated/maps/apartment_building_entrance_2_20260606-112000/apartment-building-entrance-2-godot-4080x720-20260606-112000.png" id="1_bg"]
 [ext_resource type="Script" uid="uid://bngofy3stmfc3" path="res://scenes/levels/apartment_entrance.gd" id="2_script"]
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="3_player"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="4_interactable"]
@@ -14,13 +14,22 @@
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_walk8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(1140, 16)
+size = Vector2(3920, 16)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_tall"]
-size = Vector2(54, 210)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_door"]
+size = Vector2(81, 255)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_wide"]
-size = Vector2(81, 250)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_mailbox"]
+size = Vector2(66, 215)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_alley"]
+size = Vector2(131, 345)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_store"]
+size = Vector2(91, 270)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_vending"]
+size = Vector2(108, 285)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -72,19 +81,28 @@ script = ExtResource("2_script")
 texture = ExtResource("1_bg")
 centered = false
 
+[node name="Camera2D" type="Camera2D" parent="." unique_id=772104441]
+position = Vector2(640, 360)
+limit_left = 0
+limit_top = 0
+limit_right = 4080
+limit_bottom = 720
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
 [node name="Collision" type="Node2D" parent="." unique_id=474194036]
 
 [node name="Ground" type="StaticBody2D" parent="Collision" unique_id=638843618]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground" unique_id=2108991975]
-position = Vector2(638, 683)
+position = Vector2(2040, 684)
 shape = SubResource("RectangleShape2D_ground")
 debug_color = Color(0.78, 0.42, 0.2, 0.35)
 
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=2101570958]
 
 [node name="from_apartment" type="Marker2D" parent="SpawnPoints" unique_id=1399035963]
-position = Vector2(482, 660)
+position = Vector2(730, 675)
 
 [node name="Interactables" type="Node2D" parent="." unique_id=542570424]
 
@@ -94,8 +112,8 @@ interaction_id = "back_to_apartment"
 prompt_text = "E: █ 回到公寓"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BackToApartmentArea" unique_id=895055570]
-position = Vector2(467, 527)
-shape = SubResource("RectangleShape2D_interact_tall")
+position = Vector2(739.5, 534)
+shape = SubResource("RectangleShape2D_interact_door")
 debug_color = Color(0.9, 0.1, 0.1, 0.42)
 
 [node name="MailboxesArea" type="Area2D" parent="Interactables" unique_id=1790471034]
@@ -105,8 +123,8 @@ prompt_text = "E: █ 查看信箱牆"
 message_id = "mailboxes"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MailboxesArea" unique_id=867365419]
-position = Vector2(574, 511)
-shape = SubResource("RectangleShape2D_interact_tall")
+position = Vector2(541, 499)
+shape = SubResource("RectangleShape2D_interact_mailbox")
 debug_color = Color(0.95, 0.6, 0, 0.42)
 
 [node name="AlleyViewArea" type="Area2D" parent="Interactables" unique_id=1302457912]
@@ -116,17 +134,38 @@ prompt_text = "E: █ 望向暗巷"
 message_id = "alley_view"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/AlleyViewArea" unique_id=561969924]
-position = Vector2(1009.5, 516)
-shape = SubResource("RectangleShape2D_interact_wide")
+position = Vector2(2618.5, 503)
+shape = SubResource("RectangleShape2D_interact_alley")
 debug_color = Color(0.6, 0.2, 0.95, 0.42)
 
+[node name="StoreFrontArea" type="Area2D" parent="Interactables" unique_id=208123441]
+script = ExtResource("4_interactable")
+interaction_id = "store_front"
+prompt_text = "E: █ 查看無人便利店"
+message_id = "store_front"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreFrontArea" unique_id=208123442]
+position = Vector2(3168.5, 525)
+shape = SubResource("RectangleShape2D_interact_store")
+debug_color = Color(0, 1, 0.86, 0.42)
+
+[node name="VendingMachineArea" type="Area2D" parent="Interactables" unique_id=208123443]
+script = ExtResource("4_interactable")
+interaction_id = "vending_machine"
+prompt_text = "E: █ 查看販賣機"
+message_id = "vending_machine"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/VendingMachineArea" unique_id=208123444]
+position = Vector2(3898, 533)
+shape = SubResource("RectangleShape2D_interact_vending")
+debug_color = Color(1, 0, 0.7, 0.42)
+
 [node name="Player" type="CharacterBody2D" parent="." unique_id=343229133]
-position = Vector2(482, 678.00006)
+position = Vector2(730, 675)
 scale = Vector2(0.54, 0.54)
 script = ExtResource("3_player")
-min_x = 70.0
-max_x = 1210.0
-walk_line_y = 675.0
+max_x = 4000.0
+walk_line_y = 665.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=219747971]
 position = Vector2(20, -184)

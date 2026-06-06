@@ -6,11 +6,18 @@ signal scene_transition_requested(scene_id: String, entry_point_id: String, payl
 
 const MESSAGES := {
 	"mailboxes": "信箱牆上還留著幾張被雨泡爛的紙。大部分名字已經褪色，只剩公寓管理系統貼上的冷冰冰序號。",
-	"alley_view": "右側暗巷深得像一段被刪掉的城市資料。遠處的青色招牌還亮著，卻照不到腳邊的積水。"
+	"alley_view": "右側暗巷深得像一段被刪掉的城市資料。遠處的青色招牌還亮著，卻照不到腳邊的積水。",
+	"store_front": "便利店的燈還開著。裡面沒有店員，只有自動結帳機在安靜等待下一個被系統允許購買的人。",
+	"vending_machine": "販賣機的冷光把雨水照成青色。螢幕上的價格比昨天又多了一位小數。"
 }
+
+const CAMERA_HALF_WIDTH := 640.0
+const CAMERA_Y := 360.0
+const MAP_WIDTH := 4080.0
 
 @onready var player: CharacterBody2D = $Player
 @onready var bgm_player: AudioStreamPlayer = $BGMPlayer
+@onready var camera: Camera2D = $Camera2D
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
@@ -27,6 +34,7 @@ func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	if spawn != null:
 		player.global_position = spawn.global_position
 	player.anim.play("idle")
+	_update_camera()
 
 func _ready() -> void:
 	# 向宿主主控宣告播放 Faded Neon Departure 背景音樂
@@ -41,6 +49,8 @@ func _ready() -> void:
 	_refresh_current_interactable()
 
 func _process(_delta: float) -> void:
+	_update_camera()
+
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
 
@@ -62,6 +72,24 @@ func _process(_delta: float) -> void:
 					"type": "message",
 					"message_text": MESSAGES["alley_view"]
 				})
+			"store_front":
+				interaction_requested.emit({
+					"type": "message",
+					"message_text": MESSAGES["store_front"]
+				})
+			"vending_machine":
+				interaction_requested.emit({
+					"type": "message",
+					"message_text": MESSAGES["vending_machine"]
+				})
+
+func _update_camera() -> void:
+	if camera == null:
+		return
+	camera.global_position = Vector2(
+		clamp(player.global_position.x, CAMERA_HALF_WIDTH, MAP_WIDTH - CAMERA_HALF_WIDTH),
+		CAMERA_Y
+	)
 
 func _on_interactable_entered(interactable: Area2D) -> void:
 	if not nearby_interactables.has(interactable):

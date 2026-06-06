@@ -18,6 +18,8 @@ var is_input_active: bool = false
 var container_id: String = ""
 var slot_count: int = 10
 var title_text: String = ""
+var _activated_frame: int = -1
+
 
 func _ready() -> void:
 	$HBoxContainer.add_theme_constant_override("separation", 16)
@@ -47,6 +49,8 @@ func set_input_active(active: bool, c_id: String = "", s_count: int = 0, title: 
 		container_id = c_id
 		slot_count = s_count
 		title_text = title
+		_activated_frame = Engine.get_process_frames()
+
 
 		# Dynamic Y height per spec
 		if slot_count == 30:
@@ -106,7 +110,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not is_input_active:
 		return
 
+	if Engine.get_process_frames() == _activated_frame:
+		return
+
 	if event.is_action_pressed("interact_primary"):
+
 		_sync_active_pane_from_focus_owner()
 		_handle_item_move()
 		get_viewport().set_input_as_handled()

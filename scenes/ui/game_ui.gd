@@ -12,9 +12,10 @@ extends CanvasLayer
 @onready var item_detail_modal: Control = $ItemDetailModal
 @onready var confirm_dialog: Control = $ConfirmDialog
 @onready var world_hud_label: Label = $WorldHUDLabel
-@onready var message_box: Control = $MessageBox
-@onready var message_label: Label = $MessageBox/MarginContainer/MessageLabel
-@onready var page_hint_label: Label = $MessageBox/PageHintLabel
+@onready var message_box: Control = $MessageBoxContainer/MessageBox
+@onready var message_label: Label = $MessageBoxContainer/MessageBox/MarginContainer/MessageLabel
+@onready var page_hint_label: Label = $MessageBoxContainer/MessageBox/PageHintLabel
+
 
 var _last_mode: int = UIMode.Mode.NONE
 var _mode_before_message: int = UIMode.Mode.NONE
@@ -313,6 +314,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 
 	bag_grid.set_input_active(new_mode == UIMode.Mode.INVENTORY)
 	notebook_panel.set_input_active(new_mode == UIMode.Mode.NOTEBOOK)
+	dual_pane_container.set_input_active(false)
 
 	if new_mode == UIMode.Mode.INVENTORY:
 		var items := GameState.get_inventory()
@@ -392,10 +394,7 @@ func _resize_message_box_for_text(text: String) -> void:
 		message_box.size = text_size + Vector2(64.0, 40.0)
 
 	message_box.reset_size()
-	
-	# Center the box horizontally and vertically
-	var viewport_size = get_viewport().get_visible_rect().size
-	message_box.global_position = (viewport_size - message_box.size) * 0.5
+
 
 # ==========================================
 # UI Item Action Routing & Execution

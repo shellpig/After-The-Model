@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c6yui46h2mjiaoqf3"]
+[gd_scene format=3 uid="uid://1kgv3gkh000i"]
 
 [ext_resource type="Script" path="res://scenes/ui/game_ui.gd" id="1_gameui"]
 [ext_resource type="PackedScene" uid="uid://c1o8x312e752u" path="res://scenes/ui/notebook_panel.tscn" id="2_notebook_panel"]
@@ -125,23 +125,30 @@ theme_override_colors/font_color = Color(0.94, 0.92, 0.84, 0.7)
 theme_override_font_sizes/font_size = 18
 text = "A/D : 移動  I : 背包  J : 筆記"
 
-[node name="MessageBox" type="PanelContainer" parent="."]
-offset_left = 310.0
-offset_top = 163.0
-offset_right = 1046.0
-offset_bottom = 497.0
+[node name="MessageBoxContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MessageBox"]
+[node name="MessageBox" type="PanelContainer" parent="MessageBoxContainer"]
 layout_mode = 2
 
-[node name="MessageLabel" type="Label" parent="MessageBox/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MessageBoxContainer/MessageBox"]
+layout_mode = 2
+
+
+[node name="MessageLabel" type="Label" parent="MessageBoxContainer/MessageBox/MarginContainer"]
 visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 
-[node name="PageHintLabel" type="Label" parent="MessageBox"]
+[node name="PageHintLabel" type="Label" parent="MessageBoxContainer/MessageBox"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 theme_override_font_sizes/font_size = 16
+

@@ -177,6 +177,30 @@ const ITEMS_DB := {
 		"equipment_slot": "",
 		"icon_path": "res://assets/generated/sprites/items/synthetic_blueberry_nutrition_bar/icon.png",
 		"consume_grants_note": "clue_projection_clock"
+	},
+	"early_ai_assistant_activation_box": {
+		"id": "early_ai_assistant_activation_box",
+		"name": "早期 AI 助理啟用盒",
+		"description": "一個保存良好的早期 AI 助理啟用盒。那時候，人們還會把 AI 當成新家電一樣帶回家，拆封、註冊、期待它讓生活變好。",
+		"category": "misc",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": false,
+		"usable": false,
+		"icon_path": "res://assets/generated/sprites/items/early_ai_assistant_activation_box/icon.png",
+		"inspect_grants_item": "old_ai_authorization_module",
+		"inspect_grants_flag": "found_old_ai_authorization_module"
+	},
+	"old_ai_authorization_module": {
+		"id": "old_ai_authorization_module",
+		"name": "舊式 AI 授權模組",
+		"description": "薄片狀的舊式 AI 授權模組。標籤已經褪色，但接點仍然完整。它看起來不像收藏品，比較像某種能讓舊系統暫時認人的鑰匙。",
+		"category": "key_item",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": false,
+		"usable": false,
+		"icon_path": "res://assets/generated/sprites/items/old_ai_authorization_module/icon.png"
 	}
 }
 

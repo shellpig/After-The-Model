@@ -1,0 +1,8 @@
+HD 2D illustration with riso print grain, cyberpunk near-future setting.
+Inventory icon for Phase 7 item old_ai_authorization_module / 舊式 AI 授權模組.
+Use the provided authorization module image as visual reference: thin dark gray-blue hardware cartridge, bevelled rectangular body with stepped notch corners, exposed pale metal contact pins along the front edge, torn worn cream paper label on top with faded unreadable smudges, small pale cyan status dot, dark hand-inked brown-purple outlines, subtle scuffs, riso halftone.
+Inventory icon, 64x64 pixels, fully transparent background in final processed output, no border, no card, no rounded rectangle.
+Single object centered, 4-6 pixel safe margin from edges. View angle: slight top-down 15 degrees.
+Line art: 1-2 pixel dark brown / purple-black outlines. Shading: flat cel shading, single light source from top-right 45 degrees, no gradients, no glow, no rim light.
+Color palette: desaturated plebeian palette, no pure white, no pure black, no orange, no gold, no brand logo, no readable text, no numbers.
+Raw image generation background requirement: solid #FF00FF magenta for transparent extraction.

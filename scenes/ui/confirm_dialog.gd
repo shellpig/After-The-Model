@@ -53,6 +53,9 @@ func close_dialog() -> void:
 	if _restore_grid != null:
 		if _restore_grid.has_method("set_input_active"):
 			_restore_grid.set_input_active(true)
+		elif _restore_grid is Control:
+			_restore_grid.grab_focus()
+			
 		if _restore_grid.has_method("set_focused_index"):
 			_restore_grid.set_focused_index(_restore_index)
 

@@ -11,14 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dutevb0poruvl" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="9_ukt85"]
 [ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="10_ijsgt"]
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="11_5417i"]
-[ext_resource type="PackedScene" uid="uid://d47a0c22bdab" path="res://scenes/ui/bag_grid.tscn" id="11_bag_grid"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_ndo03"]
-[ext_resource type="Script" uid="uid://bv1gw1aoadlob" path="res://scenes/ui/panel_footer_hint.gd" id="12_panel_footer_hint"]
-[ext_resource type="PackedScene" uid="uid://c1o8x312e752u" path="res://scenes/ui/notebook_panel.tscn" id="13_notebook_panel"]
-[ext_resource type="PackedScene" path="res://scenes/ui/dual_pane_container.tscn" id="14_dual_pane"]
-[ext_resource type="PackedScene" path="res://scenes/ui/item_detail_modal.tscn" id="15_item_modal"]
-[ext_resource type="PackedScene" path="res://scenes/ui/confirm_dialog.tscn" id="16_confirm_dialog"]
-[ext_resource type="AudioStream" uid="uid://dhop31fp8chxu" path="res://assets/bgm/Echoes of a Cozy Night.mp3" id="17_bgm_stream"]
 [ext_resource type="Texture2D" uid="uid://dlm21iq3jv8is" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-01.png" id="18_gu1"]
 [ext_resource type="Texture2D" uid="uid://buv2bvsn8b3ut" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-02.png" id="18_gu2"]
 [ext_resource type="Texture2D" uid="uid://brfre5lxdvgiy" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-03.png" id="18_gu3"]
@@ -41,6 +34,9 @@ size = Vector2(106.75, 131.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
 size = Vector2(57, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_window"]
+size = Vector2(60, 238)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ijsgt"]
 animations = [{
@@ -127,22 +123,6 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5417i"]
 size = Vector2(24, 454)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
-bg_color = Color(0.12, 0.14, 0.18, 0.88)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.78, 0.42, 0.2, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
 
 [node name="ApartmentRoom" type="Node2D" unique_id=682637434]
 position = Vector2(-20, 0)
@@ -247,6 +227,15 @@ position = Vector2(649.3125, 544)
 shape = SubResource("RectangleShape2D_n0yl8")
 debug_color = Color(0.9, 0.1, 0.9, 0.42)
 
+[node name="ApartmentWindow" type="Area2D" parent="Interactables" unique_id=1988570001]
+script = ExtResource("2_n0yl8")
+interaction_id = "fire_escape_window"
+prompt_text = "E: █ 爬出窗外"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ApartmentWindow" unique_id=1988570002]
+position = Vector2(668, 546)
+shape = SubResource("RectangleShape2D_window")
+
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1571826996]
 position = Vector2(690, 700)
 script = ExtResource("2_5mejr")
@@ -261,5 +250,3 @@ animation = &"idle"
 position = Vector2(30, -221)
 shape = SubResource("RectangleShape2D_5417i")
 debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)
-
-

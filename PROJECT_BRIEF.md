@@ -203,8 +203,8 @@ note_id
 | 7-D | ✅ 完成 | 公寓窗戶條件式入口：未達 `checked_alley` 不可互動，達成後 `fire_escape_window` 轉場 `apartment_fire_escape:from_window`；回程 `apartment:from_fire_escape` 落窗邊不播獨白；headless PASS |
 | 7-E | ✅ 完成 | `apartment_fire_escape` 場景骨架：右棟 4F / 梯子 / 右棟 3F / 中央 gap / 3F 天橋 / 左棟 3F 箱子，唯一 entry point `from_window`；headless 載入 PASS |
 | 7-F | ✅ 完成 | 梯子攀爬 + 天橋步行 + 相機 + 外牆禁存：climb mode 僅本場景使用；E 先離梯再互動；離開場景恢復 `SaveSystem.can_save_here`；headless PASS |
-| 7-G | ⬜ 規格已定 | 三樓箱子搜索 + A 物品取得：搜索文字需安靜避開亮燈住戶；背包滿時不得 `set_flag` / `advance`，避免 soft-lock |
-| 7-H | ⬜ 規格已定 | R 查看 A 得 B：A「早期 AI 助理啟用盒」保留且可交任務；B「舊式 AI 授權模組」只在查看夾層後取得，錯過不補發 |
+| 7-G | ✅ 完成 | 三樓箱子搜索 + A 物品取得：搜索文字安靜避開亮燈住戶；取得 A 跳異常重量/夾扣提示，推進 `found_activation_box` 並設 flag；背包滿時不 `set_flag` / `advance`、不吞 A、可重試；取得後箱子不再可互動；headless PASS |
+| 7-H | ✅ 完成 | R 查看 A 得 B：首次 R 查看掀夾層取得 B「舊式 AI 授權模組」，A 保留不消耗；背包滿時不設 flag、不吞 B、可重試；再次 R 查看不重複給 B 直接開 detail；headless PASS |
 | 7-I | ⬜ 規格已定 | 回報晚 + 任務完成：只有 active + `found_activation_box` + 持有 A 才顯示交任務分支；成功移除 A 後才 complete；B 保留 |
 | 7-J | ⬜ 規格已定 | Phase 7 回歸驗證：任務鏈、工作筆記、A/B 物品、外牆禁存、回程與存讀檔不退化 |
 
@@ -315,7 +315,7 @@ NPC「晚」內容定稿：`subdocs/人/晚.md`。
 
 ### Phase 7 子階段（三份對照）
 
-> 行號以 2026-06-07 版為準；大幅改寫後需校正。Phase 7 規格 / 契約 / 測試清單已定；7-A~7-F 已實作並驗證（headless PASS），7-G~7-J 待實作。
+> 行號以 2026-06-07 版為準；大幅改寫後需校正。Phase 7 規格 / 契約 / 測試清單已定；7-A~7-H 已實作並驗證（headless PASS），7-I~7-J 待實作。
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
 |---|---|---|---|

@@ -81,10 +81,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if prompt_panel.visible and _level_context and _level_context.has_node("Player"):
 		var player_node := _level_context.get_node("Player") as Node2D
+		var anim_sprite := player_node.get_node("AnimatedSprite2D") as AnimatedSprite2D
 		prompt_panel.reset_size()
-		var player_screen_position: Vector2 = player_node.get_global_transform_with_canvas().origin
+		var sprite_screen_position: Vector2 = anim_sprite.get_global_transform_with_canvas().origin
 		var prompt_size := prompt_panel.size
-		prompt_panel.position = player_screen_position + Vector2(-prompt_size.x * 0.45, -260.0)
+		var scale_factor: float = player_node.global_scale.y
+		prompt_panel.position = sprite_screen_position + Vector2(-prompt_size.x * 0.45, -100.0 * scale_factor)
 
 	_update_message_typewriter(delta)
 	
@@ -107,10 +109,11 @@ func _process(delta: float) -> void:
 				)
 				_pending_inspect_modal.clear()
 			else:
+				var cb = _message_on_closed
+				_message_on_closed = Callable()
 				close_message()
-				if _message_on_closed.is_valid():
-					_message_on_closed.call()
-					_message_on_closed = Callable()
+				if cb.is_valid():
+					cb.call()
 
 	# UI Hotkey Navigation Handling
 	if current_mode == UIMode.Mode.NONE:
@@ -175,10 +178,12 @@ func show_prompt(data: Dictionary) -> void:
 	prompt_panel.visible = true
 	if _level_context and _level_context.has_node("Player"):
 		var player_node := _level_context.get_node("Player") as Node2D
+		var anim_sprite := player_node.get_node("AnimatedSprite2D") as AnimatedSprite2D
 		prompt_panel.reset_size()
-		var player_screen_position: Vector2 = player_node.get_global_transform_with_canvas().origin
+		var sprite_screen_position: Vector2 = anim_sprite.get_global_transform_with_canvas().origin
 		var prompt_size := prompt_panel.size
-		prompt_panel.position = player_screen_position + Vector2(-prompt_size.x * 0.45, -260.0)
+		var scale_factor: float = player_node.global_scale.y
+		prompt_panel.position = sprite_screen_position + Vector2(-prompt_size.x * 0.45, -100.0 * scale_factor)
 
 func hide_prompt() -> void:
 	_current_prompt_data = {}
@@ -478,8 +483,11 @@ func _on_bag_item_action(action: String, instance_id: String) -> void:
 						var anchor = _level_context.get_node("Player") if _level_context and _level_context.has_node("Player") else null
 						show_toast("已記入筆記：" + DECODER_NOTES["clue_gloves_decoder"].title, anchor)
 
-					bag_grid.set_input_active(false)
-					item_detail_modal.show_modal(instance_id, bag_grid, bag_grid.focused_index, inventory_panel)
+					if item_meta.has("inspect_grants_item"):
+						_handle_inspect_grants_item(instance_id, item_meta, bag_grid, bag_grid.focused_index, inventory_panel)
+					else:
+						bag_grid.set_input_active(false)
+						item_detail_modal.show_modal(instance_id, bag_grid, bag_grid.focused_index, inventory_panel)
 		"discard":
 			_start_discard_flow(instance_id, item_meta, bag_grid, bag_grid.focused_index)
 		"equip_toggle":
@@ -521,9 +529,40 @@ func _on_dual_pane_item_action(action: String, instance_id: String, source_pane:
 						var anchor = _level_context.get_node("Player") if _level_context and _level_context.has_node("Player") else null
 						show_toast("已記入筆記：" + DECODER_NOTES["clue_gloves_decoder"].title, anchor)
 
-					item_detail_modal.show_modal(instance_id, active_grid, active_idx, anchor_panel)
+					if item_meta.has("inspect_grants_item"):
+						_handle_inspect_grants_item(instance_id, item_meta, active_grid, active_idx, anchor_panel)
+					else:
+						item_detail_modal.show_modal(instance_id, active_grid, active_idx, anchor_panel)
 		"discard":
 			_start_discard_flow(instance_id, item_meta, active_grid, active_idx)
+
+func _handle_inspect_grants_item(instance_id: String, item_meta: Dictionary, grid: Control, index: int, anchor: Control) -> void:
+	var inspect_grants_flag: String = item_meta.get("inspect_grants_flag", "")
+	var grants_item_id: String = item_meta.get("inspect_grants_item", "")
+	
+	if QuestManager.get_flag("alley_backrooms_3f", inspect_grants_flag, false):
+		grid.set_input_active(false)
+		item_detail_modal.show_modal(instance_id, grid, index, anchor)
+		return
+		
+	grid.set_input_active(false)
+	
+	var on_first_inspect_closed = func():
+		var added := GameState.add_item(grants_item_id, 1)
+		if added:
+			QuestManager.set_flag("alley_backrooms_3f", inspect_grants_flag, true)
+			item_detail_modal.show_modal(instance_id, grid, index, anchor)
+		else:
+			show_message(
+				"你發現了啟用盒底部的夾層，裡面塞著一片泛著冷光的薄卡片，但你的背包太滿了，無法將它取出。整理一下空間後再查看吧。",
+				func():
+					item_detail_modal.show_modal(instance_id, grid, index, anchor)
+			)
+			
+	show_message(
+		"你仔細端詳啟用盒的底部，掀開了一個隱蔽的塑料卡扣夾層。夾層內嵌著一片泛著冷光的薄金屬卡。\n（獲得了「舊式 AI 授權模組」。）",
+		on_first_inspect_closed
+	)
 
 func _handle_item_use(instance_id: String, item_meta: Dictionary) -> void:
 	var note_id: String = item_meta.get("consume_grants_note", "")

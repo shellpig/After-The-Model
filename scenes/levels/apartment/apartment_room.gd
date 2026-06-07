@@ -203,20 +203,7 @@ func _ready() -> void:
 	if main and main.has_method("play_bgm"):
 		main.play_bgm("res://assets/bgm/Echoes of a Cozy Night.mp3", 0.0)
 
-	# Create ApartmentWindow dynamically for Phase 7-D
-	var window_area = Area2D.new()
-	window_area.name = "ApartmentWindow"
-	window_area.set_script(load("res://scripts/components/interactable_area.gd"))
-	window_area.interaction_id = "fire_escape_window"
-	window_area.prompt_text = "E: █ 爬出窗外"
-	$Interactables.add_child(window_area)
-	
-	var collision = CollisionShape2D.new()
-	var shape = RectangleShape2D.new()
-	shape.size = Vector2(60, 200)
-	collision.shape = shape
-	collision.position = Vector2(1000.0, 580.0)
-	window_area.add_child(collision)
+
 
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
@@ -226,6 +213,7 @@ func _ready() -> void:
 	GameState.container_changed.connect(_on_container_changed)
 
 	player.anim.animation_finished.connect(_on_player_animation_finished)
+	UIMode.mode_changed.connect(_on_ui_mode_changed)
 
 	# Restore persistent puzzle state if already solved
 	if GameState.apartment_sonar_revealed:
@@ -244,6 +232,12 @@ func _ready() -> void:
 			"skin": "cabinet",
 			"panel_position": Vector2(782.0, 64.0)
 		}
+		
+		if GameState.apartment_slot_unlocked:
+			var slot_area = $Interactables.get_node_or_null("ApartmentSlotArea")
+			if slot_area:
+				nearby_interactables.erase(slot_area)
+				slot_area.queue_free()
 
 	# Start opening monologue sequence if entry point is wake_bed
 	if _entry_point_id == "wake_bed":
@@ -461,7 +455,7 @@ func _get_closest_interactable() -> Area2D:
 
 		if interactable.interaction_id == "projection_clock" and (not GameState.has_note("clue_projection_clock") or GameState.apartment_sonar_revealed):
 			continue
-		if interactable.interaction_id == "apartment_slot" and not GameState.apartment_sonar_revealed:
+		if interactable.interaction_id == "apartment_slot" and (not GameState.apartment_sonar_revealed or GameState.apartment_slot_unlocked):
 			continue
 		if interactable.interaction_id == "fire_escape_window" and not _is_fire_escape_window_available():
 			continue
@@ -711,3 +705,11 @@ func _trigger_bgm_transition() -> void:
 func _is_fire_escape_window_available() -> bool:
 	return QuestManager.get_status("alley_backrooms_3f") == "active" \
 		and QuestManager.get_step("alley_backrooms_3f") == "checked_alley"
+
+func _on_ui_mode_changed(new_mode: int) -> void:
+	if new_mode == UIMode.Mode.NONE and GameState.apartment_slot_unlocked:
+		var slot_area = $Interactables.get_node_or_null("ApartmentSlotArea")
+		if slot_area:
+			nearby_interactables.erase(slot_area)
+			slot_area.queue_free()
+			_refresh_current_interactable()

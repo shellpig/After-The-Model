@@ -25,7 +25,7 @@ At conversation start, read in this layered order. Ignore `舊文件/`.
 **Layer 2 — 實作 / 測試文件：**
 - `開發設計方針.md` ✅ 實作細節、檔案結構、Autoload 簽名、資料契約（自 Phase 2 起新寫，不 backfill Phase 1）
 - `測試指南.md` ✅ Godot 測試流程、手動驗收清單（自 Phase 2 起新寫，不 backfill Phase 1）
-- `驗證後已知問題.md` — 待修清單與已接受的邊界決定（Phase 2-E 收尾時建立）
+- `驗證後已知問題.md` — 待修清單與已接受的邊界決定
 
 **Layer 3 — 任務相關細節與實作參考：**
 

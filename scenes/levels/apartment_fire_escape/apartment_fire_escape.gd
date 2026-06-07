@@ -23,7 +23,10 @@ const LOWER_WALK_PLATFORM_PATHS := [
 
 const MESSAGES := {
 	"quest_box_locked": "箱子被雨水泡得發脹，裡面也許有東西，但現在還不是翻它的時候。",
-	"quest_box_preview": "窗裡還亮著燈，薄窗簾後偶爾有人影晃過。你得先確認周圍動靜，再一點一點掀開箱蓋。"
+	"quest_box_preview": "窗裡還亮著燈，薄窗簾後偶爾有人影晃過。你得先確認周圍動靜，再一點一點掀開箱蓋。",
+	"quest_box_search_quiet": "窗裡還亮著燈，薄窗簾後偶爾有人影晃過。你放慢動作，把箱蓋一點一點掀開，盡量不讓潮濕的鉸鏈叫出聲。",
+	"inventory_full_for_activation_box": "背包放不下了。整理一下空間後再試試看。",
+	"quest_box_obtained_box": "你在舊雜物堆底下找到了「早期 AI 助理啟用盒」。\n它看起來保存良好，但拿起來時，你感覺到它的底部有股不對勁的第二重重量，且隱約傳來金屬夾扣的喀噠聲。"
 }
 
 @onready var player: CharacterBody2D = $Player
@@ -98,11 +101,32 @@ func _trigger_interaction() -> void:
 		"window_return":
 			scene_transition_requested.emit("apartment", "from_fire_escape", {})
 		"quest_box":
-			var message_id := "quest_box_preview" if _is_quest_box_available() else "quest_box_locked"
-			interaction_requested.emit({
-				"type": "message",
-				"message_text": MESSAGES[message_id]
-			})
+			if QuestManager.get_status("alley_backrooms_3f") == "active" \
+				and QuestManager.get_step("alley_backrooms_3f") == "checked_alley":
+				interaction_requested.emit({
+					"type": "message",
+					"message_text": MESSAGES["quest_box_search_quiet"],
+					"on_closed": func():
+						var added := GameState.add_item("early_ai_assistant_activation_box", 1)
+						if not added:
+							interaction_requested.emit({
+								"type": "message",
+								"message_text": MESSAGES["inventory_full_for_activation_box"]
+							})
+							return
+						
+						QuestManager.advance("alley_backrooms_3f", "found_activation_box", {"found_activation_box": true})
+						
+						interaction_requested.emit({
+							"type": "message",
+							"message_text": MESSAGES["quest_box_obtained_box"]
+						})
+				})
+			else:
+				interaction_requested.emit({
+					"type": "message",
+					"message_text": MESSAGES["quest_box_locked"]
+				})
 
 func _exit_ladder() -> void:
 	var target_y := UPPER_WALK_Y
@@ -221,5 +245,5 @@ func _get_interactable_position(interactable: Area2D) -> Vector2:
 	return interactable.global_position
 
 func _is_quest_box_available() -> bool:
-	return QuestManager.get_status("alley_backrooms_3f") == "active" \
-		and QuestManager.get_step("alley_backrooms_3f") == "checked_alley"
+	return QuestManager.get_status("alley_backrooms_3f") != "completed" \
+		and not QuestManager.get_flag("alley_backrooms_3f", "found_activation_box", false)

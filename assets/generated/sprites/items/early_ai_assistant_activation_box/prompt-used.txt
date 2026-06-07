@@ -1,0 +1,8 @@
+HD 2D illustration with riso print grain, cyberpunk near-future setting.
+Inventory icon for Phase 7 item early_ai_assistant_activation_box / 早期 AI 助理啟用盒.
+Use the provided consumer-electronics box image as visual reference: compact stacked rounded square AI assistant activation kit, cream top lid, gray-blue lower base and side, dark hand-inked outlines, lid seam, small cyan status dot, simple puck-like assistant symbol on top, worn scuffs, subtle halftone.
+Inventory icon, 64x64 pixels, fully transparent background in final processed output, no border, no card, no rounded rectangle.
+Single object centered, 4-6 pixel safe margin from edges. View angle: slight top-down 15 degrees.
+Line art: 1-2 pixel dark brown / purple-black outlines. Shading: flat cel shading, single light source from top-right 45 degrees, no gradients, no glow, no rim light.
+Color palette: desaturated plebeian palette, no pure white, no pure black, no orange, no brand logo, no readable text, no numbers.
+Raw image generation background requirement: solid #FF00FF magenta for transparent extraction.

@@ -42,3 +42,16 @@ func _adjust_sprite_scale() -> void:
 	else:
 		anim.scale = Vector2(1.0, 1.0)
 		anim.position.y = -184.0 # Default Y offset
+
+func get_save_x() -> float:
+	return global_position.x
+
+func set_save_x(x: float) -> void:
+	global_position.x = clamp(x, min_x, max_x)
+
+func get_facing() -> int:
+	return -1 if anim.flip_h else 1
+
+func set_facing(f: int) -> void:
+	anim.flip_h = (f == -1)
+

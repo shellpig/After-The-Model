@@ -825,3 +825,97 @@ func _sort_container(slots: Array) -> void:
 	slots.append_array(regular_items)
 	for i in range(empty_slots_count):
 		slots.append({})
+
+# ==========================================
+# Serialization & State Management API
+# ==========================================
+func to_save_dict() -> Dictionary:
+	return {
+		"credits": credits,
+		"inventory": inventory.duplicate(true),
+		"equipment": equipment.duplicate(true),
+		"knowledge": knowledge.duplicate(true),
+		"notes": notes.duplicate(true),
+		"external_containers": external_containers.duplicate(true),
+		"external_container_configs": external_container_configs.duplicate(true),
+		"apartment_initialized": apartment_initialized,
+		"apartment_sonar_revealed": apartment_sonar_revealed,
+		"apartment_slot_unlocked": apartment_slot_unlocked,
+		"apartment_beyond_door_bgm_triggered": apartment_beyond_door_bgm_triggered,
+		"story_flags": story_flags.duplicate(true),
+		"_last_instance_id": _last_instance_id
+	}
+
+func load_save_dict(data: Dictionary) -> void:
+	if data.has("credits"):
+		credits = data["credits"]
+	if data.has("inventory"):
+		inventory.clear()
+		for item in data["inventory"]:
+			inventory.append(item.duplicate() if item is Dictionary else item)
+	if data.has("equipment"):
+		equipment.clear()
+		for key in data["equipment"]:
+			var arr = data["equipment"][key]
+			var restored_arr = []
+			for val in arr:
+				restored_arr.append(val)
+			equipment[key] = restored_arr
+	if data.has("knowledge"):
+		knowledge = data["knowledge"].duplicate(true)
+	if data.has("notes"):
+		notes.clear()
+		for note in data["notes"]:
+			notes.append(note.duplicate() if note is Dictionary else note)
+	if data.has("external_containers"):
+		external_containers = data["external_containers"].duplicate(true)
+	if data.has("external_container_configs"):
+		external_container_configs = data["external_container_configs"].duplicate(true)
+	if data.has("apartment_initialized"):
+		apartment_initialized = data["apartment_initialized"]
+	if data.has("apartment_sonar_revealed"):
+		apartment_sonar_revealed = data["apartment_sonar_revealed"]
+	if data.has("apartment_slot_unlocked"):
+		apartment_slot_unlocked = data["apartment_slot_unlocked"]
+	if data.has("apartment_beyond_door_bgm_triggered"):
+		apartment_beyond_door_bgm_triggered = data["apartment_beyond_door_bgm_triggered"]
+	if data.has("story_flags"):
+		story_flags = data["story_flags"].duplicate(true)
+	if data.has("_last_instance_id"):
+		_last_instance_id = data["_last_instance_id"]
+	
+	# Emit signals
+	inventory_changed.emit()
+	credits_changed.emit(credits)
+	notes_changed.emit()
+	equipment_changed.emit()
+	for container_id in external_containers:
+		container_changed.emit(container_id)
+
+func reset_for_new_game() -> void:
+	credits = 300
+	_last_instance_id = 0
+	inventory.clear()
+	for i in range(inventory_slots):
+		inventory.append({})
+	equipment = {
+		"clothing": [],
+		"hand": [],
+		"accessory": []
+	}
+	knowledge.clear()
+	notes.clear()
+	external_containers.clear()
+	external_container_configs.clear()
+	apartment_initialized = false
+	apartment_sonar_revealed = false
+	apartment_slot_unlocked = false
+	apartment_beyond_door_bgm_triggered = false
+	story_flags.clear()
+	
+	# Emit signals
+	inventory_changed.emit()
+	credits_changed.emit(credits)
+	notes_changed.emit()
+	equipment_changed.emit()
+

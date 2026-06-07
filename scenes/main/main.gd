@@ -43,16 +43,24 @@ func _ready() -> void:
 	# Load default scene on start
 	transition_to("apartment", "wake_bed")
 
-func transition_to(scene_id: String, entry_point_id: String = "", payload: Dictionary = {}) -> void:
+func transition_to(scene_id: String, entry_point_id: String = "", payload: Dictionary = {}, restore: Dictionary = {}) -> void:
 	if not SCENES.has(scene_id):
 		push_error("SceneRouter: Scene ID not found in registry: " + scene_id)
 		return
+	
+	var restore_data := restore
+	var actual_payload := payload
+	if payload.has("player_x"):
+		restore_data = payload
+		actual_payload = {}
 	
 	var scene_config: Dictionary = SCENES[scene_id]
 	var path: String = scene_config["path"]
 	
 	var target_entry := entry_point_id
-	if target_entry.is_empty():
+	if not restore_data.is_empty():
+		target_entry = "restore"
+	elif target_entry.is_empty():
 		target_entry = scene_config["default_entry_point_id"]
 		
 	# Reset UI mode to NONE before transition to prevent lingering states
@@ -81,7 +89,7 @@ func transition_to(scene_id: String, entry_point_id: String = "", payload: Dicti
 	
 	# Prepare entry point before adding to tree (e.g. for monologue condition checks)
 	if level.has_method("prepare_entry_point"):
-		level.prepare_entry_point(target_entry, payload)
+		level.prepare_entry_point(target_entry, actual_payload)
 		
 	world_root.add_child(level)
 	
@@ -94,11 +102,56 @@ func transition_to(scene_id: String, entry_point_id: String = "", payload: Dicti
 		level.scene_transition_requested.connect(_on_level_scene_transition_requested)
 	
 	# Apply final entry point positioning after node is ready
-	if level.has_method("set_entry_point"):
-		level.set_entry_point(target_entry, payload)
+	if not restore_data.is_empty():
+		var player_node = level.find_child("Player", true, false)
+		if player_node:
+			if player_node.has_method("set_save_x"):
+				player_node.set_save_x(restore_data["player_x"])
+			else:
+				player_node.global_position.x = restore_data["player_x"]
+			
+			if restore_data.has("player_facing"):
+				if player_node.has_method("set_facing"):
+					player_node.set_facing(restore_data["player_facing"])
+				elif "facing" in player_node:
+					player_node.facing = restore_data["player_facing"]
+			
+			var player_anim = player_node.get_node_or_null("AnimatedSprite2D")
+			if player_anim:
+				player_anim.play("idle")
+	elif level.has_method("set_entry_point"):
+		level.set_entry_point(target_entry, actual_payload)
 		
 	_current_scene_id = scene_id
 	_current_entry_point_id = target_entry
+
+func start_new_game() -> void:
+	GameState.reset_for_new_game()
+	transition_to("apartment", "wake_bed")
+
+func load_game_slot(slot: int) -> bool:
+	var payload = SaveSystem.read_slot(slot)
+	if payload.is_empty():
+		return false
+	if not SaveSystem.validate(payload):
+		push_error("Main: Save validation failed (invalid shape or version).")
+		return false
+	
+	var data = payload.get("data", {})
+	var scene_id = data.get("current_scene_id", "")
+	if not SCENES.has(scene_id):
+		push_error("Main: Save validation failed (scene ID not in registry: " + scene_id + ").")
+		return false
+	
+	# Apply state and transition
+	SaveSystem.apply(payload)
+	
+	var restore_data = {
+		"player_x": data.get("player_x", 0.0),
+		"player_facing": data.get("player_facing", 1)
+	}
+	transition_to(scene_id, "", restore_data)
+	return true
 
 func reload_current_scene(entry_point_id: String = "") -> void:
 	var target_entry := entry_point_id

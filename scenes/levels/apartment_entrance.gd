@@ -7,6 +7,7 @@ signal scene_transition_requested(scene_id: String, entry_point_id: String, payl
 const MESSAGES := {
 	"mailboxes": "信箱牆上還留著幾張被雨泡爛的紙。大部分名字已經褪色，只剩公寓管理系統貼上的冷冰冰序號。",
 	"alley_view": "右側暗巷深得像一段被刪掉的城市資料。遠處的青色招牌還亮著，卻照不到腳邊的積水。",
+	"alley_view_danger": "暗巷深處有幾具損毀的無人機和可疑的陰影。晚說得對，這裡不太對勁，不能就這麼硬闖進去。我想起我自己住的公寓在四樓，右側窗外就是外牆火災逃生梯與平台，也許可以從窗戶爬出去，繞到左棟三樓。",
 	"store_front": "便利店的燈還開著。裡面沒有店員，只有自動結帳機在安靜等待下一個被系統允許購買的人。",
 	"vending_machine": "販賣機的冷光把雨水照成青色。螢幕上的價格比昨天又多了一位小數。"
 }
@@ -89,10 +90,20 @@ func _trigger_interaction() -> void:
 					"message_text": MESSAGES["mailboxes"]
 				})
 			"alley_view":
-				interaction_requested.emit({
-					"type": "message",
-					"message_text": MESSAGES["alley_view"]
-				})
+				if QuestManager.get_status("alley_backrooms_3f") == "active" \
+						and QuestManager.get_step("alley_backrooms_3f") == "started":
+					QuestManager.advance("alley_backrooms_3f", "checked_alley")
+					interaction_requested.emit({
+						"type": "message",
+						"message_text": MESSAGES["alley_view_danger"],
+						"note_title": "已更新筆記：暗巷三樓的舊物"
+					})
+				else:
+					var msg = MESSAGES["alley_view_danger"] if QuestManager.get_status("alley_backrooms_3f") == "active" else MESSAGES["alley_view"]
+					interaction_requested.emit({
+						"type": "message",
+						"message_text": msg
+					})
 			"store_front":
 				interaction_requested.emit({
 					"type": "message",

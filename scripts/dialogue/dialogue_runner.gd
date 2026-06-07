@@ -111,16 +111,43 @@ func _enter_node(node_id: String) -> void:
 			if eff is Dictionary:
 				_apply_effect(eff)
 
-func _eval_condition(cond: Dictionary) -> bool:
+func _eval_condition(cond) -> bool:
+	if cond is Array:
+		for sub_cond in cond:
+			if sub_cond is Dictionary:
+				if not _eval_condition_dict(sub_cond):
+					return false
+		return true
+	elif cond is Dictionary:
+		return _eval_condition_dict(cond)
+	return true
+
+func _eval_condition_dict(cond: Dictionary) -> bool:
 	if cond.is_empty():
 		return true
-	var flag = cond.get("flag", "")
-	if flag.is_empty():
-		return true
+	
+	var type = cond.get("type", "story_flag")
 	var op = cond.get("op", "==")
 	var target_val = cond.get("value")
-
-	var current_val = GameState.get_flag(flag, 0)
+	
+	var current_val
+	
+	match type:
+		"quest_status":
+			var quest_id = cond.get("quest_id", "")
+			current_val = QuestManager.get_status(quest_id)
+		"quest_step":
+			var quest_id = cond.get("quest_id", "")
+			current_val = QuestManager.get_step(quest_id)
+		"has_item":
+			var item_id = cond.get("item_id", "")
+			var count = cond.get("count", 1)
+			current_val = GameState.has_item(item_id, count)
+		"story_flag", _:
+			var flag = cond.get("flag", "")
+			if flag.is_empty():
+				return true
+			current_val = GameState.get_flag(flag, 0)
 
 	match op:
 		"==":
@@ -168,6 +195,9 @@ func _apply_effect(eff: Dictionary) -> void:
 			var key = eff.get("key", "")
 			var delta = eff.get("value", 0)
 			GameState.add_int(key, delta)
+		"start_quest":
+			var val = eff.get("value", "")
+			QuestManager.start(val)
 		"add_gleaner_lead":
 			var val = eff.get("value", "")
 			print("[DialogueRunner] add_gleaner_lead: ", val)

@@ -58,6 +58,9 @@ func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 		"from_street":
 			player.global_position = Vector2(1160.0, 700.0)
 			player.anim.play("idle")
+		"from_fire_escape":
+			player.global_position = Vector2(1000.0, 700.0)
+			player.anim.play("idle")
 
 
 var _entry_point_id: String = "wake_bed"
@@ -199,6 +202,21 @@ func _ready() -> void:
 	var main = get_tree().root.find_child("Main", true, false)
 	if main and main.has_method("play_bgm"):
 		main.play_bgm("res://assets/bgm/Echoes of a Cozy Night.mp3", 0.0)
+
+	# Create ApartmentWindow dynamically for Phase 7-D
+	var window_area = Area2D.new()
+	window_area.name = "ApartmentWindow"
+	window_area.set_script(load("res://scripts/components/interactable_area.gd"))
+	window_area.interaction_id = "fire_escape_window"
+	window_area.prompt_text = "E: █ 爬出窗外"
+	$Interactables.add_child(window_area)
+	
+	var collision = CollisionShape2D.new()
+	var shape = RectangleShape2D.new()
+	shape.size = Vector2(60, 200)
+	collision.shape = shape
+	collision.position = Vector2(1000.0, 580.0)
+	window_area.add_child(collision)
 
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
@@ -401,6 +419,8 @@ func _trigger_interaction() -> void:
 					"container_title": c_data.title,
 					"container_slot_count": c_data.cols * c_data.rows
 				})
+			"fire_escape_window":
+				scene_transition_requested.emit("apartment_fire_escape", "from_window", {})
 
 func _on_interactable_entered(interactable: Area2D) -> void:
 	if not nearby_interactables.has(interactable):
@@ -442,6 +462,8 @@ func _get_closest_interactable() -> Area2D:
 		if interactable.interaction_id == "projection_clock" and (not GameState.has_note("clue_projection_clock") or GameState.apartment_sonar_revealed):
 			continue
 		if interactable.interaction_id == "apartment_slot" and not GameState.apartment_sonar_revealed:
+			continue
+		if interactable.interaction_id == "fire_escape_window" and not _is_fire_escape_window_available():
 			continue
 
 		var distance := player_position.distance_squared_to(_get_interactable_position(interactable))
@@ -685,3 +707,7 @@ func _trigger_bgm_transition() -> void:
 	var main = get_tree().root.find_child("Main", true, false)
 	if main and main.has_method("play_bgm"):
 		main.play_bgm("res://assets/bgm/Faded Neon Departure.mp3", 5.0)
+
+func _is_fire_escape_window_available() -> bool:
+	return QuestManager.get_status("alley_backrooms_3f") == "active" \
+		and QuestManager.get_step("alley_backrooms_3f") == "checked_alley"

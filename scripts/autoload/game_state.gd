@@ -9,6 +9,7 @@ signal notes_changed
 signal equipment_changed
 signal item_moved(move: Dictionary)
 signal flag_changed(key: String, value)
+signal quest_changed(quest_id: String, state: Dictionary)
 
 # Variables
 var credits: int = 300
@@ -28,6 +29,8 @@ var apartment_sonar_revealed: bool = false
 var apartment_slot_unlocked: bool = false
 var apartment_beyond_door_bgm_triggered: bool = false
 var story_flags: Dictionary = {}
+var quest_states: Dictionary = {}
+
 
 
 const STORY_NOTES := {
@@ -237,6 +240,24 @@ func add_int(key: String, delta: int) -> void:
 	flag_changed.emit(key, new_val)
 
 # ==========================================
+# Quest State API
+# ==========================================
+func get_quest_state(quest_id: String) -> Dictionary:
+	return quest_states.get(quest_id, {}).duplicate(true)
+
+func set_quest_state(quest_id: String, state: Dictionary) -> void:
+	quest_states[quest_id] = state.duplicate(true)
+	quest_changed.emit(quest_id, state)
+
+func has_active_quest(quest_id: String) -> bool:
+	var state = quest_states.get(quest_id, {})
+	return state.get("status", "") == "active"
+
+func get_quest_step(quest_id: String) -> String:
+	var state = quest_states.get(quest_id, {})
+	return state.get("step", "")
+
+# ==========================================
 # Knowledge / Notes API
 # ==========================================
 func has_knowledge(id: String) -> bool:
@@ -298,6 +319,15 @@ func get_all_notes() -> Array[Dictionary]:
 # ==========================================
 func get_inventory() -> Array[Dictionary]:
 	return inventory.duplicate(true)
+
+func has_item(item_id: String, count: int = 1) -> bool:
+	if item_id.is_empty() or count <= 0:
+		return false
+	var total_qty = 0
+	for slot in inventory:
+		if not slot.is_empty() and slot.get("item_id") == item_id:
+			total_qty += slot.get("quantity", 0)
+	return total_qty >= count
 
 func add_item(item_id: String, count: int = 1) -> bool:
 	if count <= 0:
@@ -843,6 +873,7 @@ func to_save_dict() -> Dictionary:
 		"apartment_slot_unlocked": apartment_slot_unlocked,
 		"apartment_beyond_door_bgm_triggered": apartment_beyond_door_bgm_triggered,
 		"story_flags": story_flags.duplicate(true),
+		"quest_states": quest_states.duplicate(true),
 		"_last_instance_id": _last_instance_id
 	}
 
@@ -881,6 +912,8 @@ func load_save_dict(data: Dictionary) -> void:
 		apartment_beyond_door_bgm_triggered = data["apartment_beyond_door_bgm_triggered"]
 	if data.has("story_flags"):
 		story_flags = data["story_flags"].duplicate(true)
+	if data.has("quest_states"):
+		quest_states = data["quest_states"].duplicate(true)
 	if data.has("_last_instance_id"):
 		_last_instance_id = data["_last_instance_id"]
 	
@@ -891,6 +924,8 @@ func load_save_dict(data: Dictionary) -> void:
 	equipment_changed.emit()
 	for container_id in external_containers:
 		container_changed.emit(container_id)
+	for quest_id in quest_states:
+		quest_changed.emit(quest_id, quest_states[quest_id])
 
 func reset_for_new_game() -> void:
 	credits = 300
@@ -912,6 +947,7 @@ func reset_for_new_game() -> void:
 	apartment_slot_unlocked = false
 	apartment_beyond_door_bgm_triggered = false
 	story_flags.clear()
+	quest_states.clear()
 	
 	# Emit signals
 	inventory_changed.emit()

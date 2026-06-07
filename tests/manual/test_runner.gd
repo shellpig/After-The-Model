@@ -1,5 +1,7 @@
 extends Node
 
+var _temp_callable: Callable
+
 func _ready() -> void:
 	print("==================================================")
 	print("RUNNING INTEGRATION VERIFICATION FOR UI MODE & BACKPACK")
@@ -688,8 +690,9 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	if GameState.has_knowledge("alley_backrooms_3f") or GameState.has_note("alley_backrooms_3f"):
-		printerr("FAIL: add_gleaner_lead should not write to knowledge or notes!")
+	# start_quest should trigger, check quest status
+	if QuestManager.get_status("alley_backrooms_3f") != "active":
+		printerr("FAIL: start_quest effect failed to start 'alley_backrooms_3f' quest!")
 		get_tree().quit(1)
 		return
 
@@ -699,6 +702,66 @@ func _ready() -> void:
 		printerr("FAIL: should advance to 'end_warm'! Got: ", curr.get("text"))
 		get_tree().quit(1)
 		return
+
+	# Additional Phase 7-B Verification: test new dialogue tree conditions (quest_status, quest_step, has_item)
+	print("Verifying Phase 7-B Condition Evaluation...")
+	# 1. Test condition: type = quest_status, op = ==, value = active
+	var test_cond_active = {"type": "quest_status", "quest_id": "alley_backrooms_3f", "op": "==", "value": "active"}
+	if not runner._eval_condition(test_cond_active):
+		printerr("FAIL: Condition quest_status=active should evaluate to true!")
+		get_tree().quit(1)
+		return
+		
+	# 2. Test condition: type = quest_step, op = ==, value = checked_alley (not reached yet)
+	var test_cond_checked = {"type": "quest_step", "quest_id": "alley_backrooms_3f", "op": "==", "value": "checked_alley"}
+	if runner._eval_condition(test_cond_checked):
+		printerr("FAIL: Condition quest_step=checked_alley should evaluate to false!")
+		get_tree().quit(1)
+		return
+		
+	# 3. Test condition: type = has_item, item_id = canned_food, op = ==, value = true (not owned yet)
+	var test_cond_item = {"type": "has_item", "item_id": "canned_food", "op": "==", "value": true}
+	if runner._eval_condition(test_cond_item):
+		printerr("FAIL: Condition has_item=true should evaluate to false when item is not owned!")
+		get_tree().quit(1)
+		return
+		
+	# Add item and verify has_item condition
+	GameState.add_item("canned_food", 1)
+	if not runner._eval_condition(test_cond_item):
+		printerr("FAIL: Condition has_item=true should evaluate to true after adding item!")
+		get_tree().quit(1)
+		return
+		
+	# Clean up item
+	GameState.remove_item("canned_food", 1)
+	
+	# 4. Test condition array (AND evaluation)
+	var test_cond_arr = [
+		{"type": "quest_status", "quest_id": "alley_backrooms_3f", "op": "==", "value": "active"},
+		{"type": "quest_step", "quest_id": "alley_backrooms_3f", "op": "==", "value": "started"}
+	]
+	if not runner._eval_condition(test_cond_arr):
+		printerr("FAIL: Condition array AND evaluation failed!")
+		get_tree().quit(1)
+		return
+		
+	# Verify retalk with active quest routes to intel_already_given
+	runner.start(wan_tree)
+	curr = runner.current()
+	var idx_news_retalk = -1
+	for ch in curr.get("choices"):
+		if ch.get("label") == "有新消息嗎？":
+			idx_news_retalk = ch.get("index")
+			break
+	
+	runner.choose(idx_news_retalk)
+	curr = runner.current()
+	if not curr.get("text").contains("不是跟你說過了"):
+		printerr("FAIL: retalk news with active quest should route to 'intel_already_given'! Got: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+	print("PASS: retalk news with active quest routing verified.")
 
 	print("PASS: DialogueRunner flow simulation (Retalk & Intel Gate Unlocked) verified.")
 
@@ -1298,11 +1361,393 @@ func _ready() -> void:
 	# Close pause menu
 	UIMode.set_mode(UIMode.Mode.NONE)
 
+	# 18. Verify Phase 7-A QuestManager & QuestState
+	print("Verifying Phase 7-A QuestManager & QuestState...")
+	
+	# Reset state first
+	GameState.reset_for_new_game()
+	
+	# Verify initial state
+	if QuestManager.get_status("alley_backrooms_3f") != "":
+		printerr("FAIL: Initial quest status should be empty string!")
+		get_tree().quit(1)
+		return
+	if QuestManager.get_step("alley_backrooms_3f") != "":
+		printerr("FAIL: Initial quest step should be empty string!")
+		get_tree().quit(1)
+		return
+	
+	# Start quest
+	var start_ok = QuestManager.start("alley_backrooms_3f")
+	if not start_ok:
+		printerr("FAIL: Failed to start quest 'alley_backrooms_3f'!")
+		get_tree().quit(1)
+		return
+	if not GameState.has_active_quest("alley_backrooms_3f"):
+		printerr("FAIL: GameState has_active_quest returned false after start!")
+		get_tree().quit(1)
+		return
+	if QuestManager.get_status("alley_backrooms_3f") != "active":
+		printerr("FAIL: Quest status is not 'active' after start!")
+		get_tree().quit(1)
+		return
+	if QuestManager.get_step("alley_backrooms_3f") != "started":
+		printerr("FAIL: Quest step is not 'started' after start!")
+		get_tree().quit(1)
+		return
+		
+	# Verify note sync
+	var notes_started = GameState.get_notes("工作")
+	if notes_started.size() != 1:
+		printerr("FAIL: Work notes count is not 1! Got: ", notes_started.size())
+		get_tree().quit(1)
+		return
+	var work_note = notes_started[0]
+	if work_note.get("id") != "quest_alley_backrooms_3f":
+		printerr("FAIL: Work note id is wrong! Got: ", work_note.get("id"))
+		get_tree().quit(1)
+		return
+	if not "「晚」提到暗巷三樓" in work_note.get("body", ""):
+		printerr("FAIL: Work note body for started state is wrong! Got: ", work_note.get("body"))
+		get_tree().quit(1)
+		return
+	print("PASS: Quest start and initial note sync verified.")
+	
+	# Advance quest
+	var adv_ok = QuestManager.advance("alley_backrooms_3f", "checked_alley", {"checked": true})
+	if not adv_ok:
+		printerr("FAIL: Failed to advance quest 'alley_backrooms_3f' to 'checked_alley'!")
+		get_tree().quit(1)
+		return
+	if QuestManager.get_step("alley_backrooms_3f") != "checked_alley":
+		printerr("FAIL: Quest step is not 'checked_alley' after advance!")
+		get_tree().quit(1)
+		return
+	if not QuestManager.get_flag("alley_backrooms_3f", "checked"):
+		printerr("FAIL: Quest flag 'checked' was not set!")
+		get_tree().quit(1)
+		return
+		
+	# Verify advanced note body
+	var notes_checked = GameState.get_notes("工作")
+	if notes_checked.size() != 1:
+		printerr("FAIL: Work notes count after advance is not 1!")
+		get_tree().quit(1)
+		return
+	if not "去後巷看過了" in notes_checked[0].get("body", ""):
+		printerr("FAIL: Work note body for checked_alley state is wrong! Got: ", notes_checked[0].get("body"))
+		get_tree().quit(1)
+		return
+	print("PASS: Quest advance and note updating verified.")
+	
+	# Verify invalid step transition
+	var adv_invalid = QuestManager.advance("alley_backrooms_3f", "nonexistent_step")
+	if adv_invalid:
+		printerr("FAIL: Advancing to nonexistent step should fail!")
+		get_tree().quit(1)
+		return
+	print("PASS: Invalid quest step transition correctly blocked.")
+	
+	# Verify Quest states are NOT stored in GameState.knowledge (should remain empty)
+	if GameState.knowledge.has("quest_alley_backrooms_3f"):
+		printerr("FAIL: Quest notes must not be stored in GameState.knowledge!")
+		get_tree().quit(1)
+		return
+	print("PASS: Quest status is not saved in knowledge database.")
+
+	# Complete quest
+	var complete_ok = QuestManager.complete("alley_backrooms_3f")
+	if not complete_ok:
+		printerr("FAIL: Failed to complete quest!")
+		get_tree().quit(1)
+		return
+	if QuestManager.get_status("alley_backrooms_3f") != "completed":
+		printerr("FAIL: Quest status is not 'completed' after complete()!")
+		get_tree().quit(1)
+		return
+	var notes_completed = GameState.get_notes("工作")
+	if notes_completed[0].get("status") != "completed":
+		printerr("FAIL: Work note status was not updated to completed!")
+		get_tree().quit(1)
+		return
+	if not "已將「早期" in notes_completed[0].get("body", ""):
+		printerr("FAIL: Work note body for completed status is wrong! Got: ", notes_completed[0].get("body"))
+		get_tree().quit(1)
+		return
+	print("PASS: Quest completion and note status update verified.")
+	
+	# Verify Save/Load Serialization of quest_states
+	var save_dict = GameState.to_save_dict()
+	if not save_dict.has("quest_states"):
+		printerr("FAIL: Save dictionary is missing 'quest_states' key!")
+		get_tree().quit(1)
+		return
+	var saved_quest_state = save_dict["quest_states"].get("alley_backrooms_3f", {})
+	if saved_quest_state.get("status") != "completed":
+		printerr("FAIL: Saved quest status is wrong! Got: ", saved_quest_state.get("status"))
+		get_tree().quit(1)
+		return
+		
+	# Reset state and restore from save dict
+	GameState.reset_for_new_game()
+	if QuestManager.get_status("alley_backrooms_3f") != "":
+		printerr("FAIL: Quest states not cleared after reset_for_new_game!")
+		get_tree().quit(1)
+		return
+		
+	GameState.load_save_dict(save_dict)
+	if QuestManager.get_status("alley_backrooms_3f") != "completed":
+		printerr("FAIL: Quest states not restored correctly from load_save_dict!")
+		get_tree().quit(1)
+		return
+	print("PASS: Quest states serialization and restoration verified.")
+
+	# 19. Verify Phase 7-C apartment_entrance alley_view quest event
+	print("Verifying Phase 7-C apartment_entrance alley_view quest event...")
+	
+	# Reset state first
+	GameState.reset_for_new_game()
+	
+	# Transition into apartment_entrance
+	main_instance.transition_to("apartment_entrance", "from_apartment")
+	await get_tree().process_frame
+	
+	var active_street = null
+	for child in main_instance.get_node("WorldRoot").get_children():
+		if not child.is_queued_for_deletion() and child.get_script() and child.get_script().resource_path.contains("apartment_entrance.gd"):
+			active_street = child
+			break
+			
+	if not active_street:
+		printerr("FAIL: Current scene is not apartment_entrance after transition!")
+		get_tree().quit(1)
+		return
+		
+	# Find alley_view interactable node in active_street
+	var alley_area = active_street.get_node_or_null("Interactables/AlleyViewArea")
+	if not alley_area:
+		printerr("FAIL: AlleyViewArea not found under active_street/Interactables!")
+		get_tree().quit(1)
+		return
+		
+	# Test BEFORE quest is started (should return default message)
+	var last_interaction_data = {}
+	_temp_callable = func(data):
+		last_interaction_data.clear()
+		last_interaction_data.merge(data)
+	active_street.interaction_requested.connect(_temp_callable)
+	
+	active_street.current_interactable = alley_area
+	active_street._trigger_interaction()
+	
+	if last_interaction_data.get("type") != "message":
+		printerr("FAIL: Interaction type is not 'message' before quest started! Got data: ", last_interaction_data)
+		get_tree().quit(1)
+		return
+	if not "右側暗巷深得像" in last_interaction_data.get("message_text", ""):
+		printerr("FAIL: Default alley_view message is wrong! Got: ", last_interaction_data.get("message_text"))
+		get_tree().quit(1)
+		return
+	print("PASS: Default alley_view message verified when quest is not active.")
+	
+	# Test AFTER quest is started (should advance quest and show danger message)
+	QuestManager.start("alley_backrooms_3f")
+	if QuestManager.get_status("alley_backrooms_3f") != "active" or QuestManager.get_step("alley_backrooms_3f") != "started":
+		printerr("FAIL: Failed to initialize quest state to started!")
+		get_tree().quit(1)
+		return
+		
+	last_interaction_data.clear()
+	active_street._trigger_interaction()
+	
+	if not "暗巷深處有幾具損毀" in last_interaction_data.get("message_text", ""):
+		printerr("FAIL: Danger alley_view message is wrong! Got: ", last_interaction_data.get("message_text"))
+		get_tree().quit(1)
+		return
+	if last_interaction_data.get("note_title", "") == "":
+		printerr("FAIL: note_title should be present to show note update toast!")
+		get_tree().quit(1)
+		return
+		
+	# Check if quest stepped advanced
+	if QuestManager.get_step("alley_backrooms_3f") != "checked_alley":
+		printerr("FAIL: Quest step did not advance to 'checked_alley' after interaction!")
+		get_tree().quit(1)
+		return
+	print("PASS: Quest advanced and danger message shown on first active interaction.")
+	
+	# Test SECOND interaction when quest step is checked_alley (should show danger message but NOT change state)
+	last_interaction_data.clear()
+	active_street._trigger_interaction()
+	
+	if not "暗巷深處有幾具損毀" in last_interaction_data.get("message_text", ""):
+		printerr("FAIL: Danger message should be shown on subsequent active interactions!")
+		get_tree().quit(1)
+		return
+	if QuestManager.get_step("alley_backrooms_3f") != "checked_alley":
+		printerr("FAIL: Quest step changed incorrectly on duplicate interaction!")
+		get_tree().quit(1)
+		return
+	print("PASS: Duplicate interaction does not alter quest step.")
+	
+	# Clean up signal connection
+	active_street.interaction_requested.disconnect(_temp_callable)
+
+	# 20. Verify Phase 7-D Apartment Window conditional entry
+	print("Verifying Phase 7-D Apartment Window conditional entry...")
+	
+	# Reset state first
+	GameState.reset_for_new_game()
+	
+	# Transition into apartment
+	main_instance.transition_to("apartment", "wake_bed")
+	await get_tree().process_frame
+	
+	var active_apartment = null
+	for child in main_instance.get_node("WorldRoot").get_children():
+		if not child.is_queued_for_deletion() and child.get_script() and child.get_script().resource_path.contains("apartment_room.gd"):
+			active_apartment = child
+			break
+			
+	if not active_apartment:
+		printerr("FAIL: Current scene is not apartment after transition!")
+		get_tree().quit(1)
+		return
+		
+	# Find ApartmentWindow interactable node in active_apartment
+	var window_area = active_apartment.get_node_or_null("Interactables/ApartmentWindow")
+	if not window_area:
+		printerr("FAIL: ApartmentWindow not found under active_apartment/Interactables!")
+		get_tree().quit(1)
+		return
+		
+	# Test 20.1: Window NOT available before checked_alley (not started, or active but started step)
+	# Case A: status = "" (not started)
+	active_apartment._on_interactable_entered(window_area)
+	
+	active_apartment._refresh_current_interactable()
+	if active_apartment.current_interactable == window_area:
+		printerr("FAIL: Window should not be interactable when quest is not started!")
+		get_tree().quit(1)
+		return
+	print("PASS: Window interaction correctly disabled when quest is not started.")
+	
+	active_apartment._on_interactable_exited(window_area)
+	
+	# Case B: active + step=started (started, but not yet checked_alley)
+	QuestManager.start("alley_backrooms_3f")
+	if QuestManager.get_status("alley_backrooms_3f") != "active" or QuestManager.get_step("alley_backrooms_3f") != "started":
+		printerr("FAIL: Quest not correctly initialized to started state!")
+		get_tree().quit(1)
+		return
+		
+	active_apartment._on_interactable_entered(window_area)
+	active_apartment._refresh_current_interactable()
+	if active_apartment.current_interactable == window_area:
+		printerr("FAIL: Window should not be interactable when quest step is started!")
+		get_tree().quit(1)
+		return
+	print("PASS: Window interaction correctly disabled when quest step is started.")
+	
+	active_apartment._on_interactable_exited(window_area)
+	
+	# Test 20.2: Start quest and advance to checked_alley
+	QuestManager.advance("alley_backrooms_3f", "checked_alley")
+	if QuestManager.get_step("alley_backrooms_3f") != "checked_alley":
+		printerr("FAIL: Quest step is not checked_alley!")
+		get_tree().quit(1)
+		return
+		
+	active_apartment._on_interactable_entered(window_area)
+	active_apartment._refresh_current_interactable()
+	if active_apartment.current_interactable != window_area:
+		printerr("FAIL: Window should be interactable when quest step is checked_alley!")
+		get_tree().quit(1)
+		return
+	if not "爬出窗外" in active_apartment.current_interactable.prompt_text:
+		printerr("FAIL: Window prompt text is wrong! Got: ", active_apartment.current_interactable.prompt_text)
+		get_tree().quit(1)
+		return
+	print("PASS: Window interaction enabled with correct prompt after checked_alley.")
+	
+	# Test 20.3: Interact with window and verify transition request
+	var last_transition_data = {}
+	_temp_callable = func(scene_id, entry_point_id, payload):
+		last_transition_data["scene_id"] = scene_id
+		last_transition_data["entry_point_id"] = entry_point_id
+		last_transition_data["payload"] = payload
+	active_apartment.scene_transition_requested.connect(_temp_callable)
+	
+	active_apartment._trigger_interaction()
+	
+	if last_transition_data.get("scene_id") != "apartment_fire_escape":
+		printerr("FAIL: Transition scene_id is not apartment_fire_escape! Got: ", last_transition_data)
+		get_tree().quit(1)
+		return
+	if last_transition_data.get("entry_point_id") != "from_window":
+		printerr("FAIL: Transition entry_point_id is not from_window! Got: ", last_transition_data)
+		get_tree().quit(1)
+		return
+	print("PASS: Window interaction correctly emits scene_transition_requested to fire escape.")
+	
+	active_apartment.scene_transition_requested.disconnect(_temp_callable)
+	active_apartment._on_interactable_exited(window_area)
+	
+	# Test 20.4: Verify from_fire_escape entry point positioning and monologue suppression
+	GameState.reset_for_new_game()
+	
+	main_instance.transition_to("apartment", "from_fire_escape")
+	await get_tree().process_frame
+	
+	var active_apartment_from_escape = null
+	for child in main_instance.get_node("WorldRoot").get_children():
+		if not child.is_queued_for_deletion() and child.get_script() and child.get_script().resource_path.contains("apartment_room.gd"):
+			active_apartment_from_escape = child
+			break
+			
+	if not active_apartment_from_escape:
+		printerr("FAIL: Current scene is not apartment after transition from fire escape!")
+		get_tree().quit(1)
+		return
+		
+	var player_node = active_apartment_from_escape.get_node("Player")
+	if abs(player_node.global_position.x - 1000.0) > 1.0 or abs(player_node.global_position.y - 700.0) > 1.0:
+		printerr("FAIL: Player position is not near window at (1000, 700)! Got: ", player_node.global_position)
+		get_tree().quit(1)
+		return
+		
+	if active_apartment_from_escape._opening_monologue_active:
+		printerr("FAIL: Opening monologue should be suppressed when entering from_fire_escape!")
+		get_tree().quit(1)
+		return
+		
+	print("PASS: from_fire_escape entry point positioning and monologue suppression verified.")
+
 	# Clean up instantiated test nodes
-	street_instance.queue_free()
-	main_instance.queue_free()
+	if is_instance_valid(ui_instance):
+		ui_instance.free()
+	if is_instance_valid(street_instance):
+		street_instance.free()
+	if is_instance_valid(main_instance):
+		main_instance.free()
+
+	# Wait a frame to let queue_free'd nodes actually get deleted
+	await get_tree().process_frame
+
+	# Release RefCounted resources explicitly to prevent exit leaks
+	room_scene = null
+	ui_scene = null
+	main_scene = null
+	street_scene = null
+	DialogueDB = null
+	title_scene = null
+	runner = null
+	press_e = Callable()
+	_temp_callable = Callable()
 
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")
-	get_tree().quit(0)
+	
+	# Defer quit so that this ready function can return and pop stack frame, clearing references
+	get_tree().call_deferred("quit", 0)

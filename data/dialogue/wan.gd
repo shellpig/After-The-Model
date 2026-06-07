@@ -44,6 +44,8 @@ const TREE := {
 	},
 	"intel_gate": {
 		"goto": [
+			{"condition": {"type": "quest_status", "quest_id": "alley_backrooms_3f", "op": "==", "value": "completed"}, "target": "intel_already_done"},
+			{"condition": {"type": "quest_status", "quest_id": "alley_backrooms_3f", "op": "==", "value": "active"}, "target": "intel_already_given"},
 			{"condition": {"flag": "affinity_wan", "op": ">=", "value": 2}, "target": "intel"},
 			{"target": "intel_locked"}
 		]
@@ -52,8 +54,18 @@ const TREE := {
 		"speaker": "晚",
 		"text": "想聽好料？……算了，看在你這張臉的份上。\n巷子再往裡，那排後門堆雜物的舊樓，\n三樓搬空了，老住戶走得急，東西沒帶乾淨。\n晚了，就被收破爛的 AI 鏟平嘍。",
 		"effect": [
-			{"op": "add_gleaner_lead", "value": "alley_backrooms_3f"}
+			{"op": "start_quest", "value": "alley_backrooms_3f"}
 		],
+		"goto": "end_warm"
+	},
+	"intel_already_given": {
+		"speaker": "晚",
+		"text": "不是跟你說過了？後門那棟舊樓的三樓。\n趕緊去翻翻看，不然晚了就被 AI 鏟成白地了。",
+		"goto": "end_warm"
+	},
+	"intel_already_done": {
+		"speaker": "晚",
+		"text": "之前那個啟用盒挺有意思的。\n等我有空研究出什麼花樣，再跟你分享。",
 		"goto": "end_warm"
 	},
 	"intel_locked": {
@@ -89,7 +101,21 @@ const TREE := {
 				"goto": "end_warm"
 			},
 			{"label": "有新消息嗎？", "goto": "intel_gate"},
-			{"label": "（離開）", "goto": "flee"}
+			{"label": "（離開）", "goto": "flee"},
+			{
+				"label": "我找到那個啟用盒了。",
+				"condition": [
+					{"type": "quest_status", "quest_id": "alley_backrooms_3f", "op": "==", "value": "active"},
+					{"type": "quest_step", "quest_id": "alley_backrooms_3f", "op": "==", "value": "found_activation_box"},
+					{"type": "has_item", "item_id": "early_ai_assistant_activation_box", "op": "==", "value": true}
+				],
+				"goto": "alley_backrooms_turn_in"
+			}
 		]
+	},
+	"alley_backrooms_turn_in": {
+		"speaker": "晚",
+		"text": "（對話內容暫留，7-I 實作）",
+		"goto": "end_warm"
 	}
 }

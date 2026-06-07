@@ -24,6 +24,7 @@ GameState="*res://scripts/autoload/game_state.gd"
 UIMode="*res://scripts/autoload/ui_mode.gd"
 TouchControls="*res://scenes/ui/touch_controls.tscn"
 SaveSystem="*res://scripts/autoload/save_system.gd"
+QuestManager="*res://scripts/autoload/quest_manager.gd"
 
 [display]
 

@@ -160,6 +160,7 @@ color = Color(0.03, 0.02, 0.06, 0.55)
 polygon = PackedVector2Array(0, 0, 418, 0, 418, 260, 0, 260)
 
 [node name="LitResidentWindow" type="Polygon2D" parent="Props" unique_id=985201700]
+visible = false
 position = Vector2(376, 452)
 color = Color(0.95, 0.65, 0.25, 0.65)
 polygon = PackedVector2Array(0, 0, 117, 0, 117, 131, 0, 131)

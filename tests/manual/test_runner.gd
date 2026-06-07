@@ -2027,6 +2027,303 @@ func _ready() -> void:
 	
 	print("PASS: Phase 7-H R Inspect Grants Item Flow verified successfully.")
 	
+	# 23. Verify Phase 7-I Turn-in Quest to Wan
+	print("Verifying Phase 7-I Turn-in Quest to Wan...")
+	
+	# 1. Reset state
+	GameState.reset_for_new_game()
+	
+	# 2. Start quest and advance to found_activation_box
+	QuestManager.start("alley_backrooms_3f")
+	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
+	
+	# 3. Add item A and B to inventory
+	GameState.inventory.clear()
+	for i in range(GameState.inventory_slots):
+		GameState.inventory.append({})
+	GameState.add_item("early_ai_assistant_activation_box", 1)
+	GameState.add_item("old_ai_authorization_module", 1)
+	
+	# Verify items exist
+	if not GameState.has_item("early_ai_assistant_activation_box", 1) or not GameState.has_item("old_ai_authorization_module", 1):
+		printerr("FAIL: Failed to populate items A and B for turn-in test!")
+		get_tree().quit(1)
+		return
+		
+	# 4. Instantiate dialogue tree for Wan and verify options in retalk node
+	runner = DialogueRunner.new()
+	DialogueDB = load("res://data/dialogue/dialogue_db.gd")
+	wan_tree = DialogueDB.get_tree_for("wan")
+	
+	# Set met_wan flag so start goes to retalk
+	GameState.set_flag("met_wan", true)
+	runner.start(wan_tree)
+	
+	var cur = runner.current()
+	# Current should be retalk
+	if cur.get("text", "") == "":
+		printerr("FAIL: Dialogue tree failed to start on Wan tree!")
+		get_tree().quit(1)
+		return
+		
+	# Check retalk choices to ensure choice index 3 is '我找到那個啟用盒了。'
+	choices = cur.get("choices", [])
+	var turn_in_choice = null
+	for choice in choices:
+		if choice.get("label", "") == "我找到那個啟用盒了。":
+			turn_in_choice = choice
+			break
+			
+	if not turn_in_choice:
+		printerr("FAIL: Turn-in choice '我找到那個啟用盒了。' not visible in retalk node!")
+		get_tree().quit(1)
+		return
+		
+	# 5. Choose turn-in option
+	runner.choose(turn_in_choice.get("index"))
+	
+	# 6. Verify transition to alley_backrooms_turn_in node
+	var after_choice = runner.current()
+	if not after_choice.get("text", "").contains("喲，還真被你撈出來了"):
+		printerr("FAIL: Choice did not transition to alley_backrooms_turn_in node! Text got: ", after_choice.get("text"))
+		get_tree().quit(1)
+		return
+		
+	# 7. Advance dialogue to trigger effects
+	runner.advance()
+	
+	# 8. Verify A is removed, B is retained, quest is completed, and work note is completed
+	if GameState.has_item("early_ai_assistant_activation_box", 1):
+		printerr("FAIL: early_ai_assistant_activation_box (A) was not removed after turn-in!")
+		get_tree().quit(1)
+		return
+		
+	if not GameState.has_item("old_ai_authorization_module", 1):
+		printerr("FAIL: old_ai_authorization_module (B) was incorrectly removed!")
+		get_tree().quit(1)
+		return
+		
+	if QuestManager.get_status("alley_backrooms_3f") != "completed":
+		printerr("FAIL: Quest status is not 'completed' after turn-in!")
+		get_tree().quit(1)
+		return
+		
+	var notes_final = GameState.get_notes("工作")
+	if notes_final.is_empty() or notes_final[0].get("status") != "completed":
+		printerr("FAIL: Work note status was not updated to completed after turn-in!")
+		get_tree().quit(1)
+		return
+		
+	# 9. Verify defensive case: if A is not in inventory, turn-in fails and quest is NOT completed
+	# Reset for clean test state with active quest at found_activation_box
+	GameState.reset_for_new_game()
+	QuestManager.start("alley_backrooms_3f")
+	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
+	
+	# Clear inventory (ensure NO activation box A is present)
+	GameState.inventory.clear()
+	for i in range(GameState.inventory_slots):
+		GameState.inventory.append({})
+		
+	# Instantiate tree and force enter turn-in node directly
+	runner = DialogueRunner.new()
+	wan_tree = DialogueDB.get_tree_for("wan")
+	runner.start(wan_tree, "alley_backrooms_turn_in")
+	
+	# Advance dialogue to trigger effects
+	runner.advance()
+	
+	# Since A was missing, remove_item effect should fail and abort completion
+	if QuestManager.get_status("alley_backrooms_3f") == "completed":
+		printerr("FAIL: Quest status was marked completed even when A was missing during turn-in!")
+		get_tree().quit(1)
+		return
+		
+	var notes_defensive = GameState.get_notes("工作")
+	if notes_defensive.is_empty() or notes_defensive[0].get("status") == "completed":
+		printerr("FAIL: Work note status was marked completed even when A was missing during turn-in!")
+		get_tree().quit(1)
+		return
+	print("PASS: Turn-in defensive constraint verified (missing item aborts quest completion).")
+		
+	print("PASS: Phase 7-I Turn-in Quest to Wan verified successfully.")
+	
+	# 24. Verify Phase 7-J Regression & Save/Restore
+	print("Verifying Phase 7-J Regression & Save/Restore...")
+	
+	# 1. Quest Started Save/Load Check
+	GameState.reset_for_new_game()
+	QuestManager.start("alley_backrooms_3f")
+	
+	var save_p1 = SaveSystem.capture("apartment", 100.0, 1)
+	if not SaveSystem.write_slot(4, save_p1):
+		printerr("FAIL: Failed to write save_p1 to slot 4!")
+		get_tree().quit(1)
+		return
+		
+	GameState.reset_for_new_game()
+	var loaded_p1 = SaveSystem.read_slot(4)
+	SaveSystem.apply(loaded_p1)
+	
+	if QuestManager.get_status("alley_backrooms_3f") != "active" or QuestManager.get_step("alley_backrooms_3f") != "started":
+		printerr("FAIL: Quest status/step was not restored correctly in started check!")
+		get_tree().quit(1)
+		return
+		
+	var notes_p1 = GameState.get_notes("工作")
+	if notes_p1.is_empty() or notes_p1[0].get("id") != "quest_alley_backrooms_3f":
+		printerr("FAIL: Quest work note not restored correctly in started check!")
+		get_tree().quit(1)
+		return
+	print("PASS: Quest started state successfully saved and restored.")
+	
+	# 2. Alley Checked Save/Load Check
+	QuestManager.advance("alley_backrooms_3f", "checked_alley")
+	var save_p2 = SaveSystem.capture("apartment", 100.0, 1)
+	if not SaveSystem.write_slot(4, save_p2):
+		printerr("FAIL: Failed to write save_p2 to slot 4!")
+		get_tree().quit(1)
+		return
+		
+	GameState.reset_for_new_game()
+	var loaded_p2 = SaveSystem.read_slot(4)
+	SaveSystem.apply(loaded_p2)
+	
+	if QuestManager.get_step("alley_backrooms_3f") != "checked_alley":
+		printerr("FAIL: Quest step was not restored to checked_alley!")
+		get_tree().quit(1)
+		return
+		
+	# Verify window interaction gate in apartment_room
+	var room_instance_j = room_scene.instantiate()
+	add_child(room_instance_j)
+	var win_area_j = room_instance_j.get_node_or_null("Interactables/ApartmentWindow")
+	if not win_area_j:
+		printerr("FAIL: ApartmentWindow not found in room_instance_j!")
+		get_tree().quit(1)
+		return
+	room_instance_j._on_interactable_entered(win_area_j)
+	room_instance_j._refresh_current_interactable()
+	if room_instance_j.current_interactable != win_area_j:
+		printerr("FAIL: ApartmentWindow was not interactable after restore from checked_alley!")
+		get_tree().quit(1)
+		return
+	room_instance_j.queue_free()
+	print("PASS: Checked_alley state and window interaction gate successfully saved and restored.")
+	
+	# 3. Activation Box Found Save/Load Check (Inspectable A)
+	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
+	GameState.inventory.clear()
+	for i in range(GameState.inventory_slots):
+		GameState.inventory.append({})
+	GameState.add_item("early_ai_assistant_activation_box", 1)
+	
+	var save_p3 = SaveSystem.capture("apartment", 100.0, 1)
+	if not SaveSystem.write_slot(4, save_p3):
+		printerr("FAIL: Failed to write save_p3 to slot 4!")
+		get_tree().quit(1)
+		return
+		
+	GameState.reset_for_new_game()
+	var loaded_p3 = SaveSystem.read_slot(4)
+	SaveSystem.apply(loaded_p3)
+	
+	if not GameState.has_item("early_ai_assistant_activation_box", 1) or GameState.has_item("old_ai_authorization_module", 1):
+		printerr("FAIL: Items not restored correctly in found_activation_box check!")
+		get_tree().quit(1)
+		return
+		
+	# Retrieve box instance id and verify we can inspect A to get B
+	var box_inst_id := ""
+	for slot in GameState.get_inventory():
+		if slot.get("item_id", "") == "early_ai_assistant_activation_box":
+			box_inst_id = slot.get("instance_id", "")
+			break
+			
+	# Instantiate UI for modal check
+	var ui_instance_j = ui_scene.instantiate()
+	add_child(ui_instance_j)
+	ui_instance_j.open_inventory()
+	ui_instance_j._on_bag_item_action("view", box_inst_id)
+	ui_instance_j.force_finish_message()
+	var view_callback = ui_instance_j._message_on_closed
+	ui_instance_j.close_message()
+	view_callback.call()
+	
+	if not GameState.has_item("old_ai_authorization_module", 1):
+		printerr("FAIL: old_ai_authorization_module (B) was not obtained on inspect after load!")
+		get_tree().quit(1)
+		return
+	print("PASS: Item A state restored, and inspect-to-obtain-B functionality verified after load.")
+	
+	# 4. Authorization Module Obtained Save/Load Check
+	var save_p4 = SaveSystem.capture("apartment", 100.0, 1)
+	if not SaveSystem.write_slot(4, save_p4):
+		printerr("FAIL: Failed to write save_p4 to slot 4!")
+		get_tree().quit(1)
+		return
+		
+	GameState.reset_for_new_game()
+	var loaded_p4 = SaveSystem.read_slot(4)
+	SaveSystem.apply(loaded_p4)
+	
+	if not GameState.has_item("early_ai_assistant_activation_box", 1) or not GameState.has_item("old_ai_authorization_module", 1):
+		printerr("FAIL: Items A/B not restored in authorization module obtained check!")
+		get_tree().quit(1)
+		return
+		
+	# Try inspect A again and check it doesn't give duplicate B
+	var box_inst_id_p4 := ""
+	for slot in GameState.get_inventory():
+		if slot.get("item_id", "") == "early_ai_assistant_activation_box":
+			box_inst_id_p4 = slot.get("instance_id", "")
+			break
+	ui_instance_j._message_on_closed = Callable()
+	ui_instance_j._on_bag_item_action("view", box_inst_id_p4)
+	if ui_instance_j._message_on_closed.is_valid():
+		printerr("FAIL: Subsequent inspect after load triggered message box flow!")
+		get_tree().quit(1)
+		return
+	print("PASS: Item A and B state, and single-inspect constraint successfully saved and restored.")
+	
+	# 5. Quest Completed Save/Load Check
+	GameState.remove_item("early_ai_assistant_activation_box", 1)
+	QuestManager.complete("alley_backrooms_3f")
+	
+	var save_p5 = SaveSystem.capture("apartment", 100.0, 1)
+	if not SaveSystem.write_slot(4, save_p5):
+		printerr("FAIL: Failed to write save_p5 to slot 4!")
+		get_tree().quit(1)
+		return
+		
+	GameState.reset_for_new_game()
+	var loaded_p5 = SaveSystem.read_slot(4)
+	SaveSystem.apply(loaded_p5)
+	
+	if GameState.has_item("early_ai_assistant_activation_box", 1) or not GameState.has_item("old_ai_authorization_module", 1):
+		printerr("FAIL: Item states incorrect after load in completed check!")
+		get_tree().quit(1)
+		return
+		
+	if QuestManager.get_status("alley_backrooms_3f") != "completed":
+		printerr("FAIL: Quest status not 'completed' after load in completed check!")
+		get_tree().quit(1)
+		return
+		
+	var notes_p5 = GameState.get_notes("工作")
+	if notes_p5.is_empty() or notes_p5[0].get("status") != "completed":
+		printerr("FAIL: Work note status not 'completed' after load in completed check!")
+		get_tree().quit(1)
+		return
+	print("PASS: Quest completed state, item states, and work note states successfully saved and restored.")
+	
+	# Clean up slot 4
+	if dir and dir.file_exists("save_04.sav"):
+		dir.remove("save_04.sav")
+		
+	# Clean up temporary instances
+	ui_instance_j.free()
+	
 	# Clean up fire escape test instance
 	escape_instance.free()
 	escape_scene = null

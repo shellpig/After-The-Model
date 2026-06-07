@@ -61,7 +61,9 @@ func choose(choice_index: int) -> void:
 	if choice.has("effect") and choice["effect"] is Array:
 		for eff in choice["effect"]:
 			if eff is Dictionary:
-				_apply_effect(eff)
+				if not _apply_effect(eff):
+					printerr("[DialogueRunner] Choice effect failed to apply, aborting remaining effects.")
+					break
 
 	# Resolve goto and enter next node
 	var next_id = _resolve_goto(choice.get("goto"))
@@ -109,7 +111,9 @@ func _enter_node(node_id: String) -> void:
 	if node.has("effect") and node["effect"] is Array:
 		for eff in node["effect"]:
 			if eff is Dictionary:
-				_apply_effect(eff)
+				if not _apply_effect(eff):
+					printerr("[DialogueRunner] Node effect failed to apply, aborting remaining effects.")
+					break
 
 func _eval_condition(cond) -> bool:
 	if cond is Array:
@@ -184,22 +188,33 @@ func _resolve_goto(goto_value) -> String:
 					return route.get("target", "")
 	return ""
 
-func _apply_effect(eff: Dictionary) -> void:
+func _apply_effect(eff: Dictionary) -> bool:
 	var op = eff.get("op", "")
 	match op:
 		"set_flag":
 			var key = eff.get("key", "")
 			var val = eff.get("value")
 			GameState.set_flag(key, val)
+			return true
 		"add_int":
 			var key = eff.get("key", "")
 			var delta = eff.get("value", 0)
 			GameState.add_int(key, delta)
+			return true
 		"start_quest":
 			var val = eff.get("value", "")
-			QuestManager.start(val)
+			return QuestManager.start(val)
 		"add_gleaner_lead":
 			var val = eff.get("value", "")
 			print("[DialogueRunner] add_gleaner_lead: ", val)
+			return true
+		"remove_item":
+			var item_id = eff.get("item_id", "")
+			var count = eff.get("value", 1)
+			return GameState.remove_item(item_id, count)
+		"complete_quest":
+			var val = eff.get("value", "")
+			return QuestManager.complete(val)
 		_:
 			print("[DialogueRunner] Unknown effect op: ", op)
+			return true

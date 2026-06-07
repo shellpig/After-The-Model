@@ -115,7 +115,11 @@ const TREE := {
 	},
 	"alley_backrooms_turn_in": {
 		"speaker": "晚",
-		"text": "（對話內容暫留，7-I 實作）",
+		"text": "（她接過你遞去的啟用盒，翻看了一下，嘴角微揚。）\n喲，還真被你撈出來了。這保存得真乾淨，連上面的標籤都沒掉。\n謝啦，這東西我就收下了。至於剩下的……（她對你眨了眨眼）我會好好研究的。",
+		"effect": [
+			{"op": "remove_item", "item_id": "early_ai_assistant_activation_box", "value": 1},
+			{"op": "complete_quest", "value": "alley_backrooms_3f"}
+		],
 		"goto": "end_warm"
 	}
 }

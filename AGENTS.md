@@ -76,24 +76,6 @@ Image generation handling:
 - Use unique timestamp-style suffixes down to seconds for generated prompt and image filenames to avoid collisions, for example `main-character-concept-20260525-164029.png` and `main-character-concept-20260525-164029.prompt.txt`. Do not reuse generic names such as `prompt-used.txt` or `concept.png` when creating new generated assets.
 
 
-## 文件
-
-**已建立：**
-- `遊戲概念.md` — 世界觀與遊戲調性
-- `技術概念.md` — 引擎選型、MVP 架構決策、發佈路線
-- `Art Bible.md` — 美術方向、限色、構圖紀律、視覺錨點
-- `遊戲規格書.md` — 全遊戲通用系統規格與驗收條件（前身為 `遊戲架構.md`，2026-05-28 改名）
-- `開發設計方針.md` — 實作層：檔案結構、Autoload 簽名、資料契約（implementer-owned，自 Phase 2 起新寫，不 backfill Phase 1）
-- `測試指南.md` — 測試流程與手動驗收清單（verifier-owned，自 Phase 2 起新寫，不 backfill Phase 1）
-- `subdocs/地點/主角公寓.md` — 第一個場景（公寓室內探索）的敘事、互動物、驗收方向
-
-**規劃中：**
-- `驗證後已知問題.md` — 驗收問題追蹤與已接受的邊界決定。Phase 2-E 收尾時建立。
-- `PROJECT_BRIEF.md` — 專案總覽與 Phase 進度表。規格書 + 設計方針合計 > 100 KB 時才建立；在那之前 `AGENTS.md` 即事實上的 brief。
-
-技術主線與架構決策維護在 `技術概念.md`，避免雙份內容漂移。
-場景專屬規格只在該 phase 開工時才寫進 `subdocs/地點/`，完成後 freeze 為歷史快照；不預建空殼。
-
 ## 專案外部工具路徑
 
 外部工具不放進本專案 repo，避免汙染遊戲程式碼。
@@ -114,7 +96,7 @@ Image generation handling:
 - art bible 完成後放在專案根目錄，並列入 Layer 1 必讀
 
 
-## 驗證模式規則
+## 重要通用規則
 
 當使用者要求「驗證」時，只能進行檢查、讀檔、執行測試、啟動本機服務與回報結果。
 

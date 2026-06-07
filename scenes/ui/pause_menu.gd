@@ -6,6 +6,7 @@ extends Control
 @onready var btn_load: Button = $Panel/VBoxContainer/ButtonsVBox/BtnLoad
 @onready var btn_title: Button = $Panel/VBoxContainer/ButtonsVBox/BtnTitle
 @onready var buttons_vbox: VBoxContainer = $Panel/VBoxContainer/ButtonsVBox
+@onready var footer_hint_label: Label = $Panel/VBoxContainer/FooterHintLabel
 
 @onready var save_slot_list: Control = $SaveSlotList
 
@@ -26,6 +27,7 @@ func _ready() -> void:
 func initialize_menu() -> void:
 	save_slot_list.visible = false
 	buttons_vbox.visible = true
+	footer_hint_label.visible = true
 	btn_resume.grab_focus()
 
 func _on_resume_pressed() -> void:
@@ -40,17 +42,20 @@ func _on_save_pressed() -> void:
 		return
 		
 	buttons_vbox.visible = false
+	footer_hint_label.visible = false
 	save_slot_list.visible = true
 	save_slot_list.initialize(true) # Save mode
 
 func _on_load_pressed() -> void:
 	buttons_vbox.visible = false
+	footer_hint_label.visible = false
 	save_slot_list.visible = true
 	save_slot_list.initialize(false) # Load mode
 
 func _on_save_slot_list_back() -> void:
 	save_slot_list.visible = false
 	buttons_vbox.visible = true
+	footer_hint_label.visible = true
 	btn_save.grab_focus()
 
 func _on_title_pressed() -> void:
@@ -89,6 +94,10 @@ func _apply_theme_style() -> void:
 	title_label.add_theme_font_size_override("font_size", 28)
 	title_label.add_theme_color_override("font_color", Color(0.78, 0.42, 0.20, 1.0)) # Saturated burnt orange
 	
+	# Footer styling
+	footer_hint_label.add_theme_font_size_override("font_size", 14)
+	footer_hint_label.add_theme_color_override("font_color", Color(0.5, 0.55, 0.6, 0.8)) # Desaturated gray-blue
+	
 	# Button styling
 	var btn_normal := StyleBoxFlat.new()
 	btn_normal.bg_color = Color(0.12, 0.14, 0.16, 0.6)
@@ -124,3 +133,39 @@ func _apply_theme_style() -> void:
 		btn.add_theme_color_override("font_focus_color", Color(0.94, 0.92, 0.84, 1.0))
 		btn.add_theme_color_override("font_pressed_color", Color(0.78, 0.42, 0.20, 1.0))
 		btn.add_theme_font_size_override("font_size", 18)
+
+func _input(event: InputEvent) -> void:
+	if not visible or save_slot_list.visible:
+		return
+		
+	var game_ui = get_tree().root.find_child("GameUI", true, false)
+	if game_ui and game_ui.has_node("ConfirmDialog") and game_ui.get_node("ConfirmDialog").visible:
+		return
+
+	var buttons = [btn_resume, btn_save, btn_load, btn_title]
+	if event.is_action_pressed("move_up"):
+		var focused = get_viewport().gui_get_focus_owner()
+		var idx = buttons.find(focused)
+		if idx > 0:
+			buttons[idx - 1].grab_focus()
+			get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("move_down"):
+		var focused = get_viewport().gui_get_focus_owner()
+		var idx = buttons.find(focused)
+		if idx != -1 and idx < buttons.size() - 1:
+			buttons[idx + 1].grab_focus()
+			get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("interact_primary"):
+		var focused = get_viewport().gui_get_focus_owner()
+		if focused == btn_resume:
+			_on_resume_pressed()
+			get_viewport().set_input_as_handled()
+		elif focused == btn_save:
+			_on_save_pressed()
+			get_viewport().set_input_as_handled()
+		elif focused == btn_load:
+			_on_load_pressed()
+			get_viewport().set_input_as_handled()
+		elif focused == btn_title:
+			_on_title_pressed()
+			get_viewport().set_input_as_handled()

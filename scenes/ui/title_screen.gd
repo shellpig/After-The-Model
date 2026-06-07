@@ -4,6 +4,7 @@ extends Control
 @onready var btn_new_game: Button = $Panel/VBoxContainer/ButtonsVBox/BtnNewGame
 @onready var btn_load_game: Button = $Panel/VBoxContainer/ButtonsVBox/BtnLoadGame
 @onready var main_buttons_vbox: VBoxContainer = $Panel/VBoxContainer/ButtonsVBox
+@onready var footer_hint_label: Label = $Panel/VBoxContainer/FooterHintLabel
 
 @onready var save_slot_list: Control = $SaveSlotList
 
@@ -37,12 +38,14 @@ func _on_new_game_pressed() -> void:
 func _on_load_game_pressed() -> void:
 	# Show Slot List in Load mode
 	main_buttons_vbox.visible = false
+	footer_hint_label.visible = false
 	save_slot_list.visible = true
 	save_slot_list.initialize(false) # Load mode
 
 func _on_save_slot_list_back() -> void:
 	save_slot_list.visible = false
 	main_buttons_vbox.visible = true
+	footer_hint_label.visible = true
 	btn_load_game.grab_focus()
 
 func _apply_theme_style() -> void:
@@ -54,6 +57,10 @@ func _apply_theme_style() -> void:
 	# Title styling
 	title_label.add_theme_font_size_override("font_size", 48)
 	title_label.add_theme_color_override("font_color", Color(0.78, 0.42, 0.20, 1.0)) # Saturated burnt orange
+	
+	# Footer Hint styling
+	footer_hint_label.add_theme_font_size_override("font_size", 14)
+	footer_hint_label.add_theme_color_override("font_color", Color(0.5, 0.55, 0.6, 0.8)) # Desaturated gray-blue
 	
 	# Button styling
 	var btn_normal := StyleBoxFlat.new()
@@ -90,3 +97,22 @@ func _apply_theme_style() -> void:
 		btn.add_theme_color_override("font_focus_color", Color(0.94, 0.92, 0.84, 1.0))
 		btn.add_theme_color_override("font_pressed_color", Color(0.78, 0.42, 0.20, 1.0))
 		btn.add_theme_font_size_override("font_size", 20)
+
+func _input(event: InputEvent) -> void:
+	if save_slot_list.visible:
+		return
+		
+	if event.is_action_pressed("move_up"):
+		btn_new_game.grab_focus()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("move_down"):
+		btn_load_game.grab_focus()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("interact_primary"):
+		var focused = get_viewport().gui_get_focus_owner()
+		if focused == btn_new_game:
+			_on_new_game_pressed()
+			get_viewport().set_input_as_handled()
+		elif focused == btn_load_game:
+			_on_load_game_pressed()
+			get_viewport().set_input_as_handled()

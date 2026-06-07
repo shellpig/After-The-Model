@@ -76,6 +76,12 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "回主畫面 (Title Screen)"
 
+[node name="FooterHintLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "W/S : 選擇    E/Enter : 確認    Esc : 繼續遊戲"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="SaveSlotList" parent="." instance=ExtResource("2_save_slot_list")]
 visible = false
 layout_mode = 1

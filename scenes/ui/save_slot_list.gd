@@ -5,6 +5,7 @@ signal back_pressed
 @onready var title_label: Label = $Panel/VBoxContainer/TitleLabel
 @onready var slots_vbox: VBoxContainer = $Panel/VBoxContainer/ScrollContainer/SlotsVBox
 @onready var btn_back: Button = $Panel/VBoxContainer/BtnBack
+@onready var footer_hint_label: Label = $Panel/VBoxContainer/FooterHintLabel
 
 var is_save_mode: bool = false
 var _buttons: Array[Button] = []
@@ -45,6 +46,9 @@ func _apply_theme_style() -> void:
 	# Label styling
 	title_label.add_theme_font_size_override("font_size", 24)
 	title_label.add_theme_color_override("font_color", Color(0.94, 0.92, 0.84, 1.0)) # Faded cream
+	
+	footer_hint_label.add_theme_font_size_override("font_size", 14)
+	footer_hint_label.add_theme_color_override("font_color", Color(0.5, 0.55, 0.6, 0.8)) # Desaturated gray-blue
 	
 	# Button styles
 	var btn_normal := StyleBoxFlat.new()
@@ -237,3 +241,50 @@ func _perform_load(slot: int) -> void:
 
 func _on_back_pressed() -> void:
 	back_pressed.emit()
+
+func _input(event: InputEvent) -> void:
+	if not visible:
+		return
+		
+	var game_ui = get_tree().root.find_child("GameUI", true, false)
+	if game_ui and game_ui.has_node("ConfirmDialog") and game_ui.get_node("ConfirmDialog").visible:
+		return
+
+	if event.is_action_pressed("move_up"):
+		var focused = get_viewport().gui_get_focus_owner()
+		var idx = _buttons.find(focused)
+		if idx > 0:
+			for prev_idx in range(idx - 1, -1, -1):
+				if not _buttons[prev_idx].disabled:
+					_buttons[prev_idx].grab_focus()
+					get_viewport().set_input_as_handled()
+					break
+		elif focused == btn_back:
+			for last_idx in range(_buttons.size() - 1, -1, -1):
+				if not _buttons[last_idx].disabled:
+					_buttons[last_idx].grab_focus()
+					get_viewport().set_input_as_handled()
+					break
+	elif event.is_action_pressed("move_down"):
+		var focused = get_viewport().gui_get_focus_owner()
+		var idx = _buttons.find(focused)
+		if idx != -1:
+			var found_next = false
+			for next_idx in range(idx + 1, _buttons.size()):
+				if not _buttons[next_idx].disabled:
+					_buttons[next_idx].grab_focus()
+					get_viewport().set_input_as_handled()
+					found_next = true
+					break
+			if not found_next:
+				btn_back.grab_focus()
+				get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("interact_primary"):
+		var focused = get_viewport().gui_get_focus_owner()
+		var idx = _buttons.find(focused)
+		if idx != -1:
+			_on_slot_button_pressed(idx + 1)
+			get_viewport().set_input_as_handled()
+		elif focused == btn_back:
+			_on_back_pressed()
+			get_viewport().set_input_as_handled()

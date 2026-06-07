@@ -276,11 +276,11 @@ func _ready() -> void:
 	# 10. Verify Phase 4-A Main Scene, SceneRouter & SceneRegistry
 	print("Verifying Phase 4-A Main Scene configuration...")
 	var main_scene_setting = ProjectSettings.get_setting("application/run/main_scene")
-	if main_scene_setting != "res://scenes/main/main.tscn":
-		printerr("FAIL: Main scene setting in project.godot is not 'res://scenes/main/main.tscn'! Got: ", main_scene_setting)
+	if main_scene_setting != "res://scenes/ui/title_screen.tscn":
+		printerr("FAIL: Main scene setting in project.godot is not 'res://scenes/ui/title_screen.tscn'! Got: ", main_scene_setting)
 		get_tree().quit(1)
 		return
-	print("PASS: project.godot configured to use res://scenes/main/main.tscn.")
+	print("PASS: project.godot configured to use res://scenes/ui/title_screen.tscn.")
 
 	print("Loading res://scenes/main/main.tscn...")
 	var main_scene = load("res://scenes/main/main.tscn")
@@ -1152,6 +1152,103 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: start_new_game monologue and reset verified.")
+
+	# 17. Verify Phase 6-D & 6-E GUI components (TitleScreen & PauseMenu)
+	print("Verifying Phase 6-D & 6-E Title Screen, Pause Menu, & Save/Load UI...")
+	
+	# Verify TitleScreen Isolation
+	var title_scene = load("res://scenes/ui/title_screen.tscn")
+	if not title_scene:
+		printerr("FAIL: Could not load title_screen.tscn!")
+		get_tree().quit(1)
+		return
+		
+	var title_instance = title_scene.instantiate()
+	main_instance.add_child(title_instance)
+	if not TouchControls.force_hidden:
+		printerr("FAIL: Title Screen did not trigger TouchControls force_hidden = true!")
+		get_tree().quit(1)
+		return
+	print("PASS: Title Screen TouchControls isolation verified.")
+	
+	title_instance.queue_free()
+	TouchControls.set_force_hidden(false)
+	
+	# Verify PauseMenu integration inside GameUI
+	var game_ui = main_instance.get_node("GameUI")
+	var pause_menu = game_ui.get_node("PauseMenu")
+	if not pause_menu:
+		printerr("FAIL: PauseMenu not found under GameUI!")
+		get_tree().quit(1)
+		return
+		
+	# Trigger pause menu
+	UIMode.set_mode(UIMode.Mode.NONE)
+	game_ui.open_pause_menu()
+	if UIMode.get_mode() != UIMode.Mode.PAUSE:
+		printerr("FAIL: open_pause_menu() did not switch UIMode to PAUSE!")
+		get_tree().quit(1)
+		return
+	if not pause_menu.visible:
+		printerr("FAIL: PauseMenu node was not made visible in PAUSE mode!")
+		get_tree().quit(1)
+		return
+	print("PASS: PauseMenu opening and UIMode.PAUSE verified.")
+	
+	# Check TouchControls visibility in PAUSE mode
+	TouchControls.touch_buttons_enabled = true
+	TouchControls._update_dynamic_button_visibility()
+	if not TouchControls.get_node("Control/DPad").visible:
+		printerr("FAIL: DPad should be visible in PAUSE mode for UI focus navigation!")
+		get_tree().quit(1)
+		return
+	if TouchControls.get_node("Control/Actions").visible or TouchControls.get_node("Control/Menus").visible:
+		printerr("FAIL: Actions/Menus should be hidden in PAUSE mode!")
+		get_tree().quit(1)
+		return
+	print("PASS: TouchControls visibility in PAUSE mode verified.")
+	
+	# Reset touch_buttons_enabled
+	TouchControls.touch_buttons_enabled = false
+	
+	# Test Resume option
+	pause_menu._on_resume_pressed()
+	if UIMode.get_mode() != UIMode.Mode.NONE or pause_menu.visible:
+		printerr("FAIL: Resume did not exit PAUSE mode or hide PauseMenu!")
+		get_tree().quit(1)
+		return
+	print("PASS: PauseMenu Resume verified.")
+	
+	# Test Slot List rendering inside PauseMenu
+	game_ui.open_pause_menu()
+	pause_menu._on_save_pressed()
+	var slot_list = pause_menu.get_node("SaveSlotList")
+	if not slot_list or not slot_list.visible:
+		printerr("FAIL: SaveSlotList was not displayed after clicking Save!")
+		get_tree().quit(1)
+		return
+		
+	# Verify list slot contents (10 buttons populated)
+	var slots = slot_list.get_node("Panel/VBoxContainer/ScrollContainer/SlotsVBox")
+	var buttons_count := 0
+	for child in slots.get_children():
+		if child is Button:
+			buttons_count += 1
+	if buttons_count != 10:
+		printerr("FAIL: SaveSlotList did not contain exactly 10 slots! Got: ", buttons_count)
+		get_tree().quit(1)
+		return
+		
+	# Verify slot 1 text is populated (we saved to it in 6-A/6-B)
+	var slot1_btn = slots.get_child(0) as Button
+	if "空白" in slot1_btn.text or slot1_btn.text.is_empty():
+		printerr("FAIL: Slot 1 should display active save metadata, got text: ", slot1_btn.text)
+		get_tree().quit(1)
+		return
+	print("PASS: SaveSlotList metadata population verified.")
+	
+	# Close pause menu
+	UIMode.set_mode(UIMode.Mode.NONE)
 
 	# Clean up instantiated test nodes
 	street_instance.queue_free()

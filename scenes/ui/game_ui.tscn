@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/item_detail_modal.tscn" id="6_item_modal"]
 [ext_resource type="PackedScene" path="res://scenes/ui/confirm_dialog.tscn" id="7_confirm_dialog"]
 [ext_resource type="PackedScene" uid="uid://b1m8x312e752u" path="res://scenes/ui/dialogue_panel.tscn" id="8_dialogue_panel"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="9_pause_menu"]
 
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
@@ -119,6 +120,9 @@ script = ExtResource("5_panel_footer_hint")
 [node name="ConfirmDialog" parent="." instance=ExtResource("7_confirm_dialog")]
 
 [node name="DialoguePanel" parent="." instance=ExtResource("8_dialogue_panel")]
+visible = false
+
+[node name="PauseMenu" parent="." instance=ExtResource("9_pause_menu")]
 visible = false
 
 [node name="WorldHUDLabel" type="Label" parent="."]

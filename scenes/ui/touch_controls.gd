@@ -31,8 +31,18 @@ func _get_game_ui() -> CanvasLayer:
 
 @onready var btn_bag: Button = $Control/Menus/BtnBag
 @onready var btn_note: Button = $Control/Menus/BtnNote
+@onready var btn_pause: Button = $Control/Menus/BtnPause
 @onready var btn_close: Button = $Control/Menus/BtnClose
 @onready var btn_toggle: Button = $Control/BtnToggle
+
+var force_hidden: bool = false
+
+func set_force_hidden(hidden: bool) -> void:
+	force_hidden = hidden
+	var control := $Control as Control
+	if control:
+		control.visible = not hidden
+	_update_dynamic_button_visibility()
 
 func _ready() -> void:
 	# 1. 偵測設備並初始化預設啟用狀態 (以作業系統平台為準)
@@ -60,6 +70,7 @@ func _ready() -> void:
 
 	_bind_button(btn_bag, "open_inventory")
 	_bind_button(btn_note, "open_notebook")
+	_bind_button(btn_pause, "ui_cancel")
 	_bind_button(btn_close, "ui_cancel")
 
 	# 4. 綁定 PC 端 HUD 觸控開關按鈕
@@ -145,7 +156,7 @@ func _apply_cyber_style() -> void:
 	var all_buttons: Array[Button] = [
 		btn_up, btn_down, btn_left, btn_right,
 		btn_e, btn_r, btn_t,
-		btn_bag, btn_note, btn_close
+		btn_bag, btn_note, btn_pause, btn_close
 	]
 
 	# 統一配置視覺樣式，防止點擊焦點影響外觀
@@ -167,7 +178,7 @@ func _apply_cyber_style() -> void:
 		btn.add_theme_font_size_override("font_size", int(22 * ui_scale))
 	
 	# 右上與右下所有功能按鈕統一採用 60x60 的正方形設計，字體統一為 18px，外觀尺寸絕對一致
-	for btn in [btn_e, btn_r, btn_t, btn_bag, btn_note, btn_close]:
+	for btn in [btn_e, btn_r, btn_t, btn_bag, btn_note, btn_pause, btn_close]:
 		btn.custom_minimum_size = Vector2(60 * ui_scale, 60 * ui_scale)
 		btn.add_theme_font_size_override("font_size", int(18 * ui_scale))
 
@@ -238,6 +249,13 @@ func _update_toggle_button_visual() -> void:
 			btn_toggle.add_theme_stylebox_override("hover", _style_normal)
 
 func _update_dynamic_button_visibility() -> void:
+	if force_hidden:
+		$Control/DPad.visible = false
+		$Control/Actions.visible = false
+		$Control/Menus.visible = false
+		btn_toggle.visible = false
+		return
+
 	var mode := UIMode.get_mode()
 	var scene := get_tree().current_scene
 	if scene == null:
@@ -262,7 +280,13 @@ func _update_dynamic_button_visibility() -> void:
 		$Control/Menus.visible = false
 		return
 
-	# 3. 正常啟用狀態下，按鍵顯示規則：D-pad 在世界探索與背包/容器/筆記本選單均顯示以利觸控焦點導航；僅在 MESSAGE (對話) 與 CONFIRM (確認彈窗) 時隱藏以防視覺遮擋
+	# 3. 正常啟用狀態下，按鍵顯示規則：PAUSE 模式僅顯示 DPad
+	if mode == UIMode.Mode.PAUSE:
+		$Control/DPad.visible = true
+		$Control/Actions.visible = false
+		$Control/Menus.visible = false
+		return
+
 	var show_dpad := mode in [UIMode.Mode.NONE, UIMode.Mode.INVENTORY, UIMode.Mode.CONTAINER, UIMode.Mode.NOTEBOOK, UIMode.Mode.DIALOGUE]
 	$Control/DPad.visible = show_dpad
 	$Control/Actions.visible = true
@@ -272,14 +296,17 @@ func _update_dynamic_button_visibility() -> void:
 	if mode == UIMode.Mode.NONE:
 		btn_bag.visible = true
 		btn_note.visible = true
+		btn_pause.visible = true
 		btn_close.visible = false
 	elif mode == UIMode.Mode.DIALOGUE:
 		btn_bag.visible = false
 		btn_note.visible = false
+		btn_pause.visible = false
 		btn_close.visible = false
 	else:
 		btn_bag.visible = false
 		btn_note.visible = false
+		btn_pause.visible = false
 		btn_close.visible = true
 
 	# 右下角 E / R / T 交互按鍵的動態功能感知顯示

@@ -12,6 +12,7 @@ extends CanvasLayer
 @onready var item_detail_modal: Control = $ItemDetailModal
 @onready var confirm_dialog: Control = $ConfirmDialog
 @onready var dialogue_panel: Control = $DialoguePanel
+@onready var pause_menu: Control = $PauseMenu
 @onready var world_hud_label: Label = $WorldHUDLabel
 @onready var message_box: Control = $MessageBoxContainer/MessageBox
 @onready var message_label: Label = $MessageBoxContainer/MessageBox/MarginContainer/MessageLabel
@@ -51,6 +52,7 @@ func _ready() -> void:
 	item_detail_modal.visible = false
 	confirm_dialog.visible = false
 	dialogue_panel.visible = false
+	pause_menu.visible = false
 	page_hint_label.text = ""
 	page_hint_label.visible = false
 	
@@ -119,6 +121,14 @@ func _process(delta: float) -> void:
 				return
 			if Input.is_action_just_pressed("open_notebook"):
 				open_notebook()
+				return
+			if Input.is_action_just_pressed("ui_cancel"):
+				open_pause_menu()
+				return
+	elif current_mode == UIMode.Mode.PAUSE:
+		if pause_menu.visible and not pause_menu.save_slot_list.visible and not confirm_dialog.visible:
+			if Input.is_action_just_pressed("ui_cancel"):
+				close_all_ui()
 				return
 	elif current_mode == UIMode.Mode.INVENTORY:
 		# Guard against modal/confirm overrides
@@ -242,6 +252,9 @@ func open_inventory() -> void:
 func open_notebook() -> void:
 	UIMode.set_mode(UIMode.Mode.NOTEBOOK)
 
+func open_pause_menu() -> void:
+	UIMode.set_mode(UIMode.Mode.PAUSE)
+
 func open_container(container_id: String, title: String, slot_count: int) -> void:
 	UIMode.set_mode(UIMode.Mode.CONTAINER)
 	dual_pane_container.set_input_active(true, container_id, slot_count, title)
@@ -330,6 +343,8 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	notebook_panel.visible = (new_mode == UIMode.Mode.NOTEBOOK) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.NOTEBOOK)
 	if is_instance_valid(dialogue_panel):
 		dialogue_panel.visible = (new_mode == UIMode.Mode.DIALOGUE) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.DIALOGUE)
+	if is_instance_valid(pause_menu):
+		pause_menu.visible = (new_mode == UIMode.Mode.PAUSE) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.PAUSE)
 
 	if is_instance_valid(world_hud_label):
 		world_hud_label.visible = (new_mode == UIMode.Mode.NONE and not _monologue_active)
@@ -353,6 +368,10 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.DIALOGUE:
 		prompt_panel.visible = false
+	elif new_mode == UIMode.Mode.PAUSE:
+		prompt_panel.visible = false
+		if is_instance_valid(pause_menu):
+			pause_menu.initialize_menu()
 	elif new_mode == UIMode.Mode.NONE:
 		item_detail_modal.visible = false
 		confirm_dialog.visible = false

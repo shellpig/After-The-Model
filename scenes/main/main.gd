@@ -40,8 +40,15 @@ func _ready() -> void:
 
 	# Register GameUI reference to TouchControls Autoload
 	TouchControls.set_game_ui(game_ui)
-	# Load default scene on start
-	transition_to("apartment", "wake_bed")
+	# Load default scene or pending load slot
+	if SaveSystem.pending_load_slot != -1:
+		var slot = SaveSystem.pending_load_slot
+		SaveSystem.pending_load_slot = -1
+		var success = load_game_slot(slot)
+		if not success:
+			start_new_game()
+	else:
+		transition_to("apartment", "wake_bed")
 
 func transition_to(scene_id: String, entry_point_id: String = "", payload: Dictionary = {}, restore: Dictionary = {}) -> void:
 	if not SCENES.has(scene_id):

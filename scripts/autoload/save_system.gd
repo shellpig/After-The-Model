@@ -4,6 +4,7 @@ const SLOT_COUNT := 10
 const SAVE_VERSION := 1
 
 var can_save_here := true
+var pending_load_slot := -1
 
 # Display names map for scene_id -> scene_name
 const SCENE_NAMES := {

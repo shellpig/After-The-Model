@@ -117,6 +117,10 @@ text = "背包"
 layout_mode = 2
 text = "筆記"
 
+[node name="BtnPause" type="Button" parent="Control/Menus"]
+layout_mode = 2
+text = "暫停"
+
 [node name="BtnClose" type="Button" parent="Control/Menus"]
 layout_mode = 2
 text = "X 返回"

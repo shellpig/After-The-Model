@@ -16,7 +16,7 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-F 已完成並驗證（headless PASS）。**4-G 已取消**（其架構契約已被 4-A~4-F 滿足，placeholder 部分為丟棄工）；**Phase 5 — NPC + 對話**：5-A~5-D 已全數完成並驗證（headless PASS + 5-D 人工驗證通過），NPC「晚」落地街道、對話真系統上線；Quest / Save 僅預留資料路徑（不做 QuestManager / SaveSystem）。**Phase 6 — SaveSystem（手動多槽存檔）**：規格已定稿並經兩輪 codex 審核收斂（規格書 / 設計方針 / 測試指南三份齊備，6-A~6-F），**尚未開工**；做 `var_to_str` 多槽手動存讀 + 最小標題畫面 + 暫停選單，回場存精確座標，載入採「SaveSystem 驗 shape/version + Main 驗 scene_id」兩段前置；Quest 仍留待 Phase 7+。
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-F 已完成並驗證（headless PASS）。**4-G 已取消**（其架構契約已被 4-A~4-F 滿足，placeholder 部分為丟棄工）；**Phase 5 — NPC + 對話**：5-A~5-D 已全數完成並驗證（headless PASS + 5-D 人工驗證通過），NPC「晚」落地街道、對話真系統上線；Quest / Save 僅預留資料路徑（不做 QuestManager / SaveSystem）。**Phase 6 — SaveSystem（手動多槽存檔）**：6-A~6-F **已全數完成並驗證**（headless 100 PASS / 0 FAIL）；`var_to_str` 多槽手動存讀 + 最小標題畫面 + 暫停選單上線，回場存精確座標，載入採「SaveSystem 驗 shape/version + Main 驗 scene_id」兩段前置；ConfirmDialog 重用缺陷已修並補回歸測試。剩 6-E/6-F 真機 GUI 走查為人工驗收項。Quest 仍留待 Phase 7+。
 
 ## 核心調性
 
@@ -193,10 +193,10 @@ note_id
 | 5-D | ✅ 完成 | NPC「晚」落地 `apartment_entrance`（Area2D + Sprite2D，立繪 ext_resource 帶 uid），對話 dispatch 泛化（dialogue_id 優先），條件路由（首見 `first_meet` / `met_wan` 後 `retalk`）與跨場景旗標保留，`affinity_wan>=2` 解 `intel` 情報；headless PASS + 人工驗證通過 |
 | 6-A | ✅ 完成 | `SaveSystem` Autoload：`capture()` / `apply()` / `validate()`（只驗 shape/version）+ `var_to_str` / `str_to_var` 讀寫；`GameState.to_save_dict()` / `load_save_dict()` / `reset_for_new_game()`；payload = 全可變狀態（含 `_last_instance_id`）+ scene_id + 玩家座標，排除 code-owned 常數；headless round-trip PASS（commit `003d22f`）|
 | 6-B | ✅ 完成 | 讀檔回場：載入進場景、直接 set 玩家精確座標、跳過 entry point 副作用；Load 兩段驗證（SaveSystem 驗 shape/version → Main 驗 `scene_id ∈ SCENES`）→ 才 apply；New Game 先 `reset_for_new_game()` 再播開場、讀檔不播；headless PASS（commit `003d22f`）|
-| 6-C | ⬜ 待開工 | 多槽模型：檔名 `user://save_01..10.sav` + `{meta,data}` header + 列舉 10 槽 API（只讀 meta 不套用）；損毀槽優雅失敗 |
-| 6-D | ⬜ 待開工 | 最小標題畫面（New Game / Load Game）+ 開機流程；標題頁須隔離 TouchControls overlay（非 gameplay 不顯示 D-pad/toggle） |
-| 6-E | ⬜ 待開工 | 暫停選單（Resume/Save/Load/回標題）+ Save/Load 共用槽列表 UI + 覆蓋確認（`ConfirmDialog`）+ `UIMode==NONE` gating + Save 入口查預留 `can_save_here` 旗標 + TouchControls 接線 |
-| 6-F | ⬜ 待開工 | 邊界處理（版本 / 損毀 / 場景缺失於 apply 前擋下 / 座標出界 clamp）+ 回標題未存確認 + GUI 走查驗收 |
+| 6-C | ✅ 完成 | 多槽模型：檔名 `user://save_01..10.sav` + `{meta,data}` header + 列舉 10 槽 API（只讀 meta 不套用）；損毀槽優雅失敗；headless PASS（commit `003d22f`）|
+| 6-D | ✅ 完成 | 最小標題畫面（New Game / Load Game）+ 開機流程（`main_scene=title_screen.tscn`，Load 經 `pending_load_slot` 交棒 main）；標題頁隔離 TouchControls overlay（`set_force_hidden`）；headless PASS（commit `15e7f5f`）|
+| 6-E | ✅ 完成 | 暫停選單（Resume/Save/Load/回標題）+ Save/Load 共用槽列表 UI + 覆蓋確認（`ConfirmDialog`）+ `UIMode==NONE` gating + Save 入口查預留 `can_save_here` 旗標 + TouchControls 接線；ConfirmDialog 重用崩錯（Button restore_grid）+ double exit_confirm 已修並補回歸測試（commit `15e7f5f` + `c4b8abe`）|
+| 6-F | ✅ 完成 | 邊界處理（版本 / 損毀 / 場景缺失於 apply 前擋下 / 座標出界 clamp）+ 回標題未存確認 + GUI 走查驗收；headless 100 PASS / 0 FAIL（commit `c4b8abe`）|
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
@@ -387,7 +387,7 @@ verify_game_state.gd: PASS
 
 ## 下一步建議
 
-架構主線：**Phase 5 — NPC + 對話（真系統）已完成（5-A~5-D 驗證通過）**。**Phase 6 — SaveSystem 規格已定稿（兩輪 codex 審核收斂），待開工**：依賴順序 6-A → 6-B → 6-C → 6-D → 6-E → 6-F，先把 `SaveSystem` capture/apply/validate 純邏輯與回場路徑 headless 打穩，再上多槽 / 標題 / 暫停選單 UI，最後補邊界與 GUI 走查。開工前必讀見上方「Phase 6 子階段（三份對照）」。Quest / QuestManager 留待 Phase 7+。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
+架構主線：**Phase 5 — NPC + 對話（真系統）已完成（5-A~5-D 驗證通過）**。**Phase 6 — SaveSystem 已全數完成（6-A~6-F，headless 100 PASS / 0 FAIL）**：`SaveSystem` capture/apply/validate 純邏輯 + 回場路徑 + 多槽 + 標題 / 暫停選單 UI + 邊界處理皆上線並驗證；ConfirmDialog 重用缺陷已修並補回歸測試。剩 6-E/6-F 真機 GUI 走查為人工驗收項。下一步進 **Phase 7+（Quest / QuestManager）**。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

@@ -188,7 +188,7 @@ note_id
 | 4-F | ✅ 完成 | `apartment_entrance` 第二場景 + 真轉場；大門開鎖後真轉場至街道，街道可回公寓且不重播獨白 |
 | 4-G | ❌ 取消 | 原為未來系統 contract pass（placeholder 插槽）。架構契約（`scene_id+entry_point_id` 通用轉場、各場景自管 BGM、SceneRouter 持穩定 scene id）已被 4-A~4-F 滿足；`dialogue_id` / `quest_event_id` 的 placeholder 屬丟棄工，故取消。真 NPC / 對話移至 Phase 5；Quest / Save 僅預留資料路徑 |
 | 5-A | ⬜ 待開工 | 故事旗標 store（bool/int，含 `affinity_wan`）+ 對話樹 schema + `DialogueRunner`（純邏輯 headless） |
-| 5-B | ⬜ 待開工 | 對話 UI（立繪/名字/內文/選項）+ `UIMode.DIALOGUE` + interactable `dialogue_id` + Level→Main→GameUI 接線 |
+| 5-B | ✅ 完成 | `DialoguePanel.tscn/gd`（立繪槽 / 名字 / 內文 / 選項列，`Portrait.texture==null` 安全）+ `UIMode.DIALOGUE` + interactable `dialogue_id`；接線 Level→Main(`start_dialogue`)→GameUI；鍵盤 上 / 下移焦點、`E` 確認選取 / 推進（`_unhandled_input` 對有 / 無選項分流，真實 `parse_input_event` 路由驗證焦點 Button 不吞 E）；分支 / effect 在 UI 流程正確反映、結束回 `NONE` 無殘留；GameUI 公開 `has_active_dialogue`/`dialogue_move_focus`/`dialogue_confirm` 供 5-C；headless PASS |
 | 5-C | ⬜ 待開工 | TouchControls 對話路由（D-pad 選項 + 確認），經 GameUI 公開查詢 |
 | 5-D | ⬜ 待開工 | NPC「晚」落地 `apartment_entrance` + placeholder 美術 + dispatch 泛化 + 手動驗收 |
 

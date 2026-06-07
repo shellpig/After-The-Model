@@ -1,0 +1,22 @@
+{
+  "asset": "wan single idle sprite",
+  "source_reference": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\idle\\wan-idle-single-20260607-102716\\reference-fullbody-20260607-1023.jpeg",
+  "generated_raw_cache": "C:\\Users\\User\\.codex\\generated_images\\019e9fd2-cebd-7152-8067-0133679dfba8\\ig_017d5e468dceb08c016a24d68f20008191bbd57afffa0db3fe.png",
+  "raw_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\idle\\wan-idle-single-20260607-102716\\wan-idle-raw-20260607-102716.png",
+  "g2d_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\idle\\wan-idle-single-20260607-102716\\sheet-transparent.png",
+  "adopted_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\idle\\wan-idle-single-20260607-102716\\idle.png",
+  "stamped_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\idle\\wan-idle-single-20260607-102716\\wan-idle-transparent-20260607-102716.png",
+  "convenience_512h": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\idle\\wan-idle-single-20260607-102716\\idle_512h_cropped.png",
+  "postprocess": {
+    "canvas_size": [
+      1024,
+      1024
+    ],
+    "removed_magenta_fringe_pixels": 1913,
+    "recolored_magenta_interior_pixels": 18765,
+    "alpha_transparent_pixels": 910445,
+    "alpha_semi_pixels": 6257,
+    "alpha_opaque_pixels": 131874,
+    "visible_hot_magenta_pixels": 0
+  }
+}

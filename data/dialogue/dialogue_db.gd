@@ -1,5 +1,7 @@
 # Dialogue Database
 # File: res://data/dialogue/dialogue_db.gd
+class_name DialogueDB
+
 
 const WanDialogue = preload("res://data/dialogue/wan.gd")
 

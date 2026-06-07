@@ -133,7 +133,7 @@ func _on_level_interaction_requested(data: Dictionary) -> void:
 			game_ui.open_container(container_id, container_title, slot_count)
 		"dialogue":
 			var dialogue_id: String = data.get("dialogue_id", "")
-			game_ui.show_message("對話系統未接入 (dialogue_id: %s)" % dialogue_id)
+			game_ui.start_dialogue(dialogue_id)
 		"transition":
 			var target_scene_id: String = data.get("target_scene_id", "")
 			var entry_point_id: String = data.get("entry_point_id", "")

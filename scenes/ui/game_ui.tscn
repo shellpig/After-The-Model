@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://scenes/ui/panel_footer_hint.gd" id="5_panel_footer_hint"]
 [ext_resource type="PackedScene" path="res://scenes/ui/item_detail_modal.tscn" id="6_item_modal"]
 [ext_resource type="PackedScene" path="res://scenes/ui/confirm_dialog.tscn" id="7_confirm_dialog"]
+[ext_resource type="PackedScene" uid="uid://b1m8x312e752u" path="res://scenes/ui/dialogue_panel.tscn" id="8_dialogue_panel"]
+
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
 content_margin_left = 16.0
@@ -115,6 +117,9 @@ script = ExtResource("5_panel_footer_hint")
 [node name="ItemDetailModal" parent="." instance=ExtResource("6_item_modal")]
 
 [node name="ConfirmDialog" parent="." instance=ExtResource("7_confirm_dialog")]
+
+[node name="DialoguePanel" parent="." instance=ExtResource("8_dialogue_panel")]
+visible = false
 
 [node name="WorldHUDLabel" type="Label" parent="."]
 offset_left = 32.0

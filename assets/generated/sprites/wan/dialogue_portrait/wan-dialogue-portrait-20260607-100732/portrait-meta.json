@@ -1,0 +1,17 @@
+{
+  "asset": "wan dialogue portrait",
+  "source_reference": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\concept\\34 view half-body portrait_1.jpeg",
+  "generated_raw_cache": "C:\\Users\\User\\.codex\\generated_images\\019e9fd2-cebd-7152-8067-0133679dfba8\\ig_017d5e468dceb08c016a24d2044a80819187c2b0146f7c271a.png",
+  "raw_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\dialogue_portrait\\wan-dialogue-portrait-20260607-100732\\wan-dialogue-portrait-raw-20260607-100732.png",
+  "g2d_hires_output": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\dialogue_portrait\\wan-dialogue-portrait-20260607-100732\\hires_clean\\sheet-transparent.png",
+  "adopted_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\dialogue_portrait\\wan-dialogue-portrait-20260607-100732\\portrait.png",
+  "stamped_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\dialogue_portrait\\wan-dialogue-portrait-20260607-100732\\wan-dialogue-portrait-transparent-20260607-100732.png",
+  "postprocess": {
+    "removed_magenta_fringe_pixels": 3666,
+    "recolored_magenta_interior_pixels": 10957,
+    "canvas_size": [
+      1024,
+      1024
+    ]
+  }
+}

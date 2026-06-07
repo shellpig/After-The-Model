@@ -1,0 +1,64 @@
+{
+  "target": "npc",
+  "mode": "single",
+  "prompt": "",
+  "role": "",
+  "input": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wan\\idle\\wan-idle-single-20260607-102716\\wan-idle-raw-20260607-102716.png",
+  "threshold": 115,
+  "edge_threshold": 150,
+  "duration": 200,
+  "rows": 1,
+  "cols": 1,
+  "cell_size": 1024,
+  "fit_scale": 0.92,
+  "trim_border": 4,
+  "edge_clean_depth": 8,
+  "align": "feet",
+  "shared_scale": false,
+  "component_mode": "largest",
+  "component_padding": 10,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "wan-idle-1"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        973,
+        1616
+      ],
+      "component_mode": "largest",
+      "component_count": 3,
+      "selected_component_area": 337657,
+      "selected_component_bbox": [
+        280,
+        86,
+        656,
+        1536
+      ],
+      "crop_bbox": [
+        270,
+        76,
+        666,
+        1546
+      ],
+      "edge_touch": false,
+      "output_size": [
+        253,
+        942
+      ],
+      "paste_position": [
+        385,
+        42
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}

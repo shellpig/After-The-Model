@@ -11,6 +11,7 @@ extends CanvasLayer
 @onready var panel_footer_hint: Control = $InventoryPanel/VBoxContainer/PanelFooterHint
 @onready var item_detail_modal: Control = $ItemDetailModal
 @onready var confirm_dialog: Control = $ConfirmDialog
+@onready var dialogue_panel: Control = $DialoguePanel
 @onready var world_hud_label: Label = $WorldHUDLabel
 @onready var message_box: Control = $MessageBoxContainer/MessageBox
 @onready var message_label: Label = $MessageBoxContainer/MessageBox/MarginContainer/MessageLabel
@@ -49,6 +50,7 @@ func _ready() -> void:
 	dual_pane_container.visible = false
 	item_detail_modal.visible = false
 	confirm_dialog.visible = false
+	dialogue_panel.visible = false
 	page_hint_label.text = ""
 	page_hint_label.visible = false
 	
@@ -248,6 +250,24 @@ func close_all_ui(reset_mode: bool = true) -> void:
 	if reset_mode:
 		UIMode.set_mode(UIMode.Mode.NONE)
 
+func start_dialogue(dialogue_id: String) -> void:
+	close_all_ui(false)
+	UIMode.set_mode(UIMode.Mode.DIALOGUE)
+	if dialogue_panel:
+		dialogue_panel.start_dialogue(dialogue_id)
+
+func has_active_dialogue() -> bool:
+	return dialogue_panel != null and dialogue_panel.visible
+
+func dialogue_move_focus(dir: int) -> void:
+	if dialogue_panel and dialogue_panel.visible:
+		dialogue_panel.move_focus(dir)
+
+func dialogue_confirm() -> void:
+	if dialogue_panel and dialogue_panel.visible:
+		dialogue_panel.confirm_current()
+
+
 func get_focused_item_context() -> Dictionary:
 	var current_mode := UIMode.get_mode()
 	if current_mode == UIMode.Mode.INVENTORY:
@@ -308,6 +328,8 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	dual_pane_container.visible = (new_mode == UIMode.Mode.CONTAINER) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.CONTAINER)
 	message_box.visible = (new_mode == UIMode.Mode.MESSAGE)
 	notebook_panel.visible = (new_mode == UIMode.Mode.NOTEBOOK) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.NOTEBOOK)
+	if is_instance_valid(dialogue_panel):
+		dialogue_panel.visible = (new_mode == UIMode.Mode.DIALOGUE) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.DIALOGUE)
 
 	if is_instance_valid(world_hud_label):
 		world_hud_label.visible = (new_mode == UIMode.Mode.NONE and not _monologue_active)
@@ -315,6 +337,8 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	bag_grid.set_input_active(new_mode == UIMode.Mode.INVENTORY)
 	notebook_panel.set_input_active(new_mode == UIMode.Mode.NOTEBOOK)
 	dual_pane_container.set_input_active(false)
+	if is_instance_valid(dialogue_panel):
+		dialogue_panel.set_input_active(new_mode == UIMode.Mode.DIALOGUE)
 
 	if new_mode == UIMode.Mode.INVENTORY:
 		var items := GameState.get_inventory()
@@ -326,6 +350,8 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.NOTEBOOK:
 		notebook_panel.load_notebook_data()
+		prompt_panel.visible = false
+	elif new_mode == UIMode.Mode.DIALOGUE:
 		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.NONE:
 		item_detail_modal.visible = false

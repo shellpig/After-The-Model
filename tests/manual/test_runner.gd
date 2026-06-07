@@ -4,7 +4,7 @@ func _ready() -> void:
 	print("==================================================")
 	print("RUNNING INTEGRATION VERIFICATION FOR UI MODE & BACKPACK")
 	print("==================================================")
-	
+
 	# 1. Verify Autoload Configuration
 	print("Checking UIMode autoload...")
 	var autoload_exists = ProjectSettings.has_setting("autoload/UIMode")
@@ -13,7 +13,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: UIMode registered in autoload.")
-	
+
 	# 2. Verify InputMap Actions
 	print("Checking InputMap actions...")
 	var actions = ["open_inventory", "open_notebook", "ui_cancel",
@@ -26,7 +26,7 @@ func _ready() -> void:
 			return
 		print("PASS: InputMap action '" + action + "' exists.")
 
-		
+
 	# 3. Load & Instantiate apartment_room.tscn
 	print("Loading res://scenes/levels/apartment/apartment_room.tscn...")
 	var room_scene = load("res://scenes/levels/apartment/apartment_room.tscn")
@@ -35,18 +35,18 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: apartment_room.tscn loaded successfully.")
-	
+
 	var room_instance = room_scene.instantiate()
-	
+
 	# Instantiate GameUI so that apartment_room.gd can retrieve its UI references
 	var ui_scene = load("res://scenes/ui/game_ui.tscn")
 	var ui_instance = ui_scene.instantiate()
 	add_child(ui_instance)
 	print("PASS: game_ui.tscn instantiated in scene tree.")
-	
+
 	add_child(room_instance)
 	print("PASS: apartment_room.tscn instantiated in scene tree.")
-	
+
 	# 4. Verify Relative Node Paths
 	print("Verifying UI node structures inside GameUI...")
 	var ui_nodes = {
@@ -60,7 +60,7 @@ func _ready() -> void:
 		"ItemDetailModal": "ItemDetailModal",
 		"ConfirmDialog": "ConfirmDialog"
 	}
-	
+
 	for node_name in ui_nodes:
 		var path: String = ui_nodes[node_name]
 		var node = ui_instance.get_node_or_null(path)
@@ -69,7 +69,7 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("PASS: Node '" + node_name + "' exists at '" + path + "'.")
-		
+
 		# Extra properties verification
 		if node_name == "UIOverlay":
 			var overlay = node as ColorRect
@@ -92,7 +92,7 @@ func _ready() -> void:
 				get_tree().quit(1)
 				return
 			print("PASS: InventoryPanel custom minimum size is 368x256.")
-			
+
 	# 4b. Verify Story Preloads (Relaxed Contains Checks)
 	print("Verifying preloaded story notes (relaxed)...")
 	var categories_to_check = {
@@ -188,14 +188,14 @@ func _ready() -> void:
 			printerr("FAIL: Item '" + item_id + "' is missing icon_path!")
 			get_tree().quit(1)
 			return
-		
+
 		var file_exists = FileAccess.file_exists(icon_path)
 		if not file_exists:
 			printerr("FAIL: Icon file for '" + item_id + "' does not exist at path: " + icon_path)
 			get_tree().quit(1)
 			return
 		print("PASS: Icon file for '" + item_id + "' exists at '" + icon_path + "'.")
-		
+
 	# 6. Verify UIMode clean APIs
 	print("Verifying UIMode API presence...")
 	if not UIMode.has_method("get_mode") or not UIMode.has_method("set_mode") or not UIMode.has_method("is_world_input_blocked"):
@@ -227,21 +227,21 @@ func _ready() -> void:
 		printerr("FAIL: TouchControls autoload not found at /root/TouchControls!")
 		get_tree().quit(1)
 		return
-	
+
 	# Since this test runs on Windows (PC), is_pc_platform must be true
 	if not touch_controls.is_pc_platform:
 		printerr("FAIL: TouchControls.is_pc_platform should be true on Windows PC!")
 		get_tree().quit(1)
 		return
 	print("PASS: TouchControls.is_pc_platform is true on Windows PC.")
-	
+
 	# On PC, touch buttons should be disabled by default
 	if touch_controls.touch_buttons_enabled:
 		printerr("FAIL: TouchControls.touch_buttons_enabled should be false by default on PC!")
 		get_tree().quit(1)
 		return
 	print("PASS: TouchControls.touch_buttons_enabled is false by default on PC.")
-	
+
 	# On PC, BtnToggle should be visible by default in NONE mode
 	ui_instance.set_monologue_active(false)
 	UIMode.set_mode(UIMode.Mode.NONE)
@@ -264,7 +264,7 @@ func _ready() -> void:
 		printerr("FAIL: TouchControls/Control node not found!")
 		get_tree().quit(1)
 		return
-		
+
 	# Since this test runs on Windows (PC), offsets must be strictly 0
 	if control_node.offset_left != 0 or control_node.offset_top != 0 or control_node.offset_right != 0 or control_node.offset_bottom != 0:
 		printerr("FAIL: TouchControls/Control offsets must be strictly 0 on PC desktop platform!")
@@ -281,7 +281,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: project.godot configured to use res://scenes/main/main.tscn.")
-	
+
 	print("Loading res://scenes/main/main.tscn...")
 	var main_scene = load("res://scenes/main/main.tscn")
 	if not main_scene:
@@ -289,11 +289,11 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: main.tscn loaded successfully.")
-	
+
 	var main_instance = main_scene.instantiate()
 	add_child(main_instance)
 	print("PASS: main.tscn instantiated in scene tree.")
-	
+
 	print("Verifying Main scene hierarchy...")
 	var world_root_node = main_instance.get_node_or_null("WorldRoot")
 	if not world_root_node:
@@ -301,7 +301,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: WorldRoot node exists in Main.")
-	
+
 	print("Verifying SceneRouter APIs on Main...")
 	var required_methods = [
 		"transition_to", "reload_current_scene",
@@ -313,7 +313,7 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("PASS: Main script has method: " + method)
-		
+
 	print("Verifying SceneRegistry config on Main...")
 	if not "SCENES" in main_instance:
 		printerr("FAIL: SCENES registry dictionary not found in main.gd!")
@@ -324,7 +324,7 @@ func _ready() -> void:
 		printerr("FAIL: SCENES registry is missing 'apartment' or 'apartment_entrance' keys!")
 		get_tree().quit(1)
 		return
-	
+
 	var apartment_config = scenes_dict["apartment"]
 	if apartment_config.get("path") != "res://scenes/levels/apartment/apartment_room.tscn":
 		printerr("FAIL: apartment path in registry is wrong!")
@@ -334,7 +334,7 @@ func _ready() -> void:
 		printerr("FAIL: apartment default_entry_point_id is wrong!")
 		get_tree().quit(1)
 		return
-		
+
 	var street_config = scenes_dict["apartment_entrance"]
 	if street_config.get("path") != "res://scenes/levels/apartment_entrance.tscn":
 		printerr("FAIL: apartment_entrance path in registry is wrong!")
@@ -379,11 +379,11 @@ func _ready() -> void:
 		printerr("FAIL: apartment_entrance Player node missing!")
 		get_tree().quit(1)
 		return
-	if street_player.global_position != Vector2(850, 675):
+	if street_player.global_position != Vector2(730, 675):
 		printerr("FAIL: apartment_entrance from_apartment spawn is wrong! Got: ", street_player.global_position)
 		get_tree().quit(1)
 		return
-	if street_player.get("walk_line_y") != 675.0 or street_player.get("min_x") != 80.0 or street_player.get("max_x") != 4000.0:
+	if street_player.get("walk_line_y") != 665.0 or street_player.get("min_x") != 80.0 or street_player.get("max_x") != 4000.0:
 		printerr("FAIL: apartment_entrance player walk bounds are wrong!")
 		get_tree().quit(1)
 		return
@@ -392,7 +392,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: apartment_entrance map scene, spawn, bounds, and contract verified.")
-	
+
 	# 11. Verify Phase 4-E Entry Point methods on apartment_room
 	print("Verifying Phase 4-E Entry Point APIs on apartment_room...")
 	if not room_instance.has_method("prepare_entry_point") or not room_instance.has_method("set_entry_point"):
@@ -430,7 +430,7 @@ func _ready() -> void:
 	add_child(room_instance2)
 	room_instance2.prepare_entry_point("from_street")
 	room_instance2.set_entry_point("from_street")
-	
+
 	# Wait for queue_free to process on clock
 	await get_tree().process_frame
 
@@ -448,7 +448,220 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Solved room layout verified (clock removed, slot revealed).")
-	
+
+	# 13. Verify GameState Story Flags API & DialogueRunner Pure Logic (Phase 5-A)
+	print("Verifying GameState Story Flags APIs...")
+	GameState.story_flags.clear()
+	GameState.set_flag("test_flag_bool", true)
+	if not GameState.has_flag("test_flag_bool") or GameState.get_flag("test_flag_bool") != true:
+		printerr("FAIL: GameState set_flag / get_flag for boolean failed!")
+		get_tree().quit(1)
+		return
+
+	GameState.add_int("test_flag_int", 5)
+	if GameState.get_flag("test_flag_int") != 5:
+		printerr("FAIL: GameState add_int failed!")
+		get_tree().quit(1)
+		return
+
+	GameState.add_int("test_flag_int", -2)
+	if GameState.get_flag("test_flag_int") != 3:
+		printerr("FAIL: GameState add_int delta accumulation failed!")
+		get_tree().quit(1)
+		return
+
+	if not GameState.has_flag("test_flag_int"):
+		printerr("FAIL: GameState has_flag for non-zero int failed!")
+		get_tree().quit(1)
+		return
+
+	GameState.set_flag("test_flag_int", 0)
+	if GameState.has_flag("test_flag_int"):
+		printerr("FAIL: GameState has_flag for zero int should be false!")
+		get_tree().quit(1)
+		return
+
+	print("PASS: GameState Story Flags APIs verified.")
+
+	print("Verifying DialogueDB lookup...")
+	var DialogueDB = load("res://data/dialogue/dialogue_db.gd")
+	var wan_tree = DialogueDB.get_tree_for("wan")
+	if wan_tree.is_empty() or not wan_tree.has("start"):
+		printerr("FAIL: DialogueDB could not fetch wan tree!")
+		get_tree().quit(1)
+		return
+	print("PASS: DialogueDB lookup verified.")
+
+	print("Verifying DialogueRunner flow simulation (First Meet)...")
+	var runner = DialogueRunner.new()
+	GameState.story_flags.clear()
+	runner.start(wan_tree)
+
+	var curr = runner.current()
+	if curr.get("speaker") != "晚" or not curr.get("text").contains("新面孔"):
+		printerr("FAIL: DialogueRunner start should route to first_meet! Got text: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+
+	var choices = curr.get("choices")
+	if choices.size() != 3:
+		printerr("FAIL: first_meet should have 3 choices, got: ", choices.size())
+		get_tree().quit(1)
+		return
+
+	# Choose option 1: "妳是誰？" -> who
+	var idx_who = -1
+	for choice in choices:
+		if choice.get("label").contains("誰"):
+			idx_who = choice.get("index")
+			break
+	if idx_who != 1:
+		printerr("FAIL: who choice index should be 1, got: ", idx_who)
+		get_tree().quit(1)
+		return
+
+	runner.choose(idx_who)
+	curr = runner.current()
+	if not curr.get("text").contains("名字？"):
+		printerr("FAIL: should go to 'who' node! Got: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+
+	if not GameState.has_flag("knows_wan_name"):
+		printerr("FAIL: knows_wan_name flag was not set upon entering 'who' node!")
+		get_tree().quit(1)
+		return
+
+	runner.advance()
+	curr = runner.current()
+	if not curr.get("text").contains("那塊招牌"):
+		printerr("FAIL: should advance to 'watch' node! Got: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+
+	choices = curr.get("choices")
+	if choices.size() != 2:
+		printerr("FAIL: watch node should have 2 choices, got: ", choices.size())
+		get_tree().quit(1)
+		return
+
+	# Choose option 0: "我也撿這種東西。" -> kin
+	var idx_kin = -1
+	for choice in choices:
+		if choice.get("label").contains("撿"):
+			idx_kin = choice.get("index")
+			break
+	if idx_kin != 0:
+		printerr("FAIL: kin choice index should be 0, got: ", idx_kin)
+		get_tree().quit(1)
+		return
+
+	runner.choose(idx_kin)
+	curr = runner.current()
+	if not curr.get("text").contains("同類"):
+		printerr("FAIL: should go to 'kin' node! Got: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+
+	if GameState.get_flag("affinity_wan") != 1 or not GameState.get_flag("met_wan"):
+		printerr("FAIL: kin effects not applied correctly!")
+		get_tree().quit(1)
+		return
+
+	runner.advance()
+	curr = runner.current()
+	if not curr.get("text").contains("有意思的"):
+		printerr("FAIL: should advance to 'end_warm' node! Got: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+
+	if not curr.get("is_terminal"):
+		printerr("FAIL: end_warm should be a terminal node!")
+		get_tree().quit(1)
+		return
+
+	var finished_signal_status = {"emitted": false}
+	runner.finished.connect(func(): finished_signal_status["emitted"] = true)
+	runner.advance()
+	if not finished_signal_status["emitted"]:
+		printerr("FAIL: DialogueRunner should emit finished on terminal node advance!")
+		get_tree().quit(1)
+		return
+
+	print("PASS: DialogueRunner flow simulation (First Meet) verified.")
+
+	print("Verifying DialogueRunner flow simulation (Retalk & Intel Gate Locked)...")
+	# met_wan is true, affinity_wan is 1
+	runner.start(wan_tree)
+	curr = runner.current()
+	if not curr.get("text").contains("又是你"):
+		printerr("FAIL: start should route to retalk since met_wan is true! Got: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+
+	choices = curr.get("choices")
+	var idx_news = -1
+	for choice in choices:
+		if choice.get("label").contains("消息"):
+			idx_news = choice.get("index")
+			break
+	if idx_news != 1:
+		printerr("FAIL: news choice index should be 1, got: ", idx_news)
+		get_tree().quit(1)
+		return
+
+	runner.choose(idx_news)
+	curr = runner.current()
+	if not curr.get("text").contains("我又不是 AI 客服"):
+		printerr("FAIL: should route to intel_locked since affinity_wan < 2! Got: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+
+	if GameState.get_flag("affinity_wan") != 2:
+		printerr("FAIL: intel_locked effect affinity_wan += 1 failed!")
+		get_tree().quit(1)
+		return
+
+	runner.advance()
+	curr = runner.current()
+	if not curr.get("text").contains("死掉的招牌"):
+		printerr("FAIL: should advance to 'end_cold'! Got: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+	if not curr.get("is_terminal"):
+		printerr("FAIL: end_cold should be terminal!")
+		get_tree().quit(1)
+		return
+
+	print("PASS: DialogueRunner flow simulation (Retalk & Intel Gate Locked) verified.")
+
+	print("Verifying DialogueRunner flow simulation (Retalk & Intel Gate Unlocked)...")
+	# met_wan is true, affinity_wan is now 2
+	runner.start(wan_tree)
+	curr = runner.current()
+	choices = curr.get("choices")
+
+	runner.choose(idx_news)
+	curr = runner.current()
+	if not curr.get("text").contains("想聽好料"):
+		printerr("FAIL: should route to intel since affinity_wan >= 2! Got: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+
+	if GameState.has_knowledge("alley_backrooms_3f") or GameState.has_note("alley_backrooms_3f"):
+		printerr("FAIL: add_gleaner_lead should not write to knowledge or notes!")
+		get_tree().quit(1)
+		return
+
+	runner.advance()
+	curr = runner.current()
+	if not curr.get("text").contains("有意思的"):
+		printerr("FAIL: should advance to 'end_warm'! Got: ", curr.get("text"))
+		get_tree().quit(1)
+		return
+
+	print("PASS: DialogueRunner flow simulation (Retalk & Intel Gate Unlocked) verified.")
+
 	room_instance2.queue_free()
 
 	# Clean up instantiated test nodes

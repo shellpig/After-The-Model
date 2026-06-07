@@ -8,6 +8,7 @@ signal knowledge_added(id: String)
 signal notes_changed
 signal equipment_changed
 signal item_moved(move: Dictionary)
+signal flag_changed(key: String, value)
 
 # Variables
 var credits: int = 300
@@ -26,6 +27,7 @@ var apartment_initialized: bool = false
 var apartment_sonar_revealed: bool = false
 var apartment_slot_unlocked: bool = false
 var apartment_beyond_door_bgm_triggered: bool = false
+var story_flags: Dictionary = {}
 
 
 const STORY_NOTES := {
@@ -207,6 +209,32 @@ func set_credits(value: int) -> void:
 	credits = clampi(value, 0, 9999999)
 	if credits != old_credits:
 		credits_changed.emit(credits)
+
+# ==========================================
+# Story Flags API
+# ==========================================
+func set_flag(key: String, value) -> void:
+	story_flags[key] = value
+	flag_changed.emit(key, value)
+
+func get_flag(key: String, default_value = 0):
+	return story_flags.get(key, default_value)
+
+func has_flag(key: String) -> bool:
+	var val = story_flags.get(key, false)
+	if val is bool:
+		return val
+	if val is int or val is float:
+		return val != 0
+	return val != null
+
+func add_int(key: String, delta: int) -> void:
+	var current_val = story_flags.get(key, 0)
+	if not (current_val is int or current_val is float):
+		current_val = 0
+	var new_val = int(current_val) + delta
+	story_flags[key] = new_val
+	flag_changed.emit(key, new_val)
 
 # ==========================================
 # Knowledge / Notes API

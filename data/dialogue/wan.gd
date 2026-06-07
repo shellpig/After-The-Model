@@ -1,0 +1,95 @@
+# Dialogue Tree for Wan
+# File: res://data/dialogue/wan.gd
+
+const TREE := {
+	"start": {
+		"goto": [
+			{"condition": {"flag": "met_wan", "op": "==", "value": true}, "target": "retalk"},
+			{"target": "first_meet"}
+		]
+	},
+	"first_meet": {
+		"speaker": "晚",
+		"text": "喲，新面孔。從那盞燈底下、那棟漏水的破樓鑽出來的？\n我還以為那裡只剩生鏽的管線——\n沒想到還養著你這種、看得順眼的。",
+		"choices": [
+			{"label": "妳在看什麼？", "goto": "watch"},
+			{"label": "妳是誰？", "goto": "who"},
+			{"label": "（別開眼）", "goto": "flee"}
+		]
+	},
+	"watch": {
+		"speaker": "晚",
+		"text": "那塊招牌。以前整夜亮著，現在燈死得只剩幾個字——\n『DEAD SHO』。（笑）一家斷氣的店，\n招牌偏偏拼得出『死』。這城市的幽默感，黑得很。\n我啊——專看這種快要不存在的東西。\n（斜你一眼）偶爾，也看看快要心動的東西。",
+		"choices": [
+			{"label": "我也撿這種東西。", "goto": "kin"},
+			{"label": "想跟妳打聽點消息。", "goto": "intel_gate"}
+		]
+	},
+	"who": {
+		"speaker": "晚",
+		"text": "名字？這年頭名字比指紋還不值錢。\n……晚。記這個字就好，剩下的，\n等你哪天值得了，我再一個字一個字給你。",
+		"effect": [
+			{"op": "set_flag", "key": "knows_wan_name", "value": true}
+		],
+		"goto": "watch"
+	},
+	"kin": {
+		"speaker": "晚",
+		"text": "喔——同類。那你該懂，\n撿回來的不是垃圾，是還沒被刪乾淨的人。\n（壓低聲）你這種人，我可不常遇到。",
+		"effect": [
+			{"op": "add_int", "key": "affinity_wan", "value": 1},
+			{"op": "set_flag", "key": "met_wan", "value": true}
+		],
+		"goto": "end_warm"
+	},
+	"intel_gate": {
+		"goto": [
+			{"condition": {"flag": "affinity_wan", "op": ">=", "value": 2}, "target": "intel"},
+			{"target": "intel_locked"}
+		]
+	},
+	"intel": {
+		"speaker": "晚",
+		"text": "想聽好料？……算了，看在你這張臉的份上。\n巷子再往裡，那排後門堆雜物的舊樓，\n三樓搬空了，老住戶走得急，東西沒帶乾淨。\n晚了，就被收破爛的 AI 鏟平嘍。",
+		"effect": [
+			{"op": "add_gleaner_lead", "value": "alley_backrooms_3f"}
+		],
+		"goto": "end_warm"
+	},
+	"intel_locked": {
+		"speaker": "晚",
+		"text": "消息？（笑）我又不是 AI 客服，\n憑你一句話就掏心掏肺。\n多來幾趟，讓我覺得你值得——再說。",
+		"effect": [
+			{"op": "add_int", "key": "affinity_wan", "value": 1},
+			{"op": "set_flag", "key": "met_wan", "value": true}
+		],
+		"goto": "end_cold"
+	},
+	"end_warm": {
+		"speaker": "晚",
+		"text": "下次撿到有意思的，記得拿來給我看。\n……我是說東西。也不一定只是東西。"
+	},
+	"end_cold": {
+		"speaker": "晚",
+		"text": "（她又轉回去盯那塊死掉的招牌，留你一個側臉。）"
+	},
+	"flee": {
+		"speaker": "晚",
+		"text": "（她在你背後輕笑：「跑什麼，我又不咬人——除非你想。」）"
+	},
+	"retalk": {
+		"speaker": "晚",
+		"text": "又是你。（瞥一眼右邊還在抽風的販賣機）\n那台破機器又卡了，等下八成是你的活。\n……不急？那就先陪我站會兒。",
+		"choices": [
+			{
+				"label": "來看看妳。",
+				"effect": [
+					{"op": "add_int", "key": "affinity_wan", "value": 1}
+				],
+				"goto": "end_warm"
+			},
+			{"label": "有新消息嗎？", "goto": "intel_gate"},
+			{"label": "（離開）", "goto": "flee"}
+		]
+	}
+}

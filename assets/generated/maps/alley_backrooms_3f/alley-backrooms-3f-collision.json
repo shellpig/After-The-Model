@@ -1,0 +1,59 @@
+{
+  "canvas_px": [1672, 941],
+  "units": "pixels",
+  "platforms": [
+    {
+      "id": "right_4f_platform",
+      "type": "walk_platform",
+      "rect_px": [1162, 386, 1471, 428],
+      "rect_norm": [0.695, 0.410, 0.880, 0.455],
+      "note": "Entry platform outside apartment window before descending ladder."
+    },
+    {
+      "id": "right_3f_platform",
+      "type": "walk_platform",
+      "rect_px": [1020, 649, 1605, 701],
+      "rect_norm": [0.610, 0.690, 0.960, 0.745],
+      "note": "Right-building 3F walkway segment."
+    },
+    {
+      "id": "bridge_3f",
+      "type": "walk_platform",
+      "rect_px": [610, 654, 1028, 715],
+      "rect_norm": [0.365, 0.695, 0.615, 0.760],
+      "note": "Rope-and-plank bridge across central alley gap."
+    },
+    {
+      "id": "left_3f_platform",
+      "type": "walk_platform",
+      "rect_px": [33, 635, 610, 692],
+      "rect_norm": [0.020, 0.675, 0.365, 0.735],
+      "note": "Left-building 3F walkway segment leading to target box."
+    }
+  ],
+  "ladders": [
+    {
+      "id": "main_ladder",
+      "type": "ladder_zone",
+      "rect_px": [1396, 419, 1446, 640],
+      "rect_norm": [0.835, 0.445, 0.865, 0.680],
+      "note": "Vertical ladder connecting right 4F platform to right 3F platform."
+    }
+  ],
+  "interactables": [
+    {
+      "id": "target_box",
+      "type": "interactable",
+      "rect_px": [410, 607, 527, 659],
+      "rect_norm": [0.245, 0.645, 0.315, 0.700],
+      "note": "Quest box containing early_ai_assistant_activation_box."
+    },
+    {
+      "id": "window_return",
+      "type": "exit",
+      "rect_px": [1463, 344, 1563, 428],
+      "rect_norm": [0.875, 0.365, 0.935, 0.455],
+      "note": "Return interaction back to apartment:from_fire_escape."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "map_id": "alley_backrooms_3f",
+  "phase": "7",
+  "map_mode": "side_scroll_mode",
+  "visual_model": "baked_stage_reference_with_runtime_metadata",
+  "engine_target": "project-native Godot",
+  "stage_canvas_px": [1672, 941],
+  "source_reference": "source-reference.png",
+  "raw_generated": "raw-generated-20260607-193627.png",
+  "stage_reference": "alley-backrooms-3f-stage-reference.png",
+  "stage_preview": "alley-backrooms-3f-stage-preview.png",
+  "prompt": "alley-backrooms-3f.prompt.txt",
+  "objects": "alley-backrooms-3f-objects.json",
+  "collision": "alley-backrooms-3f-collision.json",
+  "scene_hooks": "alley-backrooms-3f-scene-hooks.json",
+  "adoption_note": "Use this as map art/reference plus explicit metadata. If implementing full parallax later, split skyline/buildings/foreground into separate runtime layers."
+}

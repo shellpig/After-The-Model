@@ -15,8 +15,8 @@
 - **美術方向**：Riso-inspired HD 2D Cyberpunk，非 hard pixel art
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
-- **目前可玩場景**：`apartment_room.tscn`、`apartment_entrance.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-F 已完成並驗證（headless PASS）。**4-G 已取消**（其架構契約已被 4-A~4-F 滿足，placeholder 部分為丟棄工）；**Phase 5 — NPC + 對話**：5-A~5-D 已全數完成並驗證（headless PASS + 5-D 人工驗證通過），NPC「晚」落地街道、對話真系統上線；Quest 僅預留資料路徑。**Phase 6 — SaveSystem（手動多槽存檔）**：6-A~6-F **已全數完成並驗證**（headless 100 PASS / 0 FAIL）；`var_to_str` 多槽手動存讀 + 最小標題畫面 + 暫停選單上線，回場存精確座標，載入採「SaveSystem 驗 shape/version + Main 驗 scene_id」兩段前置；ConfirmDialog 重用缺陷已修並補回歸測試。剩 6-E/6-F 真機 GUI 走查為人工驗收項。**Phase 7 — QuestManager + `alley_backrooms_3f` vertical slice**：規格 / 契約 / 測試清單已定；**7-A~7-D 已完成並驗證（headless PASS）**——QuestManager 真系統 + quest state 存讀檔、晚的對話接任務（`start_quest` effect + condition 擴充）、後巷偵查事件、公寓窗戶條件式入口皆上線；7-E~7-J（外牆場景 / 梯子 / A-B 物品 / 回報完成 / 回歸）待實作。
+- **目前可玩場景**：`apartment_room.tscn`、`apartment_entrance.tscn`、`apartment_fire_escape.tscn`
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-F 已完成並驗證（headless PASS）。**4-G 已取消**（其架構契約已被 4-A~4-F 滿足，placeholder 部分為丟棄工）；**Phase 5 — NPC + 對話**：5-A~5-D 已全數完成並驗證（headless PASS + 5-D 人工驗證通過），NPC「晚」落地街道、對話真系統上線；Quest 僅預留資料路徑。**Phase 6 — SaveSystem（手動多槽存檔）**：6-A~6-F **已全數完成並驗證**（headless 100 PASS / 0 FAIL）；`var_to_str` 多槽手動存讀 + 最小標題畫面 + 暫停選單上線，回場存精確座標，載入採「SaveSystem 驗 shape/version + Main 驗 scene_id」兩段前置；ConfirmDialog 重用缺陷已修並補回歸測試。剩 6-E/6-F 真機 GUI 走查為人工驗收項。**Phase 7 — QuestManager + `alley_backrooms_3f` vertical slice**：規格 / 契約 / 測試清單已定；**7-A~7-F 已完成並驗證（headless PASS）**——QuestManager 真系統 + quest state 存讀檔、晚的對話接任務、後巷偵查事件、公寓窗戶條件式入口、外牆場景骨架、梯子攀爬 / 天橋步行 / 外牆禁存皆上線；7-G~7-J（A-B 物品 / 回報完成 / 回歸）待實作。
 
 ## 核心調性
 
@@ -201,8 +201,8 @@ note_id
 | 7-B | ✅ 完成 | 晚的對話接任務：沿用既有 `affinity_wan >= 2` / `intel` 門檻；新增 `start_quest` effect；DialogueRunner condition 支援 quest status / step / inventory（單 Dict 或 Array=AND，舊 flag 相容）；headless PASS |
 | 7-C | ✅ 完成 | `apartment_entrance` 後巷偵查事件：未接任務維持原文字；接任務後顯示危險暗巷描述、推進 `checked_alley`、更新工作筆記；再次互動不重複推進；headless PASS |
 | 7-D | ✅ 完成 | 公寓窗戶條件式入口：未達 `checked_alley` 不可互動，達成後 `fire_escape_window` 轉場 `apartment_fire_escape:from_window`；回程 `apartment:from_fire_escape` 落窗邊不播獨白；headless PASS |
-| 7-E | ⬜ 規格已定 | `apartment_fire_escape` 場景骨架：右棟 4F / 梯子 / 右棟 3F / 中央 gap / 3F 天橋 / 左棟 3F 箱子，唯一 entry point `from_window` |
-| 7-F | ⬜ 規格已定 | 梯子攀爬 + 天橋步行 + 相機 + 外牆禁存：climb mode 僅本場景使用；E 先離梯再互動；離開場景恢復 `SaveSystem.can_save_here` |
+| 7-E | ✅ 完成 | `apartment_fire_escape` 場景骨架：右棟 4F / 梯子 / 右棟 3F / 中央 gap / 3F 天橋 / 左棟 3F 箱子，唯一 entry point `from_window`；headless 載入 PASS |
+| 7-F | ✅ 完成 | 梯子攀爬 + 天橋步行 + 相機 + 外牆禁存：climb mode 僅本場景使用；E 先離梯再互動；離開場景恢復 `SaveSystem.can_save_here`；headless PASS |
 | 7-G | ⬜ 規格已定 | 三樓箱子搜索 + A 物品取得：搜索文字需安靜避開亮燈住戶；背包滿時不得 `set_flag` / `advance`，避免 soft-lock |
 | 7-H | ⬜ 規格已定 | R 查看 A 得 B：A「早期 AI 助理啟用盒」保留且可交任務；B「舊式 AI 授權模組」只在查看夾層後取得，錯過不補發 |
 | 7-I | ⬜ 規格已定 | 回報晚 + 任務完成：只有 active + `found_activation_box` + 持有 A 才顯示交任務分支；成功移除 A 後才 complete；B 保留 |
@@ -315,7 +315,7 @@ NPC「晚」內容定稿：`subdocs/人/晚.md`。
 
 ### Phase 7 子階段（三份對照）
 
-> 行號以 2026-06-07 版為準；大幅改寫後需校正。Phase 7 規格 / 契約 / 測試清單已定；7-A~7-D 已實作並驗證（headless PASS），7-E~7-J 待實作。
+> 行號以 2026-06-07 版為準；大幅改寫後需校正。Phase 7 規格 / 契約 / 測試清單已定；7-A~7-F 已實作並驗證（headless PASS），7-G~7-J 待實作。
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
 |---|---|---|---|
@@ -416,7 +416,7 @@ verify_game_state.gd: PASS
 
 ## 下一步建議
 
-架構主線：**Phase 5 — NPC + 對話（真系統）已完成（5-A~5-D 驗證通過）**。**Phase 6 — SaveSystem 已全數完成（6-A~6-F，headless 100 PASS / 0 FAIL）**：`SaveSystem` capture/apply/validate 純邏輯 + 回場路徑 + 多槽 + 標題 / 暫停選單 UI + 邊界處理皆上線並驗證；ConfirmDialog 重用缺陷已修並補回歸測試。剩 6-E/6-F 真機 GUI 走查為人工驗收項。**Phase 7 — QuestManager + `alley_backrooms_3f` vertical slice 實作中**：7-A~7-D（任務狀態系統、晚的對話接任務、後巷偵查事件、公寓窗戶條件入口）已完成並驗證（headless PASS）；下一步做 7-E `apartment_fire_escape` 外牆場景、7-F 梯子攀爬 / 外牆禁存、7-G/7-H A/B 物品、7-I 回報晚完成任務、7-J 回歸驗證。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
+架構主線：**Phase 5 — NPC + 對話（真系統）已完成（5-A~5-D 驗證通過）**。**Phase 6 — SaveSystem 已全數完成（6-A~6-F，headless 100 PASS / 0 FAIL）**：`SaveSystem` capture/apply/validate 純邏輯 + 回場路徑 + 多槽 + 標題 / 暫停選單 UI + 邊界處理皆上線並驗證；ConfirmDialog 重用缺陷已修並補回歸測試。剩 6-E/6-F 真機 GUI 走查為人工驗收項。**Phase 7 — QuestManager + `alley_backrooms_3f` vertical slice 實作中**：7-A~7-F（任務狀態系統、晚的對話接任務、後巷偵查事件、公寓窗戶條件入口、外牆場景骨架、梯子攀爬 / 外牆禁存）已完成並驗證（headless PASS）；下一步做 7-G/7-H A/B 物品、7-I 回報晚完成任務、7-J 回歸驗證。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

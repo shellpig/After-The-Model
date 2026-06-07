@@ -1,0 +1,9 @@
+Use the current main-character walk sprite as the protagonist identity reference, the alley fire-escape preview only as ladder scene context, and the 2x3 layout guide only for invisible slot geometry.
+
+Create a 2D game sprite animation sheet for the same After-The-Model protagonist climbing a vertical wall ladder, back view, facing the wall. Exactly 6 equal cells arranged as a 2x3 grid, read left to right across the top row then left to right across the bottom row.
+
+Keep identity fixed in every cell: lean working-class East Asian male, dark messy hair with goggles pushed up, deep teal high-collar jacket with rolled sleeves, faded khaki-olive cargo pants tucked into dark work boots, shoulder bag strap, orange shoulder patch, orange glove back panels. Preserve flat cel-shaded indie comic style with bold hand-inked black outlines, hard-edged flat tones, halftone midtones, riso-inspired HD 2D cyberpunk look. Do not make pixel art, painterly concept art, anime, or 3D render.
+
+Action sequence: alternating hands and feet on an invisible vertical ladder, with loop-compatible rhythm. No ladder object, no rung lines, no rails, no wall, no background props. Body faces away from camera; show back of jacket, back of head, boots, arms, gloves, and orange markers.
+
+Keep full body inside the central safe area of each cell. Same scale, bounding box, body height, centerline, and stable vertical anchor in every frame. Leave magenta margin on all four sides. No body part or accessory may cross a cell edge. No detached FX, dust, shadow, text, or UI. Background must be solid flat #FF00FF magenta for chroma processing.

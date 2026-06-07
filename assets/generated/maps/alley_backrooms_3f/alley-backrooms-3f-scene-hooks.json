@@ -1,0 +1,26 @@
+{
+  "scene_id": "apartment_fire_escape",
+  "quest_id": "alley_backrooms_3f",
+  "entry_points": [
+    {
+      "id": "from_window",
+      "spawn_px": [1496, 407],
+      "spawn_norm": [0.895, 0.432],
+      "facing": -1
+    }
+  ],
+  "exits": [
+    {
+      "id": "window_return",
+      "target_scene": "apartment",
+      "target_entry_point": "from_fire_escape",
+      "object_id": "window_return"
+    }
+  ],
+  "camera_bounds_px": [0, 0, 1672, 941],
+  "save_allowed": false,
+  "notes": [
+    "Runtime should use explicit platform/ladder rectangles, not image pixels, for collision.",
+    "Target box only becomes active after quest step checked_alley."
+  ]
+}

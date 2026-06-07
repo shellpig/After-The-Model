@@ -3,7 +3,7 @@ extends Control
 signal back_pressed
 
 @onready var title_label: Label = $Panel/VBoxContainer/TitleLabel
-@onready var slots_vbox: VBoxContainer = $Panel/VBoxContainer/ScrollContainer/SlotsVBox
+@onready var slots_vbox: VBoxContainer = $Panel/VBoxContainer/SlotsVBox
 @onready var btn_back: Button = $Panel/VBoxContainer/BtnBack
 @onready var footer_hint_label: Label = $Panel/VBoxContainer/FooterHintLabel
 
@@ -257,18 +257,27 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("move_up"):
 		var focused = vp.gui_get_focus_owner()
 		var idx = _buttons.find(focused)
-		if idx > 0:
+		if idx != -1:
+			var found_prev = false
 			for prev_idx in range(idx - 1, -1, -1):
 				if not _buttons[prev_idx].disabled:
 					_buttons[prev_idx].grab_focus()
 					vp.set_input_as_handled()
+					found_prev = true
 					break
+			if not found_prev:
+				btn_back.grab_focus()
+				vp.set_input_as_handled()
 		elif focused == btn_back:
+			var found_prev = false
 			for last_idx in range(_buttons.size() - 1, -1, -1):
 				if not _buttons[last_idx].disabled:
 					_buttons[last_idx].grab_focus()
 					vp.set_input_as_handled()
+					found_prev = true
 					break
+			if not found_prev:
+				vp.set_input_as_handled()
 	elif event.is_action_pressed("move_down"):
 		var focused = vp.gui_get_focus_owner()
 		var idx = _buttons.find(focused)
@@ -283,6 +292,16 @@ func _input(event: InputEvent) -> void:
 			if not found_next:
 				btn_back.grab_focus()
 				vp.set_input_as_handled()
+		elif focused == btn_back:
+			var found_next = false
+			for first_idx in range(0, _buttons.size()):
+				if not _buttons[first_idx].disabled:
+					_buttons[first_idx].grab_focus()
+					vp.set_input_as_handled()
+					found_next = true
+					break
+			if not found_next:
+				vp.set_input_as_handled()
 	elif event.is_action_pressed("interact_primary"):
 		var focused = vp.gui_get_focus_owner()
 		var idx = _buttons.find(focused)
@@ -292,3 +311,6 @@ func _input(event: InputEvent) -> void:
 		elif focused == btn_back:
 			vp.set_input_as_handled()
 			_on_back_pressed()
+	elif event.is_action_pressed("ui_cancel"):
+		vp.set_input_as_handled()
+		_on_back_pressed()

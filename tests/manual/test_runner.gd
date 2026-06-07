@@ -1228,14 +1228,14 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	# Verify list slot contents (10 buttons populated)
-	var slots = slot_list.get_node("Panel/VBoxContainer/ScrollContainer/SlotsVBox")
+	# Verify list slot contents (7 buttons populated)
+	var slots = slot_list.get_node("Panel/VBoxContainer/SlotsVBox")
 	var buttons_count := 0
 	for child in slots.get_children():
 		if child is Button:
 			buttons_count += 1
-	if buttons_count != 10:
-		printerr("FAIL: SaveSlotList did not contain exactly 10 slots! Got: ", buttons_count)
+	if buttons_count != 7:
+		printerr("FAIL: SaveSlotList did not contain exactly 7 slots! Got: ", buttons_count)
 		get_tree().quit(1)
 		return
 		

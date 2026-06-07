@@ -45,61 +45,43 @@ text = "— 選擇存檔槽 —"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Panel/VBoxContainer"]
+[node name="SlotsVBox" type="VBoxContainer" parent="Panel/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="SlotsVBox" type="VBoxContainer" parent="Panel/VBoxContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="SlotButton1" type="Button" parent="Panel/VBoxContainer/ScrollContainer/SlotsVBox"]
+[node name="SlotButton1" type="Button" parent="Panel/VBoxContainer/SlotsVBox"]
 layout_mode = 2
 text = "存檔槽 01"
 
-[node name="SlotButton2" type="Button" parent="Panel/VBoxContainer/ScrollContainer/SlotsVBox"]
+[node name="SlotButton2" type="Button" parent="Panel/VBoxContainer/SlotsVBox"]
 layout_mode = 2
 text = "存檔槽 02"
 
-[node name="SlotButton3" type="Button" parent="Panel/VBoxContainer/ScrollContainer/SlotsVBox"]
+[node name="SlotButton3" type="Button" parent="Panel/VBoxContainer/SlotsVBox"]
 layout_mode = 2
 text = "存檔槽 03"
 
-[node name="SlotButton4" type="Button" parent="Panel/VBoxContainer/ScrollContainer/SlotsVBox"]
+[node name="SlotButton4" type="Button" parent="Panel/VBoxContainer/SlotsVBox"]
 layout_mode = 2
 text = "存檔槽 04"
 
-[node name="SlotButton5" type="Button" parent="Panel/VBoxContainer/ScrollContainer/SlotsVBox"]
+[node name="SlotButton5" type="Button" parent="Panel/VBoxContainer/SlotsVBox"]
 layout_mode = 2
 text = "存檔槽 05"
 
-[node name="SlotButton6" type="Button" parent="Panel/VBoxContainer/ScrollContainer/SlotsVBox"]
+[node name="SlotButton6" type="Button" parent="Panel/VBoxContainer/SlotsVBox"]
 layout_mode = 2
 text = "存檔槽 06"
 
-[node name="SlotButton7" type="Button" parent="Panel/VBoxContainer/ScrollContainer/SlotsVBox"]
+[node name="SlotButton7" type="Button" parent="Panel/VBoxContainer/SlotsVBox"]
 layout_mode = 2
 text = "存檔槽 07"
-
-[node name="SlotButton8" type="Button" parent="Panel/VBoxContainer/ScrollContainer/SlotsVBox"]
-layout_mode = 2
-text = "存檔槽 08"
-
-[node name="SlotButton9" type="Button" parent="Panel/VBoxContainer/ScrollContainer/SlotsVBox"]
-layout_mode = 2
-text = "存檔槽 09"
-
-[node name="SlotButton10" type="Button" parent="Panel/VBoxContainer/ScrollContainer/SlotsVBox"]
-layout_mode = 2
-text = "存檔槽 10"
 
 [node name="BtnBack" type="Button" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "X 返回"
+text = "返回"
 
 [node name="FooterHintLabel" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2

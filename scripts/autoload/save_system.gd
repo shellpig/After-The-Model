@@ -1,6 +1,6 @@
 extends Node
 
-const SLOT_COUNT := 10
+const SLOT_COUNT := 7
 const SAVE_VERSION := 1
 
 var can_save_here := true

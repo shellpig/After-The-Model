@@ -191,8 +191,8 @@ note_id
 | 5-B | ✅ 完成 | `DialoguePanel.tscn/gd`（立繪槽 / 名字 / 內文 / 選項列，`Portrait.texture==null` 安全）+ `UIMode.DIALOGUE` + interactable `dialogue_id`；接線 Level→Main(`start_dialogue`)→GameUI；鍵盤 上 / 下移焦點、`E` 確認選取 / 推進（`_unhandled_input` 對有 / 無選項分流，真實 `parse_input_event` 路由驗證焦點 Button 不吞 E）；分支 / effect 在 UI 流程正確反映、結束回 `NONE` 無殘留；GameUI 公開 `has_active_dialogue`/`dialogue_move_focus`/`dialogue_confirm` 供 5-C；headless PASS |
 | 5-C | ✅ 完成 | TouchControls 對話路由（D-pad 選項 + 確認），經 GameUI 公開查詢；對話時世界移動與其它 UI 隱藏，不誤觸底層 |
 | 5-D | ✅ 完成 | NPC「晚」落地 `apartment_entrance`（Area2D + Sprite2D，立繪 ext_resource 帶 uid），對話 dispatch 泛化（dialogue_id 優先），條件路由（首見 `first_meet` / `met_wan` 後 `retalk`）與跨場景旗標保留，`affinity_wan>=2` 解 `intel` 情報；headless PASS + 人工驗證通過 |
-| 6-A | ⬜ 待開工 | `SaveSystem` Autoload：`capture()` / `apply()` / `validate()`（只驗 shape/version）+ `var_to_str` / `str_to_var` 讀寫；`GameState.to_save_dict()` / `load_save_dict()` / `reset_for_new_game()`；payload = 全可變狀態（含 `_last_instance_id`）+ scene_id + 玩家座標，排除 code-owned 常數；headless round-trip |
-| 6-B | ⬜ 待開工 | 讀檔回場：載入進場景、直接 set 玩家精確座標、跳過 entry point 副作用；Load 兩段驗證（SaveSystem 驗 shape/version → Main 驗 `scene_id ∈ SCENES`）→ 才 apply；New Game 先 `reset_for_new_game()` 再播開場、讀檔不播 |
+| 6-A | ✅ 完成 | `SaveSystem` Autoload：`capture()` / `apply()` / `validate()`（只驗 shape/version）+ `var_to_str` / `str_to_var` 讀寫；`GameState.to_save_dict()` / `load_save_dict()` / `reset_for_new_game()`；payload = 全可變狀態（含 `_last_instance_id`）+ scene_id + 玩家座標，排除 code-owned 常數；headless round-trip PASS（commit `003d22f`）|
+| 6-B | ✅ 完成 | 讀檔回場：載入進場景、直接 set 玩家精確座標、跳過 entry point 副作用；Load 兩段驗證（SaveSystem 驗 shape/version → Main 驗 `scene_id ∈ SCENES`）→ 才 apply；New Game 先 `reset_for_new_game()` 再播開場、讀檔不播；headless PASS（commit `003d22f`）|
 | 6-C | ⬜ 待開工 | 多槽模型：檔名 `user://save_01..10.sav` + `{meta,data}` header + 列舉 10 槽 API（只讀 meta 不套用）；損毀槽優雅失敗 |
 | 6-D | ⬜ 待開工 | 最小標題畫面（New Game / Load Game）+ 開機流程；標題頁須隔離 TouchControls overlay（非 gameplay 不顯示 D-pad/toggle） |
 | 6-E | ⬜ 待開工 | 暫停選單（Resume/Save/Load/回標題）+ Save/Load 共用槽列表 UI + 覆蓋確認（`ConfirmDialog`）+ `UIMode==NONE` gating + Save 入口查預留 `can_save_here` 旗標 + TouchControls 接線 |

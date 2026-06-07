@@ -142,30 +142,34 @@ func _input(event: InputEvent) -> void:
 	if game_ui and game_ui.has_node("ConfirmDialog") and game_ui.get_node("ConfirmDialog").visible:
 		return
 
+	var vp = get_viewport()
+	if not vp:
+		return
+
 	var buttons = [btn_resume, btn_save, btn_load, btn_title]
 	if event.is_action_pressed("move_up"):
-		var focused = get_viewport().gui_get_focus_owner()
+		var focused = vp.gui_get_focus_owner()
 		var idx = buttons.find(focused)
 		if idx > 0:
 			buttons[idx - 1].grab_focus()
-			get_viewport().set_input_as_handled()
+			vp.set_input_as_handled()
 	elif event.is_action_pressed("move_down"):
-		var focused = get_viewport().gui_get_focus_owner()
+		var focused = vp.gui_get_focus_owner()
 		var idx = buttons.find(focused)
 		if idx != -1 and idx < buttons.size() - 1:
 			buttons[idx + 1].grab_focus()
-			get_viewport().set_input_as_handled()
+			vp.set_input_as_handled()
 	elif event.is_action_pressed("interact_primary"):
-		var focused = get_viewport().gui_get_focus_owner()
+		var focused = vp.gui_get_focus_owner()
 		if focused == btn_resume:
+			vp.set_input_as_handled()
 			_on_resume_pressed()
-			get_viewport().set_input_as_handled()
 		elif focused == btn_save:
+			vp.set_input_as_handled()
 			_on_save_pressed()
-			get_viewport().set_input_as_handled()
 		elif focused == btn_load:
+			vp.set_input_as_handled()
 			_on_load_pressed()
-			get_viewport().set_input_as_handled()
 		elif focused == btn_title:
+			vp.set_input_as_handled()
 			_on_title_pressed()
-			get_viewport().set_input_as_handled()

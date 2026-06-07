@@ -250,41 +250,45 @@ func _input(event: InputEvent) -> void:
 	if game_ui and game_ui.has_node("ConfirmDialog") and game_ui.get_node("ConfirmDialog").visible:
 		return
 
+	var vp = get_viewport()
+	if not vp:
+		return
+
 	if event.is_action_pressed("move_up"):
-		var focused = get_viewport().gui_get_focus_owner()
+		var focused = vp.gui_get_focus_owner()
 		var idx = _buttons.find(focused)
 		if idx > 0:
 			for prev_idx in range(idx - 1, -1, -1):
 				if not _buttons[prev_idx].disabled:
 					_buttons[prev_idx].grab_focus()
-					get_viewport().set_input_as_handled()
+					vp.set_input_as_handled()
 					break
 		elif focused == btn_back:
 			for last_idx in range(_buttons.size() - 1, -1, -1):
 				if not _buttons[last_idx].disabled:
 					_buttons[last_idx].grab_focus()
-					get_viewport().set_input_as_handled()
+					vp.set_input_as_handled()
 					break
 	elif event.is_action_pressed("move_down"):
-		var focused = get_viewport().gui_get_focus_owner()
+		var focused = vp.gui_get_focus_owner()
 		var idx = _buttons.find(focused)
 		if idx != -1:
 			var found_next = false
 			for next_idx in range(idx + 1, _buttons.size()):
 				if not _buttons[next_idx].disabled:
 					_buttons[next_idx].grab_focus()
-					get_viewport().set_input_as_handled()
+					vp.set_input_as_handled()
 					found_next = true
 					break
 			if not found_next:
 				btn_back.grab_focus()
-				get_viewport().set_input_as_handled()
+				vp.set_input_as_handled()
 	elif event.is_action_pressed("interact_primary"):
-		var focused = get_viewport().gui_get_focus_owner()
+		var focused = vp.gui_get_focus_owner()
 		var idx = _buttons.find(focused)
 		if idx != -1:
+			vp.set_input_as_handled()
 			_on_slot_button_pressed(idx + 1)
-			get_viewport().set_input_as_handled()
 		elif focused == btn_back:
+			vp.set_input_as_handled()
 			_on_back_pressed()
-			get_viewport().set_input_as_handled()

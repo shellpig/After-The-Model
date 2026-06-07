@@ -102,17 +102,21 @@ func _input(event: InputEvent) -> void:
 	if save_slot_list.visible:
 		return
 		
+	var vp = get_viewport()
+	if not vp:
+		return
+		
 	if event.is_action_pressed("move_up"):
 		btn_new_game.grab_focus()
-		get_viewport().set_input_as_handled()
+		vp.set_input_as_handled()
 	elif event.is_action_pressed("move_down"):
 		btn_load_game.grab_focus()
-		get_viewport().set_input_as_handled()
+		vp.set_input_as_handled()
 	elif event.is_action_pressed("interact_primary"):
-		var focused = get_viewport().gui_get_focus_owner()
+		var focused = vp.gui_get_focus_owner()
 		if focused == btn_new_game:
+			vp.set_input_as_handled()
 			_on_new_game_pressed()
-			get_viewport().set_input_as_handled()
 		elif focused == btn_load_game:
+			vp.set_input_as_handled()
 			_on_load_game_pressed()
-			get_viewport().set_input_as_handled()

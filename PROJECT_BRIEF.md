@@ -16,7 +16,7 @@
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
 - **目前可玩場景**：`apartment_room.tscn`
-- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-F 已完成並驗證（headless PASS）。**4-G 已取消**（其架構契約已被 4-A~4-F 滿足，placeholder 部分為丟棄工）；**Phase 5 — NPC + 對話**：NPC / 對話做真系統，Quest / Save 僅預留資料路徑（不做 QuestManager / SaveSystem）。
+- **目前主線進度**：Phase 1 與 Phase 2（公寓解謎全鏈、2-F 筆記 / BGM、2-G 開場獨白）已全數完成並驗證。**Phase 3 — 公寓觸控化**：3-A~3-E 已完成，仍建議補 GUI 純觸控走查。**Phase 4 — 跨場景架構化**：4-A0 ~ 4-F 已完成並驗證（headless PASS）。**4-G 已取消**（其架構契約已被 4-A~4-F 滿足，placeholder 部分為丟棄工）；**Phase 5 — NPC + 對話**：5-A~5-D 已全數完成並驗證（headless PASS + 5-D 人工驗證通過），NPC「晚」落地街道、對話真系統上線；Quest / Save 僅預留資料路徑（不做 QuestManager / SaveSystem）。
 
 ## 核心調性
 
@@ -190,7 +190,7 @@ note_id
 | 5-A | ✅ 完成 | `GameState` 故事旗標 store（bool/int，含 `affinity_wan`）+ 對話樹 schema（`data/dialogue/wan.gd` + `dialogue_db.gd` 對照）+ `DialogueRunner`（純邏輯，`start`/`current`/`choose`/`advance`/`finished`，goto 條件路由 + effect `set_flag`/`add_int`/`add_gleaner_lead`，`add_gleaner_lead` 為 log/noop 不寫 knowledge）；test_runner 模擬首見 / 重講 / 情報門鎖開三路徑；headless PASS（commit `d535882`）|
 | 5-B | ✅ 完成 | `DialoguePanel.tscn/gd`（立繪槽 / 名字 / 內文 / 選項列，`Portrait.texture==null` 安全）+ `UIMode.DIALOGUE` + interactable `dialogue_id`；接線 Level→Main(`start_dialogue`)→GameUI；鍵盤 上 / 下移焦點、`E` 確認選取 / 推進（`_unhandled_input` 對有 / 無選項分流，真實 `parse_input_event` 路由驗證焦點 Button 不吞 E）；分支 / effect 在 UI 流程正確反映、結束回 `NONE` 無殘留；GameUI 公開 `has_active_dialogue`/`dialogue_move_focus`/`dialogue_confirm` 供 5-C；headless PASS |
 | 5-C | ✅ 完成 | TouchControls 對話路由（D-pad 選項 + 確認），經 GameUI 公開查詢；對話時世界移動與其它 UI 隱藏，不誤觸底層 |
-| 5-D | ✅ 完成 | NPC「晚」落地 `apartment_entrance`（Area2D + Sprite2D），對話 dispatch 泛化（dialogue_id 優先），條件路由與跨場景狀態保留，手動/headless 驗收通過 |
+| 5-D | ✅ 完成 | NPC「晚」落地 `apartment_entrance`（Area2D + Sprite2D，立繪 ext_resource 帶 uid），對話 dispatch 泛化（dialogue_id 優先），條件路由（首見 `first_meet` / `met_wan` 後 `retalk`）與跨場景旗標保留，`affinity_wan>=2` 解 `intel` 情報；headless PASS + 人工驗證通過 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
@@ -364,7 +364,7 @@ verify_game_state.gd: PASS
 
 ## 下一步建議
 
-架構主線下一步：**Phase 5 — NPC + 對話（真系統）**。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
+架構主線：**Phase 5 — NPC + 對話（真系統）已完成（5-A~5-D 驗證通過）**。下一步待規劃（Phase 6+，或回補待驗收走查）。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

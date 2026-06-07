@@ -795,6 +795,39 @@ func _ready() -> void:
 		return
 	print("PASS: Focused choice has caret prefix '> '.")
 
+	# Verify HintLabel content for choices state
+	var hint_lbl = dp.get_node("DialogueBox/MarginContainer/VBoxContainer/HintLabel") as Label
+	if hint_lbl.text != "W/S: 選擇    E: 確認":
+		printerr("FAIL: HintLabel text should be 'W/S: 選擇    E: 確認' when choices exist! Got: ", hint_lbl.text)
+		get_tree().quit(1)
+		return
+	print("PASS: Dialogue HintLabel verified for choices state.")
+
+	# Verify keyboard S / move_down moves focus
+	var event_down := InputEventAction.new()
+	event_down.action = "move_down"
+	event_down.pressed = true
+	dp._unhandled_input(event_down)
+	await get_tree().process_frame
+
+	var btn_ws1 = choice_box.get_child(1) as Button
+	if not btn_ws1.text.begins_with(">"):
+		printerr("FAIL: Keyboard S / move_down did not move focus to second choice!")
+		get_tree().quit(1)
+		return
+	
+	# Move back up using W / move_up
+	var event_up := InputEventAction.new()
+	event_up.action = "move_up"
+	event_up.pressed = true
+	dp._unhandled_input(event_up)
+	await get_tree().process_frame
+	if not btn0.text.begins_with(">"):
+		printerr("FAIL: Keyboard W / move_up did not move focus back to first choice!")
+		get_tree().quit(1)
+		return
+	print("PASS: Keyboard W/S choice navigation verified.")
+
 	# Move focus down using TouchControls simulated Dpad Down
 	TouchControls._simulate_action("move_down", true)
 	await get_tree().process_frame
@@ -820,6 +853,12 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Branching and GameState flags modification verified in UI dialogue sequence.")
+
+	if hint_lbl.text != "E: 繼續":
+		printerr("FAIL: HintLabel text should be 'E: 繼續' for non-choices non-terminal node! Got: ", hint_lbl.text)
+		get_tree().quit(1)
+		return
+	print("PASS: Dialogue HintLabel verified for E: 繼續 state.")
 
 	# 'who' node is terminal, so confirm again should advance to 'watch'
 	press_e.call()
@@ -858,6 +897,12 @@ func _ready() -> void:
 		printerr("FAIL: Dialogue didn't advance to 'end_warm'! Got: ", text_lbl.text)
 		get_tree().quit(1)
 		return
+
+	if hint_lbl.text != "E: 關閉":
+		printerr("FAIL: HintLabel text should be 'E: 關閉' for terminal node! Got: ", hint_lbl.text)
+		get_tree().quit(1)
+		return
+	print("PASS: Dialogue HintLabel verified for E: 關閉 state.")
 
 	# 'end_warm' is terminal -> advance to end dialogue
 	press_e.call()

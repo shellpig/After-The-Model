@@ -1247,6 +1247,54 @@ func _ready() -> void:
 		return
 	print("PASS: SaveSlotList metadata population verified.")
 	
+	# Verify ConfirmDialog Overwrite & Title Return behavior (Guard against Button restore crashes & UIMode exit issues)
+	var confirm_dialog = game_ui.get_node("ConfirmDialog")
+	if not confirm_dialog:
+		printerr("FAIL: ConfirmDialog not found inside GameUI!")
+		get_tree().quit(1)
+		return
+		
+	# 1. Overwrite confirm simulation (triggers ConfirmDialog, restores to Slot Button)
+	slot_list._on_slot_button_pressed(1) # Slot 1 is active, should trigger overwrite warning
+	if UIMode.get_mode() != UIMode.Mode.CONFIRM or not confirm_dialog.visible:
+		printerr("FAIL: Overwriting active slot did not open ConfirmDialog!")
+		get_tree().quit(1)
+		return
+		
+	# Simulate Cancel: close_dialog should restore state to PAUSE without crashing on Button restore
+	confirm_dialog.close_dialog()
+	if UIMode.get_mode() != UIMode.Mode.PAUSE or confirm_dialog.visible:
+		printerr("FAIL: Cancel overwrite did not return UIMode to PAUSE!")
+		get_tree().quit(1)
+		return
+	print("PASS: Overwrite confirmation Cancel & UIMode restore verified.")
+	
+	# Simulate Confirm: confirm execution should perform save and return back to PAUSE (single exit_confirm)
+	slot_list._on_slot_button_pressed(1)
+	if confirm_dialog._on_confirm.is_valid():
+		confirm_dialog._on_confirm.call()
+	confirm_dialog.close_dialog()
+	if UIMode.get_mode() != UIMode.Mode.PAUSE:
+		printerr("FAIL: Confirming overwrite did not return UIMode back to PAUSE (got mode: ", UIMode.get_mode(), ")")
+		get_tree().quit(1)
+		return
+	print("PASS: Overwrite confirmation Confirm & single exit_confirm verified.")
+	
+	# 2. Return to Title confirmation simulation (triggers ConfirmDialog, restores to btn_title)
+	pause_menu._on_title_pressed()
+	if UIMode.get_mode() != UIMode.Mode.CONFIRM or not confirm_dialog.visible:
+		printerr("FAIL: Clicking Return to Title did not show ConfirmDialog!")
+		get_tree().quit(1)
+		return
+		
+	# Simulate Cancel: should return to PAUSE
+	confirm_dialog.close_dialog()
+	if UIMode.get_mode() != UIMode.Mode.PAUSE or confirm_dialog.visible:
+		printerr("FAIL: Cancelling Title return did not restore UIMode to PAUSE!")
+		get_tree().quit(1)
+		return
+	print("PASS: Title return confirmation Cancel & UIMode restore verified.")
+	
 	# Close pause menu
 	UIMode.set_mode(UIMode.Mode.NONE)
 

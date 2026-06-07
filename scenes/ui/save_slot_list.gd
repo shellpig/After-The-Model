@@ -208,9 +208,7 @@ func _confirm_overwrite(slot: int) -> void:
 		confirm_dialog.show_dialog(
 			"確定要覆蓋此存檔？",
 			func():
-				_perform_save(slot)
-				# Reset UIMode back to PAUSE after confirmation is done
-				UIMode.exit_confirm(),
+				_perform_save(slot),
 			_buttons[slot - 1],
 			slot - 1
 		)

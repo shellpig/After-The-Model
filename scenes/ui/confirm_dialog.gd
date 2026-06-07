@@ -51,8 +51,10 @@ func close_dialog() -> void:
 	visible = false
 	UIMode.exit_confirm()
 	if _restore_grid != null:
-		_restore_grid.set_input_active(true)
-		_restore_grid.set_focused_index(_restore_index)
+		if _restore_grid.has_method("set_input_active"):
+			_restore_grid.set_input_active(true)
+		if _restore_grid.has_method("set_focused_index"):
+			_restore_grid.set_focused_index(_restore_index)
 
 func _input(event: InputEvent) -> void:
 	if not visible:

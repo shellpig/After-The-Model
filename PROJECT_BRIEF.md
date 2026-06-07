@@ -187,10 +187,10 @@ note_id
 | 4-E | ✅ 完成 | `prepare_entry_point` / `set_entry_point` API；`wake_bed` 入口播開場 prone→monologue→idle，`from_street` 跳過開場直接 idle 於門邊；大門 `on_closed` callback emit `scene_transition_requested("apartment_entrance", ...)`；公寓專屬 sonar/slot/BGM 留在 level 不誤搬 GameUI；無 `$UI/` 直接依賴、無 `change_scene_to_file`；headless PASS |
 | 4-F | ✅ 完成 | `apartment_entrance` 第二場景 + 真轉場；大門開鎖後真轉場至街道，街道可回公寓且不重播獨白 |
 | 4-G | ❌ 取消 | 原為未來系統 contract pass（placeholder 插槽）。架構契約（`scene_id+entry_point_id` 通用轉場、各場景自管 BGM、SceneRouter 持穩定 scene id）已被 4-A~4-F 滿足；`dialogue_id` / `quest_event_id` 的 placeholder 屬丟棄工，故取消。真 NPC / 對話移至 Phase 5；Quest / Save 僅預留資料路徑 |
-| 5-A | ⬜ 待開工 | 故事旗標 store（bool/int，含 `affinity_wan`）+ 對話樹 schema + `DialogueRunner`（純邏輯 headless） |
+| 5-A | ✅ 完成 | `GameState` 故事旗標 store（bool/int，含 `affinity_wan`）+ 對話樹 schema（`data/dialogue/wan.gd` + `dialogue_db.gd` 對照）+ `DialogueRunner`（純邏輯，`start`/`current`/`choose`/`advance`/`finished`，goto 條件路由 + effect `set_flag`/`add_int`/`add_gleaner_lead`，`add_gleaner_lead` 為 log/noop 不寫 knowledge）；test_runner 模擬首見 / 重講 / 情報門鎖開三路徑；headless PASS（commit `d535882`）|
 | 5-B | ✅ 完成 | `DialoguePanel.tscn/gd`（立繪槽 / 名字 / 內文 / 選項列，`Portrait.texture==null` 安全）+ `UIMode.DIALOGUE` + interactable `dialogue_id`；接線 Level→Main(`start_dialogue`)→GameUI；鍵盤 上 / 下移焦點、`E` 確認選取 / 推進（`_unhandled_input` 對有 / 無選項分流，真實 `parse_input_event` 路由驗證焦點 Button 不吞 E）；分支 / effect 在 UI 流程正確反映、結束回 `NONE` 無殘留；GameUI 公開 `has_active_dialogue`/`dialogue_move_focus`/`dialogue_confirm` 供 5-C；headless PASS |
-| 5-C | ⬜ 待開工 | TouchControls 對話路由（D-pad 選項 + 確認），經 GameUI 公開查詢 |
-| 5-D | ⬜ 待開工 | NPC「晚」落地 `apartment_entrance` + placeholder 美術 + dispatch 泛化 + 手動驗收 |
+| 5-C | ✅ 完成 | TouchControls 對話路由（D-pad 選項 + 確認），經 GameUI 公開查詢；對話時世界移動與其它 UI 隱藏，不誤觸底層 |
+| 5-D | ✅ 完成 | NPC「晚」落地 `apartment_entrance`（Area2D + Sprite2D），對話 dispatch 泛化（dialogue_id 優先），條件路由與跨場景狀態保留，手動/headless 驗收通過 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 

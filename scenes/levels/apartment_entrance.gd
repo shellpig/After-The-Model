@@ -59,29 +59,35 @@ func _process(_delta: float) -> void:
 		return
 
 	if Input.is_action_just_pressed("interact_primary"):
-		match current_interactable.interaction_id:
-			"back_to_apartment":
-				scene_transition_requested.emit("apartment", "from_street", {})
-			"mailboxes":
-				interaction_requested.emit({
-					"type": "message",
-					"message_text": MESSAGES["mailboxes"]
-				})
-			"alley_view":
-				interaction_requested.emit({
-					"type": "message",
-					"message_text": MESSAGES["alley_view"]
-				})
-			"store_front":
-				interaction_requested.emit({
-					"type": "message",
-					"message_text": MESSAGES["store_front"]
-				})
-			"vending_machine":
-				interaction_requested.emit({
-					"type": "message",
-					"message_text": MESSAGES["vending_machine"]
-				})
+		if current_interactable.dialogue_id != "":
+			interaction_requested.emit({
+				"type": "dialogue",
+				"dialogue_id": current_interactable.dialogue_id
+			})
+		else:
+			match current_interactable.interaction_id:
+				"back_to_apartment":
+					scene_transition_requested.emit("apartment", "from_street", {})
+				"mailboxes":
+					interaction_requested.emit({
+						"type": "message",
+						"message_text": MESSAGES["mailboxes"]
+					})
+				"alley_view":
+					interaction_requested.emit({
+						"type": "message",
+						"message_text": MESSAGES["alley_view"]
+					})
+				"store_front":
+					interaction_requested.emit({
+						"type": "message",
+						"message_text": MESSAGES["store_front"]
+					})
+				"vending_machine":
+					interaction_requested.emit({
+						"type": "message",
+						"message_text": MESSAGES["vending_machine"]
+					})
 
 func _update_camera() -> void:
 	if camera == null:

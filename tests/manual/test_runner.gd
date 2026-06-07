@@ -353,6 +353,7 @@ func _ready() -> void:
 	var street_instance = street_scene.instantiate()
 	add_child(street_instance)
 	print("PASS: apartment_entrance.tscn instantiated in scene tree.")
+	UIMode.set_mode(UIMode.Mode.NONE)
 
 	if not street_instance.has_signal("current_interactable_changed") or not street_instance.has_signal("interaction_requested") or not street_instance.has_signal("scene_transition_requested"):
 		printerr("FAIL: apartment_entrance lacks Level interaction contract signals!")
@@ -391,6 +392,45 @@ func _ready() -> void:
 		printerr("FAIL: apartment_entrance back_to_apartment interactable missing!")
 		get_tree().quit(1)
 		return
+
+	# Verify NpcWan properties
+	var npc_wan = street_instance.get_node_or_null("Interactables/NpcWan")
+	if not npc_wan:
+		printerr("FAIL: NpcWan node not found in apartment_entrance scene!")
+		get_tree().quit(1)
+		return
+	if npc_wan.interaction_id != "talk_wan" or npc_wan.dialogue_id != "wan" or npc_wan.prompt_text != "E: █ 交談":
+		printerr("FAIL: NpcWan interaction properties are incorrect!")
+		get_tree().quit(1)
+		return
+
+	var npc_sprite = npc_wan.get_node_or_null("Sprite2D") as Sprite2D
+	if not npc_sprite or npc_sprite.texture == null:
+		printerr("FAIL: NpcWan Sprite2D or texture is missing!")
+		get_tree().quit(1)
+		return
+	print("PASS: NpcWan node structure and texture verified.")
+
+	# Verify generalized dialogue dispatch
+	var dispatch_signal_received = {"emitted": false, "dialogue_id": ""}
+	street_instance.interaction_requested.connect(func(data):
+		if data.get("type") == "dialogue":
+			dispatch_signal_received["emitted"] = true
+			dispatch_signal_received["dialogue_id"] = data.get("dialogue_id", "")
+	)
+
+	# Simulate player entering NPC interaction range and triggering E
+	street_instance._on_interactable_entered(npc_wan)
+	Input.action_press("interact_primary")
+	street_instance._process(0.0)
+	Input.action_release("interact_primary")
+
+	if not dispatch_signal_received["emitted"] or dispatch_signal_received["dialogue_id"] != "wan":
+		printerr("FAIL: Generalized dialogue dispatch failed to emit interaction_requested signal!")
+		get_tree().quit(1)
+		return
+	print("PASS: Generalized dialogue dispatch verified.")
+
 	print("PASS: apartment_entrance map scene, spawn, bounds, and contract verified.")
 
 	# 11. Verify Phase 4-E Entry Point methods on apartment_room
@@ -699,6 +739,30 @@ func _ready() -> void:
 		return
 	print("PASS: DialoguePanel visibility toggled correctly by UIMode.")
 
+	# Enable touch buttons for testing TouchControls visibility
+	var old_touch_enabled = TouchControls.touch_buttons_enabled
+	TouchControls.touch_buttons_enabled = true
+	TouchControls._update_dynamic_button_visibility()
+
+	# Verify TouchControls visibility in DIALOGUE mode
+	if not TouchControls.get_node("Control/DPad").visible:
+		printerr("FAIL: DPad should be visible in DIALOGUE mode!")
+		get_tree().quit(1)
+		return
+	if TouchControls.get_node("Control/Menus/BtnBag").visible or TouchControls.get_node("Control/Menus/BtnNote").visible or TouchControls.get_node("Control/Menus/BtnClose").visible:
+		printerr("FAIL: Menu buttons should be hidden in DIALOGUE mode!")
+		get_tree().quit(1)
+		return
+	if not TouchControls.get_node("Control/Actions/BtnE").visible:
+		printerr("FAIL: BtnE should be visible in DIALOGUE mode!")
+		get_tree().quit(1)
+		return
+	if TouchControls.get_node("Control/Actions/BtnR").visible or TouchControls.get_node("Control/Actions/BtnT").visible:
+		printerr("FAIL: BtnR/BtnT should be hidden in DIALOGUE mode!")
+		get_tree().quit(1)
+		return
+	print("PASS: TouchControls visibility rules in DIALOGUE mode verified.")
+
 	var press_e = func():
 		var event := InputEventAction.new()
 		event.action = "interact_primary"
@@ -731,8 +795,8 @@ func _ready() -> void:
 		return
 	print("PASS: Focused choice has caret prefix '> '.")
 
-	# Move focus down using GameUI TouchControls API
-	test_game_ui.dialogue_move_focus(1)
+	# Move focus down using TouchControls simulated Dpad Down
+	TouchControls._simulate_action("move_down", true)
 	await get_tree().process_frame
 
 	var btn1 = choice_box.get_child(1) as Button
@@ -740,10 +804,10 @@ func _ready() -> void:
 		printerr("FAIL: Focus didn't move to second choice or first choice retained caret! btn0: ", btn0.text, ", btn1: ", btn1.text)
 		get_tree().quit(1)
 		return
-	print("PASS: Focus moved down correctly, caret prefixes updated.")
+	print("PASS: Focus moved down correctly using TouchControls Dpad, caret prefixes updated.")
 
-	# Confirm the chosen option ("妳是誰？" which is index 1, option 1) using Keyboard E (interact_primary)
-	press_e.call()
+	# Confirm the chosen option ("妳是誰？" which is index 1, option 1) using TouchControls simulated BtnE
+	TouchControls._simulate_action("interact_primary", true)
 	await get_tree().process_frame
 
 	if not text_lbl.text.contains("名字？"):
@@ -809,6 +873,9 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Dialogue sequence finished, UI closed, and UIMode reverted to NONE.")
+
+	TouchControls.touch_buttons_enabled = old_touch_enabled
+	TouchControls._update_dynamic_button_visibility()
 
 	room_instance2.queue_free()
 

@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="10_walk6"]
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="11_walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_walk8"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/wan/idle/wan-idle-single-20260607-102716/wan-idle-transparent-20260607-102716.png" id="13_wan_idle"]
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(3920, 16)
@@ -30,6 +32,10 @@ size = Vector2(91, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_vending"]
 size = Vector2(108, 285)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_wan"]
+size = Vector2(120, 300)
+
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -159,6 +165,22 @@ message_id = "vending_machine"
 position = Vector2(3898, 533)
 shape = SubResource("RectangleShape2D_interact_vending")
 debug_color = Color(1, 0, 0.7, 0.42)
+
+[node name="NpcWan" type="Area2D" parent="Interactables" unique_id=208123445]
+script = ExtResource("4_interactable")
+interaction_id = "talk_wan"
+prompt_text = "E: █ 交談"
+dialogue_id = "wan"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/NpcWan" unique_id=208123446]
+position = Vector2(2500, 491)
+shape = SubResource("RectangleShape2D_interact_wan")
+debug_color = Color(0.1, 0.9, 0.1, 0.42)
+
+[node name="Sprite2D" type="Sprite2D" parent="Interactables/NpcWan" unique_id=208123447]
+position = Vector2(2500, 491)
+scale = Vector2(0.54, 0.54)
+texture = ExtResource("13_wan_idle")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=343229133]
 position = Vector2(730, 675)

@@ -90,6 +90,19 @@ func _bind_button(btn: Button, action: String) -> void:
 	btn.button_up.connect(func(): _simulate_action(action, false))
 
 func _simulate_action(action: String, pressed: bool) -> void:
+	var mode := UIMode.get_mode()
+	if mode == UIMode.Mode.DIALOGUE:
+		if pressed:
+			var gu = _get_game_ui()
+			if gu:
+				if action == "move_up":
+					gu.dialogue_move_focus(-1)
+				elif action == "move_down":
+					gu.dialogue_move_focus(1)
+				elif action == "interact_primary":
+					gu.dialogue_confirm()
+		return
+
 	var event := InputEventAction.new()
 	event.action = action
 	event.pressed = pressed
@@ -250,7 +263,7 @@ func _update_dynamic_button_visibility() -> void:
 		return
 
 	# 3. 正常啟用狀態下，按鍵顯示規則：D-pad 在世界探索與背包/容器/筆記本選單均顯示以利觸控焦點導航；僅在 MESSAGE (對話) 與 CONFIRM (確認彈窗) 時隱藏以防視覺遮擋
-	var show_dpad := mode in [UIMode.Mode.NONE, UIMode.Mode.INVENTORY, UIMode.Mode.CONTAINER, UIMode.Mode.NOTEBOOK]
+	var show_dpad := mode in [UIMode.Mode.NONE, UIMode.Mode.INVENTORY, UIMode.Mode.CONTAINER, UIMode.Mode.NOTEBOOK, UIMode.Mode.DIALOGUE]
 	$Control/DPad.visible = show_dpad
 	$Control/Actions.visible = true
 	$Control/Menus.visible = true
@@ -259,6 +272,10 @@ func _update_dynamic_button_visibility() -> void:
 	if mode == UIMode.Mode.NONE:
 		btn_bag.visible = true
 		btn_note.visible = true
+		btn_close.visible = false
+	elif mode == UIMode.Mode.DIALOGUE:
+		btn_bag.visible = false
+		btn_note.visible = false
 		btn_close.visible = false
 	else:
 		btn_bag.visible = false
@@ -302,6 +319,12 @@ func _update_dynamic_button_visibility() -> void:
 
 		UIMode.Mode.CONFIRM:
 			# 丟棄確認彈窗：E 鍵確定，X 返回鍵取消；R/T 隱藏
+			btn_e.visible = true
+			btn_r.visible = false
+			btn_t.visible = false
+
+		UIMode.Mode.DIALOGUE:
+			# 對話模式：E 鍵確認，R/T 隱藏
 			btn_e.visible = true
 			btn_r.visible = false
 			btn_t.visible = false

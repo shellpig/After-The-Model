@@ -34,4 +34,4 @@ __pycache__/
 
 # Export build outputs (Windows / macOS / Linux / iOS / Android / Web)
 # export_presets.cfg 本身要 commit, 它是 preset source of truth; 只忽略產物。
-builds/
+# builds/ 用 Git LFS 追蹤（.exe / .pck），不整體忽略。

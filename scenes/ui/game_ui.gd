@@ -434,14 +434,17 @@ func _check_and_trigger_endings() -> void:
 	if QuestManager.get_status("alley_backrooms_3f") == "completed" and not GameState.get_flag("alley_backrooms_ended", false):
 		GameState.set_flag("alley_backrooms_ended", true)
 		
-		var found_module: bool = QuestManager.get_flag("alley_backrooms_3f", "found_old_ai_authorization_module", false)
-		if found_module:
+		if GameState.get_flag("gave_wan_old_module", false):
+			var page1 := "【第二段劇情完成 - 結局 3：託付】\n\n你將啟用盒連同隱密夾層中發現的「舊式 AI 授權模組」一起交給了晚。\n你選擇了信任與慷慨，將這份可能非比尋常的遺產託付給了同樣對抗遺忘的晚。"
+			var page2 := "晚感到驚訝，她看著那枚精緻的金屬晶片，眼中閃過少有的溫潤。這份多出來的重禮，讓你們之間多了一層心照不宣的默契。\n\n（提示：若保留授權模組不交，將會觸發「結局 2：拾遺者的直覺」；若從未發現隱密夾層，將觸發「結局 1：盲目的清理者」）"
+			show_message(page1, func(): show_message(page2))
+		elif QuestManager.get_flag("alley_backrooms_3f", "found_old_ai_authorization_module", false):
 			var page1 := "【第二段劇情完成 - 結局 2：拾遺者的直覺】\n\n你只交出了明面上的啟用盒，而將暗中拆解出的「舊式 AI 授權模組」留在了背包深處。\n你用直覺對抗了系統的遺忘，將真正的遺產扣留了下來。"
-			var page2 := "晚沒有察覺，或者，她只是看破而不說破。這枚指尖大小的晶片，或許會成為未來重新啟動這座城市記憶的唯一鑰匙。\n\n（提示：若在查看啟用盒時沒有拆解出隱藏模組便交付任務，將會觸發「結局 1：盲目的清理者」）"
+			var page2 := "晚沒有察覺，或者，她只是看破而不說破。這枚晶片將由你妥善保管。\n\n（提示：若連同夾層模組一同交還給晚，將會觸發「結局 3：託付」；若未發現隱密夾層直接回報，將觸發「結局 1：盲目的清理者」）"
 			show_message(page1, func(): show_message(page2))
 		else:
 			var page1 := "【第二段劇情完成 - 結局 1：盲目的清理者】\n\n你將啟用盒原封不動地交給了晚。你得到了應得的酬勞，轉身步入下層街區的冷雨之中。"
-			var page2 := "然而你並不知道，在那個冷冰冰的塑料外殼底下，隱密夾層裡還沉睡著一枚本該被喚醒的舊式授權模組。\n它將被永遠埋葬在永無止境的酸雨與斑駁的霓虹中，直到連同這棟舊樓一起，被系統清理乾淨。"
+			var page2 := "然而你並不知道，在那個冷冰冰的塑料外殼底下，隱密夾層裡還沉睡著一枚本該被喚醒的舊式授權模組。\n它將被永遠埋葬在永無止境的酸雨與霓虹中。\n\n（提示：若在查看啟用盒時拆解出隱藏模組，交任務時可選擇「只交盒子（結局 2）」或「連模組一起交（結局 3）」）"
 			show_message(page1, func(): show_message(page2))
 
 

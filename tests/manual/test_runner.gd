@@ -2043,6 +2043,7 @@ func _ready() -> void:
 		GameState.inventory.append({})
 	GameState.add_item("early_ai_assistant_activation_box", 1)
 	GameState.add_item("old_ai_authorization_module", 1)
+	QuestManager.set_flag("alley_backrooms_3f", "found_old_ai_authorization_module", true)
 	
 	# Verify items exist
 	if not GameState.has_item("early_ai_assistant_activation_box", 1) or not GameState.has_item("old_ai_authorization_module", 1):
@@ -2079,41 +2080,190 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	# 5. Choose turn-in option
+	# 5. Choose turn-in option (we have B, so this routes to turn_in_found_module choice node)
 	runner.choose(turn_in_choice.get("index"))
 	
-	# 6. Verify transition to alley_backrooms_turn_in node
+	# 6. Verify transition to turn_in_found_module
 	var after_choice = runner.current()
-	if not after_choice.get("text", "").contains("喲，還真被你撈出來了"):
-		printerr("FAIL: Choice did not transition to alley_backrooms_turn_in node! Text got: ", after_choice.get("text"))
+	if not after_choice.get("text", "").contains("底下還藏了什麼寶貝"):
+		printerr("FAIL: Choice did not transition to turn_in_found_module node! Text got: ", after_choice.get("text"))
 		get_tree().quit(1)
 		return
 		
-	# 7. Advance dialogue to trigger effects
+	# Verify two choices present
+	var end_choices = after_choice.get("choices", [])
+	if end_choices.size() != 2:
+		printerr("FAIL: turn_in_found_module should have 2 choices, got: ", end_choices.size())
+		get_tree().quit(1)
+		return
+		
+	# Choose Choice 0: Only turn in plain box (Ending B)
+	var idx_plain = end_choices[0].get("index")
+	runner.choose(idx_plain)
+	
+	var plain_node = runner.current()
+	if not plain_node.get("text", "").contains("開玩笑的啦"):
+		printerr("FAIL: turn_in_plain text incorrect! Got: ", plain_node.get("text"))
+		get_tree().quit(1)
+		return
+		
+	# Advance to trigger effects
 	runner.advance()
 	
-	# 8. Verify A is removed, B is retained, quest is completed, and work note is completed
+	# Verify Ending B state: A removed, B retained, completed, credits = 800 (300 + 500), note B
 	if GameState.has_item("early_ai_assistant_activation_box", 1):
-		printerr("FAIL: early_ai_assistant_activation_box (A) was not removed after turn-in!")
+		printerr("FAIL: early_ai_assistant_activation_box (A) was not removed in Ending B!")
 		get_tree().quit(1)
 		return
-		
 	if not GameState.has_item("old_ai_authorization_module", 1):
-		printerr("FAIL: old_ai_authorization_module (B) was incorrectly removed!")
+		printerr("FAIL: old_ai_authorization_module (B) was removed in Ending B!")
 		get_tree().quit(1)
 		return
-		
 	if QuestManager.get_status("alley_backrooms_3f") != "completed":
-		printerr("FAIL: Quest status is not 'completed' after turn-in!")
+		printerr("FAIL: Quest status is not 'completed' in Ending B!")
+		get_tree().quit(1)
+		return
+	if GameState.get_credits() != 800:
+		printerr("FAIL: Ending B credits should be 800, got: ", GameState.get_credits())
+		get_tree().quit(1)
+		return
+	var notes_b = GameState.get_notes("工作")
+	if notes_b.is_empty() or notes_b[0].get("status") != "completed" or not notes_b[0].get("body").contains("留在了自己身上"):
+		printerr("FAIL: Work note for Ending B incorrect!")
+		get_tree().quit(1)
+		return
+	print("PASS: Ending B (Kept module) verified successfully.")
+
+	# --- Test Ending C (Gave module) ---
+	# Reset state
+	GameState.reset_for_new_game()
+	QuestManager.start("alley_backrooms_3f")
+	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
+	GameState.inventory.clear()
+	for i in range(GameState.inventory_slots):
+		GameState.inventory.append({})
+	GameState.add_item("early_ai_assistant_activation_box", 1)
+	GameState.add_item("old_ai_authorization_module", 1)
+	QuestManager.set_flag("alley_backrooms_3f", "found_old_ai_authorization_module", true)
+
+	runner = DialogueRunner.new()
+	GameState.set_flag("met_wan", true)
+	runner.start(wan_tree)
+	runner.choose(turn_in_choice.get("index"))
+	
+	# Select Choice 1: 連舊模組也一起遞過去 (Ending C)
+	end_choices = runner.current().get("choices", [])
+	runner.choose(end_choices[1].get("index"))
+	
+	var full_node = runner.current()
+	if not full_node.get("text", "").contains("舊式授權晶片"):
+		printerr("FAIL: turn_in_full text incorrect! Got: ", full_node.get("text"))
 		get_tree().quit(1)
 		return
 		
-	var notes_final = GameState.get_notes("工作")
-	if notes_final.is_empty() or notes_final[0].get("status") != "completed":
-		printerr("FAIL: Work note status was not updated to completed after turn-in!")
+	# Advance to trigger effects
+	runner.advance()
+	
+	# Verify Ending C state: A and B removed, completed, credits = 1300 (300 + 1000), affinity_wan = 2, gave_wan_old_module = true, note C
+	if GameState.has_item("early_ai_assistant_activation_box", 1) or GameState.has_item("old_ai_authorization_module", 1):
+		printerr("FAIL: Items A or B not removed in Ending C!")
+		get_tree().quit(1)
+		return
+	if QuestManager.get_status("alley_backrooms_3f") != "completed":
+		printerr("FAIL: Quest status not completed in Ending C!")
+		get_tree().quit(1)
+		return
+	if GameState.get_credits() != 1300:
+		printerr("FAIL: Ending C credits should be 1300, got: ", GameState.get_credits())
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_wan") != 2 or not GameState.get_flag("gave_wan_old_module"):
+		printerr("FAIL: Ending C flags/affinity not updated correctly!")
+		get_tree().quit(1)
+		return
+	var notes_c = GameState.get_notes("工作")
+	if notes_c.is_empty() or notes_c[0].get("status") != "completed" or not notes_c[0].get("body").contains("託付"):
+		printerr("FAIL: Work note for Ending C incorrect!")
+		get_tree().quit(1)
+		return
+	print("PASS: Ending C (Gave module) verified successfully.")
+
+	# Verify retalk_close routing
+	runner = DialogueRunner.new()
+	runner.start(wan_tree)
+	var close_node = runner.current()
+	if not close_node.get("text", "").contains("擠擠"):
+		printerr("FAIL: Start did not route to retalk_close after Ending C! Got: ", close_node.get("text"))
+		get_tree().quit(1)
+		return
+	
+	# Select choice 0: "陪妳站會兒。"
+	var close_choices = close_node.get("choices", [])
+	runner.choose(close_choices[0].get("index"))
+	
+	# Verify affinity increment and transition to end_close
+	if GameState.get_flag("affinity_wan") != 3:
+		printerr("FAIL: retalk_close choice 0 did not increment affinity_wan! Got: ", GameState.get_flag("affinity_wan"))
+		get_tree().quit(1)
+		return
+	var close_end = runner.current()
+	if not close_end.get("text", "").contains("別把雨聲"):
+		printerr("FAIL: retalk_close did not transition to end_close! Got: ", close_end.get("text"))
+		get_tree().quit(1)
+		return
+	print("PASS: retalk_close dialogue flow verified successfully.")
+
+	# --- Test Ending A (Plain box only) ---
+	# Reset state
+	GameState.reset_for_new_game()
+	QuestManager.start("alley_backrooms_3f")
+	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
+	GameState.inventory.clear()
+	for i in range(GameState.inventory_slots):
+		GameState.inventory.append({})
+	GameState.add_item("early_ai_assistant_activation_box", 1)
+	QuestManager.set_flag("alley_backrooms_3f", "found_old_ai_authorization_module", false)
+
+	runner = DialogueRunner.new()
+	GameState.set_flag("met_wan", true)
+	runner.start(wan_tree)
+	
+	# Select turn-in option (routes to turn_in_plain since we don't have B)
+	runner.choose(turn_in_choice.get("index"))
+	
+	var plain_node_a = runner.current()
+	if not plain_node_a.get("text", "").contains("開玩笑的啦"):
+		printerr("FAIL: Ending A did not route directly to turn_in_plain! Got text: ", plain_node_a.get("text"))
 		get_tree().quit(1)
 		return
 		
+	# Advance to trigger effects
+	runner.advance()
+	
+	# Verify Ending A state: A removed, completed, credits = 800 (+500), note A, gave_wan_old_module false
+	if GameState.has_item("early_ai_assistant_activation_box", 1):
+		printerr("FAIL: early_ai_assistant_activation_box was not removed in Ending A!")
+		get_tree().quit(1)
+		return
+	if QuestManager.get_status("alley_backrooms_3f") != "completed":
+		printerr("FAIL: Quest status is not 'completed' in Ending A!")
+		get_tree().quit(1)
+		return
+	if GameState.get_credits() != 800:
+		printerr("FAIL: Ending A credits should be 800, got: ", GameState.get_credits())
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("gave_wan_old_module", false):
+		printerr("FAIL: gave_wan_old_module should be false in Ending A!")
+		get_tree().quit(1)
+		return
+	var notes_a = GameState.get_notes("工作")
+	if notes_a.is_empty() or notes_a[0].get("status") != "completed" or not notes_a[0].get("body").contains("錯過"):
+		printerr("FAIL: Work note for Ending A incorrect!")
+		get_tree().quit(1)
+		return
+	print("PASS: Ending A (Plain box only) verified successfully.")
+
 	# 9. Verify defensive case: if A is not in inventory, turn-in fails and quest is NOT completed
 	# Reset for clean test state with active quest at found_activation_box
 	GameState.reset_for_new_game()
@@ -2125,7 +2275,7 @@ func _ready() -> void:
 	for i in range(GameState.inventory_slots):
 		GameState.inventory.append({})
 		
-	# Instantiate tree and force enter turn-in node directly
+	# Instantiate tree and force enter turn-in node directly (routes to turn_in_plain since no B)
 	runner = DialogueRunner.new()
 	wan_tree = DialogueDB.get_tree_for("wan")
 	runner.start(wan_tree, "alley_backrooms_turn_in")
@@ -2368,7 +2518,6 @@ func _ready() -> void:
 	QuestManager.complete("alley_backrooms_3f")
 	GameState.story_flags.erase("alley_backrooms_ended")
 
-	
 	UIMode.set_mode(UIMode.Mode.DIALOGUE)
 	UIMode.set_mode(UIMode.Mode.NONE)
 	await get_tree().process_frame
@@ -2386,6 +2535,36 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Ending 2 messagebox triggered successfully.")
+	
+	# Close the message box
+	ui_instance.close_message()
+	await get_tree().process_frame
+	
+	# Test case 3: Ending 3 (Gave the module)
+	GameState.reset_for_new_game()
+	QuestManager.start("alley_backrooms_3f")
+	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
+	QuestManager.complete("alley_backrooms_3f")
+	GameState.story_flags.erase("alley_backrooms_ended")
+	GameState.set_flag("gave_wan_old_module", true)
+
+	UIMode.set_mode(UIMode.Mode.DIALOGUE)
+	UIMode.set_mode(UIMode.Mode.NONE)
+	await get_tree().process_frame
+	
+	if UIMode.get_mode() != UIMode.Mode.MESSAGE:
+		printerr("FAIL: Ending 3 did not trigger MESSAGE mode!")
+		get_tree().quit(1)
+		return
+	if not ui_instance.message_box.visible:
+		printerr("FAIL: Ending 3 message box not visible!")
+		get_tree().quit(1)
+		return
+	if not ui_instance.message_label.text.contains("結局 3"):
+		printerr("FAIL: Ending 3 text incorrect! Got: ", ui_instance.message_label.text)
+		get_tree().quit(1)
+		return
+	print("PASS: Ending 3 messagebox triggered successfully.")
 	
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):

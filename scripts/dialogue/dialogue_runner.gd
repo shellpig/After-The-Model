@@ -215,6 +215,10 @@ func _apply_effect(eff: Dictionary) -> bool:
 		"complete_quest":
 			var val = eff.get("value", "")
 			return QuestManager.complete(val)
+		"add_credits":
+			var amount = eff.get("value", 0)
+			GameState.add_credits(amount)
+			return true
 		_:
 			print("[DialogueRunner] Unknown effect op: ", op)
 			return true

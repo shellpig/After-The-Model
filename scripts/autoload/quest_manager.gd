@@ -105,7 +105,9 @@ func sync_work_note(quest_id: String) -> void:
 	
 	var note_payload = {}
 	if status == "completed" or status == "failed":
-		if quest_data.WORK_NOTES_BY_STATUS.has(status):
+		if status == "completed" and "HAS_COMPLETED_NOTE_RESOLVER" in quest_data:
+			note_payload = quest_data.resolve_completed_note()
+		elif quest_data.WORK_NOTES_BY_STATUS.has(status):
 			note_payload = quest_data.WORK_NOTES_BY_STATUS[status]
 	else:
 		if quest_data.WORK_NOTES_BY_STEP.has(step):

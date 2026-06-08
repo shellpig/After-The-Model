@@ -4,6 +4,7 @@
 const TREE := {
 	"start": {
 		"goto": [
+			{"condition": {"flag": "gave_wan_old_module", "op": "==", "value": true}, "target": "retalk_close"},
 			{"condition": {"flag": "met_wan", "op": "==", "value": true}, "target": "retalk"},
 			{"target": "first_meet"}
 		]
@@ -114,12 +115,63 @@ const TREE := {
 		]
 	},
 	"alley_backrooms_turn_in": {
+		"goto": [
+			{"condition": {"type": "has_item", "item_id": "old_ai_authorization_module", "op": "==", "value": true}, "target": "turn_in_found_module"},
+			{"target": "turn_in_plain"}
+		]
+	},
+	"turn_in_found_module": {
 		"speaker": "晚",
-		"text": "（她接過你遞去的啟用盒，翻看了一下，嘴角微揚。）\n喲，還真被你撈出來了。這保存得真乾淨，連上面的標籤都沒掉。\n謝啦，這東西我就收下了。至於剩下的……（她對你眨了眨眼）我會好好研究的。",
+		"text": "（接過啟用盒，拿在手裡轉了一圈，抬眼看你）\n謝啦，這東西保存得比我想的還好。\n……怎麼？看你這眼神，底下還藏了什麼寶貝不成？",
+		"choices": [
+			{"label": "（只把啟用盒交給她，那塊模組留在自己口袋裡）", "goto": "turn_in_plain"},
+			{"label": "（連盒子夾層裡那塊舊模組，也一起遞過去）", "goto": "turn_in_full"}
+		]
+	},
+	"turn_in_plain": {
+		"speaker": "晚",
+		"text": "開玩笑的啦。謝了，這是給你的報酬，數好了。\n（她對你眨了眨眼，把一小疊信用點塞進你手裡）\n下次再撈到好東西，可別忘了我。",
 		"effect": [
 			{"op": "remove_item", "item_id": "early_ai_assistant_activation_box", "value": 1},
+			{"op": "add_credits", "value": 500},
 			{"op": "complete_quest", "value": "alley_backrooms_3f"}
 		],
 		"goto": "end_warm"
+	},
+	"turn_in_full": {
+		"speaker": "晚",
+		"text": "（她接過卡片模組，愣了一下，隨即有些不可置信地看著你）\n……舊式授權晶片？你還真把夾層翻開了，而且……連這個也捨得給我？\n（笑意深了些，把一整疊信用點拍在你手裡）\n夠大方。這份人情，我記下了。",
+		"effect": [
+			{"op": "remove_item", "item_id": "early_ai_assistant_activation_box", "value": 1},
+			{"op": "remove_item", "item_id": "old_ai_authorization_module", "value": 1},
+			{"op": "add_credits", "value": 1000},
+			{"op": "add_int", "key": "affinity_wan", "value": 2},
+			{"op": "set_flag", "key": "gave_wan_old_module", "value": true},
+			{"op": "complete_quest", "value": "alley_backrooms_3f"}
+		],
+		"goto": "end_warm"
+	},
+	"retalk_close": {
+		"speaker": "晚",
+		"text": "喲，你來啦。今天雨下得特別大，\n要不要進來雨棚擠擠？不收你鋪租。\n……還是說，你又帶了什麼能讓我驚訝的小玩意兒？",
+		"choices": [
+			{
+				"label": "陪妳站會兒。",
+				"effect": [
+					{"op": "add_int", "key": "affinity_wan", "value": 1}
+				],
+				"goto": "end_close"
+			},
+			{"label": "有新消息嗎？", "goto": "intel_gate"},
+			{"label": "（離開）", "goto": "flee_close"}
+		]
+	},
+	"end_close": {
+		"speaker": "晚",
+		"text": "那就安靜點，別把雨聲吵醒了。\n（她往旁邊挪了挪，肩膀若有似無地碰了你一下。）"
+	},
+	"flee_close": {
+		"speaker": "晚",
+		"text": "走啦？路滑，可別一腳踩進排水溝裡了——我可不想去撈你。"
 	}
 }

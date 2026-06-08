@@ -48,3 +48,37 @@ const WORK_NOTES_BY_STATUS := {
 		"status": "failed",
 	},
 }
+
+const HAS_COMPLETED_NOTE_RESOLVER := true
+
+const WORK_NOTES_COMPLETED := {
+	"plain": {
+		"id": WORK_NOTE_ID,
+		"category": "工作",
+		"title": "暗巷三樓的舊物",
+		"body": "已將「早期 AI 助理啟用盒」安全交給「晚」。她看起來對這個舊盒子很感興趣。雖然在掂量時總覺得重量有些不對勁，但你並未深入探查，就這樣錯過了隱藏的夾層。任務完成。",
+		"status": "completed",
+	},
+	"kept_module": {
+		"id": WORK_NOTE_ID,
+		"category": "工作",
+		"title": "暗巷三樓的舊物",
+		"body": "已將「早期 AI 助理啟用盒」交給「晚」，但你將暗中拆解出的「舊式 AI 授權模組」留在了自己身上。晚似乎沒有察覺到這個盒子的夾層，這片晶片或許能在未來派上用場。任務完成。",
+		"status": "completed",
+	},
+	"gave_module": {
+		"id": WORK_NOTE_ID,
+		"category": "工作",
+		"title": "暗巷三樓的舊物",
+		"body": "已將「早期 AI 助理啟用盒」交給「晚」，並且主動將暗中拆解出的「舊式 AI 授權模組」也一併交給了她。你選擇了信任與慷慨，將這份可能非比尋常的遺產託付給了晚，這也拉近了你們之間的距離。任務完成。",
+		"status": "completed",
+	},
+}
+
+static func resolve_completed_note() -> Dictionary:
+	if GameState.get_flag("gave_wan_old_module", false):
+		return WORK_NOTES_COMPLETED["gave_module"]
+	elif QuestManager.get_flag(QUEST_ID, "found_old_ai_authorization_module", false):
+		return WORK_NOTES_COMPLETED["kept_module"]
+	else:
+		return WORK_NOTES_COMPLETED["plain"]

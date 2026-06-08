@@ -42,7 +42,10 @@ func show_dialog(message: String, on_confirm: Callable,
 	_restore_index = restore_index
 	message_label.text = message
 	visible = true
-	# Viewport-center position
+	# Position after visible so size is computed correctly
+	await get_tree().process_frame
+	if not visible:
+		return
 	reset_size()
 	var vp_size := get_viewport_rect().size
 	position = (vp_size - size) * 0.5

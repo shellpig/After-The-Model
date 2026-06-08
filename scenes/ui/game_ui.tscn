@@ -117,13 +117,13 @@ script = ExtResource("5_panel_footer_hint")
 
 [node name="ItemDetailModal" parent="." instance=ExtResource("6_item_modal")]
 
-[node name="ConfirmDialog" parent="." instance=ExtResource("7_confirm_dialog")]
-
 [node name="DialoguePanel" parent="." instance=ExtResource("8_dialogue_panel")]
 visible = false
 
 [node name="PauseMenu" parent="." instance=ExtResource("9_pause_menu")]
 visible = false
+
+[node name="ConfirmDialog" parent="." instance=ExtResource("7_confirm_dialog")]
 
 [node name="WorldHUDLabel" type="Label" parent="."]
 offset_left = 32.0

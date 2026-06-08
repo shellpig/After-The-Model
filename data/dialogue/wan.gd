@@ -61,7 +61,7 @@ const TREE := {
 	},
 	"intel_already_given": {
 		"speaker": "晚",
-		"text": "不是跟你說過了？後門那棟舊樓的三樓。\n趕緊去翻翻看，不然晚了就被 AI 鏟成白地了。",
+		"text": "不是跟你說過了？後巷那棟舊樓的三樓。\n趕緊去翻翻看，不然晚了就被 AI 鏟成白地了。",
 		"goto": "end_warm"
 	},
 	"intel_already_done": {

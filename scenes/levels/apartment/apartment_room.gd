@@ -703,7 +703,10 @@ func _trigger_bgm_transition() -> void:
 		main.play_bgm("res://assets/bgm/Faded Neon Departure.mp3", 5.0)
 
 func _is_fire_escape_window_available() -> bool:
-	return QuestManager.get_status("alley_backrooms_3f") == "active" \
+	var status := QuestManager.get_status("alley_backrooms_3f")
+	if status == "completed" or status == "failed":
+		return true
+	return status == "active" \
 		and QuestManager.get_step("alley_backrooms_3f") == "checked_alley"
 
 func _on_ui_mode_changed(new_mode: int) -> void:

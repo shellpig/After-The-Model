@@ -1,0 +1,50 @@
+{
+  "source_generated_image": "C:\\Users\\User\\.codex\\generated_images\\019ea491-a1db-7713-9f5e-0588e49f0002\\ig_07ff076c2e959ece016a26124733fc8191abc92e6685cd1425.png",
+  "raw_sheet": "raw-sheet.png",
+  "rows": 2,
+  "cols": 3,
+  "cell_width": 512,
+  "cell_height": 512,
+  "chroma_key": "magenta background keyed to transparent; remaining magenta fringe converted to dark ink",
+  "prompt_requirement": "tan skin forearms between blue sleeves and black gloves",
+  "background_keyed_pixels": 1254861,
+  "fringe_recolored_pixels": 2388,
+  "qc": [
+    {
+      "frame": 1,
+      "visible_pixels": 55634,
+      "magentaish_pixels": 0,
+      "skin_pixels": 1803
+    },
+    {
+      "frame": 2,
+      "visible_pixels": 53574,
+      "magentaish_pixels": 0,
+      "skin_pixels": 2142
+    },
+    {
+      "frame": 3,
+      "visible_pixels": 52916,
+      "magentaish_pixels": 0,
+      "skin_pixels": 1614
+    },
+    {
+      "frame": 4,
+      "visible_pixels": 52080,
+      "magentaish_pixels": 0,
+      "skin_pixels": 1457
+    },
+    {
+      "frame": 5,
+      "visible_pixels": 52239,
+      "magentaish_pixels": 0,
+      "skin_pixels": 1963
+    },
+    {
+      "frame": 6,
+      "visible_pixels": 51560,
+      "magentaish_pixels": 0,
+      "skin_pixels": 1489
+    }
+  ]
+}

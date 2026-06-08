@@ -1,0 +1,13 @@
+Create a clean HD 2D game sprite animation sheet for the SAME main character shown in the provided reference image: cyberpunk side-scroller protagonist, teal-blue jacket with rolled sleeves, exposed tan skin forearms, black fingerless gloves with orange square patches on the backs of the hands, orange shoulder patch, brown pants, black boots, small utility bag/strap, indie comic cel-shaded style with heavy ink outlines and subtle halftone texture.
+
+Action: climbing a vertical ladder, back view / three-quarter back view, six animation frames. The ladder itself should NOT be included; only the character body and hands posed as if gripping ladder rungs. Make a 2 rows x 3 columns sprite sheet, exactly 6 frames, consistent body scale and centered in each cell, full body visible, no cropping. Preserve identity and palette from the reference image.
+
+Critical details:
+- Forearms between blue jacket sleeves and black gloves must be visible TAN SKIN color, not transparent, not white, not black.
+- Gloves start at the hands/wrists only; sleeves are rolled up above the exposed forearms.
+- Any final edge pixels that would otherwise be magenta should become black/dark ink outline, not magenta fringe.
+- Use solid pure #FF00FF magenta background across the entire sheet for chroma-key processing.
+- No text, no labels, no frame numbers, no guide boxes, no ladder, no extra props, no shadows, no ground.
+- Keep each character centered inside its cell with generous magenta padding and consistent scale across all six frames.
+
+Style: matches the reference character exactly, flat cel-shaded indie comic, dark ink outlines, riso/cyberpunk limited palette.

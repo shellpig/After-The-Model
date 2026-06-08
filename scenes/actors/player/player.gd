@@ -3,6 +3,7 @@ extends CharacterBody2D
 # Climb-only sprite tuning: scale the sprite down while climbing the ladder.
 const CLIMB_SCALE := Vector2(0.73, 0.91)   # x, y 各自縮放
 const CLIMB_Y_OFFSET := 0.0   # 縮小後腳若離開梯級，往下推幾 px
+const CLIMB_Z_INDEX := 20      # 爬梯時 sprite 疊在前景欄杆(z=10)之上
 
 @export var speed := 260.0
 @export var min_x := 80.0
@@ -69,6 +70,7 @@ func _physics_process(delta: float) -> void:
 	_apply_sprite_transform()
 
 func _apply_sprite_transform() -> void:
+	anim.z_index = CLIMB_Z_INDEX if anim.animation == "climb" else 0
 	if anim.animation == "prone" or anim.animation == "get_up":
 		anim.scale = _scene_sprite_scale * 0.9
 		anim.position = _scene_sprite_position + Vector2(0.0, 20.0)

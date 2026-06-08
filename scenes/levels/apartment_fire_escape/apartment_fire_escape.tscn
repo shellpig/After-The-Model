@@ -4,20 +4,21 @@
 [ext_resource type="Texture2D" uid="uid://b35ee0rt5d3bu" path="res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview.png" id="2_bg"]
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="3_player"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="4_interactable"]
+[ext_resource type="Texture2D" uid="uid://dyy5ew7xbgdjp" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-skin-forearms-20260608-085454/main-character-climb-1.png" id="5_86fu0"]
 [ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="5_walk1"]
+[ext_resource type="Texture2D" uid="uid://dej0jk8if68uk" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-skin-forearms-20260608-085454/main-character-climb-2.png" id="6_uhf4d"]
 [ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="6_walk2"]
+[ext_resource type="Texture2D" uid="uid://halck85s2mvc" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-skin-forearms-20260608-085454/main-character-climb-3.png" id="7_aervj"]
 [ext_resource type="Texture2D" uid="uid://bex22wmsbwi1m" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="7_walk3"]
 [ext_resource type="Texture2D" uid="uid://sofbn2kttwre" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="8_walk4"]
+[ext_resource type="Texture2D" uid="uid://1y84x5sa5we8" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-skin-forearms-20260608-085454/main-character-climb-4.png" id="8_xt05y"]
+[ext_resource type="Texture2D" uid="uid://b2fh81pgchu3d" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-skin-forearms-20260608-085454/main-character-climb-5.png" id="9_nl4oa"]
 [ext_resource type="Texture2D" uid="uid://dutevb0poruvl" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="9_walk5"]
+[ext_resource type="Texture2D" uid="uid://bcwwct25p1xv6" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-skin-forearms-20260608-085454/main-character-climb-6.png" id="10_gmknk"]
 [ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="10_walk6"]
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="11_walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_walk8"]
-[ext_resource type="Texture2D" uid="uid://08dbv03bfw58" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-backview-20260607-210900/main-character-climb-1.png" id="13_climb1"]
-[ext_resource type="Texture2D" uid="uid://cd5vf0ukced03" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-backview-20260607-210900/main-character-climb-2.png" id="14_climb2"]
-[ext_resource type="Texture2D" uid="uid://djqs7vigffts6" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-backview-20260607-210900/main-character-climb-3.png" id="15_climb3"]
-[ext_resource type="Texture2D" uid="uid://dkhbrmnof6il7" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-backview-20260607-210900/main-character-climb-4.png" id="16_climb4"]
-[ext_resource type="Texture2D" uid="uid://cjvoo5oemb724" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-backview-20260607-210900/main-character-climb-5.png" id="17_climb5"]
-[ext_resource type="Texture2D" uid="uid://bqprwma4n7x1" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-backview-20260607-210900/main-character-climb-6.png" id="18_climb6"]
+[ext_resource type="Texture2D" uid="uid://bhwuxemlhinxo" path="res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview - 4F.png" id="13_fg4f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_right4"]
 size = Vector2(208, 42)
@@ -44,22 +45,22 @@ size = Vector2(97, 109)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("13_climb1")
+"texture": ExtResource("5_86fu0")
 }, {
 "duration": 1.0,
-"texture": ExtResource("14_climb2")
+"texture": ExtResource("6_uhf4d")
 }, {
 "duration": 1.0,
-"texture": ExtResource("15_climb3")
+"texture": ExtResource("7_aervj")
 }, {
 "duration": 1.0,
-"texture": ExtResource("16_climb4")
+"texture": ExtResource("8_xt05y")
 }, {
 "duration": 1.0,
-"texture": ExtResource("17_climb5")
+"texture": ExtResource("9_nl4oa")
 }, {
 "duration": 1.0,
-"texture": ExtResource("18_climb6")
+"texture": ExtResource("10_gmknk")
 }],
 "loop": true,
 "name": &"climb",
@@ -223,3 +224,9 @@ animation = &"idle"
 position = Vector2(7.4072266, -139.35199)
 shape = SubResource("RectangleShape2D_player")
 debug_color = Color(0.566768, 0.392178, 1, 0.419608)
+
+[node name="Foreground4FRailing" type="Sprite2D" parent="." unique_id=880001]
+z_index = 10
+position = Vector2(1149, 335)
+texture = ExtResource("13_fg4f")
+centered = false

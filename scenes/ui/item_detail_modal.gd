@@ -118,6 +118,6 @@ func _input(event: InputEvent) -> void:
 	
 	# 只攔截鍵盤、搖桿與模擬動作事件，允許實體滑鼠與觸控點擊穿透到 GUI 按鈕
 	if event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion or event is InputEventAction:
-		get_viewport().set_input_as_handled()
-		if event.is_action_pressed("interact_secondary") or event.is_action_pressed("ui_cancel"):
+		if event.is_action_pressed("interact_secondary"):
+			get_viewport().set_input_as_handled()
 			close_modal()

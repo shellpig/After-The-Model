@@ -140,6 +140,7 @@ func _process(delta: float) -> void:
 			if Input.is_action_just_pressed("ui_cancel"):
 				open_pause_menu()
 				return
+
 	elif current_mode == UIMode.Mode.PAUSE:
 		if pause_menu.visible and not pause_menu.save_slot_list.visible and not confirm_dialog.visible:
 			if Input.is_action_just_pressed("ui_cancel"):
@@ -147,8 +148,14 @@ func _process(delta: float) -> void:
 				return
 	elif current_mode == UIMode.Mode.INVENTORY:
 		# Guard against modal/confirm overrides
+		if Input.is_action_just_pressed("ui_cancel"):
+			if item_detail_modal.visible:
+				item_detail_modal.close_modal()
+			else:
+				close_all_ui()
+			return
 		if not item_detail_modal.visible:
-			if Input.is_action_just_pressed("open_inventory") or Input.is_action_just_pressed("ui_cancel"):
+			if Input.is_action_just_pressed("open_inventory"):
 				close_all_ui()
 				return
 			if Input.is_action_just_pressed("open_notebook"):
@@ -163,10 +170,13 @@ func _process(delta: float) -> void:
 			return
 	elif current_mode == UIMode.Mode.CONTAINER:
 		# Guard against modal/confirm overrides
-		if not item_detail_modal.visible:
-			if Input.is_action_just_pressed("ui_cancel"):
+		if Input.is_action_just_pressed("ui_cancel"):
+			if item_detail_modal.visible:
+				item_detail_modal.close_modal()
+			else:
 				close_all_ui()
-				return
+			return
+		if not item_detail_modal.visible:
 			if Input.is_action_just_pressed("open_inventory"):
 				open_inventory()
 				return

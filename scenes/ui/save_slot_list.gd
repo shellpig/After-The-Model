@@ -139,8 +139,9 @@ func refresh_list() -> void:
 			var credits_val = meta.get("credits", 0)
 			var timestamp = meta.get("timestamp", 0)
 			
-			# Format timestamp
-			var datetime = Time.get_datetime_dict_from_unix_time(timestamp)
+			# Format timestamp (convert UTC unix time to local timezone for display)
+			var tz = Time.get_time_zone_from_system()
+			var datetime = Time.get_datetime_dict_from_unix_time(timestamp + tz["bias"] * 60)
 			var time_str = "%04d-%02d-%02d %02d:%02d" % [
 				datetime["year"], datetime["month"], datetime["day"],
 				datetime["hour"], datetime["minute"]
@@ -245,7 +246,11 @@ func _on_back_pressed() -> void:
 func _input(event: InputEvent) -> void:
 	if not visible:
 		return
-		
+
+	# 若同一事件已被上層(如 ConfirmDialog)處理，跳過以免同幀重觸發
+	if get_viewport().is_input_handled():
+		return
+
 	var game_ui = get_tree().root.find_child("GameUI", true, false)
 	if game_ui and game_ui.has_node("ConfirmDialog") and game_ui.get_node("ConfirmDialog").visible:
 		return

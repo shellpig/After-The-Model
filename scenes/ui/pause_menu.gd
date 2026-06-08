@@ -137,7 +137,11 @@ func _apply_theme_style() -> void:
 func _input(event: InputEvent) -> void:
 	if not visible or save_slot_list.visible:
 		return
-		
+
+	# 若同一事件已被上層(如 ConfirmDialog)處理，跳過以免同幀重觸發
+	if get_viewport().is_input_handled():
+		return
+
 	var game_ui = get_tree().root.find_child("GameUI", true, false)
 	if game_ui and game_ui.has_node("ConfirmDialog") and game_ui.get_node("ConfirmDialog").visible:
 		return

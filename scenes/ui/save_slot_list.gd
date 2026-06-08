@@ -194,13 +194,13 @@ func _perform_save(slot: int) -> void:
 	var game_ui = get_tree().root.find_child("GameUI", true, false)
 	if success:
 		if game_ui and game_ui.has_method("show_toast"):
-			game_ui.show_toast("儲存成功！", self)
+			game_ui.show_toast("儲存成功！", _buttons[slot - 1])
 		refresh_list()
 		# Refocus button after save
 		_buttons[slot - 1].grab_focus()
 	else:
 		if game_ui and game_ui.has_method("show_toast"):
-			game_ui.show_toast("儲存失敗！", self)
+			game_ui.show_toast("儲存失敗！", _buttons[slot - 1])
 
 func _confirm_overwrite(slot: int) -> void:
 	var game_ui = get_tree().root.find_child("GameUI", true, false)
@@ -245,10 +245,6 @@ func _on_back_pressed() -> void:
 
 func _input(event: InputEvent) -> void:
 	if not visible:
-		return
-
-	# 若同一事件已被上層(如 ConfirmDialog)處理，跳過以免同幀重觸發
-	if get_viewport().is_input_handled():
 		return
 
 	var game_ui = get_tree().root.find_child("GameUI", true, false)

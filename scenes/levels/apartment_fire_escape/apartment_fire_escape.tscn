@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="11_walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_walk8"]
 [ext_resource type="Texture2D" uid="uid://bhwuxemlhinxo" path="res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview - 4F.png" id="13_fg4f"]
+[ext_resource type="Texture2D" uid="uid://dgtssd6uew0l2" path="res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview-3F.png" id="14_fg3f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_right4"]
 size = Vector2(208, 42)
@@ -229,4 +230,10 @@ debug_color = Color(0.566768, 0.392178, 1, 0.419608)
 z_index = 10
 position = Vector2(1149, 335)
 texture = ExtResource("13_fg4f")
+centered = false
+
+[node name="Foreground3FRailing" type="Sprite2D" parent="." unique_id=890001]
+z_index = 30
+position = Vector2(71, 558)
+texture = ExtResource("14_fg3f")
 centered = false

@@ -32,6 +32,7 @@ var _message_full_text := ""
 var _message_elapsed := 0.0
 var _current_chars_per_second := 12.0
 var _message_on_closed: Callable = Callable()
+var _message_hint_shown: bool = false
 
 var _pending_toast_title: String = ""
 var _pending_inspect_modal: Dictionary = {}
@@ -95,25 +96,36 @@ func _process(delta: float) -> void:
 		if _message_just_opened:
 			_message_just_opened = false
 			return
-		if _is_simple_message and (Input.is_action_just_pressed("interact_primary") or Input.is_action_just_pressed("ui_cancel")):
-			if not _pending_inspect_modal.is_empty():
-				close_message()
-				var grid: Control = _pending_inspect_modal.get("restore_grid")
-				if grid and grid.has_method("set_input_active"):
-					grid.set_input_active(false)
-				item_detail_modal.show_modal(
-					_pending_inspect_modal.get("instance_id"),
-					_pending_inspect_modal.get("restore_grid"),
-					_pending_inspect_modal.get("restore_index"),
-					_pending_inspect_modal.get("anchor_node")
-				)
-				_pending_inspect_modal.clear()
-			else:
-				var cb = _message_on_closed
-				_message_on_closed = Callable()
-				close_message()
-				if cb.is_valid():
-					cb.call()
+		
+		if _is_simple_message:
+			if is_message_finished() and not _message_hint_shown:
+				_message_hint_shown = true
+				set_message_page_hint("▼ 關閉" if not _message_on_closed.is_valid() and _pending_inspect_modal.is_empty() else "▼ 繼續", true)
+			
+			if Input.is_action_just_pressed("interact_primary") or Input.is_action_just_pressed("ui_cancel") or Input.is_action_just_pressed("ui_accept"):
+				if not is_message_finished():
+					force_finish_message()
+					_message_hint_shown = true
+					set_message_page_hint("▼ 關閉" if not _message_on_closed.is_valid() and _pending_inspect_modal.is_empty() else "▼ 繼續", true)
+				else:
+					if not _pending_inspect_modal.is_empty():
+						close_message()
+						var grid: Control = _pending_inspect_modal.get("restore_grid")
+						if grid and grid.has_method("set_input_active"):
+							grid.set_input_active(false)
+						item_detail_modal.show_modal(
+							_pending_inspect_modal.get("instance_id"),
+							_pending_inspect_modal.get("restore_grid"),
+							_pending_inspect_modal.get("restore_index"),
+							_pending_inspect_modal.get("anchor_node")
+						)
+						_pending_inspect_modal.clear()
+					else:
+						var cb = _message_on_closed
+						_message_on_closed = Callable()
+						close_message()
+						if cb.is_valid():
+							cb.call()
 
 	# UI Hotkey Navigation Handling
 	if current_mode == UIMode.Mode.NONE:
@@ -208,6 +220,8 @@ func show_message(text: String, on_closed: Callable = Callable(), note_title: St
 	_message_elapsed = 0.0
 	message_label.text = ""
 	_current_chars_per_second = 12.0
+	_message_hint_shown = false
+	set_message_page_hint("", false)
 	_resize_message_box_for_text(_message_full_text)
 	if not note_title.is_empty():
 		_pending_toast_title = note_title
@@ -219,6 +233,8 @@ func begin_message(text: String, options: Dictionary = {}) -> void:
 	_message_elapsed = 0.0
 	message_label.text = ""
 	_current_chars_per_second = options.get("chars_per_second", 12.0)
+	_message_hint_shown = false
+	set_message_page_hint("", false)
 	_resize_message_box_for_text(_message_full_text)
 	UIMode.enter_overlay(UIMode.Mode.MESSAGE)
 
@@ -246,6 +262,7 @@ func close_message() -> void:
 	message_label.text = ""
 	page_hint_label.text = ""
 	page_hint_label.visible = false
+	_message_hint_shown = false
 	UIMode.exit_overlay()
 
 func show_toast(text: String, anchor_node: CanvasItem = null) -> void:

@@ -70,7 +70,7 @@ func _ready() -> void:
 	SaveSystem.can_save_here = false
 	var main = get_tree().root.find_child("Main", true, false)
 	if main and main.has_method("play_bgm"):
-		main.play_bgm("res://assets/bgm/Faded Neon Departure.mp3")
+		main.play_bgm("res://assets/bgm/Industrial Shadows.mp3")
 
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)

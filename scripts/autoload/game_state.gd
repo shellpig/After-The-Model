@@ -314,6 +314,16 @@ func add_knowledge(note: Dictionary) -> void:
 	var found = false
 	for i in range(notes.size()):
 		if notes[i].get("id") == note_id:
+			var old_body: String = notes[i].get("body", "")
+			if not body in old_body:
+				if not old_body.ends_with("\n\n"):
+					if old_body.ends_with("\n"):
+						old_body += "\n"
+					else:
+						old_body += "\n\n"
+				new_note["body"] = old_body + body
+			else:
+				new_note["body"] = old_body
 			notes[i] = new_note
 			found = true
 			break

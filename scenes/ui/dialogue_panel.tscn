@@ -80,8 +80,10 @@ autowrap_mode = 3
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="HintLabel" type="Label" parent="DialogueBox/MarginContainer/VBoxContainer"]
+[node name="HintLabel" type="Label" parent="DialogueBox/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
 theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
 theme_override_font_sizes/font_size = 14
 text = "W/S: 選擇    E: 確認"

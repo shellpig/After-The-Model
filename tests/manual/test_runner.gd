@@ -859,7 +859,7 @@ func _ready() -> void:
 	print("PASS: Focused choice has caret prefix '> '.")
 
 	# Verify HintLabel content for choices state
-	var hint_lbl = dp.get_node("DialogueBox/MarginContainer/VBoxContainer/HintLabel") as Label
+	var hint_lbl = dp.get_node("DialogueBox/MarginContainer/HintLabel") as Label
 	if hint_lbl.text != "W/S: 選擇    E: 確認":
 		printerr("FAIL: HintLabel text should be 'W/S: 選擇    E: 確認' when choices exist! Got: ", hint_lbl.text)
 		get_tree().quit(1)

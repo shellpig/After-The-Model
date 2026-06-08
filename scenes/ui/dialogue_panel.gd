@@ -6,7 +6,7 @@ signal dialogue_finished
 @onready var name_label: Label = $DialogueBox/MarginContainer/VBoxContainer/NameLabel
 @onready var text_label: Label = $DialogueBox/MarginContainer/VBoxContainer/TextLabel
 @onready var choices_container: VBoxContainer = $DialogueBox/MarginContainer/VBoxContainer/ChoicesContainer
-@onready var hint_label: Label = $DialogueBox/MarginContainer/VBoxContainer/HintLabel
+@onready var hint_label: Label = $DialogueBox/MarginContainer/HintLabel
 
 var _runner: DialogueRunner = null
 var _current_choices: Array = []
@@ -84,7 +84,18 @@ func _update_ui() -> void:
 	for child in choices_container.get_children():
 		child.queue_free()
 
-	_current_choices = curr.get("choices", [])
+	var raw_choices = curr.get("choices", [])
+	var sorted_choices = []
+	var exit_choices = []
+	for c in raw_choices:
+		var lbl: String = c.get("label", "")
+		if "離開" in lbl or "Exit" in lbl:
+			exit_choices.append(c)
+		else:
+			sorted_choices.append(c)
+	for ec in exit_choices:
+		sorted_choices.append(ec)
+	_current_choices = sorted_choices
 	_focused_choice_idx = -1
 	choices_container.visible = false
 

@@ -5,6 +5,10 @@ extends CharacterBody2D
 @export var max_x := 1180.0
 @export var walk_line_y := 700.0
 
+# Optional walk-line height profile (sorted by x). Empty = flat walk_line_y.
+# Used by uneven walk surfaces (e.g. the sagging fire-escape bridge).
+var walk_height_points: Array = []
+
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
 # Climb mode variables for Phase 7-F
@@ -50,7 +54,7 @@ func _physics_process(delta: float) -> void:
 
 	position.x += dir * speed * delta
 	position.x = clamp(position.x, min_x, max_x)
-	position.y = walk_line_y
+	position.y = _walk_y_at(position.x)
 
 	if dir != 0.0:
 		anim.play("walk")
@@ -67,6 +71,27 @@ func _apply_sprite_transform() -> void:
 	else:
 		anim.scale = _scene_sprite_scale
 		anim.position = _scene_sprite_position
+
+# Walk-line y at a given x. Linear interpolation across walk_height_points,
+# clamped to the end values outside the profile range. Flat when no profile.
+func _walk_y_at(x: float) -> float:
+	if walk_height_points.is_empty():
+		return walk_line_y
+	if x <= walk_height_points[0].x:
+		return walk_height_points[0].y
+	var last_index := walk_height_points.size() - 1
+	if x >= walk_height_points[last_index].x:
+		return walk_height_points[last_index].y
+	for i in range(last_index):
+		var a: Vector2 = walk_height_points[i]
+		var b: Vector2 = walk_height_points[i + 1]
+		if x >= a.x and x <= b.x:
+			return lerp(a.y, b.y, (x - a.x) / (b.x - a.x))
+	return walk_line_y
+
+# Snap y onto the current walk line immediately (used after entry / ladder exit).
+func snap_to_walk_line() -> void:
+	global_position.y = _walk_y_at(global_position.x)
 
 func get_save_x() -> float:
 	return global_position.x

@@ -366,7 +366,7 @@ C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . 
 C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . -s res://tests/manual/verify_game_state.gd
 ```
 
-最近 2-C 驗證結果：
+最近已記錄的 Phase 7 headless 驗證結果（commit `878ebd6`）：
 
 ```text
 test_runner.tscn: PASS
@@ -404,7 +404,7 @@ verify_game_state.gd: PASS
 
 ## 目前已知邊界
 
-- `驗證後已知問題.md` 尚未建立；規劃於 Phase 2-E 收尾建立。
+- `驗證後已知問題.md` 已建立；目前 KI-001 已修復，暫無待修項目。
 - `subdocs/地點/主角公寓.md` 底部「已知落差 / 待修」有部分 Phase 1 歷史描述可能已過期；以 `AGENTS.md`、`遊戲規格書.md`、目前 code 與 git log 判斷最新狀態。
 - Phase 2-B 已實作並驗證；`worn_rubiks_cube`、`decoder_cube` 與解碼手套流程已存在於 code。
 - Phase 2-C 已實作並驗證；`accepted_item`、`deposit_locked`、`get_container_config()` 與 `item_moved` payload 可供 2-D / 2-E 使用。

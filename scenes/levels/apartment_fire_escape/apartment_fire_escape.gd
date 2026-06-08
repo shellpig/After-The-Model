@@ -24,6 +24,16 @@ const LOWER_WALK_PLATFORM_PATHS := [
 	"Collision/RightBuilding3FPlatform"
 ]
 
+# Walk-line height control points for the sagging bridge (sorted by x).
+# Ends match the flat 3F platforms (LOWER_WALK_Y); the centre dips lower.
+# Outside [650, 1100] the player stays flat at LOWER_WALK_Y. Tune freely;
+# add more points between the ends for a smoother curve.
+const BRIDGE_WALK_POINTS := [
+	Vector2(650.0, 655.0),
+	Vector2(875.0, 685.0),
+	Vector2(1100.0, 655.0)
+]
+
 const MESSAGES := {
 	"quest_box_locked": "箱子被雨水泡得發脹，裡面也許有東西，但現在還不是翻它的時候。",
 	"quest_box_preview": "窗裡還亮著燈，薄窗簾後偶爾有人影晃過。你得先確認周圍動靜，再一點一點掀開箱蓋。",
@@ -179,14 +189,16 @@ func _apply_upper_walk_line() -> void:
 	player.min_x = bounds.x
 	player.max_x = bounds.y
 	player.walk_line_y = UPPER_WALK_Y
-	player.global_position.y = UPPER_WALK_Y
+	player.walk_height_points = []
+	player.snap_to_walk_line()
 
 func _apply_lower_walk_line() -> void:
 	var bounds := _get_platform_x_bounds(LOWER_WALK_PLATFORM_PATHS)
 	player.min_x = bounds.x
 	player.max_x = bounds.y
 	player.walk_line_y = LOWER_WALK_Y
-	player.global_position.y = LOWER_WALK_Y
+	player.walk_height_points = BRIDGE_WALK_POINTS
+	player.snap_to_walk_line()
 
 func _get_platform_x_bounds(platform_paths: Array) -> Vector2:
 	var min_x := INF

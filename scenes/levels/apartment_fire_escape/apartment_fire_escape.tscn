@@ -155,6 +155,7 @@ debug_color = Color(0.8, 0.35, 0.1, 0.35)
 [node name="Props" type="Node2D" parent="." unique_id=1455263053]
 
 [node name="CentralGap" type="Polygon2D" parent="Props" unique_id=660801957]
+visible = false
 position = Vector2(610, 500)
 color = Color(0.03, 0.02, 0.06, 0.55)
 polygon = PackedVector2Array(0, 0, 418, 0, 418, 260, 0, 260)
@@ -176,7 +177,7 @@ position = Vector2(1200, 407)
 position = Vector2(1409, 529.5)
 script = ExtResource("4_interactable")
 interaction_id = "main_ladder"
-prompt_text = "E: 攀上梯子"
+prompt_text = "W/S 爬梯子"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MainLadderArea" unique_id=1403289521]
 position = Vector2(0, -11.25)

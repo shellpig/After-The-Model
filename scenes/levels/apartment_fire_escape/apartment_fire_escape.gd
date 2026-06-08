@@ -7,6 +7,9 @@ signal scene_transition_requested(scene_id: String, entry_point_id: String, payl
 
 const UPPER_WALK_Y := 400.0
 const LOWER_WALK_Y := 655.0
+# Climb auto-exit tuning (Phase 7-F W/S 爬梯改版)
+const CLIMB_ENGAGE_MARGIN := 8.0
+const CLIMB_EXIT_MARGIN := 2.0
 const CAMERA_HALF_WIDTH := 640.0
 const CAMERA_HALF_HEIGHT := 360.0
 const MAP_WIDTH := 1672.0
@@ -36,6 +39,8 @@ var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
 var _entry_point_id: String = "from_window"
 var _entry_payload: Dictionary = {}
+var _climb_entry_y: float = 0.0
+var _climb_engaged: bool = false
 
 func prepare_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "from_window"
@@ -71,7 +76,12 @@ func _process(_delta: float) -> void:
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
 
+	if player.is_climbing():
+		_update_climb_state()
+		return
+
 	_refresh_current_interactable()
+	_try_enter_ladder()
 
 	if DisplayServer.get_name() == "headless" and Input.is_action_just_pressed("interact_primary"):
 		_handle_primary_interaction()
@@ -85,7 +95,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _handle_primary_interaction() -> void:
 	if player.is_climbing():
-		_exit_ladder()
 		return
 
 	_refresh_current_interactable()
@@ -95,9 +104,6 @@ func _handle_primary_interaction() -> void:
 
 func _trigger_interaction() -> void:
 	match current_interactable.interaction_id:
-		"main_ladder":
-			player.enter_climb_mode(_get_ladder_x(), UPPER_WALK_Y, LOWER_WALK_Y)
-			current_interactable_changed.emit({"prompt_text": "E: 離開梯子"})
 		"window_return":
 			scene_transition_requested.emit("apartment", "from_fire_escape", {})
 		"quest_box":
@@ -128,16 +134,44 @@ func _trigger_interaction() -> void:
 					"message_text": MESSAGES["quest_box_locked"]
 				})
 
-func _exit_ladder() -> void:
-	var target_y := UPPER_WALK_Y
-	if abs(player.global_position.y - LOWER_WALK_Y) < abs(player.global_position.y - UPPER_WALK_Y):
-		target_y = LOWER_WALK_Y
+# 在梯子互動區、未爬梯時：上層按 move_down(S/↓)、下層按 move_up(W/↑) 進入爬梯
+func _try_enter_ladder() -> void:
+	if current_interactable == null or current_interactable.interaction_id != "main_ladder":
+		return
 
+	var on_upper := absf(player.global_position.y - UPPER_WALK_Y) <= absf(player.global_position.y - LOWER_WALK_Y)
+	if on_upper and Input.is_action_just_pressed("move_down"):
+		_begin_climb()
+	elif not on_upper and Input.is_action_just_pressed("move_up"):
+		_begin_climb()
+
+func _begin_climb() -> void:
+	player.enter_climb_mode(_get_ladder_x(), UPPER_WALK_Y, LOWER_WALK_Y)
+	_climb_entry_y = player.global_position.y
+	_climb_engaged = false
+	current_interactable_changed.emit({})
+
+# 爬梯中每幀檢查：先離開起點端一小段距離才算 engaged，之後碰到任一端自動落地
+func _update_climb_state() -> void:
+	var y := player.global_position.y
+	if not _climb_engaged and abs(y - _climb_entry_y) > CLIMB_ENGAGE_MARGIN:
+		_climb_engaged = true
+
+	if not _climb_engaged:
+		return
+
+	if abs(y - UPPER_WALK_Y) <= CLIMB_EXIT_MARGIN:
+		_exit_ladder_to(UPPER_WALK_Y)
+	elif abs(y - LOWER_WALK_Y) <= CLIMB_EXIT_MARGIN:
+		_exit_ladder_to(LOWER_WALK_Y)
+
+func _exit_ladder_to(target_y: float) -> void:
 	player.exit_climb_mode(target_y)
 	if target_y == UPPER_WALK_Y:
 		_apply_upper_walk_line()
 	else:
 		_apply_lower_walk_line()
+	_climb_engaged = false
 	_refresh_current_interactable()
 
 func _apply_upper_walk_line() -> void:
@@ -205,7 +239,7 @@ func _on_interactable_exited(interactable: Area2D) -> void:
 func _refresh_current_interactable() -> void:
 	if player.is_climbing():
 		current_interactable = null
-		current_interactable_changed.emit({"prompt_text": "E: 離開梯子"})
+		current_interactable_changed.emit({})
 		return
 
 	var closest_interactable := _get_closest_interactable()

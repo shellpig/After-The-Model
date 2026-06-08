@@ -226,6 +226,8 @@ func show_message(text: String, on_closed: Callable = Callable(), note_title: St
 	if not note_title.is_empty():
 		_pending_toast_title = note_title
 	UIMode.enter_overlay(UIMode.Mode.MESSAGE)
+	if DisplayServer.get_name() == "headless":
+		force_finish_message()
 
 func begin_message(text: String, options: Dictionary = {}) -> void:
 	_is_simple_message = false
@@ -237,6 +239,9 @@ func begin_message(text: String, options: Dictionary = {}) -> void:
 	set_message_page_hint("", false)
 	_resize_message_box_for_text(_message_full_text)
 	UIMode.enter_overlay(UIMode.Mode.MESSAGE)
+	if DisplayServer.get_name() == "headless":
+		force_finish_message()
+
 
 func force_finish_message() -> void:
 	message_label.text = _message_full_text
@@ -401,6 +406,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 			show_prompt(_current_prompt_data)
 		else:
 			prompt_panel.visible = false
+		_check_and_trigger_endings()
 
 	if _last_mode == UIMode.Mode.MESSAGE and not _pending_toast_title.is_empty():
 		var anchor: Node2D = null
@@ -413,6 +419,24 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		_pending_toast_title = ""
 
 	_last_mode = new_mode
+
+func _check_and_trigger_endings() -> void:
+	if QuestManager.get_status("alley_backrooms_3f") == "completed" and not GameState.get_flag("alley_backrooms_ended", false):
+		GameState.set_flag("alley_backrooms_ended", true)
+		
+		var found_module: bool = QuestManager.get_flag("alley_backrooms_3f", "found_old_ai_authorization_module", false)
+		if found_module:
+			var page1 := "【第二段劇情完成 - 結局 2：拾遺者的直覺】\n\n你只交出了明面上的啟用盒，而將暗中拆解出的「舊式 AI 授權模組」留在了背包深處。\n你用直覺對抗了系統的遺忘，將真正的遺產扣留了下來。"
+			var page2 := "晚沒有察覺，或者，她只是看破而不說破。這枚指尖大小的晶片，或許會成為未來重新啟動這座城市記憶的唯一鑰匙。\n\n（提示：若在查看啟用盒時沒有拆解出隱藏模組便交付任務，將會觸發「結局 1：盲目的清理者」）"
+			show_message(page1, func(): show_message(page2))
+		else:
+			var page1 := "【第二段劇情完成 - 結局 1：盲目的清理者】\n\n你將啟用盒原封不動地交給了晚。你得到了應得的酬勞，轉身步入下層街區的冷雨之中。"
+			var page2 := "然而你並不知道，在那個冷冰冰的塑料外殼底下，隱密夾層裡還沉睡著一枚本該被喚醒的舊式授權模組。\n它將被永遠埋葬在永無止境的酸雨與斑駁的霓虹中，直到連同這棟舊樓一起，被系統清理乾淨。"
+			show_message(page1, func(): show_message(page2))
+
+
+
+
 
 func _apply_message_box_style() -> void:
 	var message_style := StyleBoxFlat.new()

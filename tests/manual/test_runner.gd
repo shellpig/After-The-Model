@@ -2317,6 +2317,76 @@ func _ready() -> void:
 		return
 	print("PASS: Quest completed state, item states, and work note states successfully saved and restored.")
 	
+	# 25. Verify Quest Ending Message Boxes Triggering
+	print("Verifying Quest Ending Message Boxes Triggering...")
+	
+	# Test case 1: Ending 1 (Did not retrieve the hidden module)
+	GameState.reset_for_new_game()
+	QuestManager.start("alley_backrooms_3f")
+	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
+	QuestManager.complete("alley_backrooms_3f")
+	QuestManager.set_flag("alley_backrooms_3f", "found_old_ai_authorization_module", false)
+	GameState.story_flags.erase("alley_backrooms_ended")
+	
+	UIMode.set_mode(UIMode.Mode.DIALOGUE)
+	UIMode.set_mode(UIMode.Mode.NONE)
+	await get_tree().process_frame
+	
+	if UIMode.get_mode() != UIMode.Mode.MESSAGE:
+		printerr("FAIL: Ending 1 did not trigger MESSAGE mode!")
+		get_tree().quit(1)
+		return
+	if not ui_instance.message_box.visible:
+		printerr("FAIL: Ending 1 message box not visible!")
+		get_tree().quit(1)
+		return
+	if not ui_instance.message_label.text.contains("結局 1"):
+		printerr("FAIL: Ending 1 text incorrect! Got: ", ui_instance.message_label.text)
+		get_tree().quit(1)
+		return
+	print("PASS: Ending 1 messagebox triggered successfully.")
+	
+	# Close the message box
+	ui_instance.close_message()
+	await get_tree().process_frame
+	
+	# Verify it doesn't trigger again
+	UIMode.set_mode(UIMode.Mode.DIALOGUE)
+	UIMode.set_mode(UIMode.Mode.NONE)
+	await get_tree().process_frame
+	if UIMode.get_mode() != UIMode.Mode.NONE:
+		printerr("FAIL: Ending triggered repeatedly!")
+		get_tree().quit(1)
+		return
+	print("PASS: Ending single-trigger constraint verified.")
+	
+	# Test case 2: Ending 2 (Retrieved the hidden module)
+	GameState.reset_for_new_game()
+	QuestManager.start("alley_backrooms_3f")
+	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
+	QuestManager.set_flag("alley_backrooms_3f", "found_old_ai_authorization_module", true)
+	QuestManager.complete("alley_backrooms_3f")
+	GameState.story_flags.erase("alley_backrooms_ended")
+
+	
+	UIMode.set_mode(UIMode.Mode.DIALOGUE)
+	UIMode.set_mode(UIMode.Mode.NONE)
+	await get_tree().process_frame
+	
+	if UIMode.get_mode() != UIMode.Mode.MESSAGE:
+		printerr("FAIL: Ending 2 did not trigger MESSAGE mode!")
+		get_tree().quit(1)
+		return
+	if not ui_instance.message_box.visible:
+		printerr("FAIL: Ending 2 message box not visible!")
+		get_tree().quit(1)
+		return
+	if not ui_instance.message_label.text.contains("結局 2"):
+		printerr("FAIL: Ending 2 text incorrect! Got: ", ui_instance.message_label.text)
+		get_tree().quit(1)
+		return
+	print("PASS: Ending 2 messagebox triggered successfully.")
+	
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):
 		dir.remove("save_04.sav")

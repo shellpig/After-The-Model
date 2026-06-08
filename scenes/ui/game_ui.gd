@@ -444,7 +444,7 @@ func _check_and_trigger_endings() -> void:
 			show_message(page1, func(): show_message(page2))
 		else:
 			var page1 := "【第二段劇情完成 - 結局 1：盲目的清理者】\n\n你將啟用盒原封不動地交給了晚。你得到了應得的酬勞，轉身步入下層街區的冷雨之中。"
-			var page2 := "然而你並不知道，在那個冷冰冰的塑料外殼底下，隱密夾層裡還沉睡著一枚本該被喚醒的舊式授權模組。\n它將被永遠埋葬在永無止境的酸雨與霓虹中。\n\n（提示：若在查看啟用盒時拆解出隱藏模組，交任務時可選擇「只交盒子（結局 2）」或「連模組一起交（結局 3）」）"
+			var page2 := "這座城市依然在雨中運轉，舊日的痕跡在一點點被抹去。你將手收入口袋，繼續尋找著自己失落的記憶。"
 			show_message(page1, func(): show_message(page2))
 
 

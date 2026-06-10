@@ -106,7 +106,7 @@ func test_knowledge_and_notes_deduplication() -> void:
 	GameState.add_knowledge(note1_updated)
 	var notes = GameState.get_notes("線索")
 	assert(notes.size() == 1, "Should still have 1 note after update (deduplicated)")
-	assert(notes[0].get("body") == "更新：冰箱上貼著開鎖方法，寫著先戴手套。", "Note body should be updated in-place")
+	assert(notes[0].get("body") == "冰箱上貼著開鎖方法。\n\n更新：冰箱上貼著開鎖方法，寫著先戴手套。", "Note body should be updated by appending new content")
 
 	# "身份" auto-unlocks knowledge
 	var note2 = {

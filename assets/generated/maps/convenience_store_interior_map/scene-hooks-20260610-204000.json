@@ -1,0 +1,37 @@
+{
+  "asset_id": "convenience_store_interior_map",
+  "version": "20260610-204000",
+  "scene_id": "convenience_store",
+  "stage_canvas": [2560, 720],
+  "camera": {
+    "viewport": [1280, 720],
+    "limit_left": 0,
+    "limit_top": 0,
+    "limit_right": 2560,
+    "limit_bottom": 720,
+    "default_y": 360
+  },
+  "spawn_points": [
+    {
+      "id": "from_street",
+      "position": [720, 665],
+      "facing": 1
+    }
+  ],
+  "exits": [
+    {
+      "id": "auto_door",
+      "position": [780, 665],
+      "target_scene_id": "apartment_entrance",
+      "entry_point_id": "from_store"
+    }
+  ],
+  "separate_sprite_sockets": [
+    {
+      "id": "store_robot_socket",
+      "anchor": [1395, 465],
+      "suggested_display_size": [220, 220],
+      "render_above_map": true
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "asset": "store robot dialogue portrait",
+  "source_reference": "conversation image: robot cashier terminal machine",
+  "generated_raw_cache": "C:/Users/User/.codex/generated_images/019eb17f-0b25-78a2-810a-eecc17465890/ig_06835891178bcfd8016a29585c725c819191a018a5ab6bdbe7.png",
+  "raw_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\store_robot\\dialogue_portrait\\store-robot-dialogue-portrait-20260610-202942\\store-robot-dialogue-portrait-raw-20260610-202942.png",
+  "g2d_hires_output": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\store_robot\\dialogue_portrait\\store-robot-dialogue-portrait-20260610-202942\\hires_clean\\sheet-transparent.png",
+  "adopted_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\store_robot\\dialogue_portrait\\store-robot-dialogue-portrait-20260610-202942\\portrait.png",
+  "stamped_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\store_robot\\dialogue_portrait\\store-robot-dialogue-portrait-20260610-202942\\store-robot-dialogue-portrait-transparent-20260610-202942.png",
+  "postprocess": {
+    "external_connected_magenta_pixels_cleared": 160,
+    "canvas_size": [
+      1024,
+      1024
+    ]
+  }
+}

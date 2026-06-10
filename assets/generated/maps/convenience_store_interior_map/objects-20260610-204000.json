@@ -1,0 +1,97 @@
+{
+  "asset_id": "convenience_store_interior_map",
+  "version": "20260610-204000",
+  "coordinate_space": "pixel",
+  "canvas": [2560, 720],
+  "objects": [
+    {
+      "id": "left_shelf",
+      "type": "flavor_interactable",
+      "bbox": [40, 300, 230, 370],
+      "interaction_id": "store_shelves",
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "center_shelf",
+      "type": "flavor_interactable",
+      "bbox": [300, 300, 290, 370],
+      "interaction_id": "store_shelves",
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "auto_door",
+      "type": "exit",
+      "bbox": [610, 235, 340, 435],
+      "target_scene_id": "apartment_entrance",
+      "entry_point_id": "from_store",
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "deli_machine",
+      "type": "flavor_interactable",
+      "bbox": [970, 295, 240, 375],
+      "interaction_id": "deli_machine",
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "checkout_counter",
+      "type": "scenery",
+      "bbox": [1225, 465, 360, 205],
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "store_robot_socket",
+      "type": "separate_sprite_socket",
+      "bbox": [1250, 295, 290, 270],
+      "interaction_id": "store_robot",
+      "dialogue_id": "store_robot",
+      "baked_into_map": false,
+      "notes": "Reserved counter space for a later separate store robot sprite. Do not bake the robot into the map."
+    },
+    {
+      "id": "drink_cooler",
+      "type": "flavor_interactable",
+      "bbox": [1590, 280, 225, 390],
+      "interaction_id": "drink_cooler",
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "clerk_locker",
+      "type": "clue_interactable",
+      "bbox": [1870, 250, 100, 420],
+      "interaction_id": "clue_clerk_locker",
+      "note_id": "clue_clerk_locker",
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "termination_notice_board",
+      "type": "clue_interactable",
+      "bbox": [1990, 315, 150, 165],
+      "interaction_id": "clue_termination_notice",
+      "note_id": "clue_termination_notice",
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "staff_desk",
+      "type": "clue_cluster",
+      "bbox": [1980, 505, 230, 145],
+      "child_note_ids": ["clue_clerk_diary", "clue_counter_photo"],
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "store_registry_host",
+      "type": "repair_terminal",
+      "bbox": [2190, 385, 145, 285],
+      "interaction_id": "store_registry_host",
+      "dialogue_id": "store_registry_host",
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "back_door",
+      "type": "locked_exit_hook",
+      "bbox": [2400, 235, 135, 435],
+      "interaction_id": "back_door",
+      "render_layer": "background_baked"
+    }
+  ]
+}

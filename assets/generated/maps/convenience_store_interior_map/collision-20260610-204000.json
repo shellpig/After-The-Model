@@ -1,0 +1,22 @@
+{
+  "asset_id": "convenience_store_interior_map",
+  "version": "20260610-204000",
+  "coordinate_space": "pixel",
+  "canvas": [2560, 720],
+  "walk_line_y": 665,
+  "player_bounds": {
+    "min_x": 80,
+    "max_x": 2480
+  },
+  "solids": [
+    {
+      "id": "ground",
+      "shape": "rect",
+      "rect": [0, 676, 2560, 16]
+    }
+  ],
+  "notes": [
+    "Matches current side-scroller movement model: one horizontal walk line, no Y-depth.",
+    "Props are visual/interactable only in this pass; they do not block horizontal movement."
+  ]
+}

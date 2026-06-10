@@ -1,0 +1,64 @@
+{
+  "target": "npc",
+  "mode": "single",
+  "prompt": "",
+  "role": "",
+  "input": "assets\\generated\\sprites\\store_robot\\dialogue_portrait\\store-robot-dialogue-portrait-20260610-202942\\store-robot-dialogue-portrait-raw-20260610-202942.png",
+  "threshold": 150,
+  "edge_threshold": 150,
+  "duration": 200,
+  "rows": 1,
+  "cols": 1,
+  "cell_size": 1024,
+  "fit_scale": 0.85,
+  "trim_border": 4,
+  "edge_clean_depth": 8,
+  "align": "center",
+  "shared_scale": false,
+  "component_mode": "largest",
+  "component_padding": 0,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "store-robot-dialogue-portrait-hires-clean-1"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "component_mode": "largest",
+      "component_count": 1,
+      "selected_component_area": 764693,
+      "selected_component_bbox": [
+        220,
+        87,
+        1076,
+        1198
+      ],
+      "crop_bbox": [
+        220,
+        87,
+        1076,
+        1198
+      ],
+      "edge_touch": false,
+      "output_size": [
+        670,
+        870
+      ],
+      "paste_position": [
+        177,
+        77
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}

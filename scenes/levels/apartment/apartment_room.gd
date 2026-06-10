@@ -347,6 +347,37 @@ func _trigger_interaction() -> void:
 			"container_title": c_data.title,
 			"container_slot_count": c_data.cols * c_data.rows
 		})
+	elif current_interactable.interaction_id == "desk_computer":
+		# 8-C 電腦兩段 gate
+		if not GameState.get_flag("used_room_computer_once", false):
+			# 第一次互動：舊內容 + 設 flag
+			GameState.set_flag("used_room_computer_once", true)
+			if not GameState.has_note("work_ai_cleanup_role"):
+				_pending_toast_title = NOTES["work_ai_cleanup_role"].title
+			else:
+				_pending_toast_title = ""
+			GameState.add_knowledge(NOTES["work_ai_cleanup_role"])
+			interaction_requested.emit({
+				"type": "message",
+				"message_text": MESSAGES.get("desk_computer_msg", ""),
+				"note_title": _pending_toast_title
+			})
+			_pending_toast_title = ""
+		elif GameState.get_flag("discovered_vendor_error", false) \
+				and QuestManager.get_status("repair_vendor_bot") == "":
+			# 第二次起 + 發現異常 + 任務未接 → 派工
+			QuestManager.start("repair_vendor_bot")
+			interaction_requested.emit({
+				"type": "message",
+				"message_text": MESSAGES.get("desk_computer_dispatch_quest", ""),
+				"note_title": "已接下委託：便利商店的故障機器人"
+			})
+		else:
+			# 其他情況（已有筆記 / 任務已接 / 未發現異常）→ 舊內容重播
+			interaction_requested.emit({
+				"type": "message",
+				"message_text": MESSAGES.get("desk_computer_msg", "")
+			})
 	elif not current_interactable.note_id.is_empty():
 		var note_id: String = current_interactable.note_id
 		if not GameState.has_note(note_id):
@@ -450,7 +481,9 @@ func _get_closest_interactable() -> Area2D:
 
 		# If the interactable has a note associated with it, and the player already has that note,
 		# disable any further interaction.
-		if not interactable.note_id.is_empty() and GameState.has_note(interactable.note_id):
+		# Exception: desk_computer has its own two-stage gate (Phase 8-C) and must always be accessible.
+		if not interactable.note_id.is_empty() and GameState.has_note(interactable.note_id) \
+				and interactable.interaction_id != "desk_computer":
 			continue
 
 		if interactable.interaction_id == "projection_clock" and (not GameState.has_note("clue_projection_clock") or GameState.apartment_sonar_revealed):

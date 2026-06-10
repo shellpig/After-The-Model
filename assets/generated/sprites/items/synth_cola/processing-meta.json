@@ -1,0 +1,26 @@
+{
+  "item_id": "synth_cola",
+  "generated_raw_cache": "C:/Users/User/.codex/generated_images/019eb17f-0b25-78a2-810a-eecc17465890/ig_06835891178bcfd8016a2978af64f881919a6491ac1329e949.png",
+  "raw_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\items\\synth_cola\\synth-cola-icon-20260610-224532\\synth-cola-icon-raw-20260610-224532.png",
+  "g2d_output": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\items\\synth_cola\\synth-cola-icon-20260610-224532\\g2d_clean\\sheet-transparent.png",
+  "source_clean_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\items\\synth_cola\\source-clean-transparent.png",
+  "adopted_icon": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\items\\synth_cola\\icon.png",
+  "preview_2x_dark": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\items\\synth_cola\\preview-2x-dark.png",
+  "postprocess": {
+    "external_connected_magenta_pixels_cleared": 0,
+    "source_clean_size": [
+      256,
+      256
+    ],
+    "icon_size": [
+      64,
+      64
+    ],
+    "icon_alpha_bbox": [
+      15,
+      2,
+      49,
+      62
+    ]
+  }
+}

@@ -272,7 +272,7 @@ const ITEMS_DB := {
 		"discardable": true,
 		"usable": true,
 		"equipment_slot": "",
-		"icon_path": "res://assets/generated/sprites/items/canned_food/icon.png"
+		"icon_path": "res://assets/generated/sprites/items/synth_cola/icon.png"
 	},
 	"packaged_water": {
 		"id": "packaged_water",
@@ -285,7 +285,7 @@ const ITEMS_DB := {
 		"discardable": true,
 		"usable": true,
 		"equipment_slot": "",
-		"icon_path": "res://assets/generated/sprites/items/synthetic_blueberry_nutrition_bar/icon.png"
+		"icon_path": "res://assets/generated/sprites/items/packaged_water/icon.png"
 	}
 }
 

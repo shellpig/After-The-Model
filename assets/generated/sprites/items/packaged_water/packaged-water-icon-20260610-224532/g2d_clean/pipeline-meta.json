@@ -1,0 +1,64 @@
+{
+  "target": "asset",
+  "mode": "single",
+  "prompt": "",
+  "role": "",
+  "input": "assets\\generated\\sprites\\items\\packaged_water\\packaged-water-icon-20260610-224532\\packaged-water-icon-raw-20260610-224532.png",
+  "threshold": 150,
+  "edge_threshold": 150,
+  "duration": 200,
+  "rows": 1,
+  "cols": 1,
+  "cell_size": 256,
+  "fit_scale": 0.86,
+  "trim_border": 4,
+  "edge_clean_depth": 8,
+  "align": "center",
+  "shared_scale": false,
+  "component_mode": "largest",
+  "component_padding": 0,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "packaged-water-icon-1"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "component_mode": "largest",
+      "component_count": 1,
+      "selected_component_area": 312852,
+      "selected_component_bbox": [
+        342,
+        115,
+        886,
+        1094
+      ],
+      "crop_bbox": [
+        342,
+        115,
+        886,
+        1094
+      ],
+      "edge_touch": false,
+      "output_size": [
+        122,
+        220
+      ],
+      "paste_position": [
+        67,
+        18
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}

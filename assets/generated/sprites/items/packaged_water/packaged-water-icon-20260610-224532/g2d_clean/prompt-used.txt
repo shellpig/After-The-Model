@@ -1,0 +1,5 @@
+Use Image #2 in this conversation as the visual reference. Create one inventory item icon for After-The-Model item_id packaged_water: a recycled packaged water bottle. Preserve the reference identity: transparent slightly crumpled plastic bottle, pale cyan water inside, gray cap, torn blank cream paper label, diagonal tilted pose, thick dark outline, simple readable silhouette. Remove the checkerboard background from the reference by regenerating the icon on a clean magenta background.
+
+Make it suitable for a 64x64 inventory icon: centered, clear silhouette, slight 15 degree top-down icon view, flat cel-shade, hard-edged highlights, subtle halftone/riso texture, limited desaturated palette, no readable text or brand marks. Keep the label blank or with tiny scratch lines only.
+
+Output one bottle only. No text, no logo letters, no frame, no UI, no shadow, no extra props. Background must be 100% solid flat #FF00FF magenta, no checkerboard, no white background, no gradient. Leave comfortable magenta padding around the bottle; nothing touches edges.

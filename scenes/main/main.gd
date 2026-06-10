@@ -10,8 +10,14 @@ const SCENES := {
 	"apartment_entrance": {
 		"path": "res://scenes/levels/apartment_entrance.tscn",
 		"default_entry_point_id": "from_apartment",
-		"entry_points": ["from_apartment"],
+		"entry_points": ["from_apartment", "from_store"],
 		"music_id": "street_rain"
+	},
+	"convenience_store": {
+		"path": "res://scenes/levels/convenience_store/convenience_store.tscn",
+		"default_entry_point_id": "from_street",
+		"entry_points": ["from_street"],
+		"music_id": "store_interior"
 	},
 	"apartment_fire_escape": {
 		"path": "res://scenes/levels/apartment_fire_escape/apartment_fire_escape.tscn",

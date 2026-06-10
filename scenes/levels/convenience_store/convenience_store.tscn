@@ -1,0 +1,233 @@
+[gd_scene format=3 uid="uid://cq22i4nv30pxh"]
+
+[ext_resource type="Script" uid="uid://bc30nnucg6tvu" path="res://scenes/levels/convenience_store/convenience_store.gd" id="1_store"]
+[ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_player"]
+[ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
+[ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="4_walk1"]
+[ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="5_walk2"]
+[ext_resource type="Texture2D" uid="uid://bex22wmsbwi1m" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="6_walk3"]
+[ext_resource type="Texture2D" uid="uid://sofbn2kttwre" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="7_walk4"]
+[ext_resource type="Texture2D" uid="uid://dutevb0poruvl" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="8_walk5"]
+[ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="9_walk6"]
+[ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="10_walk7"]
+[ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="11_walk8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(2560, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_shelves"]
+size = Vector2(220, 280)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_door"]
+size = Vector2(120, 280)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_deli"]
+size = Vector2(140, 270)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_robot"]
+size = Vector2(180, 280)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_cooler"]
+size = Vector2(160, 280)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_backdoor"]
+size = Vector2(100, 270)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_player"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_walk2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_walk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_walk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_walk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_walk4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_walk5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_walk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_walk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_walk8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(24, 454)
+
+[node name="ConvenienceStore" type="Node2D"]
+script = ExtResource("1_store")
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Backdrop" type="Polygon2D" parent="Background"]
+color = Color(0.06, 0.05, 0.1, 1)
+polygon = PackedVector2Array(0, 0, 2560, 0, 2560, 720, 0, 720)
+
+[node name="FloorStrip" type="Polygon2D" parent="Background"]
+color = Color(0.12, 0.11, 0.17, 1)
+polygon = PackedVector2Array(0, 660, 2560, 660, 2560, 720, 0, 720)
+
+[node name="ShelvesPlaceholder" type="Polygon2D" parent="Background"]
+position = Vector2(150, 390)
+color = Color(0.25, 0.22, 0.3, 1)
+polygon = PackedVector2Array(0, 0, 220, 0, 220, 280, 0, 280)
+
+[node name="AutoDoorPlaceholder" type="Polygon2D" parent="Background"]
+position = Vector2(560, 380)
+color = Color(0.15, 0.4, 0.45, 1)
+polygon = PackedVector2Array(0, 0, 120, 0, 120, 290, 0, 290)
+
+[node name="DeliMachinePlaceholder" type="Polygon2D" parent="Background"]
+position = Vector2(930, 400)
+color = Color(0.4, 0.25, 0.15, 1)
+polygon = PackedVector2Array(0, 0, 140, 0, 140, 270, 0, 270)
+
+[node name="CounterRobotPlaceholder" type="Polygon2D" parent="Background"]
+position = Vector2(1290, 440)
+color = Color(0.45, 0.2, 0.35, 1)
+polygon = PackedVector2Array(0, 0, 180, 0, 180, 230, 0, 230)
+
+[node name="DrinkCoolerPlaceholder" type="Polygon2D" parent="Background"]
+position = Vector2(1650, 390)
+color = Color(0.15, 0.3, 0.5, 1)
+polygon = PackedVector2Array(0, 0, 160, 0, 160, 280, 0, 280)
+
+[node name="StaffAreaPlaceholder" type="Polygon2D" parent="Background"]
+position = Vector2(1980, 400)
+color = Color(0.2, 0.28, 0.2, 1)
+polygon = PackedVector2Array(0, 0, 300, 0, 300, 270, 0, 270)
+
+[node name="BackDoorPlaceholder" type="Polygon2D" parent="Background"]
+position = Vector2(2390, 390)
+color = Color(0.35, 0.12, 0.12, 1)
+polygon = PackedVector2Array(0, 0, 100, 0, 100, 280, 0, 280)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+limit_left = 0
+limit_top = 0
+limit_right = 2560
+limit_bottom = 720
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="Collision" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Collision"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground"]
+position = Vector2(1280, 684)
+shape = SubResource("RectangleShape2D_ground")
+debug_color = Color(0.78, 0.42, 0.2, 0.35)
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="from_street" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(720, 665)
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="StoreShelvesArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "store_shelves"
+prompt_text = "E: █ 查看貨架"
+message_id = "store_shelves"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreShelvesArea"]
+position = Vector2(260, 530)
+shape = SubResource("RectangleShape2D_interact_shelves")
+debug_color = Color(0.95, 0.6, 0, 0.42)
+
+[node name="AutoDoorArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "auto_door"
+prompt_text = "E: █ 回到街道"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/AutoDoorArea"]
+position = Vector2(620, 525)
+shape = SubResource("RectangleShape2D_interact_door")
+debug_color = Color(0.9, 0.1, 0.1, 0.42)
+
+[node name="DeliMachineArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "deli_machine"
+prompt_text = "E: █ 查看熟食機台"
+message_id = "deli_machine"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeliMachineArea"]
+position = Vector2(1000, 535)
+shape = SubResource("RectangleShape2D_interact_deli")
+debug_color = Color(1, 0.8, 0.1, 0.42)
+
+[node name="StoreRobotArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "store_robot"
+prompt_text = "E: █ 查看店控機器人"
+message_id = "store_robot"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRobotArea"]
+position = Vector2(1380, 530)
+shape = SubResource("RectangleShape2D_interact_robot")
+debug_color = Color(0, 1, 0.86, 0.42)
+
+[node name="DrinkCoolerArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "drink_cooler"
+prompt_text = "E: █ 查看冷藏櫃"
+message_id = "drink_cooler"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DrinkCoolerArea"]
+position = Vector2(1730, 530)
+shape = SubResource("RectangleShape2D_interact_cooler")
+debug_color = Color(0.1, 0.9, 0.1, 0.42)
+
+[node name="BackDoorArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "back_door"
+prompt_text = "E: █ 推推看後門"
+message_id = "back_door"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BackDoorArea"]
+position = Vector2(2440, 525)
+shape = SubResource("RectangleShape2D_interact_backdoor")
+debug_color = Color(0.6, 0.2, 0.95, 0.42)
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(720, 665)
+scale = Vector2(0.54, 0.54)
+script = ExtResource("2_player")
+min_x = 80.0
+max_x = 2480.0
+walk_line_y = 665.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(20, -184)
+sprite_frames = SubResource("SpriteFrames_player")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(30, -221)
+shape = SubResource("RectangleShape2D_player")
+debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)

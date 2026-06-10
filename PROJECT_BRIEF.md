@@ -208,7 +208,8 @@ note_id
 | 7-I | ✅ 完成 | 回報晚 + 任務完成：只有 active + `found_activation_box` + 持有 A 才顯示交任務分支；effect 依序 `remove_item` → `complete_quest`，移除失敗即中止不 complete（status / 工作筆記保持 active）；B 保留；headless PASS |
 | 7-J | ✅ 完成 | Phase 7 回歸驗證：接任務 / 後巷偵查 / 取得 A 未查看 / 取得 B 未交 / 完成後五個存讀檔情境，任務鏈、工作筆記、A/B 物品、窗戶 gate、外牆禁存與回程不退化；headless PASS |
 | 7-K | ✅ 完成 | 任務結局分支：回報時依是否持有 B 分流，持有 B 時二選一「只交 / 連模組一起交」；A/B +500、C +1000 + `affinity_wan +2` + `gave_wan_old_module`；三種結局訊息（既有 2 向→3 向）與三種完成工作筆記；交出 B 後晚的招呼改親近版（`retalk_close`）；新增 `add_credits` 對話 effect op + `resolve_completed_note()` 筆記分流；headless PASS（commit `6a20664`） |
-| 8-A~8-H | ⬜ 規格已完成 / 待實作 | 便利商店 vertical slice + 買賣系統：街道便利商店改為可進入的獨立場景；首演主角正職「AI 善後」關卡（修一台「讀了被辭退店員日記、連其拒絕工作一起繼承」的店控機器人）；蒐證 + 診斷對話（誤導選項 / 全對解鎖拾遺）；店籍主機三段重置（直接 / 先錄殘響）；通關解鎖店內 ShopPanel 買賣（固定價 + 有限庫存 + 可賣折價）+ 街道迷你飲料商店（多商店資料化）。規格 / 契約 / 測試清單已寫入（`遊戲規格書.md` / `開發設計方針.md` / `測試指南.md` / `subdocs/地點/便利商店.md`）；查閱地圖行範圍待校正 |
+| 8-A | ✅ 完成 | `convenience_store` 場景骨架（placeholder 視覺：貨架 / 自動門 / 熟食機 / 櫃台機器人 / 冷藏櫃 / 員工區 / 鎖住後門）+ SceneRegistry 註冊（entry `from_street`）；街道 `store_front` 改門轉場進店、店內自動門回 `apartment_entrance:from_store`；店內 `can_save_here == true`；機器人 / 後門 / flavor 物件先給 examine 佔位訊息（8-B 起對話化）；BGM 暫沿用 street_rain；headless 載入 + 雙向轉場 + 存讀檔 round-trip PASS |
+| 8-B~8-H | ⬜ 規格已完成 / 待實作 | 便利商店 vertical slice + 買賣系統：街道便利商店改為可進入的獨立場景；首演主角正職「AI 善後」關卡（修一台「讀了被辭退店員日記、連其拒絕工作一起繼承」的店控機器人）；蒐證 + 診斷對話（誤導選項 / 全對解鎖拾遺）；店籍主機三段重置（直接 / 先錄殘響）；通關解鎖店內 ShopPanel 買賣（固定價 + 有限庫存 + 可賣折價）+ 街道迷你飲料商店（多商店資料化）。規格 / 契約 / 測試清單已寫入（`遊戲規格書.md` / `開發設計方針.md` / `測試指南.md` / `subdocs/地點/便利商店.md`）；查閱地圖行範圍待校正 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 

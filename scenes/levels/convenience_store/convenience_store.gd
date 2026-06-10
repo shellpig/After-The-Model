@@ -1,32 +1,32 @@
+# res://scenes/levels/convenience_store/convenience_store.gd
 extends Node2D
 
 signal current_interactable_changed(data: Dictionary)
 signal interaction_requested(data: Dictionary)
 signal scene_transition_requested(scene_id: String, entry_point_id: String, payload: Dictionary)
 
-const MESSAGES := {
-	"mailboxes": "信箱牆上還留著幾張被雨泡爛的紙。大部分名字已經褪色，只剩公寓管理系統貼上的冷冰冰序號。",
-	"alley_view": "右側暗巷深得像一段被刪掉的城市資料。遠處的青色招牌還亮著，卻照不到腳邊的積水。",
-	"alley_view_unstarted": "右側暗巷深得像一段被刪掉的城市資料。遠處的青色招牌還亮著，卻照不到腳邊的積水。站在路旁的晚似乎若無其事地往這邊瞥了一眼，像是在留意那條巷子，又像是在留意你。",
-	"alley_view_danger": "暗巷深處有幾具損毀的無人機和可疑的陰影。晚說得對，這裡不太對勁，不能就這麼硬闖進去。我想起我自己住的公寓在四樓，右側窗外就是外牆火災逃生梯與平台，也許可以從窗戶爬出去，繞到左棟三樓。",
-	"vending_machine": "販賣機的冷光把雨水照成青色。螢幕上的價格比昨天又多了一位小數。"
-}
-
 const CAMERA_HALF_WIDTH := 640.0
 const CAMERA_Y := 360.0
-const MAP_WIDTH := 4080.0
+const MAP_WIDTH := 2560.0
+
+const MESSAGES := {
+	"store_shelves": "貨架排得意外整齊，補貨系統顯然還在盡責。包裝上的促銷貼紙人物對你露出過期的笑容。",
+	"deli_machine": "自動熟食機台的面板上閃著一小行 error。關東煮的湯還在保溫，咕嘟咕嘟，沒有人撈。",
+	"store_robot": "結帳櫃台上架著一台胸像型的店控機器人。它的螢幕臉忽明忽暗，像是在喃喃自語，沒有回應你的靠近。",
+	"drink_cooler": "飲料冷藏櫃的冷光把玻璃照成一片青藍。每一罐都站得筆直，等著被掃描的那一刻。",
+	"back_door": "員工後門。電子鎖亮著紅燈，門把紋絲不動——這扇門不打算理會現在的你。"
+}
 
 @onready var player: CharacterBody2D = $Player
-@onready var bgm_player: AudioStreamPlayer = $BGMPlayer
 @onready var camera: Camera2D = $Camera2D
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
-var _entry_point_id: String = "from_apartment"
+var _entry_point_id: String = "from_street"
 var _entry_payload: Dictionary = {}
 
 func prepare_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
-	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "from_apartment"
+	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "from_street"
 	_entry_payload = payload.duplicate(true)
 
 func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
@@ -38,9 +38,10 @@ func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	_update_camera()
 
 func _ready() -> void:
-	# 向宿主主控宣告播放 Faded Neon Departure 背景音樂
+	SaveSystem.can_save_here = true
 	var main = get_tree().root.find_child("Main", true, false)
 	if main and main.has_method("play_bgm"):
+		# music_id "store_interior" 暫沿用 street_rain 同曲，待店內 BGM 決定後替換
 		main.play_bgm("res://assets/bgm/Faded Neon Departure.mp3")
 
 	for interactable in $Interactables.get_children():
@@ -75,52 +76,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		_trigger_interaction()
 
 func _trigger_interaction() -> void:
-	if current_interactable.dialogue_id != "":
-		interaction_requested.emit({
-			"type": "dialogue",
-			"dialogue_id": current_interactable.dialogue_id
-		})
-	else:
-		match current_interactable.interaction_id:
-			"back_to_apartment":
-				scene_transition_requested.emit("apartment", "from_street", {})
-			"mailboxes":
-				interaction_requested.emit({
-					"type": "message",
-					"message_text": MESSAGES["mailboxes"]
-				})
-			"alley_view":
-				var quest_status = QuestManager.get_status("alley_backrooms_3f")
-				if quest_status == "active":
-					if QuestManager.get_step("alley_backrooms_3f") == "started":
-						QuestManager.advance("alley_backrooms_3f", "checked_alley")
-						interaction_requested.emit({
-							"type": "message",
-							"message_text": MESSAGES["alley_view_danger"],
-							"note_title": "已更新筆記：暗巷三樓的舊物"
-						})
-					else:
-						interaction_requested.emit({
-							"type": "message",
-							"message_text": MESSAGES["alley_view_danger"]
-						})
-				elif quest_status == "completed":
-					interaction_requested.emit({
-						"type": "message",
-						"message_text": MESSAGES["alley_view"]
-					})
-				else: # not_started
-					interaction_requested.emit({
-						"type": "message",
-						"message_text": MESSAGES["alley_view_unstarted"]
-					})
-			"store_front":
-				scene_transition_requested.emit("convenience_store", "from_street", {})
-			"vending_machine":
-				interaction_requested.emit({
-					"type": "message",
-					"message_text": MESSAGES["vending_machine"]
-				})
+	match current_interactable.interaction_id:
+		"auto_door":
+			scene_transition_requested.emit("apartment_entrance", "from_store", {})
+		"store_shelves", "deli_machine", "store_robot", "drink_cooler", "back_door":
+			interaction_requested.emit({
+				"type": "message",
+				"message_text": MESSAGES[current_interactable.interaction_id]
+			})
 
 func _update_camera() -> void:
 	if camera == null:

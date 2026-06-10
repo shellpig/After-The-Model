@@ -15,7 +15,7 @@
 - **美術方向**：Riso-inspired HD 2D Cyberpunk，非 hard pixel art
 - **目標平台**：先做本機 PC MVP；Steam / iOS / Android 後置
 - **MVP 範圍**：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務
-- **目前可玩場景**：`apartment_room.tscn`、`apartment_entrance.tscn`、`apartment_fire_escape.tscn`
+- **目前可玩場景**：`apartment_room.tscn`、`apartment_entrance.tscn`、`apartment_fire_escape.tscn`、`convenience_store.tscn`
 - **目前主線進度**：參照下方 ## Phase 進度 區塊
 
 ## 核心調性
@@ -344,7 +344,7 @@ NPC「晚」內容定稿：`subdocs/人/晚.md`。
 
 ### Phase 8 子階段（三份對照）
 
-> 行號以 2026-06-10 版為準；大幅改寫後需校正。Phase 8 規格 / 契約 / 測試清單已寫入；8-A~8-D 已完成，8-E~8-H 待實作。
+> 行號以 2026-06-10 版為準；大幅改寫後需校正。Phase 8 規格 / 契約 / 測試清單已寫入；8-A~8-F 已完成，8-G~8-H 待實作。
 > 規格書 Phase 8 無「每子階段獨立驗收意圖段」，故規格書欄位指對應系統語意段 + 子階段表（2353–2369）的對應列；契約 / 清單細節在設計方針與測試指南。
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
@@ -395,7 +395,7 @@ C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . 
 C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . -s res://tests/manual/verify_game_state.gd
 ```
 
-最近已記錄的 Phase 7 headless 驗證結果（commit `878ebd6`）：
+最近已記錄的 Phase 8-E / 8-F 與最新修正 headless 驗證結果（current HEAD `9ecc0da`）：
 
 ```text
 test_runner.tscn: PASS
@@ -447,7 +447,7 @@ verify_game_state.gd: PASS
 
 架構主線：**Phase 5 — NPC + 對話（真系統）已完成（5-A~5-D 驗證通過）**。**Phase 6 — SaveSystem 已全數完成（6-A~6-F，headless 100 PASS / 0 FAIL）**：`SaveSystem` capture/apply/validate 純邏輯 + 回場路徑 + 多槽 + 標題 / 暫停選單 UI + 邊界處理皆上線並驗證；ConfirmDialog 重用缺陷已修並補回歸測試。剩 6-E/6-F 真機 GUI 走查為人工驗收項。**Phase 7 — QuestManager + `alley_backrooms_3f` vertical slice 已全數完成**：7-A~7-K（任務狀態系統、晚的對話接任務、後巷偵查事件、公寓窗戶條件入口、外牆場景骨架、梯子攀爬 / 外牆禁存、箱子搜索取得 A、R 查看得 B、回報晚完成任務含移除失敗防呆、回歸與存讀檔驗證、**結局分支 + `add_credits` + 親近對話**）已完成並驗證（headless PASS）。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
 
-**Phase 8 — 便利商店 vertical slice + 買賣系統：8-A~8-D 已完成並通過 headless；8-E~8-H 待實作。** 已完成可進入的便利商店室內場景、街道↔店內雙向轉場、前導對話 / `discovered_vendor_error` 聚合、公寓電腦兩段 gate 與 `repair_vendor_bot` 接案、5 線索蒐證、店控機器人診斷對話樹。下一步從 8-E（店籍主機三段 + 兩種重置結局 + 完成）開工。
+**Phase 8 — 便利商店 vertical slice + 買賣系統：8-A~8-F 已完成並通過 headless；8-G~8-H 待實作。** 已完成可進入的便利商店室內場景、街道↔店內雙向轉場、前導對話 / `discovered_vendor_error` 聚合、公寓電腦兩段 gate 與 `repair_vendor_bot` 接案、5 線索蒐證、店控機器人診斷對話樹、店籍主機三段與兩種重置結局、買賣系統核心與 `ShopPanel`。下一步從 8-G（街道迷你飲料商店 + 多商店資料化）開工，8-H 做全鏈回歸、存讀檔與 GUI / 觸控走查。
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

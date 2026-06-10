@@ -147,6 +147,13 @@ func _eval_condition_dict(cond: Dictionary) -> bool:
 			var item_id = cond.get("item_id", "")
 			var count = cond.get("count", 1)
 			current_val = GameState.has_item(item_id, count)
+		"has_note":
+			var note_id = cond.get("note_id", "")
+			if note_id.is_empty():
+				note_id = cond.get("value", "")
+			current_val = GameState.has_note(note_id)
+			if target_val == null:
+				target_val = true
 		"story_flag", _:
 			var flag = cond.get("flag", "")
 			if flag.is_empty():
@@ -201,6 +208,11 @@ func _apply_effect(eff: Dictionary) -> bool:
 			var delta = eff.get("value", 0)
 			GameState.add_int(key, delta)
 			return true
+		"set_quest_flag":
+			var quest_id = eff.get("quest_id", "")
+			var key = eff.get("key", "")
+			var val = eff.get("value")
+			return QuestManager.set_flag(quest_id, key, val)
 		"start_quest":
 			var val = eff.get("value", "")
 			return QuestManager.start(val)

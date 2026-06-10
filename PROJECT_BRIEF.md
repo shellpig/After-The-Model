@@ -211,7 +211,8 @@ note_id
 | 8-A | ✅ 完成 | `convenience_store` 場景骨架（placeholder 視覺：貨架 / 自動門 / 熟食機 / 櫃台機器人 / 冷藏櫃 / 員工區 / 鎖住後門）+ SceneRegistry 註冊（entry `from_street`）；街道 `store_front` 改門轉場進店、店內自動門回 `apartment_entrance:from_store`；店內 `can_save_here == true`；機器人 / 後門 / flavor 物件先給 examine 佔位訊息（8-B 起對話化）；BGM 暫沿用 street_rain；headless 載入 + 雙向轉場 + 存讀檔 round-trip PASS |
 | 8-B | ✅ 完成 | 前導對話 + 發現錯誤旗標：`data/dialogue/store_robot.gd` 註冊進 DialogueDB，`start` 依狀態路由（repaired / quest active / babble，前二者為 8-D/8-E 置換用 stub）；babble 樹（intro 設 `talked_store_robot` + 否認自己是販賣機 / 自語兩分支）；店內機器人 interactable 改 `dialogue_id` dispatch；街道販賣機 examine 改前導 babble 訊息 + 設 `talked_outside_vendor`；`GameState.set_flag` hook `_maybe_set_discovered_vendor_error()` 聚合（兩旗標皆真才設、idempotent、單談一台不設）；headless PASS |
 | 8-C | ✅ 完成 | 公寓電腦兩段 gate + 接案：第一次互動仍顯示舊 `work_ai_cleanup_role` 內容並設 `used_room_computer_once`；第二次起且 `discovered_vendor_error` 已成立、任務未接時派工 `QuestManager.start("repair_vendor_bot")`；新增 `data/quests/repair_vendor_bot.gd` 工作筆記模板與 reset / gleaned 完成筆記 resolver；未發現錯誤或任務 active 時不重開任務；headless PASS |
-| 8-D~8-H | ⬜ 規格已完成 / 待實作 | 便利商店 vertical slice + 買賣系統剩餘段：蒐證 + 診斷對話（誤導選項 / 全對解鎖拾遺）；店籍主機三段重置（直接 / 先錄殘響）；通關解鎖店內 ShopPanel 買賣（固定價 + 有限庫存 + 可賣折價）+ 街道迷你飲料商店（多商店資料化）；全鏈回歸、存讀檔與 GUI 走查。規格 / 契約 / 測試清單已寫入（`遊戲規格書.md` / `開發設計方針.md` / `測試指南.md` / `subdocs/地點/便利商店.md`） |
+| 8-D | ✅ 完成 | 蒐證系統 + 診斷對話樹 + 揭示主機：5 線索接案後可 examine 並寫 `clue_*` 筆記；診斷對話樹的正確選項以 `has_note` 為門檻限制；5 筆記齊全且對話全程正確設 `understood_robot_truth` + `diagnosed` + `mainframe_revealed`；否則設 `diagnosed` + `mainframe_revealed`；對話可重試與修正；`mainframe_revealed` 後主機可互動；headless PASS |
+| 8-E~8-H | ⬜ 規格已完成 / 待實作 | 便利商店 vertical slice + 買賣系統剩餘段：主機三段重置與結局分流、買賣系統與 ShopPanel、迷你飲料商店、全鏈回歸與 GUI 走查 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
@@ -341,7 +342,7 @@ NPC「晚」內容定稿：`subdocs/人/晚.md`。
 
 ### Phase 8 子階段（三份對照）
 
-> 行號以 2026-06-10 版為準；大幅改寫後需校正。Phase 8 規格 / 契約 / 測試清單已寫入；8-A~8-C 已完成，8-D~8-H 待實作。
+> 行號以 2026-06-10 版為準；大幅改寫後需校正。Phase 8 規格 / 契約 / 測試清單已寫入；8-A~8-D 已完成，8-E~8-H 待實作。
 > 規格書 Phase 8 無「每子階段獨立驗收意圖段」，故規格書欄位指對應系統語意段 + 子階段表（2353–2369）的對應列；契約 / 清單細節在設計方針與測試指南。
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
@@ -444,7 +445,7 @@ verify_game_state.gd: PASS
 
 架構主線：**Phase 5 — NPC + 對話（真系統）已完成（5-A~5-D 驗證通過）**。**Phase 6 — SaveSystem 已全數完成（6-A~6-F，headless 100 PASS / 0 FAIL）**：`SaveSystem` capture/apply/validate 純邏輯 + 回場路徑 + 多槽 + 標題 / 暫停選單 UI + 邊界處理皆上線並驗證；ConfirmDialog 重用缺陷已修並補回歸測試。剩 6-E/6-F 真機 GUI 走查為人工驗收項。**Phase 7 — QuestManager + `alley_backrooms_3f` vertical slice 已全數完成**：7-A~7-K（任務狀態系統、晚的對話接任務、後巷偵查事件、公寓窗戶條件入口、外牆場景骨架、梯子攀爬 / 外牆禁存、箱子搜索取得 A、R 查看得 B、回報晚完成任務含移除失敗防呆、回歸與存讀檔驗證、**結局分支 + `add_credits` + 親近對話**）已完成並驗證（headless PASS）。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
 
-**Phase 8 — 便利商店 vertical slice + 買賣系統：8-A~8-C 已完成並通過 headless；8-D~8-H 待實作。** 已完成可進入的便利商店室內場景、街道↔店內雙向轉場、前導對話 / `discovered_vendor_error` 聚合、公寓電腦兩段 gate 與 `repair_vendor_bot` 接案。下一步從 8-D（蒐證系統 + 診斷對話樹 + 揭示主機）開工。
+**Phase 8 — 便利商店 vertical slice + 買賣系統：8-A~8-D 已完成並通過 headless；8-E~8-H 待實作。** 已完成可進入的便利商店室內場景、街道↔店內雙向轉場、前導對話 / `discovered_vendor_error` 聚合、公寓電腦兩段 gate 與 `repair_vendor_bot` 接案、5 線索蒐證、店控機器人診斷對話樹。下一步從 8-E（店籍主機三段 + 兩種重置結局 + 完成）開工。
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

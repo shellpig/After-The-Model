@@ -75,6 +75,41 @@ const STORY_NOTES := {
 		"title": "我鎖上的門",
 		"body": "戴上手套那刻就該想起來的——指尖那圈接點, 是我自己改的。是我把那顆方塊解了碼, 用時鐘裡的舊終端掃出牆內的插槽, 再把它嵌進去。一整套機關, 全是我親手裝的。我把自己鎖在這裡, 連從裡面都打不開。可這道門不挑人——它一樣能把別人關在裡面。當初, 我到底是想鎖住誰?",
 		"status": "active"
+	},
+	"clue_clerk_locker": {
+		"id": "clue_clerk_locker",
+		"category": "線索",
+		"title": "阿達的置物櫃",
+		"body": "便利商店員工區的置物櫃裡有一套屬於店員『阿達』的制服。機器人顯然不是阿達，但它表現得像是這間店的唯一負責人。",
+		"status": "active"
+	},
+	"clue_clerk_diary": {
+		"id": "clue_clerk_diary",
+		"category": "線索",
+		"title": "日記殘頁",
+		"body": "被辭退的店員阿達在最後的日記中提到，他被要求將工作交接給櫃台終端（機器人），於是他賭氣地把個人日記與情緒資料備份進了店籍主機中。",
+		"status": "active"
+	},
+	"clue_termination_notice": {
+		"id": "clue_termination_notice",
+		"category": "線索",
+		"title": "自動化通知",
+		"body": "店內的辭退公告證實了這家便利商店已全面無人化。排班表上的名字都被劃掉，取而代之的是 AI 系統自動接管的指令。",
+		"status": "active"
+	},
+	"clue_robot_plate": {
+		"id": "clue_robot_plate",
+		"category": "線索",
+		"title": "機器人型號銘牌",
+		"body": "櫃台上的機器人有明確的工業銘牌，型號是 CS-Retail-098。它是一個零售服務終端，但它的行為卻在模仿人類店員阿達。",
+		"status": "active"
+	},
+	"clue_counter_photo": {
+		"id": "clue_counter_photo",
+		"category": "線索",
+		"title": "褪色的照片",
+		"body": "照片上的人就是店員阿達。這張照片被隨意塞在收銀檯下方，是阿達曾經在這裡工作過的唯一真實物證。",
+		"status": "active"
 	}
 }
 

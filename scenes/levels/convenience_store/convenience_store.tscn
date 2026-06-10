@@ -33,6 +33,24 @@ size = Vector2(160, 280)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_backdoor"]
 size = Vector2(100, 270)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_locker"]
+size = Vector2(80, 270)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_diary"]
+size = Vector2(60, 270)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_notice"]
+size = Vector2(80, 270)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_photo"]
+size = Vector2(60, 270)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_host"]
+size = Vector2(100, 270)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_plate"]
+size = Vector2(80, 280)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
 "frames": [{
@@ -213,6 +231,71 @@ message_id = "back_door"
 position = Vector2(2440, 525)
 shape = SubResource("RectangleShape2D_interact_backdoor")
 debug_color = Color(0.6, 0.2, 0.95, 0.42)
+
+[node name="ClerkLockerArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "clue_clerk_locker"
+prompt_text = "E: █ 查看置物櫃"
+note_id = "clue_clerk_locker"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ClerkLockerArea"]
+position = Vector2(2000, 535)
+shape = SubResource("RectangleShape2D_interact_locker")
+debug_color = Color(0.1, 0.2, 0.8, 0.42)
+
+[node name="ClerkDiaryArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "clue_clerk_diary"
+prompt_text = "E: █ 檢視日記殘頁"
+note_id = "clue_clerk_diary"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ClerkDiaryArea"]
+position = Vector2(2075, 535)
+shape = SubResource("RectangleShape2D_interact_diary")
+debug_color = Color(0.2, 0.8, 0.1, 0.42)
+
+[node name="TerminationNoticeArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "clue_termination_notice"
+prompt_text = "E: █ 查看佈告欄"
+note_id = "clue_termination_notice"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TerminationNoticeArea"]
+position = Vector2(2150, 535)
+shape = SubResource("RectangleShape2D_interact_notice")
+debug_color = Color(0.8, 0.1, 0.2, 0.42)
+
+[node name="CounterPhotoArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "clue_counter_photo"
+prompt_text = "E: █ 檢視櫃台照片"
+note_id = "clue_counter_photo"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/CounterPhotoArea"]
+position = Vector2(2225, 535)
+shape = SubResource("RectangleShape2D_interact_photo")
+debug_color = Color(0.8, 0.8, 0.1, 0.42)
+
+[node name="StoreRegistryHostArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "store_registry_host"
+prompt_text = "E: █ 操作店籍主機"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRegistryHostArea"]
+position = Vector2(2300, 535)
+shape = SubResource("RectangleShape2D_interact_host")
+debug_color = Color(0.5, 0.5, 0.5, 0.42)
+
+[node name="RobotPlateArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "clue_robot_plate"
+prompt_text = "E: █ 查看銘牌"
+note_id = "clue_robot_plate"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/RobotPlateArea"]
+position = Vector2(1310, 530)
+shape = SubResource("RectangleShape2D_interact_plate")
+debug_color = Color(0, 0.8, 0.8, 0.42)
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(720, 665)

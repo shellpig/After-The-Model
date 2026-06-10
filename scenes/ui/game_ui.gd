@@ -13,6 +13,7 @@ extends CanvasLayer
 @onready var confirm_dialog: Control = $ConfirmDialog
 @onready var dialogue_panel: Control = $DialoguePanel
 @onready var pause_menu: Control = $PauseMenu
+@onready var shop_panel: Control = $ShopPanel
 @onready var world_hud_label: Label = $WorldHUDLabel
 @onready var message_box: Control = $MessageBoxContainer/MessageBox
 @onready var message_label: Label = $MessageBoxContainer/MessageBox/MarginContainer/MessageLabel
@@ -54,6 +55,7 @@ func _ready() -> void:
 	confirm_dialog.visible = false
 	dialogue_panel.visible = false
 	pause_menu.visible = false
+	shop_panel.visible = false
 	page_hint_label.text = ""
 	page_hint_label.visible = false
 	
@@ -183,6 +185,11 @@ func _process(delta: float) -> void:
 			if Input.is_action_just_pressed("open_notebook"):
 				open_notebook()
 				return
+	elif current_mode == UIMode.Mode.SHOP:
+		# SHOP 與 INVENTORY / NOTEBOOK 互斥：不處理 open_inventory / open_notebook
+		if Input.is_action_just_pressed("ui_cancel"):
+			close_all_ui()
+			return
 
 func set_world_context(level: Node) -> void:
 	_level_context = level
@@ -317,6 +324,30 @@ func dialogue_confirm() -> void:
 	if dialogue_panel and dialogue_panel.visible:
 		dialogue_panel.confirm_current()
 
+# ==========================================
+# Shop API (Phase 8-F)
+# ==========================================
+func open_shop(shop_id: String) -> void:
+	close_all_ui(false)
+	UIMode.set_mode(UIMode.Mode.SHOP)
+	if shop_panel:
+		shop_panel.open(shop_id)
+
+func is_shop_open() -> bool:
+	return shop_panel != null and shop_panel.is_open()
+
+func shop_move_focus(dir: int) -> void:
+	if is_shop_open():
+		shop_panel.move_focus(dir)
+
+func shop_switch_pane(dir: int) -> void:
+	if is_shop_open():
+		shop_panel.switch_pane(dir)
+
+func shop_confirm() -> void:
+	if is_shop_open():
+		shop_panel.confirm_current()
+
 
 func get_focused_item_context() -> Dictionary:
 	var current_mode := UIMode.get_mode()
@@ -382,6 +413,8 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		dialogue_panel.visible = (new_mode == UIMode.Mode.DIALOGUE) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.DIALOGUE)
 	if is_instance_valid(pause_menu):
 		pause_menu.visible = (new_mode == UIMode.Mode.PAUSE) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.PAUSE)
+	if is_instance_valid(shop_panel):
+		shop_panel.visible = (new_mode == UIMode.Mode.SHOP) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.SHOP)
 
 	if is_instance_valid(world_hud_label):
 		world_hud_label.visible = (new_mode == UIMode.Mode.NONE and not _monologue_active)
@@ -391,6 +424,8 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 	dual_pane_container.set_input_active(false)
 	if is_instance_valid(dialogue_panel):
 		dialogue_panel.set_input_active(new_mode == UIMode.Mode.DIALOGUE)
+	if is_instance_valid(shop_panel):
+		shop_panel.set_input_active(new_mode == UIMode.Mode.SHOP)
 
 	if new_mode == UIMode.Mode.INVENTORY:
 		var items := GameState.get_inventory()
@@ -409,9 +444,13 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		prompt_panel.visible = false
 		if is_instance_valid(pause_menu):
 			pause_menu.initialize_menu()
+	elif new_mode == UIMode.Mode.SHOP:
+		prompt_panel.visible = false
 	elif new_mode == UIMode.Mode.NONE:
 		item_detail_modal.visible = false
 		confirm_dialog.visible = false
+		if is_instance_valid(shop_panel) and shop_panel.is_open():
+			shop_panel.close()
 		if has_current_interactable():
 			show_prompt(_current_prompt_data)
 		else:

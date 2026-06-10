@@ -114,7 +114,7 @@ const TREE := {
 		]
 	},
 
-	# --- 8-E：修好後招呼，依 store_robot_resolution 分流（8-F 於招呼結尾接 open_shop effect 開 ShopPanel） ---
+	# --- 8-E：修好後招呼，依 store_robot_resolution 分流；8-F：招呼結尾以 open_shop effect 開 ShopPanel ---
 	"repaired_router": {
 		"goto": [
 			{"condition": {"flag": "store_robot_resolution", "op": "==", "value": "gleaned"}, "target": "repaired_gleaned"},
@@ -123,10 +123,16 @@ const TREE := {
 	},
 	"repaired_reset": {
 		"speaker": "店控機器人",
-		"text": "歡迎光臨。本店全品項正常供應。\n（它的聲音平整得像剛出廠。鏡頭掃過你，停留了標準的零點五秒，沒有多看一眼。）\n需要協助時，請呼叫本終端。"
+		"text": "歡迎光臨。本店全品項正常供應。\n（它的聲音平整得像剛出廠。鏡頭掃過你，停留了標準的零點五秒，沒有多看一眼。）\n需要協助時，請呼叫本終端。",
+		"effect": [
+			{"op": "open_shop", "value": "convenience_store"}
+		]
 	},
 	"repaired_gleaned": {
 		"speaker": "店控機器人",
-		"text": "歡迎光臨——\n（尾音停了半拍，像是想起了什麼，又想不起來。）\n……外面雨還沒停吧。架上有熱的，左邊數來第二排。\n（它頓了頓，才補上一句制式的）需要協助時，請呼叫本終端。"
+		"text": "歡迎光臨——\n（尾音停了半拍，像是想起了什麼，又想不起來。）\n……外面雨還沒停吧。架上有熱的，左邊數來第二排。\n（它頓了頓，才補上一句制式的）需要協助時，請呼叫本終端。",
+		"effect": [
+			{"op": "open_shop", "value": "convenience_store"}
+		]
 	}
 }

@@ -8,6 +8,8 @@ signal finished
 
 var _tree: Dictionary = {}
 var _current_node_id: String = ""
+# 8-F：open_shop effect 不直接碰 UI；記下 shop_id，由 DialoguePanel 在對話收尾時交棒 GameUI.open_shop()
+var pending_shop_id: String = ""
 
 func start(tree: Dictionary, start_node := "start") -> void:
 	_tree = tree
@@ -243,6 +245,9 @@ func _apply_effect(eff: Dictionary) -> bool:
 		"add_credits":
 			var amount = eff.get("value", 0)
 			GameState.add_credits(amount)
+			return true
+		"open_shop":
+			pending_shop_id = eff.get("value", "")
 			return true
 		_:
 			print("[DialogueRunner] Unknown effect op: ", op)

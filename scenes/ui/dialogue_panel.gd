@@ -56,10 +56,19 @@ func start_dialogue(dialogue_id: String) -> void:
 	_update_ui()
 
 func close_dialogue() -> void:
+	# 8-F：對話 effect 帶 open_shop 時，DIALOGUE 正常結束直接切 SHOP（不疊 overlay、不經 NONE）
+	var pending_shop_id := ""
+	if _runner != null:
+		pending_shop_id = _runner.pending_shop_id
 	visible = false
 	_is_input_active = false
 	_runner = null
 	dialogue_finished.emit()
+	if not pending_shop_id.is_empty():
+		var gu := get_parent()
+		if gu != null and gu.has_method("open_shop"):
+			gu.open_shop(pending_shop_id)
+			return
 	if UIMode.get_mode() == UIMode.Mode.DIALOGUE:
 		UIMode.set_mode(UIMode.Mode.NONE)
 

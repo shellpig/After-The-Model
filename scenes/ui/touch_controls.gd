@@ -114,6 +114,24 @@ func _simulate_action(action: String, pressed: bool) -> void:
 					gu.dialogue_confirm()
 		return
 
+	# SHOP 模式：D-pad / E 經 GameUI 代理（沿用 DIALOGUE 路由模式）；ui_cancel 照常走 InputEvent 關店
+	if mode == UIMode.Mode.SHOP and action in ["move_up", "move_down", "move_left", "move_right", "interact_primary"]:
+		if pressed:
+			var gu = _get_game_ui()
+			if gu:
+				match action:
+					"move_up":
+						gu.shop_move_focus(-1)
+					"move_down":
+						gu.shop_move_focus(1)
+					"move_left":
+						gu.shop_switch_pane(-1)
+					"move_right":
+						gu.shop_switch_pane(1)
+					"interact_primary":
+						gu.shop_confirm()
+		return
+
 	var event := InputEventAction.new()
 	event.action = action
 	event.pressed = pressed
@@ -287,7 +305,7 @@ func _update_dynamic_button_visibility() -> void:
 		$Control/Menus.visible = false
 		return
 
-	var show_dpad := mode in [UIMode.Mode.NONE, UIMode.Mode.INVENTORY, UIMode.Mode.CONTAINER, UIMode.Mode.NOTEBOOK, UIMode.Mode.DIALOGUE]
+	var show_dpad := mode in [UIMode.Mode.NONE, UIMode.Mode.INVENTORY, UIMode.Mode.CONTAINER, UIMode.Mode.NOTEBOOK, UIMode.Mode.DIALOGUE, UIMode.Mode.SHOP]
 	$Control/DPad.visible = show_dpad
 	$Control/Actions.visible = true
 	$Control/Menus.visible = true
@@ -352,6 +370,12 @@ func _update_dynamic_button_visibility() -> void:
 
 		UIMode.Mode.DIALOGUE:
 			# 對話模式：E 鍵確認，R/T 隱藏
+			btn_e.visible = true
+			btn_r.visible = false
+			btn_t.visible = false
+
+		UIMode.Mode.SHOP:
+			# 商店模式：E 鍵買入 / 賣出，R/T 隱藏；右上 X 返回關店
 			btn_e.visible = true
 			btn_r.visible = false
 			btn_t.visible = false

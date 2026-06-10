@@ -2,7 +2,7 @@ extends Node
 
 signal mode_changed(new_mode: int)
 
-enum Mode { NONE, INVENTORY, CONTAINER, NOTEBOOK, MESSAGE, CONFIRM, DIALOGUE, PAUSE }
+enum Mode { NONE, INVENTORY, CONTAINER, NOTEBOOK, MESSAGE, CONFIRM, DIALOGUE, PAUSE, SHOP }
 
 var current_mode: int = Mode.NONE
 var _caller_mode: int = Mode.NONE

@@ -9,7 +9,8 @@ var pending_load_slot := -1
 # Display names map for scene_id -> scene_name
 const SCENE_NAMES := {
 	"apartment": "主角公寓",
-	"apartment_entrance": "公寓入口"
+	"apartment_entrance": "公寓入口",
+	"convenience_store": "便利商店"
 }
 
 func capture(scene_id: String, player_x: float, facing := 1) -> Dictionary:

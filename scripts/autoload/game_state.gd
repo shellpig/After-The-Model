@@ -10,6 +10,7 @@ signal equipment_changed
 signal item_moved(move: Dictionary)
 signal flag_changed(key: String, value)
 signal quest_changed(quest_id: String, state: Dictionary)
+signal shop_changed(shop_id: String)
 
 # Variables
 var credits: int = 300
@@ -30,6 +31,12 @@ var apartment_slot_unlocked: bool = false
 var apartment_beyond_door_bgm_triggered: bool = false
 var story_flags: Dictionary = {}
 var quest_states: Dictionary = {}
+# 8-F：各店「當前庫存」可變狀態 { shop_id: { item_id: {price, stock} } }；
+# 首次 get_shop_stock() 時自 ShopDB catalog lazy-init；只在 refresh_shop_stock() 重設
+var shop_states: Dictionary = {}
+
+const ShopDB = preload("res://data/shops/shop_db.gd")
+const SELL_RATIO := 0.5
 
 
 
@@ -157,6 +164,7 @@ const ITEMS_DB := {
 		"name": "合成罐頭",
 		"description": "便宜的合成肉罐頭，雖然味道一般但能填飽肚子。",
 		"category": "consumable",
+		"value": 20,
 		"stackable": true,
 		"max_stack": 5,
 		"discardable": true,
@@ -169,6 +177,7 @@ const ITEMS_DB := {
 		"name": "隱士防風夾克",
 		"description": "一件低調的防雨夾克，兩側口袋極深。",
 		"category": "equipment",
+		"value": 60,
 		"stackable": false,
 		"max_stack": 1,
 		"discardable": true,
@@ -181,6 +190,7 @@ const ITEMS_DB := {
 		"name": "普通魔術方塊",
 		"description": "一個褪色的舊塑料魔術方塊，邊角已經磨損，很久沒有人玩過了。普通得不能再普通。",
 		"category": "misc",
+		"value": 1,
 		"stackable": false,
 		"max_stack": 1,
 		"discardable": true,
@@ -206,6 +216,7 @@ const ITEMS_DB := {
 		"name": "合成藍莓口味營養棒",
 		"description": "一條包裝完好的合成藍莓口味營養棒，拿在手上感覺異常輕盈。",
 		"category": "consumable",
+		"value": 12,
 		"stackable": true,
 		"max_stack": 5,
 		"discardable": true,
@@ -850,6 +861,113 @@ func discard_item(instance_id: String) -> bool:
 
 	return true
 
+# ==========================================
+# Commerce API (Phase 8-F)
+# ==========================================
+func get_item_value(item_id: String) -> int:
+	return ITEMS_DB.get(item_id, {}).get("value", 0)
+
+func get_sell_value(item_id: String) -> int:
+	return floori(get_item_value(item_id) * SELL_RATIO)
+
+func is_sellable(item_id: String) -> bool:
+	var item_meta: Dictionary = ITEMS_DB.get(item_id, {})
+	if item_meta.is_empty():
+		return false
+	if item_meta.get("sellable", true) == false:
+		return false
+	if item_meta.get("category", "") == "key_item":
+		return false
+	if get_item_value(item_id) <= 0:
+		return false
+	# 防 floor 後 0 元賣出（value 過低的物品視為不可賣）
+	if get_sell_value(item_id) <= 0:
+		return false
+	return true
+
+# 以焦點背包格 instance_id 定位賣出（仿 discard_item）；不回補店庫存。
+# 不可用 remove_item(item_id)：多 stack / 多 instance 時會賣到非焦點格、誤觸 force-unequip 副作用。
+func sell_item(instance_id: String, count: int = 1) -> bool:
+	if instance_id.is_empty() or count <= 0:
+		return false
+
+	var slot_index := -1
+	for i in range(inventory.size()):
+		if inventory[i].get("instance_id", "") == instance_id:
+			slot_index = i
+			break
+	if slot_index == -1:
+		return false
+
+	var item_id: String = inventory[slot_index].get("item_id", "")
+	if not is_sellable(item_id):
+		return false
+	if _is_equipped(instance_id):
+		return false
+
+	var qty: int = inventory[slot_index].get("quantity", 1)
+	if qty < count:
+		return false
+
+	if qty - count <= 0:
+		inventory[slot_index] = {}
+	else:
+		inventory[slot_index]["quantity"] = qty - count
+
+	_sort_container(inventory)
+	add_credits(get_sell_value(item_id) * count)
+	inventory_changed.emit()
+	return true
+
+func get_shop_stock(shop_id: String) -> Dictionary:
+	if not shop_states.has(shop_id):
+		var catalog: Dictionary = ShopDB.get_catalog(shop_id)
+		if catalog.is_empty():
+			return {}
+		var stock := {}
+		var catalog_stock: Dictionary = catalog.get("stock", {})
+		for item_id in catalog_stock:
+			var entry: Dictionary = catalog_stock[item_id]
+			stock[item_id] = {
+				"price": entry.get("price", 0),
+				"stock": entry.get("stock", 0)
+			}
+		shop_states[shop_id] = stock
+	return shop_states[shop_id].duplicate(true)
+
+# 庫存重設僅限：通關上新等顯式事件呼叫；不綁時間、不因離店再進補貨
+func refresh_shop_stock(shop_id: String) -> void:
+	shop_states.erase(shop_id)
+	get_shop_stock(shop_id)
+	shop_changed.emit(shop_id)
+
+func get_buy_price(shop_id: String, item_id: String) -> int:
+	return get_shop_stock(shop_id).get(item_id, {}).get("price", 0)
+
+# 只檢 stock / credits 供 UI 提示；背包滿由 buy_item 實際執行 add_item 時回報
+func can_buy(shop_id: String, item_id: String) -> Dictionary:
+	var stock := get_shop_stock(shop_id)
+	if not stock.has(item_id):
+		return {"ok": false, "reason": "not_in_catalog"}
+	if stock[item_id].get("stock", 0) <= 0:
+		return {"ok": false, "reason": "out_of_stock"}
+	if credits < stock[item_id].get("price", 0):
+		return {"ok": false, "reason": "not_enough_credits"}
+	return {"ok": true, "reason": ""}
+
+# 原子買入：純讀檢查 → add_item（唯一可能失敗的變動步驟）→ 成功才扣庫存、扣 credits
+func buy_item(shop_id: String, item_id: String) -> bool:
+	var check := can_buy(shop_id, item_id)
+	if not check.get("ok", false):
+		return false
+	var price: int = shop_states[shop_id][item_id].get("price", 0)
+	if not add_item(item_id, 1):
+		return false # 背包滿；庫存與 credits 未動
+	shop_states[shop_id][item_id]["stock"] -= 1
+	add_credits(-price)
+	shop_changed.emit(shop_id)
+	return true
+
 func seed_container(container_id: String, item_id: String, count: int) -> bool:
 	if not external_containers.has(container_id) or not ITEMS_DB.has(item_id) or count <= 0:
 		return false
@@ -965,6 +1083,7 @@ func to_save_dict() -> Dictionary:
 		"apartment_beyond_door_bgm_triggered": apartment_beyond_door_bgm_triggered,
 		"story_flags": story_flags.duplicate(true),
 		"quest_states": quest_states.duplicate(true),
+		"shop_states": shop_states.duplicate(true),
 		"_last_instance_id": _last_instance_id
 	}
 
@@ -1005,9 +1124,11 @@ func load_save_dict(data: Dictionary) -> void:
 		story_flags = data["story_flags"].duplicate(true)
 	if data.has("quest_states"):
 		quest_states = data["quest_states"].duplicate(true)
+	if data.has("shop_states"):
+		shop_states = data["shop_states"].duplicate(true)
 	if data.has("_last_instance_id"):
 		_last_instance_id = data["_last_instance_id"]
-	
+
 	# Emit signals
 	inventory_changed.emit()
 	credits_changed.emit(credits)
@@ -1017,6 +1138,8 @@ func load_save_dict(data: Dictionary) -> void:
 		container_changed.emit(container_id)
 	for quest_id in quest_states:
 		quest_changed.emit(quest_id, quest_states[quest_id])
+	for shop_id in shop_states:
+		shop_changed.emit(shop_id)
 
 func reset_for_new_game() -> void:
 	credits = 300
@@ -1039,7 +1162,8 @@ func reset_for_new_game() -> void:
 	apartment_beyond_door_bgm_triggered = false
 	story_flags.clear()
 	quest_states.clear()
-	
+	shop_states.clear()
+
 	# Emit signals
 	inventory_changed.emit()
 	credits_changed.emit(credits)

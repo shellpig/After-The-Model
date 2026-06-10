@@ -11,45 +11,46 @@
 [ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="9_walk6"]
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="10_walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="11_walk8"]
+[ext_resource type="Texture2D" uid="uid://gktul4kobkm2" path="res://assets/generated/maps/convenience_store_interior_map/convenience-store-interior-map-20260610-204000.png" id="12_store_map"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(2560, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_shelves"]
-size = Vector2(220, 280)
+size = Vector2(77, 280)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_door"]
 size = Vector2(120, 280)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_deli"]
-size = Vector2(140, 270)
+size = Vector2(97, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_robot"]
-size = Vector2(180, 280)
+size = Vector2(67, 280)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_cooler"]
-size = Vector2(160, 280)
+size = Vector2(67, 280)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_backdoor"]
-size = Vector2(100, 270)
+size = Vector2(63, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_locker"]
-size = Vector2(80, 270)
+size = Vector2(51, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_diary"]
-size = Vector2(60, 270)
+size = Vector2(39, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_notice"]
-size = Vector2(80, 270)
+size = Vector2(39, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_photo"]
 size = Vector2(60, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_host"]
-size = Vector2(100, 270)
+size = Vector2(62, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_plate"]
-size = Vector2(80, 280)
+size = Vector2(48, 280)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -94,55 +95,68 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(24, 454)
 
-[node name="ConvenienceStore" type="Node2D"]
+[node name="ConvenienceStore" type="Node2D" unique_id=1504451511]
 script = ExtResource("1_store")
 
-[node name="Background" type="Node2D" parent="."]
+[node name="Background" type="Node2D" parent="." unique_id=25737]
 
-[node name="Backdrop" type="Polygon2D" parent="Background"]
+[node name="Map" type="Sprite2D" parent="Background" unique_id=2086031604]
+position = Vector2(1280, 360)
+texture = ExtResource("12_store_map")
+
+[node name="Backdrop" type="Polygon2D" parent="Background" unique_id=220215246]
+visible = false
 color = Color(0.06, 0.05, 0.1, 1)
 polygon = PackedVector2Array(0, 0, 2560, 0, 2560, 720, 0, 720)
 
-[node name="FloorStrip" type="Polygon2D" parent="Background"]
+[node name="FloorStrip" type="Polygon2D" parent="Background" unique_id=460814626]
+visible = false
 color = Color(0.12, 0.11, 0.17, 1)
 polygon = PackedVector2Array(0, 660, 2560, 660, 2560, 720, 0, 720)
 
-[node name="ShelvesPlaceholder" type="Polygon2D" parent="Background"]
+[node name="ShelvesPlaceholder" type="Polygon2D" parent="Background" unique_id=1713160956]
+visible = false
 position = Vector2(150, 390)
 color = Color(0.25, 0.22, 0.3, 1)
 polygon = PackedVector2Array(0, 0, 220, 0, 220, 280, 0, 280)
 
-[node name="AutoDoorPlaceholder" type="Polygon2D" parent="Background"]
+[node name="AutoDoorPlaceholder" type="Polygon2D" parent="Background" unique_id=1174265857]
+visible = false
 position = Vector2(560, 380)
 color = Color(0.15, 0.4, 0.45, 1)
 polygon = PackedVector2Array(0, 0, 120, 0, 120, 290, 0, 290)
 
-[node name="DeliMachinePlaceholder" type="Polygon2D" parent="Background"]
+[node name="DeliMachinePlaceholder" type="Polygon2D" parent="Background" unique_id=1417938263]
+visible = false
 position = Vector2(930, 400)
 color = Color(0.4, 0.25, 0.15, 1)
 polygon = PackedVector2Array(0, 0, 140, 0, 140, 270, 0, 270)
 
-[node name="CounterRobotPlaceholder" type="Polygon2D" parent="Background"]
+[node name="CounterRobotPlaceholder" type="Polygon2D" parent="Background" unique_id=747552574]
+visible = false
 position = Vector2(1290, 440)
 color = Color(0.45, 0.2, 0.35, 1)
 polygon = PackedVector2Array(0, 0, 180, 0, 180, 230, 0, 230)
 
-[node name="DrinkCoolerPlaceholder" type="Polygon2D" parent="Background"]
+[node name="DrinkCoolerPlaceholder" type="Polygon2D" parent="Background" unique_id=1309229046]
+visible = false
 position = Vector2(1650, 390)
 color = Color(0.15, 0.3, 0.5, 1)
 polygon = PackedVector2Array(0, 0, 160, 0, 160, 280, 0, 280)
 
-[node name="StaffAreaPlaceholder" type="Polygon2D" parent="Background"]
+[node name="StaffAreaPlaceholder" type="Polygon2D" parent="Background" unique_id=285553838]
+visible = false
 position = Vector2(1980, 400)
 color = Color(0.2, 0.28, 0.2, 1)
 polygon = PackedVector2Array(0, 0, 300, 0, 300, 270, 0, 270)
 
-[node name="BackDoorPlaceholder" type="Polygon2D" parent="Background"]
+[node name="BackDoorPlaceholder" type="Polygon2D" parent="Background" unique_id=595333549]
+visible = false
 position = Vector2(2390, 390)
 color = Color(0.35, 0.12, 0.12, 1)
 polygon = PackedVector2Array(0, 0, 100, 0, 100, 280, 0, 280)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1269220845]
 position = Vector2(640, 360)
 limit_left = 0
 limit_top = 0
@@ -151,167 +165,167 @@ limit_bottom = 720
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
-[node name="Collision" type="Node2D" parent="."]
+[node name="Collision" type="Node2D" parent="." unique_id=196387843]
 
-[node name="Ground" type="StaticBody2D" parent="Collision"]
+[node name="Ground" type="StaticBody2D" parent="Collision" unique_id=480648413]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground" unique_id=134478807]
 position = Vector2(1280, 684)
 shape = SubResource("RectangleShape2D_ground")
 debug_color = Color(0.78, 0.42, 0.2, 0.35)
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=1934906512]
 
-[node name="from_street" type="Marker2D" parent="SpawnPoints"]
+[node name="from_street" type="Marker2D" parent="SpawnPoints" unique_id=1752874094]
 position = Vector2(720, 665)
 
-[node name="Interactables" type="Node2D" parent="."]
+[node name="Interactables" type="Node2D" parent="." unique_id=1463221507]
 
-[node name="StoreShelvesArea" type="Area2D" parent="Interactables"]
+[node name="StoreShelvesArea" type="Area2D" parent="Interactables" unique_id=240353452]
 script = ExtResource("3_interactable")
 interaction_id = "store_shelves"
 prompt_text = "E: █ 查看貨架"
 message_id = "store_shelves"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreShelvesArea"]
-position = Vector2(260, 530)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreShelvesArea" unique_id=1540772713]
+position = Vector2(171, 530)
 shape = SubResource("RectangleShape2D_interact_shelves")
 debug_color = Color(0.95, 0.6, 0, 0.42)
 
-[node name="AutoDoorArea" type="Area2D" parent="Interactables"]
+[node name="AutoDoorArea" type="Area2D" parent="Interactables" unique_id=548043428]
 script = ExtResource("3_interactable")
 interaction_id = "auto_door"
 prompt_text = "E: █ 回到街道"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/AutoDoorArea"]
-position = Vector2(620, 525)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/AutoDoorArea" unique_id=576600637]
+position = Vector2(785, 525)
 shape = SubResource("RectangleShape2D_interact_door")
 debug_color = Color(0.9, 0.1, 0.1, 0.42)
 
-[node name="DeliMachineArea" type="Area2D" parent="Interactables"]
+[node name="DeliMachineArea" type="Area2D" parent="Interactables" unique_id=1715959703]
 script = ExtResource("3_interactable")
 interaction_id = "deli_machine"
 prompt_text = "E: █ 查看熟食機台"
 message_id = "deli_machine"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeliMachineArea"]
-position = Vector2(1000, 535)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeliMachineArea" unique_id=930965369]
+position = Vector2(1086.5, 524)
 shape = SubResource("RectangleShape2D_interact_deli")
 debug_color = Color(1, 0.8, 0.1, 0.42)
 
-[node name="StoreRobotArea" type="Area2D" parent="Interactables"]
+[node name="StoreRobotArea" type="Area2D" parent="Interactables" unique_id=187118389]
 script = ExtResource("3_interactable")
 interaction_id = "store_robot"
 prompt_text = "E: █ 交談"
 dialogue_id = "store_robot"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRobotArea"]
-position = Vector2(1380, 530)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRobotArea" unique_id=2056656730]
+position = Vector2(1424.5, 529)
 shape = SubResource("RectangleShape2D_interact_robot")
 debug_color = Color(0, 1, 0.86, 0.42)
 
-[node name="DrinkCoolerArea" type="Area2D" parent="Interactables"]
+[node name="DrinkCoolerArea" type="Area2D" parent="Interactables" unique_id=595107667]
 script = ExtResource("3_interactable")
 interaction_id = "drink_cooler"
 prompt_text = "E: █ 查看冷藏櫃"
 message_id = "drink_cooler"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DrinkCoolerArea"]
-position = Vector2(1730, 530)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DrinkCoolerArea" unique_id=1937552463]
+position = Vector2(1699.5, 530)
 shape = SubResource("RectangleShape2D_interact_cooler")
 debug_color = Color(0.1, 0.9, 0.1, 0.42)
 
-[node name="BackDoorArea" type="Area2D" parent="Interactables"]
+[node name="BackDoorArea" type="Area2D" parent="Interactables" unique_id=1885835957]
 script = ExtResource("3_interactable")
 interaction_id = "back_door"
 prompt_text = "E: █ 推推看後門"
 message_id = "back_door"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BackDoorArea"]
-position = Vector2(2440, 525)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BackDoorArea" unique_id=1223398186]
+position = Vector2(2458.5, 525)
 shape = SubResource("RectangleShape2D_interact_backdoor")
 debug_color = Color(0.6, 0.2, 0.95, 0.42)
 
-[node name="ClerkLockerArea" type="Area2D" parent="Interactables"]
+[node name="ClerkLockerArea" type="Area2D" parent="Interactables" unique_id=567419382]
 script = ExtResource("3_interactable")
 interaction_id = "clue_clerk_locker"
 prompt_text = "E: █ 查看置物櫃"
 note_id = "clue_clerk_locker"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ClerkLockerArea"]
-position = Vector2(2000, 535)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ClerkLockerArea" unique_id=184346139]
+position = Vector2(1911.5, 532)
 shape = SubResource("RectangleShape2D_interact_locker")
 debug_color = Color(0.1, 0.2, 0.8, 0.42)
 
-[node name="ClerkDiaryArea" type="Area2D" parent="Interactables"]
+[node name="ClerkDiaryArea" type="Area2D" parent="Interactables" unique_id=1917931665]
 script = ExtResource("3_interactable")
 interaction_id = "clue_clerk_diary"
 prompt_text = "E: █ 檢視日記殘頁"
 note_id = "clue_clerk_diary"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ClerkDiaryArea"]
-position = Vector2(2075, 535)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ClerkDiaryArea" unique_id=1731748246]
+position = Vector2(2146.5, 533)
 shape = SubResource("RectangleShape2D_interact_diary")
 debug_color = Color(0.2, 0.8, 0.1, 0.42)
 
-[node name="TerminationNoticeArea" type="Area2D" parent="Interactables"]
+[node name="TerminationNoticeArea" type="Area2D" parent="Interactables" unique_id=72812745]
 script = ExtResource("3_interactable")
 interaction_id = "clue_termination_notice"
 prompt_text = "E: █ 查看佈告欄"
 note_id = "clue_termination_notice"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TerminationNoticeArea"]
-position = Vector2(2150, 535)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TerminationNoticeArea" unique_id=1531606337]
+position = Vector2(2034.5, 533)
 shape = SubResource("RectangleShape2D_interact_notice")
 debug_color = Color(0.8, 0.1, 0.2, 0.42)
 
-[node name="CounterPhotoArea" type="Area2D" parent="Interactables"]
+[node name="CounterPhotoArea" type="Area2D" parent="Interactables" unique_id=1204431922]
 script = ExtResource("3_interactable")
 interaction_id = "clue_counter_photo"
 prompt_text = "E: █ 檢視櫃台照片"
 note_id = "clue_counter_photo"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/CounterPhotoArea"]
-position = Vector2(2225, 535)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/CounterPhotoArea" unique_id=1404402763]
+position = Vector2(1542, 530)
 shape = SubResource("RectangleShape2D_interact_photo")
 debug_color = Color(0.8, 0.8, 0.1, 0.42)
 
-[node name="StoreRegistryHostArea" type="Area2D" parent="Interactables"]
+[node name="StoreRegistryHostArea" type="Area2D" parent="Interactables" unique_id=1537842367]
 script = ExtResource("3_interactable")
 interaction_id = "store_registry_host"
 prompt_text = "E: █ 操作店籍主機"
 dialogue_id = "store_registry_host"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRegistryHostArea"]
-position = Vector2(2300, 535)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRegistryHostArea" unique_id=571981319]
+position = Vector2(2269, 529)
 shape = SubResource("RectangleShape2D_interact_host")
 debug_color = Color(0.5, 0.5, 0.5, 0.42)
 
-[node name="RobotPlateArea" type="Area2D" parent="Interactables"]
+[node name="RobotPlateArea" type="Area2D" parent="Interactables" unique_id=566047576]
 script = ExtResource("3_interactable")
 interaction_id = "clue_robot_plate"
 prompt_text = "E: █ 查看銘牌"
 note_id = "clue_robot_plate"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/RobotPlateArea"]
-position = Vector2(1310, 530)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/RobotPlateArea" unique_id=778083420]
+position = Vector2(1277, 535)
 shape = SubResource("RectangleShape2D_interact_plate")
 debug_color = Color(0, 0.8, 0.8, 0.42)
 
-[node name="Player" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=2050827415]
+visible = false
 position = Vector2(720, 665)
-scale = Vector2(0.54, 0.54)
+scale = Vector2(0.8, 0.8)
 script = ExtResource("2_player")
-min_x = 80.0
 max_x = 2480.0
 walk_line_y = 665.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1121096451]
 position = Vector2(20, -184)
 sprite_frames = SubResource("SpriteFrames_player")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1831752214]
 position = Vector2(30, -221)
 shape = SubResource("RectangleShape2D_player")
 debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)

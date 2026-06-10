@@ -48,6 +48,12 @@ func start_dialogue(dialogue_id: String) -> void:
 			portrait_rect.texture = load(img_path)
 		else:
 			portrait_rect.texture = null
+	elif dialogue_id == "store_robot":
+		var img_path = "res://assets/generated/sprites/store_robot/dialogue_portrait/store-robot-dialogue-portrait-20260610-202942/portrait.png"
+		if ResourceLoader.exists(img_path):
+			portrait_rect.texture = load(img_path)
+		else:
+			portrait_rect.texture = null
 	else:
 		portrait_rect.texture = null
 

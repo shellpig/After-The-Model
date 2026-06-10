@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://1j3lp1fcrxl6b"]
+[gd_scene format=3 uid="uid://ddnd6ovteqdmp"]
 
 [ext_resource type="Script" uid="uid://1s9wiv9tt9uhz" path="res://scenes/ui/shop_panel.gd" id="1_shop_panel"]
 

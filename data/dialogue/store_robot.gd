@@ -2,7 +2,7 @@
 # File: res://data/dialogue/store_robot.gd
 #
 # start 路由依狀態分流（8-B 契約）：
-#   vendor_bot_repaired -> repaired_router（8-E 置換為 reset / gleaned 分流 + 開店）
+#   vendor_bot_repaired -> repaired_router（8-E：reset / gleaned 分流招呼；8-F 於招呼結尾接 open_shop）
 #   repair_vendor_bot active -> diagnose_intro（8-D 置換為深度診斷對話樹）
 #   其餘 -> babble_intro（前導胡言亂語，設 talked_store_robot）
 
@@ -114,9 +114,19 @@ const TREE := {
 		]
 	},
 
-	# --- stub：vendor_bot_repaired 後（8-E 前不可達），8-E 置換為 reset / gleaned 分流 + 開店 ---
+	# --- 8-E：修好後招呼，依 store_robot_resolution 分流（8-F 於招呼結尾接 open_shop effect 開 ShopPanel） ---
 	"repaired_router": {
+		"goto": [
+			{"condition": {"flag": "store_robot_resolution", "op": "==", "value": "gleaned"}, "target": "repaired_gleaned"},
+			{"target": "repaired_reset"}
+		]
+	},
+	"repaired_reset": {
 		"speaker": "店控機器人",
-		"text": "（它安靜地跑完一段你看不懂的自檢，然後用沒有起伏的聲音說：）\n歡迎光臨。"
+		"text": "歡迎光臨。本店全品項正常供應。\n（它的聲音平整得像剛出廠。鏡頭掃過你，停留了標準的零點五秒，沒有多看一眼。）\n需要協助時，請呼叫本終端。"
+	},
+	"repaired_gleaned": {
+		"speaker": "店控機器人",
+		"text": "歡迎光臨——\n（尾音停了半拍，像是想起了什麼，又想不起來。）\n……外面雨還沒停吧。架上有熱的，左邊數來第二排。\n（它頓了頓，才補上一句制式的）需要協助時，請呼叫本終端。"
 	}
 }

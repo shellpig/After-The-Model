@@ -280,6 +280,7 @@ debug_color = Color(0.8, 0.8, 0.1, 0.42)
 script = ExtResource("3_interactable")
 interaction_id = "store_registry_host"
 prompt_text = "E: █ 操作店籍主機"
+dialogue_id = "store_registry_host"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRegistryHostArea"]
 position = Vector2(2300, 535)

@@ -212,7 +212,8 @@ note_id
 | 8-B | ✅ 完成 | 前導對話 + 發現錯誤旗標：`data/dialogue/store_robot.gd` 註冊進 DialogueDB，`start` 依狀態路由（repaired / quest active / babble，前二者為 8-D/8-E 置換用 stub）；babble 樹（intro 設 `talked_store_robot` + 否認自己是販賣機 / 自語兩分支）；店內機器人 interactable 改 `dialogue_id` dispatch；街道販賣機 examine 改前導 babble 訊息 + 設 `talked_outside_vendor`；`GameState.set_flag` hook `_maybe_set_discovered_vendor_error()` 聚合（兩旗標皆真才設、idempotent、單談一台不設）；headless PASS |
 | 8-C | ✅ 完成 | 公寓電腦兩段 gate + 接案：第一次互動仍顯示舊 `work_ai_cleanup_role` 內容並設 `used_room_computer_once`；第二次起且 `discovered_vendor_error` 已成立、任務未接時派工 `QuestManager.start("repair_vendor_bot")`；新增 `data/quests/repair_vendor_bot.gd` 工作筆記模板與 reset / gleaned 完成筆記 resolver；未發現錯誤或任務 active 時不重開任務；headless PASS |
 | 8-D | ✅ 完成 | 蒐證系統 + 診斷對話樹 + 揭示主機：5 線索接案後可 examine 並寫 `clue_*` 筆記；診斷對話樹的正確選項以 `has_note` 為門檻限制；5 筆記齊全且對話全程正確設 `understood_robot_truth` + `diagnosed` + `mainframe_revealed`；否則設 `diagnosed` + `mainframe_revealed`；對話可重試與修正；`mainframe_revealed` 後主機可互動；headless PASS |
-| 8-E~8-H | ⬜ 規格已完成 / 待實作 | 便利商店 vertical slice + 買賣系統剩餘段：主機三段重置與結局分流、買賣系統與 ShopPanel、迷你飲料商店、全鏈回歸與 GUI 走查 |
+| 8-E | ✅ 完成 | 店籍主機三段 + 兩種重置結局：`store_registry_host` 對話樹（start 依 `vendor_bot_repaired` / `understood_robot_truth` / `diagnosed` 路由三段 + 已修復中性訊息）；直接重置 / 先錄殘響皆設 `store_robot_resolution` + `vendor_bot_repaired` + complete quest；先錄殘響以 `add_item` effect 失敗中止 + goto 條件分流做背包滿防呆（不設旗標、可重試），成功取得 `clerk_echo_recording`（不可賣 / 不可丟）+ 殘響線索筆記；完成訊息暗示外面販賣機回線；機器人 `repaired_router` 依結局分 reset（純 AI）/ gleaned（殘留人味）招呼；DialogueRunner 新增 `quest_flag` condition + `add_item` / `add_note` effect；headless PASS |
+| 8-F~8-H | ⬜ 規格已完成 / 待實作 | 便利商店 vertical slice + 買賣系統剩餘段：買賣系統與 ShopPanel、迷你飲料商店、全鏈回歸與 GUI 走查 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 

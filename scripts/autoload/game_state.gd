@@ -237,6 +237,18 @@ const ITEMS_DB := {
 		"discardable": false,
 		"usable": false,
 		"icon_path": "res://assets/generated/sprites/items/old_ai_authorization_module/icon.png"
+	},
+	"clerk_echo_recording": {
+		"id": "clerk_echo_recording",
+		"name": "店員的殘響",
+		"description": "一段從店籍主機備份區拷貝出來的資料——被辭退店員阿達的日記、情緒殘片，與他拒絕離開的那句「憑什麼」。標籤上沒有型號，也沒有條碼。這種東西沒有市場價格，也不該有。",
+		"category": "misc",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": false,
+		"usable": false,
+		"sellable": false,
+		"icon_path": "res://assets/generated/sprites/items/clerk_echo_recording/icon.png"
 	}
 }
 

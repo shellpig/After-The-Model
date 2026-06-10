@@ -152,11 +152,6 @@ func _trigger_interaction() -> void:
 				"type": "message",
 				"message_text": MESSAGES[current_interactable.interaction_id]
 			})
-		"store_registry_host":
-			interaction_requested.emit({
-				"type": "message",
-				"message_text": "店籍主機面板亮著，等待指令。"
-			})
 
 func _update_camera() -> void:
 	if camera == null:

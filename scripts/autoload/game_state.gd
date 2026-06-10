@@ -243,6 +243,15 @@ func set_credits(value: int) -> void:
 func set_flag(key: String, value) -> void:
 	story_flags[key] = value
 	flag_changed.emit(key, value)
+	if key == "talked_outside_vendor" or key == "talked_store_robot":
+		_maybe_set_discovered_vendor_error()
+
+# 8-B 發現錯誤聚合：兩台（街道販賣機 / 店內機器人）都互動過才視為「發現異常」；idempotent
+func _maybe_set_discovered_vendor_error() -> void:
+	if has_flag("discovered_vendor_error"):
+		return
+	if has_flag("talked_outside_vendor") and has_flag("talked_store_robot"):
+		set_flag("discovered_vendor_error", true)
 
 func get_flag(key: String, default_value = 0):
 	return story_flags.get(key, default_value)

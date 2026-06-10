@@ -12,7 +12,6 @@ const MAP_WIDTH := 2560.0
 const MESSAGES := {
 	"store_shelves": "貨架排得意外整齊，補貨系統顯然還在盡責。包裝上的促銷貼紙人物對你露出過期的笑容。",
 	"deli_machine": "自動熟食機台的面板上閃著一小行 error。關東煮的湯還在保溫，咕嘟咕嘟，沒有人撈。",
-	"store_robot": "結帳櫃台上架著一台胸像型的店控機器人。它的螢幕臉忽明忽暗，像是在喃喃自語，沒有回應你的靠近。",
 	"drink_cooler": "飲料冷藏櫃的冷光把玻璃照成一片青藍。每一罐都站得筆直，等著被掃描的那一刻。",
 	"back_door": "員工後門。電子鎖亮著紅燈，門把紋絲不動——這扇門不打算理會現在的你。"
 }
@@ -76,10 +75,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		_trigger_interaction()
 
 func _trigger_interaction() -> void:
+	if current_interactable.dialogue_id != "":
+		interaction_requested.emit({
+			"type": "dialogue",
+			"dialogue_id": current_interactable.dialogue_id
+		})
+		return
+
 	match current_interactable.interaction_id:
 		"auto_door":
 			scene_transition_requested.emit("apartment_entrance", "from_store", {})
-		"store_shelves", "deli_machine", "store_robot", "drink_cooler", "back_door":
+		"store_shelves", "deli_machine", "drink_cooler", "back_door":
 			interaction_requested.emit({
 				"type": "message",
 				"message_text": MESSAGES[current_interactable.interaction_id]

@@ -184,8 +184,8 @@ debug_color = Color(1, 0.8, 0.1, 0.42)
 [node name="StoreRobotArea" type="Area2D" parent="Interactables"]
 script = ExtResource("3_interactable")
 interaction_id = "store_robot"
-prompt_text = "E: █ 查看店控機器人"
-message_id = "store_robot"
+prompt_text = "E: █ 交談"
+dialogue_id = "store_robot"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRobotArea"]
 position = Vector2(1380, 530)

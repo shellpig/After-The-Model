@@ -9,7 +9,7 @@ const MESSAGES := {
 	"alley_view": "右側暗巷深得像一段被刪掉的城市資料。遠處的青色招牌還亮著，卻照不到腳邊的積水。",
 	"alley_view_unstarted": "右側暗巷深得像一段被刪掉的城市資料。遠處的青色招牌還亮著，卻照不到腳邊的積水。站在路旁的晚似乎若無其事地往這邊瞥了一眼，像是在留意那條巷子，又像是在留意你。",
 	"alley_view_danger": "暗巷深處有幾具損毀的無人機和可疑的陰影。晚說得對，這裡不太對勁，不能就這麼硬闖進去。我想起我自己住的公寓在四樓，右側窗外就是外牆火災逃生梯與平台，也許可以從窗戶爬出去，繞到左棟三樓。",
-	"vending_machine": "販賣機的冷光把雨水照成青色。螢幕上的價格比昨天又多了一位小數。"
+	"vending_machine": "販賣機的冷光把雨水照成青色。螢幕上沒有價目，只有一行行錯位捲動的字：\n「今天休假。今天休假。請勿投幣——辭呈我已經遞出去了。」\n滾動停了幾秒，又輕輕補上一行：「請不要告訴店長。」"
 }
 
 const CAMERA_HALF_WIDTH := 640.0
@@ -117,6 +117,7 @@ func _trigger_interaction() -> void:
 			"store_front":
 				scene_transition_requested.emit("convenience_store", "from_street", {})
 			"vending_machine":
+				GameState.set_flag("talked_outside_vendor", true)
 				interaction_requested.emit({
 					"type": "message",
 					"message_text": MESSAGES["vending_machine"]

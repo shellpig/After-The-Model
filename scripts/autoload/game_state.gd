@@ -260,6 +260,32 @@ const ITEMS_DB := {
 		"usable": false,
 		"sellable": false,
 		"icon_path": "res://assets/generated/sprites/items/clerk_echo_recording/icon.png"
+	},
+	"synth_cola": {
+		"id": "synth_cola",
+		"name": "合成可樂",
+		"description": "一罐廉價的合成氣泡飲料，包裝上印著早已過期的生產序號。拉環拉開時，發出無機的嘶嘶聲。",
+		"category": "consumable",
+		"value": 15,
+		"stackable": true,
+		"max_stack": 5,
+		"discardable": true,
+		"usable": true,
+		"equipment_slot": "",
+		"icon_path": "res://assets/generated/sprites/items/canned_food/icon.png"
+	},
+	"packaged_water": {
+		"id": "packaged_water",
+		"name": "包裝飲用水",
+		"description": "淨化過的回收水，帶有微弱的過濾後塑料味。便宜，安全，毫無特色。",
+		"category": "consumable",
+		"value": 10,
+		"stackable": true,
+		"max_stack": 5,
+		"discardable": true,
+		"usable": true,
+		"equipment_slot": "",
+		"icon_path": "res://assets/generated/sprites/items/synthetic_blueberry_nutrition_bar/icon.png"
 	}
 }
 

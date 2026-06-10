@@ -117,11 +117,17 @@ func _trigger_interaction() -> void:
 			"store_front":
 				scene_transition_requested.emit("convenience_store", "from_street", {})
 			"vending_machine":
-				GameState.set_flag("talked_outside_vendor", true)
-				interaction_requested.emit({
-					"type": "message",
-					"message_text": MESSAGES["vending_machine"]
-				})
+				if GameState.has_flag("vendor_bot_repaired"):
+					interaction_requested.emit({
+						"type": "shop",
+						"shop_id": "street_vending"
+					})
+				else:
+					GameState.set_flag("talked_outside_vendor", true)
+					interaction_requested.emit({
+						"type": "message",
+						"message_text": MESSAGES["vending_machine"]
+					})
 
 func _update_camera() -> void:
 	if camera == null:

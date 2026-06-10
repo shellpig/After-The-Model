@@ -211,6 +211,9 @@ func _on_level_interaction_requested(data: Dictionary) -> void:
 			var entry_point_id: String = data.get("entry_point_id", "")
 			var payload: Dictionary = data.get("payload", {})
 			transition_to(target_scene_id, entry_point_id, payload)
+		"shop":
+			var shop_id: String = data.get("shop_id", "")
+			game_ui.open_shop(shop_id)
 
 func _on_level_scene_transition_requested(scene_id: String, entry_point_id: String, payload: Dictionary) -> void:
 	transition_to(scene_id, entry_point_id, payload)

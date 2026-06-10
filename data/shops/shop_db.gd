@@ -4,9 +4,11 @@
 # 8-G 將新增 street_vending（迷你飲料商店）驗證 data-driven 多商店。
 
 const ConvenienceStoreShop = preload("res://data/shops/convenience_store.gd")
+const StreetVendingShop = preload("res://data/shops/street_vending.gd")
 
 const SHOPS := {
-	"convenience_store": ConvenienceStoreShop.CATALOG
+	"convenience_store": ConvenienceStoreShop.CATALOG,
+	"street_vending": StreetVendingShop.CATALOG
 }
 
 static func get_catalog(shop_id: String) -> Dictionary:

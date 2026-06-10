@@ -1,0 +1,22 @@
+{
+  "asset": "store robot left-facing map npc sprite",
+  "source_reference": "store robot dialogue portrait generated in project",
+  "generated_raw_cache": "C:/Users/User/.codex/generated_images/019eb17f-0b25-78a2-810a-eecc17465890/ig_06835891178bcfd8016a29648eac188191839c2c1b37cbcc61.png",
+  "raw_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\store_robot\\map_npc\\store-robot-map-npc-left-20260610-211947\\store-robot-map-npc-left-raw-20260610-211947.png",
+  "g2d_output": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\store_robot\\map_npc\\store-robot-map-npc-left-20260610-211947\\g2d_clean\\sheet-transparent.png",
+  "adopted_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\store_robot\\map_npc\\store-robot-map-npc-left-20260610-211947\\sprite.png",
+  "stamped_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\store_robot\\map_npc\\store-robot-map-npc-left-20260610-211947\\store-robot-map-npc-left-transparent-20260610-211947.png",
+  "postprocess": {
+    "external_connected_magenta_pixels_cleared": 373,
+    "canvas_size": [
+      768,
+      768
+    ],
+    "alpha_bbox": [
+      115,
+      47,
+      652,
+      722
+    ]
+  }
+}

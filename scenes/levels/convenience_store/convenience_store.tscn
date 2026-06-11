@@ -27,7 +27,7 @@ size = Vector2(120, 280)
 size = Vector2(97, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_robot"]
-size = Vector2(67, 280)
+size = Vector2(100, 280)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_cooler"]
 size = Vector2(67, 280)
@@ -45,7 +45,7 @@ size = Vector2(39, 270)
 size = Vector2(39, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_photo"]
-size = Vector2(60, 270)
+size = Vector2(48, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_host"]
 size = Vector2(62, 270)
@@ -221,7 +221,7 @@ prompt_text = "E: █ 交談"
 dialogue_id = "store_robot"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRobotArea" unique_id=2056656730]
-position = Vector2(1424.5, 529)
+position = Vector2(1422, 529)
 shape = SubResource("RectangleShape2D_interact_robot")
 debug_color = Color(0, 1, 0.86, 0.42)
 

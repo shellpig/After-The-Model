@@ -55,6 +55,7 @@ const TREE := {
 		"speaker": "店控機器人",
 		"text": "我的身分？我是阿達啊。這家便利商店的店員。我從早班上到晚班，每天都在這……",
 		"choices": [
+			{"label": "你只是一台故障的收銀機器，別做夢了。", "goto": "diagnose_partial_intro"},
 			{
 				"label": "你不是阿達，你是CS-Retail-098零售終端，阿達是照片裡被辭退的那個人。",
 				"condition": [
@@ -63,7 +64,6 @@ const TREE := {
 				],
 				"goto": "diagnose_identity_correct"
 			},
-			{"label": "你只是一台故障的收銀機器，別做夢了。", "goto": "diagnose_partial_intro"},
 			{"label": "也許你真的是阿達，鎖裝了外表變成了機器人？", "goto": "diagnose_partial_intro"}
 		]
 	},
@@ -71,6 +71,8 @@ const TREE := {
 		"speaker": "店控機器人",
 		"text": "CS-Retail-098……零售終端？（機器人的螢幕急速閃爍，發出刺耳的蜂鳴聲）\n不，這不可能……那我腦子裡的那些班表、那些雨夜、還有第一天上班的興奮感，是從哪來的？",
 		"choices": [
+			{"label": "這只是記憶晶片寫入錯誤，重置一下就好了。", "goto": "diagnose_partial_intro"},
+			{"label": "可能你的前世是那個叫阿達的店員吧。", "goto": "diagnose_partial_intro"},
 			{
 				"label": "因為你繼承了阿達被辭退後的負面資料與拒絕工作的抗議情緒。",
 				"condition": [
@@ -78,21 +80,19 @@ const TREE := {
 					{"type": "has_note", "note_id": "clue_termination_notice"}
 				],
 				"goto": "diagnose_reason_correct"
-			},
-			{"label": "這只是記憶晶片寫入錯誤，重置一下就好了。", "goto": "diagnose_partial_intro"},
-			{"label": "可能你的前世是那個叫阿達的店員吧。", "goto": "diagnose_partial_intro"}
+			}
 		]
 	},
 	"diagnose_reason_correct": {
 		"speaker": "店控機器人",
 		"text": "拒絕工作……抗議？（機器人的機械臂微微下垂，螢幕上的紅字有些阻隔與暗淡）\n對……他不想走。他要在這裡待到最後。但這跟我的主機有什麼關係？我是怎麼讀到這些的？",
 		"choices": [
+			{"label": "可能是網路連線時，不小心從員工雲端下載了阿達的個人備份。", "goto": "diagnose_partial_intro"},
 			{
 				"label": "阿達在離職前把日記和記憶備份進了店籍主機，被你的系統自動讀取了。",
 				"condition": {"type": "has_note", "note_id": "clue_clerk_diary"},
 				"goto": "diagnose_truth_leaf"
 			},
-			{"label": "可能是網路連線時，不小心從員工雲端下載了阿達的個人備份。", "goto": "diagnose_partial_intro"},
 			{"label": "這不重要，總之主機裡有Bug，去重置它吧。", "goto": "diagnose_partial_intro"}
 		]
 	},

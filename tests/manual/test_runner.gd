@@ -3329,10 +3329,10 @@ func _ready() -> void:
 	var curr_identity = diag_runner.current()
 	
 	var choices_identity = curr_identity.get("choices", [])
-	# Without clues, correct option (index 0) should be hidden, leaving only index 1 and 2
+	# Without clues, correct option (index 1) should be hidden, leaving only index 0 and 2
 	var found_correct_identity := false
 	for choice in choices_identity:
-		if choice.get("index") == 0:
+		if choice.get("index") == 1:
 			found_correct_identity = true
 	if found_correct_identity:
 		printerr("FAIL 8-D: Correct identity choice should be gated/hidden without clues!")
@@ -3363,51 +3363,51 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	
-	# Identity choices: correct option (index 0) must be visible now
+	# Identity choices: correct option (index 1) must be visible now
 	var found_correct_id_now := false
 	for choice in curr_node.choices:
-		if choice.get("index") == 0:
+		if choice.get("index") == 1:
 			found_correct_id_now = true
 	if not found_correct_id_now:
 		printerr("FAIL 8-D: Correct identity choice should be visible with all clues!")
 		get_tree().quit(1)
 		return
 		
-	diag_runner.choose(0) # Go to diagnose_identity_correct
+	diag_runner.choose(1) # Go to diagnose_identity_correct
 	curr_node = diag_runner.current()
 	if diag_runner._current_node_id != "diagnose_identity_correct":
 		printerr("FAIL 8-D: Should enter diagnose_identity_correct! Got: ", diag_runner._current_node_id)
 		get_tree().quit(1)
 		return
 	
-	# Identity correct choices: correct option (index 0) must be visible
+	# Identity correct choices: correct option (index 2) must be visible
 	var found_correct_reason := false
 	for choice in curr_node.choices:
-		if choice.get("index") == 0:
+		if choice.get("index") == 2:
 			found_correct_reason = true
 	if not found_correct_reason:
 		printerr("FAIL 8-D: Correct reason choice should be visible with clues!")
 		get_tree().quit(1)
 		return
 		
-	diag_runner.choose(0) # Go to diagnose_reason_correct
+	diag_runner.choose(2) # Go to diagnose_reason_correct
 	curr_node = diag_runner.current()
 	if diag_runner._current_node_id != "diagnose_reason_correct":
 		printerr("FAIL 8-D: Should enter diagnose_reason_correct! Got: ", diag_runner._current_node_id)
 		get_tree().quit(1)
 		return
 	
-	# Reason correct choices: correct option (index 0) must be visible
+	# Reason correct choices: correct option (index 1) must be visible
 	var found_correct_truth := false
 	for choice in curr_node.choices:
-		if choice.get("index") == 0:
+		if choice.get("index") == 1:
 			found_correct_truth = true
 	if not found_correct_truth:
 		printerr("FAIL 8-D: Correct truth choice should be visible with clues!")
 		get_tree().quit(1)
 		return
 		
-	diag_runner.choose(0) # Go to diagnose_truth_leaf
+	diag_runner.choose(1) # Go to diagnose_truth_leaf
 	curr_node = diag_runner.current()
 	if diag_runner._current_node_id != "diagnose_truth_leaf":
 		printerr("FAIL 8-D: Should enter diagnose_truth_leaf! Got: ", diag_runner._current_node_id)

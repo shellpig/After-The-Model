@@ -60,10 +60,11 @@ func _ready() -> void:
 		if is_input_active:
 			load_notebook_data()
 	)
+	set_process_input(false)
 
 func set_input_active(active: bool) -> void:
 	is_input_active = active
-	set_process_unhandled_input(active)
+	set_process_input(active)
 	if active:
 		active_category_index = _find_first_non_empty_category()
 
@@ -210,7 +211,7 @@ func _get_tab_button(index: int) -> Button:
 		2: return tab_clues
 	return null
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not is_input_active:
 		return
 

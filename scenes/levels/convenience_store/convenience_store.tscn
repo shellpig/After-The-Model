@@ -319,7 +319,6 @@ shape = SubResource("RectangleShape2D_interact_plate")
 debug_color = Color(0, 0.8, 0.8, 0.42)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=2050827415]
-visible = false
 position = Vector2(720, 665)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_player")

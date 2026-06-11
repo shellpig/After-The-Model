@@ -81,6 +81,8 @@ func _ready() -> void:
 	_audio_electromagnetic.volume_db = 6.0
 	add_child(_audio_electromagnetic)
 
+	GameState.note_added.connect(_on_note_added)
+
 func _process(delta: float) -> void:
 	if prompt_panel.visible and _level_context and _level_context.has_node("Player"):
 		var player_node := _level_context.get_node("Player") as Node2D
@@ -457,7 +459,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 			prompt_panel.visible = false
 		_check_and_trigger_endings()
 
-	if _last_mode == UIMode.Mode.MESSAGE and not _pending_toast_title.is_empty():
+	if (_last_mode == UIMode.Mode.MESSAGE or _last_mode == UIMode.Mode.DIALOGUE) and not _pending_toast_title.is_empty():
 		var anchor: Node2D = null
 		if _level_context and _level_context.has_node("Player"):
 			anchor = _level_context.get_node("Player")
@@ -573,8 +575,6 @@ func _on_bag_item_action(action: String, instance_id: String) -> void:
 				else:
 					if item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
 						GameState.add_knowledge(DECODER_NOTES["clue_gloves_decoder"])
-						var anchor = _level_context.get_node("Player") if _level_context and _level_context.has_node("Player") else null
-						show_toast("已記入筆記：" + DECODER_NOTES["clue_gloves_decoder"].title, anchor)
 
 					if item_meta.has("inspect_grants_item"):
 						_handle_inspect_grants_item(instance_id, item_meta, bag_grid, bag_grid.focused_index, inventory_panel)
@@ -619,8 +619,6 @@ func _on_dual_pane_item_action(action: String, instance_id: String, source_pane:
 				else:
 					if item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
 						GameState.add_knowledge(DECODER_NOTES["clue_gloves_decoder"])
-						var anchor = _level_context.get_node("Player") if _level_context and _level_context.has_node("Player") else null
-						show_toast("已記入筆記：" + DECODER_NOTES["clue_gloves_decoder"].title, anchor)
 
 					if item_meta.has("inspect_grants_item"):
 						_handle_inspect_grants_item(instance_id, item_meta, active_grid, active_idx, anchor_panel)
@@ -684,8 +682,6 @@ func _handle_equip_toggle(instance_id: String, item_meta: Dictionary) -> void:
 			)
 		elif item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
 			GameState.add_knowledge(DECODER_NOTES["clue_gloves_decoder"])
-			var anchor = _level_context.get_node("Player") if _level_context and _level_context.has_node("Player") else null
-			show_toast("已記入筆記：" + DECODER_NOTES["clue_gloves_decoder"].title, anchor)
 
 func _start_discard_flow(instance_id: String, item_meta: Dictionary,
 						 restore_grid: Control, restore_index: int) -> void:
@@ -773,3 +769,29 @@ func _update_backpack_footer(index: int) -> void:
 
 	hints.append_array(["R: 查看", "T: 丟棄", "Esc/I: 關閉"])
 	panel_footer_hint.set_hints(panel_footer_hint, hints)
+
+func _on_note_added(note_data: Dictionary, is_update: bool) -> void:
+	_show_or_queue_note_toast.call_deferred(note_data, is_update)
+
+func _show_or_queue_note_toast(note_data: Dictionary, is_update: bool) -> void:
+	var title: String = note_data.get("title", "")
+	var category: String = note_data.get("category", "")
+	var prefix = "已更新" if is_update else "已記入"
+	
+	# Determine toast text
+	var toast_text = ""
+	if category == "工作":
+		toast_text = prefix + "工作：" + title
+	else:
+		toast_text = prefix + "筆記：" + title
+
+	# If message box or dialogue is active, queue it
+	var mode := UIMode.get_mode()
+	if mode == UIMode.Mode.MESSAGE or mode == UIMode.Mode.DIALOGUE:
+		_pending_toast_title = toast_text
+	else:
+		# Show immediately
+		var anchor: Node2D = null
+		if _level_context and _level_context.has_node("Player"):
+			anchor = _level_context.get_node("Player")
+		show_toast(toast_text, anchor)

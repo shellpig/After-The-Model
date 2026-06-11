@@ -11,6 +11,7 @@ signal item_moved(move: Dictionary)
 signal flag_changed(key: String, value)
 signal quest_changed(quest_id: String, state: Dictionary)
 signal shop_changed(shop_id: String)
+signal note_added(note_data: Dictionary, is_update: bool)
 
 # Variables
 var credits: int = 300
@@ -432,6 +433,8 @@ func add_knowledge(note: Dictionary) -> void:
 
 	if not found:
 		notes.append(new_note)
+
+	note_added.emit(new_note, found)
 
 	if category == "身份":
 		if not knowledge.get(note_id, false):

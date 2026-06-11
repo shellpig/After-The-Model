@@ -2857,6 +2857,10 @@ func _ready() -> void:
 		printerr("FAIL: discovered_vendor_error set after only ONE machine was talked to!")
 		get_tree().quit(1)
 		return
+	if GameState.has_note("clue_vendor_error_lead"):
+		printerr("FAIL: clue_vendor_error_lead note added after only ONE machine was talked to!")
+		get_tree().quit(1)
+		return
 	print("PASS: Vending machine babble sets talked_outside_vendor without premature discovery.")
 
 	# 27.2 Robot babble tree: routing, anomaly text, talked_store_robot, aggregation completes
@@ -2889,6 +2893,10 @@ func _ready() -> void:
 		return
 	if not GameState.has_flag("discovered_vendor_error"):
 		printerr("FAIL: discovered_vendor_error not set after talking to BOTH machines!")
+		get_tree().quit(1)
+		return
+	if not GameState.has_note("clue_vendor_error_lead"):
+		printerr("FAIL: clue_vendor_error_lead note not added after talking to BOTH machines!")
 		get_tree().quit(1)
 		return
 	print("PASS: Robot babble sets talked_store_robot and completes discovered_vendor_error aggregation.")
@@ -2926,8 +2934,8 @@ func _ready() -> void:
 		printerr("FAIL: talked_store_robot not set in robot-only path!")
 		get_tree().quit(1)
 		return
-	if GameState.has_flag("talked_outside_vendor") or GameState.has_flag("discovered_vendor_error"):
-		printerr("FAIL: Robot-only path leaked vendor/discovery flags!")
+	if GameState.has_flag("talked_outside_vendor") or GameState.has_flag("discovered_vendor_error") or GameState.has_note("clue_vendor_error_lead"):
+		printerr("FAIL: Robot-only path leaked vendor/discovery/note flags!")
 		get_tree().quit(1)
 		return
 	print("PASS: Robot-only path does not set discovered_vendor_error.")
@@ -2935,6 +2943,10 @@ func _ready() -> void:
 	street_8b._trigger_interaction()
 	if not GameState.has_flag("discovered_vendor_error"):
 		printerr("FAIL: discovered_vendor_error not set once both sides are talked to (robot first)!")
+		get_tree().quit(1)
+		return
+	if not GameState.has_note("clue_vendor_error_lead"):
+		printerr("FAIL: clue_vendor_error_lead not set once both sides are talked to (robot first)!")
 		get_tree().quit(1)
 		return
 
@@ -4225,8 +4237,8 @@ func _ready() -> void:
 	var loaded_8h_p1 = SaveSystem.read_slot(4)
 	SaveSystem.apply(loaded_8h_p1)
 	
-	if not GameState.get_flag("discovered_vendor_error", false) or not GameState.get_flag("used_room_computer_once", false):
-		printerr("FAIL 8-H: Pre-quest flags not restored correctly!")
+	if not GameState.get_flag("discovered_vendor_error", false) or not GameState.get_flag("used_room_computer_once", false) or not GameState.has_note("clue_vendor_error_lead"):
+		printerr("FAIL 8-H: Pre-quest flags or lead note not restored correctly!")
 		get_tree().quit(1)
 		return
 	print("PASS: Pre-quest save/load verified.")

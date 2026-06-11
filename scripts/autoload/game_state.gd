@@ -117,6 +117,13 @@ const STORY_NOTES := {
 		"title": "褪色的照片",
 		"body": "照片上的人就是店員阿達。這張照片被隨意塞在收銀檯下方，是阿達曾經在這裡工作過的唯一真實物證。",
 		"status": "active"
+	},
+	"clue_vendor_error_lead": {
+		"id": "clue_vendor_error_lead",
+		"category": "線索",
+		"title": "異常的售貨設備",
+		"body": "街上的自動販賣機和便利商店內的零售機器人都出現了類似的通訊混亂與行為異常。這看起來不像是單一設備的硬體故障，更像是系統層面的殘留問題。或許這能成為一筆新的善後委託，該回房間的電腦確認看看。",
+		"status": "active"
 	}
 }
 
@@ -337,6 +344,7 @@ func _maybe_set_discovered_vendor_error() -> void:
 		return
 	if has_flag("talked_outside_vendor") and has_flag("talked_store_robot"):
 		set_flag("discovered_vendor_error", true)
+		add_knowledge(STORY_NOTES["clue_vendor_error_lead"])
 
 func get_flag(key: String, default_value = 0):
 	return story_flags.get(key, default_value)

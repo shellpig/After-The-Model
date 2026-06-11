@@ -189,7 +189,7 @@ prompt_text = "E: █ 查看貨架"
 message_id = "store_shelves"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreShelvesArea" unique_id=1540772713]
-position = Vector2(171, 530)
+position = Vector2(234, 537)
 shape = SubResource("RectangleShape2D_interact_shelves")
 debug_color = Color(0.95, 0.6, 0, 0.42)
 
@@ -322,6 +322,7 @@ debug_color = Color(0, 0.8, 0.8, 0.42)
 position = Vector2(720, 665)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_player")
+min_x = 200.0
 max_x = 2480.0
 walk_line_y = 665.0
 

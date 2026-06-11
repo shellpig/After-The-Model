@@ -122,11 +122,12 @@ func load_notebook_data() -> void:
 			btn.add_theme_stylebox_override("focus", btn_style_focus)
 
 			btn.focus_mode = Control.FOCUS_ALL
+
+			list_vbox.add_child(btn)
+
 			# Clamp focus horizontally to prevent accidental keyboard escapes
 			btn.focus_neighbor_left = btn.get_path()
 			btn.focus_neighbor_right = btn.get_path()
-
-			list_vbox.add_child(btn)
 
 			btn.focus_entered.connect(func():
 				_on_note_selected(note, i)

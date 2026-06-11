@@ -2566,6 +2566,78 @@ func _ready() -> void:
 		return
 	print("PASS: Ending 3 messagebox triggered successfully.")
 
+	# Close the message box
+	ui_instance.close_message()
+	await get_tree().process_frame
+
+	# Test case 4: Convenience Store Ending 1 (Direct Reset / "reset" resolution)
+	GameState.reset_for_new_game()
+	QuestManager.start("repair_vendor_bot")
+	QuestManager.complete("repair_vendor_bot")
+	GameState.set_flag("store_robot_resolution", "reset")
+	GameState.story_flags.erase("repair_vendor_bot_ended")
+	
+	UIMode.set_mode(UIMode.Mode.DIALOGUE)
+	UIMode.set_mode(UIMode.Mode.NONE)
+	await get_tree().process_frame
+	
+	if UIMode.get_mode() != UIMode.Mode.MESSAGE:
+		printerr("FAIL: Convenience Ending 1 did not trigger MESSAGE mode!")
+		get_tree().quit(1)
+		return
+	if not ui_instance.message_box.visible:
+		printerr("FAIL: Convenience Ending 1 message box not visible!")
+		get_tree().quit(1)
+		return
+	if not ui_instance.message_label.text.contains("高效的系統"):
+		printerr("FAIL: Convenience Ending 1 text incorrect! Got: ", ui_instance.message_label.text)
+		get_tree().quit(1)
+		return
+	print("PASS: Convenience store Ending 1 messagebox triggered successfully.")
+	
+	# Close the message box
+	ui_instance.close_message()
+	await get_tree().process_frame
+	
+	# Verify it doesn't trigger again
+	UIMode.set_mode(UIMode.Mode.DIALOGUE)
+	UIMode.set_mode(UIMode.Mode.NONE)
+	await get_tree().process_frame
+	if UIMode.get_mode() != UIMode.Mode.NONE:
+		printerr("FAIL: Convenience store Ending triggered repeatedly!")
+		get_tree().quit(1)
+		return
+	print("PASS: Convenience store Ending single-trigger constraint verified.")
+	
+	# Test case 5: Convenience Store Ending 2 (Glean recording / "gleaned" resolution)
+	GameState.reset_for_new_game()
+	QuestManager.start("repair_vendor_bot")
+	QuestManager.complete("repair_vendor_bot")
+	GameState.set_flag("store_robot_resolution", "gleaned")
+	GameState.story_flags.erase("repair_vendor_bot_ended")
+	
+	UIMode.set_mode(UIMode.Mode.DIALOGUE)
+	UIMode.set_mode(UIMode.Mode.NONE)
+	await get_tree().process_frame
+	
+	if UIMode.get_mode() != UIMode.Mode.MESSAGE:
+		printerr("FAIL: Convenience Ending 2 did not trigger MESSAGE mode!")
+		get_tree().quit(1)
+		return
+	if not ui_instance.message_box.visible:
+		printerr("FAIL: Convenience Ending 2 message box not visible!")
+		get_tree().quit(1)
+		return
+	if not ui_instance.message_label.text.contains("溫存的殘響"):
+		printerr("FAIL: Convenience Ending 2 text incorrect! Got: ", ui_instance.message_label.text)
+		get_tree().quit(1)
+		return
+	print("PASS: Convenience store Ending 2 messagebox triggered successfully.")
+
+	# Close the message box
+	ui_instance.close_message()
+	await get_tree().process_frame
+
 	# 26. Verify Phase 8-A Convenience Store Scene Skeleton & Transitions
 	print("Verifying Phase 8-A Convenience Store scene skeleton & transitions...")
 

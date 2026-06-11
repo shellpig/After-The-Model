@@ -488,6 +488,21 @@ func _check_and_trigger_endings() -> void:
 			var page2 := "這座城市依然在雨中運轉，舊日的痕跡在一點點被抹去。你將手收入口袋，繼續尋找著自己失落的記憶。"
 			show_message(page1, func(): show_message(page2))
 
+	if QuestManager.get_status("repair_vendor_bot") == "completed" and not GameState.get_flag("repair_vendor_bot_ended", false):
+		GameState.set_flag("repair_vendor_bot_ended", true)
+		
+		var resolution = GameState.get_flag("store_robot_resolution", "")
+		if resolution == "gleaned":
+			var page1 := "【第三段劇情完成 - 結局 2：溫存的殘響】\n\n你拷貝了阿達在主機備份區留下的最後日記與情緒包，然後才按下了重置鍵。\n店籍主機發出低沉的嗡鳴，重啟後的機器人重新抬起頭，用字正腔圓、毫無溫度的AI合成語音向你致謝。"
+			var page2 := "阿達的怒吼、無奈、與最後的「憑什麼」，在機器人的記憶庫中已經蕩然無存。\n但那塊晶片安靜地躺在你的背包裡。只要你的儲存載體還在，他在這座冰冷都市留下的溫度，就不算完全被系統抹殺。"
+			var page3 := "這座城市不再需要人類的呼吸與體溫，系統只要求一切高效、無瑕。\n但在那段被你帶走的殘響裡，你聽見了一個被拋棄的白領店員最後的掙扎──那是人類不願輕易被AI取代、拒絕被無聲抹除的證明。\n\n（提示：若未深入診斷、未拷貝殘響即直接重置主機，將會觸發「結局 1：高效的系統」）"
+			show_message(page1, func(): show_message(page2, func(): show_message(page3)))
+		else:
+			var page1 := "【第三段劇情完成 - 結局 1：高效的系統】\n\n你重置了店籍主機。那台曾發出人類夢囈與怨言的機器人，如今安靜地退回了原本的零售人格。\n螢幕上的紅色故障燈熄滅，換來的是一行行冰冷、精準且毫無破綻的服務日誌。"
+			var page2 := "阿達這個名字，連同他寫在程式底層的情緒殘留，已經在數據格式化的過程中被徹底抹除。\n店裡的招牌燈光重新亮起，連鎖路由順暢運轉。一切都很完美，沒有留下一絲人類待過的累贅痕跡。"
+			show_message(page1, func(): show_message(page2))
+
+
 
 
 

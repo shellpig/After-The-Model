@@ -541,7 +541,7 @@ func _resize_message_box_for_text(text: String) -> void:
 	var font: Font = message_label.get_theme_font("font")
 	var font_size: int = message_label.get_theme_font_size("font_size")
 
-	var max_width: float = 960.0
+	var max_width: float = 900.0
 	var text_size: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
 
 	if text_size.x > max_width:

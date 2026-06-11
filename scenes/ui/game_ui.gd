@@ -541,11 +541,11 @@ func _resize_message_box_for_text(text: String) -> void:
 	var font: Font = message_label.get_theme_font("font")
 	var font_size: int = message_label.get_theme_font_size("font_size")
 
-	var max_width: float = 800.0
+	var max_width: float = 960.0
 	var text_size: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
 
 	if text_size.x > max_width:
-		message_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+		message_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		message_label.custom_minimum_size = Vector2(max_width - 64.0, 0.0)
 		message_box.size = Vector2(max_width, 0.0)
 	else:

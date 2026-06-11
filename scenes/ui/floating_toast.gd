@@ -45,13 +45,18 @@ func display(text: String, anchor_node: CanvasItem = null) -> void:
 	reset_size()
 
 	# Position: 8px above anchor panel, horizontally centered to it.
-	if anchor_node != null:
-		if anchor_node is Node2D:
-			var screen_pos: Vector2 = anchor_node.get_global_transform_with_canvas().origin
+	# Note/Quest updates are centered in the viewport, operations are anchored.
+	var final_anchor: CanvasItem = anchor_node
+	if text.begins_with("已記入") or text.begins_with("已更新") or text.begins_with("已寫入"):
+		final_anchor = null
+
+	if final_anchor != null:
+		if final_anchor is Node2D:
+			var screen_pos: Vector2 = final_anchor.get_global_transform_with_canvas().origin
 			global_position = screen_pos + Vector2(-size.x * 0.5, -380.0)
 		else:
-			var anchor_pos: Vector2 = anchor_node.global_position
-			var anchor_size: Vector2 = anchor_node.size
+			var anchor_pos: Vector2 = final_anchor.global_position
+			var anchor_size: Vector2 = final_anchor.size
 			global_position = anchor_pos + Vector2((anchor_size.x - size.x) * 0.5, -size.y - 8)
 	else:
 		var viewport_size: Vector2 = get_viewport_rect().size

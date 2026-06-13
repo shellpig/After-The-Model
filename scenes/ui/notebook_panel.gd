@@ -117,7 +117,8 @@ func load_notebook_data() -> void:
 				var total_segments = EchoDB.get_segment_count(echo_id)
 				var sold = GameState.is_echo_sold(echo_id)
 				
-				var display_title = title + "（" + str(collected_count) + "/" + str(total_segments) + "）"
+				var unknown_total = echo_data.get("unknown_total", false)
+				var display_title = title + "（" + str(collected_count) + "/" + ( "?" if unknown_total else str(total_segments) ) + "）"
 				if sold:
 					display_title += " [已售出]"
 				
@@ -130,9 +131,12 @@ func load_notebook_data() -> void:
 						body_segments.append(seg.get("text", ""))
 					else:
 						body_segments.append("段落 " + str(idx + 1) + "：????")
-						
+
+				if unknown_total:
+					body_segments.append("???")
+
 				var body_text = "\n\n".join(body_segments)
-				
+
 				if collected_count == total_segments and not sold:
 					if echo_id == "echo_room401_tenant":
 						body_text += "\n\n(有一張照片)"

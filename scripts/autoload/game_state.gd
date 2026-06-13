@@ -1194,6 +1194,9 @@ func is_echo_known(echo_id: String) -> bool:
 func is_echo_complete(echo_id: String) -> bool:
 	if not echo_progress.has(echo_id):
 		return false
+	var echo_data = EchoDB.get_echo(echo_id)
+	if echo_data.get("unknown_total", false):
+		return false
 	var collected_count = echo_progress[echo_id].get("collected", []).size()
 	return collected_count == EchoDB.get_segment_count(echo_id)
 

@@ -5525,7 +5525,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	# Case A: Selection change stops audio
+	# Case A: Selection change does NOT stop audio
 	ui_instance.toggle_echo_audio(test_audio)
 	# focus 401
 	for child in notebook_list.get_children():
@@ -5534,12 +5534,13 @@ func _ready() -> void:
 			break
 	note_button_401.grab_focus()
 	await get_tree().process_frame
-	if ui_instance._audio_echo.playing:
-		printerr("FAIL 9-E: Changing selected item should stop audio playback!")
+	if not ui_instance._audio_echo.playing:
+		printerr("FAIL 9-E: Changing selected item should NOT stop audio playback!")
 		get_tree().quit(1)
 		return
+	ui_instance.stop_echo_audio()
 		
-	# Case B: Tab change stops audio
+	# Case B: Tab change does NOT stop audio
 	for child in notebook_list.get_children():
 		if child is Button and child.text.contains("店員"):
 			note_button_clerk = child
@@ -5549,10 +5550,11 @@ func _ready() -> void:
 	ui_instance.toggle_echo_audio(test_audio)
 	ui_instance.notebook_panel._select_tab_index(0)
 	await get_tree().process_frame
-	if ui_instance._audio_echo.playing:
-		printerr("FAIL 9-E: Changing notebook tab should stop audio playback!")
+	if not ui_instance._audio_echo.playing:
+		printerr("FAIL 9-E: Changing notebook tab should NOT stop audio playback!")
 		get_tree().quit(1)
 		return
+	ui_instance.stop_echo_audio()
 		
 	# Case C: Closing notebook does NOT stop audio (it plays out fully in background)
 	ui_instance.notebook_panel._select_tab_index(3)

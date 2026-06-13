@@ -57,7 +57,8 @@ static var ECHOES := {
 		"comment": "這首歌……以前地鐵口常有流浪歌手自彈自唱。自從地鐵治安清理把他們趕走後，就再也沒聽到了。這段旋律值這個價。"
 	},
 	"echo_lu_family": {
-		"title": "鹿家的殘響",
+		"title": "鹿家記事",
+		"unknown_total": true,
 		"segments": [
 			{
 				"id": "s1",

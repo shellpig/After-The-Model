@@ -31,9 +31,15 @@ func _ready() -> void:
 	anim.play("idle")
 	_apply_sprite_transform()
 	
-	# Add AudioListener2D dynamically so 2D sounds decay relative to the player
+	# Add AudioListener2D dynamically so 2D sounds decay relative to the player.
+	# Place it at the body center (collision shape) instead of the feet origin so
+	# EchoPoints mounted high (desks/walls) stay within audible range. The local
+	# offset is auto-scaled by the per-map Player.scale via node inheritance.
 	var listener = AudioListener2D.new()
 	listener.name = "AudioListener2D"
+	var body := $CollisionShape2D
+	if body:
+		listener.position = body.position
 	listener.make_current()
 	add_child(listener)
 

@@ -220,6 +220,15 @@ segment_id = "s2"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=1988580004]
 shape = SubResource("CircleShape2D_echo")
 
+[node name="EchoPointS1" type="Area2D" parent="Interactables" unique_id=1988580005]
+position = Vector2(1300, 626)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_room401_tenant"
+segment_id = "s1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPointS1" unique_id=1988580006]
+shape = SubResource("CircleShape2D_echo")
+
 [node name="Player" type="CharacterBody2D" parent="." unique_id=444787812]
 position = Vector2(1197.0001, 398)
 scale = Vector2(0.54, 0.54)

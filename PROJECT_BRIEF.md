@@ -216,6 +216,14 @@ note_id
 | 8-F | ✅ 完成 | 買賣系統核心 + ShopPanel + `UIMode.SHOP`：`ITEMS_DB` 補 `value`（罐頭 20 / 營養棒 12 / 夾克 60 / 魔術方塊 1=折算 0 不可賣）；`SELL_RATIO 0.5` + `get_item_value` / `get_sell_value` / `is_sellable`（key_item / `sellable=false` / 折算 0 元皆擋）；`sell_item(instance_id)` 以焦點格定位（已裝備擋、不自動卸下、不回補店庫存）；`shop_states` lazy-init 自 `data/shops/shop_db.gd` catalog + `refresh_shop_stock` + `buy_item` 原子三檢（純讀檢查 → `add_item` 唯一可失敗變動 → 扣庫存扣 credits）+ 納入存讀檔 / reset；`ShopPanel` 雙欄（左貨架 名稱/買價/庫存、右背包 售價或灰掉，手動高亮不搶引擎焦點）+ FloatingToast 失敗提示；機器人 repaired 招呼結尾 `open_shop` effect（DialogueRunner pending → DialoguePanel 收尾交棒 GameUI，DIALOGUE 直切 SHOP）；TouchControls SHOP 路由（D-pad 經 GameUI 代理）；headless PASS |
 | 8-G | ✅ 完成 | 迷你飲料商店 + 多商店資料化：修好後街道外面販賣機直接開 `street_vending` ShopPanel；`data/shops/street_vending.gd` 飲料 catalog（`synth_cola` / `packaged_water`）接入 `shop_db.gd`；兩店庫存各自獨立並納入存讀檔 / reset；`tests/manual/test_runner.gd` 已加入 8-G 多商店資料化驗證；飲料 item icon 已整合 |
 | 8-H | ✅ 完成 | Phase 8 全鏈回歸 + 存讀檔驗證 + 人工對話 / 買賣系統 GUI / 純觸控走查 |
+| 9-A | ⬜ 待開工 | 殘響資料模型 + `echo_progress` 存讀檔 + 筆記「殘響」分頁投影（`????` 佔位）+ 8-E 店員殘響回寫 / 舊存檔 backfill |
+| 9-B | ⬜ 待開工 | 公寓時鐘取「老舊探測模組」+ 一次性線索筆記 `clue_probe_module_lead`（公寓解謎完成後開放；背包滿防呆） |
+| 9-C | ⬜ 待開工 | 街道右端暫時通道目的地選單 + `collector_shop` 場景 + 鹿其琛首見 / 鑑定 → 手套原地升級 `gleaner_gloves` + 口頭提及「還」 |
+| 9-D | ⬜ 待開工 | 感知採集：裝備拾遺手套時殘響點微光 + 漸強雜訊；靜止 ≥1 秒出提示；E 採集一次性、跨存讀檔保持 |
+| 9-E | ⬜ 待開工 | 媒體層：集滿才出 `E: 看照片` / `R: 播放錄音`（單媒體用 E）；照片 overlay + 錄音播放 + 觸控路由 |
+| 9-F | ⬜ 待開工 | 內容鋪設：6 條殘響 / 11 採集點跨 5 場景 + 照片（生圖）/ 歌曲 / 雜訊 SFX / 店 BGM 素材 |
+| 9-G | ⬜ 待開工 | 收購（賣 vs 留）：對話式成交、每條專屬評語、只收已集滿、賣後標記已售出 + 媒體永久失效；`echo_lu_family` 不收 |
+| 9-H | ⬜ 待開工 | Phase 9 全鏈回歸 + 存讀檔驗證 + GUI / 觸控走查 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
@@ -363,6 +371,26 @@ NPC「晚」內容定稿：`subdocs/人/晚.md`。
 
 便利商店場景敘事 / layout / 互動物：`subdocs/地點/便利商店.md`。
 
+### Phase 9 子階段（三份對照）
+
+> 行號以 2026-06-13 版為準；大幅改寫後需校正。Phase 9 = 拾遺系統（殘響蒐集 + 收藏家），規劃已定稿、9-A~9-H 全部待開工。鑑定鏈不走 QuestManager；不做「還」流程 / TravelPanel / 時間系統。
+> 規格書 Phase 9 無「每子階段獨立驗收意圖段」，規格書欄位指對應系統語意段 + 子階段表（2475–2491）的對應列。
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 9 總覽 + 範圍 | 2386–2415 | 1962–1992 | 702–705 |
+| 9-A 殘響資料模型 + 筆記投影 | 2416–2424・2475 表 | 1993–2038 | 706–716 |
+| 9-B 時鐘取模組 | 2425–2432・2475 表 | 2039–2060 | 717–723 |
+| 9-C 暫時通道 + 收藏家 + 鑑定 | 2449–2461・2475 表 | 2061–2113 | 724–733 |
+| 9-D 感知採集 | 2433–2440・2475 表 | 2114–2130 | 734–742 |
+| 9-E 媒體層 | 2441–2448・2475 表 | 2131–2147 | 743–750 |
+| 9-F 內容鋪設 | 2462–2474・2475 表 | 2148–2154 | 751–755 |
+| 9-G 收購（賣 vs 留） | 2449–2455・2475 表 | 2155–2168 | 756–763 |
+| 9-H 回歸 + 走查 | 2475 表 | 2169–2172 | 764–771 |
+| 旗標 / 狀態一覽 | 2492–2503 | — | — |
+
+收藏家人物設定：`subdocs/人/鹿其琛.md`；收藏家的店場景：`subdocs/地點/收藏家的店.md`。
+
 - `遊戲規格書.md` Phase 規劃總覽 1272–1521（含 Phase 2 拆分 1510–1521）
 - `subdocs/地點/主角公寓.md` 機制鏈總覽 B0–B9 357–381
 - `開發設計方針.md` 本檔範圍與邊界 6–21
@@ -421,6 +449,8 @@ Phase 8-A~8-H 已完成並有測試覆蓋寫入 `tests/manual/test_runner.gd`。
 | `測試指南.md` | Headless 命令、手動驗收清單、Phase 2+ acceptance checklist |
 | `subdocs/地點/主角公寓.md` | 公寓場景敘事、互動物、Phase 2 B0-B9 流程、線索文字 |
 | `subdocs/人/主角設定.md` | 主角身份、敘事定位、AI 善後員 + 拾遺者設定 |
+| `subdocs/人/鹿其琛.md` | 收藏家 NPC：鹿家三少爺、鑑定 / 收購 / 「還」伏筆（Phase 9） |
+| `subdocs/地點/收藏家的店.md` | 收藏家的店場景：layout、互動物、暫時通道（Phase 9） |
 
 注意：`舊文件/` 是歷史 archive，除非使用者明確要求，開工時忽略。
 
@@ -451,6 +481,8 @@ Phase 8-A~8-H 已完成並有測試覆蓋寫入 `tests/manual/test_runner.gd`。
 架構主線：**Phase 5 — NPC + 對話（真系統）已完成（5-A~5-D 驗證通過）**。**Phase 6 — SaveSystem 已全數完成（6-A~6-F，headless 100 PASS / 0 FAIL）**：`SaveSystem` capture/apply/validate 純邏輯 + 回場路徑 + 多槽 + 標題 / 暫停選單 UI + 邊界處理皆上線並驗證；ConfirmDialog 重用缺陷已修並補回歸測試。剩 6-E/6-F 真機 GUI 走查為人工驗收項。**Phase 7 — QuestManager + `alley_backrooms_3f` vertical slice 已全數完成**：7-A~7-K（任務狀態系統、晚的對話接任務、後巷偵查事件、公寓窗戶條件入口、外牆場景骨架、梯子攀爬 / 外牆禁存、箱子搜索取得 A、R 查看得 B、回報晚完成任務含移除失敗防呆、回歸與存讀檔驗證、**結局分支 + `add_credits` + 親近對話**）已完成並驗證（headless PASS）。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
 
 **Phase 8 — 便利商店 vertical slice + 買賣系統：8-A~8-H 已完成並通過 headless + 人工 GUI / 純觸控走查。** 已完成可進入的便利商店室內場景、街道↔店內雙向轉場、前導對話 / `discovered_vendor_error` 聚合、公寓電腦兩段 gate 與 `repair_vendor_bot` 接案、5 線索蒐證、店控機器人診斷對話樹、店籍主機三段與兩種重置結局、買賣系統核心與 `ShopPanel`、街道迷你飲料商店 + 多商店資料化，以及人工對話與買賣系統 GUI / 純觸控走查。
+
+**Phase 9 — 拾遺系統（殘響蒐集 + 收藏家）：規劃已定稿，9-A~9-H 全部待開工。** 主軸：把主角副業「拾遺者」落地為真系統——時鐘取「老舊探測模組」→ 收藏家鹿其琛鑑定 → 解碼手套升級「拾遺手套」→ 感知採集 6 條殘響（11 點跨 5 場景）→ 筆記殘響分頁（`????` 佔位 + 集滿解鎖照片 / 錄音）→ 賣 vs 留（對話式收購、賣掉媒體永久失效）。新場景 `collector_shop` 經街道右端暫時通道進入。規格 / 契約 / 測試清單 / 兩份 subdocs 已寫入（對照表見上方 Phase 9 子階段）。**開工前注意：歌曲 / 錄音音訊素材管線未走過，建議 9-C 前先驗證可行性（本階段最高風險項）。**
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

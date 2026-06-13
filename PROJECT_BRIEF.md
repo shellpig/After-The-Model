@@ -220,7 +220,7 @@ note_id
 | 9-B | ✅ 完成 | 公寓時鐘取「老舊探測模組」+ 一次性線索筆記 `clue_probe_module_lead`（公寓解謎完成後開放；背包滿防呆） |
 | 9-C | ✅ 完成 | 街道右端暫時通道目的地選單 + `collector_shop` 場景 + 鹿其琛首見 / 鑑定 → 手套原地升級 `gleaner_gloves` + 口頭提及「還」；DialogueRunner 新增 `travel` / `install_module` / `sell_echo` effect + `echo_complete` / `echo_unsold` condition type；headless PASS |
 | 9-D | ✅ 完成 | 感知採集：`EchoPoint` Area2D 組件（微光 + 距離雜訊 + 靜止 ≥1 秒 gate + E 採集一次性）；裝備 `gleaner_gloves` 才 active；跨存讀檔保持；headless PASS |
-| 9-E | ⬜ 待開工 | 媒體層：集滿才出 `E: 看照片` / `R: 播放錄音`（單媒體用 E）；照片 overlay + 錄音播放 + 觸控路由 |
+| 9-E | ✅ 完成 | 媒體層：集滿才出 `E: 看照片` / `R: 播放錄音`（單媒體用 E）；照片 overlay + 錄音播放 + 觸控路由 |
 | 9-F | ⬜ 待開工 | 內容鋪設：4 條殘響 / 7 採集點跨 5 場景 + 照片（生圖）/ 歌曲 / 雜訊 SFX / 店 BGM 素材 |
 | 9-G | ⬜ 待開工 | 收購（賣 vs 留）：對話式成交、每條專屬評語、只收已集滿、賣後標記已售出 + 媒體永久失效；`echo_lu_family` 不收 |
 | 9-H | ⬜ 待開工 | Phase 9 全鏈回歸 + 存讀檔驗證 + GUI / 觸控走查 |

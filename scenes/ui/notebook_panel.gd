@@ -13,6 +13,7 @@ const CATEGORIES = ["身份", "工作", "線索", "殘響"]
 
 var is_input_active := false
 var active_category_index := 0
+var current_list_items := []
 
 
 func _ready() -> void:
@@ -105,7 +106,7 @@ func load_notebook_data() -> void:
 	_update_tab_styles()
 
 	var category: String = CATEGORIES[active_category_index]
-	var list_items: Array = []
+	current_list_items.clear()
 	
 	if category == "殘響":
 		for echo_id in EchoDB.ECHOES:
@@ -132,16 +133,16 @@ func load_notebook_data() -> void:
 						
 				var body_text = "\n\n".join(body_segments)
 				
-				list_items.append({
+				current_list_items.append({
 					"id": echo_id,
 					"title": display_title,
 					"body": body_text,
 					"is_echo": true
 				})
 	else:
-		list_items = GameState.get_notes(category)
+		current_list_items = GameState.get_notes(category)
 
-	if list_items.is_empty():
+	if current_list_items.is_empty():
 		var placeholder := Label.new()
 		placeholder.text = "（尚無筆記）" if category != "殘響" else "（尚無已發現的殘響）"
 		placeholder.custom_minimum_size.y = 32
@@ -149,9 +150,10 @@ func load_notebook_data() -> void:
 		placeholder.add_theme_font_size_override("font_size", 16)
 		placeholder.add_theme_color_override("font_color", Color(0.55, 0.55, 0.55, 1.0))
 		list_vbox.add_child(placeholder)
+		_update_footer_hints({})
 	else:
-		for i in range(list_items.size()):
-			var note: Dictionary = list_items[i]
+		for i in range(current_list_items.size()):
+			var note: Dictionary = current_list_items[i]
 			var btn := Button.new()
 			btn.text = note.get("title", "")
 			btn.custom_minimum_size.y = 32
@@ -211,10 +213,56 @@ func _on_note_selected(note: Dictionary, index: int) -> void:
 				child.add_theme_color_override("font_hover_color", Color(0.75, 0.75, 0.75, 1.0))
 				child.add_theme_color_override("font_focus_color", Color(0.75, 0.75, 0.75, 1.0))
 
+	# Stop active audio playback
+	var game_ui = get_parent()
+	if game_ui and game_ui.has_method("stop_echo_audio"):
+		game_ui.stop_echo_audio()
+
+	# Update footer hints dynamically
+	_update_footer_hints(note)
+
+func _update_footer_hints(note: Dictionary) -> void:
+	var hints = [
+		"A/D: 切分頁",
+		"W/S: 選筆記",
+		"I: 背包",
+		"Esc/J: 關閉"
+	]
+	
+	if note.get("is_echo", false):
+		var echo_id = note.get("id", "")
+		if GameState.is_echo_complete(echo_id) and not GameState.is_echo_sold(echo_id):
+			var echo_data = EchoDB.get_echo(echo_id)
+			var image_path = echo_data.get("image_path", "")
+			var audio_path = echo_data.get("audio_path", "")
+			var has_image = not image_path.is_empty()
+			var has_audio = not audio_path.is_empty()
+			
+			if has_image and has_audio:
+				hints.insert(0, "R: 播放錄音")
+				hints.insert(0, "E: 看照片")
+			elif has_image:
+				hints.insert(0, "E: 看照片")
+			elif has_audio:
+				hints.insert(0, "E: 播放錄音")
+
+	if panel_footer_hint is PanelFooterHint:
+		panel_footer_hint.set_hints(self, hints)
+	else:
+		var text_parts = []
+		for h in hints:
+			text_parts.append(str(h))
+		panel_footer_hint.text = "   ".join(text_parts)
+
 func _select_tab_index(index: int) -> void:
 	if active_category_index == index:
 		return
 	active_category_index = index
+	
+	var game_ui = get_parent()
+	if game_ui and game_ui.has_method("stop_echo_audio"):
+		game_ui.stop_echo_audio()
+		
 	load_notebook_data()
 
 func _change_tab(direction: int) -> void:
@@ -265,6 +313,39 @@ func _get_tab_button(index: int) -> Button:
 	return null
 
 
+func get_media_actions() -> Dictionary:
+	if active_category_index != 3:
+		return {}
+	
+	var current_focus = get_viewport().gui_get_focus_owner()
+	if current_focus != null and current_focus.get_parent() == list_vbox:
+		var idx = current_focus.get_index()
+		if idx >= 0 and idx < current_list_items.size():
+			var note = current_list_items[idx]
+			if note.get("is_echo", false):
+				var echo_id = note.get("id")
+				if GameState.is_echo_complete(echo_id) and not GameState.is_echo_sold(echo_id):
+					var echo_data = EchoDB.get_echo(echo_id)
+					var image_path = echo_data.get("image_path", "")
+					var audio_path = echo_data.get("audio_path", "")
+					var has_image = not image_path.is_empty()
+					var has_audio = not audio_path.is_empty()
+					
+					if has_image and has_audio:
+						return {"primary": "view_photo", "secondary": "play_audio"}
+					elif has_image:
+						return {"primary": "view_photo"}
+					elif has_audio:
+						return {"primary": "play_audio"}
+	return {}
+
+func idx_valid_for_media() -> bool:
+	var current_focus = get_viewport().gui_get_focus_owner()
+	if current_focus != null and current_focus.get_parent() == list_vbox:
+		var idx = current_focus.get_index()
+		return idx >= 0 and idx < current_list_items.size()
+	return false
+
 func _input(event: InputEvent) -> void:
 	if not is_input_active:
 		return
@@ -296,3 +377,41 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("ui_page_up") or event.is_action_pressed("ui_page_down"):
 		# Swallowed to turn off PgUp/PgDn functionality as requested
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("interact_primary"): # E
+		var media = get_media_actions()
+		if not media.is_empty():
+			var action = media.get("primary", "")
+			var current_focus = get_viewport().gui_get_focus_owner()
+			if idx_valid_for_media():
+				var idx = current_focus.get_index()
+				var note = current_list_items[idx]
+				var echo_id = note.get("id")
+				var echo_data = EchoDB.get_echo(echo_id)
+				if action == "view_photo":
+					var image_path = echo_data.get("image_path", "")
+					var game_ui = get_parent()
+					if game_ui and game_ui.has_method("open_photo_viewer"):
+						game_ui.open_photo_viewer(image_path, current_focus)
+						get_viewport().set_input_as_handled()
+				elif action == "play_audio":
+					var audio_path = echo_data.get("audio_path", "")
+					var game_ui = get_parent()
+					if game_ui and game_ui.has_method("toggle_echo_audio"):
+						game_ui.toggle_echo_audio(audio_path)
+						get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("interact_secondary"): # R
+		var media = get_media_actions()
+		if not media.is_empty():
+			var action = media.get("secondary", "")
+			var current_focus = get_viewport().gui_get_focus_owner()
+			if idx_valid_for_media():
+				var idx = current_focus.get_index()
+				var note = current_list_items[idx]
+				var echo_id = note.get("id")
+				var echo_data = EchoDB.get_echo(echo_id)
+				if action == "play_audio":
+					var audio_path = echo_data.get("audio_path", "")
+					var game_ui = get_parent()
+					if game_ui and game_ui.has_method("toggle_echo_audio"):
+						game_ui.toggle_echo_audio(audio_path)
+						get_viewport().set_input_as_handled()

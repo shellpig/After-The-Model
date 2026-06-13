@@ -351,10 +351,14 @@ func _update_dynamic_button_visibility() -> void:
 				btn_t.visible = false
 
 		UIMode.Mode.NOTEBOOK:
-			# 筆記本模式：沒有任何 E/R/T 面板行為，全數隱藏
-			btn_e.visible = false
-			btn_r.visible = false
-			btn_t.visible = false
+			if gu:
+				btn_e.visible = gu.can_primary_action()
+				btn_r.visible = gu.can_secondary_action()
+				btn_t.visible = false
+			else:
+				btn_e.visible = false
+				btn_r.visible = false
+				btn_t.visible = false
 
 		UIMode.Mode.MESSAGE:
 			# 訊息模式：E 鍵用於繼續；T 鍵為隱藏 skip 獨白捷徑；R 鍵隱藏

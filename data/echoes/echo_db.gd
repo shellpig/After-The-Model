@@ -3,7 +3,7 @@
 class_name EchoDB
 
 
-const ECHOES := {
+static var ECHOES := {
 	"echo_clerk": {
 		"title": "店員的殘響",
 		"segments": [

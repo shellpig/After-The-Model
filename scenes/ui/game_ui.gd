@@ -20,6 +20,7 @@ signal travel_requested(scene_id: String, entry_point_id: String)
 @onready var message_box: Control = $MessageBoxContainer/MessageBox
 @onready var message_label: Label = $MessageBoxContainer/MessageBox/MarginContainer/MessageLabel
 @onready var page_hint_label: Label = $MessageBoxContainer/MessageBox/PageHintLabel
+@onready var photo_viewer: Control = $PhotoViewer
 
 
 var _last_mode: int = UIMode.Mode.NONE
@@ -29,6 +30,7 @@ var _level_context: Node = null
 var _is_simple_message: bool = false
 var _monologue_active: bool = false
 var _current_prompt_data: Dictionary = {}
+var _audio_echo: AudioStreamPlayer = null
 
 # Typewriter variables for show_message
 var _message_full_text := ""
@@ -58,6 +60,7 @@ func _ready() -> void:
 	dialogue_panel.visible = false
 	pause_menu.visible = false
 	shop_panel.visible = false
+	photo_viewer.visible = false
 	page_hint_label.text = ""
 	page_hint_label.visible = false
 	
@@ -82,6 +85,12 @@ func _ready() -> void:
 	_audio_electromagnetic.stream = load("res://assets/sound/slot_electromagnetic.wav")
 	_audio_electromagnetic.volume_db = 6.0
 	add_child(_audio_electromagnetic)
+
+	# Setup echo audio player
+	_audio_echo = AudioStreamPlayer.new()
+	_audio_echo.name = "AudioEcho"
+	_audio_echo.volume_db = -6.0
+	add_child(_audio_echo)
 
 	GameState.note_added.connect(_on_note_added)
 
@@ -168,11 +177,18 @@ func _process(delta: float) -> void:
 				open_notebook()
 				return
 	elif current_mode == UIMode.Mode.NOTEBOOK:
-		if Input.is_action_just_pressed("open_notebook") or Input.is_action_just_pressed("ui_cancel"):
+		if Input.is_action_just_pressed("ui_cancel"):
+			if is_photo_viewer_open():
+				close_photo_viewer()
+			else:
+				close_all_ui()
+			return
+		if Input.is_action_just_pressed("open_notebook"):
 			close_all_ui()
 			return
 		if Input.is_action_just_pressed("open_inventory"):
-			open_inventory()
+			if not is_photo_viewer_open():
+				open_inventory()
 			return
 	elif current_mode == UIMode.Mode.CONTAINER:
 		# Guard against modal/confirm overrides
@@ -352,6 +368,39 @@ func shop_confirm() -> void:
 	if is_shop_open():
 		shop_panel.confirm_current()
 
+func open_photo_viewer(image_path: String, restore_focus_control: Control) -> void:
+	if photo_viewer:
+		notebook_panel.set_input_active(false)
+		photo_viewer.show_photo(image_path, restore_focus_control)
+
+func close_photo_viewer() -> void:
+	if photo_viewer:
+		photo_viewer.close_photo()
+
+func is_photo_viewer_open() -> bool:
+	return photo_viewer != null and photo_viewer.visible
+
+func toggle_echo_audio(audio_path: String) -> void:
+	if _audio_echo == null:
+		return
+	if _audio_echo.playing:
+		var current_path = _audio_echo.stream.resource_path if _audio_echo.stream else ""
+		_audio_echo.stop()
+		if current_path != audio_path:
+			var stream = load(audio_path)
+			if stream:
+				_audio_echo.stream = stream
+				_audio_echo.play()
+	else:
+		var stream = load(audio_path)
+		if stream:
+			_audio_echo.stream = stream
+			_audio_echo.play()
+
+func stop_echo_audio() -> void:
+	if _audio_echo != null and _audio_echo.playing:
+		_audio_echo.stop()
+
 
 func get_focused_item_context() -> Dictionary:
 	var current_mode := UIMode.get_mode()
@@ -381,15 +430,40 @@ func get_focused_item_context() -> Dictionary:
 				"source_pane": "left" if is_left else "right",
 				"available_actions": ["view", "discard", "move"]
 			}
+	elif current_mode == UIMode.Mode.NOTEBOOK:
+		if notebook_panel.has_method("get_media_actions"):
+			var media = notebook_panel.get_media_actions()
+			if not media.is_empty():
+				var actions = []
+				if media.has("primary"):
+					actions.append("primary")
+				if media.has("secondary"):
+					actions.append("secondary")
+				return {
+					"mode": current_mode,
+					"available_actions": actions
+				}
 	return {}
 
 func can_primary_action() -> bool:
+	if is_photo_viewer_open():
+		return true
 	var ctx := get_focused_item_context()
-	return not ctx.is_empty()
+	if ctx.is_empty():
+		return false
+	if ctx.get("mode") == UIMode.Mode.NOTEBOOK:
+		return "primary" in ctx.get("available_actions", [])
+	return true
 
 func can_secondary_action() -> bool:
+	if is_photo_viewer_open():
+		return false
 	var ctx := get_focused_item_context()
-	return not ctx.is_empty()
+	if ctx.is_empty():
+		return false
+	if ctx.get("mode") == UIMode.Mode.NOTEBOOK:
+		return "secondary" in ctx.get("available_actions", [])
+	return true
 
 func can_tertiary_action() -> bool:
 	var ctx := get_focused_item_context()
@@ -399,6 +473,10 @@ func can_tertiary_action() -> bool:
 	return item_meta.get("discardable", true) and not GameState.is_equipped(ctx["instance_id"])
 
 func _on_ui_mode_changed(new_mode: int) -> void:
+	if _last_mode == UIMode.Mode.NOTEBOOK and new_mode != UIMode.Mode.NOTEBOOK and new_mode != UIMode.Mode.MESSAGE:
+		stop_echo_audio()
+		close_photo_viewer()
+
 	if new_mode == UIMode.Mode.CONFIRM:
 		confirm_dialog.visible = true
 		return

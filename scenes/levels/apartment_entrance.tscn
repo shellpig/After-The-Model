@@ -31,7 +31,7 @@ size = Vector2(131, 345)
 size = Vector2(91, 270)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_vending"]
-size = Vector2(108, 285)
+size = Vector2(95, 285)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_wan"]
 size = Vector2(166, 300)
@@ -169,7 +169,7 @@ prompt_text = "E: █ 查看販賣機"
 message_id = "vending_machine"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/VendingMachineArea" unique_id=208123444]
-position = Vector2(3898, 533)
+position = Vector2(3891.5, 533)
 shape = SubResource("RectangleShape2D_interact_vending")
 debug_color = Color(1, 0, 0.7, 0.42)
 
@@ -196,38 +196,35 @@ prompt_text = "E: █ 離開街區"
 dialogue_id = "travel_street_east"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TravelStreetEastArea" unique_id=208123449]
-position = Vector2(3980, 525)
+position = Vector2(4028, 546)
 shape = SubResource("RectangleShape2D_interact_door")
 debug_color = Color(0.1, 0.1, 0.9, 0.42)
 
 [node name="EchoPoint1" type="Area2D" parent="Interactables" unique_id=1988580005]
-position = Vector2(950, 650)
+position = Vector2(126, 471)
 script = ExtResource("ext_echo_point")
 echo_id = "echo_room401_tenant"
 segment_id = "s3"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint1" unique_id=1988580006]
-position = Vector2(-807, -2)
 shape = SubResource("CircleShape2D_echo")
 
 [node name="EchoPoint2" type="Area2D" parent="Interactables" unique_id=1988580007]
-position = Vector2(1800, 650)
+position = Vector2(1468, 614)
 script = ExtResource("ext_echo_point")
 echo_id = "echo_song_rain_doesnt_stop"
 segment_id = "s1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint2" unique_id=1988580008]
-position = Vector2(-317, -12)
 shape = SubResource("CircleShape2D_echo")
 
 [node name="EchoPoint3" type="Area2D" parent="Interactables" unique_id=1988580009]
-position = Vector2(2900, 650)
+position = Vector2(3579, 624)
 script = ExtResource("ext_echo_point")
 echo_id = "echo_song_rain_doesnt_stop"
 segment_id = "s2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint3" unique_id=1988580010]
-position = Vector2(691, -17)
 shape = SubResource("CircleShape2D_echo")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=343229133]

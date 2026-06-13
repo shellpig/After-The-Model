@@ -1,0 +1,25 @@
+{
+  "source_files": [
+    "sprite-map-behind-desk-300h.png",
+    "sprite-behind-desk.png"
+  ],
+  "outputs": [
+    "sprite-map-behind-desk-300h-warm-thickline.png",
+    "sprite-behind-desk-warm-thickline.png",
+    "collector-shop-behind-desk-preview-warm-thickline.png",
+    "collector-shop-thickline-comparison.png"
+  ],
+  "intent": "Make Lu Qichen read less thin in the collector shop by adding heavier black silhouette contour and subtle local dark-line thickening while preserving the warm lighting grade.",
+  "parameters": {
+    "map_outer_outline_px": 2,
+    "map_inner_darkline_px": 1,
+    "map_inner_opacity": 0.55,
+    "full_outer_outline_px": 8,
+    "full_inner_darkline_px": 3,
+    "full_inner_opacity": 0.45,
+    "preview_anchor": [
+      1825,
+      455
+    ]
+  }
+}

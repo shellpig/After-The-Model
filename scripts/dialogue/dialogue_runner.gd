@@ -150,6 +150,8 @@ func _eval_condition_dict(cond: Dictionary) -> bool:
 			var item_id = cond.get("item_id", "")
 			var count = cond.get("count", 1)
 			current_val = GameState.has_item(item_id, count)
+			if target_val == null:
+				target_val = true
 		"has_note":
 			var note_id = cond.get("note_id", "")
 			if note_id.is_empty():

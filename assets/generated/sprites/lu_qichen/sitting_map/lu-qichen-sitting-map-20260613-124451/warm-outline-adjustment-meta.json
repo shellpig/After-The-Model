@@ -1,0 +1,25 @@
+{
+  "source_files": [
+    "sprite-map-behind-desk-300h.png",
+    "sprite-behind-desk.png"
+  ],
+  "outputs": [
+    "sprite-map-behind-desk-300h-warm-outline.png",
+    "sprite-behind-desk-warm-outline.png",
+    "collector-shop-behind-desk-preview-warm-outline.png",
+    "collector-shop-outline-comparison.png"
+  ],
+  "intent": "Selective heavier black outline for Lu Qichen: strong outer silhouette, minimal inner-line thickening limited to edge band, preserving warm grade and facial detail.",
+  "parameters": {
+    "map_outer_outline_px": 2,
+    "map_edge_band_px": 5,
+    "map_inner_edge_opacity": 0.34,
+    "full_outer_outline_px": 8,
+    "full_edge_band_px": 18,
+    "full_inner_edge_opacity": 0.28,
+    "preview_anchor": [
+      1825,
+      455
+    ]
+  }
+}

@@ -184,13 +184,12 @@ shape = SubResource("RectangleShape2D_inner_door")
 debug_color = Color(0.5, 0.5, 0.5, 0.42)
 
 [node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=1988580013]
-position = Vector2(1000, 650)
+position = Vector2(1363, 376)
 script = ExtResource("ext_echo_point")
 echo_id = "echo_lu_family"
 segment_id = "s1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=1988580014]
-position = Vector2(361, 0)
 shape = SubResource("CircleShape2D_echo")
 
 [node name="DeskForeground" type="Sprite2D" parent="." unique_id=987654350]

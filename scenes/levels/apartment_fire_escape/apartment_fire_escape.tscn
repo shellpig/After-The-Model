@@ -212,13 +212,12 @@ shape = SubResource("RectangleShape2D_box")
 debug_color = Color(1, 0.8, 0.1, 0.42)
 
 [node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=1988580003]
-position = Vector2(800, 620)
+position = Vector2(162, 626)
 script = ExtResource("ext_echo_point")
 echo_id = "echo_room401_tenant"
 segment_id = "s2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=1988580004]
-position = Vector2(-554, 12)
 shape = SubResource("CircleShape2D_echo")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=444787812]

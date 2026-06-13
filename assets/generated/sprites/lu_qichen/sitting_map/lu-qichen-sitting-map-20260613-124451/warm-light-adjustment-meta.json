@@ -1,0 +1,31 @@
+{
+  "source_files": [
+    "sprite-map-behind-desk-300h.png",
+    "sprite-behind-desk.png"
+  ],
+  "outputs": [
+    "sprite-map-behind-desk-300h-warm-light.png",
+    "sprite-behind-desk-warm-light.png",
+    "collector-shop-behind-desk-preview-warm-light.png",
+    "collector-shop-warm-light-comparison.png"
+  ],
+  "intent": "Subtle warm tungsten light grade to match collector shop yellow desk/ambient lighting while preserving transparent alpha and ink lines.",
+  "parameters": {
+    "warm_rgb": [
+      246,
+      184,
+      92
+    ],
+    "warm_strength_base": 0.055,
+    "channel_multipliers": [
+      1.035,
+      1.012,
+      0.925
+    ],
+    "green_add_alpha_scaled": 1.0,
+    "preview_anchor": [
+      1825,
+      455
+    ]
+  }
+}

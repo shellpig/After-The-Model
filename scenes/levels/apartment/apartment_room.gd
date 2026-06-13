@@ -223,6 +223,8 @@ func _ready() -> void:
 			if not want_clock_for_9b:
 				nearby_interactables.erase(clock)
 				clock.queue_free()
+			else:
+				clock.prompt_text = "E: █ 仔細檢查投影時鐘"
 
 		
 		# Ensure the slot container configuration is registered in GameState
@@ -486,6 +488,10 @@ func _on_interactable_exited(interactable: Area2D) -> void:
 
 func _refresh_current_interactable() -> void:
 	var closest_interactable := _get_closest_interactable()
+	if closest_interactable and closest_interactable.interaction_id == "projection_clock":
+		if GameState.has_knowledge("identity_door_unlock_method") and not GameState.get_flag("probe_module_taken", false):
+			closest_interactable.prompt_text = "E: █ 仔細檢查投影時鐘"
+
 	if current_interactable == closest_interactable:
 		return
 

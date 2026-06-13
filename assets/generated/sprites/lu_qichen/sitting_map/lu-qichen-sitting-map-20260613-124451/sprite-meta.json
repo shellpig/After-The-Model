@@ -1,0 +1,79 @@
+{
+  "asset": "Lu Qichen seated map NPC sprite",
+  "asset_id": "lu_qichen_sitting_map",
+  "version": "20260613-124451",
+  "source_reference": "C:\\Users\\User\\Downloads\\改坐姿,_手沒有特別靠著,_乾淨底圖方便去背_202606131240.jpeg",
+  "source_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\source-reference-20260613-124451.jpeg",
+  "raw_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\raw-source-20260613-124451.png",
+  "transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\lu-qichen-sitting-map-transparent-20260613-124451.png",
+  "adopted_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\sprite.png",
+  "map_convenience_sprite": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\sprite-map-360h.png",
+  "previews": {
+    "checker": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\preview-checker.png",
+    "dark": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\preview-dark.png",
+    "collector_shop_placement": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\collector-shop-placement-preview.png"
+  },
+  "recommended_scene_socket": {
+    "scene_id": "collector_shop",
+    "socket_id": "lu_qichen_socket",
+    "anchor": [
+      1825,
+      610
+    ],
+    "display_size": [
+      264,
+      360
+    ],
+    "render_above_map": true,
+    "notes": "Place behind/near collector desk. Existing desk may occlude lower torso if scene adds a mask or z-order foreground desk layer later."
+  },
+  "postprocess": {
+    "background_rgb": [
+      155,
+      154,
+      149
+    ],
+    "flood_fill_threshold": 34.0,
+    "source_size": [
+      896,
+      1200
+    ],
+    "alpha_bbox_original": [
+      36,
+      71,
+      828,
+      1165
+    ],
+    "alpha_bbox_padded": [
+      18,
+      53,
+      846,
+      1183
+    ],
+    "transparent_pixels": 566123,
+    "semi_transparent_pixels": 8540,
+    "opaque_pixels": 500537,
+    "output_size": [
+      828,
+      1130
+    ],
+    "map_sprite_size": [
+      264,
+      360
+    ]
+  },
+  "behind_desk_variant": {
+    "transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\sprite-behind-desk.png",
+    "map_convenience_sprite": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\sprite-map-behind-desk-300h.png",
+    "placement_preview": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\collector-shop-behind-desk-preview.png",
+    "display_size": [
+      263,
+      300
+    ],
+    "recommended_anchor": [
+      1825,
+      455
+    ],
+    "notes": "Recommended for current baked collector_shop map because the desk is baked into the background and cannot naturally occlude the full seated sprite."
+  }
+}

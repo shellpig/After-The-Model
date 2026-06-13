@@ -1,0 +1,25 @@
+{
+  "skill": "generate2dsprite",
+  "asset_type": "npc",
+  "action": "single / seated map placement",
+  "view": "side / slight 3-4 portrait for side-view map",
+  "bundle": "single_asset",
+  "art_style": "project-native",
+  "reference": "local_file user supplied",
+  "processor": "Pillow external-background flood fill + soft matte",
+  "files": {
+    "source_reference": "source-reference-20260613-124451.jpeg",
+    "raw_source": "raw-source-20260613-124451.png",
+    "transparent": "lu-qichen-sitting-map-transparent-20260613-124451.png",
+    "sprite": "sprite.png",
+    "map_sprite": "sprite-map-360h.png",
+    "preview_checker": "preview-checker.png",
+    "preview_dark": "preview-dark.png",
+    "map_preview": "collector-shop-placement-preview.png",
+    "metadata": "sprite-meta.json",
+    "prompt": "prompt-used.txt",
+    "behind_desk_transparent": "sprite-behind-desk.png",
+    "behind_desk_map_sprite": "sprite-map-behind-desk-300h.png",
+    "behind_desk_preview": "collector-shop-behind-desk-preview.png"
+  }
+}

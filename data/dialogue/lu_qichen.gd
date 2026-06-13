@@ -151,26 +151,68 @@ const TREE := {
 
 	"sell_clerk": {
 		"speaker": "鹿其琛",
-		"text": "（他聽完這段音訊殘響，長久地沉默著，最後發出一聲輕嘆）\n『阿達』……這個人我認得。他是那家店全自動化前最後的人類店員。他的這份不甘心，確實很有他的風格。這份殘響，我收下了。\n（獲得 300 credits）",
-		"effect": [
-			{"op": "sell_echo", "value": "echo_clerk"}
-		],
+		"text": "（他聽完這段音訊殘響，長久地沉默著，最後發出一聲輕嘆）\n『阿達』……這個人我認得。他是那家店全自動化前最後的人類店員。他的這份不甘心，確實很有他的風格。你想把這段記憶賣給我嗎？",
+		"choices": [
+			{
+				"label": "賣給他",
+				"effect": [
+					{"op": "sell_echo", "value": "echo_clerk"}
+				],
+				"goto": "sell_clerk_sold"
+			},
+			{
+				"label": "先自己留著",
+				"goto": "sell_menu"
+			}
+		]
+	},
+	"sell_clerk_sold": {
+		"speaker": "鹿其琛",
+		"text": "很好，這份殘響我收下了。\n（獲得了 300 credits。）",
 		"goto": "sell_done"
 	},
 	"sell_room401": {
 		"speaker": "鹿其琛",
-		"text": "（他摩挲著手杖的把手，看著顯現的舊照片）\n這是在401室住過的那家人。他們被強制遷走那天也是個雨夜。這些照片，記錄了他們在這個冰冷街區裡曾擁有過的溫暖。很有價值的檔案。\n（獲得 300 credits）",
-		"effect": [
-			{"op": "sell_echo", "value": "echo_room401_tenant"}
-		],
+		"text": "（他摩挲著手杖的把手，看著顯現的舊照片）\n這是在401室住過的那家人。他們被強制遷走那天也是個雨夜。這些照片，記錄了他們在這個冰冷街區裡曾擁有過的溫暖。很有價值的檔案。你想把這段記憶賣給我嗎？",
+		"choices": [
+			{
+				"label": "賣給他",
+				"effect": [
+					{"op": "sell_echo", "value": "echo_room401_tenant"}
+				],
+				"goto": "sell_room401_sold"
+			},
+			{
+				"label": "先自己留著",
+				"goto": "sell_menu"
+			}
+		]
+	},
+	"sell_room401_sold": {
+		"speaker": "鹿其琛",
+		"text": "很好，這份殘響我收下了。\n（獲得了 200 credits。）",
 		"goto": "sell_done"
 	},
 	"sell_song": {
 		"speaker": "鹿其琛",
-		"text": "（聽著古老的電子旋律在雜訊中流淌，他閉上眼睛，手指跟著節奏輕點）\n《雨還沒停》……那時候街頭巷尾隨處可聽見這首歌。自從串流資料庫被統一清理後，就再也找不到它了。你能把它拼湊完整，真是不簡單。\n（獲得 300 credits）",
-		"effect": [
-			{"op": "sell_echo", "value": "echo_song_rain_doesnt_stop"}
-		],
+		"text": "（聽著古老的電子旋律在雜訊中流淌，他閉上眼睛，手指跟著節奏輕點）\n《雨還沒停》……那時候街頭巷尾隨處可聽見這首歌。自從串流資料庫被統一清理後，就再也沒聽到了。你能把它拼湊完整，真是不簡單。你想把這段記憶賣給我嗎？",
+		"choices": [
+			{
+				"label": "賣給他",
+				"effect": [
+					{"op": "sell_echo", "value": "echo_song_rain_doesnt_stop"}
+				],
+				"goto": "sell_song_sold"
+			},
+			{
+				"label": "先自己留著",
+				"goto": "sell_menu"
+			}
+		]
+	},
+	"sell_song_sold": {
+		"speaker": "鹿其琛",
+		"text": "很好，這份殘響我收下了。\n（獲得了 150 credits。）",
 		"goto": "sell_done"
 	},
 	"sell_done": {

@@ -216,8 +216,8 @@ note_id
 | 8-F | ✅ 完成 | 買賣系統核心 + ShopPanel + `UIMode.SHOP`：`ITEMS_DB` 補 `value`（罐頭 20 / 營養棒 12 / 夾克 60 / 魔術方塊 1=折算 0 不可賣）；`SELL_RATIO 0.5` + `get_item_value` / `get_sell_value` / `is_sellable`（key_item / `sellable=false` / 折算 0 元皆擋）；`sell_item(instance_id)` 以焦點格定位（已裝備擋、不自動卸下、不回補店庫存）；`shop_states` lazy-init 自 `data/shops/shop_db.gd` catalog + `refresh_shop_stock` + `buy_item` 原子三檢（純讀檢查 → `add_item` 唯一可失敗變動 → 扣庫存扣 credits）+ 納入存讀檔 / reset；`ShopPanel` 雙欄（左貨架 名稱/買價/庫存、右背包 售價或灰掉，手動高亮不搶引擎焦點）+ FloatingToast 失敗提示；機器人 repaired 招呼結尾 `open_shop` effect（DialogueRunner pending → DialoguePanel 收尾交棒 GameUI，DIALOGUE 直切 SHOP）；TouchControls SHOP 路由（D-pad 經 GameUI 代理）；headless PASS |
 | 8-G | ✅ 完成 | 迷你飲料商店 + 多商店資料化：修好後街道外面販賣機直接開 `street_vending` ShopPanel；`data/shops/street_vending.gd` 飲料 catalog（`synth_cola` / `packaged_water`）接入 `shop_db.gd`；兩店庫存各自獨立並納入存讀檔 / reset；`tests/manual/test_runner.gd` 已加入 8-G 多商店資料化驗證；飲料 item icon 已整合 |
 | 8-H | ✅ 完成 | Phase 8 全鏈回歸 + 存讀檔驗證 + 人工對話 / 買賣系統 GUI / 純觸控走查 |
-| 9-A | ⬜ 待開工 | 殘響資料模型 + `echo_progress` 存讀檔 + 筆記「殘響」分頁投影（`????` 佔位）+ 8-E 店員殘響回寫 / 舊存檔 backfill |
-| 9-B | ⬜ 待開工 | 公寓時鐘取「老舊探測模組」+ 一次性線索筆記 `clue_probe_module_lead`（公寓解謎完成後開放；背包滿防呆） |
+| 9-A | ✅ 完成 | 殘響資料模型 + `echo_progress` 存讀檔 + 筆記「殘響」分頁投影（`????` 佔位）+ 8-E 店員殘響回寫 / 舊存檔 backfill |
+| 9-B | ✅ 完成 | 公寓時鐘取「老舊探測模組」+ 一次性線索筆記 `clue_probe_module_lead`（公寓解謎完成後開放；背包滿防呆） |
 | 9-C | ⬜ 待開工 | 街道右端暫時通道目的地選單 + `collector_shop` 場景 + 鹿其琛首見 / 鑑定 → 手套原地升級 `gleaner_gloves` + 口頭提及「還」 |
 | 9-D | ⬜ 待開工 | 感知採集：裝備拾遺手套時殘響點微光 + 漸強雜訊；靜止 ≥1 秒出提示；E 採集一次性、跨存讀檔保持 |
 | 9-E | ⬜ 待開工 | 媒體層：集滿才出 `E: 看照片` / `R: 播放錄音`（單媒體用 E）；照片 overlay + 錄音播放 + 觸控路由 |

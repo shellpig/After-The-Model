@@ -128,6 +128,13 @@ const STORY_NOTES := {
 		"title": "異常的售貨設備",
 		"body": "街上的自動販賣機和便利商店內的零售機器人都出現了類似的通訊混亂與行為異常。這看起來不像是單一設備的硬體故障，更像是系統層面的殘留問題。或許這能成為一筆新的善後委託，該回房間的電腦確認看看。",
 		"status": "active"
+	},
+	"clue_probe_module_lead": {
+		"id": "clue_probe_module_lead",
+		"category": "線索",
+		"title": "老舊的探測器",
+		"body": "從公寓投影時鐘底下拆出來的模組，看起來是用來探測某種微弱數位訊號的。\n既然大門已經解鎖，或許可以去街區外碰碰運氣。聽說街區最東端有個收廢舊電子玩意的『鹿三爺』，他對這種古怪老設備最感興趣，也許能找他看看。",
+		"status": "active"
 	}
 }
 
@@ -164,12 +171,26 @@ const ITEMS_DB := {
 		"category": "equipment",
 		"stackable": false,
 		"max_stack": 1,
-		"discardable": true,
+		"discardable": false,
+		"sellable": false,
 		"usable": true,
 		"equipment_slot": "hand",
 		"icon_path": "res://assets/generated/sprites/items/fingerless_gloves/icon.png",
 		"can_decode": true
 	},
+	"old_probe_module": {
+		"id": "old_probe_module",
+		"name": "老舊探測模組",
+		"description": "底座彈出的老舊探測模組。外殼有些磨損，指示燈已經熄滅。它看起來不像普通的儲存介質，更像某種專門用來接收特定頻段訊號的古老天線。",
+		"category": "misc",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": false,
+		"sellable": false,
+		"usable": false,
+		"icon_path": "res://assets/generated/sprites/items/old_probe_module/icon.png"
+	},
+
 	"canned_food": {
 		"id": "canned_food",
 		"name": "合成罐頭",

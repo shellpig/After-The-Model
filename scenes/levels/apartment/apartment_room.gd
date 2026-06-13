@@ -219,8 +219,11 @@ func _ready() -> void:
 	if GameState.apartment_sonar_revealed:
 		var clock = $Interactables.get_node_or_null("ProjectionClockArea")
 		if clock:
-			nearby_interactables.erase(clock)
-			clock.queue_free()
+			var want_clock_for_9b = GameState.has_knowledge("identity_door_unlock_method") and not GameState.get_flag("probe_module_taken", false)
+			if not want_clock_for_9b:
+				nearby_interactables.erase(clock)
+				clock.queue_free()
+
 		
 		# Ensure the slot container configuration is registered in GameState
 		GameState.configure_container("apartment_slot", 1, ["decoder_cube"], true)
@@ -434,7 +437,32 @@ func _trigger_interaction() -> void:
 						"message_text": MESSAGES.get("door_locked", "")
 					})
 			"projection_clock":
-				_start_sonar()
+				if GameState.has_knowledge("identity_door_unlock_method") and not GameState.get_flag("probe_module_taken", false):
+					# Phase 9-B interaction
+					if not GameState.add_item("old_probe_module", 1):
+						interaction_requested.emit({
+							"type": "message",
+							"message_text": "你發現了投影時鐘底部的面板微弱彈開，裡面露出一個老舊的探測模組。但你的背包太滿了，無法將它取出。整理一下空間後再查看吧。"
+						})
+						return
+					
+					GameState.set_flag("probe_module_taken", true)
+					GameState.add_knowledge(NOTES["clue_probe_module_lead"])
+					
+					var clock = $Interactables.get_node_or_null("ProjectionClockArea")
+					if clock:
+						nearby_interactables.erase(clock)
+						clock.queue_free()
+					_refresh_current_interactable()
+					
+					interaction_requested.emit({
+						"type": "message",
+						"message_text": "你將手套貼上投影時鐘底部的面板。伴隨著一陣微弱的氣流釋放聲，底座彈出了一個老舊的探測模組。這東西看起來比這間公寓還要古老。\n（獲得了「老舊探測模組」。）",
+						"note_title": "已記入筆記：老舊的探測器"
+					})
+				else:
+					_start_sonar()
+
 			"apartment_slot":
 				var c_id = "apartment_slot"
 				var c_data = CONTAINERS[c_id]
@@ -486,8 +514,12 @@ func _get_closest_interactable() -> Area2D:
 				and interactable.interaction_id != "desk_computer":
 			continue
 
-		if interactable.interaction_id == "projection_clock" and (not GameState.has_note("clue_projection_clock") or GameState.apartment_sonar_revealed):
-			continue
+		if interactable.interaction_id == "projection_clock":
+			var can_interact_9b = GameState.has_knowledge("identity_door_unlock_method") and not GameState.get_flag("probe_module_taken", false)
+			var can_interact_normal = GameState.has_note("clue_projection_clock") and not GameState.apartment_sonar_revealed
+			if not (can_interact_normal or can_interact_9b):
+				continue
+
 		if interactable.interaction_id == "apartment_slot" and (not GameState.apartment_sonar_revealed or GameState.apartment_slot_unlocked):
 			continue
 		if interactable.interaction_id == "fire_escape_window" and not _is_fire_escape_window_available():
@@ -601,11 +633,14 @@ func _reveal_hidden_slot() -> void:
 	GameState.apartment_sonar_revealed = true
 	_play_sonar_reveal()
 
-	# Completely remove projection clock interaction
+	# Completely remove projection clock interaction unless we need it for 9-B
 	var clock = $Interactables.get_node_or_null("ProjectionClockArea")
 	if clock:
-		nearby_interactables.erase(clock)
-		clock.queue_free()
+		var want_clock_for_9b = GameState.has_knowledge("identity_door_unlock_method") and not GameState.get_flag("probe_module_taken", false)
+		if not want_clock_for_9b:
+			nearby_interactables.erase(clock)
+			clock.queue_free()
+
 	
 	# Configure slot container in GameState
 	GameState.configure_container("apartment_slot", 1, ["decoder_cube"], true)

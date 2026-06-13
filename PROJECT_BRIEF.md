@@ -218,8 +218,8 @@ note_id
 | 8-H | ✅ 完成 | Phase 8 全鏈回歸 + 存讀檔驗證 + 人工對話 / 買賣系統 GUI / 純觸控走查 |
 | 9-A | ✅ 完成 | 殘響資料模型 + `echo_progress` 存讀檔 + 筆記「殘響」分頁投影（`????` 佔位）+ 8-E 店員殘響回寫 / 舊存檔 backfill |
 | 9-B | ✅ 完成 | 公寓時鐘取「老舊探測模組」+ 一次性線索筆記 `clue_probe_module_lead`（公寓解謎完成後開放；背包滿防呆） |
-| 9-C | ⬜ 待開工 | 街道右端暫時通道目的地選單 + `collector_shop` 場景 + 鹿其琛首見 / 鑑定 → 手套原地升級 `gleaner_gloves` + 口頭提及「還」 |
-| 9-D | ⬜ 待開工 | 感知採集：裝備拾遺手套時殘響點微光 + 漸強雜訊；靜止 ≥1 秒出提示；E 採集一次性、跨存讀檔保持 |
+| 9-C | ✅ 完成 | 街道右端暫時通道目的地選單 + `collector_shop` 場景 + 鹿其琛首見 / 鑑定 → 手套原地升級 `gleaner_gloves` + 口頭提及「還」；DialogueRunner 新增 `travel` / `install_module` / `sell_echo` effect + `echo_complete` / `echo_unsold` condition type；headless PASS |
+| 9-D | ✅ 完成 | 感知採集：`EchoPoint` Area2D 組件（微光 + 距離雜訊 + 靜止 ≥1 秒 gate + E 採集一次性）；裝備 `gleaner_gloves` 才 active；跨存讀檔保持；headless PASS |
 | 9-E | ⬜ 待開工 | 媒體層：集滿才出 `E: 看照片` / `R: 播放錄音`（單媒體用 E）；照片 overlay + 錄音播放 + 觸控路由 |
 | 9-F | ⬜ 待開工 | 內容鋪設：4 條殘響 / 7 採集點跨 5 場景 + 照片（生圖）/ 歌曲 / 雜訊 SFX / 店 BGM 素材 |
 | 9-G | ⬜ 待開工 | 收購（賣 vs 留）：對話式成交、每條專屬評語、只收已集滿、賣後標記已售出 + 媒體永久失效；`echo_lu_family` 不收 |

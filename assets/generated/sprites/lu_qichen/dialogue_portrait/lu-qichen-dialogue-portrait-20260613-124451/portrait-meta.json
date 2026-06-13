@@ -1,0 +1,33 @@
+{
+  "asset": "lu qichen dialogue portrait",
+  "source_reference": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\sitting_map\\lu-qichen-sitting-map-20260613-124451\\lu-qichen-sitting-map-transparent-20260613-124451.png",
+  "adopted_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\dialogue_portrait\\lu-qichen-dialogue-portrait-20260613-124451\\portrait.png",
+  "stamped_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\dialogue_portrait\\lu-qichen-dialogue-portrait-20260613-124451\\lu-qichen-dialogue-portrait-transparent-20260613-124451.png",
+  "intermediate_mirrored_crop": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\lu_qichen\\dialogue_portrait\\lu-qichen-dialogue-portrait-20260613-124451\\lu-qichen-dialogue-portrait-mirrored-crop-20260613-124451.png",
+  "postprocess": {
+    "operation": "horizontal mirror, upper-body crop, square dialogue canvas",
+    "head_direction": "right",
+    "source_size": [
+      828,
+      1130
+    ],
+    "crop_box": [
+      0,
+      0,
+      828,
+      1035
+    ],
+    "canvas_size": [
+      1024,
+      1024
+    ],
+    "paste_offset": [
+      102,
+      0
+    ],
+    "resized_subject_size": [
+      819,
+      1024
+    ]
+  }
+}

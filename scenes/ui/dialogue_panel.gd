@@ -54,6 +54,12 @@ func start_dialogue(dialogue_id: String) -> void:
 			portrait_rect.texture = load(img_path)
 		else:
 			portrait_rect.texture = null
+	elif dialogue_id == "lu_qichen":
+		var img_path = "res://assets/generated/sprites/lu_qichen/dialogue_portrait/lu-qichen-dialogue-portrait-20260613-124451/portrait.png"
+		if ResourceLoader.exists(img_path):
+			portrait_rect.texture = load(img_path)
+		else:
+			portrait_rect.texture = null
 	else:
 		portrait_rect.texture = null
 

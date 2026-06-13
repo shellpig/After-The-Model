@@ -13,6 +13,10 @@
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="11_walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_walk8"]
 [ext_resource type="Texture2D" uid="uid://bfim04c6vh6o" path="res://assets/generated/sprites/wan/idle/wan-idle-single-20260607-102716/wan-idle-transparent-20260607-102716.png" id="13_wan_idle"]
+[ext_resource type="Script" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
+radius = 45.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(3920, 16)
@@ -195,6 +199,33 @@ dialogue_id = "travel_street_east"
 position = Vector2(3980, 525)
 shape = SubResource("RectangleShape2D_interact_door")
 debug_color = Color(0.1, 0.1, 0.9, 0.42)
+
+[node name="EchoPoint1" type="Area2D" parent="Interactables" unique_id=1988580005]
+position = Vector2(950, 650)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_room401_tenant"
+segment_id = "s3"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint1" unique_id=1988580006]
+shape = SubResource("CircleShape2D_echo")
+
+[node name="EchoPoint2" type="Area2D" parent="Interactables" unique_id=1988580007]
+position = Vector2(1800, 650)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_song_rain_doesnt_stop"
+segment_id = "s1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint2" unique_id=1988580008]
+shape = SubResource("CircleShape2D_echo")
+
+[node name="EchoPoint3" type="Area2D" parent="Interactables" unique_id=1988580009]
+position = Vector2(2900, 650)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_song_rain_doesnt_stop"
+segment_id = "s2"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint3" unique_id=1988580010]
+shape = SubResource("CircleShape2D_echo")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=343229133]
 position = Vector2(730, 675)

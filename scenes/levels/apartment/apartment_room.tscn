@@ -22,6 +22,10 @@
 [ext_resource type="Texture2D" uid="uid://cgswxi137qnxy" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-08.png" id="18_gu8"]
 [ext_resource type="Texture2D" uid="uid://bdbo6hukb645n" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-09.png" id="18_gu9"]
 [ext_resource type="Texture2D" uid="uid://boky6mcqmfaot" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-10.png" id="18_gu10"]
+[ext_resource type="Script" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
+radius = 45.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0yl8"]
 size = Vector2(19.6875, 149)
@@ -235,6 +239,15 @@ prompt_text = "E: █ 爬出窗外"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ApartmentWindow" unique_id=1988570002]
 position = Vector2(668, 546)
 shape = SubResource("RectangleShape2D_window")
+
+[node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=1988580001]
+position = Vector2(400, 650)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_room401_tenant"
+segment_id = "s1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=1988580002]
+shape = SubResource("CircleShape2D_echo")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1571826996]
 position = Vector2(690, 700)

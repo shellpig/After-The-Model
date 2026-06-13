@@ -13,6 +13,10 @@
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="11_walk8"]
 [ext_resource type="Texture2D" uid="uid://gktul4kobkm2" path="res://assets/generated/maps/convenience_store_interior_map/convenience-store-interior-map-20260610-204000.png" id="12_store_map"]
 [ext_resource type="Texture2D" uid="uid://0tim3fxamcay" path="res://assets/generated/sprites/store_robot/map_npc/store-robot-map-npc-left-20260610-211947/sprite.png" id="13_robot_sprite"]
+[ext_resource type="Script" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
+radius = 45.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(2560, 16)
@@ -317,6 +321,15 @@ note_id = "clue_robot_plate"
 position = Vector2(1277, 535)
 shape = SubResource("RectangleShape2D_interact_plate")
 debug_color = Color(0, 0.8, 0.8, 0.42)
+
+[node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=1988580011]
+position = Vector2(1100, 650)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_song_rain_doesnt_stop"
+segment_id = "s3"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=1988580012]
+shape = SubResource("CircleShape2D_echo")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=2050827415]
 position = Vector2(720, 665)

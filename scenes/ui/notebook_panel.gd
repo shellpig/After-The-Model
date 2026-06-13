@@ -142,6 +142,8 @@ func load_notebook_data() -> void:
 						body_text += "\n\n(有一張照片)"
 					elif echo_id == "echo_song_rain_doesnt_stop":
 						body_text += "\n\n(有一首歌的錄音)"
+					elif echo_id == "echo_clerk":
+						body_text += "\n\n(有一段錄音)"
 				
 				current_list_items.append({
 					"id": echo_id,

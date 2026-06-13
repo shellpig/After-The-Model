@@ -31,6 +31,7 @@ var _is_simple_message: bool = false
 var _monologue_active: bool = false
 var _current_prompt_data: Dictionary = {}
 var _audio_echo: AudioStreamPlayer = null
+var _main: Node = null
 
 # Typewriter variables for show_message
 var _message_full_text := ""
@@ -90,6 +91,7 @@ func _ready() -> void:
 	_audio_echo = AudioStreamPlayer.new()
 	_audio_echo.name = "AudioEcho"
 	_audio_echo.volume_db = -6.0
+	_audio_echo.finished.connect(_on_echo_audio_finished)
 	add_child(_audio_echo)
 
 	GameState.note_added.connect(_on_note_added)
@@ -396,10 +398,36 @@ func toggle_echo_audio(audio_path: String) -> void:
 		if stream:
 			_audio_echo.stream = stream
 			_audio_echo.play()
+	_sync_bgm_to_echo()
 
-func stop_echo_audio() -> void:
+func stop_echo_audio(resume_bgm: bool = true) -> void:
 	if _audio_echo != null and _audio_echo.playing:
 		_audio_echo.stop()
+	# On scene change pass resume_bgm = false: the new scene plays its own BGM,
+	# so resuming the old one would be wrong (and play_bgm clears the duck state).
+	if resume_bgm:
+		_sync_bgm_to_echo()
+
+func _on_echo_audio_finished() -> void:
+	_sync_bgm_to_echo()
+
+# Pause the scene BGM while echo audio plays; resume it once nothing is playing.
+# Covers every stop path (manual toggle, panel close, track switch, natural end)
+# via a single rule keyed on _audio_echo.playing. pause/resume_bgm are idempotent.
+func _sync_bgm_to_echo() -> void:
+	var main := _get_main()
+	if main == null:
+		return
+	if _audio_echo != null and _audio_echo.playing:
+		if main.has_method("pause_bgm"):
+			main.pause_bgm()
+	elif main.has_method("resume_bgm"):
+		main.resume_bgm()
+
+func _get_main() -> Node:
+	if _main == null or not is_instance_valid(_main):
+		_main = get_tree().root.find_child("Main", true, false)
+	return _main
 
 
 func get_focused_item_context() -> Dictionary:
@@ -474,7 +502,9 @@ func can_tertiary_action() -> bool:
 
 func _on_ui_mode_changed(new_mode: int) -> void:
 	if _last_mode == UIMode.Mode.NOTEBOOK and new_mode != UIMode.Mode.NOTEBOOK and new_mode != UIMode.Mode.MESSAGE:
-		stop_echo_audio()
+		# Leaving the notebook does NOT stop echo audio: it plays out fully and
+		# the BGM resumes on its `finished` signal. Only a scene change cuts it
+		# short (see Main.transition_to -> stop_echo_audio(false)).
 		close_photo_viewer()
 
 	if new_mode == UIMode.Mode.CONFIRM:

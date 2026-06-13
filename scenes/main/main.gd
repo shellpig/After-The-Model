@@ -45,6 +45,10 @@ var _bgm_player2: AudioStreamPlayer
 var _active_player: AudioStreamPlayer = null
 var _current_bgm_path: String = ""
 var _bgm_tween: Tween = null
+# BGM pause/resume (used to duck BGM while echo audio plays)
+var _paused_player: AudioStreamPlayer = null
+var _bgm_volume_before_pause: float = -12.0
+var _bgm_pause_tween: Tween = null
 
 func _ready() -> void:
 	# Initialize BGM players
@@ -95,6 +99,11 @@ func transition_to(scene_id: String, entry_point_id: String = "", payload: Dicti
 		
 	# Reset UI mode to NONE before transition to prevent lingering states
 	UIMode.set_mode(UIMode.Mode.NONE)
+
+	# Cut any in-progress echo audio; the incoming scene plays its own BGM, so we
+	# stop without resuming the outgoing scene's track.
+	if game_ui and game_ui.has_method("stop_echo_audio"):
+		game_ui.stop_echo_audio(false)
 	
 	var packed := load(path) as PackedScene
 	if not packed:
@@ -233,6 +242,9 @@ func _on_level_scene_transition_requested(scene_id: String, entry_point_id: Stri
 # Global BGM Manager APIs
 # ==========================================
 func play_bgm(stream_path: String, fade_duration: float = 2.0) -> void:
+	# A new track takes over: drop any echo-duck state so the (previously paused)
+	# player is restored to a clean, audible baseline before we cross-fade.
+	_reset_bgm_pause_state()
 	if stream_path.is_empty():
 		stop_bgm(fade_duration)
 		return
@@ -274,6 +286,7 @@ func play_bgm(stream_path: String, fade_duration: float = 2.0) -> void:
 		_bgm_tween.chain().tween_callback(prev_player.stop)
 
 func stop_bgm(fade_duration: float = 2.0) -> void:
+	_reset_bgm_pause_state()
 	_current_bgm_path = ""
 	if not _active_player:
 		return
@@ -287,3 +300,47 @@ func stop_bgm(fade_duration: float = 2.0) -> void:
 
 func get_active_bgm_player() -> AudioStreamPlayer:
 	return _active_player
+
+# Fade out and pause the current BGM (e.g. while an echo track plays). Remembers
+# the player's pre-pause volume so dynamic volume tweaks are preserved on resume.
+func pause_bgm(fade_duration: float = 0.3) -> void:
+	if _active_player == null or _paused_player != null:
+		return
+	_paused_player = _active_player
+	_bgm_volume_before_pause = _paused_player.volume_db
+	if _bgm_pause_tween:
+		_bgm_pause_tween.kill()
+	var p := _paused_player
+	if fade_duration > 0.0:
+		_bgm_pause_tween = create_tween()
+		_bgm_pause_tween.tween_property(p, "volume_db", -80.0, fade_duration)
+		_bgm_pause_tween.tween_callback(func(): p.stream_paused = true)
+	else:
+		p.stream_paused = true
+
+# Unpause and fade the BGM back to its pre-pause volume. No-op if not paused.
+func resume_bgm(fade_duration: float = 0.3) -> void:
+	if _paused_player == null:
+		return
+	var p := _paused_player
+	_paused_player = null
+	if _bgm_pause_tween:
+		_bgm_pause_tween.kill()
+	p.stream_paused = false
+	if fade_duration > 0.0:
+		p.volume_db = -80.0
+		_bgm_pause_tween = create_tween()
+		_bgm_pause_tween.tween_property(p, "volume_db", _bgm_volume_before_pause, fade_duration)
+	else:
+		p.volume_db = _bgm_volume_before_pause
+
+# Abandon any echo-duck state, restoring the ducked player to its pre-pause
+# volume and unpaused. Called when a new BGM context takes over (play/stop_bgm).
+func _reset_bgm_pause_state() -> void:
+	if _bgm_pause_tween:
+		_bgm_pause_tween.kill()
+		_bgm_pause_tween = null
+	if _paused_player != null and is_instance_valid(_paused_player):
+		_paused_player.stream_paused = false
+		_paused_player.volume_db = _bgm_volume_before_pause
+	_paused_player = null

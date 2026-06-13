@@ -133,6 +133,12 @@ func load_notebook_data() -> void:
 						
 				var body_text = "\n\n".join(body_segments)
 				
+				if collected_count == total_segments and not sold:
+					if echo_id == "echo_room401_tenant":
+						body_text += "\n\n(有一張照片)"
+					elif echo_id == "echo_song_rain_doesnt_stop":
+						body_text += "\n\n(有一首歌的錄音)"
+				
 				current_list_items.append({
 					"id": echo_id,
 					"title": display_title,
@@ -213,10 +219,8 @@ func _on_note_selected(note: Dictionary, index: int) -> void:
 				child.add_theme_color_override("font_hover_color", Color(0.75, 0.75, 0.75, 1.0))
 				child.add_theme_color_override("font_focus_color", Color(0.75, 0.75, 0.75, 1.0))
 
-	# Stop active audio playback
-	var game_ui = get_parent()
-	if game_ui and game_ui.has_method("stop_echo_audio"):
-		game_ui.stop_echo_audio()
+	# Echo audio intentionally keeps playing when switching notes; it is only
+	# stopped by a scene change or when the track finishes.
 
 	# Update footer hints dynamically
 	_update_footer_hints(note)
@@ -258,11 +262,6 @@ func _select_tab_index(index: int) -> void:
 	if active_category_index == index:
 		return
 	active_category_index = index
-	
-	var game_ui = get_parent()
-	if game_ui and game_ui.has_method("stop_echo_audio"):
-		game_ui.stop_echo_audio()
-		
 	load_notebook_data()
 
 func _change_tab(direction: int) -> void:

@@ -5554,7 +5554,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	# Case C: Closing notebook stops audio
+	# Case C: Closing notebook does NOT stop audio (it plays out fully in background)
 	ui_instance.notebook_panel._select_tab_index(3)
 	await get_tree().process_frame
 	for child in notebook_list.get_children():
@@ -5566,10 +5566,13 @@ func _ready() -> void:
 	ui_instance.toggle_echo_audio(test_audio)
 	UIMode.set_mode(UIMode.Mode.NONE)
 	await get_tree().process_frame
-	if ui_instance._audio_echo.playing:
-		printerr("FAIL 9-E: Closing notebook mode should stop audio playback!")
+	if not ui_instance._audio_echo.playing:
+		printerr("FAIL 9-E: Closing notebook mode should NOT stop audio playback!")
 		get_tree().quit(1)
 		return
+	
+	# Stop echo audio manually to clean up for subsequent tests
+	ui_instance.stop_echo_audio()
 		
 	GameState.reset_for_new_game()
 	print("PASS 9-E: Dynamic media control hints, photo viewer overlay input gating, and audio interruption behavior verified.")
@@ -5593,14 +5596,9 @@ func _ready() -> void:
 	# 2. Verify EchoPoints in scenes
 	var scene_tests = [
 		{
-			"path": "res://scenes/levels/apartment/apartment_room.tscn",
-			"points": [
-				{"node": "Interactables/EchoPoint", "echo": "echo_room401_tenant", "seg": "s1"}
-			]
-		},
-		{
 			"path": "res://scenes/levels/apartment_fire_escape/apartment_fire_escape.tscn",
 			"points": [
+				{"node": "Interactables/EchoPointS1", "echo": "echo_room401_tenant", "seg": "s1"},
 				{"node": "Interactables/EchoPoint", "echo": "echo_room401_tenant", "seg": "s2"}
 			]
 		},
@@ -5665,7 +5663,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	print("PASS 9-F: All 7 EchoPoints configured across 5 level scenes, BGM path and old-photo asset presence verified.")
+	print("PASS 9-F: All 7 EchoPoints configured across level scenes, BGM path and old-photo asset presence verified.")
 	
 	# ----------------------------------------------------
 	# Phase 9-G Verification

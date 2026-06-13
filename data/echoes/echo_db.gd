@@ -52,7 +52,7 @@ const ECHOES := {
 				"text": "『我們在霓虹下告別，你說你下週就要去富人區當助理，此後再無音訊。』這首歌已經從所有的官方串流庫中被清理乾淨了。"
 			}
 		],
-		"audio_path": "res://assets/audio/echoes/echo_song_rain_doesnt_stop.ogg",
+		"audio_path": "res://assets/audio/echoes/echo_song_rain_doesnt_stop.mp3",
 		"sell_price": 150,
 		"comment": "這首歌……以前地鐵口常有流浪歌手自彈自唱。自從地鐵治安清理把他們趕走後，就再也沒聽到了。這段旋律值這個價。"
 	},

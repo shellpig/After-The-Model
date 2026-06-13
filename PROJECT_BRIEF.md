@@ -431,7 +431,7 @@ test_runner.tscn: PASS
 verify_game_state.gd: PASS
 ```
 
-Phase 8-A~8-H 已完成並有測試覆蓋寫入 `tests/manual/test_runner.gd`。人工對話與買賣系統 GUI / 純觸控走查已完成；最新 HEAD `b46a716` 為 Windows v0.8.8 build 匯出。本次 brief 同步未重新執行 Godot headless。
+Phase 8-A~8-H 已完成並有測試覆蓋寫入 `tests/manual/test_runner.gd`。人工對話與買賣系統 GUI / 純觸控走查已完成；最新 為 Windows v0.8.9 build 匯出。本次 brief 同步未重新執行 Godot headless。
 
 `git diff --check` 若只出現 LF -> CRLF warning，屬 Windows autocrlf 提示，不是 whitespace error。
 

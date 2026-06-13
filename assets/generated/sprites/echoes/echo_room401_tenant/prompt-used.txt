@@ -1,0 +1,3 @@
+User-supplied reference image processed as an in-game echo media asset.
+Asset purpose: old photo / memory image for echo_room401_tenant, the former tenant of room 401.
+Processing notes: preserved original composition and the visible room number 401; converted to PNG for Godot import; added a 960px-wide display derivative and a dark viewer preview for QA. No alpha cutout is required for this media image.

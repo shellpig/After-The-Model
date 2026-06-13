@@ -1,0 +1,36 @@
+{
+  "asset_id": "echo_room401_tenant_old_photo",
+  "echo_id": "echo_room401_tenant",
+  "kind": "echo_media_image",
+  "phase": 9,
+  "source_image": "C:\\Users\\User\\Downloads\\移除圖中的文字,_但保留401這個房號數字_202606131400.jpeg",
+  "source_reference": "source-reference-20260613-140000.jpeg",
+  "outputs": {
+    "recommended_image_path": "res://assets/generated/sprites/echoes/echo_room401_tenant/old-photo.png",
+    "display_derivative": "res://assets/generated/sprites/echoes/echo_room401_tenant/old-photo-960w.png",
+    "qa_preview": "res://assets/generated/sprites/echoes/echo_room401_tenant/preview-photo-viewer-1280x720.png"
+  },
+  "dimensions": {
+    "source": {
+      "width": 1200,
+      "height": 896
+    },
+    "recommended": {
+      "width": 1200,
+      "height": 896
+    },
+    "display_derivative": {
+      "width": 960,
+      "height": 717
+    },
+    "qa_preview": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "usage_notes": [
+    "Use as the image_path media for echo_room401_tenant once Phase 9 echo UI consumes media images.",
+    "The visible 401 room number is intentionally retained as a narrative clue.",
+    "This is a full rectangular old-photo asset, not a transparent sprite."
+  ]
+}

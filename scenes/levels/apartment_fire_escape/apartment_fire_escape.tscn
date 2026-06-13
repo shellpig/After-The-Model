@@ -20,10 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_walk8"]
 [ext_resource type="Texture2D" uid="uid://bhwuxemlhinxo" path="res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview - 4F.png" id="13_fg4f"]
 [ext_resource type="Texture2D" uid="uid://dgtssd6uew0l2" path="res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview-3F.png" id="14_fg3f"]
-[ext_resource type="Script" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
-radius = 45.0
+[ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_right4"]
 size = Vector2(208, 42)
@@ -45,6 +42,9 @@ size = Vector2(69, 130)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_box"]
 size = Vector2(97, 109)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
+radius = 45.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -218,6 +218,7 @@ echo_id = "echo_room401_tenant"
 segment_id = "s2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=1988580004]
+position = Vector2(-554, 12)
 shape = SubResource("CircleShape2D_echo")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=444787812]

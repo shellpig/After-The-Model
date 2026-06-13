@@ -1,43 +1,44 @@
 [gd_scene format=3 uid="uid://df247v78k404d"]
 
-[ext_resource type="Script" path="res://scenes/levels/collector_shop/collector_shop.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bsqlutg1ns6d0" path="res://scenes/levels/collector_shop/collector_shop.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_player"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
 [ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="4_walk1"]
 [ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="5_walk2"]
+[ext_resource type="Texture2D" uid="uid://4l5hfvqmv1vb" path="res://assets/generated/maps/collector_shop_map/collector-shop-map-20260613-122510-small2.png" id="6_6xh0k"]
 [ext_resource type="Texture2D" uid="uid://bex22wmsbwi1m" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="6_walk3"]
 [ext_resource type="Texture2D" uid="uid://sofbn2kttwre" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="7_walk4"]
 [ext_resource type="Texture2D" uid="uid://dutevb0poruvl" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="8_walk5"]
 [ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="9_walk6"]
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="10_walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="11_walk8"]
-[ext_resource type="Texture2D" path="res://assets/generated/maps/collector_shop_map/collector-shop-map-20260613-122510.png" id="12_bg"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/lu_qichen/sitting_map/lu-qichen-sitting-map-20260613-124451/sprite-map-behind-desk-300h.png" id="13_lu_sprite"]
-[ext_resource type="Script" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
-radius = 45.0
+[ext_resource type="Texture2D" uid="uid://cfjji0owttoht" path="res://assets/generated/maps/collector_shop_map/collector-shop-map-20260613-122510.png" id="12_bg"]
+[ext_resource type="Texture2D" uid="uid://dyau4ml0ki3kg" path="res://assets/generated/sprites/lu_qichen/sitting_map/lu-qichen-sitting-map-20260613-124451/sprite-map-behind-desk-300h.png" id="13_lu_sprite"]
+[ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(2560, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
-size = Vector2(152, 450)
+size = Vector2(79, 450)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_case_a"]
-size = Vector2(340, 500)
+size = Vector2(102, 363)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_case_b"]
-size = Vector2(255, 285)
+size = Vector2(92, 356)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_archive"]
-size = Vector2(610, 245)
+size = Vector2(98, 566)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lu"]
-size = Vector2(470, 355)
+size = Vector2(269, 378)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_inner_door"]
-size = Vector2(260, 565)
+size = Vector2(91, 565)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
+radius = 45.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -103,6 +104,7 @@ position_smoothing_speed = 8.0
 [node name="Ground" type="StaticBody2D" parent="Collision" unique_id=987654325]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground" unique_id=987654326]
+z_index = 1
 position = Vector2(1280, 684)
 shape = SubResource("RectangleShape2D_ground")
 debug_color = Color(0.78, 0.42, 0.2, 0.35)
@@ -120,7 +122,7 @@ interaction_id = "auto_door"
 prompt_text = "E: █ 回到街區"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EntranceDoorArea" unique_id=987654331]
-position = Vector2(164, 325)
+position = Vector2(217.5, 448)
 shape = SubResource("RectangleShape2D_door")
 debug_color = Color(0.9, 0.1, 0.1, 0.42)
 
@@ -130,7 +132,7 @@ interaction_id = "display_case_a"
 prompt_text = "E: █ 查看陳列架"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DisplayCaseAArea" unique_id=987654333]
-position = Vector2(730, 390)
+position = Vector2(1043, 508)
 shape = SubResource("RectangleShape2D_case_a")
 debug_color = Color(0.1, 0.9, 0.1, 0.42)
 
@@ -140,9 +142,9 @@ interaction_id = "display_case_b"
 prompt_text = "E: █ 查看陳列架"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DisplayCaseBArea" unique_id=987654335]
-position = Vector2(1037.5, 472.5)
+position = Vector2(728, 508)
 shape = SubResource("RectangleShape2D_case_b")
-debug_color = Color(0.1, 0.9, 0.1, 0.42)
+debug_color = Color(0.48034817, 0.7922006, 0.9549977, 0.41960785)
 
 [node name="WallArchiveArea" type="Area2D" parent="Interactables" unique_id=987654336]
 script = ExtResource("3_interactable")
@@ -150,7 +152,7 @@ interaction_id = "wall_archive"
 prompt_text = "E: █ 查看牆面檔案"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WallArchiveArea" unique_id=987654337]
-position = Vector2(1585, 242.5)
+position = Vector2(1503, 409)
 shape = SubResource("RectangleShape2D_archive")
 debug_color = Color(0.8, 0.8, 0.1, 0.42)
 
@@ -161,12 +163,14 @@ prompt_text = "E: █ 交談"
 dialogue_id = "lu_qichen"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/LuQichenArea" unique_id=987654339]
-position = Vector2(1795, 477.5)
+z_index = 1
+position = Vector2(1841.5, 489)
 shape = SubResource("RectangleShape2D_lu")
 debug_color = Color(0.1, 0.1, 0.9, 0.42)
 
 [node name="Sprite2D" type="Sprite2D" parent="Interactables/LuQichenArea" unique_id=987654340]
-position = Vector2(1825, 455)
+position = Vector2(1870.9995, 355)
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("13_lu_sprite")
 
 [node name="InnerDoorArea" type="Area2D" parent="Interactables" unique_id=987654341]
@@ -175,7 +179,7 @@ interaction_id = "inner_door"
 prompt_text = "E: █ 推推看裡門"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/InnerDoorArea" unique_id=987654342]
-position = Vector2(2330, 387.5)
+position = Vector2(2323.5, 389)
 shape = SubResource("RectangleShape2D_inner_door")
 debug_color = Color(0.5, 0.5, 0.5, 0.42)
 
@@ -186,11 +190,17 @@ echo_id = "echo_lu_family"
 segment_id = "s1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=1988580014]
+position = Vector2(361, 0)
 shape = SubResource("CircleShape2D_echo")
 
+[node name="DeskForeground" type="Sprite2D" parent="." unique_id=987654350]
+position = Vector2(1611, 306)
+texture = ExtResource("6_6xh0k")
+centered = false
+
 [node name="Player" type="CharacterBody2D" parent="." unique_id=987654343]
-position = Vector2(190, 665)
-scale = Vector2(0.8, 0.8)
+position = Vector2(190, 675)
+scale = Vector2(1.1, 1.1)
 script = ExtResource("2_player")
 min_x = 105.0
 max_x = 2360.0

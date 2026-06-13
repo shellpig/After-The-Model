@@ -5146,8 +5146,8 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	if lu_sprite.position != Vector2(1825, 455):
-		printerr("FAIL 9-C: Lu Qichen NPC sprite position should be [1825, 455]! Got: ", lu_sprite.position)
+	if lu_sprite.position != Vector2(1870.9995, 355):
+		printerr("FAIL 9-C: Lu Qichen NPC sprite position should be [1870.9995, 355]! Got: ", lu_sprite.position)
 		get_tree().quit(1)
 		return
 		

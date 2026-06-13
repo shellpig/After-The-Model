@@ -22,10 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://cgswxi137qnxy" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-08.png" id="18_gu8"]
 [ext_resource type="Texture2D" uid="uid://bdbo6hukb645n" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-09.png" id="18_gu9"]
 [ext_resource type="Texture2D" uid="uid://boky6mcqmfaot" path="res://assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-10.png" id="18_gu10"]
-[ext_resource type="Script" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
-radius = 45.0
+[ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0yl8"]
 size = Vector2(19.6875, 149)
@@ -41,6 +38,9 @@ size = Vector2(57, 220)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_window"]
 size = Vector2(60, 238)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
+radius = 45.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ijsgt"]
 animations = [{

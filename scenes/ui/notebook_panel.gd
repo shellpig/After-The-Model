@@ -1,10 +1,13 @@
 extends PanelContainer
 
-const CATEGORIES = ["身份", "工作", "線索"]
+const CATEGORIES = ["身份", "工作", "線索", "殘響"]
+
+const EchoDB = preload("res://data/echoes/echo_db.gd")
 
 @onready var tab_identity: Button = $VBoxContainer/TabBar/TabIdentity
 @onready var tab_work: Button = $VBoxContainer/TabBar/TabWork
 @onready var tab_clues: Button = $VBoxContainer/TabBar/TabClues
+@onready var tab_echoes: Button = $VBoxContainer/TabBar/TabEchoes
 @onready var list_container: ScrollContainer = $VBoxContainer/ContentSplit/ListContainer
 @onready var list_vbox: VBoxContainer = $VBoxContainer/ContentSplit/ListContainer/ListVBox
 @onready var body_label: RichTextLabel = $VBoxContainer/ContentSplit/BodyLabel
@@ -12,6 +15,7 @@ const CATEGORIES = ["身份", "工作", "線索"]
 
 var is_input_active := false
 var active_category_index := 0
+
 
 func _ready() -> void:
 	# Retrieve stylebox dynamically from sibling InventoryPanel to avoid hardcoded color drift
@@ -43,6 +47,7 @@ func _ready() -> void:
 	tab_identity.pressed.connect(func(): _select_tab_index(0))
 	tab_work.pressed.connect(func(): _select_tab_index(1))
 	tab_clues.pressed.connect(func(): _select_tab_index(2))
+	tab_echoes.pressed.connect(func(): _select_tab_index(3))
 
 	# Format footer hint text
 	if panel_footer_hint is PanelFooterHint:
@@ -60,7 +65,12 @@ func _ready() -> void:
 		if is_input_active:
 			load_notebook_data()
 	)
+	GameState.echo_changed.connect(func(_echo_id: String):
+		if is_input_active:
+			load_notebook_data()
+	)
 	set_process_input(false)
+
 
 func set_input_active(active: bool) -> void:
 	is_input_active = active
@@ -71,10 +81,20 @@ func set_input_active(active: bool) -> void:
 func _find_first_non_empty_category() -> int:
 	for i in range(CATEGORIES.size()):
 		var category: String = CATEGORIES[i]
-		var notes: Array = GameState.get_notes(category)
-		if not notes.is_empty():
-			return i
+		if category == "殘響":
+			var has_any = false
+			for echo_id in EchoDB.ECHOES:
+				if GameState.is_echo_known(echo_id):
+					has_any = true
+					break
+			if has_any:
+				return i
+		else:
+			var notes: Array = GameState.get_notes(category)
+			if not notes.is_empty():
+				return i
 	return 0
+
 
 func load_notebook_data() -> void:
 	# Clear previous list items immediately by removing them from tree
@@ -87,19 +107,53 @@ func load_notebook_data() -> void:
 	_update_tab_styles()
 
 	var category: String = CATEGORIES[active_category_index]
-	var notes: Array = GameState.get_notes(category)
+	var list_items: Array = []
+	
+	if category == "殘響":
+		for echo_id in EchoDB.ECHOES:
+			if GameState.is_echo_known(echo_id):
+				var echo_data = EchoDB.get_echo(echo_id)
+				var title = echo_data.get("title", "未命名殘響")
+				var collected_count = GameState.echo_progress.get(echo_id, {}).get("collected", []).size()
+				var total_segments = EchoDB.get_segment_count(echo_id)
+				var sold = GameState.is_echo_sold(echo_id)
+				
+				var display_title = title + "（" + str(collected_count) + "/" + str(total_segments) + "）"
+				if sold:
+					display_title += " [已售出]"
+				
+				var body_segments = []
+				var segments_list = echo_data.get("segments", [])
+				for idx in range(segments_list.size()):
+					var seg = segments_list[idx]
+					var seg_id = seg.get("id", "")
+					if GameState.has_echo_segment(echo_id, seg_id):
+						body_segments.append(seg.get("text", ""))
+					else:
+						body_segments.append("段落 " + str(idx + 1) + "：????")
+						
+				var body_text = "\n\n".join(body_segments)
+				
+				list_items.append({
+					"id": echo_id,
+					"title": display_title,
+					"body": body_text,
+					"is_echo": true
+				})
+	else:
+		list_items = GameState.get_notes(category)
 
-	if notes.is_empty():
+	if list_items.is_empty():
 		var placeholder := Label.new()
-		placeholder.text = "（尚無筆記）"
+		placeholder.text = "（尚無筆記）" if category != "殘響" else "（尚無已發現的殘響）"
 		placeholder.custom_minimum_size.y = 32
 		placeholder.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		placeholder.add_theme_font_size_override("font_size", 16)
 		placeholder.add_theme_color_override("font_color", Color(0.55, 0.55, 0.55, 1.0))
 		list_vbox.add_child(placeholder)
 	else:
-		for i in range(notes.size()):
-			var note: Dictionary = notes[i]
+		for i in range(list_items.size()):
+			var note: Dictionary = list_items[i]
 			var btn := Button.new()
 			btn.text = note.get("title", "")
 			btn.custom_minimum_size.y = 32
@@ -209,7 +263,9 @@ func _get_tab_button(index: int) -> Button:
 		0: return tab_identity
 		1: return tab_work
 		2: return tab_clues
+		3: return tab_echoes
 	return null
+
 
 func _input(event: InputEvent) -> void:
 	if not is_input_active:

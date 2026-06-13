@@ -12,6 +12,8 @@ signal flag_changed(key: String, value)
 signal quest_changed(quest_id: String, state: Dictionary)
 signal shop_changed(shop_id: String)
 signal note_added(note_data: Dictionary, is_update: bool)
+signal echo_changed(echo_id: String)
+
 
 # Variables
 var credits: int = 300
@@ -32,12 +34,13 @@ var apartment_slot_unlocked: bool = false
 var apartment_beyond_door_bgm_triggered: bool = false
 var story_flags: Dictionary = {}
 var quest_states: Dictionary = {}
-# 8-F：各店「當前庫存」可變狀態 { shop_id: { item_id: {price, stock} } }；
-# 首次 get_shop_stock() 時自 ShopDB catalog lazy-init；只在 refresh_shop_stock() 重設
 var shop_states: Dictionary = {}
+var echo_progress: Dictionary = {}
 
 const ShopDB = preload("res://data/shops/shop_db.gd")
+const EchoDB = preload("res://data/echoes/echo_db.gd")
 const SELL_RATIO := 0.5
+
 
 
 
@@ -351,6 +354,9 @@ func set_flag(key: String, value) -> void:
 	flag_changed.emit(key, value)
 	if key == "talked_outside_vendor" or key == "talked_store_robot":
 		_maybe_set_discovered_vendor_error()
+	if key == "store_robot_resolution":
+		_maybe_backfill_clerk_echo()
+
 
 # 8-B 發現錯誤聚合：兩台（街道販賣機 / 店內機器人）都互動過才視為「發現異常」；idempotent
 func _maybe_set_discovered_vendor_error() -> void:
@@ -1087,6 +1093,81 @@ func change_item_id(instance_id: String, new_item_id: String) -> bool:
 	return false
 
 # ==========================================
+# Echo Progress API (Phase 9-A)
+# ==========================================
+func collect_echo_segment(echo_id: String, segment_id: String) -> bool:
+	if echo_id.is_empty() or segment_id.is_empty():
+		return false
+	if not EchoDB.has_echo(echo_id):
+		return false
+	
+	if not echo_progress.has(echo_id):
+		echo_progress[echo_id] = {
+			"collected": [],
+			"sold": false
+		}
+	
+	var collected_arr: Array = echo_progress[echo_id]["collected"]
+	if collected_arr.has(segment_id):
+		return false
+		
+	collected_arr.append(segment_id)
+	echo_changed.emit(echo_id)
+	return true
+
+func record_full_echo(echo_id: String) -> void:
+	if not EchoDB.has_echo(echo_id):
+		return
+	
+	var echo_data = EchoDB.get_echo(echo_id)
+	var all_segments = []
+	for seg in echo_data.get("segments", []):
+		all_segments.append(seg.get("id", ""))
+		
+	echo_progress[echo_id] = {
+		"collected": all_segments,
+		"sold": false
+	}
+	echo_changed.emit(echo_id)
+
+func has_echo_segment(echo_id: String, segment_id: String) -> bool:
+	if not echo_progress.has(echo_id):
+		return false
+	return echo_progress[echo_id].get("collected", []).has(segment_id)
+
+func is_echo_known(echo_id: String) -> bool:
+	if not echo_progress.has(echo_id):
+		return false
+	return echo_progress[echo_id].get("collected", []).size() > 0
+
+func is_echo_complete(echo_id: String) -> bool:
+	if not echo_progress.has(echo_id):
+		return false
+	var collected_count = echo_progress[echo_id].get("collected", []).size()
+	return collected_count == EchoDB.get_segment_count(echo_id)
+
+func is_echo_sold(echo_id: String) -> bool:
+	if not echo_progress.has(echo_id):
+		return false
+	return echo_progress[echo_id].get("sold", false)
+
+func sell_echo(echo_id: String) -> bool:
+	if not is_echo_complete(echo_id) or is_echo_sold(echo_id):
+		return false
+		
+	var echo_data = EchoDB.get_echo(echo_id)
+	var price = echo_data.get("sell_price", 0)
+	add_credits(price)
+	echo_progress[echo_id]["sold"] = true
+	echo_changed.emit(echo_id)
+	return true
+
+func _maybe_backfill_clerk_echo() -> void:
+	if get_flag("store_robot_resolution", "") == "gleaned" and not is_echo_known("echo_clerk"):
+		record_full_echo("echo_clerk")
+
+
+# ==========================================
 # Internal Helpers
 # ==========================================
 func _sort_container(slots: Array) -> void:
@@ -1134,6 +1215,7 @@ func to_save_dict() -> Dictionary:
 		"story_flags": story_flags.duplicate(true),
 		"quest_states": quest_states.duplicate(true),
 		"shop_states": shop_states.duplicate(true),
+		"echo_progress": echo_progress.duplicate(true),
 		"_last_instance_id": _last_instance_id
 	}
 
@@ -1176,6 +1258,10 @@ func load_save_dict(data: Dictionary) -> void:
 		quest_states = data["quest_states"].duplicate(true)
 	if data.has("shop_states"):
 		shop_states = data["shop_states"].duplicate(true)
+	if data.has("echo_progress"):
+		echo_progress = data["echo_progress"].duplicate(true)
+	else:
+		echo_progress.clear()
 	if data.has("_last_instance_id"):
 		_last_instance_id = data["_last_instance_id"]
 
@@ -1190,6 +1276,10 @@ func load_save_dict(data: Dictionary) -> void:
 		quest_changed.emit(quest_id, quest_states[quest_id])
 	for shop_id in shop_states:
 		shop_changed.emit(shop_id)
+	for echo_id in echo_progress:
+		echo_changed.emit(echo_id)
+
+	_maybe_backfill_clerk_echo()
 
 func reset_for_new_game() -> void:
 	credits = 300
@@ -1213,10 +1303,12 @@ func reset_for_new_game() -> void:
 	story_flags.clear()
 	quest_states.clear()
 	shop_states.clear()
+	echo_progress.clear()
 
 	# Emit signals
 	inventory_changed.emit()
 	credits_changed.emit(credits)
 	notes_changed.emit()
 	equipment_changed.emit()
+
 

@@ -30,6 +30,12 @@ func _ready() -> void:
 	_scene_sprite_scale = anim.scale
 	anim.play("idle")
 	_apply_sprite_transform()
+	
+	# Add AudioListener2D dynamically so 2D sounds decay relative to the player
+	var listener = AudioListener2D.new()
+	listener.name = "AudioListener2D"
+	listener.make_current()
+	add_child(listener)
 
 func _physics_process(delta: float) -> void:
 	if UIMode.is_world_input_blocked():

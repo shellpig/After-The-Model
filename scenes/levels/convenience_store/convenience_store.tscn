@@ -323,13 +323,12 @@ shape = SubResource("RectangleShape2D_interact_plate")
 debug_color = Color(0, 0.8, 0.8, 0.42)
 
 [node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=1988580011]
-position = Vector2(1100, 650)
+position = Vector2(2363, 647)
 script = ExtResource("ext_echo_point")
 echo_id = "echo_song_rain_doesnt_stop"
 segment_id = "s3"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=1988580012]
-position = Vector2(-665, -9)
 shape = SubResource("CircleShape2D_echo")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=2050827415]

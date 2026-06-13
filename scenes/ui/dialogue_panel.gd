@@ -64,12 +64,20 @@ func start_dialogue(dialogue_id: String) -> void:
 func close_dialogue() -> void:
 	# 8-F：對話 effect 帶 open_shop 時，DIALOGUE 正常結束直接切 SHOP（不疊 overlay、不經 NONE）
 	var pending_shop_id := ""
+	var pending_travel := {}
 	if _runner != null:
 		pending_shop_id = _runner.pending_shop_id
+		if "pending_travel" in _runner:
+			pending_travel = _runner.pending_travel
 	visible = false
 	_is_input_active = false
 	_runner = null
 	dialogue_finished.emit()
+	if not pending_travel.is_empty():
+		var gu := get_parent()
+		if gu != null and gu.has_signal("travel_requested"):
+			gu.travel_requested.emit(pending_travel.get("scene_id", ""), pending_travel.get("entry_point_id", ""))
+			return
 	if not pending_shop_id.is_empty():
 		var gu := get_parent()
 		if gu != null and gu.has_method("open_shop"):

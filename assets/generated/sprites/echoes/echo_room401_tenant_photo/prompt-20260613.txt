@@ -1,0 +1,117 @@
+An old personal photograph, rendered as a flat cel-shaded indie
+comic illustration — NOT a real photograph, NOT photorealistic.
+This image exists inside a 2D cyberpunk game as a "found photo"
+artifact: a digital remnant recovered from erased data. It will
+be displayed as a full-screen overlay when the player completes
+collecting all fragments of this echo.
+
+Resolution: 512x384 (4:3 landscape, old photo proportions).
+
+## SUBJECT
+
+A middle-aged person standing at the doorway of a small
+apartment, seen from inside the hallway looking in. The door
+has a room number plate reading "401" — this is the KEY
+identifier and must be clearly legible.
+
+The person:
+- Age ~50-60, ordinary appearance, not glamorous — a regular
+  tenant, someone's neighbor
+- Standing in the doorway, one hand on the door frame, the
+  other holding a cardboard box or a bundle of belongings
+- Expression: quiet defiance mixed with resignation — they
+  are being moved out but chose this, they refused to
+  digitize their life
+- Dressed simply: a worn jacket, plain clothes, nothing
+  flashy — plebeian district resident
+- Looking back over their shoulder into the apartment one
+  last time, or facing the camera directly with a tired
+  calm stare
+
+The doorway / apartment glimpse:
+- Behind or around the person: a sliver of a small lived-in
+  apartment interior — a bookshelf edge, a window with
+  light, a plant, something personal
+- The hallway side (foreground): bare, institutional — cold
+  fluorescent light, concrete or painted wall
+- The contrast between the warm apartment interior (behind)
+  and the cold hallway (in front) tells the story: leaving
+  warmth for nowhere
+
+## PHOTO ARTIFACT FEEL
+
+This is not a clean modern digital image. It should feel like
+a recovered analog photo that has been digitized — data
+corruption and age coexist:
+
+- Slightly faded overall — colors desaturated as if printed
+  on old paper, then scanned
+- Soft vignette at edges (darker corners) — old camera lens
+- A few subtle scan artifacts: a faint horizontal line or
+  two, a tiny color shift in one corner — suggesting this
+  was pulled from corrupted storage
+- Edges slightly rough or torn — the original print was
+  handled many times
+- Warm color cast overall (faded amber tint) — old film
+
+## ★ RENDERING STYLE ★
+
+CRITICAL: This must match the game's art style, not look like
+a real photograph. It is a GAME ASSET, drawn in the same visual
+language as the rest of the world:
+
+- HAND-INKED BLACK OUTLINES on the person, doorframe, objects
+  — thick outer, thin inner, organic brush-pen wobble
+- FLAT CEL-SHADE coloring: each surface 2-3 tones max,
+  hard-edged shadow transitions
+- HALFTONE DOT PATTERN in midtone areas — moderate density,
+  plebeian district level (riso zine feel)
+- Mignola BLACK MASSES in deep shadows (hallway corners,
+  under the person's chin, shadow side of the box)
+- The "old photo" qualities (fading, vignette, scan lines)
+  are LAYERED ON TOP of the comic art style — not replacing
+  it
+
+Think: a hand-drawn comic illustration that has been printed,
+crumpled, stained, scanned, and partially corrupted — not a
+photograph that has been "cartoonified."
+
+## COLOR
+
+Plebeian district palette, further desaturated by age:
+
+- Dominant: faded deep teal (hallway wall), faded cream /
+  warm gray (apartment interior glimpse)
+- Person's clothes: faded olive / gray-blue / dark brown —
+  nothing bright
+- Warm accent: faded amber from the apartment interior light
+  leaking through the doorway — the only warmth in the image
+- Door / frame: dark wood brown or institutional gray
+- "401" plate: small metal plate, dark numerals on faded
+  cream — must be readable
+
+NO saturated orange (not a narrative marker — this is a found
+photo, not an environment object).
+NO bright colors, NO neon, NO cyber purple.
+NO pure white, NO pure black.
+
+Overall color mood: "a warm memory going cold" — the apartment
+side is warmer, the hallway side is colder, the person stands
+at the border.
+
+## STRICT DO NOT
+
+- DO NOT render as a real photograph or photorealistic image
+- DO NOT use anime style or chibi proportions
+- DO NOT make the person look dramatic, heroic, or tragic —
+  they are ordinary and quiet
+- DO NOT add text other than "401" on the door plate
+- DO NOT add game UI elements, frames, or borders
+- DO NOT make the room number illegible — "401" must read
+  clearly as it ties to the echo's story
+- DO NOT add other people in the photo
+- DO NOT use modern/clean digital aesthetic — this is old
+  and worn
+- DO NOT add orange as a narrative marker color
+- DO NOT use gradients or airbrush shading — flat cel-shade
+  with hard edges, then age/damage effects on top

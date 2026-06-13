@@ -10,6 +10,7 @@ var _tree: Dictionary = {}
 var _current_node_id: String = ""
 # 8-F：open_shop effect 不直接碰 UI；記下 shop_id，由 DialoguePanel 在對話收尾時交棒 GameUI.open_shop()
 var pending_shop_id: String = ""
+var pending_travel: Dictionary = {}
 
 func start(tree: Dictionary, start_node := "start") -> void:
 	_tree = tree
@@ -156,6 +157,18 @@ func _eval_condition_dict(cond: Dictionary) -> bool:
 			current_val = GameState.has_note(note_id)
 			if target_val == null:
 				target_val = true
+		"echo_complete":
+			var echo_id = cond.get("echo_id", "")
+			if echo_id.is_empty():
+				echo_id = cond.get("value", "")
+			current_val = GameState.is_echo_complete(echo_id)
+			target_val = true
+		"echo_unsold":
+			var echo_id = cond.get("echo_id", "")
+			if echo_id.is_empty():
+				echo_id = cond.get("value", "")
+			current_val = not GameState.is_echo_sold(echo_id)
+			target_val = true
 		"quest_flag":
 			var quest_id = cond.get("quest_id", "")
 			var key = cond.get("key", "")
@@ -249,6 +262,17 @@ func _apply_effect(eff: Dictionary) -> bool:
 		"open_shop":
 			pending_shop_id = eff.get("value", "")
 			return true
+		"travel":
+			pending_travel = {
+				"scene_id": eff.get("scene_id", ""),
+				"entry_point_id": eff.get("entry_point_id", "")
+			}
+			return true
+		"install_module":
+			return GameState.install_probe_module()
+		"sell_echo":
+			var echo_id = eff.get("value", "")
+			return GameState.sell_echo(echo_id)
 		_:
 			print("[DialogueRunner] Unknown effect op: ", op)
 			return true

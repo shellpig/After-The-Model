@@ -1,5 +1,7 @@
 # res://data/echoes/echo_db.gd
 # Static registry for the game's echoes (残响资料库)
+class_name EchoDB
+
 
 const ECHOES := {
 	"echo_clerk": {

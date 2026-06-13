@@ -1,0 +1,194 @@
+[gd_scene format=3 uid="uid://df247v78k404d"]
+
+[ext_resource type="Script" path="res://scenes/levels/collector_shop/collector_shop.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_player"]
+[ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
+[ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="4_walk1"]
+[ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="5_walk2"]
+[ext_resource type="Texture2D" uid="uid://bex22wmsbwi1m" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="6_walk3"]
+[ext_resource type="Texture2D" uid="uid://sofbn2kttwre" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="7_walk4"]
+[ext_resource type="Texture2D" uid="uid://dutevb0poruvl" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="8_walk5"]
+[ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="9_walk6"]
+[ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="10_walk7"]
+[ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="11_walk8"]
+[ext_resource type="Texture2D" path="res://assets/generated/maps/collector_shop_map/collector-shop-map-20260613-122510.png" id="12_bg"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/lu_qichen/sitting_map/lu-qichen-sitting-map-20260613-124451/sprite-map-behind-desk-300h.png" id="13_lu_sprite"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(2560, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(152, 450)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_case_a"]
+size = Vector2(340, 500)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_case_b"]
+size = Vector2(255, 285)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_archive"]
+size = Vector2(610, 245)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lu"]
+size = Vector2(470, 355)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_inner_door"]
+size = Vector2(260, 565)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_player"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_walk2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_walk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_walk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_walk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_walk4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_walk5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_walk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_walk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_walk8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(24, 454)
+
+[node name="CollectorShop" type="Node2D" unique_id=987654321]
+script = ExtResource("1_script")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=987654322]
+texture = ExtResource("12_bg")
+centered = false
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=987654323]
+position = Vector2(640, 360)
+limit_left = 0
+limit_top = 0
+limit_right = 2560
+limit_bottom = 720
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="Collision" type="Node2D" parent="." unique_id=987654324]
+
+[node name="Ground" type="StaticBody2D" parent="Collision" unique_id=987654325]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground" unique_id=987654326]
+position = Vector2(1280, 684)
+shape = SubResource("RectangleShape2D_ground")
+debug_color = Color(0.78, 0.42, 0.2, 0.35)
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=987654327]
+
+[node name="from_street" type="Marker2D" parent="SpawnPoints" unique_id=987654328]
+position = Vector2(190, 665)
+
+[node name="Interactables" type="Node2D" parent="." unique_id=987654329]
+
+[node name="EntranceDoorArea" type="Area2D" parent="Interactables" unique_id=987654330]
+script = ExtResource("3_interactable")
+interaction_id = "auto_door"
+prompt_text = "E: █ 回到街區"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EntranceDoorArea" unique_id=987654331]
+position = Vector2(164, 325)
+shape = SubResource("RectangleShape2D_door")
+debug_color = Color(0.9, 0.1, 0.1, 0.42)
+
+[node name="DisplayCaseAArea" type="Area2D" parent="Interactables" unique_id=987654332]
+script = ExtResource("3_interactable")
+interaction_id = "display_case_a"
+prompt_text = "E: █ 查看陳列架"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DisplayCaseAArea" unique_id=987654333]
+position = Vector2(730, 390)
+shape = SubResource("RectangleShape2D_case_a")
+debug_color = Color(0.1, 0.9, 0.1, 0.42)
+
+[node name="DisplayCaseBArea" type="Area2D" parent="Interactables" unique_id=987654334]
+script = ExtResource("3_interactable")
+interaction_id = "display_case_b"
+prompt_text = "E: █ 查看陳列架"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DisplayCaseBArea" unique_id=987654335]
+position = Vector2(1037.5, 472.5)
+shape = SubResource("RectangleShape2D_case_b")
+debug_color = Color(0.1, 0.9, 0.1, 0.42)
+
+[node name="WallArchiveArea" type="Area2D" parent="Interactables" unique_id=987654336]
+script = ExtResource("3_interactable")
+interaction_id = "wall_archive"
+prompt_text = "E: █ 查看牆面檔案"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WallArchiveArea" unique_id=987654337]
+position = Vector2(1585, 242.5)
+shape = SubResource("RectangleShape2D_archive")
+debug_color = Color(0.8, 0.8, 0.1, 0.42)
+
+[node name="LuQichenArea" type="Area2D" parent="Interactables" unique_id=987654338]
+script = ExtResource("3_interactable")
+interaction_id = "talk_lu"
+prompt_text = "E: █ 交談"
+dialogue_id = "lu_qichen"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/LuQichenArea" unique_id=987654339]
+position = Vector2(1795, 477.5)
+shape = SubResource("RectangleShape2D_lu")
+debug_color = Color(0.1, 0.1, 0.9, 0.42)
+
+[node name="Sprite2D" type="Sprite2D" parent="Interactables/LuQichenArea" unique_id=987654340]
+position = Vector2(1825, 455)
+texture = ExtResource("13_lu_sprite")
+
+[node name="InnerDoorArea" type="Area2D" parent="Interactables" unique_id=987654341]
+script = ExtResource("3_interactable")
+interaction_id = "inner_door"
+prompt_text = "E: █ 推推看裡門"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/InnerDoorArea" unique_id=987654342]
+position = Vector2(2330, 387.5)
+shape = SubResource("RectangleShape2D_inner_door")
+debug_color = Color(0.5, 0.5, 0.5, 0.42)
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=987654343]
+position = Vector2(190, 665)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("2_player")
+min_x = 105.0
+max_x = 2360.0
+walk_line_y = 665.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=987654344]
+position = Vector2(20, -184)
+sprite_frames = SubResource("SpriteFrames_player")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=987654345]
+position = Vector2(30, -221)
+shape = SubResource("RectangleShape2D_player")
+debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)

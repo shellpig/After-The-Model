@@ -10,7 +10,7 @@ const SCENES := {
 	"apartment_entrance": {
 		"path": "res://scenes/levels/apartment_entrance.tscn",
 		"default_entry_point_id": "from_apartment",
-		"entry_points": ["from_apartment", "from_store"],
+		"entry_points": ["from_apartment", "from_store", "from_collector_shop"],
 		"music_id": "street_rain"
 	},
 	"convenience_store": {
@@ -24,6 +24,12 @@ const SCENES := {
 		"default_entry_point_id": "from_window",
 		"entry_points": ["from_window"],
 		"music_id": "street_rain"
+	},
+	"collector_shop": {
+		"path": "res://scenes/levels/collector_shop/collector_shop.tscn",
+		"default_entry_point_id": "from_street",
+		"entry_points": ["from_street"],
+		"music_id": "collector_shop"
 	}
 }
 
@@ -52,6 +58,8 @@ func _ready() -> void:
 
 	# Register GameUI reference to TouchControls Autoload
 	TouchControls.set_game_ui(game_ui)
+	if game_ui.has_signal("travel_requested"):
+		game_ui.travel_requested.connect(_on_travel_requested)
 	# Load default scene or pending load slot
 	if SaveSystem.pending_load_slot != -1:
 		var slot = SaveSystem.pending_load_slot
@@ -61,6 +69,9 @@ func _ready() -> void:
 			start_new_game()
 	else:
 		transition_to("apartment", "wake_bed")
+
+func _on_travel_requested(scene_id: String, entry_point_id: String) -> void:
+	transition_to(scene_id, entry_point_id, {})
 
 func transition_to(scene_id: String, entry_point_id: String = "", payload: Dictionary = {}, restore: Dictionary = {}) -> void:
 	if not SCENES.has(scene_id):

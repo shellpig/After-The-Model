@@ -1,0 +1,48 @@
+{
+  "asset": "old_probe_module item icon",
+  "version": "20260613-131313",
+  "source_reference": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\items\\old_probe_module\\source-reference-20260613-131313.jpeg",
+  "raw_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\items\\old_probe_module\\raw-source-20260613-131313.png",
+  "source_clean_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\items\\old_probe_module\\source-clean-transparent.png",
+  "icon": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\items\\old_probe_module\\icon.png",
+  "preview_2x_dark": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\items\\old_probe_module\\preview-2x-dark.png",
+  "postprocess": {
+    "source_size": [
+      1024,
+      1024
+    ],
+    "alpha_bbox_original": [
+      187,
+      282,
+      837,
+      743
+    ],
+    "alpha_bbox_padded": [
+      163,
+      258,
+      861,
+      767
+    ],
+    "transparent_output_size": [
+      698,
+      509
+    ],
+    "icon_size": [
+      64,
+      64
+    ],
+    "icon_subject_size": [
+      56,
+      41
+    ],
+    "transparent_pixels_initial": 868667,
+    "semi_transparent_pixels_initial": 140,
+    "opaque_pixels_initial": 179769,
+    "removed_noise_pixels": 161,
+    "largest_component_pixels": 179748
+  },
+  "notes": [
+    "Uses user supplied PCB-style probe module image, replacing earlier gray circular concept as active old_probe_module icon.",
+    "Checkerboard background in JPEG was removed by edge-connected neutral-bright flood fill, then largest foreground component kept."
+  ]
+}

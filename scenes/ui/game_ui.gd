@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal travel_requested(scene_id: String, entry_point_id: String)
+
 @onready var prompt_panel: Control = $PromptPanel
 @onready var prompt_label: Label = $PromptPanel/MarginContainer/PromptLabel
 @onready var ui_overlay: ColorRect = $UIOverlay

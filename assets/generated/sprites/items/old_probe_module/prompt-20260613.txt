@@ -1,0 +1,45 @@
+HD 2D illustration with riso print grain, cyberpunk near-future setting.
+Inventory icon, 64x64 pixels, fully transparent background, no border, no card,
+no rounded rectangle. Single object centered, 4-6 pixel safe margin from edges.
+View angle: slight top-down 15 degrees, not pure side, not pure top.
+Line art: 1-2 pixel dark brown or black outlines, clean.
+Shading: flat cell shading, single light source from top-right 45 degrees,
+no gradients, no glow, no rim light.
+Halftone: subtle riso grain only on shaded sides, never overpowering the subject.
+Color palette: 3-5 desaturated colors picked from a plebeian district palette,
+no high saturation, no neon, no rainbow.
+
+Subject: a small, old electronic probe module — a palm-sized rectangular
+circuit board with a chunky connector port on one end. This is a pre-AI era
+"echo receiver" module, removed from inside a wall-mounted detection terminal.
+It is meant to be installed into a glove, so it is flat and compact.
+
+Visual details:
+- A small rectangular PCB (printed circuit board) shape, roughly thumb-sized,
+  slightly thicker than modern electronics — chunky, outdated tech feel.
+- One end has a visible multi-pin connector port (the interface that plugs
+  into the glove) — a small dark rectangular socket with tiny pin dots.
+- Surface has a few visible circuit traces / solder points — simplified as
+  thin lines and small dots, NOT photorealistic circuitry.
+- One or two tiny discrete components on the board surface (a small capacitor
+  shape, a resistor shape) — just enough to read as "old electronics."
+- A faded label or serial number area on one side — a small lighter rectangle
+  with illegible marks (no readable text).
+- Edges slightly worn, one corner maybe chipped — this thing is decades old.
+- Overall shape reads as "old tech module" at a glance, even at 64px.
+
+Color:
+- Board base: muted olive-green / dark teal-green (classic PCB green, desaturated).
+- Circuit traces: faded copper / dark gold-brown (thin lines on the board).
+- Connector port: dark gray / near-black plastic.
+- Components: dark gray, muted warm brown.
+- Label area: faded cream / off-white rectangle.
+- Wear marks: slightly darker patches at edges.
+
+NO orange, NO bright gold, NO neon, NO cyber purple.
+This is a forgotten piece of old tech — muted, worn, unassuming.
+
+Do NOT include: text, numbers, brand logos, photoreal rendering,
+anime exaggeration, chibi proportions, background, ground shadow.
+Do NOT make it look modern, sleek, or high-tech — it is old and chunky.
+Do NOT add glowing LEDs or active indicator lights — it is unpowered.

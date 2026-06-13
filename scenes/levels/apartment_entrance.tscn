@@ -111,6 +111,9 @@ position = Vector2(730, 675)
 [node name="from_store" type="Marker2D" parent="SpawnPoints" unique_id=1399035964]
 position = Vector2(3060, 675)
 
+[node name="from_collector_shop" type="Marker2D" parent="SpawnPoints" unique_id=1399035965]
+position = Vector2(3950, 675)
+
 [node name="Interactables" type="Node2D" parent="." unique_id=542570424]
 
 [node name="BackToApartmentArea" type="Area2D" parent="Interactables" unique_id=70679196]
@@ -181,6 +184,17 @@ debug_color = Color(0.1, 0.9, 0.1, 0.42)
 position = Vector2(2203.88, 556.88)
 scale = Vector2(0.24, 0.23)
 texture = ExtResource("13_wan_idle")
+
+[node name="TravelStreetEastArea" type="Area2D" parent="Interactables" unique_id=208123448]
+script = ExtResource("4_interactable")
+interaction_id = "travel_street_east"
+prompt_text = "E: █ 離開街區"
+dialogue_id = "travel_street_east"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TravelStreetEastArea" unique_id=208123449]
+position = Vector2(3980, 525)
+shape = SubResource("RectangleShape2D_interact_door")
+debug_color = Color(0.1, 0.1, 0.9, 0.42)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=343229133]
 position = Vector2(730, 675)

@@ -1,0 +1,110 @@
+A half-body character sprite for a 2D side-scrolling cyberpunk
+game NPC. Single character, SEATED POSE, visible from WAIST UP
+only. SOLID flat magenta background (#FF00FF — NO gradients, NO
+scene, NO furniture, NO desk, NO chair, NO shadow, NO context
+— pure single-color chroma backdrop for compositing onto an
+existing game map).
+
+This character is 鹿其琛 (Lu Qichen), known as 鹿三爺 — the
+third young master of the ancient Lu clan, a wealthy old-money
+family. Age ~45-50. A collector who sits behind his desk all
+day appraising pre-AI era relics. He has a leg injury and
+rarely stands. This sprite will be placed behind a desk in
+his room scene — only the upper body will be visible in-game.
+
+## WHAT TO DRAW
+
+- WAIST UP ONLY — cut off naturally below the waist / at
+  hip level, as if the rest is behind a desk
+- Seated posture: torso slightly forward-leaning, like
+  examining an object on a surface in front of him
+- One arm forward / slightly extended (resting on an unseen
+  desk surface), the other relaxed at side
+- Head turned very slightly — 3/4 profile view (~30° off
+  frontal), looking downward at something
+- The frame should show him from roughly hip level to the
+  top of his head, with a little breathing room above
+
+## CHARACTER DESIGN
+
+Male, ~45-50, medium-lean build. East-Asian features.
+Distinguished, composed, quietly authoritative.
+
+FACE:
+- Calm, appraising downward gaze — absorbed in examining
+- Thin metal-frame glasses: DARK GOLD / antique brass,
+  round or half-rim, old-fashioned scholarly style
+- Hair: graying dark, swept back neatly with texture and
+  slight wave, a few loose strands at the temple
+- Clean-shaven or very faint stubble
+- Lines around eyes, slight hollow cheekbones — age, not
+  neglect
+- Face = ~10 hand-drawn ink marks on flat skin (Art Bible
+  rule): eyes as small dark ink shapes behind glasses,
+  mouth a short ink line, nose a few suggestive lines
+
+OUTFIT (visible portion — waist up):
+- ★ NEAR-BLACK LONG VEST over a DARK IVORY SHIRT ★
+- The vest: deep ink black with subtle cold blue undertone,
+  structured but draping with weight (quality wool or heavy
+  silk), 5-6 small DARK GOLD / ANTIQUE BRASS buttons down
+  the front (old, patinated, NOT shiny), subtle welt pocket
+  at chest
+- The shirt: mandarin collar OR classic spread collar,
+  dark ivory / aged cream color, fine cotton or linen,
+  long sleeves visible from the vest's armholes, cuffs
+  neat with possible small dark gold cufflinks
+- ★ A thin DARK GOLD WATCH CHAIN — a subtle curved line
+  from vest pocket to a button ★
+
+## ★ RENDERING STYLE (CRITICAL) ★
+
+FLAT CEL-SHADED INDIE COMIC BOOK style. Must match the
+existing game map he will be composited onto.
+
+- Bold HAND-INKED BLACK OUTLINES: thick outer silhouette,
+  thin inner lines, hand-drawn organic wobble
+- FLAT CEL-SHADE: each surface AT MOST 3 tones (base +
+  shadow + occasional highlight), HARD-EDGED transitions
+- HALFTONE DOT PATTERN in midtone areas — lighter/sparser
+  than commoner characters (wealthy district = refined)
+- Mignola HEAVY BLACK for deepest shadow shapes (under
+  chin, vest folds, arm undersides)
+- NO gradients, NO airbrush, NO soft shading, NO
+  photorealistic textures
+
+STYLE REFERENCES:
+- Mike Mignola's Hellboy character panels
+- Paul Pope's THB character art
+- Sean Murphy's Tokyo Ghost inked figures
+- Streets of Rage 4 character sprites
+
+## ★ COLOR (WEALTHY DISTRICT — NO ORANGE) ★
+
+- VEST: near-pure cold ink black (~2% off true black)
+- SHIRT: dark ivory / aged cream (NOT white)
+- BUTTONS + WATCH CHAIN + GLASSES FRAME: dark gold /
+  antique brass (small accents, patinated, NOT shiny)
+- SKIN: warm muted tan
+- HAIR: graying dark (salt-and-pepper, more gray at temples)
+
+★ ZERO ORANGE of any kind — no burnt orange, no amber
+  accents, no rust, no warm red-orange. Orange belongs to
+  the protagonist. This character is old money. ★
+
+BACKGROUND: pure SOLID #FF00FF magenta. Nothing else.
+
+## STRICT DO NOT
+
+- DO NOT draw below the waist — this is a half-body sprite
+- DO NOT add any background, furniture, desk, or chair
+- DO NOT add any orange or amber color
+- DO NOT add bright/shiny gold — only dark antique brass
+- DO NOT add cyber purple to clothing
+- DO NOT draw a cane (not visible when seated)
+- DO NOT use pure white or pure black
+- DO NOT use anime style, photorealism, or concept art look
+- DO NOT make him look young — he is ~45-50 with gray hair
+- DO NOT make the glasses modern/sporty — scholarly metal
+- DO NOT add a bag, weapons, or tools
+- DO NOT draw ground shadow or atmospheric effects

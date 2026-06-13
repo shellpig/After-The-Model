@@ -38,7 +38,6 @@ var shop_states: Dictionary = {}
 var echo_progress: Dictionary = {}
 
 const ShopDB = preload("res://data/shops/shop_db.gd")
-const EchoDB = preload("res://data/echoes/echo_db.gd")
 const SELL_RATIO := 0.5
 
 
@@ -189,6 +188,20 @@ const ITEMS_DB := {
 		"sellable": false,
 		"usable": false,
 		"icon_path": "res://assets/generated/sprites/items/old_probe_module/icon.png"
+	},
+	"gleaner_gloves": {
+		"id": "gleaner_gloves",
+		"name": "拾遺手套",
+		"description": "裝有老舊探測模組的工作手套。電路接點與手套表面的貼合處有些粗糙，但當你握拳時，能感覺到微弱的電磁共振。\n（可用於感知並採集環境中的數位殘響。）",
+		"category": "equipment",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": false,
+		"sellable": false,
+		"usable": true,
+		"equipment_slot": "hand",
+		"icon_path": "res://assets/generated/sprites/items/fingerless_gloves/icon.png",
+		"can_decode": true
 	},
 
 	"canned_food": {
@@ -687,6 +700,18 @@ func _is_equipped(instance_id: String) -> bool:
 func is_equipped(instance_id: String) -> bool:
 	return _is_equipped(instance_id)
 
+func is_item_equipped(item_id: String) -> bool:
+	if item_id.is_empty():
+		return false
+	for slot_type in equipment:
+		for instance_id in equipment[slot_type]:
+			for slot in inventory:
+				if not slot.is_empty() and slot.get("instance_id") == instance_id:
+					if slot.get("item_id") == item_id:
+						return true
+	return false
+
+
 # ==========================================
 # External Container Minimal API
 # ==========================================
@@ -1156,6 +1181,11 @@ func has_echo_segment(echo_id: String, segment_id: String) -> bool:
 		return false
 	return echo_progress[echo_id].get("collected", []).has(segment_id)
 
+func get_collected_segment_count(echo_id: String) -> int:
+	if not echo_progress.has(echo_id):
+		return 0
+	return echo_progress[echo_id].get("collected", []).size()
+
 func is_echo_known(echo_id: String) -> bool:
 	if not echo_progress.has(echo_id):
 		return false
@@ -1186,6 +1216,57 @@ func sell_echo(echo_id: String) -> bool:
 func _maybe_backfill_clerk_echo() -> void:
 	if get_flag("store_robot_resolution", "") == "gleaned" and not is_echo_known("echo_clerk"):
 		record_full_echo("echo_clerk")
+
+func install_probe_module() -> bool:
+	var has_module = has_item("old_probe_module")
+	
+	# Find fingerless gloves in equipment or inventory
+	var gloves_instance_id := ""
+	var is_gloves_equipped := false
+	
+	# Check equipment first
+	for slot_type in equipment:
+		for instance_id in equipment[slot_type]:
+			for slot in inventory:
+				if not slot.is_empty() and slot.get("instance_id") == instance_id:
+					if slot.get("item_id") == "fingerless_gloves":
+						gloves_instance_id = instance_id
+						is_gloves_equipped = true
+						break
+			if not gloves_instance_id.is_empty():
+				break
+		if not gloves_instance_id.is_empty():
+			break
+			
+	if gloves_instance_id.is_empty():
+		# Check inventory (not equipped)
+		for slot in inventory:
+			if not slot.is_empty() and slot.get("item_id") == "fingerless_gloves":
+				gloves_instance_id = slot.get("instance_id", "")
+				break
+				
+	if not has_module or gloves_instance_id.is_empty():
+		return false
+		
+	# Remove module
+	var removed = remove_item("old_probe_module", 1)
+	if not removed:
+		return false
+		
+	# Replace fingerless_gloves with gleaner_gloves in inventory slots
+	for i in range(inventory.size()):
+		var slot = inventory[i]
+		if not slot.is_empty() and slot.get("instance_id") == gloves_instance_id:
+			slot["item_id"] = "gleaner_gloves"
+			break
+			
+	if is_gloves_equipped:
+		equipment_changed.emit()
+		
+	set_flag("gleaner_gloves_installed", true)
+	inventory_changed.emit()
+	return true
+
 
 
 # ==========================================

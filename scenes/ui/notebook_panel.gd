@@ -2,8 +2,6 @@ extends PanelContainer
 
 const CATEGORIES = ["身份", "工作", "線索", "殘響"]
 
-const EchoDB = preload("res://data/echoes/echo_db.gd")
-
 @onready var tab_identity: Button = $VBoxContainer/TabBar/TabIdentity
 @onready var tab_work: Button = $VBoxContainer/TabBar/TabWork
 @onready var tab_clues: Button = $VBoxContainer/TabBar/TabClues

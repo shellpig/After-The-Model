@@ -44,7 +44,7 @@ func _ready() -> void:
 		elif noise_stream is AudioStreamWAV:
 			noise_stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		audio_player.stream = noise_stream
-	audio_player.max_distance = 600.0
+	audio_player.max_distance = 200.0
 	audio_player.attenuation = 2.0
 	audio_player.volume_db = 2.0
 	audio_player.autoplay = false

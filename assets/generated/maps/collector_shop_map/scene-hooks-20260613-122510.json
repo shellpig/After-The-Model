@@ -1,0 +1,68 @@
+{
+  "asset_id": "collector_shop_map",
+  "version": "20260613-122510",
+  "scene_id": "collector_shop",
+  "stage_canvas": [
+    2560,
+    720
+  ],
+  "camera": {
+    "viewport": [
+      1280,
+      720
+    ],
+    "limit_left": 0,
+    "limit_top": 0,
+    "limit_right": 2560,
+    "limit_bottom": 720,
+    "default_y": 360
+  },
+  "spawn_points": [
+    {
+      "id": "from_street",
+      "position": [
+        190,
+        665
+      ],
+      "facing": 1
+    }
+  ],
+  "exits": [
+    {
+      "id": "entrance_door",
+      "position": [
+        190,
+        665
+      ],
+      "target_scene_id": "apartment_entrance",
+      "entry_point_id": "from_collector_shop"
+    }
+  ],
+  "npc_sockets": [
+    {
+      "id": "lu_qichen_socket",
+      "anchor": [
+        1825,
+        610
+      ],
+      "suggested_display_size": [
+        250,
+        360
+      ],
+      "dialogue_id": "lu_qichen",
+      "render_above_map": true
+    }
+  ],
+  "echo_points": [
+    {
+      "id": "echo_lu_family_point",
+      "position": [
+        2190,
+        430
+      ],
+      "echo_id": "echo_lu_family",
+      "segment_id": "s1",
+      "requires_item_equipped": "gleaner_gloves"
+    }
+  ]
+}

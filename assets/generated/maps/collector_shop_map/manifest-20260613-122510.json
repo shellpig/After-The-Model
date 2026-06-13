@@ -1,0 +1,42 @@
+{
+  "asset_id": "collector_shop_map",
+  "version": "20260613-122510",
+  "mode": "side_scroll_mode",
+  "visual_model": "baked_raster_with_runtime_metadata",
+  "runtime_object_model": [
+    "interactive_scene_objects",
+    "scene_hooks",
+    "separate_sprite_socket"
+  ],
+  "collision_model": "coarse_shapes",
+  "engine_target": "Godot project-native",
+  "stage_canvas": {
+    "width": 2560,
+    "height": 720
+  },
+  "source": {
+    "type": "user_supplied_reference",
+    "path": "source-reference-20260613-122510.png",
+    "original_path": "C:\\Users\\User\\Downloads\\Gemini_Generated_Image_nrfvpwnrfvpwnrfv.png",
+    "original_size": [
+      3904,
+      1088
+    ],
+    "processing": "Scaled to 2584x720, then center-cropped 12px from the left and 12px from the right to produce 2560x720."
+  },
+  "active_files": {
+    "runtime_map": "collector-shop-map-20260613-122510.png",
+    "stage_reference": "collector-shop-stage-reference-20260613-122510.png",
+    "stage_preview": "collector-shop-stage-preview-20260613-122510.png",
+    "qa_overlay": "collector-shop-qa-overlay-20260613-122510.png",
+    "objects": "objects-20260613-122510.json",
+    "collision": "collision-20260613-122510.json",
+    "scene_hooks": "scene-hooks-20260613-122510.json"
+  },
+  "integration_notes": [
+    "Phase 9 collector_shop map asset bundle based on the user-supplied Gemini image.",
+    "The room already contains baked furniture and flavor props; runtime metadata exposes exits, interactables, NPC socket, echo point, collision, and camera bounds.",
+    "??? should remain a separate NPC sprite, placed at lu_qichen_socket; do not bake the actor into future map revisions.",
+    "If Phase 9 later needs parallax separation, treat this image as stage-reference/source and generate cleaner background/foreground layers from it."
+  ]
+}

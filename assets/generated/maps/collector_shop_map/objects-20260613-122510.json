@@ -1,0 +1,128 @@
+{
+  "asset_id": "collector_shop_map",
+  "version": "20260613-122510",
+  "coordinate_space": "pixel",
+  "canvas": [
+    2560,
+    720
+  ],
+  "objects": [
+    {
+      "id": "entrance_door",
+      "type": "exit",
+      "bbox": [
+        88,
+        100,
+        240,
+        550
+      ],
+      "interaction_id": "collector_shop_exit",
+      "target_scene_id": "apartment_entrance",
+      "entry_point_id": "from_collector_shop",
+      "render_layer": "background_baked"
+    },
+    {
+      "id": "display_case_a",
+      "type": "flavor_interactable",
+      "bbox": [
+        560,
+        140,
+        340,
+        500
+      ],
+      "interaction_id": "collector_display_case_a",
+      "render_layer": "background_baked",
+      "notes": "Old AI-era artifacts: drone, terminals, globe, sealed jar. Matches subdoc ??? A."
+    },
+    {
+      "id": "bookshelf_b",
+      "type": "flavor_interactable",
+      "bbox": [
+        910,
+        330,
+        255,
+        285
+      ],
+      "interaction_id": "collector_display_case_b",
+      "render_layer": "background_baked",
+      "notes": "Books, cassette, framed photo, papers. Matches subdoc ??? B."
+    },
+    {
+      "id": "wall_archive_cluster",
+      "type": "flavor_interactable",
+      "bbox": [
+        1280,
+        120,
+        610,
+        245
+      ],
+      "interaction_id": "collector_wall_archive",
+      "render_layer": "background_baked",
+      "notes": "Circuit board, record, family photos, certificate, CRT screen."
+    },
+    {
+      "id": "collector_desk",
+      "type": "core_interactable_zone",
+      "bbox": [
+        1560,
+        300,
+        470,
+        355
+      ],
+      "interaction_id": "talk_lu_qichen",
+      "dialogue_id": "lu_qichen",
+      "render_layer": "background_baked",
+      "notes": "??? / ???? focal zone. Keep??? as separate NPC sprite seated behind or near desk."
+    },
+    {
+      "id": "lu_qichen_socket",
+      "type": "separate_sprite_socket",
+      "bbox": [
+        1725,
+        250,
+        220,
+        355
+      ],
+      "interaction_id": "talk_lu_qichen",
+      "dialogue_id": "lu_qichen",
+      "baked_into_map": false,
+      "anchor": [
+        1825,
+        610
+      ],
+      "suggested_display_size": [
+        250,
+        360
+      ],
+      "notes": "Reserved for later ??? NPC sprite. Do not bake actor into map."
+    },
+    {
+      "id": "inner_locked_door",
+      "type": "locked_exit_hook",
+      "bbox": [
+        2200,
+        105,
+        260,
+        565
+      ],
+      "interaction_id": "collector_inner_door",
+      "render_layer": "background_baked",
+      "notes": "???: locked Phase 9 hook."
+    },
+    {
+      "id": "echo_lu_family_point",
+      "type": "echo_point",
+      "bbox": [
+        2120,
+        260,
+        170,
+        260
+      ],
+      "echo_id": "echo_lu_family",
+      "segment_id": "s1",
+      "requires_item_equipped": "gleaner_gloves",
+      "render_layer": "runtime_vfx",
+      "notes": "Place subtle echo VFX near inner door / shelf edge after glove upgrade."
+    }
+  ]
+}

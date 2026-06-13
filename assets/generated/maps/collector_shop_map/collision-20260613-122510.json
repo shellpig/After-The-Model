@@ -1,0 +1,30 @@
+{
+  "asset_id": "collector_shop_map",
+  "version": "20260613-122510",
+  "coordinate_space": "pixel",
+  "canvas": [
+    2560,
+    720
+  ],
+  "walk_line_y": 665,
+  "player_bounds": {
+    "min_x": 105,
+    "max_x": 2360
+  },
+  "solids": [
+    {
+      "id": "ground",
+      "shape": "rect",
+      "rect": [
+        0,
+        676,
+        2560,
+        16
+      ]
+    }
+  ],
+  "notes": [
+    "Matches current pure side-scroller model: one horizontal walk line, no Y-depth.",
+    "Furniture is baked visual/interactable scenery in this first map bundle; no horizontal blockers."
+  ]
+}

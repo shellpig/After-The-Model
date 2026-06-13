@@ -5165,6 +5165,19 @@ func _ready() -> void:
 	ep.echo_id = "echo_room401_tenant"
 	ep.segment_id = "s1"
 	add_child(ep)
+	if ep.audio_player.stream == null:
+		printerr("FAIL 9-D: EchoPoint proximity stream should be configured!")
+		get_tree().quit(1)
+		return
+	if not ep.audio_player.stream is AudioStreamMP3:
+		printerr("FAIL 9-D: EchoPoint proximity stream should use echo_presence_loop.mp3!")
+		get_tree().quit(1)
+		return
+	var slot_sfx_stream := load("res://assets/sound/slot_electromagnetic.wav") as AudioStreamWAV
+	if slot_sfx_stream and slot_sfx_stream.loop_mode != 0:
+		printerr("FAIL 9-D: EchoPoint should not mutate slot_electromagnetic.wav into a loop!")
+		get_tree().quit(1)
+		return
 	
 	# Reset state
 	GameState.reset_for_new_game()
@@ -5253,6 +5266,16 @@ func _ready() -> void:
 		
 	# Call collect()
 	ep.collect()
+	var collect_sfx := get_tree().root.find_child("EchoCollectSFX", true, false)
+	if collect_sfx == null or not collect_sfx is AudioStreamPlayer:
+		printerr("FAIL 9-D: collect() should spawn EchoCollectSFX!")
+		get_tree().quit(1)
+		return
+	if not (collect_sfx as AudioStreamPlayer).stream is AudioStreamMP3:
+		printerr("FAIL 9-D: collect() should use echo_collect.mp3!")
+		get_tree().quit(1)
+		return
+	collect_sfx.queue_free()
 	
 	# Verify GameState segment registered
 	if not GameState.has_echo_segment("echo_room401_tenant", "s1"):

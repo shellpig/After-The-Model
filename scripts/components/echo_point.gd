@@ -22,6 +22,9 @@ var has_emitted_entered: bool = false
 
 var audio_player: AudioStreamPlayer2D = null
 
+const PRESENCE_LOOP_PATH := "res://assets/sound/echo_presence_loop.mp3"
+const COLLECT_SFX_PATH := "res://assets/sound/echo_collect.mp3"
+
 func _ready() -> void:
 	# Configure Area2D collision properties
 	collision_layer = 0
@@ -33,9 +36,12 @@ func _ready() -> void:
 	# Create and setup AudioStreamPlayer2D
 	audio_player = AudioStreamPlayer2D.new()
 	audio_player.name = "NoisePlayer2D"
-	var noise_stream = load("res://assets/sound/slot_electromagnetic.wav")
+	var noise_stream = load(PRESENCE_LOOP_PATH)
 	if noise_stream:
-		if noise_stream is AudioStreamWAV:
+		noise_stream = noise_stream.duplicate()
+		if "loop" in noise_stream:
+			noise_stream.loop = true
+		elif noise_stream is AudioStreamWAV:
 			noise_stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		audio_player.stream = noise_stream
 	audio_player.max_distance = 600.0
@@ -150,7 +156,8 @@ func collect() -> void:
 		
 	# Play collection success SFX
 	var sfx = AudioStreamPlayer.new()
-	sfx.stream = load("res://assets/sound/sonar_ping.wav")
+	sfx.name = "EchoCollectSFX"
+	sfx.stream = load(COLLECT_SFX_PATH)
 	sfx.volume_db = 4.0
 	get_tree().root.add_child(sfx)
 	sfx.play()

@@ -233,6 +233,19 @@ const ITEMS_DB := {
 		"icon_path": "res://assets/generated/sprites/items/synthetic_blueberry_nutrition_bar/icon.png",
 		"consume_grants_note": "clue_projection_clock"
 	},
+	"nutrition_bar_synth_orange": {
+		"id": "nutrition_bar_synth_orange",
+		"name": "合成橘子口味營養棒",
+		"description": "一條包裝完好的合成橘子口味營養棒，便宜又耐餓。",
+		"category": "consumable",
+		"value": 12,
+		"stackable": true,
+		"max_stack": 5,
+		"discardable": true,
+		"usable": true,
+		"equipment_slot": "",
+		"icon_path": "res://assets/generated/sprites/items/synthetic_orange_nutrition_bar/icon.png"
+	},
 	"early_ai_assistant_activation_box": {
 		"id": "early_ai_assistant_activation_box",
 		"name": "早期 AI 助理啟用盒",

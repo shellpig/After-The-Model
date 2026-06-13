@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-06-11
+最後更新：2026-06-13
 
 ---
 
@@ -215,7 +215,7 @@ note_id
 | 8-E | ✅ 完成 | 店籍主機三段 + 兩種重置結局：`store_registry_host` 對話樹（start 依 `vendor_bot_repaired` / `understood_robot_truth` / `diagnosed` 路由三段 + 已修復中性訊息）；直接重置 / 先錄殘響皆設 `store_robot_resolution` + `vendor_bot_repaired` + complete quest；先錄殘響以 `add_item` effect 失敗中止 + goto 條件分流做背包滿防呆（不設旗標、可重試），成功取得 `clerk_echo_recording`（不可賣 / 不可丟）+ 殘響線索筆記；完成訊息暗示外面販賣機回線；機器人 `repaired_router` 依結局分 reset（純 AI）/ gleaned（殘留人味）招呼；DialogueRunner 新增 `quest_flag` condition + `add_item` / `add_note` effect；headless PASS |
 | 8-F | ✅ 完成 | 買賣系統核心 + ShopPanel + `UIMode.SHOP`：`ITEMS_DB` 補 `value`（罐頭 20 / 營養棒 12 / 夾克 60 / 魔術方塊 1=折算 0 不可賣）；`SELL_RATIO 0.5` + `get_item_value` / `get_sell_value` / `is_sellable`（key_item / `sellable=false` / 折算 0 元皆擋）；`sell_item(instance_id)` 以焦點格定位（已裝備擋、不自動卸下、不回補店庫存）；`shop_states` lazy-init 自 `data/shops/shop_db.gd` catalog + `refresh_shop_stock` + `buy_item` 原子三檢（純讀檢查 → `add_item` 唯一可失敗變動 → 扣庫存扣 credits）+ 納入存讀檔 / reset；`ShopPanel` 雙欄（左貨架 名稱/買價/庫存、右背包 售價或灰掉，手動高亮不搶引擎焦點）+ FloatingToast 失敗提示；機器人 repaired 招呼結尾 `open_shop` effect（DialogueRunner pending → DialoguePanel 收尾交棒 GameUI，DIALOGUE 直切 SHOP）；TouchControls SHOP 路由（D-pad 經 GameUI 代理）；headless PASS |
 | 8-G | ✅ 完成 | 迷你飲料商店 + 多商店資料化：修好後街道外面販賣機直接開 `street_vending` ShopPanel；`data/shops/street_vending.gd` 飲料 catalog（`synth_cola` / `packaged_water`）接入 `shop_db.gd`；兩店庫存各自獨立並納入存讀檔 / reset；`tests/manual/test_runner.gd` 已加入 8-G 多商店資料化驗證；飲料 item icon 已整合 |
-| 8-H | ✅ 完成 | Phase 8 全鏈回歸 + 存讀檔驗證 + GUI / 純觸控走查 |
+| 8-H | ✅ 完成 | Phase 8 全鏈回歸 + 存讀檔驗證 + 人工對話 / 買賣系統 GUI / 純觸控走查 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
@@ -345,20 +345,20 @@ NPC「晚」內容定稿：`subdocs/人/晚.md`。
 
 ### Phase 8 子階段（三份對照）
 
-> 行號以 2026-06-11 版為準；大幅改寫後需校正。Phase 8 規格 / 契約 / 測試清單已寫入；8-A~8-H 已完成；`8-H：發現販賣機錯誤後缺少「回電腦接案」前置線索筆記` 已驗收完成。
+> 行號以 2026-06-13 版為準；大幅改寫後需校正。Phase 8 規格 / 契約 / 測試清單已寫入；8-A~8-H 已完成；`8-H：發現販賣機錯誤後缺少「回電腦接案」前置線索筆記` 已驗收完成；人工對話與買賣系統 GUI / 純觸控走查已完成。
 > 規格書 Phase 8 無「每子階段獨立驗收意圖段」，故規格書欄位指對應系統語意段 + 子階段表（2353–2369）的對應列；契約 / 清單細節在設計方針與測試指南。
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
 |---|---|---|---|
 | Phase 8 總覽 + 範圍 / 買賣語意 | 2230–2279 | 1682–1712 | 620–623 |
-| 8-A 場景骨架 + 轉場 | 2280–2286・2353 表 | 1713–1733 | 624–631 |
-| 8-B 前導對話 + 發現錯誤旗標 | 2245・2287–2293・2313–2323・2353 表 | 1734–1767 | 632–638 |
-| 8-C 電腦兩段 gate + 接案 | 2287–2312・2353 表 | 1769–1821 | 639–646 |
-| 8-D 蒐證 + 診斷對話樹 | 2324–2331・2353 表 | 1822–1838 | 647–655 |
-| 8-E 店籍主機三段 + 兩種結局 | 2332–2352・2353 表 | 1839–1895 | 656–668 |
-| 8-F 買賣系統核心 + ShopPanel | 2259–2279・2353 表 | 1896–1950 | 669–685 |
-| 8-G 迷你飲料商店 + 多商店 | 2353 表 | 1951–1956 | 686–691 |
-| 8-H 回歸 + 存讀檔 + GUI 走查 | 2353 表 | 1957–1959 | 692–699 |
+| 8-A 場景骨架 + 轉場 | 2280–2286・2353 表 | 1713–1733 | 625–631 |
+| 8-B 前導對話 + 發現錯誤旗標 | 2245・2287–2293・2313–2323・2353 表 | 1734–1767 | 633–638 |
+| 8-C 電腦兩段 gate + 接案 | 2287–2312・2353 表 | 1769–1821 | 640–646 |
+| 8-D 蒐證 + 診斷對話樹 | 2324–2331・2353 表 | 1822–1838 | 648–655 |
+| 8-E 店籍主機三段 + 兩種結局 | 2332–2352・2353 表 | 1839–1895 | 657–668 |
+| 8-F 買賣系統核心 + ShopPanel | 2259–2279・2353 表 | 1896–1950 | 670–685 |
+| 8-G 迷你飲料商店 + 多商店 | 2353 表 | 1951–1956 | 687–691 |
+| 8-H 回歸 + 存讀檔 + GUI 走查 | 2353 表 | 1957–1959 | 693–700 |
 | 旗標 / 狀態一覽 | 2370–2384 | — | — |
 
 便利商店場景敘事 / layout / 互動物：`subdocs/地點/便利商店.md`。
@@ -396,14 +396,14 @@ C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . 
 C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . -s res://tests/manual/verify_game_state.gd
 ```
 
-最近已記錄的 Phase 8-E / 8-F 與修正 headless 驗證結果（記錄時 HEAD `9ecc0da`）：
+最近已記錄的 Phase 8 headless 驗證結果（記錄時 HEAD `9ecc0da`）：
 
 ```text
 test_runner.tscn: PASS
 verify_game_state.gd: PASS
 ```
 
-8-G 已完成並有測試覆蓋寫入 `tests/manual/test_runner.gd`；功能提交為 `61145d2`，最新 HEAD `294ba2d` 為 `synth_cola` / `packaged_water` item icon 整合。本次 brief 同步未重新執行 Godot headless。
+Phase 8-A~8-H 已完成並有測試覆蓋寫入 `tests/manual/test_runner.gd`。人工對話與買賣系統 GUI / 純觸控走查已完成；最新 HEAD `b46a716` 為 Windows v0.8.8 build 匯出。本次 brief 同步未重新執行 Godot headless。
 
 `git diff --check` 若只出現 LF -> CRLF warning，屬 Windows autocrlf 提示，不是 whitespace error。
 
@@ -450,7 +450,7 @@ verify_game_state.gd: PASS
 
 架構主線：**Phase 5 — NPC + 對話（真系統）已完成（5-A~5-D 驗證通過）**。**Phase 6 — SaveSystem 已全數完成（6-A~6-F，headless 100 PASS / 0 FAIL）**：`SaveSystem` capture/apply/validate 純邏輯 + 回場路徑 + 多槽 + 標題 / 暫停選單 UI + 邊界處理皆上線並驗證；ConfirmDialog 重用缺陷已修並補回歸測試。剩 6-E/6-F 真機 GUI 走查為人工驗收項。**Phase 7 — QuestManager + `alley_backrooms_3f` vertical slice 已全數完成**：7-A~7-K（任務狀態系統、晚的對話接任務、後巷偵查事件、公寓窗戶條件入口、外牆場景骨架、梯子攀爬 / 外牆禁存、箱子搜索取得 A、R 查看得 B、回報晚完成任務含移除失敗防呆、回歸與存讀檔驗證、**結局分支 + `add_credits` + 親近對話**）已完成並驗證（headless PASS）。（4-G 已取消；其架構契約已由 4-A~4-F 滿足。）
 
-**Phase 8 — 便利商店 vertical slice + 買賣系統：8-A~8-H 已完成並通過 headless。** 已完成可進入的便利商店室內場景、街道↔店內雙向轉場、前導對話 / `discovered_vendor_error` 聚合、公寓電腦兩段 gate 與 `repair_vendor_bot` 接案、5 線索蒐證、店控機器人診斷對話樹、店籍主機三段與兩種重置結局、買賣系統核心與 `ShopPanel`、以及街道迷你飲料商店 + 多商店資料化。下一步為人工對話與買賣系統的 GUI / 觸控走查。
+**Phase 8 — 便利商店 vertical slice + 買賣系統：8-A~8-H 已完成並通過 headless + 人工 GUI / 純觸控走查。** 已完成可進入的便利商店室內場景、街道↔店內雙向轉場、前導對話 / `discovered_vendor_error` 聚合、公寓電腦兩段 gate 與 `repair_vendor_bot` 接案、5 線索蒐證、店控機器人診斷對話樹、店籍主機三段與兩種重置結局、買賣系統核心與 `ShopPanel`、街道迷你飲料商店 + 多商店資料化，以及人工對話與買賣系統 GUI / 純觸控走查。
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

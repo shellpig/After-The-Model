@@ -1,0 +1,20 @@
+{
+  "item_id": "synthetic_orange_nutrition_bar",
+  "source": "C:\\Users\\User\\Downloads\\Nutrition_bar_in_wrapper_202606130748.jpeg",
+  "generated_raw": "raw-generated-20260613-080207.png",
+  "alpha_pixels": 1308,
+  "source_bbox": [
+    2,
+    8,
+    62,
+    56
+  ],
+  "resized": [
+    60,
+    48
+  ],
+  "paste": [
+    2,
+    8
+  ]
+}

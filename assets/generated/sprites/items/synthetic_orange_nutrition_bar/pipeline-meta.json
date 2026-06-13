@@ -1,0 +1,64 @@
+{
+  "target": "asset",
+  "mode": "single",
+  "prompt": "Orange flavor wrapped nutrition bar item icon, matching existing synthetic blueberry nutrition bar icon style: HD 2D riso cyberpunk inventory icon, transparent final background, 64x64, slight 15 degree top-down view, no text.",
+  "role": "",
+  "input": "assets\\generated\\sprites\\items\\synthetic_orange_nutrition_bar\\raw-generated-20260613-080207.png",
+  "threshold": 35,
+  "edge_threshold": 150,
+  "duration": 200,
+  "rows": 1,
+  "cols": 1,
+  "cell_size": 128,
+  "fit_scale": 0.86,
+  "trim_border": 4,
+  "edge_clean_depth": 2,
+  "align": "center",
+  "shared_scale": false,
+  "component_mode": "largest",
+  "component_padding": 6,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "orange-nutrition-bar-1"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "component_mode": "largest",
+      "component_count": 1,
+      "selected_component_area": 371843,
+      "selected_component_bbox": [
+        135,
+        227,
+        1135,
+        1026
+      ],
+      "crop_bbox": [
+        129,
+        221,
+        1141,
+        1032
+      ],
+      "edge_touch": false,
+      "output_size": [
+        110,
+        88
+      ],
+      "paste_position": [
+        9,
+        20
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}

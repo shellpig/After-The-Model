@@ -7,6 +7,6 @@ const CATALOG := {
 	"name": "便利商店",
 	"stock": {
 		"canned_food": {"price": 40, "stock": 10},
-		"nutrition_bar_synth_blueberry": {"price": 25, "stock": 8}
+		"nutrition_bar_synth_orange": {"price": 25, "stock": 8}
 	}
 }

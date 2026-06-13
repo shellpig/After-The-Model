@@ -3859,8 +3859,8 @@ func _ready() -> void:
 		printerr("FAIL 8-F: canned_food value/sell_value math wrong! Got: ", GameState.get_item_value("canned_food"), "/", GameState.get_sell_value("canned_food"))
 		get_tree().quit(1)
 		return
-	if GameState.get_sell_value("nutrition_bar_synth_blueberry") != 6:
-		printerr("FAIL 8-F: nutrition bar sell_value should be floor(12*0.5)=6! Got: ", GameState.get_sell_value("nutrition_bar_synth_blueberry"))
+	if GameState.get_sell_value("nutrition_bar_synth_orange") != 6:
+		printerr("FAIL 8-F: nutrition bar sell_value should be floor(12*0.5)=6! Got: ", GameState.get_sell_value("nutrition_bar_synth_orange"))
 		get_tree().quit(1)
 		return
 	if GameState.get_sell_value("worn_rubiks_cube") != 0 or GameState.is_sellable("worn_rubiks_cube"):
@@ -3888,7 +3888,7 @@ func _ready() -> void:
 		printerr("FAIL 8-F: convenience_store canned_food catalog should lazy-init to price 40 / stock 10! Got: ", stock_8f)
 		get_tree().quit(1)
 		return
-	if stock_8f.get("nutrition_bar_synth_blueberry", {}).get("price", 0) != 25:
+	if stock_8f.get("nutrition_bar_synth_orange", {}).get("price", 0) != 25:
 		printerr("FAIL 8-F: nutrition bar price should be 25!")
 		get_tree().quit(1)
 		return
@@ -3936,13 +3936,13 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	GameState.shop_states["convenience_store"]["nutrition_bar_synth_blueberry"]["stock"] = 0
-	can_8f = GameState.can_buy("convenience_store", "nutrition_bar_synth_blueberry")
+	GameState.shop_states["convenience_store"]["nutrition_bar_synth_orange"]["stock"] = 0
+	can_8f = GameState.can_buy("convenience_store", "nutrition_bar_synth_orange")
 	if can_8f.get("ok", true) or can_8f.get("reason", "") != "out_of_stock":
 		printerr("FAIL 8-F: can_buy should report out_of_stock! Got: ", can_8f)
 		get_tree().quit(1)
 		return
-	if GameState.buy_item("convenience_store", "nutrition_bar_synth_blueberry"):
+	if GameState.buy_item("convenience_store", "nutrition_bar_synth_orange"):
 		printerr("FAIL 8-F: buy_item must fail when out of stock!")
 		get_tree().quit(1)
 		return
@@ -4066,7 +4066,7 @@ func _ready() -> void:
 		return
 	GameState.load_save_dict(save_dict_8f)
 	if GameState.get_shop_stock("convenience_store")["canned_food"]["stock"] != 9 \
-			or GameState.get_shop_stock("convenience_store")["nutrition_bar_synth_blueberry"]["stock"] != 0:
+			or GameState.get_shop_stock("convenience_store")["nutrition_bar_synth_orange"]["stock"] != 0:
 		printerr("FAIL 8-F: load_save_dict must restore mutated shop stock!")
 		get_tree().quit(1)
 		return

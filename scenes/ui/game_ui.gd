@@ -418,11 +418,14 @@ func _sync_bgm_to_echo() -> void:
 	var main := _get_main()
 	if main == null:
 		return
-	if _audio_echo != null and _audio_echo.playing:
+	var should_duck := _audio_echo != null and _audio_echo.playing
+	if should_duck:
 		if main.has_method("pause_bgm"):
 			main.pause_bgm()
 	elif main.has_method("resume_bgm"):
 		main.resume_bgm()
+	if main.has_method("duck_ambient"):
+		main.duck_ambient(should_duck)
 
 func _get_main() -> Node:
 	if _main == null or not is_instance_valid(_main):

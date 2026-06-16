@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_walk8"]
 [ext_resource type="Texture2D" uid="uid://bfim04c6vh6o" path="res://assets/generated/sprites/wan/idle/wan-idle-single-20260607-102716/wan-idle-transparent-20260607-102716.png" id="13_wan_idle"]
 [ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambient/street_rain_loop.mp3" id="ext_rain_loop"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(3920, 16)
@@ -244,5 +245,15 @@ position = Vector2(30, -221)
 shape = SubResource("RectangleShape2D_player")
 debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)
 
-[node name="BGMPlayer" type="AudioStreamPlayer" parent="." unique_id=1433149409]
-volume_db = -12.0
+[node name="AmbientRain" type="AudioStreamPlayer" parent="." unique_id=1433149409]
+stream = ExtResource("ext_rain_loop")
+volume_db = -22.0
+bus = &"Ambient"
+autoplay = true
+
+[node name="AmbientSubway" type="AudioStreamPlayer" parent="." unique_id=1433149410]
+volume_db = -26.0
+bus = &"Ambient"
+
+[node name="SubwayTimer" type="Timer" parent="." unique_id=1433149411]
+one_shot = true

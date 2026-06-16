@@ -50,6 +50,10 @@ var _paused_player: AudioStreamPlayer = null
 var _bgm_volume_before_pause: float = -12.0
 var _bgm_pause_tween: Tween = null
 
+# Ambient bus ducking (used to duck street ambience while echo audio plays)
+var _ambient_bus_idx: int = -2
+var _ambient_ducked: bool = false
+
 func _ready() -> void:
 	# Initialize BGM players
 	_bgm_player1 = AudioStreamPlayer.new()
@@ -344,3 +348,15 @@ func _reset_bgm_pause_state() -> void:
 		_paused_player.stream_paused = false
 		_paused_player.volume_db = _bgm_volume_before_pause
 	_paused_player = null
+
+# Duck (or restore) the "Ambient" audio bus, e.g. while an echo track plays.
+# Mirrors pause_bgm/resume_bgm's single-rule pattern; idempotent on repeated calls.
+func duck_ambient(on: bool) -> void:
+	if _ambient_bus_idx == -2:
+		_ambient_bus_idx = AudioServer.get_bus_index("Ambient")
+	if _ambient_bus_idx == -1:
+		return
+	if on == _ambient_ducked:
+		return
+	_ambient_ducked = on
+	AudioServer.set_bus_volume_db(_ambient_bus_idx, -80.0 if on else 0.0)

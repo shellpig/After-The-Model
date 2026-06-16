@@ -14,7 +14,45 @@
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="12_walk8"]
 [ext_resource type="Texture2D" uid="uid://bfim04c6vh6o" path="res://assets/generated/sprites/wan/idle/wan-idle-single-20260607-102716/wan-idle-transparent-20260607-102716.png" id="13_wan_idle"]
 [ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
-[ext_resource type="AudioStream" path="res://assets/audio/ambient/street_rain_loop.mp3" id="ext_rain_loop"]
+[ext_resource type="AudioStream" uid="uid://dah5aba0j5u7h" path="res://assets/audio/ambient/street_rain_loop.mp3" id="ext_rain_loop"]
+[ext_resource type="Texture2D" uid="uid://cn6c8a662y55h" path="res://assets/vfx/rain_splash.png" id="ext_rain_splash"]
+[ext_resource type="Texture2D" uid="uid://dx8wea5u3kmu5" path="res://assets/vfx/rain_streak.png" id="ext_rain_streak"]
+[ext_resource type="Shader" uid="uid://ca7trspb4sux5" path="res://assets/shaders/vignette.gdshader" id="ext_vignette_shader"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rain_far"]
+emission_shape = 3
+emission_box_extents = Vector3(650, 4, 1)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 420.0
+initial_velocity_max = 510.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.45
+scale_max = 0.65
+color = Color(0.62, 0.82, 1, 0.22)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rain_near"]
+emission_shape = 3
+emission_box_extents = Vector3(650, 4, 1)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 840.0
+initial_velocity_max = 990.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.9
+scale_max = 1.15
+color = Color(0.7, 0.6, 1, 0.4)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rain_splash"]
+emission_shape = 3
+emission_box_extents = Vector3(650, 40, 1)
+direction = Vector3(0, -1, 0)
+spread = 25.0
+initial_velocity_max = 18.0
+gravity = Vector3(0, 60, 0)
+scale_min = 0.35
+scale_max = 0.6
+color = Color(0.75, 0.85, 1, 0.3)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(3920, 16)
@@ -83,6 +121,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(24, 454)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = ExtResource("ext_vignette_shader")
+shader_parameter/intensity = 0.32
+shader_parameter/radius = 0.7
+shader_parameter/softness = 0.55
+
 [node name="ApartmentEntrance" type="Node2D" unique_id=956033372]
 script = ExtResource("2_script")
 
@@ -98,6 +142,31 @@ limit_right = 4080
 limit_bottom = 720
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
+
+[node name="RainFar" type="GPUParticles2D" parent="Camera2D" unique_id=1433149413]
+position = Vector2(0, -380)
+amount = 18
+texture = ExtResource("ext_rain_streak")
+lifetime = 1.6
+preprocess = 1.6
+process_material = SubResource("ParticleProcessMaterial_rain_far")
+
+[node name="RainNear" type="GPUParticles2D" parent="Camera2D" unique_id=1433149414]
+position = Vector2(0, -380)
+amount = 26
+texture = ExtResource("ext_rain_streak")
+lifetime = 0.8
+preprocess = 0.8
+process_material = SubResource("ParticleProcessMaterial_rain_near")
+
+[node name="RainSplash" type="GPUParticles2D" parent="Camera2D" unique_id=1433149415]
+position = Vector2(0, 318)
+amount = 14
+texture = ExtResource("ext_rain_splash")
+lifetime = 0.4
+explosiveness = 0.6
+randomness = 0.8
+process_material = SubResource("ParticleProcessMaterial_rain_splash")
 
 [node name="Collision" type="Node2D" parent="." unique_id=474194036]
 
@@ -248,8 +317,8 @@ debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)
 [node name="AmbientRain" type="AudioStreamPlayer" parent="." unique_id=1433149409]
 stream = ExtResource("ext_rain_loop")
 volume_db = -22.0
-bus = &"Ambient"
 autoplay = true
+bus = &"Ambient"
 
 [node name="AmbientSubway" type="AudioStreamPlayer" parent="." unique_id=1433149410]
 volume_db = -26.0
@@ -257,3 +326,14 @@ bus = &"Ambient"
 
 [node name="SubwayTimer" type="Timer" parent="." unique_id=1433149411]
 one_shot = true
+
+[node name="Vignette" type="CanvasLayer" parent="." unique_id=1433149416]
+
+[node name="VignetteRect" type="ColorRect" parent="Vignette" unique_id=1433149417]
+visible = false
+material = SubResource("ShaderMaterial_vignette")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)

@@ -23,6 +23,12 @@ const SUBWAY_RUMBLE_PATHS := [
 const SUBWAY_INTERVAL_MIN := 40.0
 const SUBWAY_INTERVAL_MAX := 90.0
 
+# Idle camera drift (Phase 10-B): subtle sine wander on top of the existing
+# follow/clamp logic, faded out while the player is walking to avoid nausea.
+const CAMERA_DRIFT_AMPLITUDE := Vector2(2.5, 1.5)
+const CAMERA_DRIFT_SPEED := Vector2(0.35, 0.5)
+const CAMERA_DRIFT_FADE_SPEED := 1.5
+
 @onready var player: CharacterBody2D = $Player
 @onready var camera: Camera2D = $Camera2D
 @onready var ambient_rain: AudioStreamPlayer = $AmbientRain
@@ -33,6 +39,8 @@ var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
 var _entry_point_id: String = "from_apartment"
 var _entry_payload: Dictionary = {}
+var _ambience_time: float = 0.0
+var _camera_drift_strength: float = 1.0
 
 func prepare_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "from_apartment"
@@ -80,8 +88,8 @@ func _on_subway_timer_timeout() -> void:
 		ambient_subway.play()
 	_arm_subway()
 
-func _process(_delta: float) -> void:
-	_update_camera()
+func _process(delta: float) -> void:
+	_update_camera(delta)
 
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
@@ -160,13 +168,24 @@ func _trigger_interaction() -> void:
 						"message_text": MESSAGES["vending_machine"]
 					})
 
-func _update_camera() -> void:
+func _update_camera(delta: float = 0.0) -> void:
 	if camera == null:
 		return
 	camera.global_position = Vector2(
 		clamp(player.global_position.x, CAMERA_HALF_WIDTH, MAP_WIDTH - CAMERA_HALF_WIDTH),
 		CAMERA_Y
 	)
+	_update_camera_drift(delta)
+
+func _update_camera_drift(delta: float) -> void:
+	_ambience_time += delta
+	var is_walking: bool = player.anim.animation == "walk"
+	var target_strength := 0.0 if is_walking else 1.0
+	_camera_drift_strength = move_toward(_camera_drift_strength, target_strength, delta * CAMERA_DRIFT_FADE_SPEED)
+	camera.offset = Vector2(
+		sin(_ambience_time * CAMERA_DRIFT_SPEED.x) * CAMERA_DRIFT_AMPLITUDE.x,
+		sin(_ambience_time * CAMERA_DRIFT_SPEED.y + 1.3) * CAMERA_DRIFT_AMPLITUDE.y
+	) * _camera_drift_strength
 
 func _on_interactable_entered(interactable: Area2D) -> void:
 	if not nearby_interactables.has(interactable):

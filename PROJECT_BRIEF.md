@@ -225,7 +225,7 @@ note_id
 | 9-G | ✅ 完成 | 收購（賣 vs 留）：對話式成交、每條專屬評語、只收已集滿、賣後標記已售出 + 媒體永久失效；`echo_lu_family` 不收 |
 | 9-H | ✅ 完成 | Phase 9 全鏈回歸 + 存讀檔驗證 + GUI / 觸控走查 |
 | 10-A | 🟦 待驗收 | 街道音景：雨 bed（`AmbientRain` autoplay loop, -22dB）+ 地鐵遠轟（`AmbientSubway` one-shot，`SubwayTimer` 40~90 秒隨機間隔，`_a`/`_b` 隨機挑）；新增 Audio Bus `Ambient`；echo 播放時 `main.duck_ambient()` 與既有 `pause_bgm`/`resume_bgm` 同步壓低（-14dB，淡降非全靜，0.3s tween）／淡回；確認街道 BGM 由 `main.gd` 中央系統播放，移除場景內死節點 `BGMPlayer`；headless PASS，GUI / 真機聽感驗收待進行 |
-| 10-B | ⬜ 待開工 | 不分層視覺基底：`CanvasModulate` 夜色 + 兩層稀疏雨粒子 + 落地水花 + vignette + 相機微擺；無 CRT（規格已寫，未實作）|
+| 10-B | 🟦 待驗收 | 不分層視覺基底：雨粒子兩層（`RainFar`/`RainNear`，掛 `Camera2D` 子節點隨鏡頭走，垂直下落、霓虹染色非純白，落速 3x）+ 落地水花（`RainSplash`）+ `Vignette`（`CanvasLayer` layer=1 + shader，`GameUI` 改 layer=2 確保不被遮；目前 `visible=false` 待調整）+ 相機 idle 微擺（`Camera2D.offset` sin drift，走路時淡出）；無 CRT；`CanvasModulate` 夜色已試做後拿掉（不好看）；headless PASS，GUI / 手機效能聽感驗收待進行 |
 | 10-C | ⬜ 條件式 / 待決 | 分層進階（門控在 10-B 後）：街道背景分層 → 招牌閃爍 / 窗光呼吸 / 視差 / 濕地面反射；是否開工於 10-B 目視通過後決定（kill-switch）|
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。

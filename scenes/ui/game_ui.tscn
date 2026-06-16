@@ -30,6 +30,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="GameUI" type="CanvasLayer"]
+layer = 2
 script = ExtResource("1_gameui")
 
 [node name="PromptPanel" type="PanelContainer" parent="."]

@@ -224,7 +224,7 @@ note_id
 | 9-F | ✅ 完成 | 內容鋪設：4 條殘響 / 7 採集點跨 5 場景 + 照片（生圖）/ 歌曲 / 雜訊 SFX / 店 BGM 素材 |
 | 9-G | ✅ 完成 | 收購（賣 vs 留）：對話式成交、每條專屬評語、只收已集滿、賣後標記已售出 + 媒體永久失效；`echo_lu_family` 不收 |
 | 9-H | ✅ 完成 | Phase 9 全鏈回歸 + 存讀檔驗證 + GUI / 觸控走查 |
-| 10-A | 🟦 待驗收 | 街道音景：雨 bed（`AmbientRain` autoplay loop, -22dB）+ 地鐵遠轟（`AmbientSubway` one-shot，`SubwayTimer` 40~90 秒隨機間隔，`_a`/`_b` 隨機挑）；新增 Audio Bus `Ambient`；echo 播放時 `main.duck_ambient()` 與既有 `pause_bgm`/`resume_bgm` 同步壓低／還原；確認街道 BGM 由 `main.gd` 中央系統播放，移除場景內死節點 `BGMPlayer`；headless PASS，GUI / 真機聽感驗收待進行 |
+| 10-A | 🟦 待驗收 | 街道音景：雨 bed（`AmbientRain` autoplay loop, -22dB）+ 地鐵遠轟（`AmbientSubway` one-shot，`SubwayTimer` 40~90 秒隨機間隔，`_a`/`_b` 隨機挑）；新增 Audio Bus `Ambient`；echo 播放時 `main.duck_ambient()` 與既有 `pause_bgm`/`resume_bgm` 同步壓低（-14dB，淡降非全靜，0.3s tween）／淡回；確認街道 BGM 由 `main.gd` 中央系統播放，移除場景內死節點 `BGMPlayer`；headless PASS，GUI / 真機聽感驗收待進行 |
 | 10-B | ⬜ 待開工 | 不分層視覺基底：`CanvasModulate` 夜色 + 兩層稀疏雨粒子 + 落地水花 + vignette + 相機微擺；無 CRT（規格已寫，未實作）|
 | 10-C | ⬜ 條件式 / 待決 | 分層進階（門控在 10-B 後）：街道背景分層 → 招牌閃爍 / 窗光呼吸 / 視差 / 濕地面反射；是否開工於 10-B 目視通過後決定（kill-switch）|
 

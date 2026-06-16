@@ -51,8 +51,10 @@ var _bgm_volume_before_pause: float = -12.0
 var _bgm_pause_tween: Tween = null
 
 # Ambient bus ducking (used to duck street ambience while echo audio plays)
+const AMBIENT_DUCK_DB := -14.0 # lowered, not silenced — per Phase 10-A spec
 var _ambient_bus_idx: int = -2
 var _ambient_ducked: bool = false
+var _ambient_tween: Tween = null
 
 func _ready() -> void:
 	# Initialize BGM players
@@ -350,8 +352,9 @@ func _reset_bgm_pause_state() -> void:
 	_paused_player = null
 
 # Duck (or restore) the "Ambient" audio bus, e.g. while an echo track plays.
-# Mirrors pause_bgm/resume_bgm's single-rule pattern; idempotent on repeated calls.
-func duck_ambient(on: bool) -> void:
+# Lowered, not silenced (per Phase 10-A spec: "壓低，不全靜"); fades over
+# fade_duration. Mirrors pause_bgm/resume_bgm's single-rule pattern; idempotent.
+func duck_ambient(on: bool, fade_duration: float = 0.3) -> void:
 	if _ambient_bus_idx == -2:
 		_ambient_bus_idx = AudioServer.get_bus_index("Ambient")
 	if _ambient_bus_idx == -1:
@@ -359,4 +362,15 @@ func duck_ambient(on: bool) -> void:
 	if on == _ambient_ducked:
 		return
 	_ambient_ducked = on
-	AudioServer.set_bus_volume_db(_ambient_bus_idx, -80.0 if on else 0.0)
+
+	var target_db: float = AMBIENT_DUCK_DB if on else 0.0
+	if _ambient_tween:
+		_ambient_tween.kill()
+	if fade_duration > 0.0:
+		_ambient_tween = create_tween()
+		_ambient_tween.tween_method(
+			func(v: float): AudioServer.set_bus_volume_db(_ambient_bus_idx, v),
+			AudioServer.get_bus_volume_db(_ambient_bus_idx), target_db, fade_duration
+		)
+	else:
+		AudioServer.set_bus_volume_db(_ambient_bus_idx, target_db)

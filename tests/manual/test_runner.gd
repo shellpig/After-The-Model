@@ -5546,18 +5546,24 @@ func _ready() -> void:
 		printerr("FAIL 9-E: Audio echo player should be playing after toggle on!")
 		get_tree().quit(1)
 		return
-	if ambient_bus_idx_9e != -1 and AudioServer.get_bus_volume_db(ambient_bus_idx_9e) >= 0.0:
-		printerr("FAIL 10-A: Ambient bus should be ducked while echo audio plays!")
-		get_tree().quit(1)
-		return
+	await get_tree().create_timer(0.35).timeout
+	if ambient_bus_idx_9e != -1:
+		var ducked_db := AudioServer.get_bus_volume_db(ambient_bus_idx_9e)
+		# Lowered, not silenced (Phase 10-A spec: "壓低，不全靜") — must be clearly
+		# quieter than baseline but nowhere near the old near-mute -80dB mistake.
+		if ducked_db >= -1.0 or ducked_db <= -40.0:
+			printerr("FAIL 10-A: Ambient bus should be lowered (not silenced) while echo audio plays! Got: ", ducked_db)
+			get_tree().quit(1)
+			return
 
 	ui_instance.toggle_echo_audio(test_audio)
 	if ui_instance._audio_echo.playing:
 		printerr("FAIL 9-E: Audio echo player should be stopped after toggle off!")
 		get_tree().quit(1)
 		return
-	if ambient_bus_idx_9e != -1 and AudioServer.get_bus_volume_db(ambient_bus_idx_9e) < 0.0:
-		printerr("FAIL 10-A: Ambient bus should be restored after echo audio stops!")
+	await get_tree().create_timer(0.35).timeout
+	if ambient_bus_idx_9e != -1 and AudioServer.get_bus_volume_db(ambient_bus_idx_9e) < -1.0:
+		printerr("FAIL 10-A: Ambient bus should fade back to baseline after echo audio stops!")
 		get_tree().quit(1)
 		return
 		

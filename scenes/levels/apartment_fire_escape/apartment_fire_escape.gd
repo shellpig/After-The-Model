@@ -15,6 +15,13 @@ const CAMERA_HALF_HEIGHT := 360.0
 const MAP_WIDTH := 1672.0
 const MAP_HEIGHT := 941.0
 
+const SUBWAY_RUMBLE_PATHS := [
+	"res://assets/audio/ambient/subway_rumble_a.mp3",
+	"res://assets/audio/ambient/subway_rumble_b.mp3"
+]
+const SUBWAY_INTERVAL_MIN := 40.0
+const SUBWAY_INTERVAL_MAX := 90.0
+
 const UPPER_WALK_PLATFORM_PATHS := [
 	"Collision/RightBuilding4FPlatform"
 ]
@@ -44,6 +51,9 @@ const MESSAGES := {
 
 @onready var player: CharacterBody2D = $Player
 @onready var camera: Camera2D = $Camera2D
+@onready var ambient_rain: AudioStreamPlayer = $AmbientRain
+@onready var ambient_subway: AudioStreamPlayer = $AmbientSubway
+@onready var subway_timer: Timer = $SubwayTimer
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
@@ -77,8 +87,30 @@ func _ready() -> void:
 		interactable.player_exited.connect(_on_interactable_exited)
 	_refresh_current_interactable()
 
+	_start_ambience()
+
 func _exit_tree() -> void:
 	SaveSystem.can_save_here = true
+
+func _start_ambience() -> void:
+	if ambient_rain.stream and "loop" in ambient_rain.stream:
+		ambient_rain.stream.loop = true
+	if not ambient_rain.playing:
+		ambient_rain.play()
+
+	subway_timer.timeout.connect(_on_subway_timer_timeout)
+	_arm_subway()
+
+func _arm_subway() -> void:
+	subway_timer.start(randf_range(SUBWAY_INTERVAL_MIN, SUBWAY_INTERVAL_MAX))
+
+func _on_subway_timer_timeout() -> void:
+	var path: String = SUBWAY_RUMBLE_PATHS[randi() % SUBWAY_RUMBLE_PATHS.size()]
+	var stream := load(path) as AudioStream
+	if stream:
+		ambient_subway.stream = stream
+		ambient_subway.play()
+	_arm_subway()
 
 func _process(_delta: float) -> void:
 	_update_camera()

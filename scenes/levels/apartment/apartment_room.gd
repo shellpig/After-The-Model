@@ -415,7 +415,8 @@ func _trigger_interaction() -> void:
 								break
 						if not existing_note.is_empty() and not "氣壓大門在背後合上" in existing_note.get("body", ""):
 							var updated_note = existing_note.duplicate()
-							updated_note.body = existing_note.get("body", "") + "\n\n氣壓大門在背後合上，把這間發霉的安全溫室反鎖在身後。\n迎面而來的是深夜的冷雨，高架軌道上輕軌呼嘯而過，將鐵鏽與酸雨的水霧灑在我的護目鏡上。下層街區的霓虹招柄在積水裡折射出廉價的青色與桃紅。\n這裡沒有陽光，沒有申訴管道，只有成千上萬在 AI 陰影下掙扎討生活的普通人。\n我踏進了水窪，邁向雨夜。已經沒有回頭路了，我的名字與記憶，一定就藏在這座城市的某個夜班角落。"
+							# add_knowledge() 對既有筆記會自動 append 合併，這裡只傳雨夜旁白 delta，避免 base 內文被重複拼接
+							updated_note.body = "氣壓大門在背後合上，把這間發霉的安全溫室反鎖在身後。\n迎面而來的是深夜的冷雨，高架軌道上輕軌呼嘯而過，將鐵鏽與酸雨的水霧灑在我的護目鏡上。下層街區的霓虹招柄在積水裡折射出廉價的青色與桃紅。\n這裡沒有陽光，沒有申訴管道，只有成千上萬在 AI 陰影下掙扎討生活的普通人。\n我踏進了水窪，邁向雨夜。已經沒有回頭路了，我的名字與記憶，一定就藏在這座城市的某個夜班角落。"
 							GameState.add_knowledge(updated_note)
 							_pending_toast_title = "已更新筆記：我鎖上的門"
 						

@@ -1,0 +1,24 @@
+{
+  "source": "../wan-idle-glance-6f-*.png",
+  "normalization": "alpha crop resized to common body height, centered x, top_y=78, baseline consistent",
+  "cell_size": 1024,
+  "rows": 2,
+  "cols": 3,
+  "frame_order": [
+    "01_idle",
+    "02_begin_turn",
+    "03_full_glance_hold_a",
+    "04_full_glance_hold_b",
+    "05_turn_back",
+    "06_idle_settle"
+  ],
+  "durations_ms": [
+    650,
+    150,
+    360,
+    360,
+    150,
+    520
+  ],
+  "target_body_height": 864
+}

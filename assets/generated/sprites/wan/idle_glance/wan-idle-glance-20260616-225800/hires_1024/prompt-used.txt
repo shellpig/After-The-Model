@@ -1,0 +1,25 @@
+Use the character image shown earlier as the visual reference for identity and style. Use the layout guide image just shown as a layout-only reference. Use it only to understand the 2 rows x 3 columns, six equal invisible frame slots, centering, spacing, and safe padding. Do not reproduce the guide: no visible boxes, no safe-area rectangles, no center marks, no labels, no borders, no guide background.
+
+Create a full-body 2D NPC animation sprite sheet for Wan: 2 rows x 3 columns, exactly 6 equal invisible cells, read left-to-right across the top row, then left-to-right across the bottom row. This is an idle-break animation: Wan briefly glances toward the screen-right dark alley, holds the glance for two frames, then turns back to idle.
+
+Preserve Wan's identity exactly from the reference: slim young woman, tired wary face, black shoulder-length hair with violet highlights, small cyan cyber ear implant, oversized worn purple sweater with off-shoulder collar, patched black ripped pants, heavy dark boots with straps, same muted purple/black/cyan palette, same hand-drawn indie cyberpunk comic linework, riso/halftone texture. Do not redesign clothing, face, hairstyle, boots, body proportions, or palette. Not pixel art.
+
+Frame sequence:
+1. Neutral idle, facing mostly forward like the reference, feet planted.
+2. Begin turning head/eyes toward screen-right, shoulders barely start to follow.
+3. Full glance toward screen-right, head clearly turned, guarded suspicious expression.
+4. Hold the full glance toward screen-right again, almost same pose as frame 3 with only tiny eye/hair/shoulder variation, creating a deliberate pause.
+5. Turn back toward neutral, head and torso halfway returning.
+6. Neutral idle settle, close to frame 1, ready to loop back to idle.
+
+CRITICAL alignment rules:
+- Head top must stay at the same vertical height in all 6 cells.
+- Boots and soles must be fully visible in all 6 cells; do not cut off shoes, toes, heels, boot straps, or soles.
+- Feet must share the same bottom baseline in every frame.
+- Same body height, same scale, same bounding box, same centerline in all 6 cells.
+- Keep the entire character inside each cell with clear magenta margin above the hair and below the boots.
+- No walking, no step, no arm swing, no dramatic lean. Only head/eye/upper torso turn and slight hair motion.
+- No body part or hair crosses a cell edge.
+- No floating detached effects.
+
+Background must be 100% solid flat #FF00FF magenta. No transparency. No gradients in background. No text, no labels, no UI, no speech bubbles, no visible grid lines, no borders or frames between cells.

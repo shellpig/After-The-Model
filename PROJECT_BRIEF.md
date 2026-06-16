@@ -226,7 +226,8 @@ note_id
 | 9-H | ✅ 完成 | Phase 9 全鏈回歸 + 存讀檔驗證 + GUI / 觸控走查 |
 | 10-A | 🟦 待驗收 | 街道音景：雨 bed（`AmbientRain` autoplay loop, -22dB）+ 地鐵遠轟（`AmbientSubway` one-shot，`SubwayTimer` 40~90 秒隨機間隔，`_a`/`_b` 隨機挑）；新增 Audio Bus `Ambient`；echo 播放時 `main.duck_ambient()` 與既有 `pause_bgm`/`resume_bgm` 同步壓低（-14dB，淡降非全靜，0.3s tween）／淡回；確認街道 BGM 由 `main.gd` 中央系統播放，移除場景內死節點 `BGMPlayer`；headless PASS，GUI / 真機聽感驗收待進行 |
 | 10-B | 🟦 待驗收 | 不分層視覺基底：雨粒子兩層（`RainFar`/`RainNear`，掛 `Camera2D` 子節點隨鏡頭走，垂直下落、霓虹染色非純白，落速 3x）+ 落地水花（`RainSplash`）+ `Vignette`（`CanvasLayer` layer=1 + shader，`GameUI` 改 layer=2 確保不被遮；目前 `visible=false` 待調整）+ 相機 idle 微擺（`Camera2D.offset` sin drift，走路時淡出）；無 CRT；`CanvasModulate` 夜色已試做後拿掉（不好看）；headless PASS，GUI / 手機效能聽感驗收待進行 |
-| 10-C | ⬜ 條件式 / 待決 | 分層進階（門控在 10-B 後）：街道背景分層 → 招牌閃爍 / 窗光呼吸 / 視差 / 濕地面反射；是否開工於 10-B 目視通過後決定（kill-switch）|
+| 10-C | ⬜ 規劃中 | 分層進階。**A 免分層（可先行，無 gate）**：看板廣告螢幕（中央遠景看板疊會播放的廣告，先 1 張 + `billboard_screen.gdshader` 掃描線 / flicker，OK 再多張輪播）、路燈柔光池；**B 需分層前置（門控在 10-B 後、kill-switch）**：招牌閃爍 / 窗光呼吸 / 視差 / 濕地面反射。素材：`assets/generated/sprites/street_billboard_ad/`（待生）|
+| 10-D | ⬜ 規劃中 | NPC 微演出：晚 idle break「撇一眼暗巷」——`NpcWan` 改 `AnimatedSprite2D`（`idle` + `idle_glance` 2~3 關鍵姿勢真幀）+ `IdleBreak` 組件每隔幾秒插播再回正；可獨立移除。素材：`assets/generated/sprites/wan/idle_glance/`（待生，須接得上現有 idle）|
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
@@ -397,17 +398,19 @@ NPC「晚」內容定稿：`subdocs/人/晚.md`。
 ### Phase 10 子階段（三份對照）
 
 > 行號以 2026-06-16 版為準；大幅改寫後需校正。Phase 10 = 氛圍與演出 pass（只在街道 `apartment_entrance` 做垂直切片），規格已寫、待開工。
-> 規格書 Phase 10 無「每子階段獨立驗收意圖段」，以對應語意段（音景 / 視覺基底 / 分層進階）+ 子階段表對應；驗收以 GUI / 真機目視為主，headless 僅作回歸護欄。
+> 規格書 Phase 10 無「每子階段獨立驗收意圖段」，以對應語意段（音景 / 視覺基底 / 分層進階 / NPC 微演出）+ 子階段表對應；驗收以 GUI / 真機目視為主，headless 僅作回歸護欄。
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
 |---|---|---|---|
-| Phase 10 總覽 + 範圍 + 氛圍原則 | 2504–2535 | 2181–2206 | 771–775 |
-| 10-A 街道音景 | 2536–2542 | 2207–2237 | 776–784 |
-| 10-B 不分層視覺基底 | 2543–2551 | 2238–2257 | 785–796 |
-| 10-C 分層進階（條件式） | 2552–2560 | 2258–2267 | 797–804 |
-| 子階段表 / 驗收性質 / 回歸 | 2561–2575 | 2268–2272 | 805–807 |
+| Phase 10 總覽 + 範圍 + 氛圍原則 | 2504–2536 | 2181–2210 | 771–775 |
+| 10-A 街道音景 | 2537–2543 | 2211–2241 | 776–784 |
+| 10-B 不分層視覺基底 | 2544–2552 | 2242–2261 | 785–796 |
+| 10-C-A 看板廣告螢幕 + 路燈柔光池（免分層 / 可先行） | 2553–2571（A/B 同語意段） | 2262–2285 | 797–805 |
+| 10-C-B 分層進階（條件式 / 卡分層前置） | 2553–2571（A/B 同語意段） | 2286–2295 | 806–813 |
+| 10-D 晚 idle break（撇一眼暗巷） | 2572–2579 | 2296–2313 | 814–821 |
+| 子階段表 / 驗收性質 / 回歸 | 2580–2599 | 2314–2320 | 822–824 |
 
-Phase 10 素材交付：音訊 `assets/audio/ambient/street_rain_loop.mp3`、`subway_rumble*.mp3`（提示詞已備）；雨絲 / 水花貼圖 `assets/vfx/rain_streak.png`、`rain_splash.png`（已生成，生成腳本 `assets/vfx/gen_rain_vfx.py`）；vignette 走 shader；10-C 街道分層素材為條件式。
+Phase 10 素材交付：音訊 `assets/audio/ambient/street_rain_loop.mp3`、`subway_rumble*.mp3`（提示詞已備）；雨絲 / 水花貼圖 `assets/vfx/rain_streak.png`、`rain_splash.png`（已生成，生成腳本 `assets/vfx/gen_rain_vfx.py`）；vignette 走 shader。**待生 / 待寫**：10-C-A 看板廣告靜圖 `assets/generated/sprites/street_billboard_ad/`（opaque、對齊看板矩形）+ `assets/shaders/billboard_screen.gdshader`（掃描線 / flicker / 邊緣輝光）；10-D 晚 `assets/generated/sprites/wan/idle_glance/`（2~3 關鍵姿勢，須接上現有 idle）+ `scripts/components/idle_break.gd`。10-C-B 街道分層素材仍為條件式。
 
 - `遊戲規格書.md` Phase 規劃總覽 1272–1521（含 Phase 2 拆分 1510–1521）
 - `subdocs/地點/主角公寓.md` 機制鏈總覽 B0–B9 357–381

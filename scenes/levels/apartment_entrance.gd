@@ -22,6 +22,10 @@ const SUBWAY_RUMBLE_PATHS := [
 ]
 const SUBWAY_INTERVAL_MIN := 40.0
 const SUBWAY_INTERVAL_MAX := 90.0
+# First rumble after entering the street fires sooner so the soundscape reads
+# quickly; subsequent rumbles use the normal sparse interval.
+const SUBWAY_FIRST_INTERVAL_MIN := 15.0
+const SUBWAY_FIRST_INTERVAL_MAX := 25.0
 
 # Idle camera drift (Phase 10-B): subtle sine wander on top of the existing
 # follow/clamp logic, faded out while the player is walking to avoid nausea.
@@ -54,6 +58,7 @@ var _entry_point_id: String = "from_apartment"
 var _entry_payload: Dictionary = {}
 var _ambience_time: float = 0.0
 var _camera_drift_strength: float = 1.0
+var _subway_first_armed: bool = false
 
 var _ad_textures: Array[Texture2D] = []
 var _ad_index: int = 0
@@ -100,7 +105,11 @@ func _start_ambience() -> void:
 	_arm_subway()
 
 func _arm_subway() -> void:
-	subway_timer.start(randf_range(SUBWAY_INTERVAL_MIN, SUBWAY_INTERVAL_MAX))
+	if not _subway_first_armed:
+		_subway_first_armed = true
+		subway_timer.start(randf_range(SUBWAY_FIRST_INTERVAL_MIN, SUBWAY_FIRST_INTERVAL_MAX))
+	else:
+		subway_timer.start(randf_range(SUBWAY_INTERVAL_MIN, SUBWAY_INTERVAL_MAX))
 
 func _on_subway_timer_timeout() -> void:
 	var path: String = SUBWAY_RUMBLE_PATHS[randi() % SUBWAY_RUMBLE_PATHS.size()]

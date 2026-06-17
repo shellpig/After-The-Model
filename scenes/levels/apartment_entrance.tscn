@@ -18,7 +18,11 @@
 [ext_resource type="Texture2D" uid="uid://cn6c8a662y55h" path="res://assets/vfx/rain_splash.png" id="ext_rain_splash"]
 [ext_resource type="Texture2D" uid="uid://dx8wea5u3kmu5" path="res://assets/vfx/rain_streak.png" id="ext_rain_streak"]
 [ext_resource type="Shader" uid="uid://ca7trspb4sux5" path="res://assets/shaders/vignette.gdshader" id="ext_vignette_shader"]
+[ext_resource type="Texture2D" uid="uid://c9billadtx1k3" path="res://assets/generated/sprites/street_billboard_ad/street-billboard-ad-calm-collected-20260617-181129.jpg" id="ext_billboard_tex"]
+[ext_resource type="Shader" uid="uid://c9billscr1x4d" path="res://assets/shaders/billboard_screen.gdshader" id="ext_billboard_shader"]
 [ext_resource type="Script" uid="uid://cxidlebreak01x" path="res://scripts/components/idle_break.gd" id="ext_idle_break"]
+[ext_resource type="Script" uid="uid://cxglowlyr01gd" path="res://scripts/components/glow_layer.gd" id="ext_glow_layer"]
+[ext_resource type="Shader" uid="uid://cxneonref01sd" path="res://assets/shaders/neon_reflection.gdshader" id="ext_neon_reflection"]
 [ext_resource type="Texture2D" uid="uid://cxwanglance01f" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/01_idle.png" id="wan_glance_01"]
 [ext_resource type="Texture2D" uid="uid://cxwanglance02f" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/02_begin_turn.png" id="wan_glance_02"]
 [ext_resource type="Texture2D" uid="uid://cxwanglance03f" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/03_full_glance_hold_a.png" id="wan_glance_03"]
@@ -134,6 +138,39 @@ shader_parameter/intensity = 0.32
 shader_parameter/radius = 0.7
 shader_parameter/softness = 0.55
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_billboard"]
+shader = ExtResource("ext_billboard_shader")
+shader_parameter/scanline_density = 80.0
+shader_parameter/scanline_strength = 0.12
+shader_parameter/flicker_speed = 8.0
+shader_parameter/flicker_strength = 0.04
+shader_parameter/brightness = 1.15
+shader_parameter/edge_glow = 0.3
+shader_parameter/panel_vignette = 0.2
+shader_parameter/rgb_shift = 0.002
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_additive"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_lamp"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lamp"]
+gradient = SubResource("Gradient_lamp")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1.0, 0.5)
+width = 256
+height = 256
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_reflection"]
+shader = ExtResource("ext_neon_reflection")
+shader_parameter/time_scale = 0.8
+shader_parameter/base_alpha = 0.18
+shader_parameter/color_a = Color(0.2, 0.9, 1.0, 1.0)
+shader_parameter/color_b = Color(0.65, 0.08, 1.0, 1.0)
+shader_parameter/color_c = Color(1.0, 0.52, 0.1, 1.0)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_wan"]
 animations = [{
 "frames": [{
@@ -174,6 +211,51 @@ script = ExtResource("2_script")
 [node name="Background" type="Sprite2D" parent="." unique_id=352896336]
 texture = ExtResource("1_bg")
 centered = false
+
+[node name="BillboardScreen" type="Polygon2D" parent="." unique_id=1101010001]
+polygon = PackedVector2Array(1198, 58, 1322, 76, 1320, 128, 1198, 118)
+uv = PackedVector2Array(0, 0, 2912, 0, 2912, 1440, 0, 1440)
+texture = ExtResource("ext_billboard_tex")
+material = SubResource("ShaderMaterial_billboard")
+
+[node name="GlowLayers" type="Node2D" parent="." unique_id=1102010001]
+visible = false
+
+[node name="AlleyNeonGlow" type="Polygon2D" parent="GlowLayers" unique_id=1102010002]
+polygon = PackedVector2Array(2395, 85, 2675, 85, 2675, 210, 2395, 210)
+color = Color(0.65, 0.05, 0.92, 1.0)
+material = SubResource("CanvasItemMaterial_additive")
+script = ExtResource("ext_glow_layer")
+mode = 1
+alpha_min = 0.0
+alpha_max = 0.52
+stutter_on_min = 0.7
+stutter_on_max = 5.0
+
+[node name="StoreSignGlow" type="Polygon2D" parent="GlowLayers" unique_id=1102010003]
+polygon = PackedVector2Array(3095, 185, 3650, 185, 3650, 380, 3095, 380)
+color = Color(1.0, 0.88, 0.28, 1.0)
+material = SubResource("CanvasItemMaterial_additive")
+script = ExtResource("ext_glow_layer")
+mode = 0
+alpha_min = 0.18
+alpha_max = 0.42
+speed = 0.5
+
+[node name="StoreWindowGlow" type="Polygon2D" parent="GlowLayers" unique_id=1102010004]
+polygon = PackedVector2Array(3095, 378, 3585, 378, 3585, 605, 3095, 605)
+color = Color(1.0, 0.55, 0.15, 1.0)
+material = SubResource("CanvasItemMaterial_additive")
+script = ExtResource("ext_glow_layer")
+mode = 0
+alpha_min = 0.08
+alpha_max = 0.28
+speed = 0.32
+
+[node name="ReflectionStrip" type="Polygon2D" parent="." unique_id=1102010005]
+polygon = PackedVector2Array(0, 642, 4080, 642, 4080, 720, 0, 720)
+uv = PackedVector2Array(0, 0, 1, 0, 1, 1, 0, 1)
+material = SubResource("ShaderMaterial_reflection")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=772104441]
 position = Vector2(640, 360)
@@ -388,3 +470,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
+
+[node name="StreetLights" type="Node2D" parent="." unique_id=1102010006]
+
+[node name="LampLight1" type="PointLight2D" parent="StreetLights" unique_id=1102010007]
+position = Vector2(895.0, 340.0)
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 9.0
+energy = 0.32
+color = Color(1.0, 0.72, 0.38, 1.0)
+
+[node name="LampLight2" type="PointLight2D" parent="StreetLights" unique_id=1102010008]
+position = Vector2(2540.0, 260.0)
+texture = SubResource("GradientTexture2D_lamp")
+texture_scale = 7.0
+energy = 0.22
+color = Color(0.38, 0.82, 1.0, 1.0)

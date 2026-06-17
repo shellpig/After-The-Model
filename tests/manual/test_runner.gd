@@ -406,9 +406,9 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	var npc_sprite = npc_wan.get_node_or_null("Sprite2D") as Sprite2D
-	if not npc_sprite or npc_sprite.texture == null:
-		printerr("FAIL: NpcWan Sprite2D or texture is missing!")
+	var npc_sprite_anim = npc_wan.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+	if not npc_sprite_anim or npc_sprite_anim.sprite_frames == null:
+		printerr("FAIL: NpcWan AnimatedSprite2D or sprite_frames is missing!")
 		get_tree().quit(1)
 		return
 	print("PASS: NpcWan node structure and texture verified.")
@@ -487,6 +487,43 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Phase 10-B visual base nodes (rain particles, vignette) verified.")
+
+	# 10-C-1. Verify BillboardScreen Polygon2D and screen shader
+	print("Verifying Phase 10-C-1 BillboardScreen...")
+	var billboard = street_instance.get_node_or_null("BillboardScreen")
+	if not billboard:
+		printerr("FAIL 10-C-1: BillboardScreen Polygon2D not found in apartment_entrance!")
+		get_tree().quit(1)
+		return
+	if billboard.material == null:
+		printerr("FAIL 10-C-1: BillboardScreen has no ShaderMaterial!")
+		get_tree().quit(1)
+		return
+	print("PASS: Phase 10-C-1 BillboardScreen Polygon2D and shader verified.")
+
+	# 10-C-2. Verify GlowLayers, ReflectionStrip, StreetLights
+	print("Verifying Phase 10-C-2 nodes (glow overlays, reflection, lights)...")
+	var glow_layers = street_instance.get_node_or_null("GlowLayers")
+	if not glow_layers or glow_layers.get_child_count() == 0:
+		printerr("FAIL 10-C-2: GlowLayers node missing or empty!")
+		get_tree().quit(1)
+		return
+	var alley_glow = street_instance.get_node_or_null("GlowLayers/AlleyNeonGlow")
+	if not alley_glow or (alley_glow as Polygon2D).material == null:
+		printerr("FAIL 10-C-2: AlleyNeonGlow Polygon2D or its CanvasItemMaterial missing!")
+		get_tree().quit(1)
+		return
+	var reflection = street_instance.get_node_or_null("ReflectionStrip")
+	if not reflection or (reflection as Polygon2D).material == null:
+		printerr("FAIL 10-C-2: ReflectionStrip Polygon2D or its ShaderMaterial missing!")
+		get_tree().quit(1)
+		return
+	var street_lights = street_instance.get_node_or_null("StreetLights")
+	if not street_lights or street_lights.get_child_count() == 0:
+		printerr("FAIL 10-C-2: StreetLights node missing or empty!")
+		get_tree().quit(1)
+		return
+	print("PASS: Phase 10-C-2 GlowLayers / ReflectionStrip / StreetLights verified.")
 
 	# 10-D. Verify NpcWan AnimatedSprite2D and IdleBreak node
 	print("Verifying Phase 10-D NpcWan idle break...")

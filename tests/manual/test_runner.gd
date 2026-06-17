@@ -488,6 +488,26 @@ func _ready() -> void:
 		return
 	print("PASS: Phase 10-B visual base nodes (rain particles, vignette) verified.")
 
+	# 10-D. Verify NpcWan AnimatedSprite2D and IdleBreak node
+	print("Verifying Phase 10-D NpcWan idle break...")
+	var npc_wan_anim = street_instance.get_node_or_null("Interactables/NpcWan/AnimatedSprite2D")
+	if not npc_wan_anim:
+		printerr("FAIL 10-D: NpcWan/AnimatedSprite2D not found!")
+		get_tree().quit(1)
+		return
+	if not npc_wan_anim.sprite_frames \
+			or not npc_wan_anim.sprite_frames.has_animation("idle") \
+			or not npc_wan_anim.sprite_frames.has_animation("idle_glance"):
+		printerr("FAIL 10-D: NpcWan AnimatedSprite2D missing 'idle' or 'idle_glance' animation!")
+		get_tree().quit(1)
+		return
+	var idle_break_node = street_instance.get_node_or_null("Interactables/NpcWan/IdleBreak")
+	if not idle_break_node:
+		printerr("FAIL 10-D: NpcWan/IdleBreak node not found!")
+		get_tree().quit(1)
+		return
+	print("PASS: Phase 10-D NpcWan AnimatedSprite2D and IdleBreak verified.")
+
 	# 11. Verify Phase 4-E Entry Point methods on apartment_room
 	print("Verifying Phase 4-E Entry Point APIs on apartment_room...")
 	if not room_instance.has_method("prepare_entry_point") or not room_instance.has_method("set_entry_point"):

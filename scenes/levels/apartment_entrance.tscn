@@ -18,6 +18,13 @@
 [ext_resource type="Texture2D" uid="uid://cn6c8a662y55h" path="res://assets/vfx/rain_splash.png" id="ext_rain_splash"]
 [ext_resource type="Texture2D" uid="uid://dx8wea5u3kmu5" path="res://assets/vfx/rain_streak.png" id="ext_rain_streak"]
 [ext_resource type="Shader" uid="uid://ca7trspb4sux5" path="res://assets/shaders/vignette.gdshader" id="ext_vignette_shader"]
+[ext_resource type="Script" uid="uid://cxidlebreak01x" path="res://scripts/components/idle_break.gd" id="ext_idle_break"]
+[ext_resource type="Texture2D" uid="uid://cxwanglance01f" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/01_idle.png" id="wan_glance_01"]
+[ext_resource type="Texture2D" uid="uid://cxwanglance02f" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/02_begin_turn.png" id="wan_glance_02"]
+[ext_resource type="Texture2D" uid="uid://cxwanglance03f" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/03_full_glance_hold_a.png" id="wan_glance_03"]
+[ext_resource type="Texture2D" uid="uid://cxwanglance04f" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/04_full_glance_hold_b.png" id="wan_glance_04"]
+[ext_resource type="Texture2D" uid="uid://cxwanglance05f" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/05_turn_back.png" id="wan_glance_05"]
+[ext_resource type="Texture2D" uid="uid://cxwanglance06f" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/06_idle_settle.png" id="wan_glance_06"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rain_far"]
 emission_shape = 3
@@ -126,6 +133,40 @@ shader = ExtResource("ext_vignette_shader")
 shader_parameter/intensity = 0.32
 shader_parameter/radius = 0.7
 shader_parameter/softness = 0.55
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wan"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_wan_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("wan_glance_01")
+}, {
+"duration": 1.0,
+"texture": ExtResource("wan_glance_02")
+}, {
+"duration": 2.0,
+"texture": ExtResource("wan_glance_03")
+}, {
+"duration": 2.0,
+"texture": ExtResource("wan_glance_04")
+}, {
+"duration": 1.0,
+"texture": ExtResource("wan_glance_05")
+}, {
+"duration": 1.0,
+"texture": ExtResource("wan_glance_06")
+}],
+"loop": false,
+"name": &"idle_glance",
+"speed": 5.0
+}]
 
 [node name="ApartmentEntrance" type="Node2D" unique_id=956033372]
 script = ExtResource("2_script")
@@ -254,10 +295,20 @@ position = Vector2(2207, 551.88)
 shape = SubResource("RectangleShape2D_interact_wan")
 debug_color = Color(0.1, 0.9, 0.1, 0.42)
 
-[node name="Sprite2D" type="Sprite2D" parent="Interactables/NpcWan" unique_id=208123447]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Interactables/NpcWan" unique_id=208123447]
 position = Vector2(2203.88, 556.88)
 scale = Vector2(0.24, 0.23)
-texture = ExtResource("13_wan_idle")
+sprite_frames = SubResource("SpriteFrames_wan")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="IdleBreak" type="Node" parent="Interactables/NpcWan" unique_id=208123450]
+script = ExtResource("ext_idle_break")
+target_path = NodePath("../AnimatedSprite2D")
+idle_anim = "idle"
+break_anim = "idle_glance"
+interval_min = 5.0
+interval_max = 12.0
 
 [node name="TravelStreetEastArea" type="Area2D" parent="Interactables" unique_id=208123448]
 script = ExtResource("4_interactable")

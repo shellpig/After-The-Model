@@ -505,7 +505,7 @@ Phase 8-A~8-H 已完成並有測試覆蓋寫入 `tests/manual/test_runner.gd`。
 
 **Phase 9 — 拾遺系統（殘響蒐集 + 收藏家）：9-A~9-H 已全數完成。** 主軸：把主角副業「拾遺者」落地為真系統——時鐘取「老舊探測模組」→ 收藏家鹿其琛鑑定 → 解碼手套升級「拾遺手套」→ 感知採集 4 條殘響（7 點跨 5 場景）→ 筆記殘響分頁（`????` 佔位 + 集滿解鎖照片 / 錄音）→ 賣 vs 留（對話式收購、賣後標記已售出且媒體永久失效、鹿家殘響排除且不收）。
 
-**Phase 10 — 氛圍與演出（Atmosphere & Presentation pass）：規格已寫（三件套），待開工。** 方向決議：殘響 / 記憶線為敘事主軸，氛圍服務主軸。只在街道 `apartment_entrance` 做垂直切片：10-A 街道音景（雨 + 偶爾地鐵 + 接既有 ducking）、10-B 不分層視覺基底（CanvasModulate 夜色 + 稀疏雨粒子 + 水花 + vignette + 相機微擺，無 CRT）、10-C 分層進階（招牌閃爍 / 窗光 / 視差 / 濕地面反射，**條件式、門控在 10-B 目視通過後**，kill-switch）。手機效能為硬約束；本階段以 GUI / 真機目視驗收為主，headless 僅作回歸護欄。敘事脊椎（主線 A）與寫作密度（C）排在 Phase 10 之後。
+**Phase 10 — 氛圍與演出（Atmosphere & Presentation pass）：10-A~10-D 程式皆已實作、headless PASS，目前 🟦 待 GUI / 真機目視驗收（Phase 10 的主要驗收形式）。** 方向決議：殘響 / 記憶線為敘事主軸，氛圍服務主軸。只在街道 `apartment_entrance` 做垂直切片：10-A 街道音景（雨 bed + 偶爾地鐵 + 接既有 ducking）、10-B 不分層視覺基底（稀疏雨粒子 + 水花 + vignette + 相機微擺，無 CRT；夜色 CanvasModulate 試後移除）、10-C-1 看板廣告（3 張輪播 + glitch 轉場，輪播 / glitch 已 GUI 驗收）+ 路燈柔光池、10-C-2 glow layers / 霓虹倒影（免分層部分已做，視差門控在美術切層後、暫跳過）、10-D 晚 idle break（撇一眼暗巷）。手機效能為硬約束；本階段以 GUI / 真機目視驗收為主，headless 僅作回歸護欄。敘事脊椎（主線 A）與寫作密度（C）排在 Phase 10 之後。
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

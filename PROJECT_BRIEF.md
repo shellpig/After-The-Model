@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-06-16
+最後更新：2026-06-17
 
 ---
 
@@ -226,7 +226,7 @@ note_id
 | 9-H | ✅ 完成 | Phase 9 全鏈回歸 + 存讀檔驗證 + GUI / 觸控走查 |
 | 10-A | 🟦 待驗收 | 街道音景：雨 bed（`AmbientRain` autoplay loop, -22dB）+ 地鐵遠轟（`AmbientSubway` one-shot，`SubwayTimer` 40~90 秒隨機間隔，`_a`/`_b` 隨機挑）；新增 Audio Bus `Ambient`；echo 播放時 `main.duck_ambient()` 與既有 `pause_bgm`/`resume_bgm` 同步壓低（-14dB，淡降非全靜，0.3s tween）／淡回；確認街道 BGM 由 `main.gd` 中央系統播放，移除場景內死節點 `BGMPlayer`；headless PASS，GUI / 真機聽感驗收待進行 |
 | 10-B | 🟦 待驗收 | 不分層視覺基底：雨粒子兩層（`RainFar`/`RainNear`，掛 `Camera2D` 子節點隨鏡頭走，垂直下落、霓虹染色非純白，落速 3x）+ 落地水花（`RainSplash`）+ `Vignette`（`CanvasLayer` layer=1 + shader，`GameUI` 改 layer=2 確保不被遮；目前 `visible=false` 待調整）+ 相機 idle 微擺（`Camera2D.offset` sin drift，走路時淡出）；無 CRT；`CanvasModulate` 夜色已試做後拿掉（不好看）；headless PASS，GUI / 手機效能聽感驗收待進行 |
-| 10-C | 🟦 部分待驗收 | **10-C-1 完成**：`BillboardScreen` Polygon2D + `billboard_screen.gdshader`（掃描線 / flicker / 邊緣輝光 / 輕微 RGB 錯位）+ 廣告圖 1 張；headless PASS；GUI 目視驗收待進行。**10-C-2 完成（免分層可做部分）**：`GlowLayers`（`AlleyNeonGlow` 紫青 stutter、`StoreSignGlow` 暖黃 breathing、`StoreWindowGlow` 暖橘 breathing slow，三個 Polygon2D + `glow_layer.gd` + `CanvasItemMaterial` Additive）+ `ReflectionStrip`（Polygon2D + `neon_reflection.gdshader` 程序化霓虹倒影 blend_add）+ `StreetLights`（`LampLight1` 暖橘路燈 / `LampLight2` 冷青巷燈，各 PointLight2D + 放射漸層 texture）；headless PASS（節點存在 + material 存在）；視差（`ParallaxBackground`）門控在美術切層後才開，目前跳過；GUI 目視驗收待進行。|
+| 10-C | 🟦 部分待驗收 | **10-C-1 完成**：`BillboardScreen` Polygon2D + `billboard_screen.gdshader`（掃描線 / flicker / 邊緣輝光 / 輕微 RGB 錯位 + `glitch_amount` uniform）+ **廣告圖 3 張輪播**（`apartment_entrance.gd` 狀態機：每張停 6±1s + 0.35s 訊號中斷式 glitch 轉場，glitch 峰值換 texture 並重設 Polygon2D uv 對齊各圖尺寸；跑在 ambient 層不受 UIMode 影響）+ 路燈柔光池（`StreetLights`）；headless PASS（carousel 3 ads + glitch uniform 護欄）；輪播 / glitch GUI 目視驗收完成，路燈柔光池 GUI 待確認。**10-C-2 完成（免分層可做部分）**：`GlowLayers`（`AlleyNeonGlow` 紫青 stutter、`StoreSignGlow` 暖黃 breathing、`StoreWindowGlow` 暖橘 breathing slow，三個 Polygon2D + `glow_layer.gd` + `CanvasItemMaterial` Additive）+ `ReflectionStrip`（Polygon2D + `neon_reflection.gdshader` 程序化霓虹倒影 blend_add）+ `StreetLights`（`LampLight1` 暖橘路燈 / `LampLight2` 冷青巷燈，各 PointLight2D + 放射漸層 texture）；headless PASS（節點存在 + material 存在）；視差（`ParallaxBackground`）門控在美術切層後才開，目前跳過；GUI 目視驗收待進行。|
 | 10-D | 🟦 待驗收 | NPC 微演出：晚 idle break「撇一眼暗巷」——`NpcWan` 改 `AnimatedSprite2D`（`idle` + `idle_glance` 6 幀真幀）+ `IdleBreak` 組件（`interval_min=5`/`max=12` 秒）每隔幾秒插播再回正；`animation_finished` 訊號回 idle；素材：`wan-idle-glance-20260616-225800/hires_1024/final_normalized/`（6 幀 + GIF，黑邊版已後處理）；headless PASS，GUI 真機目視驗收待進行。|
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。

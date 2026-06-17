@@ -148,6 +148,7 @@ shader_parameter/brightness = 1.15
 shader_parameter/edge_glow = 0.3
 shader_parameter/panel_vignette = 0.2
 shader_parameter/rgb_shift = 0.002
+shader_parameter/glitch_amount = 0.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_additive"]
 blend_mode = 1

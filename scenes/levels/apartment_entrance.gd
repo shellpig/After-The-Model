@@ -29,11 +29,24 @@ const CAMERA_DRIFT_AMPLITUDE := Vector2(2.5, 1.5)
 const CAMERA_DRIFT_SPEED := Vector2(0.35, 0.5)
 const CAMERA_DRIFT_FADE_SPEED := 1.5
 
+# Billboard ad carousel (Phase 10-C-1): cycle through opaque ad stills on the
+# BillboardScreen Polygon2D, swapping mid-glitch so the cut is hidden. The screen
+# shader's glitch_amount is driven up/down across each transition.
+const BILLBOARD_AD_PATHS := [
+	"res://assets/generated/sprites/street_billboard_ad/street-billboard-ad-calm-collected-20260617-181129.jpg",
+	"res://assets/generated/sprites/street_billboard_ad/street-billboard-ad-mind-upload-20260617-201628.png",
+	"res://assets/generated/sprites/street_billboard_ad/street-billboard-ad-pure-sustenance-20260617-201628.png",
+]
+const BILLBOARD_HOLD := 6.0          # seconds each ad stays up
+const BILLBOARD_HOLD_JITTER := 1.0   # +/- random on hold to avoid a metronomic feel
+const BILLBOARD_GLITCH_DURATION := 0.35  # transition length
+
 @onready var player: CharacterBody2D = $Player
 @onready var camera: Camera2D = $Camera2D
 @onready var ambient_rain: AudioStreamPlayer = $AmbientRain
 @onready var ambient_subway: AudioStreamPlayer = $AmbientSubway
 @onready var subway_timer: Timer = $SubwayTimer
+@onready var billboard: Polygon2D = $BillboardScreen
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
@@ -41,6 +54,14 @@ var _entry_point_id: String = "from_apartment"
 var _entry_payload: Dictionary = {}
 var _ambience_time: float = 0.0
 var _camera_drift_strength: float = 1.0
+
+var _ad_textures: Array[Texture2D] = []
+var _ad_index: int = 0
+var _billboard_hold_timer: float = 0.0
+var _billboard_hold_target: float = BILLBOARD_HOLD
+var _billboard_in_glitch: bool = false
+var _billboard_glitch_time: float = 0.0
+var _billboard_swapped_this_glitch: bool = false
 
 func prepare_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "from_apartment"
@@ -67,6 +88,7 @@ func _ready() -> void:
 	_refresh_current_interactable()
 
 	_start_ambience()
+	_setup_billboard()
 
 func _start_ambience() -> void:
 	if ambient_rain.stream and "loop" in ambient_rain.stream:
@@ -88,8 +110,61 @@ func _on_subway_timer_timeout() -> void:
 		ambient_subway.play()
 	_arm_subway()
 
+func _setup_billboard() -> void:
+	if billboard == null:
+		return
+	_ad_textures.clear()
+	for path in BILLBOARD_AD_PATHS:
+		var tex := load(path) as Texture2D
+		if tex != null:
+			_ad_textures.append(tex)
+	if _ad_textures.is_empty():
+		return
+	_ad_index = 0
+	_apply_ad(_ad_index)
+	_billboard_hold_target = BILLBOARD_HOLD + randf_range(-BILLBOARD_HOLD_JITTER, BILLBOARD_HOLD_JITTER)
+
+func _apply_ad(idx: int) -> void:
+	var tex := _ad_textures[idx]
+	billboard.texture = tex
+	# Polygon2D uv is in texture pixels; span the full texture so the shader's
+	# normalized UV stays 0..1 regardless of each ad's resolution.
+	var w := float(tex.get_width())
+	var h := float(tex.get_height())
+	billboard.uv = PackedVector2Array([Vector2(0, 0), Vector2(w, 0), Vector2(w, h), Vector2(0, h)])
+
+func _update_billboard(delta: float) -> void:
+	# Need at least two ads to have anything to rotate between.
+	if billboard == null or _ad_textures.size() < 2:
+		return
+	var mat := billboard.material as ShaderMaterial
+	if _billboard_in_glitch:
+		_billboard_glitch_time += delta
+		var phase := _billboard_glitch_time / BILLBOARD_GLITCH_DURATION
+		# Swap the texture at the glitch peak so the hard cut is hidden.
+		if not _billboard_swapped_this_glitch and phase >= 0.5:
+			_ad_index = (_ad_index + 1) % _ad_textures.size()
+			_apply_ad(_ad_index)
+			_billboard_swapped_this_glitch = true
+		if phase >= 1.0:
+			_billboard_in_glitch = false
+			if mat != null:
+				mat.set_shader_parameter("glitch_amount", 0.0)
+			_billboard_hold_timer = 0.0
+			_billboard_hold_target = BILLBOARD_HOLD + randf_range(-BILLBOARD_HOLD_JITTER, BILLBOARD_HOLD_JITTER)
+		elif mat != null:
+			# Triangular envelope 0 -> 1 -> 0 across the transition.
+			mat.set_shader_parameter("glitch_amount", 1.0 - abs(phase * 2.0 - 1.0))
+	else:
+		_billboard_hold_timer += delta
+		if _billboard_hold_timer >= _billboard_hold_target:
+			_billboard_in_glitch = true
+			_billboard_glitch_time = 0.0
+			_billboard_swapped_this_glitch = false
+
 func _process(delta: float) -> void:
 	_update_camera(delta)
+	_update_billboard(delta)
 
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return

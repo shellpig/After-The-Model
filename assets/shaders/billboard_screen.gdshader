@@ -11,6 +11,8 @@ uniform float brightness : hint_range(0.5, 2.0) = 1.15;
 uniform float edge_glow : hint_range(0.0, 1.0) = 0.3;
 uniform float panel_vignette : hint_range(0.0, 1.0) = 0.2;
 uniform float rgb_shift : hint_range(0.0, 0.015) = 0.002;
+// Driven by apartment_entrance.gd during ad swaps (0 = clean, 1 = full signal loss).
+uniform float glitch_amount : hint_range(0.0, 1.0) = 0.0;
 
 float rand_f(float seed) {
 	return fract(sin(seed * 93.9898) * 43758.5453);
@@ -19,15 +21,27 @@ float rand_f(float seed) {
 void fragment() {
 	vec2 uv = UV;
 
-	// Subtle chromatic aberration
-	float r = texture(TEXTURE, uv + vec2(rgb_shift, 0.0)).r;
+	// Signal-loss glitch during carousel swaps: banded horizontal tear + vertical
+	// roll. Wholly inert when glitch_amount == 0, so the resting look is unchanged.
+	if (glitch_amount > 0.001) {
+		float band = floor(uv.y * 24.0);
+		uv.x += (rand_f(band + floor(TIME * 30.0)) - 0.5) * 0.18 * glitch_amount;
+		uv.y = fract(uv.y + 0.25 * glitch_amount * rand_f(floor(TIME * 12.0)));
+	}
+
+	// Subtle chromatic aberration (widened while glitching)
+	float shift = rgb_shift + glitch_amount * 0.012;
+	float r = texture(TEXTURE, uv + vec2(shift, 0.0)).r;
 	float g = texture(TEXTURE, uv).g;
-	float b = texture(TEXTURE, uv - vec2(rgb_shift, 0.0)).b;
+	float b = texture(TEXTURE, uv - vec2(shift, 0.0)).b;
 	float a = texture(TEXTURE, uv).a;
 	vec4 col = vec4(r, g, b, a);
 
 	// Overall brightness boost (screens emit light)
 	col.rgb *= brightness;
+
+	// Brightness drop-out flicker during the glitch
+	col.rgb *= 1.0 - 0.5 * glitch_amount * rand_f(floor(TIME * 40.0));
 
 	// Horizontal scanlines
 	float scan = sin(uv.y * scanline_density * PI) * 0.5 + 0.5;

@@ -499,7 +499,21 @@ func _ready() -> void:
 		printerr("FAIL 10-C-1: BillboardScreen has no ShaderMaterial!")
 		get_tree().quit(1)
 		return
-	print("PASS: Phase 10-C-1 BillboardScreen Polygon2D and shader verified.")
+	# Carousel: at least two ad stills must load, and the glitch uniform must exist.
+	var ad_paths = street_instance.BILLBOARD_AD_PATHS
+	var loaded_ads := 0
+	for ad_path in ad_paths:
+		if ResourceLoader.exists(ad_path):
+			loaded_ads += 1
+	if loaded_ads < 2:
+		printerr("FAIL 10-C-1: billboard carousel needs >=2 loadable ad stills, found %d!" % loaded_ads)
+		get_tree().quit(1)
+		return
+	if (billboard.material as ShaderMaterial).get_shader_parameter("glitch_amount") == null:
+		printerr("FAIL 10-C-1: billboard shader missing glitch_amount uniform for carousel transitions!")
+		get_tree().quit(1)
+		return
+	print("PASS: Phase 10-C-1 BillboardScreen carousel (%d ads) and glitch uniform verified." % loaded_ads)
 
 	# 10-C-2. Verify GlowLayers, ReflectionStrip, StreetLights
 	print("Verifying Phase 10-C-2 nodes (glow overlays, reflection, lights)...")

@@ -232,7 +232,7 @@ note_id
 | 11-B | 🟧 待 headless | `get_trust(target)` adapter＝`get_flag("affinity_"+target,0)`；第一版不新建獨立軸，呼叫端統一走此介面 |
 | 11-C | 🟧 待 headless | 賣→Trace↓ 集中在 `GameState.sell_echo()`（`TRACE_DELTA_SELL=-1`，無條件、不靠對話）；DialogueRunner 新增通用 `add_trace` effect op（供未來「留」↑/「還」對話，觸發場景待 Phase 18/20/鹿線） |
 | 11-D | ❌ 取消 | 清洗刻意不在 Phase 11 落地（避免提前蓋 placeholder，呼應 4-G 教訓）；移至 **Phase 27**（Expose 上傳前清洗閘）硬兌現 |
-| 11-E | 🟧 待 headless | `tests/manual/test_runner.gd` 新增 Phase 11 區（trace 累加/存讀檔/缺鍵相容/reset、trust adapter、賣→trace↓、`add_trace` effect op）；trace 完全隱性無 UI。**本環境無 Godot binary，headless 尚未執行，待本機 `test_runner.tscn` 驗證** |
+| 11-E | 🟧 待 headless | `tests/manual/test_runner.gd` 新增 Phase 11 區（trace 累加/存讀檔/缺鍵相容/reset、trust adapter、賣→trace↓、`add_trace` effect op）；trace 完全隱性無 UI；headless 自動測試待執行驗證 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 

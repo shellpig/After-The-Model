@@ -233,10 +233,19 @@ note_id
 | 11-C | 🟧 待 headless | 賣→Trace↓ 集中在 `GameState.sell_echo()`（`TRACE_DELTA_SELL=-1`，無條件、不靠對話）；DialogueRunner 新增通用 `add_trace` effect op（供未來「留」↑/「還」對話，觸發場景待 Phase 18/20/鹿線） |
 | 11-D | ❌ 取消 | 清洗刻意不在 Phase 11 落地（避免提前蓋 placeholder，呼應 4-G 教訓）；移至 **Phase 27**（Expose 上傳前清洗閘）硬兌現 |
 | 11-E | 🟧 待 headless | `tests/manual/test_runner.gd` 新增 Phase 11 區（trace 累加/存讀檔/缺鍵相容/reset、trust adapter、賣→trace↓、`add_trace` effect op）；trace 完全隱性無 UI；headless 自動測試待執行驗證 |
+| 12-A | 📐 規格可實作 | 跳躍狀態：`jump` action + `player.gd` walk-line 之上腳本化拋物弧（地面起跳 / 空中水平微調 / 無二段跳 / 蹬牆）+ 抓邊緣吸附 + `jump` 動畫。**架構決策：不引入全域重力**（理由見規格）|
+| 12-B | 📐 規格可實作 | 平台組件 `ledge_area.gd` / `jump_gap.gd` + 採集點沿用 `EchoPoint`；最小原型床 `scenes/levels/jump_proto`（gap 跨越 + 跳上 ledge + 採集點），拋棄式、不接正式動線 |
+| 12-C | 📐 規格可實作 | TouchControls `BtnJump`（綁 `jump`）+ 僅世界模式顯隱 + 純觸控走查 |
+| 13-A | 📐 規格可實作 | `attack` action + `melee_stick`（命中→stun，棍不壞 / 無升級 / **無 HP·血條**）+ `enemy_base` AI（巡邏 / 察覺 / 追擊 / 受擊 stun）|
+| 13-B | 📐 規格可實作 | 繞後格式化（限機器）：`machine_enemy.can_format()` 背後 true / 正面 false + 按住 E 計時 → defeated 旗標；中止可重試 |
+| 13-C | 📐 規格可實作 | 人類分支 `human_enemy`：`can_format` 恆 false；解法走對話（嚇退 / 交易）/ 環境阻隔 / 出口；人類不會死在玩家手上 |
+| 13-D | 📐 規格可實作 | 輸 = 岔故事線 `combat_loss`：失敗 set 場景定義旗標 + 轉替代流程，**無 Game Over / 無死亡重來** |
+| 13-E | 📐 規格可實作 | 原型床 `scenes/levels/combat_proto`（隧道清潔機），拋棄式；正式 Act 2B 遭遇在 Phase 18 用此組件作者化 |
+| 13-F | 📐 規格可實作 | TouchControls `BtnAttack`（綁 `attack`）+ 格式化長按沿用 `BtnE` + 純觸控走查 |
 
-> 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
+> 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
-> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。Phase 12 起為 ⬜ 待規劃 / 待開工；嚴格順敘、不跳號。
+> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11（已實作）/ 12 / 13 規格已展開到可實作（📐，見下「Phase 12–13 子階段（三份對照）」行範圍）**；**Phase 14 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構（腳本弧 vs 全域重力）待使用者最終拍板（規格暫定腳本弧）。
 
 ### Phase 3 子階段（公寓觸控化）
 
@@ -422,6 +431,31 @@ Phase 10 素材交付：音訊 `assets/audio/ambient/street_rain_loop.mp3`、`su
 - `遊戲規格書.md` Phase 規劃總覽 1272–1521（含 Phase 2 拆分 1510–1521）
 - `subdocs/地點/主角公寓.md` 機制鏈總覽 B0–B9 357–381
 - `開發設計方針.md` 本檔範圍與邊界 6–21
+
+### Phase 12–13 子階段（三份對照）
+
+> 行號以 2026-06-19 寫入版為準；大幅改寫後需校正。Phase 12（跳躍 / 平台）、Phase 13（戰鬥）為主線地基，規格 / 契約 / 測試清單已展開到可實作（📐），程式未開工。
+> 規格書 12/13 採「架構決策 + 範圍 / 語意 + 子階段表」整段式（無每子階段獨立段），故子階段列的規格書欄指子階段表 + 對應語意整段。
+> 跨 Phase 地基語意（Trust/Trace/清洗、戰鬥 / 跳躍、三結局硬鎖）見 `遊戲規格書.md` Phase 11+ 開頭「跨 Phase 系統語意」段。
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 12 總覽 + 架構決策 + 範圍 / 語意 | 2648–2685 | 2372–2398（現況基準 + 新增/異動檔） | 841–844 |
+| 12-A 跳躍狀態（拋物弧 + 抓邊緣） | 2686–2693（子階段表） | 2399–2418 | 845–853 |
+| 12-B 平台 / ledge / gap + 原型床 | 2686–2693（子階段表） | 2419–2426 | 854–858 |
+| 12-C 觸控 Jump 鈕 | 2686–2693（子階段表） | 2427–2433 | 859–863 |
+| 12 驗收性質 / 回歸 | 2694–2696 | 2434–2439 | 864–867 |
+| Phase 13 總覽 + 架構決策 + 範圍 / 語意 | 2697–2736 | 2440–2471（現況基準 + 新增/異動檔） | 868–871 |
+| 13-A 棍 stun + 敵人 AI 骨架 | 2737–2747（子階段表） | 2472–2477 | 872–877 |
+| 13-B 繞後格式化（限機器） | 2737–2747（子階段表） | 2478–2484 | 878–882 |
+| 13-C 人類分支（不格式化） | 2737–2747（子階段表） | 2485–2490 | 883–886 |
+| 13-D 輸 = 岔線（無 Game Over） | 2737–2747（子階段表） | 2491–2496 | 887–890 |
+| 13-E 原型床 `combat_proto` | 2737–2747（子階段表） | 2497–2500 | 891–894 |
+| 13-F 觸控 Attack 鈕 | 2737–2747（子階段表） | 2501–2506 | 895–898 |
+| 13 驗收性質 / 回歸 | 2748–2750 | 2507–2512 | 899–902 |
+
+Phase 12 待生 / 待寫：`project.godot` `jump` action；`player.gd` 跳躍狀態；`player` SpriteFrames `jump` 動畫；`scripts/components/ledge_area.gd` / `jump_gap.gd`；`scenes/levels/jump_proto`；TouchControls `BtnJump`。
+Phase 13 待生 / 待寫：`project.godot` `attack` action；`melee_stick.gd` / `enemy_base.gd` / `machine_enemy.gd` / `human_enemy.gd` / `format_reset.gd` / `combat_loss.gd`；`player` SpriteFrames `attack` 動畫；`scenes/levels/combat_proto`（隧道清潔機）；TouchControls `BtnAttack`。
 
 ### 規格書 — 常引用系統段（跨階段）
 

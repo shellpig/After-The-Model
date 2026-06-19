@@ -15,6 +15,20 @@ S_MIN = 60       # min saturation to count as bg (kills greyish character linear
 V_MIN = 25       # min value (let very dark shadow still register as magenta bg)
 OUTLINE_PX = 4   # outline thickness (approx, via MaxFilter(3) iterations)
 
+# --- style grade ("stylematch v3"): match the in-use jump/walk sprite palette
+# (steel-blue jacket, khaki-brown pants), NOT the magenta concept art.
+# Step 1: full 3D linear color transfer (Monge-Kantorovich) fitted from these
+#   combat frames -> pooled jump+walk pixels. The off-diagonal terms rotate the
+#   teal jacket toward blue while keeping pants/skin intact.  out = A(x-ms)+mt
+# Step 2: trim red on warm muted cloth (pants/bag) only, to drop the leftover
+#   chocolate bias (brown R-G 25 -> 20, matching jump/walk). ---
+GRADE_A = [[0.9407291403444692, 0.18259329993271664, -0.22178815063104393],
+           [0.16847187657619583, 0.5974393564632828, 0.04937522386570008],
+           [-0.08278413443074828, 0.09533396790367504, 0.6615309332650225]]
+GRADE_MS = [86.62941779697181, 75.94646922539003, 63.69527003326683]
+GRADE_MT = [73.05459483217824, 62.79009107871075, 46.56256312782165]
+RED_TRIM = 5     # subtracted from R on warm-cloth pixels
+
 def keep_largest(fg):
     """Keep only the largest connected blob (the character), drop stray shadow specks."""
     a = np.array(fg)
@@ -77,6 +91,22 @@ def add_outline(img, thickness):
     out = Image.alpha_composite(black, img)
     return out
 
+def style_grade(img):
+    """Match the in-use jump/walk palette: 3D color transfer + warm-cloth red trim.
+    Alpha is left untouched."""
+    arr = np.array(img, float)
+    rgb = arr[..., :3]
+    A = np.array(GRADE_A); ms = np.array(GRADE_MS); mt = np.array(GRADE_MT)
+    flat = (rgb.reshape(-1, 3) - ms) @ A.T + mt
+    rgb = np.clip(flat, 0, 255).reshape(rgb.shape)
+    R, G, B, Al = rgb[..., 0], rgb[..., 1], rgb[..., 2], arr[..., 3]
+    # warm muted cloth (pants/bag): exclude bright skin (R<145) and orange patch (R-B<90)
+    warm = ((Al > 200) & (R > G) & (G > B) & (R > 50) & (R < 145) &
+            ((R - B) < 90) & ((R - B) > 20) & (B > 25))
+    rgb[..., 0] = np.where(warm, np.clip(R - RED_TRIM, 0, 255), R)
+    arr[..., :3] = rgb
+    return Image.fromarray(arr.astype("uint8"), "RGBA")
+
 def autocrop_box(images, pad=12):
     """Shared bbox across all frames so the loop doesn't jitter."""
     box = None
@@ -97,6 +127,7 @@ for i, name in enumerate(raws, 1):
     src = Image.open(os.path.join(RAW, name)).convert("RGBA")
     keyed = chroma_key(src)
     final = add_outline(keyed, OUTLINE_PX)
+    final = style_grade(final)
     dst = os.path.join(OUT, f"main-character-combat-walk-{i}.png")
     final.save(dst)
     frames.append(final)

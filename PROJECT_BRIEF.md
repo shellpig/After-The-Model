@@ -233,9 +233,9 @@ note_id
 | 11-C | ✅ 完成 | 賣→Trace↓ 集中在 `GameState.sell_echo()`（`TRACE_DELTA_SELL=-1`，無條件、不靠對話）；DialogueRunner 新增通用 `add_trace` effect op（供未來「留」↑/「還」對話，觸發場景待 Phase 18/20/鹿線）；本機 headless PASS |
 | 11-D | ❌ 取消 | 清洗刻意不在 Phase 11 落地（避免提前蓋 placeholder，呼應 4-G 教訓）；移至 **Phase 27**（Expose 上傳前清洗閘）硬兌現 |
 | 11-E | ✅ 完成 | `tests/manual/test_runner.gd` 新增 Phase 11 區（trace 累加/存讀檔/缺鍵相容/reset、trust adapter、賣→trace↓、`add_trace` effect op）；trace 完全隱性無 UI；2026-06-19 本機 headless PASS（`test_runner.tscn` / `verify_game_state.gd`，exit code 0） |
-| 12-A | 🟦 待驗收 | 跳躍狀態：`jump` action（Space）+ `player.gd` walk-line 之上腳本化拋物弧（地面起跳 / 空中水平微調 / 無二段跳 / 蹬牆）+ 抓邊緣吸附（group `ledges`，12-B 前安全 no-op）+ 單一連貫 `jump` clip（loop=false，落地由狀態接回，6 幀接進 5 個 level 的 SpriteFrames）。**架構決策：不引入全域重力**；headless PASS（action / API / 動畫存在 + 起跳→落回不破壞 walk-line / save-x / climb + 無二段跳）；跳躍手感 / jump-3 朝向 GUI 走查待進行 |
-| 12-B | 📐 規格可實作 | 平台組件 `ledge_area.gd` / `jump_gap.gd` + 採集點沿用 `EchoPoint`；最小原型床 `scenes/levels/jump_proto`（gap 跨越 + 跳上 ledge + 採集點），拋棄式、不接正式動線 |
-| 12-C | 📐 規格可實作 | TouchControls `BtnJump`（綁 `jump`）+ 僅世界模式顯隱 + 純觸控走查 |
+| 12-A | ✅ 完成 | 跳躍狀態：`jump` action（Space）+ `player.gd` walk-line 之上腳本化拋物弧（地面起跳 / 空中水平微調 / 無二段跳 / 蹬牆）+ 抓邊緣吸附（group `ledges`，12-B 前安全 no-op）+ 單一連貫 `jump` clip（loop=false，落地由狀態接回，6 幀接進 5 個 level 的 SpriteFrames）。**架構決策：不引入全域重力**；headless + GUI 走查 PASS |
+| 12-B | ✅ 完成 | 平台組件 `ledge_area.gd` / `jump_gap.gd` + 採集點沿用 `EchoPoint`；最小原型床 `scenes/levels/jump_proto`（gap 跨越 + 跳上 ledge + 採集點），拋棄式、不接正式動線；headless + GUI 走查 PASS |
+| 12-C | ✅ 完成 | TouchControls `BtnJump`（綁 `jump`）+ 僅世界模式顯隱；headless + 純觸控走查 PASS |
 | 13-A | 📐 規格可實作 | `attack` action + `melee_stick`（命中→stun，棍不壞 / 無升級 / **無 HP·血條**）+ `enemy_base` AI（巡邏 / 察覺 / 追擊 / 受擊 stun）|
 | 13-B | 📐 規格可實作 | 繞後格式化（限機器）：`machine_enemy.can_format()` 背後 true / 正面 false + 按住 E 計時 → defeated 旗標；中止可重試 |
 | 13-C | 📐 規格可實作 | 人類分支 `human_enemy`：`can_format` 恆 false；解法走對話（嚇退 / 交易）/ 環境阻隔 / 出口；人類不會死在玩家手上 |

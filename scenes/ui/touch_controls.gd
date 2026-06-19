@@ -27,7 +27,7 @@ func _get_game_ui() -> CanvasLayer:
 @onready var btn_e: Button = $Control/Actions/BtnE
 @onready var btn_r: Button = $Control/Actions/BtnR
 @onready var btn_t: Button = $Control/Actions/BtnT
-@onready var spacer_actions: Control = $Control/Actions/SpacerActions
+@onready var btn_jump: Button = $Control/Actions/BtnJump
 
 @onready var btn_bag: Button = $Control/Menus/BtnBag
 @onready var btn_note: Button = $Control/Menus/BtnNote
@@ -67,6 +67,7 @@ func _ready() -> void:
 	_bind_button(btn_e, "interact_primary")
 	_bind_button(btn_r, "interact_secondary")
 	_bind_button(btn_t, "interact_tertiary")
+	_bind_button(btn_jump, "jump")
 
 	_bind_button(btn_bag, "open_inventory")
 	_bind_button(btn_note, "open_notebook")
@@ -173,7 +174,7 @@ func _apply_cyber_style() -> void:
 	# 按鈕名單
 	var all_buttons: Array[Button] = [
 		btn_up, btn_down, btn_left, btn_right,
-		btn_e, btn_r, btn_t,
+		btn_e, btn_r, btn_t, btn_jump,
 		btn_bag, btn_note, btn_pause, btn_close
 	]
 
@@ -196,13 +197,9 @@ func _apply_cyber_style() -> void:
 		btn.add_theme_font_size_override("font_size", int(22 * ui_scale))
 	
 	# 右上與右下所有功能按鈕統一採用 60x60 的正方形設計，字體統一為 18px，外觀尺寸絕對一致
-	for btn in [btn_e, btn_r, btn_t, btn_bag, btn_note, btn_pause, btn_close]:
+	for btn in [btn_e, btn_r, btn_t, btn_jump, btn_bag, btn_note, btn_pause, btn_close]:
 		btn.custom_minimum_size = Vector2(60 * ui_scale, 60 * ui_scale)
 		btn.add_theme_font_size_override("font_size", int(18 * ui_scale))
-
-	# 為 2x2 佈局中的 SpacerActions 套用與功能按鈕完全一致的 custom_minimum_size 以維持對齊
-	if spacer_actions:
-		spacer_actions.custom_minimum_size = Vector2(60 * ui_scale, 60 * ui_scale)
 
 	# 動態套用各容器內部的間距 Separation
 	var dpad = $Control/DPad
@@ -330,10 +327,11 @@ func _update_dynamic_button_visibility() -> void:
 	# 右下角 E / R / T 交互按鍵的動態功能感知顯示
 	match mode:
 		UIMode.Mode.NONE:
-			# 世界探索模式：僅在有可互動物件時浮現 E 按鍵；R 與 T 無功能，隱藏
+			# 世界探索模式：僅在有可互動物件時浮現 E 按鍵；R 與 T 無功能，隱藏；Jump 恆顯
 			btn_r.visible = false
 			btn_t.visible = false
-			
+			btn_jump.visible = true
+
 			var has_interactable := false
 			if gu:
 				has_interactable = gu.has_current_interactable()
@@ -341,6 +339,7 @@ func _update_dynamic_button_visibility() -> void:
 
 		UIMode.Mode.INVENTORY, UIMode.Mode.CONTAINER:
 			# 背包模式與雙欄儲存箱模式：均改由 GameUI 提供 focused item / action availability
+			btn_jump.visible = false
 			if gu:
 				btn_e.visible = gu.can_primary_action()
 				btn_r.visible = gu.can_secondary_action()
@@ -351,6 +350,7 @@ func _update_dynamic_button_visibility() -> void:
 				btn_t.visible = false
 
 		UIMode.Mode.NOTEBOOK:
+			btn_jump.visible = false
 			if gu:
 				btn_e.visible = gu.can_primary_action()
 				btn_r.visible = gu.can_secondary_action()
@@ -365,24 +365,28 @@ func _update_dynamic_button_visibility() -> void:
 			btn_e.visible = true
 			btn_r.visible = false
 			btn_t.visible = true
+			btn_jump.visible = false
 
 		UIMode.Mode.CONFIRM:
 			# 丟棄確認彈窗：E 鍵確定，X 返回鍵取消；R/T 隱藏
 			btn_e.visible = true
 			btn_r.visible = false
 			btn_t.visible = false
+			btn_jump.visible = false
 
 		UIMode.Mode.DIALOGUE:
 			# 對話模式：E 鍵確認，R/T 隱藏
 			btn_e.visible = true
 			btn_r.visible = false
 			btn_t.visible = false
+			btn_jump.visible = false
 
 		UIMode.Mode.SHOP:
 			# 商店模式：E 鍵買入 / 賣出，R/T 隱藏；右上 X 返回關店
 			btn_e.visible = true
 			btn_r.visible = false
 			btn_t.visible = false
+			btn_jump.visible = false
 
 func _on_viewport_size_changed() -> void:
 	_update_safe_area()

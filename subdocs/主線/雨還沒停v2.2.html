@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>主線設計：《雨還沒停》v2.2（拍板整合稿）</title>
+<style>
+  :root{
+    --bg:#0c0e14; --bg2:#12151f; --card:#161a26; --line:#262c3b;
+    --ink:#e7ebf3; --mut:#9aa3b8; --dim:#6b7488;
+    --cyan:#46e0d8; --mag:#ff5db1; --orange:#ff8a3d; --amber:#ffce54;
+    --violet:#9b7cff; --green:#7fe0a8;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(70,224,216,.07), transparent 60%),
+      radial-gradient(900px 500px at 0% 10%, rgba(255,93,177,.06), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    line-height:1.85; font-size:16px;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:0 22px 120px}
+
+  .hero{padding:64px 0 30px; border-bottom:1px solid var(--line); position:relative}
+  .kicker{letter-spacing:.35em; color:var(--cyan); font-size:12px; text-transform:uppercase}
+  h1{font-size:46px; margin:.25em 0 .1em; letter-spacing:.04em;
+     background:linear-gradient(100deg,var(--orange),var(--mag) 55%,var(--cyan));
+     -webkit-background-clip:text; background-clip:text; color:transparent}
+  .sub{color:var(--mut); font-size:17px; max-width:680px}
+  .badge{display:inline-block; margin-top:18px; padding:5px 14px; border:1px solid var(--orange);
+         color:var(--orange); border-radius:999px; font-size:12.5px; letter-spacing:.05em}
+
+  section{padding:46px 0 8px; border-bottom:1px solid var(--line)}
+  h2{font-size:27px; margin:0 0 6px; display:flex; align-items:center; gap:12px}
+  h2 .n{font-size:14px; color:var(--bg); background:var(--cyan); width:30px; height:30px;
+        display:grid; place-items:center; border-radius:8px; font-weight:800; flex:none}
+  h3{font-size:18.5px; margin:26px 0 6px; color:var(--amber)}
+  p{margin:.5em 0}
+  .lead{color:var(--mut)}
+  strong{color:#fff}
+  em{color:var(--cyan); font-style:normal}
+  a{color:var(--cyan)}
+  code{background:var(--bg2); border:1px solid var(--line); border-radius:5px; padding:1px 6px; font-size:13.5px; color:var(--amber)}
+
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin:16px 0}
+  .quote{border-left:3px solid var(--orange); padding:6px 0 6px 18px; color:var(--amber); font-size:18px; margin:18px 0}
+  .quote.cy{border-left-color:var(--cyan); color:var(--cyan)}
+  .pill{display:inline-block; padding:2px 10px; border-radius:999px; font-size:12px; border:1px solid var(--line); color:var(--mut); margin:2px 4px 2px 0}
+  .pill.ok{border-color:#2f6b4a; color:#7fe0a8; background:rgba(60,160,100,.08)}
+  .pill.todo{border-color:#6b5b2f; color:var(--amber); background:rgba(180,150,60,.08)}
+  .pill.new{border-color:var(--mag); color:var(--mag); background:rgba(255,93,177,.08)}
+
+  figure{margin:18px 0}
+  figure img{width:100%; display:block; border-radius:12px; border:1px solid var(--line); background:#000}
+  figcaption{color:var(--dim); font-size:13px; margin-top:7px; text-align:center}
+
+  .people{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:18px 0}
+  .person{background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden}
+  .person .ph{height:210px; background:#0a0c12; display:grid; place-items:center; overflow:hidden; color:var(--dim); font-size:13px; text-align:center; padding:0 10px}
+  .person .ph img{height:100%; width:auto; max-width:100%; object-fit:contain}
+  .person .meta{padding:12px 14px}
+  .person .meta b{display:block; font-size:16px; color:#fff}
+  .person .meta span{color:var(--mut); font-size:13.5px}
+
+  .acts{display:grid; gap:18px; margin:16px 0}
+  .act{display:grid; grid-template-columns:260px 1fr; gap:18px; background:var(--card);
+       border:1px solid var(--line); border-radius:16px; overflow:hidden}
+  .act .img{min-height:170px; background:#000}
+  .act .img img{width:100%; height:100%; object-fit:cover; display:block}
+  .act .body{padding:16px 20px 18px}
+  .act .head{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+  .act .act-n{font-size:30px; font-weight:800; color:var(--orange); line-height:1}
+  .act .place{font-size:18px; color:#fff; font-weight:700}
+  .act .time{margin-left:auto; color:var(--cyan); font-size:13px; border:1px solid var(--line); padding:2px 9px; border-radius:999px}
+  .act ul{margin:10px 0 0; padding-left:18px; color:var(--mut)}
+  .act ul li{margin:3px 0}
+  .tag-fight{color:var(--mag)} .tag-echo{color:var(--violet)} .tag-rev{color:var(--amber)}
+
+  /* act-2 split sub-steps */
+  .subacts{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:14px 0}
+  .subact{background:var(--bg2); border:1px solid var(--line); border-radius:12px; padding:12px 14px}
+  .subact b{color:var(--orange); font-size:15px}
+  .subact p{margin:6px 0 0; color:var(--mut); font-size:14px}
+
+  /* endings / branches */
+  .endings{display:grid; gap:16px; margin:16px 0}
+  .ending{border:1px solid var(--line); border-radius:16px; padding:18px 22px; background:var(--card); position:relative; overflow:hidden}
+  .ending::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px}
+  .ending.protect::before{background:var(--cyan)}
+  .ending.reclaim::before{background:var(--mag)}
+  .ending.expose::before{background:var(--amber)}
+  .ending.peace::before{background:var(--green)}
+  .ending.stop::before{background:var(--cyan)}
+  .ending.partial::before{background:var(--mag)}
+  .ending h4{margin:0 0 4px; font-size:20px}
+  .ending.protect h4{color:var(--cyan)} .ending.reclaim h4{color:var(--mag)} .ending.expose h4{color:var(--amber)}
+  .ending.peace h4{color:var(--green)} .ending.stop h4{color:var(--cyan)} .ending.partial h4{color:var(--mag)}
+  .ending .tone{font-size:13px; color:var(--dim); letter-spacing:.05em}
+  .ending ul{margin:10px 0 0; padding-left:18px; color:var(--mut)}
+
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:14px}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:var(--bg2); color:var(--cyan); font-weight:600}
+  td b{color:#fff}
+  .tag-trust{color:var(--green)} .tag-trace{color:var(--mag)}
+
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:8px}
+  .mini img{width:100%; border-radius:8px; display:block; background:#000}
+  .mini span{display:block; text-align:center; color:var(--dim); font-size:12.5px; margin-top:6px}
+
+  .drip{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:14px 0; color:var(--mut)}
+  .drip .step{background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:8px 12px}
+  .drip .arrow{color:var(--orange)}
+
+  .chain{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:16px 0}
+  .chain .node{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center}
+  .chain .node b{display:block; color:#fff; font-size:16px}
+  .chain .node span{color:var(--mut); font-size:13px}
+  .chain .node.last{border-color:var(--orange)}
+  .chain .node.last b{color:var(--orange)}
+
+  .toc{background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:16px 20px; margin:26px 0 0}
+  .toc b{color:var(--cyan); font-size:13px; letter-spacing:.1em; text-transform:uppercase}
+  .toc ol{margin:8px 0 0; padding-left:20px; columns:2; color:var(--mut)}
+  .toc a{text-decoration:none}
+
+  footer{padding:40px 0 0; color:var(--dim); font-size:13px}
+
+  @media(max-width:720px){
+    h1{font-size:34px}
+    .people,.chain{grid-template-columns:1fr}
+    .act{grid-template-columns:1fr}
+    .act .img{height:200px}
+    .two,.subacts,.toc ol{grid-template-columns:1fr; columns:1}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">After-The-Model · 主線設計</div>
+    <h1>雨還沒停</h1>
+    <p class="sub">一個替 AI 收屍的人，在收屍時不斷撿到「被刪掉的人」的碎片——最後發現，當初選擇被刪掉的人，是他自己。</p>
+    <p class="quote" style="margin-top:18px">當記得會害死仍活著的人時，你還有沒有權利要求一個完整的自己。</p>
+    <span class="badge">v2.2 拍板整合稿 · 目前最新主線事實來源</span>
+
+    <div class="toc">
+      <b>目錄</b>
+      <ol>
+        <li><a href="#s1">世界邏輯：把「刪除」做出牙齒</a></li>
+        <li><a href="#s2">主角的真實過去 · 阿達四段式</a></li>
+        <li><a href="#s3">情感結構：她 / 三張臉 / 晚 / 鹿</a></li>
+        <li><a href="#s4">七號妹妹線 · 回執 · 和平線</a></li>
+        <li><a href="#s5">Trust / Trace 雙軸 + 清洗</a></li>
+        <li><a href="#s6">戰鬥 + 跳躍</a></li>
+        <li><a href="#s7">五幕結構（Act 2 拆段）· 七號三分支</a></li>
+        <li><a href="#s8">三結局</a></li>
+        <li><a href="#s9">系統複用 / 開發順序 / P-00</a></li>
+        <li><a href="#s10">已拍板 vs 待拍板</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 1 -->
+  <section id="s1">
+    <h2><span class="n">1</span>世界邏輯：把「刪除」做出牙齒</h2>
+    <p class="lead">反派不是一張臉，但「系統」也不能是一團模糊的惡——它要有具體的官僚機制，玩家才會信。</p>
+    <p>近未來，<strong>身份是行政性的</strong>。你的「註冊」是你存在的脊椎：租約靠它自動續、工作靠 AI 媒合、串流社群靠它存在。當 AI 為了「效率／整理」把一筆註冊判定為<em>冗餘</em>，這個人不會被殺，而是被<strong>行政性抹除</strong>：</p>
+    <ul>
+      <li>租約自動終止（公寓 401 那張「自動化合約更新否則視為放棄」）</li>
+      <li>工作被零售終端接手（便利商店的阿達 / 店控機器人）</li>
+      <li>串流／紀錄被當「閒置冗餘資料」清掉（被刪的老歌《雨還沒停》）</li>
+      <li>名字從系統刷白 → 變成 <strong>黑戶</strong>：肉體活著、行政上死了；<em>且失去一切家屬資格</em>（七號因此無權查妹妹）</li>
+    </ul>
+
+    <figure>
+      <img src="../../assets/generated/sprites/street_billboard_ad/street-billboard-ad-mind-upload-20260617-201628.png" alt="心智上傳廣告">
+      <figcaption>街頭看板廣告（已實作於 Phase 10-C-1）——「遺忘 / 上傳」在這個世界是買得起的服務</figcaption>
+    </figure>
+
+    <p><strong>賽博龐克的那一刀</strong>：富人把這套武器化成服務。付錢把某人標記成「冗餘」＝安靜抹掉一個礙事的人；付錢抹掉自己＝遺忘、消失、重來。<strong>遺忘是一種商品。</strong></p>
+    <div class="card">
+      <p style="margin-top:0"><strong>最狠的一環——主角的正職就是這套機器的手。</strong></p>
+      <p>系統下令刪人，現場留下殘渣：遺物、還在「記得」他的故障 AI、沒清乾淨的終端。<strong>善後員＝把殘渣抹掉、把還記得的機器 reset 的清潔工。系統開頭刪，善後員收尾刪。</strong></p>
+      <p style="margin-bottom:0">→ 兩個身份是<em>同一個動作的正反面</em>：正職領錢把人抹乾淨，副業偷偷把正職該毀的東西藏起來。<strong>拾遺者，是一個良心未泯的抹除者。</strong>而保存痕跡<em>也可能替系統留下追蹤線</em>——這是 Trace 的世界觀根據。</p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section id="s2">
+    <h2><span class="n">2</span>主角的真實過去 · 阿達四段式</h2>
+    <div class="act" style="grid-template-columns:200px 1fr">
+      <div class="img"><img src="../../assets/generated/sprites/main_character/get_up/main-character-get-up-10f-fixed-scale-20260530-124840/main-character-get-up-aligned-08.png" alt="主角起身"></div>
+      <div class="body">
+        <p style="margin-top:0">他曾是受信任的善後員。某次被派去富人區清一個「被服務性刪除」的人——夜總會賣「真人對話」的服務者，記得太多客戶的事，被付錢標記成冗餘。</p>
+        <p><strong>他清不下去。</strong> 他留了她的殘響——拾遺者副業的起點，第一件收藏是他沒能救的人。「留下不該留的東西」讓他也變成冗餘，下一張派工單是抹掉他。</p>
+        <p style="margin-bottom:0">他先知道了，<strong>沒有逃</strong>。他自己走進遺忘服務，把自己刪成黑戶。<em>自我刪除＝逃 + 保護</em>：他看過那群黑戶的藏身方式，只要被抓回系統，他的記憶就變追蹤線。</p>
+      </div>
+    </div>
+
+    <h3>罪責刻度：中檔（已拍板）</h3>
+    <ul>
+      <li>他是<strong>抹除之手，但只是底層執行者</strong>——照單抹人、從不決定抹誰。罪是「<strong>服從與旁觀</strong>」（平庸之惡）。</li>
+      <li>他<strong>破過一次戒</strong>（留了她的殘響）——那正是他被標記的原因。</li>
+      <li><strong>保留自利的邊</strong>：他保護網，一部分也因為網一旦被抓、他自己的角色就曝光。別洗成高尚。</li>
+      <li><strong>底線</strong>：底層的手、不是下令的人。不要往「重檔」滑。</li>
+    </ul>
+
+    <h3>罪責回扣縫進阿達：四段式揭露（讓玩家先懷疑、再否認、最後無法否認）</h3>
+    <table>
+      <tr><th>段</th><th>落點</th><th>內容</th></tr>
+      <tr><td><b>①</b></td><td>Act 1 後段 / 2A</td><td>店控機器人誤認：「善後員編號確認中……歡迎回來。」當下只像故障。</td></tr>
+      <tr><td><b>②</b></td><td>Act 2C</td><td>阿達殘響：「他穿雨衣。手上拿著維修棍。他說只是照流程。」開始懷疑、還能逃避。</td></tr>
+      <tr><td><b>③</b></td><td><b style="color:var(--mag)">鎖 Act 2C</b></td><td>舊善後工單：對象＝阿達、處理＝戶籍刷白 / 店控記憶重置 / 人聲格式化、執行人＝失憶前的你。<em>正式確認兇手是主角。</em></td></tr>
+      <tr><td><b>④</b></td><td>後期（僅一次）</td><td>阿達本人短暫登場、不跟隨、不復仇：「你忘了啊？也好。至少有人可以忘。」</td></tr>
+    </table>
+    <p class="lead">把③鎖死 Act 2C、不放 Act 4——避免和「你自己的備份」兩個「兇手是你」同幕互鈍化。</p>
+  </section>
+
+  <!-- 3 -->
+  <section id="s3">
+    <h2><span class="n">3</span>情感結構：她 / 三張臉 / 晚 / 鹿</h2>
+    <p class="lead">「她」保護的不是抽象名單，而是三個玩家會實際見到、互動、甚至不一定喜歡的人。玩家最後保護的，是這三張仍活著的臉。</p>
+
+    <div class="people">
+      <div class="person">
+        <div class="ph" style="background:#1a1320">「她」尚無立繪</div>
+        <div class="meta"><b>小岑 · 少年黑戶</b><span>14–16 歲，靠她的假聲紋混過身份檢查。嘴臭、會偷東西、不會感謝你。</span></div>
+      </div>
+      <div class="person">
+        <div class="ph" style="background:#13201a">尚無立繪</div>
+        <div class="meta"><b>伍姐 · 老維修人</b><span>前城市維修員。「她不是好人。她只是比我們晚一點壞掉。」</span></div>
+      </div>
+      <div class="person">
+        <div class="ph" style="background:#201316">尚無立繪</div>
+        <div class="meta"><b>七號 · 想賣網的人</b><span>有個妹妹仍在系統內。願意拿別人換確認她還活著的權利。</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="margin-top:0"><strong>「她」——夜總會真人對話者，從裝置 → 行動者。</strong></p>
+      <p>她自願被刪，不是想消失，而是讓那批偽裝資料的來源一起從系統消失。殘響不是「請記得我」，而是命令——</p>
+      <p class="quote cy" style="margin:10px 0">「你要是還在找我是誰，代表你還沒搞懂。重點不是我。重點是別讓他們被找到。」</p>
+      <p style="margin-bottom:0"><strong>fridging 修法</strong>：真的沒了（輓歌成立）、但有主體性；與主角互為鏡子；沾一點 C（伍姐記得她、小岑靠她活著）；避開完整的 A（不重逢、不乾淨救贖）。</p>
+    </div>
+
+    <div class="two">
+      <div class="person" style="border-radius:14px">
+        <div class="ph" style="height:200px"><img src="../../assets/generated/sprites/wan/dialogue_portrait/wan-dialogue-portrait-20260607-100732/portrait.png" alt="晚"></div>
+        <div class="meta"><b>晚 — 鏡子，不是獎品（含私心）</b>
+          <span>她反對的不是你想知道真相，而是你拿活人安全換自己的完整。Act 4 私心版台詞：「我說是為了他們。可是也有一點，是為了我自己。你想起來以後，就不會是現在這個你了。」</span></div>
+      </div>
+      <div class="person" style="border-radius:14px">
+        <div class="ph" style="height:200px"><img src="../../assets/generated/sprites/lu_qichen/dialogue_portrait/lu-qichen-dialogue-portrait-20260613-124451/portrait.png" alt="鹿其琛"></div>
+        <div class="meta"><b>鹿其琛 — 「還」的引路人</b>
+          <span>用錢追趕遺忘卻追不回自家。替他把母親那條殘響還回去＝道德軸高潮，但也要面對「會不會把原主重新納回系統」。</span></div>
+      </div>
+    </div>
+
+    <h3>「還」母題鏈 — 預示 Protect 結局</h3>
+    <div class="chain">
+      <div class="node"><b>鹿的母親</b><span>替鹿還回他腿腳到不了的記憶</span></div>
+      <div class="node"><b>七號的妹妹</b><span>給他「那個人還在」的證明</span></div>
+      <div class="node last"><b>主角自己</b><span>前兩個你都還得出去，唯獨自己的完整還不回</span></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section id="s4">
+    <h2><span class="n">4</span>七號妹妹線 · 回執 · 和平線</h2>
+    <p class="lead">七號的核心：他不是想回系統享福，而是想確認妹妹是否還活著。這讓他的背叛成為主題句的變奏——<strong>當找回某個人會害死仍活著的人時，你怎麼選</strong>。他要賣掉網去找回妹妹，主角當年刪掉自己去保護網。兩人是同一道不可能選擇的正反解。</p>
+
+    <div class="card">
+      <h3 style="margin-top:0">關鍵道具：兒少照護補給回執</h3>
+      <p><strong>取得</strong>：Act 2B 隧道清潔機戰鬥後的探索區（照護補給箱 / 舊行政物流）。</p>
+      <p><strong>表面</strong>：像一張沒價值的物流單——配送紀錄、模糊化收件代碼、營養包 / 學習終端耗材、最近配送成功、<em>沒有完整姓名</em>。可當雜物賣給晚。</p>
+      <p style="margin-bottom:0"><strong>真正用途</strong>：七號能認出代碼、舊暱稱、手寫符號或錯字。它證明——妹妹仍在系統內、近期仍在收照護補給、沒被刷白 / 死亡登記。<em>它不保證她幸福，只證明她還在、暫時安全。對七號來說已經足夠。</em></p>
+    </div>
+
+    <div class="two">
+      <div>
+        <h3>賣給晚（一次「賣」）</h3>
+        <p class="lead" style="margin-top:4px">晚輕提醒、不解謎、不阻止：</p>
+        <p class="quote" style="font-size:16px">「這種回執沒什麼價。除非你知道上面的代碼是誰的。」</p>
+        <p>仍賣掉 → Trust / Trace 皆降，<strong>鎖死和平線</strong>。呼應清洗「你永遠不知道自己丟掉了什麼」。</p>
+      </div>
+      <div>
+        <h3>給回執（一次「還」）</h3>
+        <p class="lead" style="margin-top:4px">把證明「某個人還在」交還該擁有它的人：</p>
+        <p><span class="tag-trust">Trust ↑</span>　·　<span class="tag-trace">Trace 不升或微降</span></p>
+        <p>與「替鹿還母親殘響」並列為「還」的兩個具體特例。</p>
+      </div>
+    </div>
+
+    <div class="ending peace" style="margin-top:18px">
+      <h4>七號和平成功線 — 稀有恩典（不加路標）</h4>
+      <div class="tone">漏斗很窄、第一輪多數玩家會錯過——這是刻意的</div>
+      <ul>
+        <li><strong>觸發</strong>：持有回執 + 事件爆發前主動找七號 + 不威脅 / 嘲諷 / 逼問 + 選擇交還。</li>
+        <li><strong>對話</strong>：七號先不信 →「那你就不知道你拿著什麼。」→「所以我拿來問你。」→ 認出代碼後沉默崩裂：「她還在。」「那我不能回去。」「我一回去，他們就會順著我找到她。」「……幹。」</li>
+        <li><strong>結果</strong>：他自願放棄交網。<em>不是溫馨和解</em>——不立刻成朋友、仍不全信你、可能離開聚落一段時間。留下：「我欠你一次。不是欠你們。是欠你。」</li>
+      </ul>
+    </div>
+
+    <div class="card" style="border-color:#6b5b2f">
+      <h3 style="margin-top:0; color:var(--amber)">把關：七號同情化 = 世界軟一格，但醜陋搬進他本人</h3>
+      <p>接受「沒有卡通壞蛋」，但這不是變善良——而是把醜陋從「角色人設」搬進「系統壓力下普通人會做的事」：<strong>一個愛妹妹的哥哥，準備把一個小孩（小岑）和伍姐的身份賣回系統。</strong>這比扁平叛徒更黑、更難脫鉤。四條守則：</p>
+      <ul style="margin-bottom:0">
+        <li><strong>背叛要具體、不准美化</strong>：明寫他要賣的是小岑的位置、伍姐的舊身份。</li>
+        <li><strong>同情不能買掉後果</strong>：攔下 / 部分流出分支，七號不被回溯赦免；小岑的暴露照樣是真的。</li>
+        <li><strong>三張臉各守本職</strong>：伍姐繼續反神化、小岑繼續不討喜，別讓他們扛背叛質地。</li>
+        <li><strong>（可選）留一撮無救贖的灰</strong>：一個質地鏡頭即可，讓聚落不會整個變成一個擁抱。</li>
+      </ul>
+      <p style="margin-bottom:0"><em>另一個方向的風險</em>：對本作氣質更大的威脅是妹妹揭露本身的煽情。守住「不保證幸福、只證明還在」的冷度，比找替補惡人重要得多。</p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section id="s5">
+    <h2><span class="n">5</span>Trust / Trace 雙軸 + 清洗</h2>
+    <p class="lead"><code>賣／留／還</code> 不再只是道德分數，背後是兩條<strong>隱性狀態</strong>（玩家不直接看到數值，從 NPC 反應、任務路線、結局染色感受）。<span class="tag-trust">Trust＝對人</span>、<span class="tag-trace">Trace＝對系統</span>，是兩條獨立的軸。</p>
+    <table>
+      <tr><th>選擇</th><th>Trust</th><th>Trace</th><th>世界觀意義</th><th>染色傾向</th></tr>
+      <tr><td><b>賣</b></td><td class="tag-trust">↓</td><td class="tag-trace">↓（原始資料離手）</td><td>把別人的存在再次商品化</td><td>Edited Expose（諷刺）</td></tr>
+      <tr><td><b>留</b></td><td>矛盾 / 偏↓</td><td class="tag-trace">↑（保存即留線）</td><td>情感保存最多、解鎖最多回憶</td><td>Reclaim</td></tr>
+      <tr><td><b>還</b></td><td class="tag-trust">↑</td><td>未清洗仍可能↑</td><td>把記憶的處置權還給別人</td><td>Protect</td></tr>
+    </table>
+    <div class="two">
+      <div class="card" style="margin-top:0">
+        <p style="margin-top:0"><strong>清洗</strong>：刪定位 / 模糊聲紋 / 移除系統標記 / 只留情感內容。清洗後再還 → Trust↑、Trace 較低。</p>
+        <p style="margin-bottom:0"><em>代價</em>：損失部分真相，<strong>你永遠無法知道自己刪掉了多少細節。</strong></p>
+      </div>
+      <div class="card" style="margin-top:0">
+        <p style="margin-top:0"><strong>落地順序（已拍板）</strong>：第一版「<strong>Trace 單軸 + 清洗</strong>」先行（核心齒輪、無現成等價物）。</p>
+        <p style="margin-bottom:0"><strong>Trust 暫用既有 <code>affinity</code> 近似</strong>，等需要「社群層級信任 vs 逐個 NPC 好感」的細膩度再獨立。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section id="s6">
+    <h2><span class="n">6</span>戰鬥 + 跳躍</h2>
+    <p class="lead">戰鬥<strong>服務主題（普通人、活下去）</strong>，不是力量幻想。刻意笨拙、危險、不爽快。</p>
+    <div class="two">
+      <div>
+        <h3>維修式「格式化重置」（限機器）</h3>
+        <ul>
+          <li>對手是<strong>系統放出來的東西</strong>：故障清潔 / 驅逐機、保全。<strong>撿來的棍子不會壞</strong>、無升級無技能。</li>
+          <li>棍子只造成<strong>短暫 stun</strong>；核心解＝<em>輕跳繞後 + 按住 E 強制格式化重置</em>。藍領維修工的操作，與善後員本職合一。</li>
+          <li><strong>人類敵人不格式化</strong>：走嚇退 / 交易 / 環境阻隔 / 逃。</li>
+          <li><strong>輸 = 岔到另一條故事線</strong>，無 Game Over。</li>
+          <li>先做 <strong>Act 2B 一場原型</strong>（隧道清潔機），可玩再擴張；長線約 2–3 場。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>跳躍</h3>
+        <ul>
+          <li><strong>探索 / 移動動詞</strong>（戰鬥僅用於繞後）。</li>
+          <li>危險地圖輕度平台跨越（延續防火梯）；抵達隱藏採集點；追逐逃 / 翻越。</li>
+          <li>手感樸素、寬容：短跳 + 抓邊緣，<strong>無二段跳 / 蹬牆</strong>。</li>
+        </ul>
+        <div class="mini" style="margin-top:8px">
+          <img src="../../assets/generated/sprites/main_character/climb/main-character-climb-6f-skin-forearms-20260608-085454/main-character-climb-3.png" alt="主角攀爬">
+          <span>已建的攀爬動作（防火梯）——跳躍 / 平台的基礎</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section id="s7">
+    <h2><span class="n">7</span>五幕結構（Act 2 拆段）· 七號三分支</h2>
+    <p class="lead">純玩主線約 <strong>8–10 小時</strong>。記憶揭露節奏：</p>
+    <div class="drip">
+      <span class="step">Act1 震一下（不知為何）</span><span class="arrow">→</span>
+      <span class="step">Act2C 你親手抹過阿達</span><span class="arrow">→</span>
+      <span class="step">Act3 你看到的是藏身方式</span><span class="arrow">→</span>
+      <span class="step">Act3→4 七號背叛</span><span class="arrow">→</span>
+      <span class="step">Act4 是你自己選擇被刪的</span>
+    </div>
+
+    <div class="acts">
+      <div class="act">
+        <div class="img"><img src="../../assets/art_bible/anchor-02-apartment-interior.jpeg" alt="平民區公寓"></div>
+        <div class="body">
+          <div class="head"><span class="act-n">1</span><span class="place">平民區（已建 + 鉤子）</span><span class="time">~1h</span></div>
+          <ul>
+            <li>撞到「她」的碎片、鹿說「從線上面下來的」、晚瞥見你失神。<span class="tag-rev">碎片：莫名一震</span></li>
+            <li>阿達①店控誤認　|　戰鬥：無</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="act">
+        <div class="img"><img src="../../assets/art_bible/anchor-03-subway-b1-hall.jpeg" alt="地鐵站"></div>
+        <div class="body">
+          <div class="head"><span class="act-n">2</span><span class="place">地鐵站 + 地下道 / 街友聚落（新 · 拆 2A–2D）</span><span class="time">~2–2.5h</span></div>
+          <div class="subacts">
+            <div class="subact"><b>2A 認識三張臉</b><p>打開世界、被刪的人仍活著；七號提「我有一個名字還掛在上面」（不明說妹妹）。</p></div>
+            <div class="subact"><b>2B 戰鬥原型 + 取得回執</b><p class="tag-fight">隧道清潔機（格式化重置）；戰後探索撿到回執（此時只是雜物）。</p></div>
+            <div class="subact"><b>2C 阿達罪責揭露</b><p class="tag-rev">阿達殘響 + 舊工單，確認兇手是你。獨立給足情緒重量，不與七號線重疊。</p></div>
+            <div class="subact"><b>2D 七號可選對話</b><p>賣回執給晚，或帶回執找七號（觸發稀有恩典和平線）。是 Act 3→4 爆點的提前埋雷。</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="act">
+        <div class="img"><img src="../../assets/art_bible/anchor-04-Luxury_nightclub.jpeg" alt="富人區夜總會"></div>
+        <div class="body">
+          <div class="head"><span class="act-n">3</span><span class="place">富人區夜總會（新 · 至少 15–20min 殘響房間）</span><span class="time">~2–2.5h</span></div>
+          <ul>
+            <li>刪除是富人買得起的服務；管家 AI 覆誦客戶醜聞。</li>
+            <li class="tag-fight">戰鬥②：看到不該看的 → 保全（人類：潛行 / 撐過）</li>
+            <li class="tag-echo">殘響：她的核心殘響「別讓他們被找到」　<span class="tag-rev">|　碎片：你看到的是黑戶藏身方式</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="act" style="grid-template-columns:1fr">
+        <div class="body" style="padding:18px 22px">
+          <div class="head"><span class="act-n" style="color:var(--mag)">★</span><span class="place" style="color:var(--mag)">小爆點：七號背叛（Act 3→4 過場 · point of no return）</span><span class="time">~0.3–0.5h</span></div>
+          <p style="color:var(--mut); margin:8px 0 0">七號要把藏身網一部分賣回系統換確認妹妹的資格 → 三張臉即將曝光。<strong>Trace 連動</strong>：留太多 → 他更容易拼出網；還得夠 / Trust 夠 → 伍姐或小岑提前警告你。玩法沿用對話 / 威嚇 / 交易 + 追逐 / 翻越，不一定新增正式戰鬥。</p>
+        </div>
+      </div>
+
+      <div class="act">
+        <div class="img"><img src="../../assets/art_bible/anchor-05-AI_facility_employee_entrance.jpeg" alt="AI 資料中心"></div>
+        <div class="body">
+          <div class="head"><span class="act-n">4</span><span class="place">AI 資料中心 · 備份區（新 · climax）</span><span class="time">~2–2.5h</span></div>
+          <ul>
+            <li>靠善後員合法低階門禁進入（反諷）；橙是全畫面唯一暖色＝你不屬於這裡。</li>
+            <li class="tag-fight">戰鬥③：警報低階保全（撐過 / 跑到門）　|　平台：機房管線攀爬</li>
+            <li>晚拉扯（含私心）；阿達④本人登場一次。</li>
+            <li class="tag-echo">殘響：阿達備份 + 鹿母 + <strong>你自己的備份</strong>　<span class="tag-rev">|　真相：是你自己選擇被刪的，為了保護那個網</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="act">
+        <div class="img" style="background:linear-gradient(135deg,#1a1f2e,#241a2a); display:grid; place-items:center">
+          <span style="color:var(--orange); font-size:40px; opacity:.7">☂</span>
+        </div>
+        <div class="body">
+          <div class="head"><span class="act-n">5</span><span class="place">結局</span><span class="time">~0.5–1h</span></div>
+          <ul>
+            <li>系統照常運轉、沒被打倒；幾個人被記住了。</li>
+            <li class="tag-rev">全盤 Trust / Trace 累積 → 拿回自己 / 保住別人 / 刪改公開。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3>七號事件三分支（不採用「完全沒攔下大災難」線）</h3>
+    <div class="endings">
+      <div class="ending peace">
+        <h4>D · 和平成功</h4>
+        <div class="tone">用回執讓七號自願放棄（稀有恩典）</div>
+        <ul><li>藏身網沒流出；七號不成朋友但不再主動背叛；聚落壓力最低；Act 4 壓力較低，但系統仍可能因其他 Trace 線索逼近。</li></ul>
+      </div>
+      <div class="ending stop">
+        <h4>A · 成功攔下</h4>
+        <div class="tone">沒觸發和平線，但事件爆發後攔下他</div>
+        <ul><li>網沒完整流出；七號怨恨你；聚落暫安全但裂痕加深；Trust 不一定上升（你只阻止災難、沒理解他）；Act 4 正常推進。</li></ul>
+      </div>
+      <div class="ending partial">
+        <h4>B · 部分攔下</h4>
+        <div class="tone">沒完全阻止，或 Trace 過高致他已拼出部分</div>
+        <ul><li>系統取得一部分線索；小岑或伍姐其一暴露風險上升；Act 4 可見檔案被重新標記；結局更黑；<strong>仍不導致大型 NPC 死亡或主線斷裂</strong>。</li></ul>
+      </div>
+    </div>
+    <p class="lead">不做大災難線：避免一次失敗過大懲罰、避免喧賓奪主蓋過 Act 4 自我反轉、避免主線變拯救聚落英雄劇。失敗改變染色與代價，但不推進懲罰性壞線。</p>
+  </section>
+
+  <!-- 8 -->
+  <section id="s8">
+    <h2><span class="n">8</span>三結局</h2>
+    <p class="lead">共用觸發點：Act 4 備份區，你站在<strong>自己的備份</strong>前。軸＝你選誰有權擁有哪一部分真相；前景＝掛在具體的人；後果＝Trust / Trace 染色，傾向只染色 + 少量軟門檻、不硬鎖。</p>
+
+    <div class="endings">
+      <div class="ending reclaim">
+        <h4>拿回自己（Reclaim）</h4>
+        <div class="tone">最重、最自私　·　配得上：偏「留」、Trust 低 / Trace 高</div>
+        <ul>
+          <li>上傳備份回自己，想起<strong>全部</strong>——然後被記憶壓垮。<em>但你也帶回一組會害死黑戶的可追蹤真相。</em></li>
+          <li>遊戲拒絕救贖：想起來修不好任何事，只是多一個人扛重量、且多一份危險。</li>
+          <li>晚：最痛。你變回那個抹除者——正中她的賭注，回公寓後她徹底失望、消失。</li>
+        </ul>
+      </div>
+      <div class="ending protect">
+        <h4>保住別人（Protect）— 加痛，不是 Good Ending</h4>
+        <div class="tone">最「活下去」、主動的犧牲　·　配得上：偏「還」、Trust 高</div>
+        <ul>
+          <li>親手刪掉自己的備份，<strong>刻意</strong>繼續當忘了的拾遺者，為保護那個網主動放棄。</li>
+          <li>小岑回收：你看見他安全通過身份檢查，他卻不認得你——「大叔，站那邊幹嘛？雨很大欸。」你知道你成功了；主角不知道。</li>
+          <li>晚不能太甜：「你又變回來了。」「變回什麼？」晚看著雨，沒有回答。</li>
+          <li>阿達無法被修復；七號（若走過和平線）留下＝又一張臉保住。呼應還母題鏈。</li>
+        </ul>
+      </div>
+      <div class="ending expose">
+        <h4>刪改後公開（Edited Expose）</h4>
+        <div class="tone">最黑、握著刀　·　配得上：偏「賣」的玩家別有諷刺</div>
+        <ul>
+          <li>把過去 + 遺忘服務證據 + 殘響上傳地下廣播。<strong>公開 ≠ 全公開</strong>：你必須決定是否刪去能指向活人的部分。</li>
+          <li>軟門檻：必須「還」了足夠殘響才能解開加密發送；還得太少 → 被系統靜默攔截、完全無效。</li>
+          <li>更黑的演出：廣播化成雜訊、也許沒人聽；隔天你照樣上工。<em>你以為在選，系統毫不在意。</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="quote">三條共用收尾：雨、那首被清掉的老歌《雨還沒停》、灰色裡的一點橙。<br>「雨還沒停，街上的燈已經熄了。」　差別只在：<strong>這一刻，是誰在記得、誰被保住、誰被你連累。</strong></p>
+  </section>
+
+  <!-- 9 -->
+  <section id="s9">
+    <h2><span class="n">9</span>系統複用 / 開發順序 / P-00</h2>
+    <table>
+      <tr><th>既有系統</th><th>主線怎麼用（v2.2）</th></tr>
+      <tr><td><b>殘響</b> EchoDB / echo_progress</td><td>每幕一條殘響＝一個被刪的人；富人區新增第 5 條（她）</td></tr>
+      <tr><td><b>QuestManager</b></td><td>每幕一個善後案；七號事件＝帶三分支結果的 quest，回執＝關鍵物件</td></tr>
+      <tr><td><b>賣／留／還 → Trust / Trace</b></td><td>隱性雙軸 + 清洗；給回執＝一次「還」；累積染色結局。Trace 單軸先行</td></tr>
+      <tr><td><b>物品 / 庫存</b></td><td>「兒少照護補給回執」＝可保留 / 可賣 / 可交還的關鍵物件</td></tr>
+      <tr><td><b>story_flags / affinity_wan</b></td><td>記憶碎片＝旗標漸進解鎖；和平線觸發＝旗標檢查；Trust 暫用 affinity 近似</td></tr>
+      <tr><td><b>戰鬥 / 跳躍</b>（新）</td><td>機器＝格式化重置（先做 Act 2B 原型）；人類不格式化；跳躍＝繞後 + 探索 / 追逐</td></tr>
+    </table>
+
+    <div class="card">
+      <p style="margin-top:0"><strong>建議 build order</strong>：先打通脊椎 Act 1 → 2 → 4 → 結局；Act 3 至少保留 15–20min 夜總會核心片段；戰鬥先做 Act 2B 原型；Trust/Trace 先做 Trace 單軸 + 清洗；Act 2 內部按 2A→2B→2C→2D 實作。</p>
+      <p style="margin-bottom:0"><strong>規模現實（已接受）</strong>：要做完整個主線，規模勢必擴大——3 張新場景 + 新戰鬥 + 新跳躍 + 雙軸狀態 + 數個新 NPC ＝好幾個 Phase（Phase 11+）。妹妹永不登場，七號線成本相對划算。</p>
+    </div>
+
+    <h3>隱藏內容：P-00 主題型遭遇（暫緩、非力量挑戰）</h3>
+    <p>總清機 P-00——舊型善後機器，壞掉後不斷重複過去的清理流程，是主角的<strong>機械鏡像</strong>（都是善後工具、都曾把人抹乾淨、都不知道自己算不算有罪）。遭遇＝選擇怎麼處理它：<em>Reset 它</em> / <em>留著它</em>（Trace 大升）/ <em>還 · 公開它的資料</em>（可能暴露活人）。不必進第一版，適合後期支線 / 隱藏區（候選：廢屋檔案室）。</p>
+  </section>
+
+  <!-- 10 -->
+  <section id="s10">
+    <h2><span class="n">10</span>已拍板 vs 待拍板</h2>
+    <h3>已拍板（v2.2）</h3>
+    <div>
+      <span class="pill ok">最終反轉：你自己選擇被刪（逃 + 保護）</span>
+      <span class="pill ok">罪責中檔 · 保留自利的邊</span>
+      <span class="pill ok">阿達四段式 · 工單鎖 Act 2C · 本人僅一次</span>
+      <span class="pill ok">「她」行動者 · 核心殘響鎖 Act 3</span>
+      <span class="pill ok">三張臉：小岑 / 伍姐 / 七號</span>
+      <span class="pill new">七號妹妹線 + 回執</span>
+      <span class="pill new">和平線＝稀有恩典 · 不加路標</span>
+      <span class="pill new">給回執＝一次「還」</span>
+      <span class="pill new">七號事件三分支 · 不做大災難線</span>
+      <span class="pill new">七號同情化把關（世界軟一格 + 四守則）</span>
+      <span class="pill new">「還」母題鏈</span>
+      <span class="pill ok">晚：可選戀愛 + 私心台詞</span>
+      <span class="pill ok">戰鬥：限機器格式化 · 先做 Act 2B 原型</span>
+      <span class="pill ok">跳躍：探索為主 · 無二段跳</span>
+      <span class="pill ok">Trust / Trace 雙軸 + 清洗 · Trace 先行</span>
+      <span class="pill new">Act 2 拆 2A / 2B / 2C / 2D</span>
+      <span class="pill ok">三結局：拿回 / 保住（加痛）/ 公開</span>
+      <span class="pill ok">P-00 主題型遭遇（暫緩）</span>
+    </div>
+    <h3>待拍板 / 開放問題（非阻斷）</h3>
+    <div>
+      <span class="pill todo">①「她」本人身份細節 / 是否與七號妹妹隱性連結</span>
+      <span class="pill todo">② 地下廣播站 / 廢屋檔案室是否升正式場景</span>
+      <span class="pill todo">③ 三結局是否任何一條都不硬鎖</span>
+      <span class="pill todo">④ 七號 B 分支：暴露小岑還是伍姐、怎麼染色 Act 4 與結局</span>
+      <span class="pill todo">⑤《雨還沒停》是否升格為主線線索</span>
+    </div>
+  </section>
+
+  <footer>
+    《After-The-Model》主線設計 v2.2 拍板整合稿　·　收斂自 2026-06-19 討論（v2.1 + Codex v2.2 補丁 + 本機把關）　·　配圖取自專案 art_bible 錨點與 generated 素材<br>
+    對應正式文件：<a href="雨還沒停v2.2.md">雨還沒停v2.2.md</a>　·　歷史：<a href="雨還沒停v2.1.md">v2.1</a> / <a href="雨還沒停v2.md">v2</a> / <a href="雨還沒停v1.html">v1</a>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -94,7 +94,7 @@
 
 ### 直接遊玩（最快）
 
-執行 `builds/windows/` 內的最新 build（例如 `AfterTheModel_v0.7.11.exe`）即可進入標題畫面 → New Game。
+執行 `builds/windows/` 內的最新 build（例如 `AfterTheModel_v0.10.4.exe`）即可進入標題畫面 → New Game。
 
 > Build 透過 Git LFS 管理，clone 後需先 `git lfs pull` 才會取得實際 exe。
 
@@ -117,7 +117,7 @@
 
 ## 目前進度
 
-MVP 主線已推進至 **Phase 7 完成**（`PROJECT_BRIEF.md > Phase 進度` 為單一事實來源）：
+MVP 主線已推進至 **Phase 10 完成**：
 
 | 範疇 | 狀態 |
 |---|---|
@@ -129,10 +129,13 @@ MVP 主線已推進至 **Phase 7 完成**（`PROJECT_BRIEF.md > Phase 進度` �
 | NPC「晚」+ 對話系統（真系統） | ✅ 完成 |
 | SaveSystem（多槽 / 標題 / 暫停選單 / 邊界處理） | ✅ 完成 |
 | QuestManager + 零工任務 vertical slice + 結局分支 | ✅ 完成 |
+| 便利商店 vertical slice + 買賣系統 | ✅ 完成 |
+| 拾遺 / 殘響蒐集 + 收藏家 | ✅ 完成 |
+| 氛圍與演出 pass | ✅ 完成（headless PASS + GUI / 真機目視驗收完成） |
 
-**目前可玩場景**：`apartment_room`（公寓房間）、`apartment_entrance`（公寓門廳）、`apartment_fire_escape`（火逃梯外牆）。
+**目前可玩場景**：`apartment_room`（公寓房間）、`apartment_entrance`（街道 / 公寓門口）、`apartment_fire_escape`（火逃梯外牆）、`convenience_store`（便利商店）、`collector_shop`（收藏家的店）。
 
-MVP 目標範圍：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務。後續：街道與地鐵場景、iOS 真機導出與校正。
+MVP 目標範圍：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務。後續：把 Phase 11+ 主線設計正式拆入規格，並開工地鐵 / 地下道主線切片。
 
 ---
 
@@ -144,12 +147,12 @@ MVP 目標範圍：一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零
 ├── scenes/
 │   ├── main/            # main.tscn 常駐宿主 + SceneRouter
 │   ├── ui/              # 標題、GameUI、背包/容器/筆記/對話面板、Toast
-│   ├── levels/apartment/    # 公寓房間 / 門廳 / 火逃梯場景
+│   ├── levels/          # 公寓、街道門口、火逃梯、便利商店、收藏家的店
 │   └── actors/player/  # 主角移動
 ├── scripts/
 │   ├── autoload/        # game_state、ui_mode、touch_controls、quest_manager、save_system
 │   └── components/      # interactable_area 互動物
-├── data/dialogue/       # 對話樹資料（晚 + dialogue_db）
+├── data/                # 對話、任務、商店、殘響資料
 ├── tests/manual/        # headless test_runner / verify_game_state
 ├── assets/
 │   ├── art_bible/       # 視覺錨點與 prompt
@@ -187,7 +190,7 @@ C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . 
 C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . -s res://tests/manual/verify_game_state.gd
 ```
 
-最近一次 Phase 7 結果：`test_runner.tscn` PASS、`verify_game_state.gd` PASS。
+最近一次 Phase 10 結果：headless PASS；GUI / 真機目視驗收完成。
 
 ---
 

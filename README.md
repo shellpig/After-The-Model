@@ -94,7 +94,7 @@ The subway is the city-wide "class mobility system": ordinary cars, AI VIP cars,
 
 ### Just play (fastest)
 
-Run the latest build in `builds/windows/` (e.g. `AfterTheModel_v0.7.11.exe`) to reach the title screen → New Game.
+Run the latest build in `builds/windows/` (e.g. `AfterTheModel_v0.10.4.exe`) to reach the title screen → New Game.
 
 > Builds are managed via Git LFS; after cloning, run `git lfs pull` to fetch the actual `.exe`.
 
@@ -117,7 +117,7 @@ Run the latest build in `builds/windows/` (e.g. `AfterTheModel_v0.7.11.exe`) to 
 
 ## Current Progress
 
-The MVP main line has reached **Phase 7 complete** (`PROJECT_BRIEF.md > Phase 進度` is the single source of truth):
+The MVP main line has reached **Phase 10 complete**:
 
 | Area | Status |
 |---|---|
@@ -129,10 +129,13 @@ The MVP main line has reached **Phase 7 complete** (`PROJECT_BRIEF.md > Phase �
 | NPC "Wan" + dialogue system (real system) | ✅ Done |
 | SaveSystem (multi-slot / title / pause menu / edge cases) | ✅ Done |
 | QuestManager + gig-quest vertical slice + ending branches | ✅ Done |
+| Convenience-store vertical slice + shop system | ✅ Done |
+| Gleaner / echo collection + collector | ✅ Done |
+| Atmosphere & presentation pass | ✅ Done (headless PASS + GUI / device visual acceptance complete) |
 
-**Currently playable scenes**: `apartment_room`, `apartment_entrance`, `apartment_fire_escape`.
+**Currently playable scenes**: `apartment_room`, `apartment_entrance`, `apartment_fire_escape`, `convenience_store`, `collector_shop`.
 
-MVP target scope: one street + one subway station + one small apartment + 2 NPCs + 1 gig quest. Next up: the street and subway scenes, plus iOS device export and tuning.
+MVP target scope: one street + one subway station + one small apartment + 2 NPCs + 1 gig quest. Next up: formalize the Phase 11+ main-story plan and start the subway / underground main-line slice.
 
 ---
 
@@ -144,12 +147,12 @@ MVP target scope: one street + one subway station + one small apartment + 2 NPCs
 ├── scenes/
 │   ├── main/            # main.tscn persistent host + SceneRouter
 │   ├── ui/              # title, GameUI, inventory/container/notes/dialogue panels, toast
-│   ├── levels/apartment/    # apartment room / entrance / fire escape scenes
+│   ├── levels/          # apartment, street entrance, fire escape, convenience store, collector shop
 │   └── actors/player/  # player movement
 ├── scripts/
 │   ├── autoload/        # game_state, ui_mode, touch_controls, quest_manager, save_system
 │   └── components/      # interactable_area
-├── data/dialogue/       # dialogue tree data (Wan + dialogue_db)
+├── data/                # dialogue, quests, shops, echoes
 ├── tests/manual/        # headless test_runner / verify_game_state
 ├── assets/
 │   ├── art_bible/       # visual anchors & prompts
@@ -187,7 +190,7 @@ C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . 
 C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . -s res://tests/manual/verify_game_state.gd
 ```
 
-Latest Phase 7 result: `test_runner.tscn` PASS, `verify_game_state.gd` PASS.
+Latest Phase 10 result: headless PASS; GUI / device visual acceptance complete.
 
 ---
 

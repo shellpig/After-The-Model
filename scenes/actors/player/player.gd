@@ -10,6 +10,17 @@ const CLIMB_Z_INDEX := 20      # 爬梯時 sprite 疊在前景欄杆(z=10)之上
 @export var max_x := 1180.0
 @export var walk_line_y := 700.0
 
+# Per-scene walk animation override. Defaults to the standard "walk"; a scene can
+# point this at e.g. "combat_walk" to swap the walking sprite without affecting
+# other scenes. Matching scale is handled in _apply_sprite_transform().
+@export var walk_anim := "walk"
+# Per-scene idle animation override (defaults to "idle"). Point at "combat_idle"
+# in scenes that use combat_walk so the standing pose matches.
+@export var idle_anim := "idle"
+# combat_walk/combat_idle source is 960px vs the 512px walk frames; this ratio
+# (walk char height / combat char height) keeps the on-screen size equal.
+@export var combat_walk_scale_mult := 0.459
+
 # Phase 12-A: scripted parabolic jump (no global gravity; arc rides the walk line).
 @export var jump_height := 120.0       # arc apex height above the walk line, px
 @export var jump_duration := 0.55      # total airtime, seconds
@@ -38,7 +49,7 @@ var _scene_sprite_scale := Vector2.ONE
 func _ready() -> void:
 	_scene_sprite_position = anim.position
 	_scene_sprite_scale = anim.scale
-	anim.play("idle")
+	anim.play(idle_anim)
 	_apply_sprite_transform()
 	
 	# Add AudioListener2D dynamically so 2D sounds decay relative to the player.
@@ -63,7 +74,7 @@ func _physics_process(delta: float) -> void:
 			_jumping = false
 			_jump_t = 0.0
 			position.y = _walk_y_at(position.x)
-		anim.play("idle")
+		anim.play(idle_anim)
 		_apply_sprite_transform()
 		return
 
@@ -107,10 +118,10 @@ func _physics_process(delta: float) -> void:
 			_jumping = false
 			_jump_t = 0.0
 			if dir != 0.0:
-				anim.play("walk")
+				anim.play(walk_anim)
 				anim.flip_h = dir < 0.0
 			else:
-				anim.play("idle")
+				anim.play(idle_anim)
 		else:
 			_play_jump_anim()
 			if dir != 0.0:
@@ -123,10 +134,10 @@ func _physics_process(delta: float) -> void:
 	position.y = _walk_y_at(position.x)
 
 	if dir != 0.0:
-		anim.play("walk")
+		anim.play(walk_anim)
 		anim.flip_h = dir < 0.0
 	else:
-		anim.play("idle")
+		anim.play(idle_anim)
 
 	_apply_sprite_transform()
 
@@ -138,6 +149,9 @@ func _apply_sprite_transform() -> void:
 	elif anim.animation == "climb":
 		anim.scale = _scene_sprite_scale * CLIMB_SCALE
 		anim.position = _scene_sprite_position + Vector2(0.0, CLIMB_Y_OFFSET)
+	elif anim.animation == "combat_walk" or anim.animation == "combat_idle":
+		anim.scale = _scene_sprite_scale * combat_walk_scale_mult
+		anim.position = _scene_sprite_position
 	else:
 		anim.scale = _scene_sprite_scale
 		anim.position = _scene_sprite_position

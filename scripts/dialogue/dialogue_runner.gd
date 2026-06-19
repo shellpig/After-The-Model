@@ -261,6 +261,11 @@ func _apply_effect(eff: Dictionary) -> bool:
 			var amount = eff.get("value", 0)
 			GameState.add_credits(amount)
 			return true
+		"add_trace":
+			# Phase 11-C：通用 Trace 變動 effect（供未來「留」↑ /「還」不增或微降的對話使用）
+			var delta = eff.get("value", 0)
+			GameState.add_trace(delta)
+			return true
 		"open_shop":
 			pending_shop_id = eff.get("value", "")
 			return true

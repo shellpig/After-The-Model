@@ -13,6 +13,8 @@ signal quest_changed(quest_id: String, state: Dictionary)
 signal shop_changed(shop_id: String)
 signal note_added(note_data: Dictionary, is_update: bool)
 signal echo_changed(echo_id: String)
+# Phase 11：Trace 隱性軸變動（無 UI 綁定；供未來 debug overlay 使用）
+signal trace_changed(new_value: int)
 
 
 # Variables
@@ -33,6 +35,9 @@ var apartment_sonar_revealed: bool = false
 var apartment_slot_unlocked: bool = false
 var apartment_beyond_door_bgm_triggered: bool = false
 var story_flags: Dictionary = {}
+# Phase 11-A：Trace（系統追蹤風險）獨立隱性軸。賣↓ / 留↑ / 還 不增或微降。
+# 隱性、不顯數值；清洗在 Phase 27 才硬兌現（此處只留資料 + hook）。
+var trace: int = 0
 var quest_states: Dictionary = {}
 var shop_states: Dictionary = {}
 var echo_progress: Dictionary = {}
@@ -418,6 +423,27 @@ func add_int(key: String, delta: int) -> void:
 	var new_val = int(current_val) + delta
 	story_flags[key] = new_val
 	flag_changed.emit(key, new_val)
+
+# ==========================================
+# Trust / Trace API（Phase 11）
+# ==========================================
+# Trace 每次「賣」殘響時的降幅（原始資料離手）。數值為方向性占位，開工校。
+const TRACE_DELTA_SELL := -1
+
+# 11-A：Trace 隱性軸。隱性、不顯數值；正負皆可。
+func add_trace(delta: int) -> void:
+	if delta == 0:
+		return
+	trace += delta
+	trace_changed.emit(trace)
+
+func get_trace() -> int:
+	return trace
+
+# 11-B：Trust adapter。第一版不新建獨立軸——以既有 affinity_<target> 近似。
+# 呼叫端一律走此介面；日後抽獨立 Trust 軸只改這裡，呼叫端不動。
+func get_trust(target: String) -> int:
+	return int(get_flag("affinity_" + target, 0))
 
 # ==========================================
 # Quest State API
@@ -1213,6 +1239,8 @@ func sell_echo(echo_id: String) -> bool:
 	var price = echo_data.get("sell_price", 0)
 	add_credits(price)
 	echo_progress[echo_id]["sold"] = true
+	# 11-C：賣＝把別人的存在再次商品化，原始資料離手 → Trace↓（集中在此，與對話無關）
+	add_trace(TRACE_DELTA_SELL)
 	echo_changed.emit(echo_id)
 	return true
 
@@ -1318,6 +1346,7 @@ func to_save_dict() -> Dictionary:
 		"apartment_slot_unlocked": apartment_slot_unlocked,
 		"apartment_beyond_door_bgm_triggered": apartment_beyond_door_bgm_triggered,
 		"story_flags": story_flags.duplicate(true),
+		"trace": trace,
 		"quest_states": quest_states.duplicate(true),
 		"shop_states": shop_states.duplicate(true),
 		"echo_progress": echo_progress.duplicate(true),
@@ -1359,6 +1388,11 @@ func load_save_dict(data: Dictionary) -> void:
 		apartment_beyond_door_bgm_triggered = data["apartment_beyond_door_bgm_triggered"]
 	if data.has("story_flags"):
 		story_flags = data["story_flags"].duplicate(true)
+	# Phase 11-A：trace 向後相容——舊存檔無此鍵時保持預設 0
+	if data.has("trace"):
+		trace = int(data["trace"])
+	else:
+		trace = 0
 	if data.has("quest_states"):
 		quest_states = data["quest_states"].duplicate(true)
 	if data.has("shop_states"):
@@ -1406,6 +1440,7 @@ func reset_for_new_game() -> void:
 	apartment_slot_unlocked = false
 	apartment_beyond_door_bgm_triggered = false
 	story_flags.clear()
+	trace = 0
 	quest_states.clear()
 	shop_states.clear()
 	echo_progress.clear()

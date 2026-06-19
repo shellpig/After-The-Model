@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-06-17
+最後更新：2026-06-19
 
 ---
 
@@ -228,12 +228,12 @@ note_id
 | 10-B | 🟦 待驗收 | 不分層視覺基底：雨粒子兩層（`RainFar`/`RainNear`，掛 `Camera2D` 子節點隨鏡頭走，垂直下落、霓虹染色非純白，落速 3x）+ 落地水花（`RainSplash`）+ `Vignette`（`CanvasLayer` layer=1 + shader，`GameUI` 改 layer=2 確保不被遮；目前 `visible=false` 待調整）+ 相機 idle 微擺（`Camera2D.offset` sin drift，走路時淡出）；無 CRT；`CanvasModulate` 夜色已試做後拿掉（不好看）；headless PASS，GUI / 手機效能聽感驗收待進行 |
 | 10-C | 🟦 部分待驗收 | **10-C-1 完成**：`BillboardScreen` Polygon2D + `billboard_screen.gdshader`（掃描線 / flicker / 邊緣輝光 / 輕微 RGB 錯位 + `glitch_amount` uniform）+ **廣告圖 3 張輪播**（`apartment_entrance.gd` 狀態機：每張停 6±1s + 0.35s 訊號中斷式 glitch 轉場，glitch 峰值換 texture 並重設 Polygon2D uv 對齊各圖尺寸；跑在 ambient 層不受 UIMode 影響）+ 路燈柔光池（`StreetLights`）；headless PASS（carousel 3 ads + glitch uniform 護欄）；輪播 / glitch GUI 目視驗收完成，路燈柔光池 GUI 待確認。**10-C-2 完成（免分層可做部分）**：`GlowLayers`（`AlleyNeonGlow` 紫青 stutter、`StoreSignGlow` 暖黃 breathing、`StoreWindowGlow` 暖橘 breathing slow，三個 Polygon2D + `glow_layer.gd` + `CanvasItemMaterial` Additive）+ `ReflectionStrip`（Polygon2D + `neon_reflection.gdshader` 程序化霓虹倒影 blend_add）+ `StreetLights`（`LampLight1` 暖橘路燈 / `LampLight2` 冷青巷燈，各 PointLight2D + 放射漸層 texture）；headless PASS（節點存在 + material 存在）；視差（`ParallaxBackground`）門控在美術切層後才開，目前跳過；GUI 目視驗收待進行。|
 | 10-D | 🟦 待驗收 | NPC 微演出：晚 idle break「撇一眼暗巷」——`NpcWan` 改 `AnimatedSprite2D`（`idle` + `idle_glance` 6 幀真幀）+ `IdleBreak` 組件（`interval_min=5`/`max=12` 秒）每隔幾秒插播再回正；`animation_finished` 訊號回 idle；素材：`wan-idle-glance-20260616-225800/hires_1024/final_normalized/`（6 幀 + GIF，黑邊版已後處理）；headless PASS，GUI 真機目視驗收待進行。|
-| 11-A | 🟧 待 headless | 主線地基 Trust/Trace。`GameState.trace:int` + `add_trace`/`get_trace`（正負皆可、`add_trace(0)` no-op）+ `trace_changed` signal（隱性、無 UI）；納入 `to_save_dict`/`load_save_dict`（缺鍵→0 向後相容）/`reset_for_new_game` 歸零 |
-| 11-B | 🟧 待 headless | `get_trust(target)` adapter＝`get_flag("affinity_"+target,0)`；第一版不新建獨立軸，呼叫端統一走此介面 |
-| 11-C | 🟧 待 headless | 賣→Trace↓ 集中在 `GameState.sell_echo()`（`TRACE_DELTA_SELL=-1`，無條件、不靠對話）；DialogueRunner 新增通用 `add_trace` effect op（供未來「留」↑/「還」對話，觸發場景待 Phase 18/20/鹿線） |
+| 11-A | ✅ 完成 | 主線地基 Trust/Trace。`GameState.trace:int` + `add_trace`/`get_trace`（正負皆可、`add_trace(0)` no-op）+ `trace_changed` signal（隱性、無 UI）；納入 `to_save_dict`/`load_save_dict`（缺鍵→0 向後相容）/`reset_for_new_game` 歸零；本機 headless PASS |
+| 11-B | ✅ 完成 | `get_trust(target)` adapter＝`get_flag("affinity_"+target,0)`；第一版不新建獨立軸，呼叫端統一走此介面；本機 headless PASS |
+| 11-C | ✅ 完成 | 賣→Trace↓ 集中在 `GameState.sell_echo()`（`TRACE_DELTA_SELL=-1`，無條件、不靠對話）；DialogueRunner 新增通用 `add_trace` effect op（供未來「留」↑/「還」對話，觸發場景待 Phase 18/20/鹿線）；本機 headless PASS |
 | 11-D | ❌ 取消 | 清洗刻意不在 Phase 11 落地（避免提前蓋 placeholder，呼應 4-G 教訓）；移至 **Phase 27**（Expose 上傳前清洗閘）硬兌現 |
-| 11-E | 🟧 待 headless | `tests/manual/test_runner.gd` 新增 Phase 11 區（trace 累加/存讀檔/缺鍵相容/reset、trust adapter、賣→trace↓、`add_trace` effect op）；trace 完全隱性無 UI；headless 自動測試待執行驗證 |
-| 12-A | 📐 規格可實作 | 跳躍狀態：`jump` action + `player.gd` walk-line 之上腳本化拋物弧（地面起跳 / 空中水平微調 / 無二段跳 / 蹬牆）+ 抓邊緣吸附 + `jump` 動畫。**架構決策：不引入全域重力**（理由見規格）|
+| 11-E | ✅ 完成 | `tests/manual/test_runner.gd` 新增 Phase 11 區（trace 累加/存讀檔/缺鍵相容/reset、trust adapter、賣→trace↓、`add_trace` effect op）；trace 完全隱性無 UI；2026-06-19 本機 headless PASS（`test_runner.tscn` / `verify_game_state.gd`，exit code 0） |
+| 12-A | 🟦 待驗收 | 跳躍狀態：`jump` action（Space）+ `player.gd` walk-line 之上腳本化拋物弧（地面起跳 / 空中水平微調 / 無二段跳 / 蹬牆）+ 抓邊緣吸附（group `ledges`，12-B 前安全 no-op）+ 單一連貫 `jump` clip（loop=false，落地由狀態接回，6 幀接進 5 個 level 的 SpriteFrames）。**架構決策：不引入全域重力**；headless PASS（action / API / 動畫存在 + 起跳→落回不破壞 walk-line / save-x / climb + 無二段跳）；跳躍手感 / jump-3 朝向 GUI 走查待進行 |
 | 12-B | 📐 規格可實作 | 平台組件 `ledge_area.gd` / `jump_gap.gd` + 採集點沿用 `EchoPoint`；最小原型床 `scenes/levels/jump_proto`（gap 跨越 + 跳上 ledge + 採集點），拋棄式、不接正式動線 |
 | 12-C | 📐 規格可實作 | TouchControls `BtnJump`（綁 `jump`）+ 僅世界模式顯隱 + 純觸控走查 |
 | 13-A | 📐 規格可實作 | `attack` action + `melee_stick`（命中→stun，棍不壞 / 無升級 / **無 HP·血條**）+ `enemy_base` AI（巡邏 / 察覺 / 追擊 / 受擊 stun）|
@@ -245,7 +245,7 @@ note_id
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
-> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11（已實作）/ 12 / 13 規格已展開到可實作（📐，見下「Phase 12–13 子階段（三份對照）」行範圍）；Phase 14（Act 1 主線鉤子）/ Phase 15（Act 2 場景骨架）三份文件亦已展開到可實作（📐，實作契約見 `開發設計方針.md > Act 1 主線鉤子（Phase 14，實作契約）` / `> Act 2 場景骨架（Phase 15，實作契約）`，場景設計見 `subdocs/地點/地鐵站.md` / `subdocs/地點/地下道聚落.md`）**；**Phase 16 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構已拍板（2026-06-19）＝**方案 A 腳本化拋物弧**（不引入全域重力）。Phase 15 範圍已拍板（2026-06-19）＝**地鐵站 + 地下道聚落 2 真場景**，硬規則**不暫代**（不借 BGM、不放 placeholder 美術、不寫待覆寫佔位文字；NPC/殘響/戰鬥後置但以真掛點預留）。
+> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11 已完成本機 headless（2026-06-19）/ Phase 12 / 13 規格已展開到可實作（📐，見下「Phase 12–13 子階段（三份對照）」行範圍）；Phase 14（Act 1 主線鉤子）/ Phase 15（Act 2 場景骨架）三份文件亦已展開到可實作（📐，實作契約見 `開發設計方針.md > Act 1 主線鉤子（Phase 14，實作契約）` / `> Act 2 場景骨架（Phase 15，實作契約）`，場景設計見 `subdocs/地點/地鐵站.md` / `subdocs/地點/地下道聚落.md`）**；**Phase 16 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構已拍板（2026-06-19）＝**方案 A 腳本化拋物弧**（不引入全域重力）。Phase 15 範圍已拍板（2026-06-19）＝**地鐵站 + 地下道聚落 2 真場景**，硬規則**不暫代**（不借 BGM、不放 placeholder 美術、不寫待覆寫佔位文字；NPC/殘響/戰鬥後置但以真掛點預留）。
 
 ### Phase 3 子階段（公寓觸控化）
 

@@ -10,6 +10,16 @@ const CLIMB_Z_INDEX := 20      # 爬梯時 sprite 疊在前景欄杆(z=10)之上
 @export var max_x := 1180.0
 @export var walk_line_y := 700.0
 
+# Phase 12-A: scripted parabolic jump (no global gravity; arc rides the walk line).
+@export var jump_height := 120.0       # arc apex height above the walk line, px
+@export var jump_duration := 0.55      # total airtime, seconds
+@export var air_speed_scale := 1.0     # horizontal speed in air vs ground
+const LEDGE_GRAB_MIN_U := 0.35         # only grab a ledge in the apex window
+const LEDGE_GRAB_Y_TOLERANCE := 40.0   # px slack between sprite y and ledge target y
+var _jumping := false
+var _jump_t := 0.0                      # elapsed airtime
+var _jump_base_y := 0.0                 # walk line y at takeoff (ledge must be above this)
+
 # Optional walk-line height profile (sorted by x). Empty = flat walk_line_y.
 # Used by uneven walk surfaces (e.g. the sagging fire-escape bridge).
 var walk_height_points: Array = []
@@ -49,6 +59,10 @@ func _physics_process(delta: float) -> void:
 		if get_parent().name == "ApartmentRoom" and get_parent().get("_opening_monologue_active"):
 			_apply_sprite_transform()
 			return
+		if _jumping:
+			_jumping = false
+			_jump_t = 0.0
+			position.y = _walk_y_at(position.x)
 		anim.play("idle")
 		_apply_sprite_transform()
 		return
@@ -68,6 +82,41 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var dir := Input.get_axis("move_left", "move_right")
+
+	# Phase 12-A: takeoff (ground only; no double jump / wall jump).
+	if not _jumping and Input.is_action_just_pressed("jump"):
+		_jumping = true
+		_jump_t = 0.0
+		_jump_base_y = _walk_y_at(position.x)
+
+	# Phase 12-A: airborne arc (scripted parabola; keeps horizontal control).
+	if _jumping:
+		_jump_t += delta
+		position.x += dir * speed * air_speed_scale * delta
+		position.x = clamp(position.x, min_x, max_x)
+		var u := _jump_t / jump_duration
+		var landed := false
+		if u >= LEDGE_GRAB_MIN_U and _try_grab_ledge():
+			landed = true
+		elif _jump_t >= jump_duration:
+			position.y = _walk_y_at(position.x)
+			landed = true
+		else:
+			position.y = _walk_y_at(position.x) - jump_height * 4.0 * u * (1.0 - u)
+		if landed:
+			_jumping = false
+			_jump_t = 0.0
+			if dir != 0.0:
+				anim.play("walk")
+				anim.flip_h = dir < 0.0
+			else:
+				anim.play("idle")
+		else:
+			_play_jump_anim()
+			if dir != 0.0:
+				anim.flip_h = dir < 0.0
+		_apply_sprite_transform()
+		return
 
 	position.x += dir * speed * delta
 	position.x = clamp(position.x, min_x, max_x)
@@ -142,3 +191,29 @@ func exit_climb_mode(target_y: float) -> void:
 
 func is_climbing() -> bool:
 	return climb_mode
+
+# Phase 12-A: jump state query.
+func is_jumping() -> bool:
+	return _jumping
+
+func _play_jump_anim() -> void:
+	if anim.sprite_frames and anim.sprite_frames.has_animation("jump"):
+		if anim.animation != "jump":
+			anim.play("jump")
+	else:
+		anim.play("walk")
+
+# Try to snap onto a higher ledge during the apex window. No-op until ledges exist
+# (LedgeArea2D + group "ledges" arrive in Phase 12-B). Returns true if grabbed.
+func _try_grab_ledge() -> bool:
+	for l in get_tree().get_nodes_in_group("ledges"):
+		if not (l.has_method("contains_x") and l.has_method("get_target_y")):
+			continue
+		if not l.contains_x(global_position.x):
+			continue
+		var ty: float = l.get_target_y()
+		if ty < _jump_base_y and abs(global_position.y - ty) <= LEDGE_GRAB_Y_TOLERANCE:
+			walk_line_y = ty
+			snap_to_walk_line()
+			return true
+	return false

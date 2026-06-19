@@ -3,6 +3,12 @@
 [ext_resource type="Script" uid="uid://cnkr7dru7562i" path="res://scenes/levels/apartment_fire_escape/apartment_fire_escape.gd" id="1_escape"]
 [ext_resource type="Texture2D" uid="uid://b35ee0rt5d3bu" path="res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview.png" id="2_bg"]
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="3_player"]
+[ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
+[ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
+[ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
+[ext_resource type="Texture2D" uid="uid://cqlevyto1pcct" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="jumpf4"]
+[ext_resource type="Texture2D" uid="uid://dr0483468d6l7" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
+[ext_resource type="Texture2D" uid="uid://xvrwlgw2fiwr" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="4_interactable"]
 [ext_resource type="Texture2D" uid="uid://dyy5ew7xbgdjp" path="res://assets/generated/sprites/main_character/climb/main-character-climb-6f-skin-forearms-20260608-085454/main-character-climb-1.png" id="5_86fu0"]
 [ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="5_walk1"]
@@ -74,6 +80,29 @@ radius = 45.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("jumpf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf6")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 11.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("5_86fu0")

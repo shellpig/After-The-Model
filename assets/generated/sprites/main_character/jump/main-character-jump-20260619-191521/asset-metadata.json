@@ -1,0 +1,208 @@
+{
+  "asset": "main_character_jump",
+  "created_at": "2026-06-19T19:15:21+08:00",
+  "source": "first built-in image_gen candidate, extracted from Codex session image_generation result",
+  "selection_note": "chosen over second candidate because identity, jacket, gloves, face, and overall character design are closer to existing walk reference",
+  "plan": "single continuous jump->fall clip, 6 frames, no separate fall animation",
+  "grid": "2x3 raw sheet, final 512x512 frame PNGs",
+  "anchor": "feet/bottom baseline aligned during postprocess",
+  "frame_plan": [
+    "crouch anticipation",
+    "push-off / rising start",
+    "rising / tuck",
+    "apex / ledge grab window",
+    "falling preparation",
+    "landing cushion"
+  ],
+  "qc": {
+    "sheet_size": [
+      1536,
+      1024
+    ],
+    "frame_count": 6,
+    "frames": [
+      {
+        "file": "main-character-jump-1.png",
+        "size": [
+          512,
+          512
+        ],
+        "alpha_bbox": [
+          109,
+          174,
+          403,
+          453
+        ],
+        "bottom_baseline_y": 453
+      },
+      {
+        "file": "main-character-jump-2.png",
+        "size": [
+          512,
+          512
+        ],
+        "alpha_bbox": [
+          100,
+          72,
+          412,
+          453
+        ],
+        "bottom_baseline_y": 453
+      },
+      {
+        "file": "main-character-jump-3.png",
+        "size": [
+          512,
+          512
+        ],
+        "alpha_bbox": [
+          112,
+          61,
+          385,
+          453
+        ],
+        "bottom_baseline_y": 453
+      },
+      {
+        "file": "main-character-jump-4.png",
+        "size": [
+          512,
+          512
+        ],
+        "alpha_bbox": [
+          95,
+          131,
+          417,
+          453
+        ],
+        "bottom_baseline_y": 453
+      },
+      {
+        "file": "main-character-jump-5.png",
+        "size": [
+          512,
+          512
+        ],
+        "alpha_bbox": [
+          102,
+          74,
+          409,
+          453
+        ],
+        "bottom_baseline_y": 453
+      },
+      {
+        "file": "main-character-jump-6.png",
+        "size": [
+          512,
+          512
+        ],
+        "alpha_bbox": [
+          83,
+          167,
+          400,
+          453
+        ],
+        "bottom_baseline_y": 453
+      }
+    ],
+    "bottom_baselines": [
+      453,
+      453,
+      453,
+      453,
+      453,
+      453
+    ],
+    "output_edge_touch": []
+  },
+  "postprocess": [
+    {
+      "timestamp": "2026-06-19T19:36:42",
+      "operation": "magenta_edge_to_black_ink_outline",
+      "description": "Converted visible magenta chroma-key fringe pixels to deep ink-black while preserving alpha; rebuilt sheet and GIF from cleaned frames.",
+      "ink_rgb": [
+        8,
+        7,
+        10
+      ],
+      "backup_dir": "backup-before-magenta-edge-black-20260619-193641",
+      "changed_pixels": {
+        "main-character-jump-1.png": 1091,
+        "main-character-jump-2.png": 1727,
+        "main-character-jump-3.png": 1620,
+        "main-character-jump-4.png": 1378,
+        "main-character-jump-5.png": 1663,
+        "main-character-jump-6.png": 1273,
+        "sheet-transparent.png": "rebuilt_from_clean_frames"
+      },
+      "remaining_magenta_like_pixels": {
+        "main-character-jump-1.png": 0,
+        "main-character-jump-2.png": 0,
+        "main-character-jump-3.png": 0,
+        "main-character-jump-4.png": 0,
+        "main-character-jump-5.png": 0,
+        "main-character-jump-6.png": 0,
+        "sheet-transparent.png": 0
+      }
+    },
+    {
+      "timestamp": "2026-06-19T19:37:35",
+      "operation": "purple_chroma_edge_to_black_ink_outline",
+      "description": "Converted remaining purple/magenta edge spill near transparent boundaries to ink-black while preserving alpha; rebuilt sheet and GIF from cleaned frames.",
+      "ink_rgb": [
+        6,
+        5,
+        8
+      ],
+      "backup_dir": "backup-before-purple-edge-black-20260619-193733",
+      "changed_pixels": {
+        "main-character-jump-1.png": 1557,
+        "main-character-jump-2.png": 2027,
+        "main-character-jump-3.png": 2118,
+        "main-character-jump-4.png": 1836,
+        "main-character-jump-5.png": 1919,
+        "main-character-jump-6.png": 1498,
+        "sheet-transparent.png": "rebuilt_from_clean_frames"
+      },
+      "remaining_purple_edge_pixels": {
+        "main-character-jump-1.png": 0,
+        "main-character-jump-2.png": 0,
+        "main-character-jump-3.png": 0,
+        "main-character-jump-4.png": 0,
+        "main-character-jump-5.png": 0,
+        "main-character-jump-6.png": 0,
+        "sheet-transparent.png": 0
+      }
+    },
+    {
+      "timestamp": "2026-06-19T19:38:23",
+      "operation": "final_magenta_speck_to_black_ink_outline",
+      "description": "Converted final broad magenta-like visible specks to ink-black; rebuilt sheet and GIF from cleaned frames.",
+      "ink_rgb": [
+        5,
+        5,
+        7
+      ],
+      "backup_dir": "backup-before-final-magenta-speck-clean-20260619-193823",
+      "changed_pixels": {
+        "main-character-jump-1.png": 0,
+        "main-character-jump-2.png": 6,
+        "main-character-jump-3.png": 12,
+        "main-character-jump-4.png": 11,
+        "main-character-jump-5.png": 12,
+        "main-character-jump-6.png": 8,
+        "sheet-transparent.png": "rebuilt_from_clean_frames"
+      },
+      "remaining_magenta_like_pixels": {
+        "main-character-jump-1.png": 0,
+        "main-character-jump-2.png": 0,
+        "main-character-jump-3.png": 0,
+        "main-character-jump-4.png": 0,
+        "main-character-jump-5.png": 0,
+        "main-character-jump-6.png": 0,
+        "sheet-transparent.png": 0
+      }
+    }
+  ]
+}

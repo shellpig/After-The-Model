@@ -1,0 +1,44 @@
+Use the character images just shown as the strict visual reference for identity, proportions, palette, costume, line style, and feet/bottom anchor. Use the layout guide image just shown as a layout-only reference: it only indicates 2 rows x 3 columns, equal invisible cells, centering, spacing, and safe padding. Do not reproduce guide boxes, blue lines, center marks, labels, borders, white background, or any guide marks.
+
+Create a production-ready side-view 6-frame JUMP animation sprite sheet for the same main character from After-The-Model.
+
+SHEET FORMAT:
+- Exactly 6 equal cells arranged in a 2x3 grid, 2 rows and 3 columns.
+- Frame order reads left-to-right, top row first, then bottom row.
+- Top row: Frame 1, Frame 2, Frame 3. Bottom row: Frame 4, Frame 5, Frame 6.
+- Solid flat #FF00FF magenta background filling every cell completely.
+- No transparency in the raw sheet background.
+- Character faces RIGHT in all 6 frames. Only draw the right-facing version.
+- Full body visible in every cell, never cropped, generous magenta margin on all four sides.
+- Same character identity, same body scale, same bounding box, same canvas framing, same feet/bottom anchor baseline in every frame.
+- The feet/bottom anchor line must stay at the same canvas height as the reference walk/idle frames.
+- IMPORTANT: Do NOT draw the whole character rising upward or floating upward inside the frames. Godot will move position.y with a scripted parabolic arc. Keep the character's overall body anchor fixed; only limb pose, crouch, leg bend, and body compression may change.
+- No text, no labels, no UI, no frame borders, no grid lines.
+
+CHARACTER IDENTITY LOCK:
+- Match the visible reference exactly: tired adult male, 7-8 head proportions, short messy dark hair, stubble, goggles on forehead, calm tired expression.
+- Deep teal high-collar work jacket with diagonal zipper, sleeves rolled to forearms; dark purple-black undershirt; faded olive cargo pants; high black tactical work boots with thick soles; dark teal-brown crossbody messenger bag with stable strap; black fingerless work gloves with large saturated burnt orange glove-back plates; small saturated burnt orange patch on right shoulder only.
+- Keep orange only on right shoulder patch and both glove backs. No other orange marks.
+- Messenger bag stays on same side of body and keeps same silhouette; crossbody strap never flips or disappears.
+
+ART STYLE:
+- Match the reference and Art Bible Chapter 3: flat cel-shade indie cyberpunk comic, hand-inked thick black outlines with organic wobble and line-weight variation, thinner inner lines, halftone midtones, Mignola-like solid black shadow shapes.
+- Muted deep teal, gray-blue, faded olive, ink purple-black palette. No pure white, no pure black.
+- No gradients, no anti-aliased glossy 3D render, no photorealism, no anime lighting, no speed lines, no motion blur, no dust cloud, no VFX.
+
+6 FRAME ACTION PLAN, one continuous jump-to-fall clip:
+Frame 1 - Crouch anticipation before takeoff: knees bent, center of mass compressed downward by pose only, torso slightly lowered but feet anchor unchanged, arms swing back, boots planted on same baseline.
+Frame 2 - Push-off leaving ground: legs extend from the planted baseline, front foot just beginning to lift, arms start rising, body still anchored in the same canvas position; do not draw vertical travel.
+Frame 3 - Rising phase: torso more upright, legs slightly tucked behind, arms continuing upward for balance, body scale and anchor unchanged.
+Frame 4 - Apex / ledge-grab timing window: highest-energy pose but NOT drawn higher in canvas; arms open outward for balance, knees slightly tucked, silhouette compact and readable, ideal for grab-window pose.
+Frame 5 - Falling preparation: legs start lowering and extending toward the landing baseline, arms settle, torso aligned to prepare for landing; no falling streaks.
+Frame 6 - Landing cushion: knees bent to absorb impact, torso slightly compressed, arms forward/down for balance, boots on same baseline, final non-looping hold pose that can transition back to idle/walk.
+
+ANCHOR AND MOTION RULES:
+- The character's bottom/feet anchor remains fixed at the same y-position in every cell. Frame 2-5 should not show the entire character shifted up or down.
+- Crouch and landing are shown through knee/hip compression and limb pose, not through moving the whole sprite.
+- Keep body height and silhouette close to the reference. Frame 1 and Frame 6 may be slightly shorter due to bent knees, but the feet baseline and canvas placement remain identical.
+- No separate fall animation; frames 5 and 6 are the fall/landing part of this same clip.
+- No weapon, no tools, no detached effects.
+
+Output one raw sprite sheet image only.

@@ -2,24 +2,22 @@ extends Node
 class_name FormatReset
 
 # Phase 13-B: long-press E from behind a stunned machine enemy to format it.
-# Attach to the player node. Checks UIMode, interact_primary held state, and
-# the nearest machine enemy's can_format() each frame; accumulates time and
-# calls enemy.defeated() when FORMAT_DURATION is reached.
-# Releasing, moving out of range, enemy recovering, or UI opening resets progress.
+# Attach to the player node. Accumulates interact_primary hold time and calls
+# enemy.defeated() at FORMAT_DURATION seconds. Resets on release / out-of-range /
+# enemy recovery / UI open.
 #
-# HUD: shows prompt label when can_format is true; shows ASCII-bar progress
-# while holding E. Uses a CanvasLayer child so it renders above the world.
+# HUD: PanelContainer + Label, styled and positioned identically to GameUI's
+# PromptPanel (font_size 20, black outline, floats above AnimatedSprite2D).
+# Priority over other prompts is implicit — jump_proto has no GameUI to conflict.
 
 const FORMAT_DURATION := 2.0
-const BAR_CELLS      := 10
 
-var _player: Node2D = null
+var _player: Node2D     = null
 var _format_t := 0.0
 
-# HUD nodes — created in _ready(), nil-safe everywhere.
-var _canvas:       CanvasLayer = null
-var _prompt_lbl:   Label       = null
-var _progress_lbl: Label       = null
+var _canvas:     CanvasLayer    = null
+var _panel:      PanelContainer = null
+var _prompt_lbl: Label          = null
 
 func _ready() -> void:
 	_player = get_parent() as Node2D
@@ -33,29 +31,34 @@ func _process(delta: float) -> void:
 
 	if UIMode.is_world_input_blocked():
 		_format_t = 0.0
-		_show_hud(false, false)
+		_panel.visible = false
 		return
 
 	var target := _find_target()
 	if target == null:
 		_format_t = 0.0
-		_show_hud(false, false)
+		_panel.visible = false
 		return
 
-	# In can_format zone — player not yet holding E: show prompt.
+	# In can_format zone — update panel position every frame.
+	_update_panel_pos()
+
 	if not Input.is_action_pressed("interact_primary"):
 		_format_t = 0.0
-		_show_hud(true, false)
+		_prompt_lbl.text = "按住 E：格式化"
+		_panel.visible = true
 		return
 
-	# Holding E: accumulate and show progress.
+	# Holding E — accumulate and show progress.
 	_format_t += delta
-	_show_hud(true, true)
+	var pct := int(_format_t / FORMAT_DURATION * 100.0)
+	_prompt_lbl.text = "格式化中... %d%%" % pct
+	_panel.visible = true
 
 	if _format_t >= FORMAT_DURATION:
 		target.defeated()
 		_format_t = 0.0
-		_show_hud(false, false)
+		_panel.visible = false
 
 # ---------------------------------------------------------------------------
 
@@ -67,62 +70,45 @@ func _find_target() -> Node:
 			return enemy
 	return null
 
-func _show_hud(in_range: bool, formatting: bool) -> void:
-	if _canvas == null:
+# Mirrors GameUI._process prompt positioning:
+#   sprite screen pos + Vector2(-width * 0.45, -100 * player_y_scale)
+func _update_panel_pos() -> void:
+	var anim := _player.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+	if anim == null:
 		return
-	if formatting:
-		_prompt_lbl.visible = false
-		_progress_lbl.visible = true
-		var filled := int(_format_t / FORMAT_DURATION * BAR_CELLS)
-		var empty  := BAR_CELLS - filled
-		var pct    := int(_format_t / FORMAT_DURATION * 100.0)
-		_progress_lbl.text = "格式化中 [%s%s] %d%%" % [
-			"█".repeat(filled),
-			"░".repeat(empty),
-			pct,
-		]
-	elif in_range:
-		_prompt_lbl.visible = true
-		_progress_lbl.visible = false
-	else:
-		_prompt_lbl.visible   = false
-		_progress_lbl.visible = false
+	_panel.reset_size()
+	var sp: Vector2 = anim.get_global_transform_with_canvas().origin
+	var ps := _panel.size
+	var sf: float = _player.global_scale.y
+	_panel.position = sp + Vector2(-ps.x * 0.45, -100.0 * sf)
 
 func _setup_hud() -> void:
 	_canvas = CanvasLayer.new()
 	_canvas.layer = 5
 	add_child(_canvas)
 
-	# Viewport assumed 1280×720; both labels centered at x=640, near bottom.
-	_prompt_lbl = _make_label(
-		"按住 E：格式化",
-		Vector2(380, 36), Vector2(450, 632),
-		Color(0.45, 0.95, 1.0), 21
-	)
-	_canvas.add_child(_prompt_lbl)
-	_prompt_lbl.visible = false
+	_panel = PanelContainer.new()
+	_panel.visible = false
+	_canvas.add_child(_panel)
 
-	_progress_lbl = _make_label(
-		"",
-		Vector2(440, 36), Vector2(420, 632),
-		Color(1.0, 0.65, 0.15), 21
-	)
-	_canvas.add_child(_progress_lbl)
-	_progress_lbl.visible = false
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_right", 10)
+	margin.add_theme_constant_override("margin_top", 6)
+	margin.add_theme_constant_override("margin_bottom", 6)
+	_panel.add_child(margin)
 
-func _make_label(txt: String, sz: Vector2, pos: Vector2, col: Color, fsize: int) -> Label:
-	var lbl := Label.new()
-	lbl.text = txt
-	lbl.size = sz
-	lbl.position = pos
-	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
-	lbl.add_theme_font_size_override("font_size", fsize)
-	lbl.add_theme_color_override("font_color", col)
-	lbl.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.02))
-	lbl.add_theme_constant_override("outline_size", 5)
-	return lbl
+	# Match GameUI PromptLabel: font_size 20, black outline, no explicit font_color
+	# (lets the project theme supply the same colour as all other prompts).
+	_prompt_lbl = Label.new()
+	_prompt_lbl.text = "按住 E：格式化"
+	_prompt_lbl.add_theme_font_size_override("font_size", 20)
+	_prompt_lbl.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
+	_prompt_lbl.add_theme_constant_override("outline_size", 4)
+	_prompt_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_prompt_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+	margin.add_child(_prompt_lbl)
 
-# Exposed for headless test access.
+# For headless test access.
 func get_format_progress() -> float:
 	return _format_t

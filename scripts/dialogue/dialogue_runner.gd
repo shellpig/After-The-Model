@@ -183,27 +183,38 @@ func _eval_condition_dict(cond: Dictionary) -> bool:
 
 	match op:
 		"==":
-			if current_val is bool and target_val is int:
-				return current_val == (target_val != 0)
-			if current_val is int and target_val is bool:
-				return (current_val != 0) == target_val
-			return current_val == target_val
+			return _safe_equals(current_val, target_val)
 		"!=":
-			if current_val is bool and target_val is int:
-				return current_val != (target_val != 0)
-			if current_val is int and target_val is bool:
-				return (current_val != 0) != target_val
-			return current_val != target_val
+			return not _safe_equals(current_val, target_val)
 		">":
-			return current_val > target_val
+			if (current_val is int or current_val is float) and (target_val is int or target_val is float):
+				return current_val > target_val
+			return false
 		"<":
-			return current_val < target_val
+			if (current_val is int or current_val is float) and (target_val is int or target_val is float):
+				return current_val < target_val
+			return false
 		">=":
-			return current_val >= target_val
+			if (current_val is int or current_val is float) and (target_val is int or target_val is float):
+				return current_val >= target_val
+			return false
 		"<=":
-			return current_val <= target_val
+			if (current_val is int or current_val is float) and (target_val is int or target_val is float):
+				return current_val <= target_val
+			return false
 		_:
 			return false
+
+func _safe_equals(val1, val2) -> bool:
+	if typeof(val1) == typeof(val2):
+		return val1 == val2
+	if (val1 is int or val1 is float) and (val2 is int or val2 is float):
+		return val1 == val2
+	if val1 is bool and val2 is int:
+		return val1 == (val2 != 0)
+	if val1 is int and val2 is bool:
+		return (val1 != 0) == val2
+	return false
 
 func _resolve_goto(goto_value) -> String:
 	if goto_value is String:

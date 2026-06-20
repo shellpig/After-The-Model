@@ -11,8 +11,25 @@ const TREE := {
 		"goto": [
 			{"condition": {"flag": "vendor_bot_repaired", "op": "==", "value": true}, "target": "repaired_router"},
 			{"condition": {"type": "quest_status", "quest_id": "repair_vendor_bot", "op": "==", "value": "active"}, "target": "diagnose_intro"},
+			{
+				"condition": [
+					{"flag": "mem_frag_linfei_1", "op": "==", "value": true},
+					{"flag": "ada_misrecognized", "op": "==", "value": false}
+				],
+				"target": "ada_misrecognized_hook"
+			},
 			{"target": "babble_intro"}
 		]
+	},
+
+	"ada_misrecognized_hook": {
+		"speaker": "店控機器人",
+		"text": "（你靠近時，它的鏡頭猛地對焦在你臉上，散熱風扇拔高了一階。）\n……阿達？是你嗎，阿達。你怎麼會在這——\n（機械臂抬到一半，僵住，又慢慢放下。）\n不對。你不是阿達。可是我見過你。我很確定我見過你。\n在哪……我想不起來在哪。\n（螢幕臉暗了一瞬，那行小字又跳出來：「本日公休」。）",
+		"effect": [
+			{"op": "set_flag", "key": "ada_misrecognized", "value": true},
+			{"op": "set_flag", "key": "talked_store_robot", "value": true}
+		],
+		"goto": "babble_intro"
 	},
 
 	# --- 8-B 前導 babble ---

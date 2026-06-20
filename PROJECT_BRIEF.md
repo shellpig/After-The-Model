@@ -224,10 +224,10 @@ note_id
 | 9-F | ✅ 完成 | 內容鋪設：4 條殘響 / 7 採集點跨 5 場景 + 照片（生圖）/ 歌曲 / 雜訊 SFX / 店 BGM 素材 |
 | 9-G | ✅ 完成 | 收購（賣 vs 留）：對話式成交、每條專屬評語、只收已集滿、賣後標記已售出 + 媒體永久失效；`echo_lu_family` 不收 |
 | 9-H | ✅ 完成 | Phase 9 全鏈回歸 + 存讀檔驗證 + GUI / 觸控走查 |
-| 10-A | 🟦 待驗收 | 街道音景：雨 bed（`AmbientRain` autoplay loop, -22dB）+ 地鐵遠轟（`AmbientSubway` one-shot，`SubwayTimer` 40~90 秒隨機間隔，`_a`/`_b` 隨機挑）；新增 Audio Bus `Ambient`；echo 播放時 `main.duck_ambient()` 與既有 `pause_bgm`/`resume_bgm` 同步壓低（-14dB，淡降非全靜，0.3s tween）／淡回；確認街道 BGM 由 `main.gd` 中央系統播放，移除場景內死節點 `BGMPlayer`；headless PASS，GUI / 真機聽感驗收待進行 |
-| 10-B | 🟦 待驗收 | 不分層視覺基底：雨粒子兩層（`RainFar`/`RainNear`，掛 `Camera2D` 子節點隨鏡頭走，垂直下落、霓虹染色非純白，落速 3x）+ 落地水花（`RainSplash`）+ `Vignette`（`CanvasLayer` layer=1 + shader，`GameUI` 改 layer=2 確保不被遮；目前 `visible=false` 待調整）+ 相機 idle 微擺（`Camera2D.offset` sin drift，走路時淡出）；無 CRT；`CanvasModulate` 夜色已試做後拿掉（不好看）；headless PASS，GUI / 手機效能聽感驗收待進行 |
-| 10-C | 🟦 部分待驗收 | **10-C-1 完成**：`BillboardScreen` Polygon2D + `billboard_screen.gdshader`（掃描線 / flicker / 邊緣輝光 / 輕微 RGB 錯位 + `glitch_amount` uniform）+ **廣告圖 3 張輪播**（`apartment_entrance.gd` 狀態機：每張停 6±1s + 0.35s 訊號中斷式 glitch 轉場，glitch 峰值換 texture 並重設 Polygon2D uv 對齊各圖尺寸；跑在 ambient 層不受 UIMode 影響）+ 路燈柔光池（`StreetLights`）；headless PASS（carousel 3 ads + glitch uniform 護欄）；輪播 / glitch GUI 目視驗收完成，路燈柔光池 GUI 待確認。**10-C-2 完成（免分層可做部分）**：`GlowLayers`（`AlleyNeonGlow` 紫青 stutter、`StoreSignGlow` 暖黃 breathing、`StoreWindowGlow` 暖橘 breathing slow，三個 Polygon2D + `glow_layer.gd` + `CanvasItemMaterial` Additive）+ `ReflectionStrip`（Polygon2D + `neon_reflection.gdshader` 程序化霓虹倒影 blend_add）+ `StreetLights`（`LampLight1` 暖橘路燈 / `LampLight2` 冷青巷燈，各 PointLight2D + 放射漸層 texture）；headless PASS（節點存在 + material 存在）；視差（`ParallaxBackground`）門控在美術切層後才開，目前跳過；GUI 目視驗收待進行。|
-| 10-D | 🟦 待驗收 | NPC 微演出：晚 idle break「撇一眼暗巷」——`NpcWan` 改 `AnimatedSprite2D`（`idle` + `idle_glance` 6 幀真幀）+ `IdleBreak` 組件（`interval_min=5`/`max=12` 秒）每隔幾秒插播再回正；`animation_finished` 訊號回 idle；素材：`wan-idle-glance-20260616-225800/hires_1024/final_normalized/`（6 幀 + GIF，黑邊版已後處理）；headless PASS，GUI 真機目視驗收待進行。|
+| 10-A | ✅ 完成 | 街道音景：雨 bed（`AmbientRain` autoplay loop, -22dB）+ 地鐵遠轟（`AmbientSubway` one-shot，`SubwayTimer` 40~90 秒隨機間隔，`_a`/`_b` 隨機挑）；新增 Audio Bus `Ambient`；echo 播放時 `main.duck_ambient()` 與既有 `pause_bgm`/`resume_bgm` 同步壓低（-14dB，淡降非全靜，0.3s tween）／淡回；確認街道 BGM 由 `main.gd` 中央系統播放，移除場景內死節點 `BGMPlayer`；headless PASS，GUI / 真機聽感驗收完成 |
+| 10-B | ✅ 完成 | 不分層視覺基底：雨粒子兩層（`RainFar`/`RainNear`，掛 `Camera2D` 子節點隨鏡頭走，垂直下落、霓虹染色非純白，落速 3x）+ 落地水花（`RainSplash`）+ `Vignette`（`CanvasLayer` layer=1 + shader，`GameUI` 改 layer=2 確保不被遮）+ 相機 idle 微擺（`Camera2D.offset` sin drift，走路時淡出）；無 CRT；headless PASS，GUI / 真機驗收完成 |
+| 10-C | ✅ 完成 | `BillboardScreen` Polygon2D + shader（掃描線 / flicker / 邊緣輝光 / RGB 錯位）+ 廣告圖 3 張輪播 + 路燈柔光池（`StreetLights`）；`GlowLayers`（AlleyNeonGlow / StoreSignGlow / StoreWindowGlow）+ `ReflectionStrip` 霓虹倒影 + 兩盞 PointLight2D；headless PASS，GUI 目視驗收完成 |
+| 10-D | ✅ 完成 | NPC 微演出：晚 idle break「撇一眼暗巷」——`NpcWan` 改 `AnimatedSprite2D`（`idle` + `idle_glance` 6 幀）+ `IdleBreak` 組件；headless PASS，GUI 真機目視驗收完成 |
 | 11-A | ✅ 完成 | 主線地基 Trust/Trace。`GameState.trace:int` + `add_trace`/`get_trace`（正負皆可、`add_trace(0)` no-op）+ `trace_changed` signal（隱性、無 UI）；納入 `to_save_dict`/`load_save_dict`（缺鍵→0 向後相容）/`reset_for_new_game` 歸零；本機 headless PASS |
 | 11-B | ✅ 完成 | `get_trust(target)` adapter＝`get_flag("affinity_"+target,0)`；第一版不新建獨立軸，呼叫端統一走此介面；本機 headless PASS |
 | 11-C | ✅ 完成 | 賣→Trace↓ 集中在 `GameState.sell_echo()`（`TRACE_DELTA_SELL=-1`，無條件、不靠對話）；DialogueRunner 新增通用 `add_trace` effect op（供未來「留」↑/「還」對話，觸發場景待 Phase 18/20/鹿線）；本機 headless PASS |
@@ -547,7 +547,7 @@ Phase 8-A~8-H 已完成並有測試覆蓋寫入 `tests/manual/test_runner.gd`。
 
 **Phase 9 — 拾遺系統（殘響蒐集 + 收藏家）：9-A~9-H 已全數完成。** 主軸：把主角副業「拾遺者」落地為真系統——時鐘取「老舊探測模組」→ 收藏家鹿其琛鑑定 → 解碼手套升級「拾遺手套」→ 感知採集 4 條殘響（7 點跨 5 場景）→ 筆記殘響分頁（`????` 佔位 + 集滿解鎖照片 / 錄音）→ 賣 vs 留（對話式收購、賣後標記已售出且媒體永久失效、鹿家殘響排除且不收）。
 
-**Phase 10 — 氛圍與演出（Atmosphere & Presentation pass）：10-A~10-D 程式皆已實作、headless PASS，目前 🟦 待 GUI / 真機目視驗收（Phase 10 的主要驗收形式）。** 方向決議：殘響 / 記憶線為敘事主軸，氛圍服務主軸。只在街道 `apartment_entrance` 做垂直切片：10-A 街道音景（雨 bed + 偶爾地鐵 + 接既有 ducking）、10-B 不分層視覺基底（稀疏雨粒子 + 水花 + vignette + 相機微擺，無 CRT；夜色 CanvasModulate 試後移除）、10-C-1 看板廣告（3 張輪播 + glitch 轉場，輪播 / glitch 已 GUI 驗收）+ 路燈柔光池、10-C-2 glow layers / 霓虹倒影（免分層部分已做，視差門控在美術切層後、暫跳過）、10-D 晚 idle break（撇一眼暗巷）。手機效能為硬約束；本階段以 GUI / 真機目視驗收為主，headless 僅作回歸護欄。敘事脊椎（主線 A）與寫作密度（C）排在 Phase 10 之後。
+**Phase 10 — 氛圍與演出（Atmosphere & Presentation pass）：10-A~10-D 已全數完成並通過 GUI / 真機目視驗收。** 街道 `apartment_entrance` 垂直切片：音景（雨 bed + 偶爾地鐵 + ducking）、視覺基底（雨粒子 + 水花 + vignette + 相機微擺）、看板廣告輪播 + glitch + 路燈柔光池 + glow layers / 霓虹倒影、晚 idle break「撇一眼暗巷」。視差（ParallaxBackground）門控在美術切層後才開，目前跳過。
 
 另一條短線：**3-B~3-D 的 GUI 純觸控走查** + **4-A/4-B GUI 目視驗收**（headless 全 PASS，唯互動 / 視覺驗收未跑）。
 

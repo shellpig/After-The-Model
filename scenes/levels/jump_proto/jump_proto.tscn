@@ -299,6 +299,7 @@ animations = [{
 size = Vector2(132, 114)
 
 [node name="JumpProto" type="Node2D" unique_id=366867471]
+position = Vector2(1, 0)
 script = ExtResource("1_script")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1257138076]

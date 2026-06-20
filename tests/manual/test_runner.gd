@@ -6417,6 +6417,119 @@ func _ready() -> void:
 
 	print("PASS: Phase 12-C BtnJump exists, bound, visible in NONE, hidden in panels.")
 
+	# ===================== Phase 13-A: attack action + stun API =====================
+	print("--- Phase 13-A: attack action + walker_01 stun API ---")
+
+	if not InputMap.has_action("attack"):
+		printerr("FAIL 13-A: InputMap action 'attack' is missing!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-A: InputMap action 'attack' exists.")
+
+	var enemy_base_script = load("res://scripts/components/enemy_base.gd")
+	if enemy_base_script == null:
+		printerr("FAIL 13-A: could not load enemy_base.gd!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-A: enemy_base.gd loads.")
+
+	var melee_stick_script = load("res://scripts/components/melee_stick.gd")
+	if melee_stick_script == null:
+		printerr("FAIL 13-A: could not load melee_stick.gd!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-A: melee_stick.gd loads.")
+
+	var walker_scene_13 = load("res://scenes/actors/walker_01/walker_01.tscn")
+	if walker_scene_13 == null:
+		printerr("FAIL 13-A: could not load walker_01.tscn!")
+		get_tree().quit(1)
+		return
+	var walker_inst_13 = walker_scene_13.instantiate()
+	add_child(walker_inst_13)
+	await get_tree().process_frame
+
+	if not walker_inst_13.has_method("is_stunned"):
+		printerr("FAIL 13-A: walker_01 missing is_stunned() method!")
+		get_tree().quit(1)
+		return
+	if not walker_inst_13.has_method("apply_stun"):
+		printerr("FAIL 13-A: walker_01 missing apply_stun() method!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-A: walker_01 has is_stunned() and apply_stun().")
+
+	if "hp" in walker_inst_13:
+		printerr("FAIL 13-A: walker_01 must not have 'hp' field (stun-only, no damage)!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-A: walker_01 has no 'hp' field.")
+
+	if walker_inst_13.is_stunned():
+		printerr("FAIL 13-A: walker_01 must not start in stunned state!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-A: is_stunned() == false in initial patrol state.")
+
+	if not walker_inst_13.is_in_group("enemies"):
+		printerr("FAIL 13-A: walker_01 must be in group 'enemies'!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-A: walker_01 is in group 'enemies'.")
+
+	# Stun state machine: apply_stun -> FALL -> PRONE (is_stunned true)
+	walker_inst_13.fall_time = 0.01
+	walker_inst_13.prone_repair_time = 99.0
+	walker_inst_13.apply_stun(99.0)
+	for _f13 in range(10):
+		await get_tree().process_frame
+	if not walker_inst_13.is_stunned():
+		printerr("FAIL 13-A: after apply_stun() + fall_time, is_stunned() must be true (PRONE)!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-A: is_stunned() == true in PRONE (self-repair window).")
+
+	walker_inst_13.queue_free()
+	await get_tree().process_frame
+
+	# player has is_attacking(), signals, and MeleeStick child
+	var p13_room_scene = load("res://scenes/levels/apartment/apartment_room.tscn")
+	if p13_room_scene == null:
+		printerr("FAIL 13-A: could not load apartment_room.tscn for player check!")
+		get_tree().quit(1)
+		return
+	var p13_room = p13_room_scene.instantiate()
+	add_child(p13_room)
+	await get_tree().process_frame
+
+	var p13_player = p13_room.find_child("Player", true, false)
+	if p13_player == null:
+		printerr("FAIL 13-A: Player not found in apartment_room!")
+		get_tree().quit(1)
+		return
+	if not p13_player.has_method("is_attacking"):
+		printerr("FAIL 13-A: player missing is_attacking() method!")
+		get_tree().quit(1)
+		return
+	if not p13_player.has_signal("attack_impact_frame"):
+		printerr("FAIL 13-A: player missing 'attack_impact_frame' signal!")
+		get_tree().quit(1)
+		return
+	if not p13_player.has_signal("attack_completed"):
+		printerr("FAIL 13-A: player missing 'attack_completed' signal!")
+		get_tree().quit(1)
+		return
+	if not p13_player.has_node("MeleeStick"):
+		printerr("FAIL 13-A: player missing MeleeStick child node!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-A: player has is_attacking(), attack signals, and MeleeStick child.")
+
+	p13_room.queue_free()
+	await get_tree().process_frame
+
+	print("PASS: Phase 13-A attack action + stun API verified.")
+
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):
 		dir.remove("save_04.sav")

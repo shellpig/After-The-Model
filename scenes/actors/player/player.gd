@@ -62,7 +62,12 @@ func _ready() -> void:
 	_scene_sprite_scale = anim.scale
 	anim.play(idle_anim)
 	_apply_sprite_transform()
-	
+
+	# Phase 13-A: melee hit detection component.
+	var stick: Node = load("res://scripts/components/melee_stick.gd").new()
+	stick.name = "MeleeStick"
+	add_child(stick)
+
 	# Add AudioListener2D dynamically so 2D sounds decay relative to the player.
 	# Place it at the body center (collision shape) instead of the feet origin so
 	# EchoPoints mounted high (desks/walls) stay within audible range. The local

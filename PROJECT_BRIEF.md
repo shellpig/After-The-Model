@@ -241,7 +241,7 @@ note_id
 | 13-C | ✅ 完成 | 人類分支 `human_enemy`（繼承 `EnemyBase`）：`can_format` 恆 false、`apply_stun`/`is_stunned` no-op；解法走對話（嚇退 / 交易）/ 環境阻隔 / 出口；人類不會死在玩家手上；本階段僅骨架 + headless 護欄；headless PASS |
 | 13-D | ✅ 完成 | 輸 = 岔故事線 `combat_loss`：失敗 set 場景定義旗標 + 轉替代流程（原型＝`combat_proto_failed` + 送回安全點 `x≈250` + 替代訊息），**無 Game Over / 無死亡重來**；headless PASS |
 | 13-E | ✅ 完成 | 原型床 `scenes/levels/combat_proto`（隧道清潔機），拋棄式；正式 Act 2B 遭遇在 Phase 18 用此組件作者化；headless PASS |
-| 13-F | 📐 規格可實作 | TouchControls `BtnAttack`（綁 `attack`）+ 格式化長按沿用 `BtnE` + 純觸控走查 |
+| 13-F | ✅ 完成 | TouchControls `BtnAttack`（綁 `attack`）+ 格式化長按沿用 `BtnE` + 純觸控走查；headless PASS |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 

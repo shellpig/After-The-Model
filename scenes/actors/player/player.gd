@@ -68,6 +68,11 @@ func _ready() -> void:
 	stick.name = "MeleeStick"
 	add_child(stick)
 
+	# Phase 13-B: long-press E from behind a stunned machine to format it.
+	var fmt: Node = load("res://scripts/components/format_reset.gd").new()
+	fmt.name = "FormatReset"
+	add_child(fmt)
+
 	# Add AudioListener2D dynamically so 2D sounds decay relative to the player.
 	# Place it at the body center (collision shape) instead of the feet origin so
 	# EchoPoints mounted high (desks/walls) stay within audible range. The local

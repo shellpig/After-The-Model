@@ -236,8 +236,8 @@ note_id
 | 12-A | ✅ 完成 | 跳躍狀態：`jump` action（Space）+ `player.gd` walk-line 之上腳本化拋物弧（地面起跳 / 空中水平微調 / 無二段跳 / 蹬牆）+ 抓邊緣吸附（group `ledges`，12-B 前安全 no-op）+ 單一連貫 `jump` clip（loop=false，落地由狀態接回，6 幀接進 5 個 level 的 SpriteFrames）。**架構決策：不引入全域重力**；headless + GUI 走查 PASS |
 | 12-B | ✅ 完成 | 平台組件 `ledge_area.gd` / `jump_gap.gd` + 採集點沿用 `EchoPoint`；最小原型床 `scenes/levels/jump_proto`（gap 跨越 + 跳上 ledge + 採集點），拋棄式、不接正式動線；headless + GUI 走查 PASS |
 | 12-C | ✅ 完成 | TouchControls `BtnJump`（綁 `jump`）+ 僅世界模式顯隱；headless + 純觸控走查 PASS |
-| 13-A | 📐 規格可實作 | `attack` action + `melee_stick`（命中→stun，棍不壞 / 無升級 / **無 HP·血條**）+ `enemy_base` 最小 AI（右側巡邏 / 受擊倒地自修復 stun；**察覺 / 追擊後置**）|
-| 13-B | 📐 規格可實作 | 繞後格式化（限機器）：`machine_enemy.can_format()` 僅 stun 中背後 true / 正面 · 非 stun false + 按住 E `2.0s` → defeated 旗標（機器留場停機）；中止可重試 |
+| 13-A | ✅ 完成 | `attack` action + `melee_stick`（命中→stun，棍不壞 / 無升級 / **無 HP·血條**）+ `enemy_base` 最小 AI（右側巡邏 / 受擊倒地自修復 stun；**察覺 / 追擊後置**）|
+| 13-B | ✅ 完成 | 繞後格式化（限機器）：`machine_enemy.gd`（`can_format` stun 中背後 true / 正面或非 stun false）+ `format_reset.gd`（按住 E 2.0s → `defeated()`；鬆手 / 離區 / 起身 / UI 開 → 歸零可重試）；`walker_01` 改繼承 `MachineEnemy`；headless PASS |
 | 13-C | 📐 規格可實作 | 人類分支 `human_enemy`：`can_format` 恆 false；解法走對話（嚇退 / 交易）/ 環境阻隔 / 出口；人類不會死在玩家手上 |
 | 13-D | 📐 規格可實作 | 輸 = 岔故事線 `combat_loss`：失敗 set 場景定義旗標 + 轉替代流程（原型＝`combat_proto_failed` + 送回安全點 `x≈250` + 替代訊息），**無 Game Over / 無死亡重來** |
 | 13-E | 📐 規格可實作 | 原型床 `scenes/levels/combat_proto`（隧道清潔機），拋棄式；正式 Act 2B 遭遇在 Phase 18 用此組件作者化 |

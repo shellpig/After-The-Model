@@ -6530,6 +6530,137 @@ func _ready() -> void:
 
 	print("PASS: Phase 13-A attack action + stun API verified.")
 
+	# -------------------------------------------------------------------------
+	print("--- Phase 13-B: can_format + format_reset ---")
+
+	var walker_scene_13b = load("res://scenes/actors/walker_01/walker_01.tscn")
+	if walker_scene_13b == null:
+		printerr("FAIL 13-B: could not load walker_01.tscn!")
+		get_tree().quit(1)
+		return
+	var walker_13b = walker_scene_13b.instantiate()
+	walker_13b.min_x = 0.0
+	walker_13b.max_x = 2000.0
+	walker_13b.fall_time = 0.01
+	walker_13b.prone_repair_time = 99.0
+	add_child(walker_13b)
+	await get_tree().process_frame
+	walker_13b.global_position = Vector2(500.0, 400.0)
+
+	# can_format() method must exist
+	if not walker_13b.has_method("can_format"):
+		printerr("FAIL 13-B: walker_01 missing can_format() method!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-B: walker_01 has can_format() method.")
+
+	# defeated() method must exist
+	if not walker_13b.has_method("defeated"):
+		printerr("FAIL 13-B: walker_01 missing defeated() method!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-B: walker_01 has defeated() method.")
+
+	# Not stunned → can_format false regardless of position
+	if walker_13b.can_format(Vector2(600.0, 400.0)):
+		printerr("FAIL 13-B: can_format() must be false when not stunned!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-B: can_format() == false when not stunned.")
+
+	# Enter stun (PRONE) state
+	walker_13b.apply_stun(99.0)
+	for _f13b in range(10):
+		await get_tree().process_frame
+	if not walker_13b.is_stunned():
+		printerr("FAIL 13-B: walker not stunned; cannot test can_format position logic!")
+		get_tree().quit(1)
+		return
+
+	# Force facing right so tests are deterministic (_facing = 1 → behind = left side)
+	walker_13b._facing = 1
+	var behind_pos := Vector2(420.0, 400.0)   # dx = -80: behind, within 160
+	var front_pos  := Vector2(580.0, 400.0)   # dx = +80: front, within 160
+	var too_far    := Vector2(330.0, 400.0)   # dx = -170: behind but > 160px
+
+	if walker_13b.can_format(front_pos):
+		printerr("FAIL 13-B: can_format() must be false when player is in front!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-B: can_format() == false when player is in front (same side as facing).")
+
+	if not walker_13b.can_format(behind_pos):
+		printerr("FAIL 13-B: can_format() must be true when stunned + behind + within 160px!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-B: can_format() == true when stunned + player behind + within range.")
+
+	if walker_13b.can_format(too_far):
+		printerr("FAIL 13-B: can_format() must be false when player is beyond format_check_distance!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-B: can_format() == false when player behind but too far (> 160px).")
+
+	# defeated() sets is_defeated = true and machine stays on scene
+	walker_13b.defeated()
+	await get_tree().process_frame
+	if not walker_13b.is_defeated():
+		printerr("FAIL 13-B: is_defeated() must be true after defeated() is called!")
+		get_tree().quit(1)
+		return
+	if not is_instance_valid(walker_13b):
+		printerr("FAIL 13-B: machine must remain on scene after defeated() (no despawn)!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-B: defeated() → is_defeated() true; machine stays on scene.")
+
+	# defeated() is idempotent (calling twice must not crash)
+	walker_13b.defeated()
+	await get_tree().process_frame
+	print("PASS 13-B: defeated() is idempotent (double call safe).")
+
+	# can_format returns false on a defeated machine (stopped, not to be formatted again)
+	# is_stunned() may still be true (frozen in prone), but defeated guard takes priority
+	# in practice the format_reset checks is_instance_valid and calling defeated() again is no-op
+	# Verify player has FormatReset child
+	walker_13b.queue_free()
+	await get_tree().process_frame
+
+	var p13b_room_scene = load("res://scenes/levels/apartment/apartment_room.tscn")
+	if p13b_room_scene == null:
+		printerr("FAIL 13-B: could not load apartment_room.tscn for FormatReset check!")
+		get_tree().quit(1)
+		return
+	var p13b_room = p13b_room_scene.instantiate()
+	add_child(p13b_room)
+	await get_tree().process_frame
+	var p13b_player = p13b_room.find_child("Player", true, false)
+	if p13b_player == null:
+		printerr("FAIL 13-B: Player not found in apartment_room!")
+		get_tree().quit(1)
+		return
+	if not p13b_player.has_node("FormatReset"):
+		printerr("FAIL 13-B: Player missing FormatReset child node!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-B: Player has FormatReset child node.")
+
+	var fmt_node = p13b_player.get_node("FormatReset")
+	if not fmt_node.has_method("get_format_progress"):
+		printerr("FAIL 13-B: FormatReset missing get_format_progress() method!")
+		get_tree().quit(1)
+		return
+	if fmt_node.get_format_progress() != 0.0:
+		printerr("FAIL 13-B: FormatReset.get_format_progress() must start at 0.0!")
+		get_tree().quit(1)
+		return
+	print("PASS 13-B: FormatReset starts at progress 0.0.")
+
+	p13b_room.queue_free()
+	await get_tree().process_frame
+
+	print("PASS: Phase 13-B format (can_format + defeated + FormatReset) verified.")
+
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):
 		dir.remove("save_04.sav")

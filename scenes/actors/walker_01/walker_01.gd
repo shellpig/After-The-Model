@@ -1,9 +1,11 @@
-extends CharacterBody2D
+extends MachineEnemy
 
-# Phase 13-A: walker_01 — AI quadruped mech (first of several AI machine types).
+# Phase 13-A/B: walker_01 — AI quadruped mech (first of several AI machine types).
 # Patrols back and forth between min_x..max_x. On apply_stun(), enters the
 # fall -> prone (self-repair) -> getup -> recover_idle -> patrol sequence.
 # Hit detection is handled externally by MeleeStick on the player.
+# Phase 13-B: extends MachineEnemy; _facing updated on direction changes;
+# defeated() permanently stops the machine in prone (stays on scene, no despawn).
 
 @export var min_x := 600.0
 @export var max_x := 1200.0
@@ -46,6 +48,8 @@ func _ready() -> void:
 	_start_moving()
 
 func _physics_process(delta: float) -> void:
+	if _defeated:
+		return  # frozen on scene after defeated()
 	match _state:
 		State.PATROL:
 			_patrol(delta)
@@ -70,6 +74,14 @@ func apply_stun(_duration: float) -> void:
 func is_defeated() -> bool:
 	return _defeated
 
+# Phase 13-B: permanently stop the machine; stays on scene (no despawn, no explosion).
+func defeated() -> void:
+	if _defeated:
+		return
+	_defeated = true
+	_label.visible = false
+	_play_if_present(prone_anim)
+
 # --- Patrol ---------------------------------------------------------------
 
 func _patrol(delta: float) -> void:
@@ -83,9 +95,11 @@ func _patrol(delta: float) -> void:
 	if position.x <= min_x:
 		position.x = min_x
 		_dir = 1
+		_facing = 1
 	elif position.x >= max_x:
 		position.x = max_x
 		_dir = -1
+		_facing = -1
 
 	anim.flip_h = _dir > 0
 
@@ -96,6 +110,7 @@ func _start_moving() -> void:
 	_state = State.PATROL
 	_paused = false
 	_timer = randf_range(min_move_time, max_move_time)
+	_facing = _dir
 	anim.play(walk_anim)
 
 func _start_pause() -> void:

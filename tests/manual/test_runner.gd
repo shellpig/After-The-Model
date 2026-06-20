@@ -7112,6 +7112,88 @@ func _ready() -> void:
 
 	print("PASS: Phase 14-C store robot hook verified.")
 
+	# ===================== Phase 14-D: Regression + Save/Load + GUI =====================
+	print("--- Phase 14-D: Regression + Save/Load + GUI ---")
+	
+	# Test 1: Reset and initial state defaults (default to false if missing, or after reset)
+	GameState.reset_for_new_game()
+	if GameState.get_flag("mem_frag_linfei_1", false) or GameState.get_flag("lu_hinted_topside", false) or GameState.get_flag("wan_noticed_daze", false) or GameState.get_flag("ada_misrecognized", false):
+		printerr("FAIL 14-D: Phase 14 flags not default to false after reset!")
+		get_tree().quit(1)
+		return
+		
+	# Test 2: Set flags to true, capture, apply, check they are preserved
+	GameState.set_flag("mem_frag_linfei_1", true)
+	GameState.set_flag("lu_hinted_topside", true)
+	GameState.set_flag("wan_noticed_daze", true)
+	GameState.set_flag("ada_misrecognized", true)
+	
+	var save_p14 = SaveSystem.capture("apartment_entrance", 1500.0, 1)
+	if not SaveSystem.write_slot(4, save_p14):
+		printerr("FAIL 14-D: SaveSystem.write_slot failed for Phase 14 flags!")
+		get_tree().quit(1)
+		return
+		
+	# Reset state to clear flags
+	GameState.reset_for_new_game()
+	if GameState.get_flag("mem_frag_linfei_1", false) or GameState.get_flag("lu_hinted_topside", false) or GameState.get_flag("wan_noticed_daze", false) or GameState.get_flag("ada_misrecognized", false):
+		printerr("FAIL 14-D: Phase 14 flags not cleared on reset prior to load!")
+		get_tree().quit(1)
+		return
+		
+	# Load and check applied flags
+	var loaded_p14 = SaveSystem.read_slot(4)
+	SaveSystem.apply(loaded_p14)
+	
+	if not GameState.get_flag("mem_frag_linfei_1", false):
+		printerr("FAIL 14-D: mem_frag_linfei_1 not loaded from save!")
+		get_tree().quit(1)
+		return
+	if not GameState.get_flag("lu_hinted_topside", false):
+		printerr("FAIL 14-D: lu_hinted_topside not loaded from save!")
+		get_tree().quit(1)
+		return
+	if not GameState.get_flag("wan_noticed_daze", false):
+		printerr("FAIL 14-D: wan_noticed_daze not loaded from save!")
+		get_tree().quit(1)
+		return
+	if not GameState.get_flag("ada_misrecognized", false):
+		printerr("FAIL 14-D: ada_misrecognized not loaded from save!")
+		get_tree().quit(1)
+		return
+
+	# Test 3: Backwards compatibility (simulate old save format where keys don't exist)
+	var old_save_dict = {
+		"meta": {
+			"version": 1,
+			"timestamp": 1234567,
+			"scene_id": "apartment_entrance",
+			"credits": 100
+		},
+		"data": {
+			"credits": 100,
+			"player_pos_x": 730.0,
+			"player_facing": 1,
+			"scene_id": "apartment_entrance",
+			"inventory": [],
+			"equipment": {},
+			"knowledge": {},
+			"notes": [],
+			"containers": {},
+			"story_flags": {
+				"vendor_bot_repaired": false
+			}
+		}
+	}
+	GameState.reset_for_new_game()
+	GameState.load_save_dict(old_save_dict.data)
+	if GameState.get_flag("mem_frag_linfei_1", false) or GameState.get_flag("lu_hinted_topside", false) or GameState.get_flag("wan_noticed_daze", false) or GameState.get_flag("ada_misrecognized", false):
+		printerr("FAIL 14-D: missing keys in save dictionary did not default to false!")
+		get_tree().quit(1)
+		return
+
+	print("PASS: Phase 14-D regression + save/load verified.")
+
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):
 		dir.remove("save_04.sav")

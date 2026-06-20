@@ -242,6 +242,10 @@ note_id
 | 13-D | ✅ 完成 | 輸 = 岔故事線 `combat_loss`：失敗 set 場景定義旗標 + 轉替代流程（原型＝`combat_proto_failed` + 送回安全點 `x≈250` + 替代訊息），**無 Game Over / 無死亡重來**；headless PASS |
 | 13-E | ✅ 完成 | 原型床 `scenes/levels/combat_proto`（隧道清潔機），拋棄式；正式 Act 2B 遭遇在 Phase 18 用此組件作者化；headless PASS |
 | 13-F | ✅ 完成 | TouchControls `BtnAttack`（綁 `attack`）+ 格式化長按沿用 `BtnE` + 純觸控走查；headless PASS |
+| 14-A | 📐 規格可實作 | 林霏殘響碎片①「莫名一震」：`memory_fragment_area` 被動碰撞觸發一次，設 `mem_frag_linfei_1`，擺街道 x≈1500 保證出公寓往便利商店必撞；不採集、不加 EchoPoint / 媒體 |
+| 14-B | 📐 規格可實作 | 鹿「從線上面下來的」鉤（`lu_hinted_topside`）+ 晚瞥見失神鉤（`wan_noticed_daze`），gate 皆為 `mem_frag_linfei_1`；一次性、不破壞既有鹿 / 晚對話路由 |
+| 14-C | 📐 規格可實作 | 阿達①店控首談前置誤認：未修好店控首談時，gate＝`mem_frag_linfei_1 AND not ada_misrecognized`，effect 設 `ada_misrecognized` + `talked_store_robot`，再回既有 babble；不依賴首談前不存在的 `talked_store_robot` |
+| 14-D | 📐 規格可實作 | 回歸 + 存讀檔 + GUI 走查：四旗標 round-trip（缺鍵→false / reset 歸零）、Phase 1~13 不退化；GUI 確認一震只播一次、三鉤條件成立後出 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 

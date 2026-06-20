@@ -20,6 +20,23 @@ func _ready() -> void:
 		if _player.has_method("snap_to_walk_line"):
 			_player.snap_to_walk_line()
 
+	# Fallback: if run independently, instantiate GameUI to support MessageBox popups.
+	var has_game_ui = false
+	var root = get_tree().root
+	for child in root.get_children():
+		if child.name == "Main" or child.find_child("GameUI", true, false) != null:
+			has_game_ui = true
+			break
+	if not has_game_ui:
+		var ui_scene = load("res://scenes/ui/game_ui.tscn")
+		if ui_scene:
+			var ui_inst = ui_scene.instantiate()
+			add_child(ui_inst)
+			interaction_requested.connect(func(data):
+				if data.get("type") == "message":
+					ui_inst.show_message(data.get("message_text", ""), data.get("on_closed", Callable()), data.get("note_title", ""))
+			)
+
 # _physics_process runs BEFORE player.gd's _physics_process (parent node order),
 # so updating walk_line_y here makes player.gd read the already-advanced value
 # when it calls position.y = _walk_y_at(x).

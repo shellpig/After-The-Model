@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+const HitImpactBurst = preload("res://scripts/components/hit_impact_burst.gd")
+
 # Phase 13: walker_01 — AI quadruped mech (first of several AI machine types).
 # An attackable/interactable actor: CharacterBody2D + CollisionShape2D like the
 # player. Patrols back and forth between min_x..max_x at a modest speed,
@@ -44,21 +46,36 @@ var _state := State.PATROL
 var _dir := -1            # -1 = left (default art facing), 1 = right
 var _paused := false
 var _timer := 0.0
-var _player: Node = null
+var _player: Node2D = null
 var _label: Label = null
+var _player_attack_completed_pending := false
+var _attack_hit_confirmed := false
 
 func _ready() -> void:
 	position.y = ground_y
 	position.x = clamp(position.x, min_x, max_x)
 	_build_repair_label()
+	_get_player()
 	_start_moving()
 
 # Resolve (and cache) the player on first use. Looking it up lazily instead of in
 # _ready avoids a scene-setup ordering window where the sibling isn't yet found.
-func _get_player() -> Node:
+func _get_player() -> Node2D:
 	if _player == null or not is_instance_valid(_player):
+		_player = null
 		if get_parent():
-			_player = get_parent().find_child("Player", true, false)
+			var found := get_parent().find_child("Player", true, false)
+			if found is Node2D:
+				_player = found
+			if _player:
+				if _player.has_signal("attack_impact_frame"):
+					var impact_callback := Callable(self, "_on_player_attack_impact_frame")
+					if not _player.is_connected("attack_impact_frame", impact_callback):
+						_player.connect("attack_impact_frame", impact_callback)
+				if _player.has_signal("attack_completed"):
+					var completed_callback := Callable(self, "_on_player_attack_completed")
+					if not _player.is_connected("attack_completed", completed_callback):
+						_player.connect("attack_completed", completed_callback)
 	return _player
 
 func _physics_process(delta: float) -> void:
@@ -111,12 +128,17 @@ func _start_pause() -> void:
 	anim.play(idle_anim)
 
 # --- Hit detection -------------------------------------------------------
-# Hit when the player is mid-attack, within melee reach, and facing the walker.
+# Hit when the player's attack completes, within melee reach, and facing the walker.
 func _check_player_hit() -> bool:
-	var p := _get_player()
-	if p == null or not p.has_method("is_attacking"):
+	if not _player_attack_completed_pending:
 		return false
-	if not p.is_attacking():
+	_player_attack_completed_pending = false
+	var hit := _attack_hit_confirmed
+	_attack_hit_confirmed = false
+	return hit
+
+func _is_player_hit_valid(p: Node2D) -> bool:
+	if p == null:
 		return false
 	var dx: float = p.global_position.x - global_position.x   # walker -> player offset
 	if abs(dx) > attack_reach:
@@ -127,6 +149,30 @@ func _check_player_hit() -> bool:
 	# dx < 0: player is left of walker -> must face right (1) to reach it.
 	# dx > 0: player is right of walker -> must face left (-1).
 	return (dx < 0.0 and facing == 1) or (dx > 0.0 and facing == -1)
+
+func _on_player_attack_impact_frame() -> void:
+	if _state != State.PATROL:
+		return
+	var p := _get_player()
+	if _is_player_hit_valid(p):
+		_attack_hit_confirmed = true
+		_show_hit_impact(p)
+
+func _on_player_attack_completed() -> void:
+	if _state == State.PATROL and _attack_hit_confirmed:
+		_player_attack_completed_pending = true
+	else:
+		_attack_hit_confirmed = false
+
+func _show_hit_impact(p: Node2D) -> void:
+	if get_parent() == null:
+		return
+	var burst := HitImpactBurst.new()
+	get_parent().add_child(burst)
+	burst.global_position = Vector2(
+		(global_position.x + p.global_position.x) * 0.5,
+		global_position.y - 120.0
+	)
 
 # --- Knockdown sequence --------------------------------------------------
 func _enter_fall() -> void:

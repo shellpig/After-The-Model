@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+signal attack_completed
+signal attack_impact_frame
+
 # Climb-only sprite tuning: scale the sprite down while climbing the ladder.
 const CLIMB_SCALE := Vector2(0.73, 0.91)   # x, y 各自縮放
 const CLIMB_Y_OFFSET := 0.0   # 縮小後腳若離開梯級，往下推幾 px
@@ -37,6 +40,7 @@ var _jump_base_y := 0.0                 # walk line y at takeoff (ledge must be 
 @export var attack_duration := 1.0      # attack clip length, s (15 frames @ 15fps)
 var _attacking := false
 var _attack_t := 0.0                    # elapsed attack time
+var _attack_impact_emitted := false
 
 # Optional walk-line height profile (sorted by x). Empty = flat walk_line_y.
 # Used by uneven walk surfaces (e.g. the sagging fire-escape bridge).
@@ -84,6 +88,7 @@ func _physics_process(delta: float) -> void:
 		if _attacking:
 			_attacking = false
 			_attack_t = 0.0
+			_attack_impact_emitted = false
 		anim.play(idle_anim)
 		_apply_sprite_transform()
 		return
@@ -108,10 +113,15 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 		_attack_t += delta
 		position.y = _walk_y_at(position.x)
+		if not _attack_impact_emitted and _attack_t >= attack_duration * 0.5:
+			_attack_impact_emitted = true
+			attack_impact_frame.emit()
 		if _attack_t >= attack_duration:
 			_attacking = false
 			_attack_t = 0.0
+			_attack_impact_emitted = false
 			anim.play(idle_anim)
+			attack_completed.emit()
 		_apply_sprite_transform()
 		return
 
@@ -119,6 +129,7 @@ func _physics_process(delta: float) -> void:
 	if not _jumping and Input.is_action_just_pressed("attack"):
 		_attacking = true
 		_attack_t = 0.0
+		_attack_impact_emitted = false
 		velocity = Vector2.ZERO
 		_play_attack_anim()
 		_apply_sprite_transform()

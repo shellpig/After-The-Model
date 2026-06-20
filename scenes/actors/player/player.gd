@@ -136,7 +136,9 @@ func _physics_process(delta: float) -> void:
 		return
 
 	# Phase 13-A: start an attack from the ground (not mid-jump / mid-climb).
-	if not _jumping and Input.is_action_just_pressed("attack"):
+	# Phase 13-B: suppress attack when a machine enemy in format range is present
+	# (E is shared by attack + interact_primary; format takes priority).
+	if not _jumping and Input.is_action_just_pressed("attack") and not _in_format_zone():
 		_attacking = true
 		_attack_t = 0.0
 		_attack_impact_emitted = false
@@ -282,6 +284,12 @@ func _play_jump_anim() -> void:
 
 # Try to snap onto a higher ledge during the apex window. No-op until ledges exist
 # (LedgeArea2D + group "ledges" arrive in Phase 12-B). Returns true if grabbed.
+# Phase 13-B: returns true when FormatReset reports a machine enemy in range,
+# so that E (shared with attack) is reserved for the format long-press.
+func _in_format_zone() -> bool:
+	var fmt := get_node_or_null("FormatReset")
+	return fmt != null and fmt.has_method("has_target") and fmt.call("has_target")
+
 func _try_grab_ledge() -> bool:
 	for l in get_tree().get_nodes_in_group("ledges"):
 		if not (l.has_method("contains_x") and l.has_method("get_target_y")):

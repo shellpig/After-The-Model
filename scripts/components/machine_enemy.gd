@@ -16,6 +16,8 @@ var _facing := -1
 func can_format(player_pos: Vector2) -> bool:
 	if not is_stunned():
 		return false
+	if is_defeated():
+		return false
 	var dx: float = player_pos.x - global_position.x
 	if abs(dx) > format_check_distance:
 		return false

@@ -34,6 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://cj1me1jnea5yc" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/04_full_glance_hold_b.png" id="wan_glance_04"]
 [ext_resource type="Texture2D" uid="uid://dmxw3whb384oy" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/05_turn_back.png" id="wan_glance_05"]
 [ext_resource type="Texture2D" uid="uid://dkpndftwwfato" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/06_idle_settle.png" id="wan_glance_06"]
+[ext_resource type="Script" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_billboard"]
 shader = ExtResource("ext_billboard_shader")
@@ -113,6 +114,9 @@ size = Vector2(95, 285)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_wan"]
 size = Vector2(166, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mem_frag"]
+size = Vector2(120, 260)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wan"]
 animations = [{
@@ -451,6 +455,16 @@ segment_id = "s2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint3" unique_id=1988580010]
 shape = SubResource("CircleShape2D_echo")
+
+[node name="MemoryFragmentArea" type="Area2D" parent="Interactables" unique_id=140001]
+position = Vector2(1500, 550)
+script = ExtResource("ext_mem_frag_area")
+fragment_flag = "mem_frag_linfei_1"
+message_id = "mem_frag_linfei_1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentArea" unique_id=140002]
+shape = SubResource("RectangleShape2D_mem_frag")
+debug_color = Color(0.9, 0.1, 0.9, 0.42)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=343229133]
 position = Vector2(730, 675)

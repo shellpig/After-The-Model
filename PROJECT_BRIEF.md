@@ -473,7 +473,7 @@ Phase 13 待生 / 待寫：`project.godot` `attack` action；`melee_stick.gd` / 
 | 14-C 阿達①店控首談前置誤認 | 2770（子階段表） | 2656–2673 | 913 |
 | 14-D 回歸 + 存讀檔 + GUI | 2771–2773 | 2669–2673 | 914–921 |
 
-Phase 14 待生 / 待寫：`scripts/components/memory_fragment_area.gd`；`apartment_entrance.tscn` 擺 `memory_fragment_area` x≈1500；`game_state.gd` 新旗標與 `STORY_MESSAGES["mem_frag_linfei_1"]`；`data/dialogue/lu_qichen.gd` / `wan.gd` / `store_robot.gd` 三條鉤；`tests/manual/test_runner.gd` 14-A~D headless 護欄。
+Phase 14 已完成 / 已驗證：`scripts/components/memory_fragment_area.gd`；`apartment_entrance.tscn` 擺 `memory_fragment_area`；`game_state.gd` 新旗標與 `STORY_MESSAGES["mem_frag_linfei_1"]`；`data/dialogue/lu_qichen.gd` / `wan.gd` / `store_robot.gd` 三條鉤；`tests/manual/test_runner.gd` 14-A~D headless 護欄。
 
 Phase 15 待生 / 待寫（**全真資源，不暫代**）：`scenes/levels/subway_station/`（.tscn+.gd）/ `scenes/levels/underground_settlement/`（.tscn+.gd）；`scenes/main/main.gd` SCENES 註冊兩 scene_id + `apartment_entrance` 補 `from_subway` 落點；`game_state.gd` `reached_settlement` 旗標；`data/dialogue/travel_street_east.gd` 加「地鐵站」目的地（gate＝Act 1 旗標）；**待生美術** `assets/generated/maps/subway_station/` + `.../underground_settlement/`（Art Bible 合規）；**待生 BGM** 地鐵站 + 聚落各一專屬軌（非借既有 6 軌）；場景設計檔 `subdocs/地點/地鐵站.md` / `地下道聚落.md`（已寫）。
 

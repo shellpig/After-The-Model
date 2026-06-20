@@ -4,9 +4,31 @@
 const TREE := {
 	"start": {
 		"goto": [
-			{"condition": {"flag": "met_lu", "op": "==", "value": true}, "target": "hub"},
+			{"condition": {"flag": "met_lu", "op": "==", "value": true}, "target": "entry_to_hub"},
 			{"target": "first_meet"}
 		]
+	},
+
+	"entry_to_hub": {
+		"goto": [
+			{
+				"condition": [
+					{"flag": "mem_frag_linfei_1", "op": "==", "value": true},
+					{"flag": "lu_hinted_topside", "op": "==", "value": false}
+				],
+				"target": "lu_daze_hook"
+			},
+			{"target": "hub"}
+		]
+	},
+
+	"lu_daze_hook": {
+		"speaker": "鹿其琛",
+		"text": "（他端詳你的時間比平常久了些，指節在杖頭上敲了兩下。）\n你身上有股味道。不是雨，也不是這條街的——是上面的。\n你是從線上面下來的吧？（他笑了笑，沒追問。）\n沒事。下得來的人，各有各的理由。我只是隨口一說。",
+		"effect": [
+			{"op": "set_flag", "key": "lu_hinted_topside", "value": true}
+		],
+		"goto": "hub"
 	},
 
 	"first_meet": {
@@ -23,12 +45,12 @@ const TREE := {
 	"first_meet_reply": {
 		"speaker": "鹿其琛",
 		"text": "三爺……（他扯了扯嘴角，露出一點疲憊的自嘲）\n街上那些人隨便喊的，不用當真。我叫鹿其琛。\n我只收在外面找不到的舊東西。紙本、磁帶、舊晶片……被系統當成垃圾抹掉的那些。",
-		"goto": "hub"
+		"goto": "entry_to_hub"
 	},
 	"first_meet_brush_off": {
 		"speaker": "鹿其琛",
 		"text": "隨便逛逛能走到這來，看來你的直覺很靈敏，清理工。\n我是鹿其琛。進了這扇門，就別只當自己是個來清垃圾的。我只收被系統當成垃圾抹掉的『舊回憶』。",
-		"goto": "hub"
+		"goto": "entry_to_hub"
 	},
 
 	"hub": {

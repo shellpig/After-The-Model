@@ -4,6 +4,30 @@
 const TREE := {
 	"start": {
 		"goto": [
+			{
+				"condition": [
+					{"flag": "mem_frag_linfei_1", "op": "==", "value": true},
+					{"flag": "wan_noticed_daze", "op": "==", "value": false}
+				],
+				"target": "wan_daze_hook"
+			},
+			{"condition": {"flag": "gave_wan_old_module", "op": "==", "value": true}, "target": "retalk_close"},
+			{"condition": {"flag": "met_wan", "op": "==", "value": true}, "target": "retalk"},
+			{"target": "first_meet"}
+		]
+	},
+
+	"wan_daze_hook": {
+		"speaker": "晚",
+		"text": "（她話說到一半停住，盯著你看。）\n喂。你剛剛跑哪去了？人在這，眼神不在。\n……我見過那種眼神。在那些快被刪乾淨的人臉上。\n（她別過頭，聲音輕下來。）算了。你要是想不起來，我也不替你想。",
+		"effect": [
+			{"op": "set_flag", "key": "wan_noticed_daze", "value": true}
+		],
+		"goto": "wan_post_daze_routing"
+	},
+
+	"wan_post_daze_routing": {
+		"goto": [
 			{"condition": {"flag": "gave_wan_old_module", "op": "==", "value": true}, "target": "retalk_close"},
 			{"condition": {"flag": "met_wan", "op": "==", "value": true}, "target": "retalk"},
 			{"target": "first_meet"}

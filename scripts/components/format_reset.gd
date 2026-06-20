@@ -14,6 +14,12 @@ class_name FormatReset
 const FORMAT_DURATION    := 2.0
 const BAR_CELLS          := 10
 const COMPLETE_SHOW_TIME := 1.5
+const PROMPT_TEXT_COLOR  := Color(0.94, 0.92, 0.84, 1.0)
+
+# World-space Y offset of the stun-repair label's top edge relative to the
+# enemy's global_position. Matches walker_01: label_y(-77) - label_height(28).
+const _STUN_LABEL_TOP_Y := -105.0
+const _PANEL_GAP        := 20.0
 
 var _player: Node2D = null
 var _format_t   := 0.0   # accumulates while holding E in format zone
@@ -51,7 +57,7 @@ func _process(delta: float) -> void:
 		_reset()
 		return
 
-	_update_pos()
+	_update_pos(target)
 
 	if not Input.is_action_pressed("interact_primary"):
 		_format_t = 0.0
@@ -99,11 +105,16 @@ func _reset() -> void:
 	_format_t = 0.0
 	_panel.visible = false
 
-# Bottom-centre of the 1280×720 viewport (jump_proto fixed resolution).
-func _update_pos() -> void:
+func _update_pos(target: Node2D) -> void:
 	_panel.reset_size()
-	var ps := _panel.size
-	_panel.position = Vector2((1280.0 - ps.x) * 0.5, 636.0 - ps.y * 0.5)
+	var ps    := _panel.size
+	var xform := get_viewport().get_canvas_transform()
+	var label_top_screen := xform * (target.global_position + Vector2(0.0, _STUN_LABEL_TOP_Y))
+	var enemy_screen_x   := (xform * target.global_position).x
+	_panel.position = Vector2(
+		enemy_screen_x - ps.x * 0.5,
+		label_top_screen.y - _PANEL_GAP - ps.y
+	)
 
 func _setup_hud() -> void:
 	_canvas = CanvasLayer.new()
@@ -123,6 +134,7 @@ func _setup_hud() -> void:
 
 	_lbl = Label.new()
 	_lbl.add_theme_font_size_override("font_size", 20)
+	_lbl.add_theme_color_override("font_color", PROMPT_TEXT_COLOR)
 	_lbl.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
 	_lbl.add_theme_constant_override("outline_size", 4)
 	_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

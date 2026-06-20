@@ -236,10 +236,10 @@ note_id
 | 12-A | ✅ 完成 | 跳躍狀態：`jump` action（Space）+ `player.gd` walk-line 之上腳本化拋物弧（地面起跳 / 空中水平微調 / 無二段跳 / 蹬牆）+ 抓邊緣吸附（group `ledges`，12-B 前安全 no-op）+ 單一連貫 `jump` clip（loop=false，落地由狀態接回，6 幀接進 5 個 level 的 SpriteFrames）。**架構決策：不引入全域重力**；headless + GUI 走查 PASS |
 | 12-B | ✅ 完成 | 平台組件 `ledge_area.gd` / `jump_gap.gd` + 採集點沿用 `EchoPoint`；最小原型床 `scenes/levels/jump_proto`（gap 跨越 + 跳上 ledge + 採集點），拋棄式、不接正式動線；headless + GUI 走查 PASS |
 | 12-C | ✅ 完成 | TouchControls `BtnJump`（綁 `jump`）+ 僅世界模式顯隱；headless + 純觸控走查 PASS |
-| 13-A | 📐 規格可實作 | `attack` action + `melee_stick`（命中→stun，棍不壞 / 無升級 / **無 HP·血條**）+ `enemy_base` AI（巡邏 / 察覺 / 追擊 / 受擊 stun）|
-| 13-B | 📐 規格可實作 | 繞後格式化（限機器）：`machine_enemy.can_format()` 背後 true / 正面 false + 按住 E 計時 → defeated 旗標；中止可重試 |
+| 13-A | 📐 規格可實作 | `attack` action + `melee_stick`（命中→stun，棍不壞 / 無升級 / **無 HP·血條**）+ `enemy_base` 最小 AI（右側巡邏 / 受擊倒地自修復 stun；**察覺 / 追擊後置**）|
+| 13-B | 📐 規格可實作 | 繞後格式化（限機器）：`machine_enemy.can_format()` 僅 stun 中背後 true / 正面 · 非 stun false + 按住 E `2.0s` → defeated 旗標（機器留場停機）；中止可重試 |
 | 13-C | 📐 規格可實作 | 人類分支 `human_enemy`：`can_format` 恆 false；解法走對話（嚇退 / 交易）/ 環境阻隔 / 出口；人類不會死在玩家手上 |
-| 13-D | 📐 規格可實作 | 輸 = 岔故事線 `combat_loss`：失敗 set 場景定義旗標 + 轉替代流程，**無 Game Over / 無死亡重來** |
+| 13-D | 📐 規格可實作 | 輸 = 岔故事線 `combat_loss`：失敗 set 場景定義旗標 + 轉替代流程（原型＝`combat_proto_failed` + 送回安全點 `x≈250` + 替代訊息），**無 Game Over / 無死亡重來** |
 | 13-E | 📐 規格可實作 | 原型床 `scenes/levels/combat_proto`（隧道清潔機），拋棄式；正式 Act 2B 遭遇在 Phase 18 用此組件作者化 |
 | 13-F | 📐 規格可實作 | TouchControls `BtnAttack`（綁 `attack`）+ 格式化長按沿用 `BtnE` + 純觸控走查 |
 
@@ -434,7 +434,7 @@ Phase 10 素材交付：音訊 `assets/audio/ambient/street_rain_loop.mp3`、`su
 
 ### Phase 12–13 子階段（三份對照）
 
-> 行號以 2026-06-19 寫入版為準；大幅改寫後需校正。Phase 12（跳躍 / 平台）、Phase 13（戰鬥）為主線地基，規格 / 契約 / 測試清單已展開到可實作（📐），程式未開工。
+> 行號以 2026-06-20 校正版為準（Phase 13 規格改寫後重算；Phase 12 行號未動）；大幅改寫後需校正。Phase 12（跳躍 / 平台）、Phase 13（戰鬥）為主線地基，規格 / 契約 / 測試清單已展開到可實作（📐）；Phase 13 目前僅 `jump_proto` 內有拋棄式雛形（player attack + walker 巡邏 / 倒地自修復），正式組件待收斂到 `combat_proto`。
 > 規格書 12/13 採「架構決策 + 範圍 / 語意 + 子階段表」整段式（無每子階段獨立段），故子階段列的規格書欄指子階段表 + 對應語意整段。
 > 跨 Phase 地基語意（Trust/Trace/清洗、戰鬥 / 跳躍、三結局硬鎖）見 `遊戲規格書.md` Phase 11+ 開頭「跨 Phase 系統語意」段。
 
@@ -445,14 +445,14 @@ Phase 10 素材交付：音訊 `assets/audio/ambient/street_rain_loop.mp3`、`su
 | 12-B 平台 / ledge / gap + 原型床 | 2686–2693（子階段表） | 2419–2426 | 854–858 |
 | 12-C 觸控 Jump 鈕 | 2686–2693（子階段表） | 2427–2433 | 859–863 |
 | 12 驗收性質 / 回歸 | 2694–2696 | 2434–2439 | 864–867 |
-| Phase 13 總覽 + 架構決策 + 範圍 / 語意 | 2697–2736 | 2440–2471（現況基準 + 新增/異動檔） | 868–871 |
-| 13-A 棍 stun + 敵人 AI 骨架 | 2737–2747（子階段表） | 2472–2477 | 872–877 |
-| 13-B 繞後格式化（限機器） | 2737–2747（子階段表） | 2478–2484 | 878–882 |
-| 13-C 人類分支（不格式化） | 2737–2747（子階段表） | 2485–2490 | 883–886 |
-| 13-D 輸 = 岔線（無 Game Over） | 2737–2747（子階段表） | 2491–2496 | 887–890 |
-| 13-E 原型床 `combat_proto` | 2737–2747（子階段表） | 2497–2500 | 891–894 |
-| 13-F 觸控 Attack 鈕 | 2737–2747（子階段表） | 2501–2506 | 895–898 |
-| 13 驗收性質 / 回歸 | 2748–2750 | 2507–2512 | 899–902 |
+| Phase 13 總覽 + 架構決策 + 範圍 / 語意 | 2697–2740 | 2459–2491（現況基準 + 新增/異動檔） | 868–871 |
+| 13-A 棍 stun + 敵人 AI 骨架 | 2741–2748（子階段表） | 2492–2500 | 872–877 |
+| 13-B 繞後格式化（限機器） | 2741–2748（子階段表） | 2501–2509 | 878–883 |
+| 13-C 人類分支（不格式化） | 2741–2748（子階段表） | 2510–2516 | 884–888 |
+| 13-D 輸 = 岔線（無 Game Over） | 2741–2748（子階段表） | 2517–2523 | 889–892 |
+| 13-E 原型床 `combat_proto` | 2741–2748（子階段表） | 2524–2528 | 893–897 |
+| 13-F 觸控 Attack 鈕 | 2741–2748（子階段表） | 2529–2534 | 898–901 |
+| 13 驗收性質 / 回歸 | 2752–2753 | 2535–2540 | 902–905 |
 
 Phase 12 待生 / 待寫：`project.godot` `jump` action；`player.gd` 跳躍狀態；`player` SpriteFrames `jump` 動畫；`scripts/components/ledge_area.gd` / `jump_gap.gd`；`scenes/levels/jump_proto`；TouchControls `BtnJump`。
 Phase 13 待生 / 待寫：`project.godot` `attack` action；`melee_stick.gd` / `enemy_base.gd` / `machine_enemy.gd` / `human_enemy.gd` / `format_reset.gd` / `combat_loss.gd`；`player` SpriteFrames `attack` 動畫；`scenes/levels/combat_proto`（隧道清潔機）；TouchControls `BtnAttack`。

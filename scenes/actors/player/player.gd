@@ -31,6 +31,13 @@ var _jumping := false
 var _jump_t := 0.0                      # elapsed airtime
 var _jump_base_y := 0.0                 # walk line y at takeoff (ledge must be above this)
 
+# Phase 13-A: scripted single-swing attack (timer-driven like the jump). While
+# attacking the player is locked in place — no move, jump, or re-attack — until
+# the clip's duration elapses, then it snaps back to idle/walk.
+@export var attack_duration := 1.0      # attack clip length, s (15 frames @ 15fps)
+var _attacking := false
+var _attack_t := 0.0                    # elapsed attack time
+
 # Optional walk-line height profile (sorted by x). Empty = flat walk_line_y.
 # Used by uneven walk surfaces (e.g. the sagging fire-escape bridge).
 var walk_height_points: Array = []
@@ -74,6 +81,9 @@ func _physics_process(delta: float) -> void:
 			_jumping = false
 			_jump_t = 0.0
 			position.y = _walk_y_at(position.x)
+		if _attacking:
+			_attacking = false
+			_attack_t = 0.0
 		anim.play(idle_anim)
 		_apply_sprite_transform()
 		return
@@ -89,6 +99,28 @@ func _physics_process(delta: float) -> void:
 		else:
 			anim.play("climb")
 			anim.stop()
+		_apply_sprite_transform()
+		return
+
+	# Phase 13-A: scripted attack. While active it owns the whole frame — movement,
+	# jump, and re-attack are all blocked until the timer reaches attack_duration.
+	if _attacking:
+		velocity = Vector2.ZERO
+		_attack_t += delta
+		position.y = _walk_y_at(position.x)
+		if _attack_t >= attack_duration:
+			_attacking = false
+			_attack_t = 0.0
+			anim.play(idle_anim)
+		_apply_sprite_transform()
+		return
+
+	# Phase 13-A: start an attack from the ground (not mid-jump / mid-climb).
+	if not _jumping and Input.is_action_just_pressed("attack"):
+		_attacking = true
+		_attack_t = 0.0
+		velocity = Vector2.ZERO
+		_play_attack_anim()
 		_apply_sprite_transform()
 		return
 
@@ -149,7 +181,7 @@ func _apply_sprite_transform() -> void:
 	elif anim.animation == "climb":
 		anim.scale = _scene_sprite_scale * CLIMB_SCALE
 		anim.position = _scene_sprite_position + Vector2(0.0, CLIMB_Y_OFFSET)
-	elif anim.animation == "combat_walk" or anim.animation == "combat_idle":
+	elif anim.animation == "combat_walk" or anim.animation == "combat_idle" or anim.animation == "attack":
 		anim.scale = _scene_sprite_scale * combat_walk_scale_mult
 		anim.position = _scene_sprite_position
 	else:
@@ -209,6 +241,16 @@ func is_climbing() -> bool:
 # Phase 12-A: jump state query.
 func is_jumping() -> bool:
 	return _jumping
+
+# Phase 13-A: attack state query.
+func is_attacking() -> bool:
+	return _attacking
+
+func _play_attack_anim() -> void:
+	if anim.sprite_frames and anim.sprite_frames.has_animation("attack"):
+		anim.play("attack")
+	else:
+		anim.play(idle_anim)
 
 func _play_jump_anim() -> void:
 	if anim.sprite_frames and anim.sprite_frames.has_animation("jump"):

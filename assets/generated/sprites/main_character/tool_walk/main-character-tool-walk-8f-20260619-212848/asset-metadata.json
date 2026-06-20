@@ -1,0 +1,199 @@
+{
+  "asset": "main_character_tool_walk",
+  "source_raw": "raw-sheet.png",
+  "operation": "tool walk 8f postprocess and alignment",
+  "timestamp": "2026-06-19T21:34:55",
+  "grid": {
+    "rows": 2,
+    "cols": 4,
+    "cell_size": 512
+  },
+  "target_body_height": 392,
+  "target_bottom_baseline": 453,
+  "edge_cleanup": "visible magenta and purple chroma spill converted to ink-black while preserving alpha",
+  "report": {
+    "main-character-tool-walk-1.png": {
+      "source_bbox": [
+        67,
+        11,
+        445,
+        505
+      ],
+      "scale": 0.7935222672064778,
+      "size": [
+        512,
+        512
+      ],
+      "bbox": [
+        106,
+        61,
+        406,
+        453
+      ],
+      "bottom": 453,
+      "edge_pixels_blackened": 5091,
+      "magenta_like": 0
+    },
+    "main-character-tool-walk-2.png": {
+      "source_bbox": [
+        49,
+        14,
+        462,
+        505
+      ],
+      "scale": 0.7983706720977597,
+      "size": [
+        512,
+        512
+      ],
+      "bbox": [
+        91,
+        61,
+        421,
+        453
+      ],
+      "bottom": 453,
+      "edge_pixels_blackened": 5247,
+      "magenta_like": 0
+    },
+    "main-character-tool-walk-3.png": {
+      "source_bbox": [
+        56,
+        11,
+        455,
+        505
+      ],
+      "scale": 0.7935222672064778,
+      "size": [
+        512,
+        512
+      ],
+      "bbox": [
+        98,
+        61,
+        415,
+        453
+      ],
+      "bottom": 453,
+      "edge_pixels_blackened": 4912,
+      "magenta_like": 0
+    },
+    "main-character-tool-walk-4.png": {
+      "source_bbox": [
+        60,
+        11,
+        451,
+        505
+      ],
+      "scale": 0.7935222672064778,
+      "size": [
+        512,
+        512
+      ],
+      "bbox": [
+        101,
+        61,
+        411,
+        453
+      ],
+      "bottom": 453,
+      "edge_pixels_blackened": 5065,
+      "magenta_like": 0
+    },
+    "main-character-tool-walk-5.png": {
+      "source_bbox": [
+        67,
+        10,
+        445,
+        505
+      ],
+      "scale": 0.7919191919191919,
+      "size": [
+        512,
+        512
+      ],
+      "bbox": [
+        106,
+        61,
+        405,
+        453
+      ],
+      "bottom": 453,
+      "edge_pixels_blackened": 4659,
+      "magenta_like": 0
+    },
+    "main-character-tool-walk-6.png": {
+      "source_bbox": [
+        58,
+        11,
+        453,
+        505
+      ],
+      "scale": 0.7935222672064778,
+      "size": [
+        512,
+        512
+      ],
+      "bbox": [
+        100,
+        61,
+        413,
+        453
+      ],
+      "bottom": 453,
+      "edge_pixels_blackened": 5164,
+      "magenta_like": 0
+    },
+    "main-character-tool-walk-7.png": {
+      "source_bbox": [
+        51,
+        7,
+        461,
+        505
+      ],
+      "scale": 0.7871485943775101,
+      "size": [
+        512,
+        512
+      ],
+      "bbox": [
+        94,
+        61,
+        417,
+        453
+      ],
+      "bottom": 453,
+      "edge_pixels_blackened": 4936,
+      "magenta_like": 0
+    },
+    "main-character-tool-walk-8.png": {
+      "source_bbox": [
+        69,
+        9,
+        442,
+        505
+      ],
+      "scale": 0.7903225806451613,
+      "size": [
+        512,
+        512
+      ],
+      "bbox": [
+        108,
+        61,
+        403,
+        453
+      ],
+      "bottom": 453,
+      "edge_pixels_blackened": 4239,
+      "magenta_like": 0
+    },
+    "sheet-transparent.png": {
+      "size": [
+        2048,
+        1024
+      ],
+      "magenta_like": 0
+    }
+  }
+}

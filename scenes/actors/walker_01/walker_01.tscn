@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://1briila3gu75"]
+
+[ext_resource type="Script" uid="uid://cg0c6mp3o5dny" path="res://scenes/actors/walker_01/walker_01.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dufkvrutlji70" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-1.png" id="2_w1"]
+[ext_resource type="Texture2D" uid="uid://ds2whr3lrdqpd" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-2.png" id="3_w2"]
+[ext_resource type="Texture2D" uid="uid://bd37w3yif6nkg" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-3.png" id="4_w3"]
+[ext_resource type="Texture2D" uid="uid://cuyi401vb04el" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-4.png" id="5_w4"]
+[ext_resource type="Texture2D" uid="uid://yleuyvofj0hj" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-5.png" id="6_w5"]
+[ext_resource type="Texture2D" uid="uid://fi4qmpmwnuox" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-6.png" id="7_w6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_walker"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_w1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_w1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_w2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_w3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_w4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_w5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_w6")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_walker"]
+size = Vector2(220, 190)
+
+[node name="Walker01" type="CharacterBody2D" unique_id=956445259]
+script = ExtResource("1_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=689838632]
+position = Vector2(0, -104)
+scale = Vector2(0.28, 0.28)
+sprite_frames = SubResource("SpriteFrames_walker")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=471374170]
+position = Vector2(0, -100)
+shape = SubResource("RectangleShape2D_walker")

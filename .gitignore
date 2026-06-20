@@ -35,3 +35,6 @@ __pycache__/
 # Export build outputs (Windows / macOS / Linux / iOS / Android / Web)
 # export_presets.cfg 本身要 commit, 它是 preset source of truth; 只忽略產物。
 # builds/ 用 Git LFS 追蹤（.exe / .pck），不整體忽略。
+
+# Heavy sprite-extraction intermediates (kept on disk, not committed)
+assets/generated/sprites/main_character/_attack_extract/

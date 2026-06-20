@@ -7,9 +7,18 @@
 [ext_resource type="Texture2D" uid="uid://cuyi401vb04el" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-4.png" id="5_w4"]
 [ext_resource type="Texture2D" uid="uid://yleuyvofj0hj" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-5.png" id="6_w5"]
 [ext_resource type="Texture2D" uid="uid://fi4qmpmwnuox" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-6.png" id="7_w6"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/walker_01/formatted/walker_01-formatted.png" id="8_fmt"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_walker"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_fmt")
+}],
+"loop": false,
+"name": &"formatted",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_w1")

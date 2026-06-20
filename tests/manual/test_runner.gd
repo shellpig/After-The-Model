@@ -6612,6 +6612,11 @@ func _ready() -> void:
 		printerr("FAIL 13-B: machine must remain on scene after defeated() (no despawn)!")
 		get_tree().quit(1)
 		return
+	var walker_13b_anim = walker_13b.get_node_or_null("AnimatedSprite2D")
+	if walker_13b_anim == null or walker_13b_anim.animation != "formatted":
+		printerr("FAIL 13-B: defeated walker_01 must switch to formatted animation!")
+		get_tree().quit(1)
+		return
 	print("PASS 13-B: defeated() → is_defeated() true; machine stays on scene.")
 
 	# defeated() is idempotent (calling twice must not crash)
@@ -6625,6 +6630,30 @@ func _ready() -> void:
 	# Verify player has FormatReset child
 	walker_13b.queue_free()
 	await get_tree().process_frame
+
+	var jump_proto_scene_13b = load("res://scenes/levels/jump_proto/jump_proto.tscn")
+	if jump_proto_scene_13b == null:
+		printerr("FAIL 13-B: could not load jump_proto.tscn!")
+		get_tree().quit(1)
+		return
+	var jump_proto_13b = jump_proto_scene_13b.instantiate()
+	add_child(jump_proto_13b)
+	await get_tree().process_frame
+	var jump_walker_13b = jump_proto_13b.find_child("Walker01", true, false)
+	var jump_walker_anim_13b = jump_walker_13b.get_node_or_null("AnimatedSprite2D") if jump_walker_13b else null
+	if jump_walker_anim_13b == null or jump_walker_anim_13b.sprite_frames == null or not jump_walker_anim_13b.sprite_frames.has_animation("formatted"):
+		printerr("FAIL 13-B: jump_proto Walker01 missing formatted animation!")
+		get_tree().quit(1)
+		return
+	jump_walker_13b.defeated()
+	await get_tree().process_frame
+	if jump_walker_anim_13b.animation != "formatted":
+		printerr("FAIL 13-B: jump_proto Walker01 must show formatted animation after defeated()!")
+		get_tree().quit(1)
+		return
+	jump_proto_13b.queue_free()
+	await get_tree().process_frame
+	print("PASS 13-B: jump_proto Walker01 uses formatted animation after defeated().")
 
 	var p13b_room_scene = load("res://scenes/levels/apartment/apartment_room.tscn")
 	if p13b_room_scene == null:

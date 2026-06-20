@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://bhtyl2pntovrj" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-4.png" id="23_kd4"]
 [ext_resource type="Texture2D" uid="uid://c3h8cne01bj50" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-5.png" id="24_kd5"]
 [ext_resource type="Texture2D" uid="uid://bqkdkqlgbpnek" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-6.png" id="25_kd6"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/walker_01/formatted/walker_01-formatted.png" id="26_kfmt"]
 [ext_resource type="Texture2D" uid="uid://b3bvmptrhb0yq" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-1.png" id="a1"]
 [ext_resource type="Texture2D" uid="uid://ct1jeksj1qf7c" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-2.png" id="a2"]
 [ext_resource type="Texture2D" uid="uid://c2hnt1y67a2s6" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-3.png" id="a3"]
@@ -261,6 +262,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("26_kfmt")
+}],
+"loop": false,
+"name": &"formatted",
 "speed": 5.0
 }, {
 "frames": [{

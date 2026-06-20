@@ -22,6 +22,7 @@ extends MachineEnemy
 @export var fall_anim := "fall"
 @export var prone_anim := "prone"
 @export var getup_anim := "getup"
+@export var formatted_anim := "formatted"
 @export var fall_time := 0.6
 @export var prone_repair_time := 5.0
 @export var getup_time := 0.6
@@ -80,7 +81,10 @@ func defeated() -> void:
 		return
 	_defeated = true
 	_label.visible = false
-	_play_if_present(prone_anim)
+	if anim.sprite_frames and anim.sprite_frames.has_animation(formatted_anim):
+		anim.play(formatted_anim)
+	else:
+		_play_if_present(prone_anim)
 
 # --- Patrol ---------------------------------------------------------------
 

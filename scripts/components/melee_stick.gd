@@ -37,6 +37,8 @@ func _on_attack_impact_frame() -> void:
 		if not ((dx > 0.0 and facing == 1) or (dx < 0.0 and facing == -1)):
 			continue
 		enemy.apply_stun(stun_duration)
+		if enemy.has_method("flash_white"):
+			enemy.flash_white()
 		_spawn_impact(enemy)
 		break  # one hit per swing
 

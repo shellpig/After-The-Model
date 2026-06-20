@@ -40,12 +40,14 @@ var _paused := false
 var _timer := 0.0
 var _label: Label = null
 var _defeated := false
+var _white_mat: ShaderMaterial = null
 
 func _ready() -> void:
 	add_to_group("enemies")
 	position.y = ground_y
 	position.x = clamp(position.x, min_x, max_x)
 	_build_repair_label()
+	_build_white_mat()
 	_start_moving()
 
 func _physics_process(delta: float) -> void:
@@ -71,6 +73,17 @@ func is_stunned() -> bool:
 func apply_stun(_duration: float) -> void:
 	if _state == State.PATROL or _state == State.RECOVER_IDLE:
 		_enter_fall()
+
+func _build_white_mat() -> void:
+	var s := Shader.new()
+	s.code = "shader_type canvas_item;\nvoid fragment() { vec4 c = texture(TEXTURE, UV); COLOR = vec4(1.0, 1.0, 1.0, c.a); }"
+	_white_mat = ShaderMaterial.new()
+	_white_mat.shader = s
+
+func flash_white() -> void:
+	anim.material = _white_mat
+	await get_tree().create_timer(2.0 / 60.0).timeout
+	anim.material = null
 
 func is_defeated() -> bool:
 	return _defeated

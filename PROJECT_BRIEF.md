@@ -245,7 +245,7 @@ note_id
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
-> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11 已完成本機 headless（2026-06-19）/ Phase 12 / 13 規格已展開到可實作（📐，見下「Phase 12–13 子階段（三份對照）」行範圍）；Phase 14（Act 1 主線鉤子）/ Phase 15（Act 2 場景骨架）三份文件亦已展開到可實作（📐，實作契約見 `開發設計方針.md > Act 1 主線鉤子（Phase 14，實作契約）` / `> Act 2 場景骨架（Phase 15，實作契約）`，場景設計見 `subdocs/地點/地鐵站.md` / `subdocs/地點/地下道聚落.md`）**；**Phase 16 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構已拍板（2026-06-19）＝**方案 A 腳本化拋物弧**（不引入全域重力）。Phase 15 範圍已拍板（2026-06-19）＝**地鐵站 + 地下道聚落 2 真場景**，硬規則**不暫代**（不借 BGM、不放 placeholder 美術、不寫待覆寫佔位文字；NPC/殘響/戰鬥後置但以真掛點預留）。
+> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11 已完成本機 headless（2026-06-19）/ Phase 12 / 13 規格已展開到可實作（📐，見下「Phase 12–13 子階段（三份對照）」行範圍）；Phase 14（Act 1 主線鉤子）已展開到可實作（📐，見下「Phase 14 子階段（三份對照）」行範圍，14-C 目前定案為店控首談前置誤認鉤）；Phase 15（Act 2 場景骨架）三份文件亦已展開到可實作（📐，實作契約見 `開發設計方針.md > Act 2 場景骨架（Phase 15，實作契約）`，場景設計見 `subdocs/地點/地鐵站.md` / `subdocs/地點/地下道聚落.md`）**；**Phase 16 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構已拍板（2026-06-19）＝**方案 A 腳本化拋物弧**（不引入全域重力）。Phase 15 範圍已拍板（2026-06-19）＝**地鐵站 + 地下道聚落 2 真場景**，硬規則**不暫代**（不借 BGM、不放 placeholder 美術、不寫待覆寫佔位文字；NPC/殘響/戰鬥後置但以真掛點預留）。
 
 ### Phase 3 子階段（公寓觸控化）
 
@@ -456,6 +456,21 @@ Phase 10 素材交付：音訊 `assets/audio/ambient/street_rain_loop.mp3`、`su
 
 Phase 12 待生 / 待寫：`project.godot` `jump` action；`player.gd` 跳躍狀態；`player` SpriteFrames `jump` 動畫；`scripts/components/ledge_area.gd` / `jump_gap.gd`；`scenes/levels/jump_proto`；TouchControls `BtnJump`。
 Phase 13 待生 / 待寫：`project.godot` `attack` action；`melee_stick.gd` / `enemy_base.gd` / `machine_enemy.gd` / `human_enemy.gd` / `format_reset.gd` / `combat_loss.gd`；`player` SpriteFrames `attack` 動畫；`scenes/levels/combat_proto`（隧道清潔機）；TouchControls `BtnAttack`。
+
+### Phase 14 子階段（三份對照）
+
+> 行號以 2026-06-20 Phase 14 gate 修正版為準；大幅改寫後需校正。Phase 14 = Act 1 主線鉤子，複用既有平民區，不新建場景、不新增美術 / 立繪 / 音圖。14-C 定案：店控未修好首談時先播阿達誤認鉤，gate = `mem_frag_linfei_1 AND not ada_misrecognized`，effect 同時設 `ada_misrecognized` + `talked_store_robot`，再回既有 babble。
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 14 總覽 + 拍板決策 + 旗標 | 2755–2765 | 2585–2627（現況基準 + 新增/異動檔 + canonical 旗標） | 906–907 |
+| 14-A 林霏碎片① `memory_fragment_area` | 2768（子階段表） | 2629–2640 | 910 |
+| 14-B 鹿 / 晚一次性鉤 | 2769（子階段表） | 2642–2654 | 911–912 |
+| 14-C 阿達①店控首談前置誤認 | 2770（子階段表） | 2656–2673 | 913 |
+| 14-D 回歸 + 存讀檔 + GUI | 2771–2773 | 2669–2673 | 914–921 |
+
+Phase 14 待生 / 待寫：`scripts/components/memory_fragment_area.gd`；`apartment_entrance.tscn` 擺 `memory_fragment_area` x≈1500；`game_state.gd` 新旗標與 `STORY_MESSAGES["mem_frag_linfei_1"]`；`data/dialogue/lu_qichen.gd` / `wan.gd` / `store_robot.gd` 三條鉤；`tests/manual/test_runner.gd` 14-A~D headless 護欄。
+
 Phase 15 待生 / 待寫（**全真資源，不暫代**）：`scenes/levels/subway_station/`（.tscn+.gd）/ `scenes/levels/underground_settlement/`（.tscn+.gd）；`scenes/main/main.gd` SCENES 註冊兩 scene_id + `apartment_entrance` 補 `from_subway` 落點；`game_state.gd` `reached_settlement` 旗標；`data/dialogue/travel_street_east.gd` 加「地鐵站」目的地（gate＝Act 1 旗標）；**待生美術** `assets/generated/maps/subway_station/` + `.../underground_settlement/`（Art Bible 合規）；**待生 BGM** 地鐵站 + 聚落各一專屬軌（非借既有 6 軌）；場景設計檔 `subdocs/地點/地鐵站.md` / `地下道聚落.md`（已寫）。
 
 ### 規格書 — 常引用系統段（跨階段）

@@ -18,6 +18,12 @@
 [ext_resource type="Texture2D" uid="uid://cuyi401vb04el" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-4.png" id="17_kw4"]
 [ext_resource type="Texture2D" uid="uid://yleuyvofj0hj" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-5.png" id="18_kw5"]
 [ext_resource type="Texture2D" uid="uid://fi4qmpmwnuox" path="res://assets/generated/sprites/walker_01/walk/walker_01-walk-6.png" id="19_kw6"]
+[ext_resource type="Texture2D" uid="uid://ch2u5deg3bmes" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-1.png" id="20_kd1"]
+[ext_resource type="Texture2D" uid="uid://d3onypp8rss14" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-2.png" id="21_kd2"]
+[ext_resource type="Texture2D" uid="uid://xr22a6v1mfcc" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-3.png" id="22_kd3"]
+[ext_resource type="Texture2D" uid="uid://bhtyl2pntovrj" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-4.png" id="23_kd4"]
+[ext_resource type="Texture2D" uid="uid://c3h8cne01bj50" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-5.png" id="24_kd5"]
+[ext_resource type="Texture2D" uid="uid://bqkdkqlgbpnek" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-6.png" id="25_kd6"]
 [ext_resource type="Texture2D" uid="uid://b3bvmptrhb0yq" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-1.png" id="a1"]
 [ext_resource type="Texture2D" uid="uid://ct1jeksj1qf7c" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-2.png" id="a2"]
 [ext_resource type="Texture2D" uid="uid://c2hnt1y67a2s6" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-3.png" id="a3"]
@@ -205,10 +211,64 @@ size = Vector2(24, 454)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("20_kd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_kd2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_kd3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_kd4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_kd5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_kd6")
+}],
+"loop": false,
+"name": &"fall",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_kd6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_kd5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_kd4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_kd3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_kd2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_kd1")
+}],
+"loop": false,
+"name": &"getup",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("14_kw1")
 }],
 "loop": true,
 "name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_kd6")
+}],
+"loop": false,
+"name": &"prone",
 "speed": 5.0
 }, {
 "frames": [{
@@ -248,7 +308,7 @@ color = Color(0.06, 0.05, 0.1, 1)
 
 [node name="LowerFloor" type="ColorRect" parent="." unique_id=948650466]
 offset_top = 690.0
-offset_right = 510.0
+offset_right = 1279.0
 offset_bottom = 730.0
 color = Color(0.28, 0.24, 0.33, 1)
 

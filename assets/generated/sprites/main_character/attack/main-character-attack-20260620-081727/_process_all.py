@@ -19,12 +19,18 @@ SRC_FRAMES = [1, 3, 5, 7, 9, 11, 13, 14, 15, 16, 17, 19, 21, 23, 25]
 H_LOW, H_HIGH, S_MIN, V_MIN = 200, 232, 60, 25
 OUTLINE_PX = 1
 
-GRADE_A = [[0.9407291403444692, 0.18259329993271664, -0.22178815063104393],
-           [0.16847187657619583, 0.5974393564632828, 0.04937522386570008],
-           [-0.08278413443074828, 0.09533396790367504, 0.6615309332650225]]
-GRADE_MS = [86.62941779697181, 75.94646922539003, 63.69527003326683]
-GRADE_MT = [73.05459483217824, 62.79009107871075, 46.56256312782165]
-RED_TRIM = 5
+# Color match (Monge-Kantorovich linear transfer): out = A(x - ms) + mt, fitted
+# from THIS attack video's body pixels -> the in-use combat_walk v3 body pixels.
+# Matches mean AND covariance, so the jacket lands on combat_walk's muted teal
+# (not pure blue) and the pants stay warm brown. Both sets share the same
+# character + gold tool, so those map correctly; the green slash VFX (which
+# combat_walk lacks) was excluded from the fit. Replaces the earlier borrowed
+# matrix + per-channel brightness gain that over-blued the jacket.
+GRADE_A = [[0.977249, 0.099448, -0.057507],
+           [0.099448, 0.781528, 0.153994],
+           [-0.057507, 0.153994, 0.847073]]
+GRADE_MS = [78.3037, 67.7306, 47.1557]
+GRADE_MT = [78.9437, 68.9181, 50.1536]
 
 
 def keep_largest(fg):
@@ -83,16 +89,13 @@ def add_outline(img, thickness):
 
 
 def style_grade(img):
+    """Monge-Kantorovich linear color transfer onto the combat_walk palette.
+    Alpha untouched."""
     arr = np.array(img, float)
     rgb = arr[..., :3]
     A = np.array(GRADE_A); ms = np.array(GRADE_MS); mt = np.array(GRADE_MT)
     flat = (rgb.reshape(-1, 3) - ms) @ A.T + mt
-    rgb = np.clip(flat, 0, 255).reshape(rgb.shape)
-    R, G, B, Al = rgb[..., 0], rgb[..., 1], rgb[..., 2], arr[..., 3]
-    warm = ((Al > 200) & (R > G) & (G > B) & (R > 50) & (R < 145) &
-            ((R - B) < 90) & ((R - B) > 20) & (B > 25))
-    rgb[..., 0] = np.where(warm, np.clip(R - RED_TRIM, 0, 255), R)
-    arr[..., :3] = rgb
+    arr[..., :3] = np.clip(flat, 0, 255).reshape(rgb.shape)
     return Image.fromarray(arr.astype("uint8"), "RGBA")
 
 

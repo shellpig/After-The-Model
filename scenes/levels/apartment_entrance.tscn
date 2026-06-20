@@ -3,12 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://c2rhpcvvcw7oj" path="res://assets/generated/maps/apartment_building_entrance_2_20260606-112000/apartment-building-entrance-2-godot-4080x720-20260606-112000.png" id="1_bg"]
 [ext_resource type="Script" uid="uid://bngofy3stmfc3" path="res://scenes/levels/apartment_entrance.gd" id="2_script"]
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="3_player"]
-[ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
-[ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
-[ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
-[ext_resource type="Texture2D" uid="uid://cqlevyto1pcct" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="jumpf4"]
-[ext_resource type="Texture2D" uid="uid://dr0483468d6l7" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
-[ext_resource type="Texture2D" uid="uid://xvrwlgw2fiwr" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="4_interactable"]
 [ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="5_walk1"]
 [ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="6_walk2"]
@@ -23,18 +17,24 @@
 [ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 [ext_resource type="Script" uid="uid://cxglowlyr01gd" path="res://scripts/components/glow_layer.gd" id="ext_glow_layer"]
 [ext_resource type="Script" uid="uid://clyks0mlawvmd" path="res://scripts/components/idle_break.gd" id="ext_idle_break"]
+[ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
 [ext_resource type="Shader" uid="uid://cxneonref01sd" path="res://assets/shaders/neon_reflection.gdshader" id="ext_neon_reflection"]
 [ext_resource type="AudioStream" uid="uid://dah5aba0j5u7h" path="res://assets/audio/ambient/street_rain_loop.mp3" id="ext_rain_loop"]
 [ext_resource type="Texture2D" uid="uid://cn6c8a662y55h" path="res://assets/vfx/rain_splash.png" id="ext_rain_splash"]
 [ext_resource type="Texture2D" uid="uid://dx8wea5u3kmu5" path="res://assets/vfx/rain_streak.png" id="ext_rain_streak"]
 [ext_resource type="Shader" uid="uid://ca7trspb4sux5" path="res://assets/shaders/vignette.gdshader" id="ext_vignette_shader"]
+[ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
+[ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
+[ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
+[ext_resource type="Texture2D" uid="uid://cqlevyto1pcct" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="jumpf4"]
+[ext_resource type="Texture2D" uid="uid://dr0483468d6l7" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
+[ext_resource type="Texture2D" uid="uid://xvrwlgw2fiwr" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
 [ext_resource type="Texture2D" uid="uid://bhgfvr24iqkvh" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/01_idle.png" id="wan_glance_01"]
 [ext_resource type="Texture2D" uid="uid://dgrcdvpmuqatu" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/02_begin_turn.png" id="wan_glance_02"]
 [ext_resource type="Texture2D" uid="uid://ds4tuupprlr8l" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/03_full_glance_hold_a.png" id="wan_glance_03"]
 [ext_resource type="Texture2D" uid="uid://cj1me1jnea5yc" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/04_full_glance_hold_b.png" id="wan_glance_04"]
 [ext_resource type="Texture2D" uid="uid://dmxw3whb384oy" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/05_turn_back.png" id="wan_glance_05"]
 [ext_resource type="Texture2D" uid="uid://dkpndftwwfato" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/06_idle_settle.png" id="wan_glance_06"]
-[ext_resource type="Script" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_billboard"]
 shader = ExtResource("ext_billboard_shader")
@@ -115,9 +115,6 @@ size = Vector2(95, 285)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_wan"]
 size = Vector2(166, 300)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mem_frag"]
-size = Vector2(120, 260)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_wan"]
 animations = [{
 "frames": [{
@@ -155,8 +152,19 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
 radius = 45.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mem_frag"]
+size = Vector2(81, 260)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_walk2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("jumpf1")
@@ -179,14 +187,6 @@ animations = [{
 "loop": false,
 "name": &"jump",
 "speed": 11.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("6_walk2")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -459,10 +459,9 @@ shape = SubResource("CircleShape2D_echo")
 [node name="MemoryFragmentArea" type="Area2D" parent="Interactables" unique_id=140001]
 position = Vector2(1500, 550)
 script = ExtResource("ext_mem_frag_area")
-fragment_flag = "mem_frag_linfei_1"
-message_id = "mem_frag_linfei_1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentArea" unique_id=140002]
+position = Vector2(932, -3)
 shape = SubResource("RectangleShape2D_mem_frag")
 debug_color = Color(0.9, 0.1, 0.9, 0.42)
 

@@ -1,6 +1,8 @@
 extends Node2D
 
 const DEFAULT_TEXTURE_PATH := "res://assets/generated/sprites/hit_impact_burst/clang/hit-impact-burst-clang.png"
+const SHAKE_OFFSETS := [10.0, -6.0, 7.0, -4.0, 4.0, -2.0, 0.0]
+const SHAKE_DURATIONS := [0.05, 0.07, 0.07, 0.08, 0.08, 0.08, 0.07]
 
 @export var texture: Texture2D
 @export var texture_scale := 0.45
@@ -22,6 +24,7 @@ func _build_sprite() -> void:
 	add_child(_sprite)
 
 func _play() -> void:
+	_play_camera_shake()
 	scale = Vector2(0.1, 0.1)
 	modulate.a = 1.0
 	var tween := create_tween()
@@ -32,3 +35,13 @@ func _play() -> void:
 	tween.tween_interval(0.8)
 	tween.tween_property(self, "modulate:a", 0.0, 0.35)
 	tween.tween_callback(queue_free)
+
+func _play_camera_shake() -> void:
+	var camera := get_viewport().get_camera_2d()
+	if camera == null:
+		return
+	var base_offset := camera.offset
+	var tween := camera.create_tween()
+	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	for i in range(SHAKE_OFFSETS.size()):
+		tween.tween_property(camera, "offset", base_offset + Vector2(0.0, SHAKE_OFFSETS[i]), SHAKE_DURATIONS[i])

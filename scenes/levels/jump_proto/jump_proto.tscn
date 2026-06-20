@@ -301,6 +301,13 @@ size = Vector2(132, 114)
 [node name="JumpProto" type="Node2D" unique_id=366867471]
 script = ExtResource("1_script")
 
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1257138076]
+position = Vector2(640, 360)
+limit_left = 0
+limit_top = 0
+limit_right = 1280
+limit_bottom = 720
+
 [node name="BgDark" type="ColorRect" parent="." unique_id=1591610185]
 offset_right = 1280.0
 offset_bottom = 720.0

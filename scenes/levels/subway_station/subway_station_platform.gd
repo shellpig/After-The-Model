@@ -53,7 +53,7 @@ func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	var spawn := $SpawnPoints.get_node_or_null(_entry_point_id) as Marker2D
 	if spawn != null:
 		player.global_position = spawn.global_position
-	player.anim.play("idle")
+	player.anim.play(player.idle_anim)
 	_update_camera()
 
 func _ready() -> void:
@@ -65,7 +65,7 @@ func _ready() -> void:
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)
-	player.anim.play("idle")
+	player.anim.play(player.idle_anim)
 	_refresh_current_interactable()
 
 	var screen_mat := platform_screen.material as ShaderMaterial

@@ -74,6 +74,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		_trigger_interaction()
 
 func _trigger_interaction() -> void:
+	if current_interactable.dialogue_id != "":
+		interaction_requested.emit({
+			"type": "dialogue",
+			"dialogue_id": current_interactable.dialogue_id
+		})
+		return
+
 	match current_interactable.interaction_id:
 		"go_left":
 			scene_transition_requested.emit("underground_settlement", "from_right", {})

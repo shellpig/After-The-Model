@@ -7462,6 +7462,162 @@ func _ready() -> void:
 
 	print("PASS: Phase 16 NPC dialogue verification (16-A Cen) verified.")
 
+	# ----------------------------------------------------
+	# Phase 16 Verification (16-B Wu)
+	# ----------------------------------------------------
+	print("Running Phase 16 NPC dialogue verification (16-B Wu)...")
+	var wu_tree = DialogueDB.get_tree_for("wu")
+	if wu_tree.is_empty():
+		printerr("FAIL 16: Dialogue tree 'wu' not found or empty!")
+		get_tree().quit(1)
+		return
+	
+	for node_name in wu_tree:
+		var node = wu_tree[node_name]
+		var text = node.get("text", "")
+		if "林" + "霏" in text:
+			printerr("FAIL 16: 'wu' tree node '", node_name, "' contains forbidden string!")
+			get_tree().quit(1)
+			return
+
+	# Path A: first_meet -> repairer
+	GameState.reset_for_new_game()
+	var runner_wu := DialogueRunner.new()
+	runner_wu.start(wu_tree)
+	
+	curr_node = runner_wu.current()
+	if curr_node.get("speaker", "") != "伍姐" or not "別站光裡" in curr_node.get("text", ""):
+		printerr("FAIL 16: Wu initial routing should go to first_meet! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+		
+	runner_wu.choose(0) # goto repairer
+	curr_node = runner_wu.current()
+	if not "電力、淨水" in curr_node.get("text", ""):
+		printerr("FAIL 16: Choice 0 should route to repairer! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+	
+	if not GameState.get_flag("met_wu", false) or GameState.get_flag("affinity_wu", 0) != 1:
+		printerr("FAIL 16: repairer effects failed! met_wu: ", GameState.get_flag("met_wu", false), " affinity_wu: ", GameState.get_flag("affinity_wu", 0))
+		get_tree().quit(1)
+		return
+		
+	runner_wu.advance()
+	curr_node = runner_wu.current()
+	if not "多搬兩趟水" in curr_node.get("text", ""):
+		printerr("FAIL 16: repairer should goto end_cold! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+
+	# Path B: first_meet -> maker
+	GameState.reset_for_new_game()
+	runner_wu = DialogueRunner.new()
+	runner_wu.start(wu_tree)
+	runner_wu.choose(1) # Choice 1 (maker)
+	curr_node = runner_wu.current()
+	if not "有過一個人" in curr_node.get("text", ""):
+		printerr("FAIL 16: Choice 1 should route to maker! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+	if not GameState.get_flag("met_wu", false) or not GameState.get_flag("knows_settlement_had_maker", false):
+		printerr("FAIL 16: maker flags failed to set! met_wu: ", GameState.get_flag("met_wu", false), " knows_settlement_had_maker: ", GameState.get_flag("knows_settlement_had_maker", false))
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_wu", 0) != 1:
+		printerr("FAIL 16: maker should increase affinity_wu! Got: ", GameState.get_flag("affinity_wu", 0))
+		get_tree().quit(1)
+		return
+		
+	runner_wu.advance()
+	curr_node = runner_wu.current()
+	if not "多搬兩趟水" in curr_node.get("text", ""):
+		printerr("FAIL 16: maker should goto end_cold! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+
+	# Path C: retalk with knows_settlement_had_maker = false
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_wu", true)
+	runner_wu = DialogueRunner.new()
+	runner_wu.start(wu_tree)
+	curr_node = runner_wu.current()
+	if not "來了。手別閒著" in curr_node.get("text", ""):
+		printerr("FAIL 16: routing with met_wu=true should go to retalk! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+	var choices_no_maker = curr_node.get("choices", [])
+	var has_ask_maker_more := false
+	for choice in choices_no_maker:
+		if "建立這裡的人" in choice.get("label", ""):
+			has_ask_maker_more = true
+	if has_ask_maker_more:
+		printerr("FAIL 16: ask_maker_more should be locked if knows_settlement_had_maker is false!")
+		get_tree().quit(1)
+		return
+
+	# Path D: retalk with knows_settlement_had_maker = true
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_wu", true)
+	GameState.set_flag("knows_settlement_had_maker", true)
+	runner_wu = DialogueRunner.new()
+	runner_wu.start(wu_tree)
+	curr_node = runner_wu.current()
+	var choices_with_maker = curr_node.get("choices", [])
+	var ask_maker_index := -1
+	for idx in range(choices_with_maker.size()):
+		if "建立這裡的人" in choices_with_maker[idx].get("label", ""):
+			ask_maker_index = idx
+	if ask_maker_index == -1:
+		printerr("FAIL 16: ask_maker_more option missing from retalk with knows_settlement_had_maker=true!")
+		get_tree().quit(1)
+		return
+		
+	# Choose ask_maker_more
+	runner_wu.choose(ask_maker_index)
+	curr_node = runner_wu.current()
+	if not "自己把自己關掉的" in curr_node.get("text", ""):
+		printerr("FAIL 16: ask_maker_more choice should route to ask_maker_more node! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+
+	# Assert wu portrait path is wired
+	if dp_scene:
+		var dp_inst = dp_scene.instantiate()
+		add_child(dp_inst)
+		dp_inst.start_dialogue("wu")
+		if dp_inst.portrait_rect.texture == null:
+			printerr("FAIL 16: wu dialogue portrait texture is null!")
+			get_tree().quit(1)
+			return
+		dp_inst.free()
+
+	# Verify NpcWu node setup in underground_settlement_right.tscn
+	var settlement_right_scene16 = load("res://scenes/levels/underground_settlement/underground_settlement_right.tscn")
+	var settlement_right_inst16 = settlement_right_scene16.instantiate()
+	var npc_wu = settlement_right_inst16.get_node_or_null("Interactables/NpcWu")
+	if npc_wu == null:
+		printerr("FAIL 16: Interactables/NpcWu node missing in underground_settlement_right.tscn!")
+		get_tree().quit(1)
+		return
+	if npc_wu.interaction_id != "talk_wu" or npc_wu.dialogue_id != "wu":
+		printerr("FAIL 16: NpcWu node properties wrong! ID: ", npc_wu.interaction_id, " Dialogue: ", npc_wu.dialogue_id)
+		get_tree().quit(1)
+		return
+	
+	if npc_wu.get_node_or_null("CollisionShape2D") == null:
+		printerr("FAIL 16: NpcWu missing CollisionShape2D!")
+		get_tree().quit(1)
+		return
+	var npc_wu_sprite = npc_wu.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+	if npc_wu_sprite == null or npc_wu_sprite.sprite_frames == null or not npc_wu_sprite.sprite_frames.has_animation("idle"):
+		printerr("FAIL 16: NpcWu missing AnimatedSprite2D or idle animation!")
+		get_tree().quit(1)
+		return
+	settlement_right_inst16.free()
+
+	print("PASS: Phase 16 NPC dialogue verification (16-B Wu) verified.")
+
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):
 		dir.remove("save_04.sav")

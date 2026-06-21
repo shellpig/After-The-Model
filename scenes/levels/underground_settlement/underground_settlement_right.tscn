@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="walk6"]
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="walk8"]
+[ext_resource type="Texture2D" uid="uid://dctlbkpjlsjlq" path="res://assets/generated/sprites/wu/idle/wu-idle-single-20260621-143147/idle_512h_cropped.png" id="wu_idle_sprite"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4352, 16)
@@ -27,6 +28,17 @@ size = Vector2(130, 360)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_flavor"]
 size = Vector2(120, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("wu_idle_sprite")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -178,6 +190,24 @@ prompt_text = "E: █ 聽收音機底噪"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/RadioNoiseArea" unique_id=203781222]
 position = Vector2(3046, 714)
 shape = SubResource("RectangleShape2D_flavor")
+
+[node name="NpcWu" type="Area2D" parent="Interactables" unique_id=1849990371]
+position = Vector2(1961, -19)
+script = ExtResource("3_interactable")
+interaction_id = "talk_wu"
+prompt_text = "E: █ 與伍姐交談"
+dialogue_id = "wu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/NpcWu" unique_id=102428718]
+position = Vector2(0, 705)
+shape = SubResource("RectangleShape2D_flavor")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Interactables/NpcWu" unique_id=1285525908]
+position = Vector2(0, 717)
+scale = Vector2(0.45, 0.45)
+sprite_frames = SubResource("SpriteFrames_wu")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=458641328]
 position = Vector2(180, 870)

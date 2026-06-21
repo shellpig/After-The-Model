@@ -142,6 +142,7 @@ func transition_to(scene_id: String, entry_point_id: String = "", payload: Dicti
 		
 	# Clear old level context and children from WorldRoot
 	game_ui.clear_world_context()
+	game_ui.hide_prompt()   # 切場景時清掉上一場景殘留的互動提示
 	for child in world_root.get_children():
 		if child.has_signal("current_interactable_changed") and child.current_interactable_changed.is_connected(_on_level_current_interactable_changed):
 			child.current_interactable_changed.disconnect(_on_level_current_interactable_changed)

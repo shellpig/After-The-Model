@@ -111,6 +111,14 @@ func _ready() -> void:
 
 	_start_ambience()
 	_setup_billboards()
+	_update_subway_entrance_state()
+
+func _update_subway_entrance_state() -> void:
+	var west_area = $Interactables.get_node_or_null("TravelStreetWestArea")
+	if west_area:
+		var collision = west_area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+		if collision:
+			collision.disabled = not GameState.get_flag("lu_hinted_topside", false)
 
 func _start_ambience() -> void:
 	if ambient_rain.stream and "loop" in ambient_rain.stream:

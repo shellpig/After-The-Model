@@ -7,6 +7,7 @@ const WanDialogue = preload("res://data/dialogue/wan.gd")
 const StoreRobotDialogue = preload("res://data/dialogue/store_robot.gd")
 const StoreRegistryHostDialogue = preload("res://data/dialogue/store_registry_host.gd")
 const TravelStreetEastDialogue = preload("res://data/dialogue/travel_street_east.gd")
+const TravelStreetWestDialogue = preload("res://data/dialogue/travel_street_west.gd")
 const LuQichenDialogue = preload("res://data/dialogue/lu_qichen.gd")
 
 const TREES := {
@@ -14,6 +15,7 @@ const TREES := {
 	"store_robot": StoreRobotDialogue.TREE,
 	"store_registry_host": StoreRegistryHostDialogue.TREE,
 	"travel_street_east": TravelStreetEastDialogue.TREE,
+	"travel_street_west": TravelStreetWestDialogue.TREE,
 	"lu_qichen": LuQichenDialogue.TREE
 }
 

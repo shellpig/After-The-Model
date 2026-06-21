@@ -388,7 +388,7 @@ position = Vector2(3060, 675)
 position = Vector2(3950, 675)
 
 [node name="from_subway" type="Marker2D" parent="SpawnPoints" unique_id=1245430794]
-position = Vector2(3950, 675)
+position = Vector2(120, 675)
 
 [node name="Interactables" type="Node2D" parent="." unique_id=542570424]
 
@@ -474,6 +474,17 @@ dialogue_id = "travel_street_east"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TravelStreetEastArea" unique_id=208123449]
 position = Vector2(4028, 546)
+shape = SubResource("RectangleShape2D_interact_door")
+debug_color = Color(0.1, 0.1, 0.9, 0.42)
+
+[node name="TravelStreetWestArea" type="Area2D" parent="Interactables" unique_id=208123490]
+script = ExtResource("4_interactable")
+interaction_id = "travel_street_west"
+prompt_text = "E: █ 離開街區"
+dialogue_id = "travel_street_west"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TravelStreetWestArea" unique_id=208123491]
+position = Vector2(52, 546)
 shape = SubResource("RectangleShape2D_interact_door")
 debug_color = Color(0.1, 0.1, 0.9, 0.42)
 

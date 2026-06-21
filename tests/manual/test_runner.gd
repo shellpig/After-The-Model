@@ -499,8 +499,9 @@ func _ready() -> void:
 		printerr("FAIL 10-C-1: BillboardScreen has no ShaderMaterial!")
 		get_tree().quit(1)
 		return
-	# Carousel: at least two ad stills must load, and the glitch uniform must exist.
-	var ad_paths = street_instance.BILLBOARD_AD_PATHS
+	var ad_paths := []
+	for carousel in street_instance.BILLBOARD_CAROUSELS:
+		ad_paths.append_array(carousel.get("ads", []))
 	var loaded_ads := 0
 	for ad_path in ad_paths:
 		if ResourceLoader.exists(ad_path):
@@ -7231,7 +7232,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	var travel_tree15 = DialogueDB.get_tree_for("travel_street_east")
+	var travel_tree15 = DialogueDB.get_tree_for("travel_street_west")
 	GameState.reset_for_new_game()
 	var travel_runner15_locked = DialogueRunner.new()
 	travel_runner15_locked.start(travel_tree15)
@@ -7252,7 +7253,7 @@ func _ready() -> void:
 		printerr("FAIL 15: subway travel choice should appear after lu_hinted_topside!")
 		get_tree().quit(1)
 		return
-	travel_runner15_unlocked.choose(1)
+	travel_runner15_unlocked.choose(0)
 	if travel_runner15_unlocked.pending_travel.get("scene_id", "") != "subway_station" or travel_runner15_unlocked.pending_travel.get("entry_point_id", "") != "from_street":
 		printerr("FAIL 15: subway travel payload wrong: ", travel_runner15_unlocked.pending_travel)
 		get_tree().quit(1)

@@ -248,7 +248,7 @@ centered = false
 [node name="BillboardScreen" type="Polygon2D" parent="." unique_id=1101010001]
 material = SubResource("ShaderMaterial_billboard")
 texture = ExtResource("ext_billboard_tex")
-polygon = PackedVector2Array(1198, 58, 1322, 76, 1323, 131, 1198, 115)
+polygon = PackedVector2Array(1198, 58, 1322, 76, 1323, 135, 1198, 119)
 uv = PackedVector2Array(0, 0, 2912, 0, 2912, 1440, 0, 1440)
 
 [node name="GlowLayers" type="Node2D" parent="." unique_id=1102010001]

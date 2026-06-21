@@ -1,0 +1,59 @@
+{
+  "raw_source": "C:\\Users\\User\\.codex\\generated_images\\019eea21-4071-7933-ba5b-3303dca6576e\\ig_0bc31d81ef270534016a37dd507e388191b22c684cfaf80908.png",
+  "final": "assets/generated/sprites/seven/idle/seven-idle-redraw-candidate-20260621-203000/idle_512h_cropped.png",
+  "qc": {
+    "assets/generated/sprites/cen/idle/cen-idle-outline-candidate-20260621-203000/idle_512h_cropped.png": {
+      "size": [
+        160,
+        512
+      ],
+      "magenta_like": 0,
+      "opaque_magenta_like": 0
+    },
+    "assets/generated/sprites/wu/idle/wu-idle-outline-candidate-20260621-203000/idle_512h_cropped.png": {
+      "size": [
+        349,
+        512
+      ],
+      "magenta_like": 0,
+      "opaque_magenta_like": 0
+    },
+    "assets/generated/sprites/seven/idle/seven-idle-redraw-candidate-20260621-203000/idle_512h_cropped.png": {
+      "size": [
+        149,
+        512
+      ],
+      "magenta_like": 0,
+      "opaque_magenta_like": 0
+    }
+  },
+  "mirrored_final": "assets/generated/sprites/seven/idle/seven-idle-redraw-candidate-20260621-203000/idle_512h_cropped_facing_left.png",
+  "mirrored_preview": "assets/generated/sprites/seven/idle/seven-idle-redraw-candidate-20260621-203000/preview-dark-facing-left.png",
+  "final_review": "assets/generated/sprites/seven/idle/seven-idle-redraw-candidate-20260621-203000/npc-idle-final-review-facing-left.png",
+  "final_qc_after_mirror": {
+    "assets/generated/sprites/cen/idle/cen-idle-outline-candidate-20260621-203000/idle_512h_cropped.png": {
+      "size": [
+        160,
+        512
+      ],
+      "magenta_like": 0,
+      "opaque_magenta_like": 0
+    },
+    "assets/generated/sprites/wu/idle/wu-idle-outline-candidate-20260621-203000/idle_512h_cropped.png": {
+      "size": [
+        349,
+        512
+      ],
+      "magenta_like": 0,
+      "opaque_magenta_like": 0
+    },
+    "assets/generated/sprites/seven/idle/seven-idle-redraw-candidate-20260621-203000/idle_512h_cropped_facing_left.png": {
+      "size": [
+        149,
+        512
+      ],
+      "magenta_like": 0,
+      "opaque_magenta_like": 0
+    }
+  }
+}

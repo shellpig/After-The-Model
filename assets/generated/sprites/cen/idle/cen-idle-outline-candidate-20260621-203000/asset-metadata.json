@@ -1,0 +1,13 @@
+{
+  "source": "assets/generated/sprites/cen/idle/cen-idle-single-20260621-141901/idle_512h_cropped.png",
+  "operation": "alpha silhouette black outer outline only; no redraw",
+  "outline_px": 4,
+  "final_size": [
+    160,
+    512
+  ],
+  "magenta_pixels": [
+    0,
+    0
+  ]
+}

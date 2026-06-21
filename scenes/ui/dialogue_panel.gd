@@ -60,6 +60,12 @@ func start_dialogue(dialogue_id: String) -> void:
 			portrait_rect.texture = load(img_path)
 		else:
 			portrait_rect.texture = null
+	elif dialogue_id == "cen":
+		var img_path = "res://assets/generated/sprites/cen/dialogue_portrait/cen-dialogue-portrait-20260621-141759/portrait.png"
+		if ResourceLoader.exists(img_path):
+			portrait_rect.texture = load(img_path)
+		else:
+			portrait_rect.texture = null
 	else:
 		portrait_rect.texture = null
 

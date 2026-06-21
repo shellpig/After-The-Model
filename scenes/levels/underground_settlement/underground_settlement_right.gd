@@ -12,7 +12,9 @@ const MAP_WIDTH := 4352.0
 const MESSAGES := {
 	"deep_tunnel": "更深的隧道口被臨時封住，封條上寫著維修中。牆面有被機械刮過的痕跡，乾淨、筆直，像某種東西每天都會準時經過。",
 	"right_shelter": "這一側比入口安靜，電線沿著牆根爬行。幾盞燈被調得很暗，像住在這裡的人不想讓上面的人看見。",
-	"sealed_maintenance": "維修門被舊金屬板封住，板縫裡卡著被磨碎的塑膠片。有人反覆修補過這裡，也有人反覆想從這裡過去。"
+	"sealed_maintenance": "維修門被舊金屬板封住，板縫裡卡著被磨碎的塑膠片。有人反覆修補過這裡，也有人反覆想從這裡過去。",
+	"water_power": "淨水站和發電機被接在同一組舊線路上。接頭處纏著不同顏色的膠帶，修補得粗糙，卻不是外行人的手法。",
+	"radio_noise": "收音機埋在一堆線材後面，只剩底噪在播。雜訊裡偶爾浮出一段旋律，像有人把一首歌藏進牆裡，怕它被找到。"
 }
 
 @onready var player: CharacterBody2D = $Player
@@ -75,7 +77,7 @@ func _trigger_interaction() -> void:
 	match current_interactable.interaction_id:
 		"go_left":
 			scene_transition_requested.emit("underground_settlement", "from_right", {})
-		"deep_tunnel", "right_shelter", "sealed_maintenance":
+		"deep_tunnel", "right_shelter", "sealed_maintenance", "water_power", "radio_noise":
 			interaction_requested.emit({
 				"type": "message",
 				"message_text": MESSAGES[current_interactable.interaction_id]

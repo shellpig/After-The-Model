@@ -7341,6 +7341,127 @@ func _ready() -> void:
 
 	print("PASS: Phase 15 split-map routing and scene skeleton verified.")
 
+	# ----------------------------------------------------
+	# Phase 16 Verification (16-A)
+	# ----------------------------------------------------
+	print("Running Phase 16 NPC dialogue verification (16-A Cen)...")
+	var cen_tree = DialogueDB.get_tree_for("cen")
+	if cen_tree.is_empty():
+		printerr("FAIL 16: Dialogue tree 'cen' not found or empty!")
+		get_tree().quit(1)
+		return
+	
+	for node_name in cen_tree:
+		var node = cen_tree[node_name]
+		var text = node.get("text", "")
+		if "林" + "霏" in text:
+			printerr("FAIL 16: 'cen' tree node '", node_name, "' contains forbidden string!")
+			get_tree().quit(1)
+			return
+
+	GameState.reset_for_new_game()
+	var runner_cen := DialogueRunner.new()
+	runner_cen.start(cen_tree)
+	
+	curr_node = runner_cen.current()
+	if curr_node.get("speaker", "") != "小岑" or not "新來的？" in curr_node.get("text", ""):
+		printerr("FAIL 16: Initial routing should go to first_meet! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+		
+	runner_cen.choose(0) # goto intro
+	curr_node = runner_cen.current()
+	if not "叫我小岑" in curr_node.get("text", ""):
+		printerr("FAIL 16: Choice 0 should route to intro! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+	
+	if not GameState.get_flag("met_cen", false) or GameState.get_flag("affinity_cen", 0) != 1:
+		printerr("FAIL 16: intro effects failed! met_cen: ", GameState.get_flag("met_cen", false), " affinity_cen: ", GameState.get_flag("affinity_cen", 0))
+		get_tree().quit(1)
+		return
+		
+	runner_cen.advance()
+	curr_node = runner_cen.current()
+	if not "真撿到吃的" in curr_node.get("text", ""):
+		printerr("FAIL 16: intro should goto end_warm! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+		
+	# Path B: pickpocket_caught
+	GameState.reset_for_new_game()
+	runner_cen = DialogueRunner.new()
+	runner_cen.start(cen_tree)
+	runner_cen.choose(2) # Option 2
+	curr_node = runner_cen.current()
+	if not "手快一點才不會餓死" in curr_node.get("text", ""):
+		printerr("FAIL 16: Choice 2 should route to pickpocket_caught! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+	if not GameState.get_flag("met_cen", false):
+		printerr("FAIL 16: pickpocket_caught should set met_cen = true!")
+		get_tree().quit(1)
+		return
+		
+	# Path C: retalk
+	runner_cen = DialogueRunner.new()
+	runner_cen.start(cen_tree)
+	curr_node = runner_cen.current()
+	if not "又是你。" in curr_node.get("text", ""):
+		printerr("FAIL 16: routing with met_cen=true should go to retalk! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+		
+	var prev_affinity = GameState.get_flag("affinity_cen", 0)
+	runner_cen.choose(0) # 來看看你
+	curr_node = runner_cen.current()
+	if not "真撿到吃的" in curr_node.get("text", ""):
+		printerr("FAIL 16: retalk choice 0 should route to end_warm! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_cen", 0) != prev_affinity + 1:
+		printerr("FAIL 16: retalk choice 0 should increase affinity_cen! Got: ", GameState.get_flag("affinity_cen", 0))
+		get_tree().quit(1)
+		return
+
+	# Assert cen portrait path is wired
+	var dp_scene = load("res://scenes/ui/dialogue_panel.tscn")
+	if dp_scene:
+		var dp_inst = dp_scene.instantiate()
+		add_child(dp_inst)
+		dp_inst.start_dialogue("cen")
+		if dp_inst.portrait_rect.texture == null:
+			printerr("FAIL 16: cen dialogue portrait texture is null!")
+			get_tree().quit(1)
+			return
+		dp_inst.free()
+
+	# Verify NpcCen node setup in underground_settlement.tscn
+	var settlement_scene16 = load("res://scenes/levels/underground_settlement/underground_settlement.tscn")
+	var settlement_inst16 = settlement_scene16.instantiate()
+	var npc_cen = settlement_inst16.get_node_or_null("Interactables/NpcCen")
+	if npc_cen == null:
+		printerr("FAIL 16: Interactables/NpcCen node missing in underground_settlement.tscn!")
+		get_tree().quit(1)
+		return
+	if npc_cen.interaction_id != "talk_cen" or npc_cen.dialogue_id != "cen":
+		printerr("FAIL 16: NpcCen node properties wrong! ID: ", npc_cen.interaction_id, " Dialogue: ", npc_cen.dialogue_id)
+		get_tree().quit(1)
+		return
+	
+	if npc_cen.get_node_or_null("CollisionShape2D") == null:
+		printerr("FAIL 16: NpcCen missing CollisionShape2D!")
+		get_tree().quit(1)
+		return
+	var npc_sprite = npc_cen.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+	if npc_sprite == null or npc_sprite.sprite_frames == null or not npc_sprite.sprite_frames.has_animation("idle"):
+		printerr("FAIL 16: NpcCen missing AnimatedSprite2D or idle animation!")
+		get_tree().quit(1)
+		return
+	settlement_inst16.free()
+
+	print("PASS: Phase 16 NPC dialogue verification (16-A Cen) verified.")
+
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):
 		dir.remove("save_04.sav")

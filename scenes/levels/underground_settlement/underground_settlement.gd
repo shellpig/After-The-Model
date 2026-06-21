@@ -11,8 +11,6 @@ const MAP_WIDTH := 4352.0
 
 const MESSAGES := {
 	"empty_tent": "空帳篷的拉鍊沒拉好，裡面只剩一條折到一半的毯子和幾個被踩扁的濾水包。這裡有人住過，而且離開得很急。",
-	"water_power": "淨水站和發電機被接在同一組舊線路上。接頭處纏著不同顏色的膠帶，修補得粗糙，卻不是外行人的手法。",
-	"radio_noise": "收音機埋在一堆線材後面，只剩底噪在播。雜訊裡偶爾浮出一段旋律，像有人把一首歌藏進牆裡，怕它被找到。",
 	"settlement_center": "聚落中央空出一圈位置，沒有招牌，也沒有正式邊界。人們用破布、延長線和沉默把這裡劃成了可以暫時活下去的地方。"
 }
 
@@ -74,12 +72,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		_trigger_interaction()
 
 func _trigger_interaction() -> void:
+	if current_interactable.dialogue_id != "":
+		interaction_requested.emit({
+			"type": "dialogue",
+			"dialogue_id": current_interactable.dialogue_id
+		})
+		return
+
 	match current_interactable.interaction_id:
 		"exit_to_subway":
 			scene_transition_requested.emit("subway_station_platform", "from_settlement", {})
 		"go_right":
 			scene_transition_requested.emit("underground_settlement_right", "from_left", {})
-		"empty_tent", "water_power", "radio_noise", "settlement_center":
+		"empty_tent", "settlement_center":
 			interaction_requested.emit({
 				"type": "message",
 				"message_text": MESSAGES[current_interactable.interaction_id]

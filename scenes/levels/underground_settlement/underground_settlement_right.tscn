@@ -1,23 +1,23 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://byfpl8oah8q61"]
 
-[ext_resource type="Script" path="res://scenes/levels/underground_settlement/underground_settlement_right.gd" id="1_script"]
-[ext_resource type="Script" path="res://scenes/actors/player/player.gd" id="2_player"]
-[ext_resource type="Script" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
-[ext_resource type="Texture2D" path="res://assets/generated/maps/underground_settlement/underground-settlement-right.png" id="4_map"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="jumpf4"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="walk1"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="walk2"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="walk3"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="walk4"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="walk5"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="walk6"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="walk7"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="walk8"]
+[ext_resource type="Script" uid="uid://c57x3rd1qfg8t" path="res://scenes/levels/underground_settlement/underground_settlement_right.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_player"]
+[ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
+[ext_resource type="Texture2D" uid="uid://cqg4lo5mtfwgv" path="res://assets/generated/maps/underground_settlement/underground-settlement-right.png" id="4_map"]
+[ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
+[ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
+[ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
+[ext_resource type="Texture2D" uid="uid://cqlevyto1pcct" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="jumpf4"]
+[ext_resource type="Texture2D" uid="uid://dr0483468d6l7" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
+[ext_resource type="Texture2D" uid="uid://xvrwlgw2fiwr" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
+[ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="walk1"]
+[ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="walk2"]
+[ext_resource type="Texture2D" uid="uid://bex22wmsbwi1m" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="walk3"]
+[ext_resource type="Texture2D" uid="uid://sofbn2kttwre" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="walk4"]
+[ext_resource type="Texture2D" uid="uid://dutevb0poruvl" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="walk5"]
+[ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="walk6"]
+[ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="walk7"]
+[ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="walk8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4352, 16)
@@ -30,17 +30,62 @@ size = Vector2(120, 300)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
-"frames": [{"duration": 1.0, "texture": ExtResource("jumpf1")}, {"duration": 1.0, "texture": ExtResource("jumpf2")}, {"duration": 1.0, "texture": ExtResource("jumpf3")}, {"duration": 1.0, "texture": ExtResource("jumpf4")}, {"duration": 1.0, "texture": ExtResource("jumpf5")}, {"duration": 1.0, "texture": ExtResource("jumpf6")}],
-"loop": false,
-"name": &"jump",
-"speed": 11.0
-}, {
-"frames": [{"duration": 1.0, "texture": ExtResource("walk2")}],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk2")
+}],
 "loop": true,
 "name": &"idle",
 "speed": 5.0
 }, {
-"frames": [{"duration": 1.0, "texture": ExtResource("walk1")}, {"duration": 1.0, "texture": ExtResource("walk2")}, {"duration": 1.0, "texture": ExtResource("walk3")}, {"duration": 1.0, "texture": ExtResource("walk4")}, {"duration": 1.0, "texture": ExtResource("walk5")}, {"duration": 1.0, "texture": ExtResource("walk6")}, {"duration": 1.0, "texture": ExtResource("walk7")}, {"duration": 1.0, "texture": ExtResource("walk8")}],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("jumpf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf6")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 11.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk8")
+}],
 "loop": true,
 "name": &"walk",
 "speed": 8.0
@@ -49,14 +94,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(24, 454)
 
-[node name="UndergroundSettlementRight" type="Node2D"]
+[node name="UndergroundSettlementRight" type="Node2D" unique_id=2143793548]
 script = ExtResource("1_script")
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="." unique_id=286433412]
 texture = ExtResource("4_map")
 centered = false
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1663688666]
 position = Vector2(640, 600)
 limit_left = 0
 limit_top = 0
@@ -65,58 +110,76 @@ limit_bottom = 960
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
-[node name="Collision" type="Node2D" parent="."]
+[node name="Collision" type="Node2D" parent="." unique_id=1554008162]
 
-[node name="Ground" type="StaticBody2D" parent="Collision"]
+[node name="Ground" type="StaticBody2D" parent="Collision" unique_id=2088152457]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground" unique_id=1488124909]
 position = Vector2(2176, 878)
 shape = SubResource("RectangleShape2D_ground")
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=922880454]
 
-[node name="from_left" type="Marker2D" parent="SpawnPoints"]
+[node name="from_left" type="Marker2D" parent="SpawnPoints" unique_id=2093496512]
 position = Vector2(180, 870)
 
-[node name="Interactables" type="Node2D" parent="."]
+[node name="Interactables" type="Node2D" parent="." unique_id=1481203313]
 
-[node name="GoLeftArea" type="Area2D" parent="Interactables"]
+[node name="GoLeftArea" type="Area2D" parent="Interactables" unique_id=194427120]
 script = ExtResource("3_interactable")
 interaction_id = "go_left"
 prompt_text = "E: █ 回到聚落左區"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GoLeftArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GoLeftArea" unique_id=1514453442]
 position = Vector2(150, 700)
 shape = SubResource("RectangleShape2D_transition")
 
-[node name="RightShelterArea" type="Area2D" parent="Interactables"]
+[node name="RightShelterArea" type="Area2D" parent="Interactables" unique_id=866112171]
 script = ExtResource("3_interactable")
 interaction_id = "right_shelter"
 prompt_text = "E: █ 觀察住處"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/RightShelterArea"]
-position = Vector2(1180, 705)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/RightShelterArea" unique_id=427632760]
+position = Vector2(2755, 714)
 shape = SubResource("RectangleShape2D_flavor")
 
-[node name="SealedMaintenanceArea" type="Area2D" parent="Interactables"]
+[node name="SealedMaintenanceArea" type="Area2D" parent="Interactables" unique_id=737391447]
 script = ExtResource("3_interactable")
 interaction_id = "sealed_maintenance"
 prompt_text = "E: █ 查看維修門"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/SealedMaintenanceArea"]
-position = Vector2(2500, 705)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/SealedMaintenanceArea" unique_id=1859732559]
+position = Vector2(925, 717)
 shape = SubResource("RectangleShape2D_flavor")
 
-[node name="DeepTunnelArea" type="Area2D" parent="Interactables"]
+[node name="DeepTunnelArea" type="Area2D" parent="Interactables" unique_id=1275398128]
 script = ExtResource("3_interactable")
 interaction_id = "deep_tunnel"
 prompt_text = "E: █ 查看更深隧道口"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeepTunnelArea"]
-position = Vector2(3750, 705)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeepTunnelArea" unique_id=1435778254]
+position = Vector2(3814, 716)
 shape = SubResource("RectangleShape2D_flavor")
 
-[node name="Player" type="CharacterBody2D" parent="."]
+[node name="WaterPowerArea" type="Area2D" parent="Interactables" unique_id=1686886843]
+script = ExtResource("3_interactable")
+interaction_id = "water_power"
+prompt_text = "E: █ 查看淨水站"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WaterPowerArea" unique_id=1909146719]
+position = Vector2(1440, 714)
+shape = SubResource("RectangleShape2D_flavor")
+
+[node name="RadioNoiseArea" type="Area2D" parent="Interactables" unique_id=777253367]
+script = ExtResource("3_interactable")
+interaction_id = "radio_noise"
+prompt_text = "E: █ 聽收音機底噪"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/RadioNoiseArea" unique_id=203781222]
+position = Vector2(3046, 714)
+shape = SubResource("RectangleShape2D_flavor")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=458641328]
 position = Vector2(180, 870)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_player")
@@ -124,11 +187,11 @@ min_x = 120.0
 max_x = 4210.0
 walk_line_y = 870.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1367417490]
 position = Vector2(20, -184)
 sprite_frames = SubResource("SpriteFrames_player")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1803669547]
 position = Vector2(30, -221)
 shape = SubResource("RectangleShape2D_player")

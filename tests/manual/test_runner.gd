@@ -7194,6 +7194,140 @@ func _ready() -> void:
 
 	print("PASS: Phase 14-D regression + save/load verified.")
 
+	# ----------------------------------------------------
+	# Phase 15 Verification
+	# ----------------------------------------------------
+	print("Running Phase 15 map scene tests...")
+	var MainClass15 = load("res://scenes/main/main.gd")
+	var scenes15: Dictionary = MainClass15.SCENES
+	var required_phase15_scenes := ["subway_station", "subway_station_platform", "underground_settlement", "underground_settlement_right"]
+	for scene_id in required_phase15_scenes:
+		if not scenes15.has(scene_id):
+			printerr("FAIL 15: SCENES missing ", scene_id)
+			get_tree().quit(1)
+			return
+	if not scenes15["apartment_entrance"].get("entry_points", []).has("from_subway"):
+		printerr("FAIL 15: apartment_entrance missing from_subway entry point!")
+		get_tree().quit(1)
+		return
+	if scenes15["subway_station"].get("entry_points", []) != ["from_street", "from_platform"]:
+		printerr("FAIL 15: subway_station entry points wrong: ", scenes15["subway_station"].get("entry_points", []))
+		get_tree().quit(1)
+		return
+	if scenes15["subway_station_platform"].get("entry_points", []) != ["from_concourse", "from_settlement"]:
+		printerr("FAIL 15: subway_station_platform entry points wrong: ", scenes15["subway_station_platform"].get("entry_points", []))
+		get_tree().quit(1)
+		return
+	if scenes15["underground_settlement"].get("entry_points", []) != ["from_subway", "from_right"]:
+		printerr("FAIL 15: underground_settlement entry points wrong: ", scenes15["underground_settlement"].get("entry_points", []))
+		get_tree().quit(1)
+		return
+	if scenes15["underground_settlement_right"].get("entry_points", []) != ["from_left"]:
+		printerr("FAIL 15: underground_settlement_right entry points wrong: ", scenes15["underground_settlement_right"].get("entry_points", []))
+		get_tree().quit(1)
+		return
+	if SaveSystem.get_scene_display_name("underground_settlement_right") == "未知區域":
+		printerr("FAIL 15: SaveSystem scene names missing Phase 15 scenes!")
+		get_tree().quit(1)
+		return
+
+	var travel_tree15 = DialogueDB.get_tree_for("travel_street_east")
+	GameState.reset_for_new_game()
+	var travel_runner15_locked = DialogueRunner.new()
+	travel_runner15_locked.start(travel_tree15)
+	var locked_labels := []
+	for choice in travel_runner15_locked.current().get("choices", []):
+		locked_labels.append(choice.get("label", ""))
+	if locked_labels.has("前往地鐵站"):
+		printerr("FAIL 15: subway travel choice should be hidden before lu_hinted_topside!")
+		get_tree().quit(1)
+		return
+	GameState.set_flag("lu_hinted_topside", true)
+	var travel_runner15_unlocked = DialogueRunner.new()
+	travel_runner15_unlocked.start(travel_tree15)
+	var unlocked_labels := []
+	for choice in travel_runner15_unlocked.current().get("choices", []):
+		unlocked_labels.append(choice.get("label", ""))
+	if not unlocked_labels.has("前往地鐵站"):
+		printerr("FAIL 15: subway travel choice should appear after lu_hinted_topside!")
+		get_tree().quit(1)
+		return
+	travel_runner15_unlocked.choose(1)
+	if travel_runner15_unlocked.pending_travel.get("scene_id", "") != "subway_station" or travel_runner15_unlocked.pending_travel.get("entry_point_id", "") != "from_street":
+		printerr("FAIL 15: subway travel payload wrong: ", travel_runner15_unlocked.pending_travel)
+		get_tree().quit(1)
+		return
+
+	var scene_specs15 := {
+		"subway_station": {"path": "res://scenes/levels/subway_station/subway_station.tscn", "right": 1376, "bottom": 768, "spawns": ["from_street", "from_platform"]},
+		"subway_station_platform": {"path": "res://scenes/levels/subway_station/subway_station_platform.tscn", "right": 4800, "bottom": 896, "spawns": ["from_concourse", "from_settlement"]},
+		"underground_settlement": {"path": "res://scenes/levels/underground_settlement/underground_settlement.tscn", "right": 4352, "bottom": 960, "spawns": ["from_subway", "from_right"]},
+		"underground_settlement_right": {"path": "res://scenes/levels/underground_settlement/underground_settlement_right.tscn", "right": 4352, "bottom": 960, "spawns": ["from_left"]}
+	}
+	for scene_id in scene_specs15:
+		var spec: Dictionary = scene_specs15[scene_id]
+		var packed15 = load(spec["path"])
+		if not packed15:
+			printerr("FAIL 15: Could not load ", spec["path"])
+			get_tree().quit(1)
+			return
+		var inst15 = packed15.instantiate()
+		var bg15 = inst15.get_node_or_null("Background") as Sprite2D
+		if bg15 == null or bg15.texture == null:
+			printerr("FAIL 15: Background texture missing in ", scene_id)
+			get_tree().quit(1)
+			return
+		var cam15 = inst15.get_node_or_null("Camera2D") as Camera2D
+		if cam15 == null or cam15.limit_right != spec["right"] or cam15.limit_bottom != spec["bottom"]:
+			printerr("FAIL 15: Camera bounds wrong in ", scene_id)
+			get_tree().quit(1)
+			return
+		for spawn_id in spec["spawns"]:
+			if inst15.get_node_or_null("SpawnPoints/" + spawn_id) == null:
+				printerr("FAIL 15: Missing spawn ", spawn_id, " in ", scene_id)
+				get_tree().quit(1)
+				return
+		inst15.free()
+
+	var transition_specs15 := [
+		{"path": "res://scenes/levels/subway_station/subway_station.tscn", "area": "Interactables/ExitToStreetArea", "scene": "apartment_entrance", "entry": "from_subway"},
+		{"path": "res://scenes/levels/subway_station/subway_station.tscn", "area": "Interactables/GateToPlatformArea", "scene": "subway_station_platform", "entry": "from_concourse"},
+		{"path": "res://scenes/levels/subway_station/subway_station_platform.tscn", "area": "Interactables/ExitToStreetArea", "scene": "subway_station", "entry": "from_platform"},
+		{"path": "res://scenes/levels/subway_station/subway_station_platform.tscn", "area": "Interactables/StairsToSettlementArea", "scene": "underground_settlement", "entry": "from_subway"},
+		{"path": "res://scenes/levels/underground_settlement/underground_settlement.tscn", "area": "Interactables/ExitToSubwayArea", "scene": "subway_station_platform", "entry": "from_settlement"},
+		{"path": "res://scenes/levels/underground_settlement/underground_settlement.tscn", "area": "Interactables/GoRightArea", "scene": "underground_settlement_right", "entry": "from_left"},
+		{"path": "res://scenes/levels/underground_settlement/underground_settlement_right.tscn", "area": "Interactables/GoLeftArea", "scene": "underground_settlement", "entry": "from_right"}
+	]
+	for spec in transition_specs15:
+		var packed_transition = load(spec["path"])
+		var inst_transition = packed_transition.instantiate()
+		var captured := {}
+		inst_transition.scene_transition_requested.connect(func(scene_id: String, entry_point_id: String, payload: Dictionary):
+			captured["scene"] = scene_id
+			captured["entry"] = entry_point_id
+		)
+		inst_transition.current_interactable = inst_transition.get_node(spec["area"])
+		inst_transition._trigger_interaction()
+		if captured.get("scene", "") != spec["scene"] or captured.get("entry", "") != spec["entry"]:
+			printerr("FAIL 15: Transition mismatch for ", spec["area"], ": ", captured)
+			get_tree().quit(1)
+			return
+		inst_transition.free()
+
+	GameState.reset_for_new_game()
+	var settlement_scene15 = load("res://scenes/levels/underground_settlement/underground_settlement.tscn")
+	var settlement_inst15 = settlement_scene15.instantiate()
+	add_child(settlement_inst15)
+	await get_tree().process_frame
+	if not GameState.get_flag("reached_settlement", false):
+		printerr("FAIL 15: entering underground_settlement should set reached_settlement!")
+		get_tree().quit(1)
+		return
+	settlement_inst15.free()
+	await get_tree().process_frame
+
+	print("PASS: Phase 15 split-map routing and scene skeleton verified.")
+
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):
 		dir.remove("save_04.sav")

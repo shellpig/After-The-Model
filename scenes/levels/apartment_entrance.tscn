@@ -342,6 +342,9 @@ position = Vector2(3060, 675)
 [node name="from_collector_shop" type="Marker2D" parent="SpawnPoints" unique_id=1399035965]
 position = Vector2(3950, 675)
 
+[node name="from_subway" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(3950, 675)
+
 [node name="Interactables" type="Node2D" parent="." unique_id=542570424]
 
 [node name="BackToApartmentArea" type="Area2D" parent="Interactables" unique_id=70679196]

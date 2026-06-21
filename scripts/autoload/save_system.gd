@@ -12,7 +12,11 @@ const SCENE_NAMES := {
 	"apartment_entrance": "公寓入口",
 	"convenience_store": "便利商店",
 	"apartment_fire_escape": "火逃梯外牆",
-	"collector_shop": "收藏家的店"
+	"collector_shop": "收藏家的店",
+	"subway_station": "地鐵站入口",
+	"subway_station_platform": "地鐵站月台",
+	"underground_settlement": "地下道聚落",
+	"underground_settlement_right": "地下道聚落右區"
 }
 
 func capture(scene_id: String, player_x: float, facing := 1) -> Dictionary:
@@ -103,3 +107,4 @@ func _slot_path(slot: int) -> String:
 
 func get_scene_display_name(scene_id: String) -> String:
 	return SCENE_NAMES.get(scene_id, "未知區域")
+

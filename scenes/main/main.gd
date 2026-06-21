@@ -10,7 +10,7 @@ const SCENES := {
 	"apartment_entrance": {
 		"path": "res://scenes/levels/apartment_entrance.tscn",
 		"default_entry_point_id": "from_apartment",
-		"entry_points": ["from_apartment", "from_store", "from_collector_shop"],
+		"entry_points": ["from_apartment", "from_store", "from_collector_shop", "from_subway"],
 		"music_id": "street_rain"
 	},
 	"convenience_store": {
@@ -30,6 +30,30 @@ const SCENES := {
 		"default_entry_point_id": "from_street",
 		"entry_points": ["from_street"],
 		"music_id": "collector_shop"
+	},
+	"subway_station": {
+		"path": "res://scenes/levels/subway_station/subway_station.tscn",
+		"default_entry_point_id": "from_street",
+		"entry_points": ["from_street", "from_platform"],
+		"music_id": "subway_station"
+	},
+	"subway_station_platform": {
+		"path": "res://scenes/levels/subway_station/subway_station_platform.tscn",
+		"default_entry_point_id": "from_concourse",
+		"entry_points": ["from_concourse", "from_settlement"],
+		"music_id": "subway_station"
+	},
+	"underground_settlement": {
+		"path": "res://scenes/levels/underground_settlement/underground_settlement.tscn",
+		"default_entry_point_id": "from_subway",
+		"entry_points": ["from_subway", "from_right"],
+		"music_id": "underground_settlement"
+	},
+	"underground_settlement_right": {
+		"path": "res://scenes/levels/underground_settlement/underground_settlement_right.tscn",
+		"default_entry_point_id": "from_left",
+		"entry_points": ["from_left"],
+		"music_id": "underground_settlement"
 	}
 }
 
@@ -374,3 +398,4 @@ func duck_ambient(on: bool, fade_duration: float = 0.3) -> void:
 		)
 	else:
 		AudioServer.set_bus_volume_db(_ambient_bus_idx, target_db)
+

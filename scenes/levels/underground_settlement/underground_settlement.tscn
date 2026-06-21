@@ -133,7 +133,7 @@ shape = SubResource("RectangleShape2D_ground")
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=809460210]
 
 [node name="from_subway" type="Marker2D" parent="SpawnPoints" unique_id=1628796498]
-position = Vector2(180, 870)
+position = Vector2(1279, 845)
 
 [node name="from_right" type="Marker2D" parent="SpawnPoints" unique_id=35102972]
 position = Vector2(4070, 870)
@@ -146,7 +146,7 @@ interaction_id = "exit_to_subway"
 prompt_text = "E: █ 回到地鐵站台"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToSubwayArea" unique_id=2122291886]
-position = Vector2(150, 700)
+position = Vector2(1075, 692)
 shape = SubResource("RectangleShape2D_transition")
 
 [node name="GoRightArea" type="Area2D" parent="Interactables" unique_id=432174261]
@@ -164,7 +164,7 @@ interaction_id = "empty_tent"
 prompt_text = "E: █ 查看空帳篷"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EmptyTentArea" unique_id=323896726]
-position = Vector2(1040, 705)
+position = Vector2(2211, 713)
 shape = SubResource("RectangleShape2D_flavor")
 
 [node name="SettlementCenterArea" type="Area2D" parent="Interactables" unique_id=1652267788]
@@ -188,8 +188,8 @@ position = Vector2(1200, 705)
 shape = SubResource("RectangleShape2D_flavor")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Interactables/NpcCen" unique_id=1359425192]
-position = Vector2(1200, 650)
-scale = Vector2(0.7, 0.7)
+position = Vector2(1200, 654)
+scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_cen")
 animation = &"idle"
 autoplay = "idle"
@@ -200,7 +200,7 @@ scale = Vector2(0.8, 0.8)
 script = ExtResource("2_player")
 min_x = 120.0
 max_x = 4210.0
-walk_line_y = 870.0
+walk_line_y = 893.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1937333503]
 position = Vector2(20, -184)

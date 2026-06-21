@@ -1,23 +1,23 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cvqlfqwup7o8x"]
 
-[ext_resource type="Script" path="res://scenes/levels/subway_station/subway_station.gd" id="1_script"]
-[ext_resource type="Script" path="res://scenes/actors/player/player.gd" id="2_player"]
-[ext_resource type="Script" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
-[ext_resource type="Texture2D" path="res://assets/generated/maps/subway_station/subway-station-concourse.jpeg" id="4_map"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="jumpf4"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="walk1"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="walk2"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="walk3"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="walk4"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="walk5"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="walk6"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="walk7"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="walk8"]
+[ext_resource type="Script" uid="uid://ca0jy44flud5w" path="res://scenes/levels/subway_station/subway_station.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_player"]
+[ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
+[ext_resource type="Texture2D" uid="uid://dn8a47j1b7wkn" path="res://assets/generated/maps/subway_station/subway-station-concourse.jpeg" id="4_map"]
+[ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
+[ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
+[ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
+[ext_resource type="Texture2D" uid="uid://cqlevyto1pcct" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="jumpf4"]
+[ext_resource type="Texture2D" uid="uid://dr0483468d6l7" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
+[ext_resource type="Texture2D" uid="uid://xvrwlgw2fiwr" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
+[ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="walk1"]
+[ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="walk2"]
+[ext_resource type="Texture2D" uid="uid://bex22wmsbwi1m" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="walk3"]
+[ext_resource type="Texture2D" uid="uid://sofbn2kttwre" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="walk4"]
+[ext_resource type="Texture2D" uid="uid://dutevb0poruvl" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="walk5"]
+[ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="walk6"]
+[ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="walk7"]
+[ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="walk8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1376, 16)
@@ -30,17 +30,62 @@ size = Vector2(90, 260)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
-"frames": [{"duration": 1.0, "texture": ExtResource("jumpf1")}, {"duration": 1.0, "texture": ExtResource("jumpf2")}, {"duration": 1.0, "texture": ExtResource("jumpf3")}, {"duration": 1.0, "texture": ExtResource("jumpf4")}, {"duration": 1.0, "texture": ExtResource("jumpf5")}, {"duration": 1.0, "texture": ExtResource("jumpf6")}],
-"loop": false,
-"name": &"jump",
-"speed": 11.0
-}, {
-"frames": [{"duration": 1.0, "texture": ExtResource("walk2")}],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk2")
+}],
 "loop": true,
 "name": &"idle",
 "speed": 5.0
 }, {
-"frames": [{"duration": 1.0, "texture": ExtResource("walk1")}, {"duration": 1.0, "texture": ExtResource("walk2")}, {"duration": 1.0, "texture": ExtResource("walk3")}, {"duration": 1.0, "texture": ExtResource("walk4")}, {"duration": 1.0, "texture": ExtResource("walk5")}, {"duration": 1.0, "texture": ExtResource("walk6")}, {"duration": 1.0, "texture": ExtResource("walk7")}, {"duration": 1.0, "texture": ExtResource("walk8")}],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("jumpf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf6")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 11.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk8")
+}],
 "loop": true,
 "name": &"walk",
 "speed": 8.0
@@ -49,14 +94,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(24, 454)
 
-[node name="SubwayStation" type="Node2D"]
+[node name="SubwayStation" type="Node2D" unique_id=1746158483]
 script = ExtResource("1_script")
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="." unique_id=533715211]
 texture = ExtResource("4_map")
 centered = false
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=257760735]
 position = Vector2(640, 408)
 limit_left = 0
 limit_top = 0
@@ -65,82 +110,81 @@ limit_bottom = 768
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
-[node name="Collision" type="Node2D" parent="."]
+[node name="Collision" type="Node2D" parent="." unique_id=1349642633]
 
-[node name="Ground" type="StaticBody2D" parent="Collision"]
+[node name="Ground" type="StaticBody2D" parent="Collision" unique_id=627504305]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground" unique_id=1363235577]
 position = Vector2(688, 718)
 shape = SubResource("RectangleShape2D_ground")
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=248187689]
 
-[node name="from_street" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(145, 710)
+[node name="from_street" type="Marker2D" parent="SpawnPoints" unique_id=788082434]
+position = Vector2(372, 708)
 
-[node name="from_platform" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1180, 710)
+[node name="from_platform" type="Marker2D" parent="SpawnPoints" unique_id=1669583592]
+position = Vector2(1130, 706)
 
-[node name="Interactables" type="Node2D" parent="."]
+[node name="Interactables" type="Node2D" parent="." unique_id=1802682650]
 
-[node name="ExitToStreetArea" type="Area2D" parent="Interactables"]
+[node name="ExitToStreetArea" type="Area2D" parent="Interactables" unique_id=316902067]
 script = ExtResource("3_interactable")
 interaction_id = "exit_to_street"
 prompt_text = "E: █ 回到街道"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToStreetArea"]
-position = Vector2(95, 585)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToStreetArea" unique_id=697995062]
+position = Vector2(249, 584)
 shape = SubResource("RectangleShape2D_transition")
 
-[node name="GateToPlatformArea" type="Area2D" parent="Interactables"]
+[node name="GateToPlatformArea" type="Area2D" parent="Interactables" unique_id=1988542480]
 script = ExtResource("3_interactable")
 interaction_id = "gate_to_platform"
 prompt_text = "E: █ 通往月台"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GateToPlatformArea"]
-position = Vector2(1260, 585)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GateToPlatformArea" unique_id=866777180]
+position = Vector2(1225, 582)
 shape = SubResource("RectangleShape2D_transition")
 
-[node name="StationSignArea" type="Area2D" parent="Interactables"]
+[node name="StationSignArea" type="Area2D" parent="Interactables" unique_id=1370410198]
 script = ExtResource("3_interactable")
 interaction_id = "station_sign"
 prompt_text = "E: █ 查看站名牌"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StationSignArea"]
-position = Vector2(430, 585)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StationSignArea" unique_id=505680921]
+position = Vector2(490, 586)
 shape = SubResource("RectangleShape2D_flavor")
 
-[node name="DeadKioskArea" type="Area2D" parent="Interactables"]
+[node name="DeadKioskArea" type="Area2D" parent="Interactables" unique_id=1074275788]
 script = ExtResource("3_interactable")
 interaction_id = "dead_kiosk"
 prompt_text = "E: █ 查看售票機"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeadKioskArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeadKioskArea" unique_id=1152818149]
 position = Vector2(735, 585)
 shape = SubResource("RectangleShape2D_flavor")
 
-[node name="FareGateArea" type="Area2D" parent="Interactables"]
+[node name="FareGateArea" type="Area2D" parent="Interactables" unique_id=526848410]
 script = ExtResource("3_interactable")
 interaction_id = "fare_gate"
 prompt_text = "E: █ 查看閘口"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FareGateArea"]
-position = Vector2(1080, 585)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FareGateArea" unique_id=1166107672]
+position = Vector2(1060, 578)
 shape = SubResource("RectangleShape2D_flavor")
 
-[node name="Player" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=736917671]
 position = Vector2(145, 710)
 scale = Vector2(0.75, 0.75)
 script = ExtResource("2_player")
-min_x = 80.0
 max_x = 1290.0
-walk_line_y = 710.0
+walk_line_y = 655.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1557965766]
 position = Vector2(20, -184)
 sprite_frames = SubResource("SpriteFrames_player")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1616915830]
 position = Vector2(30, -221)
 shape = SubResource("RectangleShape2D_player")

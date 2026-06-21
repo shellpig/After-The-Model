@@ -7765,6 +7765,96 @@ func _ready() -> void:
 
 	print("PASS: Phase 16 NPC dialogue verification (16-C Seven) verified.")
 
+	# ----------------------------------------------------
+	# Phase 16 Verification (16-D)
+	# ----------------------------------------------------
+	print("Running Phase 16 NPC dialogue verification (16-D)...")
+	
+	# Set 8 flags to unique values
+	GameState.set_flag("met_cen", true)
+	GameState.set_flag("met_wu", true)
+	GameState.set_flag("met_seven", true)
+	GameState.set_flag("knows_settlement_had_maker", true)
+	GameState.set_flag("seven_hinted_name_topside", true)
+	GameState.set_flag("affinity_cen", 3)
+	GameState.set_flag("affinity_wu", 4)
+	GameState.set_flag("affinity_seven", 5)
+
+	# Verify flag values in GameState
+	if not GameState.get_flag("met_cen", false) or not GameState.get_flag("met_wu", false) or not GameState.get_flag("met_seven", false):
+		printerr("FAIL 16-D: met_* flags not correctly set in GameState!")
+		get_tree().quit(1)
+		return
+	if not GameState.get_flag("knows_settlement_had_maker", false) or not GameState.get_flag("seven_hinted_name_topside", false):
+		printerr("FAIL 16-D: knows_settlement_had_maker or seven_hinted_name_topside not correctly set!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_cen", 0) != 3 or GameState.get_flag("affinity_wu", 0) != 4 or GameState.get_flag("affinity_seven", 0) != 5:
+		printerr("FAIL 16-D: affinity_* flags not correctly set in GameState!")
+		get_tree().quit(1)
+		return
+
+	# Capture save state to slot 4
+	var save_data_16d = SaveSystem.capture("underground_settlement", 100.0, 1)
+	if not SaveSystem.write_slot(4, save_data_16d):
+		printerr("FAIL 16-D: Failed to write Phase 16 save to slot 4!")
+		get_tree().quit(1)
+		return
+
+	# Reset game state
+	GameState.reset_for_new_game()
+
+	# Verify flags are reset
+	if GameState.get_flag("met_cen", false) or GameState.get_flag("met_wu", false) or GameState.get_flag("met_seven", false):
+		printerr("FAIL 16-D: met_* flags not reset!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("knows_settlement_had_maker", false) or GameState.get_flag("seven_hinted_name_topside", false):
+		printerr("FAIL 16-D: knows_settlement_had_maker or seven_hinted_name_topside not reset!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_cen", 0) != 0 or GameState.get_flag("affinity_wu", 0) != 0 or GameState.get_flag("affinity_seven", 0) != 0:
+		printerr("FAIL 16-D: affinity_* flags not reset!")
+		get_tree().quit(1)
+		return
+
+	# Read slot 4
+	var read_data_16d = SaveSystem.read_slot(4)
+	if read_data_16d.is_empty():
+		printerr("FAIL 16-D: Failed to read save from slot 4!")
+		get_tree().quit(1)
+		return
+
+	# Apply state
+	SaveSystem.apply(read_data_16d)
+
+	# Verify flags are restored
+	if not GameState.get_flag("met_cen", false) or not GameState.get_flag("met_wu", false) or not GameState.get_flag("met_seven", false):
+		printerr("FAIL 16-D: met_* flags not restored after load!")
+		get_tree().quit(1)
+		return
+	if not GameState.get_flag("knows_settlement_had_maker", false) or not GameState.get_flag("seven_hinted_name_topside", false):
+		printerr("FAIL 16-D: knows_settlement_had_maker or seven_hinted_name_topside not restored after load!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_cen", 0) != 3 or GameState.get_flag("affinity_wu", 0) != 4 or GameState.get_flag("affinity_seven", 0) != 5:
+		printerr("FAIL 16-D: affinity_* flags not restored after load!")
+		get_tree().quit(1)
+		return
+
+	# Test default fallback value (missing keys)
+	GameState.reset_for_new_game()
+	if GameState.get_flag("met_cen", false) != false:
+		printerr("FAIL 16-D: met_cen default value should be false!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_cen", 0) != 0:
+		printerr("FAIL 16-D: affinity_cen default value should be 0!")
+		get_tree().quit(1)
+		return
+
+	print("PASS: Phase 16 NPC dialogue verification (16-D) verified.")
+
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):
 		dir.remove("save_04.sav")

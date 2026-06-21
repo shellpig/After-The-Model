@@ -215,8 +215,8 @@ position = Vector2(0, 705)
 shape = SubResource("RectangleShape2D_flavor")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Interactables/NpcWu" unique_id=1285525908]
-position = Vector2(0, 717)
-scale = Vector2(0.45, 0.45)
+position = Vector2(0, 742)
+scale = Vector2(0.38, 0.38)
 sprite_frames = SubResource("SpriteFrames_wu")
 animation = &"idle"
 autoplay = "idle"
@@ -245,7 +245,7 @@ scale = Vector2(0.8, 0.8)
 script = ExtResource("2_player")
 min_x = 120.0
 max_x = 4210.0
-walk_line_y = 870.0
+walk_line_y = 838.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1367417490]
 position = Vector2(20, -184)

@@ -7618,6 +7618,153 @@ func _ready() -> void:
 
 	print("PASS: Phase 16 NPC dialogue verification (16-B Wu) verified.")
 
+	# ----------------------------------------------------
+	# Phase 16 Verification (16-C Seven)
+	# ----------------------------------------------------
+	print("Running Phase 16 NPC dialogue verification (16-C Seven)...")
+	var seven_tree = DialogueDB.get_tree_for("seven")
+	if seven_tree.is_empty():
+		printerr("FAIL 16: Dialogue tree 'seven' not found or empty!")
+		get_tree().quit(1)
+		return
+	
+	for node_name in seven_tree:
+		var node = seven_tree[node_name]
+		var text = node.get("text", "")
+		if "林" + "霏" in text:
+			printerr("FAIL 16: 'seven' tree node '", node_name, "' contains forbidden string!")
+			get_tree().quit(1)
+			return
+
+	# Path A: first_meet -> ask_who -> hook -> end_cold
+	GameState.reset_for_new_game()
+	var runner_seven := DialogueRunner.new()
+	runner_seven.start(seven_tree)
+	
+	curr_node = runner_seven.current()
+	if curr_node.get("speaker", "") != "七號" or not "躲下來的" in curr_node.get("text", ""):
+		printerr("FAIL 16: Seven initial routing should go to first_meet! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+		
+	runner_seven.choose(0) # goto ask_who
+	curr_node = runner_seven.current()
+	if not "大家叫我七號" in curr_node.get("text", ""):
+		printerr("FAIL 16: Choice 0 should route to ask_who! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+		
+	runner_seven.advance() # goto hook
+	curr_node = runner_seven.current()
+	if not "我有一個名字" in curr_node.get("text", ""):
+		printerr("FAIL 16: ask_who should goto hook! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+		
+	if not GameState.get_flag("met_seven", false) or not GameState.get_flag("seven_hinted_name_topside", false):
+		printerr("FAIL 16: hook effects failed! met_seven: ", GameState.get_flag("met_seven", false), " seven_hinted_name_topside: ", GameState.get_flag("seven_hinted_name_topside", false))
+		get_tree().quit(1)
+		return
+		
+	runner_seven.advance() # goto end_cold
+	curr_node = runner_seven.current()
+	if not "目光沉進更深" in curr_node.get("text", ""):
+		printerr("FAIL 16: hook should goto end_cold! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+
+	# Path B: first_meet -> hook -> end_cold
+	GameState.reset_for_new_game()
+	runner_seven = DialogueRunner.new()
+	runner_seven.start(seven_tree)
+	runner_seven.choose(1) # Choice 1 (hook)
+	curr_node = runner_seven.current()
+	if not "我有一個名字" in curr_node.get("text", ""):
+		printerr("FAIL 16: Choice 1 should route to hook! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+		
+	# Path C: retalk with seven_hinted_name_topside = false
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	runner_seven = DialogueRunner.new()
+	runner_seven.start(seven_tree)
+	curr_node = runner_seven.current()
+	if not "還是你。……我說過" in curr_node.get("text", ""):
+		printerr("FAIL 16: routing with met_seven=true should go to retalk! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+	var choices_no_name = curr_node.get("choices", [])
+	var has_ask_name := false
+	for choice in choices_no_name:
+		if "掛在上面的名字" in choice.get("label", ""):
+			has_ask_name = true
+	if has_ask_name:
+		printerr("FAIL 16: ask_name should be locked if seven_hinted_name_topside is false!")
+		get_tree().quit(1)
+		return
+
+	# Path D: retalk with seven_hinted_name_topside = true
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.set_flag("seven_hinted_name_topside", true)
+	runner_seven = DialogueRunner.new()
+	runner_seven.start(seven_tree)
+	curr_node = runner_seven.current()
+	var choices_with_name = curr_node.get("choices", [])
+	var ask_name_index := -1
+	for idx in range(choices_with_name.size()):
+		if "掛在上面的名字" in choices_with_name[idx].get("label", ""):
+			ask_name_index = idx
+	if ask_name_index == -1:
+		printerr("FAIL 16: ask_name option missing from retalk with seven_hinted_name_topside=true!")
+		get_tree().quit(1)
+		return
+		
+	# Choose ask_name
+	runner_seven.choose(ask_name_index)
+	curr_node = runner_seven.current()
+	if not "非找回不可的人" in curr_node.get("text", ""):
+		printerr("FAIL 16: ask_name choice should route to ask_name node! Got: ", curr_node)
+		get_tree().quit(1)
+		return
+
+	# Assert seven portrait path is wired
+	if dp_scene:
+		var dp_inst = dp_scene.instantiate()
+		add_child(dp_inst)
+		dp_inst.start_dialogue("seven")
+		if dp_inst.portrait_rect.texture == null:
+			printerr("FAIL 16: seven dialogue portrait texture is null!")
+			get_tree().quit(1)
+			return
+		dp_inst.free()
+
+	# Verify NpcSeven node setup in underground_settlement_right.tscn
+	var settlement_right_inst16_seven = settlement_right_scene16.instantiate()
+	var npc_seven = settlement_right_inst16_seven.get_node_or_null("Interactables/NpcSeven")
+	if npc_seven == null:
+		printerr("FAIL 16: Interactables/NpcSeven node missing in underground_settlement_right.tscn!")
+		get_tree().quit(1)
+		return
+	if npc_seven.interaction_id != "talk_seven" or npc_seven.dialogue_id != "seven":
+		printerr("FAIL 16: NpcSeven node properties wrong! ID: ", npc_seven.interaction_id, " Dialogue: ", npc_seven.dialogue_id)
+		get_tree().quit(1)
+		return
+	
+	if npc_seven.get_node_or_null("CollisionShape2D") == null:
+		printerr("FAIL 16: NpcSeven missing CollisionShape2D!")
+		get_tree().quit(1)
+		return
+	var npc_seven_sprite = npc_seven.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+	if npc_seven_sprite == null or npc_seven_sprite.sprite_frames == null or not npc_seven_sprite.sprite_frames.has_animation("idle"):
+		printerr("FAIL 16: NpcSeven missing AnimatedSprite2D or idle animation!")
+		get_tree().quit(1)
+		return
+	settlement_right_inst16_seven.free()
+
+	print("PASS: Phase 16 NPC dialogue verification (16-C Seven) verified.")
+
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):
 		dir.remove("save_04.sav")

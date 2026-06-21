@@ -1,0 +1,16 @@
+{
+  "source": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\seven\\dialogue_portrait\\seven-dialogue-portrait-idle-match-candidate-20260621-213355\\portrait.png",
+  "operation": "horizontal_flip_to_face_right",
+  "size": [
+    1149,
+    1369
+  ],
+  "transparent_corners_alpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "opaque_pixels": 979345,
+  "partial_alpha_pixels": 8385
+}

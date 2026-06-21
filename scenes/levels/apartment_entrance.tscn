@@ -48,6 +48,39 @@ shader_parameter/panel_vignette = 0.2
 shader_parameter/rgb_shift = 0.002
 shader_parameter/glitch_amount = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_billboard2"]
+shader = ExtResource("ext_billboard_shader")
+shader_parameter/scanline_density = 80.0
+shader_parameter/scanline_strength = 0.12
+shader_parameter/flicker_speed = 8.0
+shader_parameter/flicker_strength = 0.04
+shader_parameter/brightness = 1.15
+shader_parameter/edge_glow = 0.3
+shader_parameter/panel_vignette = 0.2
+shader_parameter/rgb_shift = 0.002
+shader_parameter/glitch_amount = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_billboard_glitch"]
+shader = ExtResource("ext_billboard_shader")
+shader_parameter/scanline_density = 80.0
+shader_parameter/scanline_strength = 0.25
+shader_parameter/flicker_speed = 14.0
+shader_parameter/flicker_strength = 0.18
+shader_parameter/brightness = 0.85
+shader_parameter/edge_glow = 0.3
+shader_parameter/panel_vignette = 0.25
+shader_parameter/rgb_shift = 0.006
+shader_parameter/glitch_amount = 0.8
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_glitch"]
+noise_type = 5
+frequency = 0.45
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_glitch"]
+width = 96
+height = 192
+noise = SubResource("FastNoiseLite_glitch")
+
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_additive"]
 blend_mode = 1
 
@@ -251,6 +284,18 @@ texture = ExtResource("ext_billboard_tex")
 polygon = PackedVector2Array(1198, 58, 1322, 76, 1323, 135, 1198, 119)
 uv = PackedVector2Array(0, 0, 2912, 0, 2912, 1440, 0, 1440)
 
+[node name="BillboardScreen2" type="Polygon2D" parent="." unique_id=1101010002]
+material = SubResource("ShaderMaterial_billboard2")
+texture = ExtResource("ext_billboard_tex")
+polygon = PackedVector2Array(3214, 74, 3321, 61, 3320, 111, 3215, 121)
+uv = PackedVector2Array(0, 0, 2912, 0, 2912, 1440, 0, 1440)
+
+[node name="BillboardGlitch" type="Polygon2D" parent="." unique_id=1101010003]
+material = SubResource("ShaderMaterial_billboard_glitch")
+texture = SubResource("NoiseTexture2D_glitch")
+polygon = PackedVector2Array(2953, 42, 2989, 42, 2990, 108, 2953, 108)
+uv = PackedVector2Array(0, 0, 96, 0, 96, 192, 0, 192)
+
 [node name="GlowLayers" type="Node2D" parent="." unique_id=1102010001]
 visible = false
 
@@ -342,7 +387,7 @@ position = Vector2(3060, 675)
 [node name="from_collector_shop" type="Marker2D" parent="SpawnPoints" unique_id=1399035965]
 position = Vector2(3950, 675)
 
-[node name="from_subway" type="Marker2D" parent="SpawnPoints"]
+[node name="from_subway" type="Marker2D" parent="SpawnPoints" unique_id=1245430794]
 position = Vector2(3950, 675)
 
 [node name="Interactables" type="Node2D" parent="." unique_id=542570424]

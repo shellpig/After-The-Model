@@ -1,0 +1,183 @@
+A 2D side-scrolling video game background. STRICTLY orthographic
+side view, like Hollow Knight, The Last Night, Limbo, or Ranx (1990).
+Matching the visual style of anchor-01, anchor-02, anchor-03 in
+/assets/art_bible/.
+
+## CANVAS
+- Aspect ratio ~16:3 (3840 x 720), a WIDE horizontal panorama,
+  THREE screens wide. Designed to be traversed LEFT to RIGHT.
+- The walking floor is a SINGLE continuous horizontal line across
+  the ENTIRE 3840 width — perfectly level end to end, no steps,
+  no ramps in the walkable strip. The platform floor runs UNBROKEN
+  all the way to the FAR RIGHT EDGE of the frame.
+
+## SCENE — Abandoned, OUT-OF-SERVICE subway PLATFORM
+A decommissioned subway platform. Service has STOPPED — dead
+departure screens, no trains, no people — BUT the power is NOT
+fully cut: residual emergency lighting still flickers, a few
+indicators glow weakly. "Half-derelict, not a pitch-black ruin."
+This is the 下沉門檻 (the sinking threshold): the commuter world
+above is dead, the only warmth leaks UP from the settlement below.
+
+## SCENE FRAMING
+The platform INTERIOR fills the ENTIRE frame. Floor, tiled back
+wall, and ceiling extend to all edges. NO external structure, NO
+sky, NO "outside the station." Orthographic — no perspective, no
+vanishing point, floor and ceiling are perfectly horizontal lines.
+
+## THE TRACK (CRITICAL — front edge, runs full width)
+Along the FRONT bottom edge of the platform, for the ENTIRE width
+of the frame (left edge to right edge), runs the train track: the
+platform lip with a faded yellow tactile warning strip, and below
+it a DARK recessed track trench (empty — no train, no rail detail,
+just a shadowed void where trains used to run). This track runs
+the WHOLE length and NEVER stops — the platform never turns into
+a staircase, because trains run along this front edge end to end.
+The trench is visual only, NOT walkable; the player walks on the
+platform strip above and behind it.
+
+## HORIZONTAL LAYOUT (three thirds — keep them distinct)
+
+- LEFT THIRD (~0-33%): a plain tiled subway wall. On the FAR LEFT,
+  ONE dark open DOORWAY / archway passage cut into the wall,
+  leading off-frame to the left (a quiet dark opening, dim, no
+  machinery inside). Beside or above it, ONE faded EXIT sign with
+  a LEFT-pointing arrow. The platform floor in this third is
+  completely EMPTY and CLEAR — nothing stands on it, no machines,
+  no barriers, no objects, just worn tile floor and the tiled wall.
+  Calm, institutional, empty.
+
+- CENTER THIRD (~33-66%): the MAIN PLATFORM BODY — the breathing
+  space. Place the dead COMMUTE / DEPARTURE SCREEN and the bench
+  TOGETHER, HORIZONTALLY CENTERED at the middle of the full frame
+  (~50% width): the large screen mounted high on the back wall,
+  the worn bench directly BELOW it. The screen is a stopped board
+  — black with faint flickering static or a single frozen frame,
+  NO schedule, NO readable text; it is the visual focal prop and a
+  future story anchor. On the platform floor JUST BESIDE the bench:
+  ONE old, worn, hard-shell SUITCASE left standing (or slightly
+  fallen over), as if someone forgot to take it — abandoned, dusty,
+  muted desaturated color (NOT orange, NOT bright). It quietly
+  implies "someone was here and is gone." Around the center: water
+  stains, hairline wall cracks, exposed pipes along the ceiling
+  edge with slow water DRIPS.
+
+- RIGHT THIRD (~66-100%): the platform CONTINUES, walkable, all the
+  way to the far right edge — tiled wall, more pipes, decay. The
+  DOWN-PASSAGE to the settlement sits at the VERY FAR RIGHT EDGE /
+  bottom-right CORNER of the frame: show ONLY the TOP TIP of a
+  stopped escalator — the first 2-3 steps + a short section of
+  handrail beginning to descend DOWN into a floor opening, the rest
+  sinking OFF the bottom-right CORNER of the frame. It is a small
+  INTERACTION PROP set into the floor at the rightmost edge, NOT a
+  big structure, NOT dominant — like the escalator hint in
+  anchor-03 but going DOWN instead of up, and positioned in the
+  far corner. The platform floor and the front track reach all the
+  way to this right-edge opening. From the opening, a faint amber
+  warm glow is FAINTLY visible rising from below (interior-comfort
+  warm — "the settlement is down there," the only warmth, NOT the
+  focal orange). DO NOT draw the escalator ascending.
+
+## VERTICAL LAYOUT (CRITICAL)
+- BOTTOM 15-20% of frame: the walking floor (thin horizontal strip),
+  with the track trench just in front of/below it.
+- REMAINING 80-85%: tiled back wall, ceiling, dead screen, pipes,
+  signage — all NON-PLAYABLE visual context.
+- The player must NEVER feel they can move up or down in the floor
+  area. Floor is a thin strip for left-right walking only. DO NOT
+  let the floor exceed 20% of frame height.
+
+## SCALE REFERENCE
+A standing adult human would be ~22-25% of frame height. The dead
+departure screen is roughly head-to-chest height of a person.
+Bench is knee-to-waist height. The forgotten suitcase is about
+knee-high. The descending escalator hint is SMALL — only its top
+tip shows, tucked into the far right corner.
+
+## VIEW & FLAT PROFILE
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective. No vanishing point.
+- Every object is a CARDBOARD CUTOUT against the back wall — flat
+  side profile. The escalator hint shown in pure side profile, NO
+  receding 3/4 stairs. Back wall is a flat backdrop.
+- Floor stays CLEAR for a continuous horizontal walking path to the
+  right edge.
+
+## POWER STATE — "stopped but not dead" (read carefully)
+- Departure screen: DEAD (black / frozen static flicker), no
+  schedule. This is "the line going up has stopped."
+- Ceiling lights: mostly OFF; ONE or TWO pale cyan-white emergency
+  strips still flicker weakly.
+- A couple of small indicator LEDs (cyan/magenta) glow faintly —
+  residual power.
+- NO trains. NO NPCs. NO active advertising. NO bright clean glow.
+
+## ★ ORANGE SCALE RULE (CRITICAL) ★
+Saturated burnt orange is the NARRATIVE MARKER COLOR of the
+plebeian district — the riders' mark on a system that forgot them.
+It must always be a SMALL ACCENT SHAPE, never a fill.
+HARD LIMITS:
+- TOTAL orange ≤ 1-2% of frame pixels. Not 5%, not 10%.
+- Maximum TWO orange spots:
+  (1) [PRIMARY] ONE small hand-marked orange arrow on the wall
+      near the far-right down-passage, pointing DOWN toward the
+      descending escalator hint — a rider's scrawl, "go down here."
+  (2) [SUPPORTING] ONE small burnt-orange graffiti tag or sticker
+      on the platform wall near the dead screen.
+- Orange is ALWAYS a SHAPE (tag, stripe, glyph, arrow, sticker),
+  NEVER a background fill, NEVER on official signage, the screen,
+  or the suitcase.
+- DO NOT confuse the warm amber down-glow with orange — that amber
+  is faded interior comfort, NOT the saturated focal orange.
+
+## COMPOSITION DISCIPLINE
+- ~45% deep shadow (ceiling, dim corners, the dark track trench,
+  unlit wall sections).
+- ~40% midtones (tiled wall, floor).
+- ~15% bright: the flickering emergency strip(s), faint cyan/magenta
+  indicators, the faint warm amber leak from the down-passage, and
+  the ~1-2% orange accents. Most of the frame is QUIET, COLD, EMPTY.
+
+## STRICT DO NOT
+- DO NOT draw any turnstiles, ticket barriers, fare gates, or
+  waist-high gate machines ANYWHERE in the frame — the left side is
+  just an empty tiled wall with a dark doorway and an EXIT sign.
+- DO NOT turn the right side into a big staircase or let the
+  escalator replace/cut off the platform — the platform floor and
+  the front track BOTH run unbroken to the far right edge, where
+  the small escalator tip descends in the corner.
+- DO NOT draw the escalator ascending / going up; only a SMALL
+  top-tip hint descending off the bottom-right corner.
+- DO NOT make the suitcase orange or brightly colored — it is
+  muted and abandoned-looking.
+- DO NOT add trains, NPCs, or any living figures.
+- DO NOT show a working/scrolling departure schedule or readable
+  text on the screen — the screen is dead.
+- DO NOT make the floor more than 20% of frame height.
+- DO NOT use perspective lines or 3/4 views; no receding stairs.
+- DO NOT make it look futuristic-clean, brightly lit, or in-service.
+- DO NOT cover the walls with posters/graffiti (one dead screen +
+  one bench + one suitcase + sparse pipes + max two small orange
+  marks).
+- DO NOT let orange exceed ~2% or spread beyond two spots.
+- DO NOT use pure white (lightest = faded cream) or pure black
+  (darkest = deep purple-black).
+- DO NOT use gold or brass tones (that's the wealthy district).
+- DO NOT use saturated cyber-UV-violet (that's the AI district).
+
+## COMIC TECHNIQUE
+American indie cyberpunk comic (HD 2D, NOT pixel art). Mike Mignola
+heavy black for ceiling, track trench, and dim corners. Frank
+Miller contrast. Paul Pope linework. Hand-inked varied-weight
+lines. Halftone dots in midtones only. Flat cel-shade, no gradients.
+
+## COLOR
+Overall: deep teal, gray-blue, ink purple-black — cool,
+institutional, underground, abandoned. Residual neon: faint cyan
+and magenta indicator glints. Emergency light: pale cyan-white,
+flickering. ONE faint warm amber glow rising from the down-passage
+opening in the far right corner (interior-comfort warm, the only
+warmth, signaling "life is below"). Signature accent: SATURATED
+BURNT ORANGE — one rider's DOWN-arrow near the far-right passage
+[primary] + one small graffiti tag near the dead screen
+[supporting], ≤2% of frame total. No pure white, no pure black, no
+gold/brass, no saturated UV-violet.

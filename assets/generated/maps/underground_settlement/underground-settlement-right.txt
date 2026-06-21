@@ -1,0 +1,173 @@
+A 2D side-scrolling video game background. STRICTLY orthographic
+side view, like Hollow Knight, The Last Night, Limbo, or Ranx (1990).
+Matching the visual style of anchor-01, anchor-02, anchor-03 in
+/assets/art_bible/.
+
+## CANVAS
+- Aspect ratio ~4.4:1 (3200 x 720), a wide horizontal panel, about
+  2.5 screens wide. This is the RIGHT HALF of a larger settlement
+  map; it must tile seamlessly on its LEFT edge to the left panel
+  (same floor height, same tunnel ceiling height at the seam).
+- The walking floor is a SINGLE continuous horizontal line across
+  the ENTIRE width, level end to end.
+
+## SCENE — Underground homeless SETTLEMENT (cold "infrastructure /
+## threat" side)
+The same storm-drain / maintenance tunnel settlement as the left
+panel, but here it shifts from the warm tent-home to the COLD
+INFRASTRUCTURE that keeps it alive — and toward the dark deeper
+tunnel that threatens it. Theme = WARM HUMANITY vs COLD
+INFRASTRUCTURE, tilting cold: jury-rigged machines that actually
+RUN (the settlement has scrappy working power, unlike the dead
+subway above), an open communal clearing, and an ominous sealed
+tunnel mouth leading deeper. Battered, humble, working, watchful.
+IMPORTANT: NO people, NO figures, NO NPCs in frame. Convey life and
+labor ONLY through machines, tools, traces, and light. The central
+clearing is deliberately EMPTY (reserved open space).
+
+## SCENE FRAMING
+The tunnel INTERIOR fills the ENTIRE frame. Floor, low concrete
+tunnel ceiling, and back wall extend to all edges. NO sky, NO
+"outside." Orthographic — no perspective, no vanishing point;
+floor and ceiling read as horizontal. Converted drainage bore:
+slightly arched concrete ceiling kept flat/orthographic, exposed
+pipes and cable runs along it.
+
+## HORIZONTAL LAYOUT
+
+- LEFT EDGE (~0-12%): OPEN tunnel continuation from the left panel
+  — the dwelling area fading out, a last bit of pipe/cable/wall and
+  maybe one crate. NOT a capped wall; the tunnel flows in from the
+  left so the seam is invisible. Floor and ceiling height MUST match
+  the left panel exactly.
+
+- LEFT-CENTER (~12-42%): the WATER & POWER STATION — a jury-rigged
+  rig built from RETROFITTED OLD MACHINES: scavenged tanks, a
+  patched water-purifier with hoses and drip filters, a wheezing
+  generator unit, gauges, valves, welded patches, taped cables,
+  condensation and slow drips. It is FUNCTIONING but humble: a few
+  faint working indicators (small cyan/amber gauge glints), a thin
+  trickle of clean water, a low mechanical presence. TRACES of a
+  repairer (no person): a work lamp casting one small warm pool of
+  light, a toolbox, a wrench left on a crate, a rag. This is the
+  cold body that warms the home.
+
+- CENTER (~42-66%): the CENTRAL CLEARING — a communal open space,
+  deliberately EMPTY and clear (reserved gathering ground). Just
+  worn tunnel floor, a couple of crates or a low bench at the
+  edges, faint scuff marks where people gather. Quiet, a bit empty,
+  "everyone has stepped away." Keep this zone OPEN and uncluttered.
+
+- CENTER-RIGHT (~66-76%): the RADIO — ONE old salvaged radio /
+  battered speaker on a crate or wall shelf, a single weak indicator
+  glow, a thin antenna. It is the faint source of a soft ambient
+  hum/song drifting through the tunnel. Small prop, not dominant.
+
+- FAR RIGHT (~76-100%): the DEEPER TUNNEL MOUTH — the dark opening
+  leading further into the drains, the END of the map. A large dark
+  archway / tunnel mouth, SEALED FOR NOW: a makeshift barricade —
+  a welded grate, chained boards, stacked debris, or a pulled-down
+  shutter — blocking passage. Beyond/through it: cold blue-black
+  darkness, a faint draft, an ominous depth. It reads as "danger /
+  closed off, do not go deeper yet." Cold, shadowed, watchful. This
+  is the RIGHT END of the whole map (capped here by the tunnel
+  mouth).
+
+## VERTICAL LAYOUT (CRITICAL)
+- BOTTOM 15-20% of frame: the walking floor (thin horizontal strip
+  / walkway), with a shallow dry drainage channel just in front.
+- REMAINING 80-85%: tunnel wall, low ceiling, pipes, machines,
+  tunnel mouth — all NON-PLAYABLE visual context.
+- The player must NEVER feel they can move up or down in the floor
+  area. Floor is a thin strip for left-right walking only. DO NOT
+  let the floor exceed 20% of frame height.
+
+## SCALE REFERENCE
+A standing adult human would be ~22-25% of frame height. The water/
+power rig is human-to-slightly-taller scale. Radio, toolbox, crates
+are small human-scaled props. The deeper tunnel mouth is large
+(taller than a person) but its opening stays within the upper
+non-playable band.
+
+## VIEW & FLAT PROFILE
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective. No vanishing point.
+- Every object is a CARDBOARD CUTOUT against the tunnel wall — flat
+  side profile. Back wall is a flat backdrop.
+- Floor stays CLEAR for a continuous horizontal walking path.
+
+## "TRACES NOT PEOPLE" + "RESERVED EMPTY SPACE" (Phase requirement)
+- NO human figures, NO NPCs, NO silhouettes anywhere.
+- The central clearing must stay OPEN and empty — it is reserved
+  space, not decorated with stand-in characters or props that
+  imply a specific person.
+- The deeper tunnel is SEALED/closed in this version — no enemies,
+  no combat, no open passage. Just the blocked, ominous mouth.
+- Convey life only through working machines, tools, and the radio.
+
+## ★ ORANGE SCALE RULE (CRITICAL) ★
+Saturated burnt orange is the NARRATIVE MARKER COLOR of the
+plebeian / deleted underclass — "human will refusing to be
+forgotten." It must always be a SMALL ACCENT SHAPE, never a fill.
+HARD LIMITS:
+- TOTAL orange ≤ 1-2% of frame pixels. Not 5%, not 10%.
+- Maximum TWO orange spots:
+  (1) [PRIMARY] ONE small hand-painted burnt-orange WARNING mark /
+      symbol on the wall beside the sealed deeper-tunnel mouth — a
+      resident's "danger, don't go deeper" scrawl.
+  (2) [SUPPORTING] ONE small orange detail at the water/power
+      station — a marked valve, a tagged tool, or a painted stripe.
+- Orange is ALWAYS a SHAPE, NEVER a background fill, NEVER on bare
+  pipes or structural concrete.
+- DO NOT confuse the small warm work-lamp glow with the focal
+  orange — the lamp is faded interior-comfort warmth, the orange is
+  a tiny saturated narrative SHAPE.
+
+## COMPOSITION DISCIPLINE
+- ~50% deep shadow (tunnel ceiling, dim corners, the dark sealed
+  tunnel mouth on the right, unlit machine recesses).
+- ~38% midtones (concrete walls, floor, machine bodies).
+- ~12% bright: faint cyan/amber machine indicators, the one small
+  warm work-lamp pool at the station, the weak radio glow, and the
+  ~1-2% orange accents.
+- Cooler and more shadowed than the warm left panel; brightness
+  drops toward the dark tunnel mouth on the far right. Most of the
+  frame is dim, mechanical, watchful.
+
+## STRICT DO NOT
+- DO NOT draw any people, figures, NPCs, or human silhouettes.
+- DO NOT cap or wall off the LEFT edge — the tunnel flows in from
+  the left panel; the seam must be invisible (matching floor +
+  ceiling height).
+- DO NOT leave the deeper tunnel mouth OPEN or passable — it is
+  sealed/barricaded in this version (no enemies, no combat).
+- DO NOT clutter or fill the central clearing — keep it open/empty.
+- DO NOT make it look clean, futuristic, or brightly lit — the
+  machines are scavenged, patched, humble.
+- DO NOT make the floor more than 20% of frame height.
+- DO NOT use perspective lines or 3/4 views.
+- DO NOT add readable text — any marks are abstract shapes/symbols.
+- DO NOT let orange exceed ~2% or spread beyond two spots.
+- DO NOT use pure white (lightest = faded cream) or pure black
+  (darkest = deep purple-black).
+- DO NOT use gold or brass tones (that's the wealthy district).
+- DO NOT use saturated cyber-UV-violet (that's the AI district).
+
+## COMIC TECHNIQUE
+American indie cyberpunk comic (HD 2D, NOT pixel art). Mike Mignola
+heavy black for tunnel ceiling, the deep tunnel mouth, and dim
+corners. Frank Miller contrast. Paul Pope linework. Hand-inked
+varied-weight lines. Halftone dots in midtones only. Flat cel-shade,
+no gradients.
+
+## COLOR
+Overall base: deep teal, gray-blue, ink purple-black — cold,
+underground concrete, more shadowed than the warm left panel.
+Working-machine accents: faint cyan and amber gauge/indicator
+glints (scrappy power that actually runs). ONE small warm work-lamp
+pool at the water/power station (interior-comfort warm, a humble
+spot of warmth amid the cold machinery). The deeper tunnel mouth on
+the right is the darkest, coldest point — blue-black shadow.
+Signature accent: SATURATED BURNT ORANGE — one warning mark by the
+sealed tunnel mouth [primary] + one small marked-valve/tool detail
+at the station [supporting], ≤2% of frame total. No pure white, no
+pure black, no gold/brass, no saturated UV-violet.

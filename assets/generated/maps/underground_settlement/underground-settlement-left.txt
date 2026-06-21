@@ -1,0 +1,161 @@
+A 2D side-scrolling video game background. STRICTLY orthographic
+side view, like Hollow Knight, The Last Night, Limbo, or Ranx (1990).
+Matching the visual style of anchor-01, anchor-02, anchor-03 in
+/assets/art_bible/.
+
+## CANVAS
+- Aspect ratio ~4.4:1 (3200 x 720), a wide horizontal panel, about
+  2.5 screens wide. This is the LEFT HALF of a larger settlement
+  map; it must tile seamlessly on its RIGHT edge to a second panel.
+- The walking floor is a SINGLE continuous horizontal line across
+  the ENTIRE width, level end to end. The floor height and the
+  tunnel ceiling height at the RIGHT edge must stay consistent so
+  the panel stitches cleanly to the next one.
+
+## SCENE — Underground homeless SETTLEMENT (warm "home" side)
+A storm-drain / maintenance tunnel repurposed into a shanty
+settlement for people the system deleted — the "black-registry"
+underclass who live below the dead subway. This LEFT panel is the
+WARM, lived-in side: a cluster of tents under strings of warm
+bulbs, signs of daily life. Theme = WARM HUMANITY vs COLD
+INFRASTRUCTURE: cold concrete tunnel and pipes, warmed by people
+who built a home in it. Battered but it has body heat.
+IMPORTANT: NO people, NO figures, NO NPCs in frame — the tents are
+EMPTY but full of TRACES of life (someone lives here, just stepped
+away). Show the lived-in SPACE, not the inhabitants.
+
+## SCENE FRAMING
+The tunnel INTERIOR fills the ENTIRE frame. Floor, low concrete
+tunnel ceiling, and back wall extend to all edges. NO sky, NO
+"outside." Orthographic — no perspective, no vanishing point;
+floor and ceiling read as horizontal. The tunnel is a converted
+drainage/maintenance bore: a slightly arched concrete ceiling
+suggested but kept flat/orthographic, exposed pipes and cable runs
+along it.
+
+## HORIZONTAL LAYOUT
+
+- FAR LEFT (~0-18%): the DOWN-ESCALATOR you ARRIVE on — the way
+  down from the dead subway above. Show ONLY the BOTTOM TIP of a
+  STOPPED ESCALATOR: the last 2-3 steps where it meets the
+  settlement floor, plus a short section of the diagonal handrail
+  and side balustrade beginning to RISE UP-AND-LEFT and exiting the
+  TOP-LEFT of the frame. It is a MECHANICAL escalator in pure side
+  profile (flat repeating metal step pattern, solid side panel),
+  NOT a plain stone staircase, NOT receding into depth — the same
+  stopped escalator seen descending in the subway platform above,
+  now seen from its bottom. From above-left spills a DIM, COOL,
+  dead-blue light (the abandoned station overhead — cold, lifeless).
+  This is where the player descends INTO the settlement: the COLD
+  threshold between the dead world above and the warm home here.
+
+- CENTER + RIGHT (~18-100%): the TENT CLUSTER — the settlement
+  proper. Several improvised tents/shelters built from tarps,
+  plastic sheeting, scavenged panels and crates, strung along the
+  tunnel wall. Overhead: strings of warm amber bulbs (faded amber
+  interior-comfort warm) zig-zag across the tunnel, the main source
+  of warmth and light. The tents are CLOSED or half-open and EMPTY
+  — no people — but surrounded by TRACES of life: a folding stool,
+  a hung blanket or laundry line, a battered pot or kettle, stacked
+  crates, a crate used as a table with a chipped mug, a child's
+  small chalk drawing on the concrete. Personal, cramped, human.
+  Along the tunnel: exposed pipes, conduit, a shallow dry drainage
+  channel running low along the FRONT edge (visual only, the player
+  walks on the walkway behind/above it). The RIGHT edge is an OPEN
+  continuation of the tunnel (it leads to the rest of the
+  settlement) — NOT a capped wall, so it stitches to the next panel.
+
+## VERTICAL LAYOUT (CRITICAL)
+- BOTTOM 15-20% of frame: the walking floor (thin horizontal strip
+  / walkway), with the shallow drainage channel just in front of it.
+- REMAINING 80-85%: tunnel wall, low ceiling, pipes, tents, strung
+  bulbs — all NON-PLAYABLE visual context.
+- The player must NEVER feel they can move up or down in the floor
+  area. Floor is a thin strip for left-right walking only. DO NOT
+  let the floor exceed 20% of frame height.
+
+## SCALE REFERENCE
+A standing adult human would be ~22-25% of frame height. Tents are
+about human height or lower (cramped). Bulbs, stools, crates are
+small human-scaled props. The escalator bottom-tip is a small
+corner prop, only its base showing.
+
+## VIEW & FLAT PROFILE
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective. No vanishing point.
+- Every object is a CARDBOARD CUTOUT against the tunnel wall — flat
+  side profile. The escalator shown in pure side hint, NO receding
+  3/4 stairs. Back wall is a flat backdrop.
+- Floor stays CLEAR for a continuous horizontal walking path.
+
+## "TRACES NOT PEOPLE" (Phase requirement — read carefully)
+- NO human figures, NO NPCs, NO silhouettes of people anywhere.
+- The tents are empty. Convey habitation ONLY through objects and
+  warm light. This is "real emptiness with signs someone lives
+  here," not an abandoned ruin and not a populated camp.
+- Do NOT pre-place specialized workstations or named-character
+  setups — just generic, humble dwelling clutter.
+
+## ★ ORANGE SCALE RULE (CRITICAL) ★
+Saturated burnt orange is the NARRATIVE MARKER COLOR of the
+plebeian / deleted underclass — "human will refusing to be
+forgotten." It must always be a SMALL ACCENT SHAPE, never a fill.
+HARD LIMITS:
+- TOTAL orange ≤ 1-2% of frame pixels. Not 5%, not 10%.
+- Maximum TWO orange spots:
+  (1) [PRIMARY] ONE small burnt-orange mark made by a resident — a
+      child's chalk drawing, a hand-painted symbol, or a small
+      tag on the concrete tunnel wall near the tents.
+  (2) [SUPPORTING] ONE small orange detail on a personal object —
+      a stripe on a crate, a small cloth, a sticker.
+- Orange is ALWAYS a SHAPE, NEVER a background fill, NEVER on the
+  pipes or structural concrete.
+- DO NOT confuse the warm amber bulb glow with the focal orange —
+  the amber bulbs are faded interior-comfort warmth (large soft
+  glow), the orange is a tiny saturated narrative SHAPE.
+
+## COMPOSITION DISCIPLINE
+- ~45% deep shadow (tunnel ceiling, dim corners, the cold
+  escalator threshold, unlit recesses).
+- ~40% midtones (concrete walls, floor, tents).
+- ~15% bright: the warm amber bulb strings (the heart of the
+  frame), a few small cool highlights, and the ~1-2% orange accents.
+- Contrast the COLD blue escalator threshold (left) against the
+  WARM amber tent cluster (center-right). Most of the frame is dim,
+  intimate, cramped.
+
+## STRICT DO NOT
+- DO NOT draw any people, figures, NPCs, or human silhouettes.
+- DO NOT draw a plain stone/concrete STAIRCASE on the left — it is
+  a MECHANICAL stopped ESCALATOR (flat repeating metal steps, side
+  balustrade), the same one descending from the subway above; show
+  only its bottom tip rising up-and-left off frame.
+- DO NOT cap the RIGHT edge with a wall — the tunnel continues open
+  to the right so it can stitch to the next panel.
+- DO NOT make it look like a clean campground or a bright shelter —
+  it is a cramped repurposed drain tunnel, humble and worn.
+- DO NOT make the floor more than 20% of frame height.
+- DO NOT use perspective lines or 3/4 views; no receding stairs.
+- DO NOT add readable text — any marks are abstract shapes/symbols.
+- DO NOT let orange exceed ~2% or spread beyond two spots.
+- DO NOT use pure white (lightest = faded cream) or pure black
+  (darkest = deep purple-black).
+- DO NOT use gold or brass tones (that's the wealthy district).
+- DO NOT use saturated cyber-UV-violet (that's the AI district).
+
+## COMIC TECHNIQUE
+American indie cyberpunk comic (HD 2D, NOT pixel art). Mike Mignola
+heavy black for tunnel ceiling and dim corners. Frank Miller
+contrast. Paul Pope linework. Hand-inked varied-weight lines.
+Halftone dots in midtones only. Flat cel-shade, no gradients.
+
+## COLOR
+Overall base: deep teal, gray-blue, ink purple-black — cold,
+underground concrete. The COLD accent (left escalator threshold):
+dim dead-blue light spilling from the abandoned station above. The
+WARM accent (center-right): faded amber bulb strings, the home's
+body heat — the dominant emotional warmth of the frame (interior-
+comfort warm, soft and large, NOT the focal orange). Signature
+accent: SATURATED BURNT ORANGE — one resident's chalk mark/symbol
+[primary] + one small orange detail on a personal object
+[supporting], ≤2% of frame total. No pure white, no pure black, no
+gold/brass, no saturated UV-violet.

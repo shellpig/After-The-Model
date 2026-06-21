@@ -1,0 +1,220 @@
+A 2D side-scrolling video game background. STRICTLY orthographic
+side view, like Hollow Knight, The Last Night, Limbo, or Ranx (1990).
+
+## SCENE FRAMING
+
+The subway concourse INTERIOR fills the ENTIRE frame. Floor,
+ceiling, and back wall extend to the edges. NO external structure
+visible. There is no "outside the hall" in this composition.
+
+## HORIZONTAL LAYOUT (CRITICAL — three zones)
+
+- LEFT EDGE (only ~10-15% of frame width): Only the BOTTOM TIP
+  of an escalator is visible — just the last 2-3 steps where it
+  meets the floor + a short section of the diagonal handrail
+  beginning to rise. The escalator EXITS THE TOP of the frame
+  within the leftmost 10-15% of width. Most of the escalator is
+  OFF-FRAME, above. This is JUST AN INTERACTION PROP, not a
+  visual feature.
+
+- CENTER (~70-75% of frame width): A wide, mostly EMPTY subway
+  corridor — the breathing space where the player walks. Back
+  wall carries the visual interest (signage, pipes, decay), but
+  the corridor floor is clear.
+
+- RIGHT EDGE (only ~15-20% of frame width): ONE OR TWO turnstile
+  gates, flat side profile, small and unobtrusive. JUST INTERACTION
+  PROPS, not a visual feature.
+
+## VERTICAL LAYOUT (CRITICAL)
+
+- BOTTOM 15-20% of frame: the walking floor (a thin horizontal
+  strip)
+- REMAINING 80-85%: back wall, ceiling, signage, pipes — all
+  NON-PLAYABLE visual context
+
+The player should NEVER feel they can move UP or DOWN in the
+floor area. The floor is a thin strip for left-right walking only.
+DO NOT make the floor take more than 20% of frame height.
+
+## SCALE REFERENCE
+
+A turnstile gate on the right is approximately 18-20% of frame
+height — small, just a prop. A standing adult human character is
+slightly taller than the turnstile, about 22-25% of frame height.
+
+## VIEW RULES
+
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective. No vanishing point.
+- Floor and ceiling are perfectly horizontal lines.
+- Escalator shown in PURE SIDE PROFILE — diagonal rail, flat
+  repeating step pattern, NO receding stairs.
+- Turnstile gates shown as flat vertical units, NOT in 3/4 view.
+- Back wall is a flat backdrop.
+
+## FLAT PROFILE PRINCIPLE
+
+Every object is a CARDBOARD CUTOUT against the wall — flat side
+profile. Floor remains CLEAR for a horizontal walking path.
+
+## ★ ORANGE SCALE RULE (CRITICAL — read before painting) ★
+
+Saturated burnt orange is the NARRATIVE MARKER COLOR of 平民區.
+It loses all meaning if it covers a large area. It must always
+appear as a SMALL ACCENT ELEMENT, never as a flat colored field.
+
+The subway is institutional, anonymous, uniform — orange here
+belongs to the PEOPLE who passed through, not the system itself.
+The transit authority doesn't paint things orange; the riders do.
+
+HARD LIMITS:
+- TOTAL orange surface across the entire frame: ~1-2% of pixels
+  MAXIMUM. Not 5%, not 10%.
+- NO single orange element may be larger than the small subway
+  map taped to the wall (roughly head-height × half-head-width).
+- Orange is always a SHAPE (a route line on the map, a graffiti
+  tag, a sticker, a stripe) — NEVER a background-fill, NEVER
+  on official signage.
+- Maximum TWO orange spots: (1) ONE hand-marked route line on
+  the paper subway map [primary], (2) ONE small graffiti tag or
+  sticker on the wall [supporting]. Anything else orange = wrong.
+
+CORRECT: ONE highlighted orange route line on the faded paper
+subway map (someone marked it by hand); a small burnt-orange
+graffiti tag on the wall near the turnstile; an orange sticker
+slapped on a pipe.
+
+WRONG: orange transit signage; orange ceiling lights; orange
+floor tiles; orange covering the whole subway map; multiple
+graffiti tags all orange.
+
+## Composition Discipline
+
+- ~40% deep shadow (ceiling area, dim corners, shadowed wall
+  sections)
+- ~45% midtones (tile walls, floor)
+- ~15% bright (one ceiling light strip, warm glow at escalator
+  top, turnstile indicators, hologram column, small orange
+  accents) — within the bright portion, the ORANGE occupies only
+  ~1-2% of frame, the rest is amber escalator glow and
+  cyan/magenta indicators
+- Most of the frame is QUIET CORRIDOR. Escalator and turnstiles
+  are recognizable but NOT visually dominant.
+
+## Scene Content
+
+### LEFT EDGE — Escalator (just a hint, ~10-15% width)
+- Only the BOTTOM tip of the escalator visible:
+  - 2-3 final steps where it meets the floor
+  - A short section of the diagonal handrail beginning to rise
+- Both handrail and steps EXIT THE TOP of the frame within
+  this narrow leftmost band
+- A faint WARM yellow / amber glow above the escalator
+  (suggesting "the surface is up there" — interior comfort
+  warm, NOT the focal orange)
+- DO NOT show the full diagonal length
+- DO NOT show the upper portion
+
+### CENTER — Empty Corridor (~70-75% width, the breathing space)
+- Wide, mostly empty walking floor (only 15-20% of frame height
+  vertically, BOTTOM of frame)
+- Back wall with subtle tile pattern, occupies much of upper
+  frame
+- Sparse details on the back wall (in the upper 60-70%
+  vertically):
+  - ONE large signage panel with abstract glyphs and arrow icons,
+    NO readable text. NO orange on official signage.
+  - ONE small surveillance camera mounted HIGH on the back wall
+  - ★ ONE old paper subway map taped to the wall, faded,
+    abstract route shapes, NO readable text, taped corners,
+    slightly torn. ONE of the route lines on this map is drawn
+    in SATURATED BURNT ORANGE — clearly hand-marked by a rider,
+    not by the transit authority. This is the PRIMARY orange
+    marker of the scene — "someone left their route here, the
+    human's mark on the system." ★
+  - Subtle wall cracks, water stains
+- Ceiling: institutional concrete/tile, ONE long fluorescent / LED
+  light strip (pale cyan-white), slightly flickering
+- Exposed pipes / wiring along the ceiling edge
+- ★ ON THE WALL near the turnstile or beside a pipe: ONE small
+  burnt-orange graffiti tag or sticker — the SUPPORTING orange
+  marker. Maybe an abstract symbol, a hand-drawn shape, a small
+  tag. JUST ONE. ★
+
+### RIGHT EDGE — Turnstile Gates (just a hint, ~15-20% width)
+- ONE OR TWO turnstile gates, flat side profile
+- Each gate only 18-20% of frame height (waist-high, small)
+- Each gate has a small glowing cyan or magenta indicator
+- ONE thin vertical holographic info column near the gates,
+  flickering cyan
+- Beyond the gates: implied platform, but scene ENDS at frame
+  edge — NO platform visible, NO train
+
+### Floor (thin strip)
+- Worn tile / concrete with subtle grid pattern
+- Faint reflections only near bright spots
+- One small wear detail: a faint stain or discarded paper
+  silhouette
+
+## STRICT DO NOT
+
+- DO NOT show the full escalator — only the bottom tip
+- DO NOT show 3 or 4 turnstiles — MAXIMUM TWO
+- DO NOT make the floor more than 20% of frame height
+- DO NOT make turnstiles taller than 20% of frame height
+- DO NOT make the escalator dominate the left side — it should
+  feel like a small interaction prop in the corner
+- DO NOT show any structure "outside the hall"
+- DO NOT use perspective lines
+- DO NOT make the escalator recede into depth
+- DO NOT show 3/4 view of any object
+- DO NOT show the platform beyond the gates
+- DO NOT add trains or NPCs
+- DO NOT cover walls with posters or graffiti (one faded subway
+  map + one small graffiti tag is the maximum)
+- DO NOT add readable text — all signage is abstract glyphs
+- DO NOT make it look futuristic-clean
+- DO NOT add anime lighting, photorealism, or 3D render look
+- ★ DO NOT put orange on OFFICIAL signage, the ceiling lights,
+  the turnstile indicators, the hologram column, or any
+  transit-authority element. Orange belongs only to rider-made
+  marks (the hand-drawn map line + the graffiti tag). ★
+- ★ DO NOT let orange occupy more than ~2% of total frame area. ★
+- ★ DO NOT spread orange to more than two spots. Maximum:
+  (1) ONE hand-marked route line on the paper map [primary],
+  (2) ONE small graffiti tag or sticker on the wall [supporting] ★
+- DO NOT confuse the escalator-top amber glow with the orange
+  marker — that amber is faded interior comfort warm, NOT
+  saturated orange
+- DO NOT use pure white (lightest = faded cream)
+- DO NOT use pure black (darkest = deep purple-black)
+- DO NOT use gold or brass tones (that's 富人區's signature)
+- DO NOT use saturated cyber-UV-violet (that's the AI district)
+
+## Comic Technique
+
+American indie cyberpunk comic (HD 2D, NOT pixel art). Mike Mignola
+heavy black for ceiling and dim corners. Frank Miller contrast.
+Paul Pope linework. Hand-inked varied weight lines. Halftone dots
+in midtones only. Flat cel-shade, no gradients.
+
+## Color
+
+Overall: deep teal, gray-blue, ink purple-black (cool, institutional,
+underground). Warm accent at escalator top: faded yellow / amber
+glow signaling "surface is up there" (interior comfort warm, NOT
+the focal orange). Neon: cyan and magenta on turnstile indicators
+and hologram column. Flickering ceiling light is pale cyan-white.
+
+★ SIGNATURE ACCENT — SATURATED BURNT ORANGE ★
+- ONE hand-marked route line on the faded paper subway map
+  [PRIMARY]
+- ONE small graffiti tag or sticker on the wall [SUPPORTING]
+- The ONLY fully-saturated warm color in the frame
+- Total orange surface ≤ 2% of frame
+- Narrative: "the riders' marks on a system that forgot them —
+  the route someone needed to remember, the tag someone left
+  to prove they passed through."
+
+No pure white, no pure black. No gold or brass (that's 富人區).
+No saturated cyber-UV-violet (that's the AI district).

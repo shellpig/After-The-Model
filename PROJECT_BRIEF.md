@@ -246,10 +246,14 @@ note_id
 | 14-B | ✅ 完成 | 鹿「從線上面下來的」鉤（`lu_hinted_topside`）+ 晚瞥見失神鉤（`wan_noticed_daze`），gate 皆為 `mem_frag_linfei_1`；一次性、不破壞既有鹿 / 晚對話路由 |
 | 14-C | ✅ 完成 | 阿達①店控首談前置誤認：未修好店控首談時，gate＝`mem_frag_linfei_1 AND not ada_misrecognized`，effect 設 `ada_misrecognized` + `talked_store_robot`，再回既有 babble；不依賴首談前不存在的 `talked_store_robot` |
 | 14-D | ✅ 完成 | 回歸 + 存讀檔 + GUI 走查：四旗標 round-trip（缺鍵→false / reset 歸零）、Phase 1~13 不退化；GUI 確認一震只播一次、三鉤條件成立後出；headless PASS |
+| 15-A | 🟧 待 headless | 地鐵站切兩室（user 拍板 split）：`subway_station`（大廳/閘口，真美術 concourse + 真 BGM `The Last Platform`）+ `subway_station_platform`（月台，platform 圖）；main.gd SCENES 註冊兩 scene_id（`from_street`/`from_platform`、`from_concourse`/`from_settlement`）+ `apartment_entrance` 補 `from_subway`；街道 travel 選單「地鐵站」（gate＝`lu_hinted_topside`）；街道→大廳→月台、月台→街道轉場；`can_save_here`。程式 + test_runner 護欄已就緒（未 commit），**本機 headless 待跑** |
+| 15-B | 🟧 待 headless | 地下道聚落切兩室：`underground_settlement`（左 panel 帳篷群，真美術 left + 真 BGM `The Deleted Still Breathe`）+ `underground_settlement_right`（右 panel 淨水站/隧道口，right 圖）；SCENES 註冊兩 scene_id（`from_subway`/`from_right`、`from_left`）+ 月台↔聚落、左↔右轉場；首抵 `reached_settlement`（左 panel `_ready` set_flag，走既有 story_flags 持久化）；`can_save_here`；**本機 headless 待跑** |
+| 15-C | 🟧 待 headless | 四室 final flavor 互動物：地鐵（站名牌 / 售票機 / 票閘 / 通勤螢幕「往上的線停了」=P17 錨 / 排水 / 月台空地）、聚落（空帳篷 / 淨水發電 / 收音機底噪 / 深隧道口=P18 入口 / 維修門）；NPC（16）/ 殘響（17）/ 戰鬥（18）以真掛點登記、場景中無假物件 stand-in；**本機 headless 待跑** |
+| 15-D | 🟧 待 headless | 回歸 + 存讀檔 + 全鏈雙向轉場（街道→大廳→月台→聚落左→右→回程）：test_runner Phase 15 區（四 scene_id entry points、SaveSystem 顯示名、travel gate、split 路由、`reached_settlement`）已寫；**本機 headless 待跑 + GUI 走查待進行**；Phase 1~14 不得退化 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
-> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11 / 12 / 13 / 14 均已完成（headless PASS）——Phase 14（Act 1 主線鉤子，14-A~D ✅）為最新完成，gate 旗標 `lu_hinted_topside` 已由 14-B 落地；Phase 15（Act 2 場景骨架）規格三份文件已展開到可實作（📐），且真美術 4 圖（地鐵 concourse+platform、聚落 left+right）+ 專屬 BGM 2 軌已交付落地（2026-06-21），Phase 15 已可開工（實作契約見 `開發設計方針.md > Act 2 場景骨架（Phase 15，實作契約）`，場景設計見 `subdocs/地點/地鐵站.md` / `subdocs/地點/地下道聚落.md`）**；**Phase 16 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構已拍板（2026-06-19）＝**方案 A 腳本化拋物弧**（不引入全域重力）。Phase 15 範圍已拍板（2026-06-19）＝**地鐵站 + 地下道聚落 2 真場景**，硬規則**不暫代**（不借 BGM、不放 placeholder 美術、不寫待覆寫佔位文字；NPC/殘響/戰鬥後置但以真掛點預留）。
+> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11 / 12 / 13 / 14 均已完成（headless PASS）——Phase 14（Act 1 主線鉤子，14-A~D ✅）為最新完成，gate 旗標 `lu_hinted_topside` 已由 14-B 落地；Phase 15（Act 2 場景骨架）程式已實作於工作目錄（🟧 待 headless，未 commit）：真美術 4 圖 + 專屬 BGM 2 軌已落地（2026-06-21），4 個 scene_id（地鐵大廳 / 月台、聚落左 / 右）+ travel gate + test_runner 護欄已就緒，本機 headless 自動測試與 GUI 走查待跑（實作契約見 `開發設計方針.md > Act 2 場景骨架（Phase 15，實作契約）`，場景設計見 `subdocs/地點/地鐵站.md` / `subdocs/地點/地下道聚落.md`）**；**Phase 16 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構已拍板（2026-06-19）＝**方案 A 腳本化拋物弧**（不引入全域重力）。Phase 15 範圍已拍板（2026-06-19）＝**地鐵站 + 地下道聚落 2 真場景**，硬規則**不暫代**（不借 BGM、不放 placeholder 美術、不寫待覆寫佔位文字；NPC/殘響/戰鬥後置但以真掛點預留）；**場景切分（2026-06-21 user 拍板）＝每地點切兩室、共 4 個 scene_id**（原 2 圖拼接單室改為兩室 `InteractableArea` 互轉，利相機 clamp 與後續往兩側補內容）。
 
 ### Phase 3 子階段（公寓觸控化）
 
@@ -475,7 +479,21 @@ Phase 13 待生 / 待寫：`project.godot` `attack` action；`melee_stick.gd` / 
 
 Phase 14 已完成 / 已驗證：`scripts/components/memory_fragment_area.gd`；`apartment_entrance.tscn` 擺 `memory_fragment_area`；`game_state.gd` 新旗標與 `STORY_MESSAGES["mem_frag_linfei_1"]`；`data/dialogue/lu_qichen.gd` / `wan.gd` / `store_robot.gd` 三條鉤；`tests/manual/test_runner.gd` 14-A~D headless 護欄。
 
-Phase 15 待生 / 待寫（**全真資源，不暫代**）：`scenes/levels/subway_station/`（.tscn+.gd）/ `scenes/levels/underground_settlement/`（.tscn+.gd）；`scenes/main/main.gd` SCENES 註冊兩 scene_id + `apartment_entrance` 補 `from_subway` 落點；`game_state.gd` `reached_settlement` 旗標；`data/dialogue/travel_street_east.gd` 加「地鐵站」目的地（gate＝Act 1 旗標）；**待生美術** `assets/generated/maps/subway_station/` + `.../underground_settlement/`（Art Bible 合規）；**待生 BGM** 地鐵站 + 聚落各一專屬軌（非借既有 6 軌）；場景設計檔 `subdocs/地點/地鐵站.md` / `地下道聚落.md`（已寫）。
+### Phase 15 子階段（三份對照）
+
+> 行號以 2026-06-21 場景切分（split）改寫版為準；大幅改寫後需校正。Phase 15 = Act 2 場景骨架，程式已實作於工作目錄（🟧 待 headless，未 commit）。**場景切分**：每地點切兩室＝**4 個 scene_id**（地鐵 `subway_station` 大廳 / `subway_station_platform` 月台；聚落 `underground_settlement` 左 / `underground_settlement_right` 右），由場景內 `InteractableArea` 互轉。
+> 規格書 Phase 15 採「目的 + 不暫代硬規則 + 子階段表」整段式（無每子階段獨立段），故子階段列的規格書欄指子階段表（2781–2784）對應列；測試指南 Phase 15 為扁平 checklist（923–933），子階段列指對應勾項。
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 15 總覽 + 場景切分 + 不暫代 + 現況基準 + 新增/異動 + 旗標 | 2775–2780・2786 | 2675–2744 | 923–924 |
+| 15-A 地鐵站兩室（大廳 / 月台）+ 街道接入 + 轉場 | 2781（表列） | 2745–2756 | 925–927 |
+| 15-B 地下道聚落兩室（左 / 右）+ `reached_settlement` | 2782（表列） | 2757–2767 | 928–929 |
+| 15-C 四室 final flavor + 真掛點預留 | 2783（表列） | 2768–2772 | 930–931 |
+| 15-D 回歸 + 存讀檔 + 全鏈雙向轉場 + GUI | 2784（表列） | 2773–2778 | 932–933 |
+| 新場景 / SceneRegistry 4 室總表 | — | 2779–2790 | — |
+
+Phase 15 已實作（🟧 待 headless / 未 commit）：`scenes/levels/subway_station/`（`subway_station` + `subway_station_platform` 各 .tscn+.gd）、`scenes/levels/underground_settlement/`（`underground_settlement` + `underground_settlement_right` 各 .tscn+.gd）；`scenes/main/main.gd` SCENES 註冊 4 scene_id + `apartment_entrance` 補 `from_subway`；`scripts/autoload/save_system.gd` 4 新 scene_id 顯示名；`data/dialogue/travel_street_east.gd` 加「地鐵站」目的地（gate＝`lu_hinted_topside`）；`tests/manual/test_runner.gd` Phase 15 split 路由護欄。**已交付素材**：美術 4 圖 `assets/generated/maps/subway_station/`（concourse+platform）/ `.../underground_settlement/`（left+right）；BGM `assets/bgm/The Last Platform.mp3`（地鐵）/ `The Deleted Still Breathe.mp3`（聚落）。場景設計檔 `subdocs/地點/地鐵站.md` / `地下道聚落.md`（已隨 split 對齊）。**待辦**：本機 headless 自動測試 + GUI / 真機走查 + commit。
 
 ### 規格書 — 常引用系統段（跨階段）
 

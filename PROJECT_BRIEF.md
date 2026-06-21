@@ -496,7 +496,7 @@ Phase 14 已完成 / 已驗證：`scripts/components/memory_fragment_area.gd`；
 | 15-B 地下道聚落兩室（左 / 右）+ `reached_settlement` | 2782（表列） | 2757–2767 | 928–929 |
 | 15-C 四室 final flavor + 真掛點預留 | 2783（表列） | 2768–2772 | 930–931 |
 | 15-D 回歸 + 存讀檔 + 全鏈雙向轉場 + GUI | 2784（表列） | 2773–2778 | 932–933 |
-| 新場景 / SceneRegistry 4 室總表 | — | 2874–2885 | — |
+| 新場景 / SceneRegistry 4 室總表 | — | 2880–2891 | — |
 
 Phase 15 已實作（🟧 待 headless / 未 commit）：`scenes/levels/subway_station/`（`subway_station` + `subway_station_platform` 各 .tscn+.gd）、`scenes/levels/underground_settlement/`（`underground_settlement` + `underground_settlement_right` 各 .tscn+.gd）；`scenes/main/main.gd` SCENES 註冊 4 scene_id + `apartment_entrance` 補 `from_subway`；`scripts/autoload/save_system.gd` 4 新 scene_id 顯示名；`data/dialogue/travel_street_east.gd` 加「地鐵站」目的地（gate＝`lu_hinted_topside`）；`tests/manual/test_runner.gd` Phase 15 split 路由護欄。**已交付素材**：美術 4 圖 `assets/generated/maps/subway_station/`（concourse+platform）/ `.../underground_settlement/`（left+right）；BGM `assets/bgm/The Last Platform.mp3`（地鐵）/ `The Deleted Still Breathe.mp3`（聚落）。場景設計檔 `subdocs/地點/地鐵站.md` / `地下道聚落.md`（已隨 split 對齊）。**待辦**：本機 headless 自動測試 + GUI / 真機走查 + commit。
 
@@ -508,12 +508,12 @@ Phase 15 已實作（🟧 待 headless / 未 commit）：`scenes/levels/subway_s
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
 |---|---|---|---|
-| Phase 16 總覽 + 三前提 + 旗標 + 站位 | 2788–2801 | 2779–2826（總覽 / 三前提 / 現況基準 / 新增異動 / 旗標）| 935–937 |
-| 16-A 小岑 `cen`（左室帳篷群）| 2803（表列）| 2827–2838 | 938–948（headless）/ 949–955（GUI）|
-| 16-B 伍姐 `wu`（C 版不具名）| 2804（表列）| 2839–2849 | 938–948 / 949–955 |
-| 16-C 七號 `seven`（鋪墊鉤不提妹妹）| 2805（表列）| 2850–2859 | 938–948 / 949–955 |
-| 16-D DialogueDB 註冊 + 路由 + 旗標 + 回歸 | 2806（表列）| 2860–2866 | 938–948 |
-| 16-E GUI / 觸控走查 | 2807（表列）| 2867–2873 | 949–955 |
+| Phase 16 總覽 + 三前提 + 旗標 + 站位 | 2788–2801 | 2779–2827（總覽 / 三前提 / 現況基準 / 新增異動 / 旗標）| 935–937 |
+| 16-A 小岑 `cen`（左室帳篷群）| 2803（表列）| 2828–2839 | 938–948（headless）/ 949–955（GUI）|
+| 16-B 伍姐 `wu`（C 版不具名）| 2804（表列）| 2840–2850 | 938–948 / 949–955 |
+| 16-C 七號 `seven`（鋪墊鉤不提妹妹）| 2805（表列）| 2851–2860 | 938–948 / 949–955 |
+| 16-D DialogueDB 註冊 + 路由 + 立繪掛接 + 回歸 | 2806（表列）| 2861–2872 | 938–948 |
+| 16-E GUI / 觸控走查 | 2807（表列）| 2873–2879 | 949–955 |
 
 Phase 16 待寫 / 待掛：`data/dialogue/cen.gd` / `wu.gd` / `seven.gd`（3 對話樹）；`data/dialogue/dialogue_db.gd` preload + TREES 加三 id；`underground_settlement.tscn` 加 `NpcCen`（帳篷群）；`underground_settlement_right.tscn` 加 `NpcWu`（淨水站前）+ `NpcSeven`（深隧道口）；`tests/manual/test_runner.gd` Phase 16 護欄。新旗標 `met_cen` / `met_wu` / `met_seven` / `knows_settlement_had_maker` / `seven_hinted_name_topside` 走既有 story_flags 存讀檔（`game_state.gd` 不需改）；`affinity_cen` / `affinity_wu` / `affinity_seven` target 已登錄（trust adapter 不需改）。**美術交付**：6 張立繪 / 角色圖（`三張臉.md` §5），未到位前 placeholder 不卡對話邏輯驗收。
 

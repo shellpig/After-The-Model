@@ -6524,7 +6524,19 @@ func _ready() -> void:
 		printerr("FAIL 13-A: player missing MeleeStick child node!")
 		get_tree().quit(1)
 		return
-	print("PASS 13-A: player has is_attacking(), attack signals, and MeleeStick child.")
+	if not "attack_sound_path" in p13_player:
+		printerr("FAIL 13-A: player missing 'attack_sound_path' property!")
+		get_tree().quit(1)
+		return
+	if p13_player.attack_sound_path != "res://assets/sound/A_heavy_melee_weapon.mp3":
+		printerr("FAIL 13-A: player 'attack_sound_path' is incorrect: ", p13_player.attack_sound_path)
+		get_tree().quit(1)
+		return
+	if not FileAccess.file_exists(p13_player.attack_sound_path):
+		printerr("FAIL 13-A: player 'attack_sound_path' file does not exist: ", p13_player.attack_sound_path)
+		get_tree().quit(1)
+		return
+	print("PASS 13-A: player has is_attacking(), attack signals, MeleeStick, and valid attack_sound_path.")
 
 	p13_room.queue_free()
 	await get_tree().process_frame

@@ -38,6 +38,7 @@ var _jump_base_y := 0.0                 # walk line y at takeoff (ledge must be 
 # attacking the player is locked in place — no move, jump, or re-attack — until
 # the clip's duration elapses, then it snaps back to idle/walk.
 @export var attack_duration := 1.0      # attack clip length, s (15 frames @ 15fps)
+@export var attack_sound_path := "res://assets/sound/A_heavy_melee_weapon.mp3"
 var _attacking := false
 var _attack_t := 0.0                    # elapsed attack time
 var _attack_impact_emitted := false
@@ -274,6 +275,15 @@ func _play_attack_anim() -> void:
 		anim.play("attack")
 	else:
 		anim.play(idle_anim)
+	_play_attack_sound()
+
+func _play_attack_sound() -> void:
+	if not attack_sound_path.is_empty() and ResourceLoader.exists(attack_sound_path):
+		var sfx_player := AudioStreamPlayer.new()
+		sfx_player.stream = load(attack_sound_path)
+		add_child(sfx_player)
+		sfx_player.play()
+		sfx_player.finished.connect(sfx_player.queue_free)
 
 func _play_jump_anim() -> void:
 	if anim.sprite_frames and anim.sprite_frames.has_animation("jump"):

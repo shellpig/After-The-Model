@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_player"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
 [ext_resource type="Texture2D" uid="uid://b2ylh7vjxdro2" path="res://assets/generated/maps/subway_station/subway-station-platform.png" id="4_map"]
+[ext_resource type="Shader" uid="uid://dabillscr1x4d" path="res://assets/shaders/billboard_screen.gdshader" id="ad_shader"]
+[ext_resource type="Texture2D" uid="uid://bnc0wge52xkg1" path="res://assets/generated/sprites/street_billboard_ad/street-billboard-ad-calm-collected-20260617-181129.jpg" id="ad_tex"]
 [ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
 [ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
 [ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
@@ -18,6 +20,18 @@
 [ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="walk6"]
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="walk8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_platform_screen"]
+shader = ExtResource("ad_shader")
+shader_parameter/scanline_density = 80.0
+shader_parameter/scanline_strength = 0.12
+shader_parameter/flicker_speed = 8.0
+shader_parameter/flicker_strength = 0.04
+shader_parameter/brightness = 1.15
+shader_parameter/edge_glow = 0.3
+shader_parameter/panel_vignette = 0.2
+shader_parameter/rgb_shift = 0.002
+shader_parameter/glitch_amount = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4800, 16)
@@ -100,6 +114,14 @@ script = ExtResource("1_script")
 [node name="Background" type="Sprite2D" parent="." unique_id=2132913316]
 texture = ExtResource("4_map")
 centered = false
+
+[node name="PlatformScreen" type="Polygon2D" parent="." unique_id=1101010101]
+material = SubResource("ShaderMaterial_platform_screen")
+position = Vector2(0, -92.028534)
+scale = Vector2(1, 1.5028572)
+texture = ExtResource("ad_tex")
+polygon = PackedVector2Array(2052, 185, 2523, 185, 2523, 360, 2052, 360)
+uv = PackedVector2Array(0, 0, 2912, 0, 2912, 1440, 0, 1440)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1017201839]
 position = Vector2(640, 536)

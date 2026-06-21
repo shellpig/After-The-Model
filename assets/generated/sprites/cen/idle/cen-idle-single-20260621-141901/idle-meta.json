@@ -1,0 +1,36 @@
+{
+  "asset": "cen single idle sprite",
+  "source_reference": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\cen\\idle\\cen-idle-single-20260621-141901\\reference-cen-design-20260621-1359.jpeg",
+  "generated_raw_cache": "C:\\Users\\User\\.codex\\generated_images\\019ee8cd-d168-73a0-97ef-6e6bb16baf83\\ig_0e2e72c340ba68aa016a378217c1788191a6b0d137061e06f0.png",
+  "raw_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\cen\\idle\\cen-idle-single-20260621-141901\\cen-idle-raw-20260621-141901.png",
+  "g2d_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\cen\\idle\\cen-idle-single-20260621-141901\\sheet-transparent.png",
+  "adopted_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\cen\\idle\\cen-idle-single-20260621-141901\\idle.png",
+  "stamped_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\cen\\idle\\cen-idle-single-20260621-141901\\cen-idle-transparent-20260621-141901.png",
+  "convenience_512h": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\cen\\idle\\cen-idle-single-20260621-141901\\idle_512h_cropped.png",
+  "postprocess": {
+    "size": [
+      1024,
+      1024
+    ],
+    "bbox": [
+      374,
+      57,
+      650,
+      968
+    ],
+    "visible_hot_magenta_pixels": 0,
+    "alpha_transparent_pixels": 891855,
+    "alpha_semi_pixels": 7748,
+    "alpha_opaque_pixels": 148973
+  },
+  "edge_qc": {
+    "rule": "visible magenta and antialias magenta pollution must be recolored to ink black after g2d cleanup",
+    "ink_black_rgb": [
+      18,
+      14,
+      22
+    ],
+    "qc_file": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\cen\\edge-qc-20260621-142713.json",
+    "magenta_polluted_after": 0
+  }
+}

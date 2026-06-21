@@ -1,0 +1,138 @@
+[
+  {
+    "file": "assets\\generated\\sprites\\cen\\dialogue_portrait\\cen-dialogue-portrait-20260621-141759\\portrait.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 3957,
+    "pixels_changed_to_ink_black": 3957,
+    "boundary_pixels_changed_to_ink_black": 2995,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      212,
+      56,
+      811,
+      972
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\cen\\dialogue_portrait\\cen-dialogue-portrait-20260621-141759\\sheet-transparent.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 3957,
+    "pixels_changed_to_ink_black": 3957,
+    "boundary_pixels_changed_to_ink_black": 2995,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      212,
+      56,
+      811,
+      972
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\cen\\dialogue_portrait\\cen-dialogue-portrait-20260621-141759\\cen-dialogue-portrait-transparent-20260621-141759.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 3957,
+    "pixels_changed_to_ink_black": 3957,
+    "boundary_pixels_changed_to_ink_black": 2995,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      212,
+      56,
+      811,
+      972
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\cen\\dialogue_portrait\\cen-dialogue-portrait-20260621-141759\\cen-dialogue-portrait-1.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 7557,
+    "pixels_changed_to_ink_black": 7557,
+    "boundary_pixels_changed_to_ink_black": 6187,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      210,
+      54,
+      813,
+      972
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\cen\\idle\\cen-idle-single-20260621-141901\\idle.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 3664,
+    "pixels_changed_to_ink_black": 3664,
+    "boundary_pixels_changed_to_ink_black": 2884,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      374,
+      57,
+      650,
+      968
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\cen\\idle\\cen-idle-single-20260621-141901\\sheet-transparent.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 3664,
+    "pixels_changed_to_ink_black": 3664,
+    "boundary_pixels_changed_to_ink_black": 2884,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      374,
+      57,
+      650,
+      968
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\cen\\idle\\cen-idle-single-20260621-141901\\cen-idle-transparent-20260621-141901.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 3664,
+    "pixels_changed_to_ink_black": 3664,
+    "boundary_pixels_changed_to_ink_black": 2884,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      374,
+      57,
+      650,
+      968
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\cen\\idle\\cen-idle-single-20260621-141901\\cen-idle-1.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 7911,
+    "pixels_changed_to_ink_black": 7911,
+    "boundary_pixels_changed_to_ink_black": 6762,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      372,
+      55,
+      652,
+      970
+    ]
+  }
+]

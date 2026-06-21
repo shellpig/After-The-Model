@@ -1,0 +1,69 @@
+{
+  "target": "npc",
+  "mode": "idle",
+  "prompt": "",
+  "role": "",
+  "input": "assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\seven-idle-raw-20260621-144227.png",
+  "threshold": 42,
+  "edge_threshold": 32,
+  "duration": 200,
+  "rows": 1,
+  "cols": 1,
+  "cell_size": 1024,
+  "fit_scale": 0.9,
+  "trim_border": 4,
+  "edge_clean_depth": 4,
+  "align": "feet",
+  "shared_scale": false,
+  "component_mode": "largest",
+  "component_padding": 8,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "seven-idle-1"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        941,
+        1672
+      ],
+      "component_mode": "largest",
+      "component_count": 1,
+      "selected_component_area": 1530512,
+      "selected_component_bbox": [
+        4,
+        4,
+        929,
+        1660
+      ],
+      "crop_bbox": [
+        0,
+        0,
+        933,
+        1664
+      ],
+      "edge_touch": true,
+      "output_size": [
+        516,
+        921
+      ],
+      "paste_position": [
+        254,
+        52
+      ]
+    }
+  ],
+  "edge_touch_frames": [
+    [
+      0,
+      0
+    ]
+  ]
+}

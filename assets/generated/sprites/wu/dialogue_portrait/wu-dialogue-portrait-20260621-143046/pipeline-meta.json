@@ -1,0 +1,64 @@
+{
+  "target": "npc",
+  "mode": "dialogue_portrait",
+  "prompt": "",
+  "role": "",
+  "input": "assets\\generated\\sprites\\wu\\dialogue_portrait\\wu-dialogue-portrait-20260621-143046\\wu-dialogue-portrait-raw-20260621-143046.png",
+  "threshold": 42,
+  "edge_threshold": 32,
+  "duration": 200,
+  "rows": 1,
+  "cols": 1,
+  "cell_size": 1024,
+  "fit_scale": 0.9,
+  "trim_border": 4,
+  "edge_clean_depth": 4,
+  "align": "center",
+  "shared_scale": false,
+  "component_mode": "largest",
+  "component_padding": 8,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "wu-dialogue-portrait-1"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "component_mode": "largest",
+      "component_count": 12,
+      "selected_component_area": 830585,
+      "selected_component_bbox": [
+        54,
+        104,
+        1005,
+        1440
+      ],
+      "crop_bbox": [
+        46,
+        96,
+        1013,
+        1440
+      ],
+      "edge_touch": false,
+      "output_size": [
+        663,
+        921
+      ],
+      "paste_position": [
+        180,
+        51
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}

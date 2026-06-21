@@ -1,0 +1,155 @@
+[
+  {
+    "file": "assets\\generated\\sprites\\wu\\dialogue_portrait\\wu-dialogue-portrait-20260621-143046\\sheet-transparent.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 5040,
+    "pixels_changed_to_ink_black": 5040,
+    "boundary_pixels_changed_to_ink_black": 3944,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      185,
+      56,
+      838,
+      972
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\wu\\dialogue_portrait\\wu-dialogue-portrait-20260621-143046\\wu-dialogue-portrait-1.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 10058,
+    "pixels_changed_to_ink_black": 10058,
+    "boundary_pixels_changed_to_ink_black": 8503,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      183,
+      54,
+      840,
+      972
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\sheet-transparent.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 5945,
+    "pixels_changed_to_ink_black": 5945,
+    "boundary_pixels_changed_to_ink_black": 4089,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      205,
+      58,
+      819,
+      967
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\wu-idle-1.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 10917,
+    "pixels_changed_to_ink_black": 10917,
+    "boundary_pixels_changed_to_ink_black": 8602,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      203,
+      56,
+      821,
+      969
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\wu\\dialogue_portrait\\wu-dialogue-portrait-20260621-143046\\portrait.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 0,
+    "pixels_changed_to_ink_black": 0,
+    "boundary_pixels_changed_to_ink_black": 0,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      185,
+      56,
+      838,
+      972
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\wu\\dialogue_portrait\\wu-dialogue-portrait-20260621-143046\\wu-dialogue-portrait-transparent-20260621-143046.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 0,
+    "pixels_changed_to_ink_black": 0,
+    "boundary_pixels_changed_to_ink_black": 0,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      185,
+      56,
+      838,
+      972
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\idle.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 0,
+    "pixels_changed_to_ink_black": 0,
+    "boundary_pixels_changed_to_ink_black": 0,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      205,
+      58,
+      819,
+      967
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\wu-idle-transparent-20260621-143147.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "magenta_polluted_before": 0,
+    "pixels_changed_to_ink_black": 0,
+    "boundary_pixels_changed_to_ink_black": 0,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      205,
+      58,
+      819,
+      967
+    ]
+  },
+  {
+    "file": "assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\idle_512h_cropped.png",
+    "size": [
+      346,
+      512
+    ],
+    "magenta_polluted_before": 0,
+    "pixels_changed_to_ink_black": 0,
+    "boundary_pixels_changed_to_ink_black": 0,
+    "magenta_polluted_after": 0,
+    "bbox": [
+      0,
+      0,
+      346,
+      512
+    ]
+  }
+]

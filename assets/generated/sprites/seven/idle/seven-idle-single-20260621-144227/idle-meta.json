@@ -1,0 +1,37 @@
+{
+  "asset": "seven single idle sprite",
+  "source_reference": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\reference-seven-design-20260621-1406.jpeg",
+  "generated_raw_cache": "C:\\Users\\User\\.codex\\generated_images\\019ee8cd-d168-73a0-97ef-6e6bb16baf83\\ig_0aa498e8a2492a34016a37879ff904819194ea5c611fb31bac.png",
+  "raw_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\seven-idle-raw-20260621-144227.png",
+  "custom_chromakey_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\sheet-transparent.png",
+  "adopted_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\idle.png",
+  "stamped_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\seven-idle-transparent-20260621-144227.png",
+  "convenience_512h": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\idle_512h_cropped.png",
+  "postprocess": {
+    "size": [
+      1024,
+      1024
+    ],
+    "bbox": [
+      382,
+      51,
+      642,
+      972
+    ],
+    "visible_hot_magenta_pixels": 0,
+    "magenta_polluted_after": 0,
+    "alpha_transparent_pixels": 896954,
+    "alpha_semi_pixels": 7532,
+    "alpha_opaque_pixels": 144090
+  },
+  "edge_qc": {
+    "rule": "visible magenta and antialias magenta pollution recolored to ink black after chromakey cleanup",
+    "ink_black_rgb": [
+      18,
+      14,
+      22
+    ],
+    "qc_file": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\seven\\edge-qc-20260621-144227.json",
+    "magenta_polluted_after": 0
+  }
+}

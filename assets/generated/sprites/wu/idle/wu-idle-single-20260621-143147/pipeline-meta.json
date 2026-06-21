@@ -1,0 +1,64 @@
+{
+  "target": "npc",
+  "mode": "idle",
+  "prompt": "",
+  "role": "",
+  "input": "assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\wu-idle-raw-20260621-143147.png",
+  "threshold": 42,
+  "edge_threshold": 32,
+  "duration": 200,
+  "rows": 1,
+  "cols": 1,
+  "cell_size": 1024,
+  "fit_scale": 0.9,
+  "trim_border": 4,
+  "edge_clean_depth": 4,
+  "align": "feet",
+  "shared_scale": false,
+  "component_mode": "largest",
+  "component_padding": 8,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "wu-idle-1"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "component_mode": "largest",
+      "component_count": 50,
+      "selected_component_area": 503397,
+      "selected_component_bbox": [
+        158,
+        219,
+        869,
+        1273
+      ],
+      "crop_bbox": [
+        150,
+        211,
+        877,
+        1281
+      ],
+      "edge_touch": false,
+      "output_size": [
+        626,
+        921
+      ],
+      "paste_position": [
+        199,
+        52
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}

@@ -1,0 +1,64 @@
+{
+  "target": "npc",
+  "mode": "dialogue_portrait",
+  "prompt": "",
+  "role": "",
+  "input": "assets\\generated\\sprites\\seven\\dialogue_portrait\\seven-dialogue-portrait-20260621-143732\\seven-dialogue-portrait-raw-20260621-143732.png",
+  "threshold": 42,
+  "edge_threshold": 32,
+  "duration": 200,
+  "rows": 1,
+  "cols": 1,
+  "cell_size": 1024,
+  "fit_scale": 0.9,
+  "trim_border": 4,
+  "edge_clean_depth": 4,
+  "align": "center",
+  "shared_scale": false,
+  "component_mode": "largest",
+  "component_padding": 8,
+  "min_component_area": 1,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "seven-dialogue-portrait-1"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "component_mode": "largest",
+      "component_count": 107,
+      "selected_component_area": 941823,
+      "selected_component_bbox": [
+        35,
+        71,
+        1016,
+        1528
+      ],
+      "crop_bbox": [
+        27,
+        63,
+        1016,
+        1528
+      ],
+      "edge_touch": false,
+      "output_size": [
+        622,
+        921
+      ],
+      "paste_position": [
+        201,
+        51
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}

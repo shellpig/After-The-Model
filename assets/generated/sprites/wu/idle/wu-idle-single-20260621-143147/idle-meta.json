@@ -1,0 +1,37 @@
+{
+  "asset": "wu single idle sprite",
+  "source_reference": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\reference-wu-design-20260621-1404.jpeg",
+  "generated_raw_cache": "C:\\Users\\User\\.codex\\generated_images\\019ee8cd-d168-73a0-97ef-6e6bb16baf83\\ig_066abae4dc2329f6016a378516baf48191b5e0ae45872fe7b5.png",
+  "raw_copy": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\wu-idle-raw-20260621-143147.png",
+  "g2d_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\sheet-transparent.png",
+  "adopted_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\idle.png",
+  "stamped_transparent": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\wu-idle-transparent-20260621-143147.png",
+  "convenience_512h": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wu\\idle\\wu-idle-single-20260621-143147\\idle_512h_cropped.png",
+  "postprocess": {
+    "size": [
+      1024,
+      1024
+    ],
+    "bbox": [
+      205,
+      58,
+      819,
+      967
+    ],
+    "visible_hot_magenta_pixels": 0,
+    "magenta_polluted_after": 0,
+    "alpha_transparent_pixels": 672987,
+    "alpha_semi_pixels": 8991,
+    "alpha_opaque_pixels": 366598
+  },
+  "edge_qc": {
+    "rule": "visible magenta and antialias magenta pollution recolored to ink black after g2d cleanup",
+    "ink_black_rgb": [
+      18,
+      14,
+      22
+    ],
+    "qc_file": "C:\\_work\\AI_Work\\Projects\\AfterTheModel\\assets\\generated\\sprites\\wu\\edge-qc-20260621-143147.json",
+    "magenta_polluted_after": 0
+  }
+}

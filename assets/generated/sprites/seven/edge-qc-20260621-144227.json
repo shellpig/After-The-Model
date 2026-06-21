@@ -1,0 +1,135 @@
+{
+  "portrait": [
+    {
+      "file": "assets\\generated\\sprites\\seven\\dialogue_portrait\\seven-dialogue-portrait-20260621-143732\\sheet-transparent.png",
+      "magenta_polluted_before": 3321,
+      "pixels_changed_to_ink_black": 3321,
+      "magenta_polluted_after": 0,
+      "bbox": [
+        206,
+        56,
+        823,
+        972
+      ]
+    },
+    {
+      "file": "assets\\generated\\sprites\\seven\\dialogue_portrait\\seven-dialogue-portrait-20260621-143732\\seven-dialogue-portrait-1.png",
+      "magenta_polluted_before": 6406,
+      "pixels_changed_to_ink_black": 6406,
+      "magenta_polluted_after": 0,
+      "bbox": [
+        204,
+        54,
+        823,
+        972
+      ]
+    },
+    {
+      "file": "assets\\generated\\sprites\\seven\\dialogue_portrait\\seven-dialogue-portrait-20260621-143732\\portrait.png",
+      "magenta_polluted_before": 0,
+      "pixels_changed_to_ink_black": 0,
+      "magenta_polluted_after": 0,
+      "bbox": [
+        206,
+        56,
+        823,
+        972
+      ]
+    },
+    {
+      "file": "assets\\generated\\sprites\\seven\\dialogue_portrait\\seven-dialogue-portrait-20260621-143732\\seven-dialogue-portrait-transparent-20260621-143732.png",
+      "magenta_polluted_before": 0,
+      "pixels_changed_to_ink_black": 0,
+      "magenta_polluted_after": 0,
+      "bbox": [
+        206,
+        56,
+        823,
+        972
+      ]
+    }
+  ],
+  "idle_custom_process": {
+    "raw_size": [
+      941,
+      1672
+    ],
+    "foreground_bbox": [
+      310,
+      271,
+      639,
+      1436
+    ],
+    "foreground_component_pixels": 236622,
+    "fringe_changed_to_black": 3072,
+    "output_bbox": [
+      382,
+      51,
+      642,
+      972
+    ],
+    "magenta_polluted_after": 0
+  },
+  "idle": [
+    {
+      "file": "assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\sheet-transparent.png",
+      "magenta_polluted_before": 0,
+      "pixels_changed_to_ink_black": 0,
+      "magenta_polluted_after": 0,
+      "bbox": [
+        382,
+        51,
+        642,
+        972
+      ]
+    },
+    {
+      "file": "assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\seven-idle-1.png",
+      "magenta_polluted_before": 0,
+      "pixels_changed_to_ink_black": 0,
+      "magenta_polluted_after": 0,
+      "bbox": [
+        382,
+        51,
+        642,
+        972
+      ]
+    },
+    {
+      "file": "assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\idle.png",
+      "magenta_polluted_before": 0,
+      "pixels_changed_to_ink_black": 0,
+      "magenta_polluted_after": 0,
+      "bbox": [
+        382,
+        51,
+        642,
+        972
+      ]
+    },
+    {
+      "file": "assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\seven-idle-transparent-20260621-144227.png",
+      "magenta_polluted_before": 0,
+      "pixels_changed_to_ink_black": 0,
+      "magenta_polluted_after": 0,
+      "bbox": [
+        382,
+        51,
+        642,
+        972
+      ]
+    },
+    {
+      "file": "assets\\generated\\sprites\\seven\\idle\\seven-idle-single-20260621-144227\\idle_512h_cropped.png",
+      "magenta_polluted_before": 0,
+      "pixels_changed_to_ink_black": 0,
+      "magenta_polluted_after": 0,
+      "bbox": [
+        0,
+        0,
+        145,
+        512
+      ]
+    }
+  ]
+}

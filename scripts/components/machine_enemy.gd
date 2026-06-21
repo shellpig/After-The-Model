@@ -6,6 +6,7 @@ class_name MachineEnemy
 # Human enemies override can_format() to always return false (Phase 13-C).
 
 @export var format_check_distance := 160.0
+@export var hit_sound_path := "res://assets/sound/Metallic_melee_hit.mp3"
 
 # Patrol direction the enemy is currently facing (-1 = left, 1 = right).
 # Subclass updates this whenever the walk direction changes.
@@ -27,3 +28,6 @@ func can_format(player_pos: Vector2) -> bool:
 # Subclass overrides to permanently stop the machine (stays on scene, no despawn).
 func defeated() -> void:
 	pass
+
+func get_hit_sound() -> String:
+	return hit_sound_path

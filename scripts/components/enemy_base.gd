@@ -12,3 +12,6 @@ func apply_stun(_duration: float) -> void:
 
 func is_defeated() -> bool:
 	return false
+
+func get_hit_sound() -> String:
+	return ""

@@ -6,6 +6,7 @@ const SHAKE_DURATIONS := [0.05, 0.07, 0.07, 0.08, 0.08, 0.08, 0.07]
 
 @export var texture: Texture2D
 @export var texture_scale := 0.45
+@export var hit_sound_path: String = ""
 
 var _sprite: Sprite2D
 
@@ -13,6 +14,14 @@ func _ready() -> void:
 	z_index = 80
 	_build_sprite()
 	_play()
+	_play_hit_sound()
+
+func _play_hit_sound() -> void:
+	if not hit_sound_path.is_empty() and ResourceLoader.exists(hit_sound_path):
+		var sfx_player := AudioStreamPlayer.new()
+		sfx_player.stream = load(hit_sound_path)
+		add_child(sfx_player)
+		sfx_player.play()
 
 func _build_sprite() -> void:
 	_sprite = Sprite2D.new()

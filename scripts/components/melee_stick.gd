@@ -39,14 +39,19 @@ func _on_attack_impact_frame() -> void:
 		enemy.apply_stun(stun_duration)
 		if enemy.has_method("flash_white"):
 			enemy.flash_white()
-		_spawn_impact(enemy)
+		var hit_sound := ""
+		if enemy.has_method("get_hit_sound"):
+			hit_sound = enemy.get_hit_sound()
+		_spawn_impact(enemy, hit_sound)
 		break  # one hit per swing
 
-func _spawn_impact(enemy: Node2D) -> void:
+func _spawn_impact(enemy: Node2D, hit_sound: String = "") -> void:
 	var root := get_tree().current_scene
 	if root == null:
 		return
 	var burst := HitImpactBurst.new()
+	if not hit_sound.is_empty():
+		burst.hit_sound_path = hit_sound
 	root.add_child(burst)
 	burst.global_position = Vector2(
 		(_player.global_position.x + enemy.global_position.x) * 0.5,

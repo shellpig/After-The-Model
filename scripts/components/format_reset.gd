@@ -11,7 +11,7 @@ class_name FormatReset
 #   any       → release/out/UI open  → idle
 #   complete  → timer expired        → idle (prompt won't reappear: enemy is defeated)
 
-const FORMAT_DURATION    := 2.0
+const FORMAT_DURATION    := 3.0
 const BAR_CELLS          := 10
 const COMPLETE_SHOW_TIME := 1.5
 const PROMPT_TEXT_COLOR  := Color(0.94, 0.92, 0.84, 1.0)

@@ -6480,7 +6480,8 @@ func _ready() -> void:
 
 	# Stun state machine: apply_stun -> FALL -> PRONE (is_stunned true)
 	walker_inst_13.fall_time = 0.01
-	walker_inst_13.prone_repair_time = 99.0
+	var sched_13a: Array[float] = [99.0]
+	walker_inst_13.repair_schedule = sched_13a
 	walker_inst_13.apply_stun(99.0)
 	for _f13 in range(10):
 		await get_tree().process_frame
@@ -6555,7 +6556,8 @@ func _ready() -> void:
 	walker_13b.min_x = 0.0
 	walker_13b.max_x = 2000.0
 	walker_13b.fall_time = 0.01
-	walker_13b.prone_repair_time = 99.0
+	var sched_13b: Array[float] = [99.0]
+	walker_13b.repair_schedule = sched_13b
 	add_child(walker_13b)
 	await get_tree().process_frame
 	walker_13b.global_position = Vector2(500.0, 400.0)

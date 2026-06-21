@@ -24,7 +24,10 @@ extends MachineEnemy
 @export var getup_anim := "getup"
 @export var formatted_anim := "formatted"
 @export var fall_time := 0.6
-@export var prone_repair_time := 5.0
+# Self-repair (PRONE) duration scales with knockdown count: 1st knockdown uses
+# index 0, 2nd index 1, 3rd+ clamps to the last entry. Shorter = tighter format
+# window. Per-instance counter; resets only when the scene is reloaded.
+@export var repair_schedule: Array[float] = [2.0, 4.0, 8.0]
 @export var getup_time := 0.6
 @export var recover_idle_time := 3.0
 @export var attack_reach := 200.0
@@ -40,6 +43,8 @@ var _paused := false
 var _timer := 0.0
 var _label: Label = null
 var _defeated := false
+var _knockdown_count := 0
+var _cur_repair_time := 0.0
 var _white_mat: ShaderMaterial = null
 
 func _ready() -> void:
@@ -149,7 +154,7 @@ func _tick_timed(delta: float, next: int) -> void:
 
 func _tick_prone(delta: float) -> void:
 	_timer -= delta
-	var pct := int(round(100.0 * clamp(1.0 - _timer / prone_repair_time, 0.0, 1.0)))
+	var pct := int(round(100.0 * clamp(1.0 - _timer / _cur_repair_time, 0.0, 1.0)))
 	_label.text = "自行修復中...... %d%%" % pct
 	if _timer <= 0.0:
 		_enter_state(State.GETUP)
@@ -158,7 +163,9 @@ func _enter_state(next: int) -> void:
 	match next:
 		State.PRONE:
 			_state = State.PRONE
-			_timer = prone_repair_time
+			_cur_repair_time = _repair_time_for_count(_knockdown_count)
+			_knockdown_count += 1
+			_timer = _cur_repair_time
 			_play_if_present(prone_anim)
 			_label.visible = true
 			_label.text = "自行修復中...... 0%"
@@ -173,6 +180,11 @@ func _enter_state(next: int) -> void:
 			anim.play(idle_anim)
 		State.PATROL:
 			_start_moving()
+
+func _repair_time_for_count(n: int) -> float:
+	if repair_schedule.is_empty():
+		return 5.0
+	return repair_schedule[min(n, repair_schedule.size() - 1)]
 
 func _play_if_present(name: String) -> void:
 	if anim.sprite_frames and anim.sprite_frames.has_animation(name):

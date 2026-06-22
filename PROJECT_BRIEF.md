@@ -255,9 +255,9 @@ note_id
 | 16-C | ✅ 完成 | 七號 `seven`（2A 鋪墊「我有一個名字還掛在上面」，**全程不提妹妹**）：鋪墊鉤 + `seven_hinted_name_topside` + 追問 gate；落地右室深隧道口牆邊（不重疊 P18 戰鬥掛點）；**程式完成 + headless PASS** |
 | 16-D | ✅ 完成 | DialogueDB 註冊三樹 + 條件路由（首見 / 重講）+ 跨場景旗標保留 + 回歸護欄；六旗標 round-trip；三樹掃描不含「林霏」；Phase 1~15 不退化；**headless PASS** |
 | 16-E | ✅ 完成 | GUI / 觸控走查：三人對話可玩、首見→重講正確、純觸控可推進；立繪 / 角色圖（6 張，`三張臉.md` §5）到位後風格合規（三人不可大面積飽和橙）；**真機 GUI 走查完成（2026-06-22）** |
-| 17-A | 📐 規格可實作 | 記憶碎片「你以前往上通勤」：複用 `MemoryFragmentArea`（無新系統），落 `subway_station_platform` 通勤螢幕 / 月台錨 + `mem_frag_commute_topside` 旗標 + STORY_MESSAGES 文字；**失神基調、不揭主角身份** |
-| 17-B | 📐 規格可實作 | 聚落殘響採集點：複用 `EchoPoint` + `EchoDB` 加 `echo_settlement_erased`（一個被刪住戶，**不得是林霏 / 阿達、不含「林霏」**）；右室落點避開七號 / 伍姐互動 / P18 入口；媒體層可選不卡 |
-| 17-C | 📐 規格可實作 | 回歸 + 存讀檔：碎片旗標 + `echo_progress` round-trip、跨場景採集點不復生、Phase 1~16 不退化 |
+| 17-A | ✅ 完成 | 記憶碎片「你以前往上通勤」：複用 `MemoryFragmentArea`（無新系統），落 `subway_station_platform` 通勤螢幕 / 月台錨 + `mem_frag_commute_topside` 旗標 + STORY_MESSAGES 文字；**失神基調、不揭主角身份、headless PASS** |
+| 17-B | ✅ 完成 | 聚落殘響採集點：複用 `EchoPoint` + `EchoDB` 加 `echo_settlement_erased`（一個被刪住戶，**不得是林霏 / 阿達、不含「林霏」**）；右室落點避開七號 / 伍姐互動 / P18 入口；**headless PASS** |
+| 17-C | ✅ 完成 | 回歸 + 存讀檔：碎片旗標 + `echo_progress` round-trip、跨場景採集點不復生、Phase 1~16 不退化；**headless PASS** |
 | 18-A | 📐 規格可實作 | 隧道清潔機正式遭遇：右室 `deep_tunnel` 由封閉 examine 改轉場進新戰鬥場景 `tunnel_combat`（廢棄通道），作者化 13-E 原型 + walker_01；格式化＝停機並設 `tunnel_machine_defeated`；Player `combat_mode=true` 兌現前瞻契約 |
 | 18-B | 📐 規格可實作 | 戰後失物物流箱（gate `tunnel_machine_defeated`）→ `add_item("childcare_supply_receipt")`（key item，表面雜物 / 模糊代碼 / 無姓名、不揭七號 / 妹妹 / 林霏）；**背包滿防呆**（add_item 回 false 不掉件）|
 | 18-C | 📐 規格可實作 | 晚對話「賣回執」分支 gate `has_item` → 移除回執 + 入帳 + Trust↓ / Trace↓ + `set_flag(peace_line_locked)`；走 DialogueRunner effect ops（add_credits / affinity↓ 缺 op 則補最小版）；**賣＝永久鎖死和平線** |

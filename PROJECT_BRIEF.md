@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-06-21
+最後更新：2026-06-22
 
 ---
 
@@ -250,11 +250,11 @@ note_id
 | 15-B | ✅ 完成 | 地下道聚落切兩室：`underground_settlement`（左 panel 帳篷群，真美術 left + 真 BGM `The Deleted Still Breathe`）+ `underground_settlement_right`（右 panel 淨水站/隧道口，right 圖）；SCENES 註冊兩 scene_id（`from_subway`/`from_right`、`from_left`）+ 月台↔聚落、左↔右轉場；首抵 `reached_settlement`（左 panel `_ready` set_flag，走既有 story_flags 持久化）；`can_save_here`；**自動測試與 GUI 實機走查已完成** |
 | 15-C | ✅ 完成 | 四室 final flavor 互動物：地鐵（站名牌 / 售票機 / 票閘 / 通勤螢幕「往上的線停了」=P17 錨 / 排水 / 月台空地）、聚落（空帳篷 / 淨水發電 / 收音機底噪 / 深隧道口=P18 入口 / 維修門）；NPC（16）/ 殘響（17）/ 戰鬥（18）以真掛點登記、場景中無假物件 stand-in；**自動測試與 GUI 實機走查已完成** |
 | 15-D | ✅ 完成 | 回歸 + 存讀檔 + 全鏈雙向轉場（街道→大廳→月台→聚落左→右→回程）：test_runner Phase 15 區（四 scene_id entry points、SaveSystem 顯示名、travel gate、split 路由、`reached_settlement`）已寫；**自動測試與 GUI 實機走查已完成**；Phase 1~14 不退化 |
-| 16-A | 🟦 待驗收 | 小岑 `cen`（嘴臭 / 防備 / 會偷東西，非純潔受害者）：對話樹 + 被抓包冷收尾（純對話、不引入偷竊系統）+ 自我介紹不具名「弄聲紋的人」+ 落地左室帳篷群；旗標 `met_cen` / `affinity_cen`；**程式完成 + headless PASS（2026-06-21）** |
-| 16-B | 🟦 待驗收 | 伍姐 `wu`（C 版：問現象不問名字）：維修人 + 建立者節點「她只是比我們晚一點壞掉」防聖女且**不具名** + `knows_settlement_had_maker` + 追問 gate；落地右室淨水站前；**對話不出現「林霏」**；**程式完成 + headless PASS** |
-| 16-C | 🟦 待驗收 | 七號 `seven`（2A 鋪墊「我有一個名字還掛在上面」，**全程不提妹妹**）：鋪墊鉤 + `seven_hinted_name_topside` + 追問 gate；落地右室深隧道口牆邊（不重疊 P18 戰鬥掛點）；**程式完成 + headless PASS** |
-| 16-D | 🟦 待驗收 | DialogueDB 註冊三樹 + 條件路由（首見 / 重講）+ 跨場景旗標保留 + 回歸護欄；六旗標 round-trip；三樹掃描不含「林霏」；Phase 1~15 不退化；**headless PASS** |
-| 16-E | 🟦 待驗收 | GUI / 觸控走查：三人對話可玩、首見→重講正確、純觸控可推進；立繪 / 角色圖（6 張，`三張臉.md` §5）到位後風格合規（三人不可大面積飽和橙）；**真機 GUI 走查待跑** |
+| 16-A | ✅ 完成 | 小岑 `cen`（嘴臭 / 防備 / 會偷東西，非純潔受害者）：對話樹 + 被抓包冷收尾（純對話、不引入偷竊系統）+ 自我介紹不具名「弄聲紋的人」+ 落地左室帳篷群；旗標 `met_cen` / `affinity_cen`；**程式完成 + headless PASS（2026-06-21）** |
+| 16-B | ✅ 完成 | 伍姐 `wu`（C 版：問現象不問名字）：維修人 + 建立者節點「她只是比我們晚一點壞掉」防聖女且**不具名** + `knows_settlement_had_maker` + 追問 gate；落地右室淨水站前；**對話不出現「林霏」**；**程式完成 + headless PASS** |
+| 16-C | ✅ 完成 | 七號 `seven`（2A 鋪墊「我有一個名字還掛在上面」，**全程不提妹妹**）：鋪墊鉤 + `seven_hinted_name_topside` + 追問 gate；落地右室深隧道口牆邊（不重疊 P18 戰鬥掛點）；**程式完成 + headless PASS** |
+| 16-D | ✅ 完成 | DialogueDB 註冊三樹 + 條件路由（首見 / 重講）+ 跨場景旗標保留 + 回歸護欄；六旗標 round-trip；三樹掃描不含「林霏」；Phase 1~15 不退化；**headless PASS** |
+| 16-E | ✅ 完成 | GUI / 觸控走查：三人對話可玩、首見→重講正確、純觸控可推進；立繪 / 角色圖（6 張，`三張臉.md` §5）到位後風格合規（三人不可大面積飽和橙）；**真機 GUI 走查完成（2026-06-22）** |
 | 17-A | 📐 規格可實作 | 記憶碎片「你以前往上通勤」：複用 `MemoryFragmentArea`（無新系統），落 `subway_station_platform` 通勤螢幕 / 月台錨 + `mem_frag_commute_topside` 旗標 + STORY_MESSAGES 文字；**失神基調、不揭主角身份** |
 | 17-B | 📐 規格可實作 | 聚落殘響採集點：複用 `EchoPoint` + `EchoDB` 加 `echo_settlement_erased`（一個被刪住戶，**不得是林霏 / 阿達、不含「林霏」**）；右室落點避開七號 / 伍姐互動 / P18 入口；媒體層可選不卡 |
 | 17-C | 📐 規格可實作 | 回歸 + 存讀檔：碎片旗標 + `echo_progress` round-trip、跨場景採集點不復生、Phase 1~16 不退化 |
@@ -265,7 +265,7 @@ note_id
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
-> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11 / 12 / 13 / 14 / 15 均已完成（headless PASS + GUI 走查）：Phase 15（Act 2 場景骨架，15-A~D ✅）真美術 4 圖 + 專屬 BGM 2 軌已落地（2026-06-21），4 個 scene_id（地鐵大廳 / 月台、聚落左 / 右）+ travel gate + test_runner 護欄已就緒，GUI 實機走查已完成（實作契約見 `開發設計方針.md > Act 2 場景骨架（Phase 15，實作契約）`，場景設計見 `subdocs/地點/地鐵站.md` / `subdocs/地點/地下道聚落.md`）**；**Phase 16（三張臉 NPC 落地：小岑 / 伍姐 / 七號）已實作完成且 headless 自動測試 PASS（2026-06-21，16-A~D，🟦 待驗收；真機 GUI 走查 16-E 待跑）：沿用 Phase 5 對話系統（無新系統），3 對話樹 + 條件路由 + 新旗標納入既有存讀檔；NPC 站位用 Phase 15 已建聚落兩室真掛點；三前提硬規則（主角不知「林霏」名字 / 對話不出現「林霏」/ 七號不明說妹妹）。實作契約見 `開發設計方針.md > 三張臉 NPC 落地（Phase 16，實作契約）`，人設 / 對話定稿草案 / 旗標見 `subdocs/人/三張臉.md`**；**Phase 17（Act 2A 記憶碎片 + 殘響鋪設）實作規格已寫入三份文件（2026-06-21，📐 規格可實作）：全程複用既有組件（無新系統）——記憶碎片複用 `MemoryFragmentArea`（Phase 14 同款）、聚落殘響複用 `EchoPoint` + `EchoDB`（Phase 9）；新旗標 `mem_frag_commute_topside` + 新殘響 `echo_settlement_erased` 走既有 story_flags / echo_progress 存讀檔（`game_state.gd` 邏輯不需改，僅加一條 STORY_MESSAGES 文字常數 + 一條 echo 資料）；掛點用 Phase 15 已建真錨（地鐵月台通勤螢幕 / 聚落右室殘響點）；前提硬規則（碎片不揭主角身份 / 聚落殘響不得是林霏 / 阿達、segment 不含「林霏」）。文案方向已寫進規格，定稿待實作者補。實作契約見 `開發設計方針.md > Act 2A 碎片 + 殘響鋪設（Phase 17，實作契約）`**；**Phase 18（Act 2B 戰鬥遭遇 + 回執取得）實作規格已寫入三份文件（2026-06-21，📐 規格可實作）：複用 Phase 13 戰鬥組件作者化進真動線——`deep_tunnel` 轉場進新戰鬥場景 `tunnel_combat`、敵人沿用 walker_01（13-E 原型同款）、戰後失物物流箱發回執、回執經晚對話分支賣出鎖死和平線；新增 1 條 ITEMS_DB key item `childcare_supply_receipt` + 旗標 `tunnel_machine_defeated` / `peace_line_locked`（走既有 story_flags / inventory 存讀檔）；兌現「戰鬥場景互動契約（前瞻契約）」的 `combat_mode` gate；唯一系統小擴充＝賣出對話的 add_credits / affinity↓ effect op（缺則補最小版，複用既有 match op 結構）。前提硬規則（回執表面＝雜物、不揭七號 / 妹妹 / 林霏；無 Game Over；格式化＝停機不死）。實作契約見 `開發設計方針.md > Act 2B 戰鬥遭遇 + 回執取得（Phase 18，實作契約）`，敘事事實來源 `subdocs/主線/雨還沒停v2.3.md` §4.2.1 / §4.2.2**；**Phase 19 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構已拍板（2026-06-19）＝**方案 A 腳本化拋物弧**（不引入全域重力）。Phase 15 範圍已拍板（2026-06-19）＝**地鐵站 + 地下道聚落 2 真場景**，硬規則**不暫代**（不借 BGM、不放 placeholder 美術、不寫待覆寫佔位文字；NPC/殘響/戰鬥後置但以真掛點預留）；**場景切分（2026-06-21 user 拍板）＝每地點切兩室、共 4 個 scene_id**（原 2 圖拼接單室改為兩室 `InteractableArea` 互轉，利相機 clamp 與後續往兩側補內容）。
+> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11 / 12 / 13 / 14 / 15 均已完成（headless PASS + GUI 走查）：Phase 15（Act 2 場景骨架，15-A~D ✅）真美術 4 圖 + 專屬 BGM 2 軌已落地（2026-06-21），4 個 scene_id（地鐵大廳 / 月台、聚落左 / 右）+ travel gate + test_runner 護欄已就緒，GUI 實機走查已完成（實作契約見 `開發設計方針.md > Act 2 場景骨架（Phase 15，實作契約）`，場景設計見 `subdocs/地點/地鐵站.md` / `subdocs/地點/地下道聚落.md`）**；**Phase 16（三張臉 NPC 落地：小岑 / 伍姐 / 七號）已完成（headless PASS + 真機 GUI 走查驗收完成，2026-06-22，16-A~E ✅）：沿用 Phase 5 對話系統（無新系統），3 對話樹 + 條件路由 + 新旗標納入既有存讀檔；NPC 站位用 Phase 15 已建聚落兩室真掛點；三前提硬規則（主角不知「林霏」名字 / 對話不出現「林霏」/ 七號不明說妹妹）。實作契約見 `開發設計方針.md > 三張臉 NPC 落地（Phase 16，實作契約）`，人設 / 對話定稿草案 / 旗標見 `subdocs/人/三張臉.md`**；**Phase 17（Act 2A 記憶碎片 + 殘響鋪設）實作規格已寫入三份文件（2026-06-21，📐 規格可實作）：全程複用既有組件（無新系統）——記憶碎片複用 `MemoryFragmentArea`（Phase 14 同款）、聚落殘響複用 `EchoPoint` + `EchoDB`（Phase 9）；新旗標 `mem_frag_commute_topside` + 新殘響 `echo_settlement_erased` 走既有 story_flags / echo_progress 存讀檔（`game_state.gd` 邏輯不需改，僅加一條 STORY_MESSAGES 文字常數 + 一條 echo 資料）；掛點用 Phase 15 已建真錨（地鐵月台通勤螢幕 / 聚落右室殘響點）；前提硬規則（碎片不揭主角身份 / 聚落殘響不得是林霏 / 阿達、segment 不含「林霏」）。文案方向已寫進規格，定稿待實作者補。實作契約見 `開發設計方針.md > Act 2A 碎片 + 殘響鋪設（Phase 17，實作契約）`**；**Phase 18（Act 2B 戰鬥遭遇 + 回執取得）實作規格已寫入三份文件（2026-06-21，📐 規格可實作）：複用 Phase 13 戰鬥組件作者化進真動線——`deep_tunnel` 轉場進新戰鬥場景 `tunnel_combat`、敵人沿用 walker_01（13-E 原型同款）、戰後失物物流箱發回執、回執經晚對話分支賣出鎖死和平線；新增 1 條 ITEMS_DB key item `childcare_supply_receipt` + 旗標 `tunnel_machine_defeated` / `peace_line_locked`（走既有 story_flags / inventory 存讀檔）；兌現「戰鬥場景互動契約（前瞻契約）」的 `combat_mode` gate；唯一系統小擴充＝賣出對話的 add_credits / affinity↓ effect op（缺則補最小版，複用既有 match op 結構）。前提硬規則（回執表面＝雜物、不揭七號 / 妹妹 / 林霏；無 Game Over；格式化＝停機不死）。實作契約見 `開發設計方針.md > Act 2B 戰鬥遭遇 + 回執取得（Phase 18，實作契約）`，敘事事實來源 `subdocs/主線/雨還沒停v2.3.md` §4.2.1 / §4.2.2**；**Phase 19 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構已拍板（2026-06-19）＝**方案 A 腳本化拋物弧**（不引入全域重力）。Phase 15 範圍已拍板（2026-06-19）＝**地鐵站 + 地下道聚落 2 真場景**，硬規則**不暫代**（不借 BGM、不放 placeholder 美術、不寫待覆寫佔位文字；NPC/殘響/戰鬥後置但以真掛點預留）；**場景切分（2026-06-21 user 拍板）＝每地點切兩室、共 4 個 scene_id**（原 2 圖拼接單室改為兩室 `InteractableArea` 互轉，利相機 clamp 與後續往兩側補內容）。
 
 ### Phase 3 子階段（公寓觸控化）
 
@@ -509,7 +509,7 @@ Phase 15 已完成：`scenes/levels/subway_station/`（`subway_station` + `subwa
 
 ### Phase 16 子階段（三份對照）
 
-> 行號以 2026-06-21 Phase 16 實作規格寫入版為準；大幅改寫後需校正。Phase 16 = 三張臉 NPC 落地（小岑 / 伍姐 / 七號），沿用 Phase 5 對話系統（無新系統）。**程式已實作完成且 headless 自動測試 PASS（2026-06-21，16-A~D），真機 GUI 走查（16-E）待跑（🟦 待驗收）。**
+> 行號以 2026-06-21 Phase 16 實作規格寫入版為準；大幅改寫後需校正。Phase 16 = 三張臉 NPC 落地（小岑 / 伍姐 / 七號），沿用 Phase 5 對話系統（無新系統）。**已完成：headless 自動測試 PASS（2026-06-21，16-A~D）+ 真機 GUI 走查（16-E）驗收完成（2026-06-22，✅）。**
 > 規格書 Phase 16 為「目的 + 三前提 + 旗標 + 子階段表」整段式（無每子階段獨立段），故子階段列的規格書欄指子階段表（2803–2807）對應列；測試指南為 headless + GUI 扁平 checklist。
 > **人設 / 外觀 / 對話定稿草案 / 旗標事實來源**：`subdocs/人/三張臉.md`；NPC 站位（真掛點）：`subdocs/地點/地下道聚落.md`；敘事因果：`subdocs/主線/雨還沒停v2.3.md` §4.2 / §4.1.1。
 

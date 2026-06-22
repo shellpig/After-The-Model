@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="walk8"]
 [ext_resource type="Texture2D" uid="uid://c56x3emyomucx" path="res://assets/generated/sprites/wu/idle/wu-idle-outline-candidate-20260621-203000/idle_512h_cropped.png" id="wu_idle_sprite"]
+[ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4352, 16)
@@ -238,6 +239,15 @@ scale = Vector2(0.7, 0.7)
 sprite_frames = SubResource("SpriteFrames_seven")
 animation = &"idle"
 autoplay = "idle"
+
+[node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=987654331]
+position = Vector2(2850, 714)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_settlement_erased"
+segment_id = "s1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=987654332]
+shape = SubResource("RectangleShape2D_flavor")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=458641328]
 position = Vector2(180, 870)

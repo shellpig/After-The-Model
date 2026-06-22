@@ -41,6 +41,7 @@
 [ext_resource type="Texture2D" uid="uid://c5e7a0mthoyv3" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-13.png" id="at13"]
 [ext_resource type="Texture2D" uid="uid://d1m7buhc6asps" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-14.png" id="at14"]
 [ext_resource type="Texture2D" uid="uid://bxijd10e7vafq" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-15.png" id="at15"]
+[ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_platform_screen"]
 shader = ExtResource("ad_shader")
@@ -210,6 +211,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(24, 454)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mem_frag"]
+size = Vector2(80, 300)
+
 [node name="SubwayStationPlatform" type="Node2D" unique_id=1620253658]
 script = ExtResource("1_script")
 
@@ -305,6 +309,16 @@ prompt_text = "E: █ 觀察月台"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/PlatformAnchorArea" unique_id=2131367901]
 position = Vector2(3460, 650)
 shape = SubResource("RectangleShape2D_flavor")
+
+[node name="MemoryFragmentArea" type="Area2D" parent="Interactables" unique_id=987654321]
+position = Vector2(2285, 647)
+script = ExtResource("ext_mem_frag_area")
+fragment_flag = "mem_frag_commute_topside"
+message_id = "mem_frag_commute_topside"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentArea" unique_id=987654322]
+shape = SubResource("RectangleShape2D_mem_frag")
+debug_color = Color(0.9, 0.1, 0.9, 0.42)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1167683997]
 position = Vector2(180, 820)

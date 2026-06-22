@@ -7857,6 +7857,236 @@ func _ready() -> void:
 
 	print("PASS: Phase 16 NPC dialogue verification (16-D) verified.")
 
+	# ===================== Phase 17-A: memory_fragment_area in subway_station_platform =====================
+	print("--- Phase 17-A: memory_fragment_area in subway_station_platform ---")
+	var platform_scene_17 = load("res://scenes/levels/subway_station/subway_station_platform.tscn")
+	var platform_inst_17 = platform_scene_17.instantiate()
+	var mem_area_17 = platform_inst_17.find_child("MemoryFragmentArea", true, false)
+	if mem_area_17 == null:
+		printerr("FAIL 17-A: MemoryFragmentArea node not found in subway_station_platform.tscn!")
+		get_tree().quit(1)
+		return
+	
+	if mem_area_17.fragment_flag != "mem_frag_commute_topside" or mem_area_17.message_id != "mem_frag_commute_topside":
+		printerr("FAIL 17-A: MemoryFragmentArea properties mismatch! Got: flag=", mem_area_17.fragment_flag, " msg=", mem_area_17.message_id)
+		get_tree().quit(1)
+		return
+
+	# Assert narrative text constraints
+	var msg_text_17 = GameState.STORY_MESSAGES.get("mem_frag_commute_topside", "")
+	if msg_text_17 == "":
+		printerr("FAIL 17-A: STORY_MESSAGES missing 'mem_frag_commute_topside'!")
+		get_tree().quit(1)
+		return
+	if "林霏" in msg_text_17:
+		printerr("FAIL 17-A: STORY_MESSAGES for 'mem_frag_commute_topside' contains forbidden word '林霏'!")
+		get_tree().quit(1)
+		return
+
+	# Set up environment
+	GameState.reset_for_new_game()
+	UIMode.set_mode(UIMode.Mode.NONE)
+
+	var p17_player = platform_inst_17.find_child("Player", true, false)
+	if p17_player == null:
+		printerr("FAIL 17-A: Player node not found in platform scene for Phase 17-A!")
+		get_tree().quit(1)
+		return
+
+	# We listen to interaction_requested on the platform root to verify emission
+	var p17_received = {"message_text": ""}
+	var p17_on_interaction = func(data: Dictionary):
+		if data.get("type") == "message":
+			p17_received["message_text"] = data.get("message_text")
+	platform_inst_17.interaction_requested.connect(p17_on_interaction)
+
+	# Trigger body_entered
+	mem_area_17._on_body_entered(p17_player)
+
+	if not GameState.get_flag("mem_frag_commute_topside", false):
+		printerr("FAIL 17-A: mem_frag_commute_topside flag not set after collision!")
+		get_tree().quit(1)
+		return
+
+	if p17_received["message_text"] != GameState.STORY_MESSAGES["mem_frag_commute_topside"]:
+		printerr("FAIL 17-A: Message not received or text mismatch! Got: ", p17_received["message_text"])
+		get_tree().quit(1)
+		return
+
+	# Reset received message and try to trigger again (should be blocked by flag)
+	p17_received["message_text"] = ""
+	mem_area_17._on_body_entered(p17_player)
+	if p17_received["message_text"] != "":
+		printerr("FAIL 17-A: MemoryFragmentArea triggered repeatedly!")
+		get_tree().quit(1)
+		return
+
+	# Save/Load (round-trip) verification
+	# Set flag true, save to slot 4, reset, load, assert flag is true
+	GameState.reset_for_new_game()
+	GameState.set_flag("mem_frag_commute_topside", true)
+	var save_p17 = SaveSystem.capture("subway_station_platform", 100.0, 1)
+	if not SaveSystem.write_slot(4, save_p17):
+		printerr("FAIL 17-A: Failed to write Phase 17 save to slot 4!")
+		get_tree().quit(1)
+		return
+
+	GameState.reset_for_new_game()
+	if GameState.get_flag("mem_frag_commute_topside", false) != false:
+		printerr("FAIL 17-A: Flag 'mem_frag_commute_topside' did not reset to false!")
+		get_tree().quit(1)
+		return
+
+	var load_p17 = SaveSystem.read_slot(4)
+	if load_p17.is_empty():
+		printerr("FAIL 17-A: Failed to read Phase 17 save from slot 4!")
+		get_tree().quit(1)
+		return
+	SaveSystem.apply(load_p17)
+
+	if not GameState.get_flag("mem_frag_commute_topside", false):
+		printerr("FAIL 17-A: Flag 'mem_frag_commute_topside' not restored from save!")
+		get_tree().quit(1)
+		return
+
+	# Test default fallback value (missing keys)
+	GameState.reset_for_new_game()
+	if GameState.get_flag("mem_frag_commute_topside", false) != false:
+		printerr("FAIL 17-A: mem_frag_commute_topside default value should be false!")
+		get_tree().quit(1)
+		return
+
+	# Clean up
+	platform_inst_17.interaction_requested.disconnect(p17_on_interaction)
+	platform_inst_17.free()
+	platform_scene_17 = null
+	p17_player = null
+
+	print("PASS: Phase 17-A memory_fragment_area in platform verified.")
+
+	# ===================== Phase 17-B: EchoPoint in underground_settlement_right =====================
+	print("--- Phase 17-B: EchoPoint in underground_settlement_right ---")
+	
+	# 1. Verify EchoDB registry and data constraints
+	if not EchoDB.has_echo("echo_settlement_erased"):
+		printerr("FAIL 17-B: EchoDB missing 'echo_settlement_erased' record!")
+		get_tree().quit(1)
+		return
+
+	var seg_count_17b = EchoDB.get_segment_count("echo_settlement_erased")
+	if seg_count_17b != 2:
+		printerr("FAIL 17-B: Expected 2 segments for 'echo_settlement_erased', got: ", seg_count_17b)
+		get_tree().quit(1)
+		return
+
+	var echo_data_17b = EchoDB.get_echo("echo_settlement_erased")
+	for seg in echo_data_17b.get("segments", []):
+		if "林霏" in seg.get("text", ""):
+			printerr("FAIL 17-B: Forbidden word '林霏' found in settlement echo text!")
+			get_tree().quit(1)
+			return
+
+	# 2. Verify EchoPoint node in underground_settlement_right.tscn
+	var settlement_right_scene = load("res://scenes/levels/underground_settlement/underground_settlement_right.tscn")
+	var settlement_right_inst = settlement_right_scene.instantiate()
+	get_tree().root.add_child(settlement_right_inst)
+	var echo_point_node = settlement_right_inst.find_child("EchoPoint", true, false)
+	if echo_point_node == null:
+		printerr("FAIL 17-B: EchoPoint node not found in underground_settlement_right.tscn!")
+		get_tree().quit(1)
+		return
+
+	if echo_point_node.echo_id != "echo_settlement_erased" or echo_point_node.segment_id != "s1":
+		printerr("FAIL 17-B: EchoPoint properties mismatch! Got: echo_id=", echo_point_node.echo_id, " segment_id=", echo_point_node.segment_id)
+		get_tree().quit(1)
+		return
+
+	# Verify position avoids NPC Wu, Seven, and Deep Tunnel
+	var ep_pos = echo_point_node.position
+	if ep_pos.x < 2200 or ep_pos.x > 3200:
+		printerr("FAIL 17-B: EchoPoint position.x (", ep_pos.x, ") is not placed in the safe mid-right zone!")
+		get_tree().quit(1)
+		return
+
+	# 3. Simulate equipment active state & collection mechanics
+	# Set up environment
+	GameState.reset_for_new_game()
+	
+	# Verify inactive without gloves
+	echo_point_node._update_active_state()
+	if echo_point_node.active:
+		printerr("FAIL 17-B: EchoPoint should be inactive when gleaner_gloves are not equipped!")
+		get_tree().quit(1)
+		return
+
+	# Equip gloves
+	# We manually place gleaner_gloves in inventory and equip it
+	GameState.add_item("gleaner_gloves")
+	var gloves_instance_id_17b = ""
+	for slot in GameState.get_inventory():
+		if not slot.is_empty() and slot.get("item_id") == "gleaner_gloves":
+			gloves_instance_id_17b = slot.get("instance_id")
+			break
+	GameState.equip(gloves_instance_id_17b)
+	echo_point_node._update_active_state()
+	
+	if not echo_point_node.active:
+		printerr("FAIL 17-B: EchoPoint should be active when gleaner_gloves are equipped!")
+		get_tree().quit(1)
+		return
+
+	# Call collect on EchoPoint (this triggers collection and deactivates it)
+	echo_point_node.collect()
+
+	if not GameState.has_echo_segment("echo_settlement_erased", "s1"):
+		printerr("FAIL 17-B: Echo segment not collected in GameState after collect()!")
+		get_tree().quit(1)
+		return
+
+	# Re-evaluate active state (should be false since collected)
+	echo_point_node._update_active_state()
+	if echo_point_node.active:
+		printerr("FAIL 17-B: EchoPoint should be inactive after collection!")
+		get_tree().quit(1)
+		return
+
+	# 4. Save/Load (round-trip) verification for echo_progress
+	GameState.reset_for_new_game()
+	GameState.collect_echo_segment("echo_settlement_erased", "s1")
+	var save_p17b = SaveSystem.capture("underground_settlement_right", 100.0, 1)
+	if not SaveSystem.write_slot(5, save_p17b):
+		printerr("FAIL 17-B: Failed to write Phase 17-B save to slot 5!")
+		get_tree().quit(1)
+		return
+
+	GameState.reset_for_new_game()
+	if GameState.has_echo_segment("echo_settlement_erased", "s1"):
+		printerr("FAIL 17-B: Echo segment flag not reset to false!")
+		get_tree().quit(1)
+		return
+
+	var load_p17b = SaveSystem.read_slot(5)
+	if load_p17b.is_empty():
+		printerr("FAIL 17-B: Failed to read Phase 17-B save from slot 5!")
+		get_tree().quit(1)
+		return
+	SaveSystem.apply(load_p17b)
+
+	if not GameState.has_echo_segment("echo_settlement_erased", "s1"):
+		printerr("FAIL 17-B: Echo segment flag not restored from save!")
+		get_tree().quit(1)
+		return
+
+	# Cleanup
+	get_tree().root.remove_child(settlement_right_inst)
+	settlement_right_inst.free()
+	settlement_right_scene = null
+	
+	if dir and dir.file_exists("save_05.sav"):
+		dir.remove("save_05.sav")
+
+	print("PASS: Phase 17-B EchoPoint and registry verified.")
+
 	# Clean up slot 4
 	if dir and dir.file_exists("save_04.sav"):
 		dir.remove("save_04.sav")

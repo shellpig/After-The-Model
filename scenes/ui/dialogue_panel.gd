@@ -31,6 +31,7 @@ func _ready() -> void:
 
 func start_dialogue(dialogue_id: String) -> void:
 	_dialogue_id = dialogue_id
+	GameState.mark_npc_talked(dialogue_id)
 	var tree = DialogueDB.get_tree_for(dialogue_id)
 	if tree.is_empty():
 		printerr("[DialoguePanel] Dialogue tree not found: ", dialogue_id)

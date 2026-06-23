@@ -42,6 +42,18 @@ var quest_states: Dictionary = {}
 var shop_states: Dictionary = {}
 var echo_progress: Dictionary = {}
 
+# Phase M1: 進度追蹤集合
+var visited_scenes: Dictionary = {}
+var talked_npcs: Dictionary = {}
+var collected_special_items: Dictionary = {}
+
+const PROGRESS_SCENES := ["apartment","apartment_entrance","convenience_store","apartment_fire_escape","collector_shop","subway_station","subway_station_platform","underground_settlement","underground_settlement_right","tunnel_combat"]
+const PROGRESS_NPCS := ["wan","store_robot","lu_qichen","cen","wu","seven"]
+const PROGRESS_QUESTS := ["alley_backrooms_3f","repair_vendor_bot"]
+const PROGRESS_ECHOES := ["echo_clerk","echo_room401_tenant","echo_song_rain_doesnt_stop","echo_lu_family","echo_settlement_erased"]
+const PROGRESS_SPECIAL_ITEMS := ["early_ai_assistant_activation_box","old_ai_authorization_module","childcare_supply_receipt","old_probe_module","gleaner_gloves","clerk_echo_recording","decoder_cube"]
+
+
 const ShopDB = preload("res://data/shops/shop_db.gd")
 const SELL_RATIO := 0.5
 
@@ -609,6 +621,7 @@ func add_item(item_id: String, count: int = 1) -> bool:
 
 	inventory = temp_inventory
 	_sort_container(inventory)
+	_maybe_mark_special_item(item_id)
 	inventory_changed.emit()
 	return true
 
@@ -1162,6 +1175,7 @@ func change_item_id(instance_id: String, new_item_id: String) -> bool:
 		if not slot.is_empty() and slot.get("instance_id") == instance_id:
 			slot["item_id"] = new_item_id
 			_sort_container(inventory)
+			_maybe_mark_special_item(new_item_id)
 			inventory_changed.emit()
 			return true
 
@@ -1173,6 +1187,7 @@ func change_item_id(instance_id: String, new_item_id: String) -> bool:
 			if not slot.is_empty() and slot.get("instance_id") == instance_id:
 				slot["item_id"] = new_item_id
 				_sort_container(container_list)
+				_maybe_mark_special_item(new_item_id)
 				container_changed.emit(container_key)
 				return true
 
@@ -1239,6 +1254,15 @@ func is_echo_complete(echo_id: String) -> bool:
 		return false
 	var collected_count = echo_progress[echo_id].get("collected", []).size()
 	return collected_count == EchoDB.get_segment_count(echo_id)
+
+# Phase M1 進度頁專用：與 is_echo_complete 刻意分流。
+# is_echo_complete 對 unknown_total 殘響（鹿家記事）永遠回 false（給媒體/筆記 gate 用，嚴格）；
+# 進度頁依凍結決定「採到現有段數即算完成」，確保 100% 可達。勿合併成 is_echo_complete。
+func _is_echo_complete_for_progress(echo_id: String) -> bool:
+	if not echo_progress.has(echo_id):
+		return false
+	var collected_count = echo_progress[echo_id].get("collected", []).size()
+	return collected_count >= EchoDB.get_segment_count(echo_id)
 
 func is_echo_sold(echo_id: String) -> bool:
 	if not echo_progress.has(echo_id):
@@ -1364,6 +1388,9 @@ func to_save_dict() -> Dictionary:
 		"quest_states": quest_states.duplicate(true),
 		"shop_states": shop_states.duplicate(true),
 		"echo_progress": echo_progress.duplicate(true),
+		"visited_scenes": visited_scenes.duplicate(true),
+		"talked_npcs": talked_npcs.duplicate(true),
+		"collected_special_items": collected_special_items.duplicate(true),
 		"_last_instance_id": _last_instance_id
 	}
 
@@ -1415,6 +1442,20 @@ func load_save_dict(data: Dictionary) -> void:
 		echo_progress = data["echo_progress"].duplicate(true)
 	else:
 		echo_progress.clear()
+	
+	if data.has("visited_scenes"):
+		visited_scenes = data["visited_scenes"].duplicate(true)
+	else:
+		visited_scenes.clear()
+	if data.has("talked_npcs"):
+		talked_npcs = data["talked_npcs"].duplicate(true)
+	else:
+		talked_npcs.clear()
+	if data.has("collected_special_items"):
+		collected_special_items = data["collected_special_items"].duplicate(true)
+	else:
+		collected_special_items.clear()
+
 	if data.has("_last_instance_id"):
 		_last_instance_id = data["_last_instance_id"]
 
@@ -1458,11 +1499,166 @@ func reset_for_new_game() -> void:
 	quest_states.clear()
 	shop_states.clear()
 	echo_progress.clear()
+	visited_scenes.clear()
+	talked_npcs.clear()
+	collected_special_items.clear()
 
 	# Emit signals
 	inventory_changed.emit()
 	credits_changed.emit(credits)
 	notes_changed.emit()
 	equipment_changed.emit()
+
+
+# ==========================================
+# Phase M1 Progress APIs
+# ==========================================
+func mark_scene_visited(scene_id: String) -> void:
+	if scene_id.is_empty():
+		return
+	if not visited_scenes.has(scene_id):
+		visited_scenes[scene_id] = true
+
+func mark_npc_talked(dialogue_id: String) -> void:
+	if dialogue_id.is_empty() or not PROGRESS_NPCS.has(dialogue_id):
+		return
+	if not talked_npcs.has(dialogue_id):
+		talked_npcs[dialogue_id] = true
+
+func _maybe_mark_special_item(item_id: String) -> void:
+	if item_id.is_empty() or not PROGRESS_SPECIAL_ITEMS.has(item_id):
+		return
+	if not collected_special_items.has(item_id):
+		collected_special_items[item_id] = true
+
+func get_progress_summary() -> Dictionary:
+	var summary := {
+		"scenes": {
+			"done": 0,
+			"total": PROGRESS_SCENES.size(),
+			"items": []
+		},
+		"npcs": {
+			"done": 0,
+			"total": PROGRESS_NPCS.size(),
+			"items": []
+		},
+		"quests": {
+			"done": 0,
+			"total": PROGRESS_QUESTS.size() + 1,
+			"items": []
+		},
+		"echoes": {
+			"done": 0,
+			"total": PROGRESS_ECHOES.size(),
+			"items": []
+		},
+		"special": {
+			"done": 0,
+			"total": PROGRESS_SPECIAL_ITEMS.size(),
+			"items": []
+		},
+		"overall_done": 0,
+		"overall_total": 0,
+		"overall_pct": 0
+	}
+
+	# 1. Scenes
+	for scene_id in PROGRESS_SCENES:
+		var done = visited_scenes.get(scene_id, false)
+		var name = ""
+		match scene_id:
+			"tunnel_combat": name = "廢棄隧道"
+			_: name = SaveSystem.get_scene_display_name(scene_id)
+		if done:
+			summary["scenes"]["done"] += 1
+		summary["scenes"]["items"].append({
+			"id": scene_id,
+			"name": name,
+			"done": done
+		})
+
+	# 2. NPCs
+	for npc_id in PROGRESS_NPCS:
+		var done = talked_npcs.get(npc_id, false)
+		var name = ""
+		match npc_id:
+			"wan": name = "晚"
+			"store_robot": name = "店控機器人"
+			"lu_qichen": name = "鹿其琛"
+			"cen": name = "小岑"
+			"wu": name = "伍姐"
+			"seven": name = "七號"
+			_: name = npc_id
+		if done:
+			summary["npcs"]["done"] += 1
+		summary["npcs"]["items"].append({
+			"id": npc_id,
+			"name": name,
+			"done": done
+		})
+
+	# 3. Quests
+	var left_apt = get_flag("left_apartment_once", false)
+	if left_apt:
+		summary["quests"]["done"] += 1
+	summary["quests"]["items"].append({
+		"id": "left_apartment_once",
+		"name": "離開公寓家",
+		"done": left_apt
+	})
+	for quest_id in PROGRESS_QUESTS:
+		var done = quest_states.get(quest_id, {}).get("status", "") == "completed"
+		var name = ""
+		match quest_id:
+			"alley_backrooms_3f": name = "晚的委託：後巷偵查"
+			"repair_vendor_bot": name = "便利商店的故障機器人"
+			_: name = quest_id
+		if done:
+			summary["quests"]["done"] += 1
+		summary["quests"]["items"].append({
+			"id": quest_id,
+			"name": name,
+			"done": done
+		})
+
+	# 4. Echoes
+	for echo_id in PROGRESS_ECHOES:
+		var done = _is_echo_complete_for_progress(echo_id)
+		var title = "未命名殘響"
+		if EchoDB.has_echo(echo_id):
+			title = EchoDB.get_echo(echo_id).get("title", title)
+		if done:
+			summary["echoes"]["done"] += 1
+		summary["echoes"]["items"].append({
+			"id": echo_id,
+			"name": title,
+			"done": done
+		})
+
+	# 5. Special Items
+	for item_id in PROGRESS_SPECIAL_ITEMS:
+		var done = collected_special_items.get(item_id, false)
+		var name = ""
+		if ITEMS_DB.has(item_id):
+			name = ITEMS_DB[item_id].get("name", item_id)
+		else:
+			name = item_id
+		if done:
+			summary["special"]["done"] += 1
+		summary["special"]["items"].append({
+			"id": item_id,
+			"name": name,
+			"done": done
+		})
+
+	var overall_total = summary["scenes"]["total"] + summary["npcs"]["total"] + summary["quests"]["total"] + summary["echoes"]["total"] + summary["special"]["total"]
+	var overall_done = summary["scenes"]["done"] + summary["npcs"]["done"] + summary["quests"]["done"] + summary["echoes"]["done"] + summary["special"]["done"]
+	summary["overall_total"] = overall_total
+	summary["overall_done"] = overall_done
+	summary["overall_pct"] = int(round(float(overall_done) * 100.0 / float(overall_total))) if overall_total > 0 else 0
+
+	return summary
+
 
 

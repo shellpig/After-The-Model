@@ -1,11 +1,12 @@
 extends PanelContainer
 
-const CATEGORIES = ["身份", "工作", "線索", "殘響"]
+const CATEGORIES = ["身份", "工作", "線索", "殘響", "進度"]
 
 @onready var tab_identity: Button = $VBoxContainer/TabBar/TabIdentity
 @onready var tab_work: Button = $VBoxContainer/TabBar/TabWork
 @onready var tab_clues: Button = $VBoxContainer/TabBar/TabClues
 @onready var tab_echoes: Button = $VBoxContainer/TabBar/TabEchoes
+@onready var tab_progress: Button = $VBoxContainer/TabBar/TabProgress
 @onready var list_container: ScrollContainer = $VBoxContainer/ContentSplit/ListContainer
 @onready var list_vbox: VBoxContainer = $VBoxContainer/ContentSplit/ListContainer/ListVBox
 @onready var body_label: RichTextLabel = $VBoxContainer/ContentSplit/BodyLabel
@@ -47,6 +48,7 @@ func _ready() -> void:
 	tab_work.pressed.connect(func(): _select_tab_index(1))
 	tab_clues.pressed.connect(func(): _select_tab_index(2))
 	tab_echoes.pressed.connect(func(): _select_tab_index(3))
+	tab_progress.pressed.connect(func(): _select_tab_index(4))
 
 	# Format footer hint text
 	if panel_footer_hint is PanelFooterHint:
@@ -151,6 +153,82 @@ func load_notebook_data() -> void:
 					"body": body_text,
 					"is_echo": true
 				})
+	elif category == "進度":
+		var summary = GameState.get_progress_summary()
+		
+		# 1. Overall Progress
+		var overall_body = "總體探索進度：" + str(summary["overall_pct"]) + "%\n\n"
+		overall_body += "場景收集：" + str(summary["scenes"]["done"]) + "/" + str(summary["scenes"]["total"]) + "\n"
+		overall_body += "角色會面：" + str(summary["npcs"]["done"]) + "/" + str(summary["npcs"]["total"]) + "\n"
+		overall_body += "任務里程碑：" + str(summary["quests"]["done"]) + "/" + str(summary["quests"]["total"]) + "\n"
+		overall_body += "殘響收集：" + str(summary["echoes"]["done"]) + "/" + str(summary["echoes"]["total"]) + "\n"
+		overall_body += "特殊道具：" + str(summary["special"]["done"]) + "/" + str(summary["special"]["total"])
+		
+		current_list_items.append({
+			"id": "progress_overall",
+			"title": "總進度",
+			"body": overall_body
+		})
+		
+		# 2. Scenes
+		var scenes_body = "場景收集進度：" + str(summary["scenes"]["done"]) + "/" + str(summary["scenes"]["total"]) + "\n\n"
+		for item in summary["scenes"]["items"]:
+			var name = item["name"] if item["done"] else "???"
+			var check = " [✓]" if item["done"] else ""
+			scenes_body += name + check + "\n"
+		current_list_items.append({
+			"id": "progress_scenes",
+			"title": "場景",
+			"body": scenes_body
+		})
+		
+		# 3. NPCs
+		var npcs_body = "角色會面進度：" + str(summary["npcs"]["done"]) + "/" + str(summary["npcs"]["total"]) + "\n\n"
+		for item in summary["npcs"]["items"]:
+			var name = item["name"] if item["done"] else "???"
+			var check = " [✓]" if item["done"] else ""
+			npcs_body += name + check + "\n"
+		current_list_items.append({
+			"id": "progress_npcs",
+			"title": "角色",
+			"body": npcs_body
+		})
+		
+		# 4. Quests
+		var quests_body = "任務里程碑進度：" + str(summary["quests"]["done"]) + "/" + str(summary["quests"]["total"]) + "\n\n"
+		for item in summary["quests"]["items"]:
+			var name = item["name"] if item["done"] else "???"
+			var check = " [✓]" if item["done"] else ""
+			quests_body += name + check + "\n"
+		current_list_items.append({
+			"id": "progress_quests",
+			"title": "任務",
+			"body": quests_body
+		})
+		
+		# 5. Echoes
+		var echoes_body = "殘響收集進度：" + str(summary["echoes"]["done"]) + "/" + str(summary["echoes"]["total"]) + "\n\n"
+		for item in summary["echoes"]["items"]:
+			var name = item["name"] if item["done"] else "???"
+			var check = " [✓]" if item["done"] else ""
+			echoes_body += name + check + "\n"
+		current_list_items.append({
+			"id": "progress_echoes",
+			"title": "殘響",
+			"body": echoes_body
+		})
+		
+		# 6. Special Items
+		var special_body = "特殊道具進度：" + str(summary["special"]["done"]) + "/" + str(summary["special"]["total"]) + "\n\n"
+		for item in summary["special"]["items"]:
+			var name = item["name"] if item["done"] else "???"
+			var check = " [✓]" if item["done"] else ""
+			special_body += name + check + "\n"
+		current_list_items.append({
+			"id": "progress_special",
+			"title": "特殊道具",
+			"body": special_body
+		})
 	else:
 		current_list_items = GameState.get_notes(category)
 
@@ -315,6 +393,7 @@ func _get_tab_button(index: int) -> Button:
 		1: return tab_work
 		2: return tab_clues
 		3: return tab_echoes
+		4: return tab_progress
 	return null
 
 

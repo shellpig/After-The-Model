@@ -50,6 +50,12 @@ layout_mode = 2
 focus_mode = 0
 text = "殘響"
 
+[node name="TabProgress" type="Button" parent="VBoxContainer/TabBar"]
+custom_minimum_size = Vector2(120, 36)
+layout_mode = 2
+focus_mode = 0
+text = "進度"
+
 
 [node name="ContentSplit" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

@@ -198,8 +198,13 @@ func transition_to(scene_id: String, entry_point_id: String = "", payload: Dicti
 	elif level.has_method("set_entry_point"):
 		level.set_entry_point(target_entry, actual_payload)
 		
+	if _current_scene_id == "apartment" and scene_id == "apartment_entrance":
+		GameState.set_flag("left_apartment_once", true)
+
 	_current_scene_id = scene_id
 	_current_entry_point_id = target_entry
+
+	GameState.mark_scene_visited(scene_id)
 
 func start_new_game() -> void:
 	GameState.reset_for_new_game()

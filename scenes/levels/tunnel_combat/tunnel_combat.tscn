@@ -346,6 +346,7 @@ position = Vector2(939, 800)
 position = Vector2(935, 800)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1681067015]
+z_index = 1
 position = Vector2(150, 800)
 script = ExtResource("2_player")
 max_x = 4680.0
@@ -356,7 +357,6 @@ combat_mode = true
 jump_height = 160.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1416242173]
-z_index = 1
 position = Vector2(0, -50)
 sprite_frames = SubResource("SpriteFrames_player")
 animation = &"combat_walk"

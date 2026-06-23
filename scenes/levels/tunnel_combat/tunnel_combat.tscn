@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cbl27s1j4g7u1"]
 
-[ext_resource type="Script" path="res://scenes/levels/tunnel_combat/tunnel_combat.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://c34qnqo8p30ax" path="res://scenes/levels/tunnel_combat/tunnel_combat.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_player"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
 [ext_resource type="Texture2D" uid="uid://cklwjjc6jk3q" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-5-stylematch-v3.png" id="6_7xr1i"]
@@ -22,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://bhtyl2pntovrj" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-4.png" id="23_kd4"]
 [ext_resource type="Texture2D" uid="uid://c3h8cne01bj50" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-5.png" id="24_kd5"]
 [ext_resource type="Texture2D" uid="uid://bqkdkqlgbpnek" path="res://assets/generated/sprites/walker_01/downed/walker_01-downed-6.png" id="25_kd6"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/walker_01/formatted/walker_01-formatted.png" id="26_kfmt"]
+[ext_resource type="Texture2D" uid="uid://82l8nxgx4q00" path="res://assets/generated/sprites/walker_01/formatted/walker_01-formatted.png" id="26_kfmt"]
 [ext_resource type="Texture2D" uid="uid://b3bvmptrhb0yq" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-1.png" id="a1"]
 [ext_resource type="Texture2D" uid="uid://ct1jeksj1qf7c" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-2.png" id="a2"]
 [ext_resource type="Texture2D" uid="uid://c2hnt1y67a2s6" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-3.png" id="a3"]
@@ -38,6 +38,8 @@
 [ext_resource type="Texture2D" uid="uid://c5e7a0mthoyv3" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-13.png" id="a13"]
 [ext_resource type="Texture2D" uid="uid://d1m7buhc6asps" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-14.png" id="a14"]
 [ext_resource type="Texture2D" uid="uid://bxijd10e7vafq" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-15.png" id="a15"]
+[ext_resource type="Texture2D" uid="uid://4koqlwqctjv1" path="res://assets/generated/maps/tunnel_combat/tunnel_combat.png" id="combat_bg_texture"]
+[ext_resource type="Script" uid="uid://dp7op82lcnre" path="res://scripts/components/combat_loss.gd" id="combat_loss_script_id"]
 [ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="j1"]
 [ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="j2"]
 [ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="j3"]
@@ -52,17 +54,9 @@
 [ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="w6"]
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="w7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="w8"]
-[ext_resource type="Script" path="res://scripts/components/combat_loss.gd" id="combat_loss_script_id"]
-[ext_resource type="Texture2D" uid="uid://4koqlwqctjv1" path="res://assets/generated/maps/tunnel_combat/tunnel_combat.png" id="combat_bg_texture"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4768, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_transition"]
-size = Vector2(130, 360)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_flavor"]
-size = Vector2(153.5, 300)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -209,7 +203,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(24, 454)
+size = Vector2(34, 454)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_walker"]
 animations = [{
@@ -235,6 +229,14 @@ animations = [{
 "loop": false,
 "name": &"fall",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("26_kfmt")
+}],
+"loop": false,
+"name": &"formatted",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -269,14 +271,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("26_kfmt")
-}],
-"loop": false,
-"name": &"formatted",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("25_kd6")
 }],
 "loop": false,
@@ -307,8 +301,17 @@ animations = [{
 "speed": 6.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0vsp0"]
+size = Vector2(256, 135)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_walker"]
-size = Vector2(132, 114)
+size = Vector2(238, 147)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_flavor"]
+size = Vector2(153.5, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_transition"]
+size = Vector2(130, 360)
 
 [node name="TunnelCombat" type="Node2D" unique_id=366867471]
 script = ExtResource("1_script")
@@ -337,51 +340,58 @@ shape = SubResource("RectangleShape2D_ground")
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=922880454]
 
 [node name="from_settlement" type="Marker2D" parent="SpawnPoints" unique_id=2093496512]
-position = Vector2(150, 800)
+position = Vector2(939, 800)
 
 [node name="safe_respawn" type="Marker2D" parent="SpawnPoints" unique_id=2093496513]
-position = Vector2(150, 800)
+position = Vector2(935, 800)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1681067015]
 position = Vector2(150, 800)
 script = ExtResource("2_player")
 max_x = 4680.0
-walk_line_y = 800.0
+walk_line_y = 690.0
 walk_anim = "combat_walk"
 idle_anim = "combat_idle"
 combat_mode = true
+jump_height = 160.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1416242173]
+z_index = 1
 position = Vector2(0, -50)
-scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_player")
 animation = &"combat_walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=500253796]
+position = Vector2(-14, 0)
 shape = SubResource("RectangleShape2D_player")
 
 [node name="Walker01" type="CharacterBody2D" parent="." unique_id=18016337]
 position = Vector2(3000, 800)
 script = ExtResource("13_wscript")
-ground_y = 800.0
 min_x = 2000.0
 max_x = 4200.0
+speed = 280.0
+ground_y = 780.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Walker01" unique_id=2051012829]
-position = Vector2(0, -62.4)
-scale = Vector2(0.168, 0.168)
+position = Vector2(0, -40)
+scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_walker")
 animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walker01" unique_id=1555527121]
-position = Vector2(0, -60)
+visible = false
+position = Vector2(-6, -35.5)
+shape = SubResource("RectangleShape2D_0vsp0")
+debug_color = Color(0.61548674, 0.35997185, 0.9970836, 0.41960785)
 
 [node name="CombatLoss" type="Area2D" parent="Walker01" unique_id=987654321]
 position = Vector2(0, -60)
 script = ExtResource("combat_loss_script_id")
-safe_point = Vector2(150, 800)
+safe_point = Vector2(150, 690)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walker01/CombatLoss" unique_id=987654322]
+position = Vector2(-8, 28.5)
 shape = SubResource("RectangleShape2D_walker")
 
 [node name="Interactables" type="Node2D" parent="." unique_id=1481203313]
@@ -393,6 +403,7 @@ interaction_id = "loot_box"
 prompt_text = "E: █ 搜索失物物流箱"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/LootBoxArea" unique_id=427632760]
+position = Vector2(-46, -52)
 shape = SubResource("RectangleShape2D_flavor")
 
 [node name="ExitToSettlementArea" type="Area2D" parent="Interactables" unique_id=194427120]
@@ -402,4 +413,5 @@ interaction_id = "exit_to_settlement"
 prompt_text = "E: █ 返回聚落右區"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToSettlementArea" unique_id=1514453442]
+position = Vector2(-4025, -91)
 shape = SubResource("RectangleShape2D_transition")

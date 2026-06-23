@@ -543,12 +543,12 @@ debug_color = Color(0.56676805, 0.3921777, 1, 0.41960785)
 
 [node name="AmbientRain" type="AudioStreamPlayer" parent="." unique_id=1433149409]
 stream = ExtResource("ext_rain_loop")
-volume_db = -22.0
+volume_db = -16.968
 autoplay = true
 bus = &"Ambient"
 
 [node name="AmbientSubway" type="AudioStreamPlayer" parent="." unique_id=1433149410]
-volume_db = -26.0
+volume_db = -16.174
 bus = &"Ambient"
 
 [node name="SubwayTimer" type="Timer" parent="." unique_id=1433149411]

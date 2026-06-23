@@ -8,6 +8,10 @@ class_name CombatLoss
 @export var safe_point := Vector2(250.0, 690.0)
 @export var message_text := "你被隧道清潔機抓到了。看來必須另尋他路。"
 @export var enemy: EnemyBase
+# > 0 enables the blackout reset: fade the world to black over this many seconds,
+# teleport the player while the screen is dark, hold black, then fade back (each
+# phase lasts blackout_seconds). 0 keeps the original instant teleport.
+@export var blackout_seconds := 0.0
 
 signal combat_failed
 
@@ -29,21 +33,31 @@ func _on_body_entered(body: Node2D) -> void:
 	trigger_failure(body)
 
 func trigger_failure(player: Node2D) -> void:
-	if GameState.get_flag(failure_flag, false):
-		_teleport_player(player)
-		return
-		
 	GameState.set_flag(failure_flag, true)
-	_teleport_player(player)
-	
 	combat_failed.emit()
-	
+
 	var level = _find_level_node()
+
+	# Blackout reset (tunnel_combat): darken the world, move the player while it's
+	# black, then fade back. UI/message stay lit (separate CanvasLayer). With
+	# blackout_seconds == 0 this falls back to the original instant teleport.
+	if blackout_seconds > 0.0 and level is CanvasItem:
+		_run_blackout_reset(level, player)
+	else:
+		_teleport_player(player)
+
 	if level and level.has_signal("interaction_requested"):
 		level.interaction_requested.emit({
 			"type": "message",
 			"message_text": message_text
 		})
+
+func _run_blackout_reset(level: CanvasItem, player: Node2D) -> void:
+	var tween := create_tween()
+	tween.tween_property(level, "modulate", Color(0, 0, 0, 1), blackout_seconds)
+	tween.tween_callback(_teleport_player.bind(player))
+	tween.tween_interval(blackout_seconds)
+	tween.tween_property(level, "modulate", Color(1, 1, 1, 1), blackout_seconds)
 
 func _teleport_player(player: Node2D) -> void:
 	if player:

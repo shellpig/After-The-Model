@@ -389,6 +389,8 @@ debug_color = Color(0.61548674, 0.35997185, 0.9970836, 0.41960785)
 position = Vector2(0, -60)
 script = ExtResource("combat_loss_script_id")
 safe_point = Vector2(150, 690)
+message_text = "你被瘋狂運轉的清潔機撞了出去。\n看來只能正面打倒它，把它格式化才行。"
+blackout_seconds = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walker01/CombatLoss" unique_id=987654322]
 position = Vector2(-8, 28.5)

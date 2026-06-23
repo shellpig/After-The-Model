@@ -1,0 +1,140 @@
+## tunnel_combat — Phase 18-A 廢棄通道戰鬥場景背景
+## 生圖目標：3 螢幕寬（3840×720, 16:3）；實際採用原生輸出 4768×896（同 16:3 比例）
+## 場景採用值：MAP_WIDTH := 4768.0 / CAMERA_Y 536 / limit_bottom 896（對齊 subway_station_platform 慣例：用圖真實尺寸）
+## 風格錨點：與 anchor-03（地鐵 B1）同世界，但更暗、更廢棄、機械感更重
+
+A 2D side-scrolling video game background, EXTRA-WIDE panorama (16:3 aspect,
+~5.3:1, three 1280×720 screens wide, meant to scroll horizontally
+left-to-right). STRICTLY orthographic side view, like Hollow Knight, The Last
+Night, Limbo, or Ranx (1990). Matching the visual style of anchor-01,
+anchor-02, anchor-03 in /assets/art_bible/ — same world as the subway
+concourse, but this is a DERELICT, ABANDONED maintenance tunnel deeper
+underground.
+
+## SCENE FRAMING
+The interior of a long abandoned service/utility tunnel fills the ENTIRE
+frame, edge to edge. Floor, ceiling, and back wall extend off both the LEFT
+and RIGHT edges — the corridor continues beyond the frame on both sides.
+NO external structure, NO "outside the tunnel". This is a closed underground
+space.
+
+## OVERALL TONE (CRITICAL — this is a DARK scene)
+This tunnel is mostly DARKNESS. Heavy Mignola black dominates — ceiling,
+upper walls, and most corners are deep purple-black solid shadow. Light
+exists only in a FEW small isolated POOLS, with long stretches of near-dark
+between them. The mood is cold, derelict, forgotten — power has mostly been
+cut, only a few fixtures still cling to life. Roughly:
+- ~60-65% deep shadow (ceiling, upper walls, dead stretches between lights)
+- ~25-30% midtones (the lit wall/floor sections, exposed concrete)
+- ~8-10% bright (only the few working light sources + small accents)
+
+## HORIZONTAL LAYOUT (three screens, scrolling)
+Because the frame is THREE screens wide, distribute interest across the
+length with clear DARK GAPS between lit beats (this rhythm of light/dark is
+the whole point):
+
+- LEFT THIRD — TUNNEL MOUTH / ENTRANCE (the way back to the settlement):
+  A reinforced doorway / breached bulkhead on the far left where the player
+  enters from the settlement's right room. One dim, slightly warm amber bulb
+  still works above it (faded interior comfort warm — "this is where people
+  still are"). Just past it the light dies into shadow.
+
+- CENTER THIRD — THE COMBAT ARENA (open breathing space):
+  A WIDE, mostly EMPTY stretch of clear walking floor — this is where the
+  fight happens, keep it uncluttered. ONE working maintenance lamp casts a
+  single cold cyan-white pool of light onto the floor here (flickering,
+  buzzing), the rest fades to dark at the edges. Props stay pinned to the
+  back wall / ceiling, never on the floor.
+
+- RIGHT THIRD — DEAD END / LOST-PROPERTY (post-combat reward zone):
+  The tunnel terminates in a collapsed / sealed dead end. Against the back
+  wall sits ONE battered metal lost-property / logistics crate (a small
+  freight locker, lid closed) — the only notable floor object in the whole
+  scene, lit by a weak failing light so the player's eye finds it after the
+  fight. Faint cyan indicator still blinking on it.
+
+## VERTICAL LAYOUT (CRITICAL)
+- BOTTOM 15-18% of frame: the walking floor — a thin horizontal strip, the
+  ONLY playable surface. Keep it clear for left-right walking and combat.
+- REMAINING 82-85%: back wall, ceiling, pipes, machinery — all NON-PLAYABLE
+  visual context, mostly swallowed in black.
+The player must NEVER feel they can move up or down. Floor is flat, thin,
+horizontal. Do NOT make the floor more than ~18% of frame height.
+
+## VIEW RULES
+- ORTHOGRAPHIC PROJECTION ONLY. No perspective, no vanishing point.
+- Floor and ceiling are perfectly horizontal lines.
+- The tunnel does NOT recede into depth — it is a flat side cross-section.
+- Every object is a CARDBOARD CUTOUT in pure side profile, flat against the
+  wall. NO 3/4 view of anything.
+
+## SCENE CONTENT — back wall & ceiling (upper 82%, mostly dark)
+- Exposed concrete with cracks, water stains, rust streaks, peeling paint —
+  "used hard, then abandoned".
+- Thick bundles of exposed pipes and dead conduit running along the ceiling
+  edge, sagging, some severed.
+- A few DEAD / DARK light fixtures (broken fluorescent tubes, shattered
+  housings) — emphasizing that most lights are OUT.
+- Defunct wall machinery / a rusted junction box / an old service panel,
+  hanging open, wires out.
+- Optional: faint silhouette of a non-working ventilation fan high in shadow.
+- Hand-inked grime, drips, debris piles at the base of the back wall.
+
+## LIGHT SOURCES (only THREE, isolated)
+1. LEFT: dim warm amber bulb over the entrance doorway (faded comfort warm).
+2. CENTER: one cold cyan-white maintenance lamp, flickering, single floor
+   pool — the combat light.
+3. RIGHT: one weak failing light near the dead-end crate, plus the crate's
+   small blinking cyan indicator.
+Everything between and above these is deep purple-black shadow.
+
+## ★ ORANGE SCALE RULE (CRITICAL) ★
+Saturated burnt orange is the NARRATIVE MARKER COLOR of 平民區 — the mark of
+PEOPLE who passed through, never the system. It loses meaning if spread.
+HARD LIMITS:
+- TOTAL orange ≤ 1-2% of all pixels. Not 5%, not 10%.
+- Orange is always a SHAPE (a tag, a stripe, a stencil), NEVER a fill, NEVER
+  on machinery or fixtures.
+- MAXIMUM TWO orange spots:
+  (1) PRIMARY: one small burnt-orange spray-painted arrow or tag near the
+      entrance — a maintenance worker's old route mark, "someone came this
+      way".
+  (2) SUPPORTING: one tiny orange sticker / hazard stencil on the dead-end
+      crate or a pipe.
+Anything else orange = wrong.
+
+## Comic Technique
+American indie cyberpunk comic (HD 2D, NOT pixel art). Heavy Mignola black
+for ceiling, dead stretches and corners — use "not drawing" to tell the
+story of an abandoned place. Frank Miller chiaroscuro: the few light pools
+read as bright ONLY because everything around them is black. Paul Pope
+hand-inked varied-weight linework. Halftone dots in midtones only (heavy,
+riso zine grain). Flat cel-shade, hard shadow edges, NO gradients.
+
+## Color
+Overall: deep teal, gray-blue, ink purple-black — cold, institutional,
+underground, dead. Warm accent only at the entrance bulb (faded amber, low
+saturation, interior comfort warm — NOT the focal orange). Neon: cold
+cyan-white on the working maintenance lamp and the crate indicator; a touch
+of magenta is acceptable on a dead indicator. The ONLY fully-saturated warm
+color is the burnt-orange worker mark (≤2%).
+
+## STRICT DO NOT
+- DO NOT make it brightly or evenly lit — most of the frame is BLACK.
+- DO NOT light the whole tunnel; light is in 3 isolated pools only.
+- DO NOT make the floor more than ~18% of frame height.
+- DO NOT clutter the central combat floor — keep it open.
+- DO NOT use perspective or let the tunnel recede into depth.
+- DO NOT show 3/4 view of any object.
+- DO NOT add NPCs or the cleaning machine (characters are separate sprites).
+- DO NOT add readable text — all signage / stencils are abstract glyphs.
+- DO NOT put orange on machinery, pipes, fixtures, or lights — only on the
+  two worker-made marks.
+- DO NOT let orange exceed ~2% of the frame or spread beyond two spots.
+- DO NOT confuse the entrance amber glow with the focal orange.
+- DO NOT use pure white (lightest = faded cream) or pure black (darkest =
+  deep purple-black).
+- DO NOT use gold or brass (that's 富人區).
+- DO NOT use saturated cyber-UV-violet (that's the AI district).
+- DO NOT make it look futuristic-clean; it is derelict and grimy.
+- DO NOT add anime lighting, photorealism, or 3D render look.

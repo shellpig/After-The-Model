@@ -148,6 +148,9 @@ shape = SubResource("RectangleShape2D_ground")
 [node name="from_left" type="Marker2D" parent="SpawnPoints" unique_id=2093496512]
 position = Vector2(180, 870)
 
+[node name="from_deep_tunnel" type="Marker2D" parent="SpawnPoints" unique_id=2093496513]
+position = Vector2(3750, 870)
+
 [node name="Interactables" type="Node2D" parent="." unique_id=1481203313]
 
 [node name="GoLeftArea" type="Area2D" parent="Interactables" unique_id=194427120]
@@ -180,7 +183,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="DeepTunnelArea" type="Area2D" parent="Interactables" unique_id=1275398128]
 script = ExtResource("3_interactable")
 interaction_id = "deep_tunnel"
-prompt_text = "E: █ 查看更深隧道口"
+prompt_text = "E: █ 進入更深隧道"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeepTunnelArea" unique_id=1435778254]
 position = Vector2(3814, 716)

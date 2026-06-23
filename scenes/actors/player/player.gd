@@ -23,6 +23,8 @@ const CLIMB_Z_INDEX := 20      # 爬梯時 sprite 疊在前景欄杆(z=10)之上
 # combat_walk/combat_idle source is 960px vs the 512px walk frames; this ratio
 # (walk char height / combat char height) keeps the on-screen size equal.
 @export var combat_walk_scale_mult := 0.459
+# Phase 18: attack is restricted to combat scenes only.
+@export var combat_mode := false
 
 # Phase 12-A: scripted parabolic jump (no global gravity; arc rides the walk line).
 @export var jump_height := 120.0       # arc apex height above the walk line, px
@@ -139,7 +141,8 @@ func _physics_process(delta: float) -> void:
 	# Phase 13-A: start an attack from the ground (not mid-jump / mid-climb).
 	# Phase 13-B: suppress attack when a machine enemy in format range is present
 	# (E is shared by attack + interact_primary; format takes priority).
-	if not _jumping and Input.is_action_just_pressed("attack") and not _in_format_zone():
+	# Phase 18: combat_mode check + E priority arbitration (_e_reserved()).
+	if not _jumping and combat_mode and Input.is_action_just_pressed("attack") and not _e_reserved():
 		_attacking = true
 		_attack_t = 0.0
 		_attack_impact_emitted = false
@@ -299,6 +302,19 @@ func _play_jump_anim() -> void:
 func _in_format_zone() -> bool:
 	var fmt := get_node_or_null("FormatReset")
 	return fmt != null and fmt.has_method("has_target") and fmt.call("has_target")
+
+# Phase 18: E key priority arbitration helper.
+# Returns true if E is claimed by format or interaction.
+func _e_reserved() -> bool:
+	return _in_format_zone() or _has_current_interactable()
+
+func _has_current_interactable() -> bool:
+	var root = get_tree().root
+	if root:
+		var game_ui = root.find_child("GameUI", true, false)
+		if game_ui and game_ui.has_method("has_current_interactable"):
+			return game_ui.has_current_interactable()
+	return false
 
 func _try_grab_ledge() -> bool:
 	for l in get_tree().get_nodes_in_group("ledges"):

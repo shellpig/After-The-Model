@@ -135,6 +135,13 @@ const TREE := {
 					{"type": "has_item", "item_id": "early_ai_assistant_activation_box", "op": "==", "value": true}
 				],
 				"goto": "alley_backrooms_turn_in"
+			},
+			{
+				"label": "我撿到一張育兒照護回執。",
+				"condition": {
+					"type": "has_item", "item_id": "childcare_supply_receipt", "op": "==", "value": true
+				},
+				"goto": "sell_receipt"
 			}
 		]
 	},
@@ -187,7 +194,14 @@ const TREE := {
 				"goto": "end_close"
 			},
 			{"label": "有新消息嗎？", "goto": "intel_gate"},
-			{"label": "（離開）", "goto": "flee_close"}
+			{"label": "（離開）", "goto": "flee_close"},
+			{
+				"label": "我撿到一張育兒照護回執。",
+				"condition": {
+					"type": "has_item", "item_id": "childcare_supply_receipt", "op": "==", "value": true
+				},
+				"goto": "sell_receipt"
+			}
 		]
 	},
 	"end_close": {
@@ -197,5 +211,25 @@ const TREE := {
 	"flee_close": {
 		"speaker": "晚",
 		"text": "走啦？路滑，可別一腳踩進排水溝裡了——我可不想去撈你。"
+	},
+	"sell_receipt": {
+		"speaker": "晚",
+		"text": "（拿過回執翻看）\n這種回執沒什麼價。除非你知道上面的代碼是誰的。……你要賣？隨你便。",
+		"choices": [
+			{"label": "（將回執賣給她）", "goto": "do_sell_receipt"},
+			{"label": "（還是先留著吧）", "goto": "end_warm"}
+		]
+	},
+	"do_sell_receipt": {
+		"speaker": "晚",
+		"text": "好吧。拿著，這是折給你的小錢。這張破紙我就收下了。",
+		"effect": [
+			{"op": "remove_item", "item_id": "childcare_supply_receipt", "value": 1},
+			{"op": "add_credits", "value": 200},
+			{"op": "add_trace", "value": -1},
+			{"op": "add_int", "key": "affinity_wan", "value": -1},
+			{"op": "set_flag", "key": "peace_line_locked", "value": true}
+		],
+		"goto": "end_warm"
 	}
 }

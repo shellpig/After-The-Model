@@ -52,7 +52,13 @@ const SCENES := {
 	"underground_settlement_right": {
 		"path": "res://scenes/levels/underground_settlement/underground_settlement_right.tscn",
 		"default_entry_point_id": "from_left",
-		"entry_points": ["from_left"],
+		"entry_points": ["from_left", "from_deep_tunnel"],
+		"music_id": "underground_settlement"
+	},
+	"tunnel_combat": {
+		"path": "res://scenes/levels/tunnel_combat/tunnel_combat.tscn",
+		"default_entry_point_id": "from_settlement",
+		"entry_points": ["from_settlement"],
 		"music_id": "underground_settlement"
 	}
 }

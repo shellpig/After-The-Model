@@ -351,6 +351,18 @@ const ITEMS_DB := {
 		"usable": true,
 		"equipment_slot": "",
 		"icon_path": "res://assets/generated/sprites/items/packaged_water/icon.png"
+	},
+	"childcare_supply_receipt": {
+		"id": "childcare_supply_receipt",
+		"name": "兒少照護補給回執",
+		"description": "一張沾有油漬的行政物流單，字跡有些模糊。上面印著隨機的收件代碼，但沒有留下名字。",
+		"category": "key_item",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": false,
+		"sellable": true,
+		"usable": false,
+		"icon_path": "res://assets/generated/sprites/items/childcare_supply_receipt/icon.png"
 	}
 }
 

@@ -8,7 +8,10 @@ class_name MeleeStick
 
 const HitImpactBurst = preload("res://scripts/components/hit_impact_burst.gd")
 
-@export var attack_reach := 200.0
+# Reach at player scale 1.0; the actual range scales with the player's on-screen
+# size (see _on_attack_impact_frame) so it feels consistent across maps that use
+# different Player scales (e.g. 1.0 in tunnel_combat, 0.8 in subway).
+@export var attack_reach := 250.0
 @export var stun_duration := 5.0
 
 var _player: Node2D = null
@@ -25,13 +28,17 @@ func _on_attack_impact_frame() -> void:
 	if _player.has_method("get_facing"):
 		facing = _player.get_facing()
 
+	# Scale the reach by the player's world scale so a swing covers the same
+	# proportion of the character regardless of the map's Player scale.
+	var reach := attack_reach * absf(_player.global_scale.x)
+
 	for enemy in get_tree().get_nodes_in_group("enemies"):
 		if not enemy.has_method("apply_stun"):
 			continue
 		if enemy.has_method("is_stunned") and enemy.is_stunned():
 			continue
 		var dx: float = enemy.global_position.x - _player.global_position.x
-		if abs(dx) > attack_reach:
+		if abs(dx) > reach:
 			continue
 		# Player must face the enemy: dx > 0 → face right (1), dx < 0 → face left (-1)
 		if not ((dx > 0.0 and facing == 1) or (dx < 0.0 and facing == -1)):

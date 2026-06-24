@@ -254,7 +254,7 @@ position = Vector2(1200, 407)
 position = Vector2(1409, 529.5)
 script = ExtResource("4_interactable")
 interaction_id = "main_ladder"
-prompt_text = "W/S 爬梯子"
+prompt_text = "PROMPT_FIRE_ESCAPE_CLIMB_LADDER"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MainLadderArea" unique_id=1403289521]
 position = Vector2(0, -11.25)
@@ -265,7 +265,7 @@ debug_color = Color(0.2, 0.8, 1, 0.42)
 position = Vector2(1198, 317)
 script = ExtResource("4_interactable")
 interaction_id = "window_return"
-prompt_text = "E: 回到公寓"
+prompt_text = "PROMPT_FIRE_ESCAPE_BACK_TO_APARTMENT"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WindowReturn" unique_id=926050377]
 shape = SubResource("RectangleShape2D_window")
@@ -275,7 +275,7 @@ debug_color = Color(0.9, 0.1, 0.1, 0.42)
 position = Vector2(384, 627)
 script = ExtResource("4_interactable")
 interaction_id = "quest_box"
-prompt_text = "E: 搜索箱子"
+prompt_text = "PROMPT_FIRE_ESCAPE_SEARCH_BOX"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/QuestBox" unique_id=274169926]
 position = Vector2(5.5, -5.5)

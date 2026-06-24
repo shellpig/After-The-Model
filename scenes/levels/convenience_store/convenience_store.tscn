@@ -218,7 +218,7 @@ position = Vector2(720, 665)
 [node name="StoreShelvesArea" type="Area2D" parent="Interactables" unique_id=240353452]
 script = ExtResource("3_interactable")
 interaction_id = "store_shelves"
-prompt_text = "E: █ 查看貨架"
+prompt_text = "PROMPT_STORE_SHELF"
 message_id = "store_shelves"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreShelvesArea" unique_id=1540772713]
@@ -229,7 +229,7 @@ debug_color = Color(0.95, 0.6, 0, 0.42)
 [node name="AutoDoorArea" type="Area2D" parent="Interactables" unique_id=548043428]
 script = ExtResource("3_interactable")
 interaction_id = "auto_door"
-prompt_text = "E: █ 回到街道"
+prompt_text = "PROMPT_STORE_BACK_TO_STREET"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/AutoDoorArea" unique_id=576600637]
 position = Vector2(785, 525)
@@ -239,7 +239,7 @@ debug_color = Color(0.9, 0.1, 0.1, 0.42)
 [node name="DeliMachineArea" type="Area2D" parent="Interactables" unique_id=1715959703]
 script = ExtResource("3_interactable")
 interaction_id = "deli_machine"
-prompt_text = "E: █ 查看熟食機台"
+prompt_text = "PROMPT_STORE_DELI_MACHINE"
 message_id = "deli_machine"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeliMachineArea" unique_id=930965369]
@@ -250,7 +250,7 @@ debug_color = Color(1, 0.8, 0.1, 0.42)
 [node name="StoreRobotArea" type="Area2D" parent="Interactables" unique_id=187118389]
 script = ExtResource("3_interactable")
 interaction_id = "store_robot"
-prompt_text = "E: █ 交談"
+prompt_text = "PROMPT_TALK"
 dialogue_id = "store_robot"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRobotArea" unique_id=2056656730]
@@ -266,7 +266,7 @@ texture = ExtResource("13_robot_sprite")
 [node name="DrinkCoolerArea" type="Area2D" parent="Interactables" unique_id=595107667]
 script = ExtResource("3_interactable")
 interaction_id = "drink_cooler"
-prompt_text = "E: █ 查看冷藏櫃"
+prompt_text = "PROMPT_STORE_FREEZER"
 message_id = "drink_cooler"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DrinkCoolerArea" unique_id=1937552463]
@@ -277,7 +277,7 @@ debug_color = Color(0.1, 0.9, 0.1, 0.42)
 [node name="BackDoorArea" type="Area2D" parent="Interactables" unique_id=1885835957]
 script = ExtResource("3_interactable")
 interaction_id = "back_door"
-prompt_text = "E: █ 推推看後門"
+prompt_text = "PROMPT_STORE_BACK_DOOR"
 message_id = "back_door"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BackDoorArea" unique_id=1223398186]
@@ -288,7 +288,7 @@ debug_color = Color(0.6, 0.2, 0.95, 0.42)
 [node name="ClerkLockerArea" type="Area2D" parent="Interactables" unique_id=567419382]
 script = ExtResource("3_interactable")
 interaction_id = "clue_clerk_locker"
-prompt_text = "E: █ 查看置物櫃"
+prompt_text = "PROMPT_STORE_LOCKER"
 note_id = "clue_clerk_locker"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ClerkLockerArea" unique_id=184346139]
@@ -299,7 +299,7 @@ debug_color = Color(0.1, 0.2, 0.8, 0.42)
 [node name="ClerkDiaryArea" type="Area2D" parent="Interactables" unique_id=1917931665]
 script = ExtResource("3_interactable")
 interaction_id = "clue_clerk_diary"
-prompt_text = "E: █ 檢視日記殘頁"
+prompt_text = "PROMPT_STORE_DIARY_PAGE"
 note_id = "clue_clerk_diary"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ClerkDiaryArea" unique_id=1731748246]
@@ -310,7 +310,7 @@ debug_color = Color(0.2, 0.8, 0.1, 0.42)
 [node name="TerminationNoticeArea" type="Area2D" parent="Interactables" unique_id=72812745]
 script = ExtResource("3_interactable")
 interaction_id = "clue_termination_notice"
-prompt_text = "E: █ 查看佈告欄"
+prompt_text = "PROMPT_STORE_BULLETIN_BOARD"
 note_id = "clue_termination_notice"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TerminationNoticeArea" unique_id=1531606337]
@@ -321,7 +321,7 @@ debug_color = Color(0.8, 0.1, 0.2, 0.42)
 [node name="CounterPhotoArea" type="Area2D" parent="Interactables" unique_id=1204431922]
 script = ExtResource("3_interactable")
 interaction_id = "clue_counter_photo"
-prompt_text = "E: █ 檢視櫃台照片"
+prompt_text = "PROMPT_STORE_COUNTER_PHOTO"
 note_id = "clue_counter_photo"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/CounterPhotoArea" unique_id=1404402763]
@@ -332,7 +332,7 @@ debug_color = Color(0.8, 0.8, 0.1, 0.42)
 [node name="StoreRegistryHostArea" type="Area2D" parent="Interactables" unique_id=1537842367]
 script = ExtResource("3_interactable")
 interaction_id = "store_registry_host"
-prompt_text = "E: █ 操作店籍主機"
+prompt_text = "PROMPT_STORE_MAINFRAME"
 dialogue_id = "store_registry_host"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreRegistryHostArea" unique_id=571981319]
@@ -343,7 +343,7 @@ debug_color = Color(0.5, 0.5, 0.5, 0.42)
 [node name="RobotPlateArea" type="Area2D" parent="Interactables" unique_id=566047576]
 script = ExtResource("3_interactable")
 interaction_id = "clue_robot_plate"
-prompt_text = "E: █ 查看銘牌"
+prompt_text = "PROMPT_STORE_NAMEPLATE"
 note_id = "clue_robot_plate"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/RobotPlateArea" unique_id=778083420]

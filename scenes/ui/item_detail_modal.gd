@@ -82,25 +82,25 @@ func _fill_content(instance_id: String) -> void:
 		icon_rect.texture = null
 
 	# Name
-	name_label.text = item_meta.get("name", "???")
+	name_label.text = tr(item_meta.get("name", "???"))
 
 	# Description
-	desc_label.text = item_meta.get("description", "")
+	desc_label.text = tr(item_meta.get("description", ""))
 
 	# Category tag
 	var category: String = item_meta.get("category", "misc")
 	var equipment_slot: String = item_meta.get("equipment_slot", "")
-	var slot_zh := {"clothing": "衣服", "hand": "手持", "accessory": "其他"}
+	var slot_names := {"clothing": tr("UI_SLOT_CLOTHING"), "hand": tr("UI_SLOT_HAND"), "accessory": tr("UI_SLOT_ACCESSORY")}
 	match category:
 		"key_item":
-			category_label.text = "劇情物品（不可丟棄）"
+			category_label.text = tr("UI_CATEGORY_KEY_ITEM")
 		"equipment":
-			var slot_name: String = slot_zh.get(equipment_slot, equipment_slot)
-			category_label.text = "裝備（%s）" % slot_name
+			var slot_name: String = slot_names.get(equipment_slot, equipment_slot)
+			category_label.text = tr("UI_CATEGORY_EQUIPMENT_FMT") % slot_name
 		"consumable":
-			category_label.text = "消耗品"
+			category_label.text = tr("UI_CATEGORY_CONSUMABLE")
 		_:
-			category_label.text = "物品"
+			category_label.text = tr("UI_CATEGORY_MISC")
 
 func _position_for_anchor(anchor_node: Control = null) -> void:
 	reset_size()

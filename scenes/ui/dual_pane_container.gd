@@ -68,14 +68,14 @@ func set_input_active(active: bool, c_id: String = "", s_count: int = 0, title: 
 		right_grid.set_input_active(false)
 
 func refresh_ui() -> void:
-	left_title.text = "背包    credits : %d" % GameState.get_credits()
+	left_title.text = tr("UI_DUAL_PANE_LEFT_TITLE") % GameState.get_credits()
 	right_title.text = title_text
 
 	left_grid.initialize_grid(GameState.get_inventory())
 	right_grid.initialize_grid(GameState.get_container(container_id))
 
-	left_footer.text = "E: 移動    R: 查看    T: 丟棄    Esc: 關閉"
-	right_footer.text = "E: 移動    R: 查看    T: 丟棄    Esc: 關閉"
+	left_footer.text = tr("UI_DUAL_PANE_FOOTER_HINT")
+	right_footer.text = tr("UI_DUAL_PANE_FOOTER_HINT")
 
 	# Re-grab focus on same index to keep focus locked after transfers (per spec line 575)
 	if active_pane == "left":
@@ -181,9 +181,9 @@ func _handle_item_move() -> void:
 			var target_config := GameState.get_container_config(target_id) if target_id != "player_inventory" else {}
 			var accepted: Array = target_config.get("accepted_item", [])
 			if not accepted.is_empty() and not accepted.has(item_id):
-				FloatingToast.show_toast("根本放不進去。", target_panel)
+				FloatingToast.show_toast(tr("UI_DUAL_PANE_NOT_ACCEPTED"), target_panel)
 			else:
-				FloatingToast.show_toast("放不下了。", target_panel)
+				FloatingToast.show_toast(tr("UI_DUAL_PANE_NO_SPACE"), target_panel)
 
 func _apply_panels_styling() -> void:
 	# Reuse the InventoryPanel skin to avoid color drift (same pattern as NotebookPanel)

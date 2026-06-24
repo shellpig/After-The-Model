@@ -131,7 +131,7 @@ position = Vector2(1130, 706)
 [node name="ExitToStreetArea" type="Area2D" parent="Interactables" unique_id=316902067]
 script = ExtResource("3_interactable")
 interaction_id = "exit_to_street"
-prompt_text = "E: █ 回到街道"
+prompt_text = "PROMPT_STORE_BACK_TO_STREET"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToStreetArea" unique_id=697995062]
 position = Vector2(249, 584)
@@ -140,7 +140,7 @@ shape = SubResource("RectangleShape2D_transition")
 [node name="GateToPlatformArea" type="Area2D" parent="Interactables" unique_id=1988542480]
 script = ExtResource("3_interactable")
 interaction_id = "gate_to_platform"
-prompt_text = "E: █ 通往月台"
+prompt_text = "PROMPT_SUBWAY_TO_PLATFORM"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GateToPlatformArea" unique_id=866777180]
 position = Vector2(1225, 582)
@@ -149,7 +149,7 @@ shape = SubResource("RectangleShape2D_transition")
 [node name="StationSignArea" type="Area2D" parent="Interactables" unique_id=1370410198]
 script = ExtResource("3_interactable")
 interaction_id = "station_sign"
-prompt_text = "E: █ 查看站名牌"
+prompt_text = "PROMPT_SUBWAY_STATION_NAME"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StationSignArea" unique_id=505680921]
 position = Vector2(490, 586)
@@ -158,7 +158,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="DeadKioskArea" type="Area2D" parent="Interactables" unique_id=1074275788]
 script = ExtResource("3_interactable")
 interaction_id = "dead_kiosk"
-prompt_text = "E: █ 查看售票機"
+prompt_text = "PROMPT_SUBWAY_TICKET_MACHINE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeadKioskArea" unique_id=1152818149]
 position = Vector2(735, 585)
@@ -167,7 +167,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="FareGateArea" type="Area2D" parent="Interactables" unique_id=526848410]
 script = ExtResource("3_interactable")
 interaction_id = "fare_gate"
-prompt_text = "E: █ 查看閘口"
+prompt_text = "PROMPT_SUBWAY_GATE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FareGateArea" unique_id=1166107672]
 position = Vector2(1060, 578)

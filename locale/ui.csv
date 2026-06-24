@@ -18,3 +18,249 @@ UI_SETTINGS_LANG_ZH_CN,简体中文,简体中文,简体中文
 UI_SETTINGS_LANG_EN,English,English,English
 UI_SETTINGS_BACK,返回,返回,Back
 UI_SETTINGS_FOOTER_HINT,W/S：選擇    E：確認    Esc：返回,W/S：选择    E：确认    Esc：返回,W/S: Select    E: Confirm    Esc: Back
+UI_DIALOGUE_CLOSE,E: 關閉,E: 关闭,E: Close
+UI_DIALOGUE_CONTINUE,E: 繼續,E: 继续,E: Continue
+UI_DIALOGUE_SELECT_CONFIRM,W/S: 選擇    E: 確認,W/S: 选择    E: 确认,W/S: Select    E: Confirm
+UI_DUAL_PANE_LEFT_TITLE,背包    credits : %d,背包    credits : %d,Inventory    credits : %d
+UI_DUAL_PANE_FOOTER_HINT,E: 移動    R: 查看    T: 丟棄    Esc: 關閉,E: 移动    R: 查看    T: 丢弃    Esc: 关闭,E: Move    R: Examine    T: Discard    Esc: Close
+UI_DUAL_PANE_NOT_ACCEPTED,根本放不進去。,根本放不进去。,Cannot fit in.
+UI_DUAL_PANE_NO_SPACE,放不下了。,放不下了。,No space left.
+UI_TOAST_NOTE_ADDED_FMT,已記入筆記：%s,已写入笔记：%s,Note added: %s
+UI_TOAST_NOTE_UPDATED_FMT,已更新筆記：%s,已更新笔记：%s,Note updated: %s
+UI_TOAST_QUEST_ADDED_FMT,已記入工作：%s,已記入工作：%s,Task added: %s
+UI_TOAST_QUEST_UPDATED_FMT,已更新工作：%s,已更新工作：%s,Task updated: %s
+UI_TOAST_UPDATED_DOOR,已更新筆記：我鎖上的門,已更新笔记：我锁上的门,Note updated: The locked door
+UI_MSG_CLOSE_HINT,▼ 關閉,▼ 关闭,▼ Close
+UI_MSG_CONTINUE_HINT,▼ 繼續,▼ 继续,▼ Continue
+UI_TOAST_GLOVE_DECRYPT_NO_SPACE,你發現了啟用盒底部的夾層，裡面塞著一片泛著冷光的薄卡片，但你的背包太滿了，無法將它取出。整理一下空間後再查看吧。,你发现了启用盒底部的夹层，里面塞着一片泛着冷光的薄卡片，但你的背包太满了，无法将它取出。整理一下空间后再查看吧。,"You found a hidden slot inside the activation box with a cold metallic badge, but your inventory is full. Clean up some space first."
+UI_TOAST_GLOVE_DECRYPT_SUCCESS,"你仔細端詳啟用盒的底部，掀開了一個隱蔽的塑料卡扣夾層。夾層內嵌著一片泛著冷光的薄金屬卡。
+（獲得了「舊式 AI 授權模組」。）","你仔细端详启用盒的底部，掀开了一个隐蔽的塑料卡扣夹层。夹层内嵌着一片泛着冷光的薄金属卡。
+（获得了「旧式 AI 授权模组」。）","You carefully examine the bottom of the activation box and uncover a hidden slot. A cold metallic badge is nested inside.
+(Acquired 'Old AI Authorization Module'.)"
+UI_TOAST_CANNOT_USE_NOW,現在用不上。,现在用不上。,Cannot use this now.
+UI_TOAST_EQUIP_SLOT_FULL,這類裝備已經滿了，先卸下身上的再裝備新的。,这类装备已经满了，先卸下身上的再装备新的。,This equipment slot is full. Unequip the current one first.
+UI_TOAST_CANNOT_DISCARD_FMT,無法丟棄 %s,无法丢弃 %s,Cannot discard %s
+UI_TOAST_UNEQUIP_BEFORE_DISCARD,請先卸下再丟棄,请先卸下再丢弃,Please unequip it before discarding.
+UI_CONFIRM_DISCARD_FMT,確定要丟棄 %s？,确定要丢弃 %s？,Are you sure you want to discard %s?
+UI_TOAST_DISCARDED_FMT,已丟棄 %s,已丢弃 %s,Discarded %s
+UI_SLOT_CLOTHING,衣服,衣服,Clothing
+UI_SLOT_HAND,手持,手持,Hand
+UI_SLOT_ACCESSORY,其他,其他,Accessory
+UI_CATEGORY_KEY_ITEM,劇情物品（不可丟棄）,剧情物品（不可丢弃）,Key Item (Undiscardable)
+UI_CATEGORY_EQUIPMENT_FMT,裝備（%s）,装备（%s）,Equipment (%s)
+UI_CATEGORY_CONSUMABLE,消耗品,消耗品,Consumable
+UI_CATEGORY_MISC,物品,物品,Item
+UI_NOTEBOOK_UNNAMED_ECHO,未命名殘響,未命名残响,Unnamed Echo
+UI_NOTEBOOK_ECHO_TITLE_FMT,%s（%s/%s）,%s（%s/%s）,%s (%s/%s)
+UI_NOTEBOOK_SOLD_TAG,[已售出],[已售出],[Sold]
+UI_NOTEBOOK_SEGMENT_LOCKED_FMT,段落 %d：????,段落 %d：????,Segment %d: ????
+UI_NOTEBOOK_MEDIA_PHOTO,(有一張照片),(有一张照片),(There is a photo)
+UI_NOTEBOOK_MEDIA_SONG,(有一首歌的錄音),(有一首歌的录音),(There is a song recording)
+UI_NOTEBOOK_MEDIA_AUDIO,(有一段錄音),(有一段录音),(There is an audio recording)
+UI_NOTEBOOK_NO_NOTES,（尚無筆記）,（尚无笔记）,(No notes)
+UI_NOTEBOOK_NO_ECHOES,（尚無已發現的殘響）,（尚无已发现的残响）,(No echoes found)
+UI_NOTEBOOK_FOOTER_HINT,A/D: 切分頁   W/S: 選筆記   I: 背包   Esc/J: 關閉,A/D: 切分页   W/S: 選笔记   I: 背包   Esc/J: 关闭,A/D: Change Tab   W/S: Select Note   I: Inventory   Esc/J: Close
+UI_PROGRESS_TOTAL_TITLE,總進度,总进度,Total Progress
+UI_PROGRESS_SCENES_TITLE,場景,场景,Scenes
+UI_PROGRESS_NPCS_TITLE,角色,角色,Characters
+UI_PROGRESS_QUESTS_TITLE,任務,任务,Quests
+UI_PROGRESS_ECHOES_TITLE,殘響,残响,Echoes
+UI_PROGRESS_SPECIAL_TITLE,特殊道具,特殊道具,Special Items
+UI_PROGRESS_OVERALL_PCT_FMT,總體探索進度：%d%%,总体探索进度：%d%%,Overall Progress: %d%%
+UI_PROGRESS_SCENE_COUNT_FMT,場景收集：%d/%d,场景收集：%d/%d,Scenes: %d/%d
+UI_PROGRESS_NPC_COUNT_FMT,角色會面：%d/%d,角色会面：%d/%d,NPCs Met: %d/%d
+UI_PROGRESS_QUEST_COUNT_FMT,任務里程碑：%d/%d,任务里程碑：%d/%d,Milestones: %d/%d
+UI_PROGRESS_ECHO_COUNT_FMT,殘響收集：%d/%d,残响收集：%d/%d,Echoes: %d/%d
+UI_PROGRESS_ITEMS_COUNT_FMT,特殊道具：%d/%d,特殊道具：%d/%d,Special Items: %d/%d
+UI_PROGRESS_SCENES_TITLE_FMT,場景收集進度：%d/%d,场景收集进度：%d/%d,Scenes Progress: %d/%d
+UI_PROGRESS_NPCS_TITLE_FMT,角色會面進度：%d/%d,角色会面进度：%d/%d,NPCs Progress: %d/%d
+UI_PROGRESS_QUESTS_TITLE_FMT,任務里程碑進度：%d/%d,任务里程碑进度：%d/%d,Milestones Progress: %d/%d
+UI_PROGRESS_ECHOES_TITLE_FMT,殘響收集進度：%d/%d,残响收集进度：%d/%d,Echoes Progress: %d/%d
+UI_PROGRESS_SPECIAL_TITLE_FMT,特殊道具進度：%d/%d,特殊道具进度：%d/%d,Special Items Progress: %d/%d
+UI_PAUSE_CANNOT_SAVE,目前區域無法儲存進度！,目前区域无法储存进度！,Cannot save game in this area!
+UI_PAUSE_CONFIRM_TITLE_SCREEN,"確定返回標題畫面？
+(未儲存的進度將會遺失)","确定返回标题画面？
+(未储存的进度将会遗失)","Are you sure you want to return to title screen?
+(Unsaved progress will be lost)"
+UI_SAVE_TITLE_SAVE,— 選擇存檔槽 (儲存) —,— 选择存档槽 (储存) —,— Select Save Slot (Save) —
+UI_SAVE_TITLE_LOAD,— 選擇存檔槽 (載入) —,— 选择存档槽 (载入) —,— Select Save Slot (Load) —
+UI_SAVE_SLOT_EMPTY_FMT,存檔槽 %02d  [ 空白 ],存档槽 %02d  [ 空白 ],Save Slot %02d  [ Empty ]
+UI_SAVE_SLOT_CORRUPTED_FMT,存檔槽 %02d  [ 損毀 / 版本不符 ],存档槽 %02d  [ 损坏 / 版本不符 ],Save Slot %02d  [ Corrupt / Version Mismatch ]
+UI_SAVE_SLOT_UNKNOWN_LEVEL,未知關卡,未知关卡,Unknown Level
+UI_SAVE_SLOT_INFO_FMT,存檔槽 %02d  |  %s  |  %d CR  |  %s,存档槽 %02d  |  %s  |  %d CR  |  %s,Save Slot %02d  |  %s  |  %d CR  |  %s
+UI_SAVE_SUCCESS,儲存成功！,储存成功！,Save successful!
+UI_SAVE_FAIL,儲存失敗！,储存失败！,Save failed!
+UI_SAVE_CONFIRM_OVERWRITE,確定要覆蓋此存檔？,确定要覆盖此存档？,Are you sure you want to overwrite this save?
+UI_LOAD_FAIL_CORRUPTED,載入失敗：存檔無效或損毀！,载入失败：存档无效或损坏！,Load failed: Save is invalid or corrupt!
+UI_SHOP_TOAST_BOUGHT_FMT,已買入 %s（-%d cr）,已买入 %s（-%d cr）,Bought %s (-%d cr)
+UI_SHOP_TOAST_SOLD_OUT,已售罄,已售罄,Sold out
+UI_SHOP_TOAST_NO_CREDITS,credits 不足,credits 不足,Insufficient credits
+UI_SHOP_TOAST_BAG_FULL,背包放不下了，先整理一下,背包放不下了，先整理一下,Inventory is full. Please organize first.
+UI_SHOP_TOAST_EQUIPPED,裝備中，先卸下才能賣,装备中，先卸下才能卖,Item is equipped. Unequip before selling.
+UI_SHOP_TOAST_UNSELLABLE,這個賣不掉,这个卖不掉,This item cannot be sold.
+UI_SHOP_TOAST_SOLD_FMT,已賣出 %s（+%d cr）,已卖出 %s（+%d cr）,Sold %s (+%d cr)
+UI_SHOP_SOLD_OUT,售罄,售罄,Sold Out
+UI_SHOP_STOCK_FMT,庫存 %d,库存 %d,Stock: %d
+UI_SHOP_BUY_ROW_FMT,%s ｜ %d cr ｜ %s,%s ｜ %d cr ｜ %s,%s | %d cr | %s
+UI_SHOP_ITEM_EQUIPPED_FMT,%s%s ｜ 已裝備,%s%s ｜ 已装备,%s%s | Equipped
+UI_SHOP_ITEM_UNSELLABLE_FMT,%s%s ｜ 不可賣,%s%s ｜ 不可卖,%s%s | Unsellable
+UI_SHOP_ITEM_SELL_VAL_FMT,%s%s ｜ 售 %d cr,%s%s ｜ 售 %d cr,%s%s | Sell: %d cr
+UI_SHOP_EMPTY,（空）,（空）,(Empty)
+UI_TOUCH_ON,[ 觸控: 開 ],[ 触控: 开 ],[ Touch: ON ]
+UI_TOUCH_OFF,[ 觸控: 關 ],[ 触控: 关 ],[ Touch: OFF ]
+UI_OUTRO_ALLEY_END3_PAGE1,"【第二段劇情完成 - 結局 3：託付】
+
+你將啟用盒連同隱密夾層中發現的「舊式 AI 授權模組」一起交給了晚。
+你選擇了信任與慷慨，將這份可能非比尋常的遺產託付給了同樣對抗遺忘的晚。","【第二段剧情完成 - 结局 3：託付】
+
+你将启用盒连同隐密夹层中发现的「旧式 AI 授权模组」一起交给了晚。
+你选择了信任与慷慨，将这份可能非比寻常的遗产託付给了同样对抗遗忘的晚。","[Chapter 2 Complete - Ending 3: Entrustment]
+
+You handed over the activation box along with the 'Old AI Authorization Module' found in the hidden slot to Wan.
+You chose trust and generosity, committing this potentially extraordinary legacy to Wan, who also fights against oblivion."
+UI_OUTRO_ALLEY_END3_PAGE2,"晚感到驚訝，她看著那枚精緻的金屬晶片，眼中閃過少有的溫潤。這份多出來的重禮，讓你們之間多了一層心照不宣的默契。
+
+（提示：若保留授權模組不交，將會觸發「結局 2：拾遺者的直覺」；若從未發現隱密夾層，將觸發「結局 1：盲目的清理者」）","晚感到惊讶，她看着那枚精致的金屬芯片，眼中闪过少有的温润。这份多出来的重礼，让你们之间多了一层心照不宣的默契。
+
+（提示：若保留授权模组不交，将会触发「结局 2：拾遗者的直觉」；若从未发现隐密夹层，将触发「结局 1：盲目的清理者」）","Wan was surprised. Looking at the delicate metal chip, a rare softness flashed in her eyes. This extra gift added an unspoken understanding between you.
+
+(Tip: Retaining the module triggers 'Ending 2: Gleaner's Instinct'; returning only the box without finding the slot triggers 'Ending 1: Blind Cleanup Artist')"
+UI_OUTRO_ALLEY_END2_PAGE1,"【第二段劇情完成 - 結局 2：拾遺者的直覺】
+
+你只交出了明面上的啟用盒，而將暗中拆解出的「舊式 AI 授權模組」留在了背包深處。
+你用直覺對抗了系統的遺忘，將真正的遺產扣留了下來。","【第二段剧情完成 - 结局 2：拾遗者的直觉】
+
+你只交出了明面上的启用盒，而将暗中拆解出的「旧式 AI 授权模组」留在了背包深处。
+你用直觉对抗了系统的遗忘，将真正的遗产扣留了下来。","[Chapter 2 Complete - Ending 2: Gleaner's Instinct]
+
+You handed over only the obvious activation box, leaving the secretly dismantled 'Old AI Authorization Module' deep inside your backpack.
+You used your instinct to fight the system's oblivion, keeping the true legacy for yourself."
+UI_OUTRO_ALLEY_END2_PAGE2,"晚沒有察覺，或者，她只是看破而不說破。這枚晶片將由你妥善保管。
+
+（提示：若連同夾層模組一同交還給晚，將會觸發「結局 3：託付」；若未發現隱密夾層直接回報，將觸發「結局 1：盲目的清理者」）","晚没有察觉，或者，她只是看破而不说破。这枚芯片将由你妥善保管。
+
+（提示：若连同夹层模组一同交还给晚，将会触发「结局 3：託付」；若未发现隐密夹层直接汇报，将触发「结局 1：盲目的清理者」）","Wan did not notice, or perhaps she saw through it but kept silent. This chip will be safely kept by you.
+
+(Tip: Handing over the module together triggers 'Ending 3: Entrustment'; reporting without finding the slot triggers 'Ending 1: Blind Cleanup Artist')"
+UI_OUTRO_ALLEY_END1_PAGE1,"【第二段劇情完成 - 結局 1：盲目的清理者】
+
+你將啟用盒原封不動地交給了晚。你得到了應得的酬勞，轉身步入下層街區的冷雨之中。","【第二段剧情完成 - 结局 1：盲目的清理者】
+
+你将启用盒原封不动地交给了晚。你得到了应得的酬劳，转身步入下层街区的冷雨之中。","[Chapter 2 Complete - Ending 1: Blind Cleanup Artist]
+
+You handed over the activation box untouched to Wan. Receiving your due payment, you turned and walked into the cold rain of the lower district."
+UI_OUTRO_ALLEY_END1_PAGE2,這座城市依然在雨中運轉，舊日的痕跡在一點點被抹去。你將手收入口袋，繼續尋找著自己失落的記憶。,这座城市依然在雨中运转，旧日的痕迹在一点点被抹去。你将手收入口袋，继续寻找着自己失落的记忆。,"The city continues to operate in the rain, with traces of the old days being wiped away bit by bit. You put your hands in your pockets, continuing to search for your lost memories."
+UI_OUTRO_STORE_END2_PAGE1,"【第三段劇情完成 - 結局 2：溫存的殘響】
+
+你拷貝了阿達在主機備份區留下的最後日記與情緒包，然後才按下了重置鍵。
+店籍主機發出低沉的嗡鳴，重啟後的機器人重新抬起頭，用字正腔圓、毫無溫度的AI合成語音向你致謝。","【第三段剧情完成 - 结局 2：温存的残响】
+
+你拷贝了阿达在主机备份区留下的最后日记与情绪包，然后才按下了重置键。
+店籍主机发出低沉的嗡鸣，重启后的机器人重新抬起头，用字正腔圆、毫无温度的AI合成语音向你致谢。","[Chapter 3 Complete - Ending 2: Lingering Echo]
+
+You copied the last diary and emotional package Ada left in the registry host backup partition before pressing the reset button.
+The host emitted a low hum. The rebooted robot raised its head once more, thanking you in a precise, cold AI synthetic voice."
+UI_OUTRO_STORE_END2_PAGE2,"阿達的怒吼、無奈、與最後的「憑什麼」，在機器人的記憶庫中已經蕩然無存。
+但那塊晶片安靜地躺在你的背包裡。只要你的儲存載體還在，他在這座冰冷都市留下的溫度，就不算完全被系統抹殺。","阿达的怒吼、无奈、与最后的「凭什么」，在机器人的记忆库中已经荡然无存。
+但那块芯片安静地躺在你的背包里。只要你的储存载体还在，他在这座冰冷都市留下的温度，就不算完全被系统抹杀。","Ada's rage, helplessness, and final cry of 'Why?' were completely gone from the robot's memory bank.
+But that chip lies quietly in your backpack. As long as your storage device exists, the warmth he left in this cold city is not entirely wiped out by the system."
+UI_OUTRO_STORE_END2_PAGE3,"這座城市不再需要人類的呼吸與體溫，系統只要求一切高效、無瑕。
+但在那段被你帶走的殘響裡，你聽見了一個被拋棄的白領店員最後的掙扎──那是人類不願輕易被AI取代、拒絕被無聲抹除的證明。
+
+（提示：若未深入診斷、未拷貝殘響即直接重置主機，將會觸發「結局 1：高效的系統」）","这座城市不再需要人类的呼吸与体温，系统只要求一切高效、无瑕。
+但在那段被你带走的残响里，你听见了一个被抛弃的白领店员最后的挣扎──那是人类不愿轻易被AI取代、拒绝被无声抹除的证明。
+
+（提示：若未深入诊断、未拷贝残响即直接重置主机，将会触发「结局 1：高效的系统」）","This city no longer needs human breath and warmth; the system only demands efficiency and perfection.
+But in that echo you carried away, you heard the final struggle of an abandoned human store clerk — proof that humanity refuses to be easily replaced by AI and silently erased.
+
+(Tip: Resetting without deep diagnosis or copying the echo triggers 'Ending 1: Efficient System')"
+UI_OUTRO_STORE_END1_PAGE1,"【第三段劇情完成 - 結局 1：高效的系統】
+
+你重置了店籍主機。那台曾發出人類夢囈與怨言的機器人，如今安靜地退回了原本的零售人格。
+螢幕上的紅色故障燈熄滅，換來的是一行行冰冷、精準且毫無破綻的服務日誌。","【第三段剧情完成 - 结局 1：高效的系统】
+
+你重置了店籍主机。那台曾发出人类梦呓与怨言的机器人，如今安静地退回了原本的零售人格。
+屏幕上的红色故障灯熄灭，换来的是一行行冰冷、精准且毫无破绽的服务日志。","[Chapter 3 Complete - Ending 1: Efficient System]
+
+You reset the registry host. The robot that once uttered human muttering and complaints now quietly returned to its original retail personality.
+The red failure light on the screen went out, replaced by lines of cold, precise, and flawless service logs."
+UI_OUTRO_STORE_END1_PAGE2,"阿達這個名字，連同他寫在程式底層的情緒殘留，已經在數據格式化的過程中被徹底抹除。
+店裡的招牌燈光重新亮起，連鎖路由順暢運轉。一切都很完美，沒有留下一絲人類待過的累贅痕跡。","阿达这个名字，连同他写在程序底层的情绪残留，已经在数据格式化的过程中被彻底抹除。
+店里的招牌灯光重新亮起，连锁路由顺畅运转。一切都很完美，没有留下一丝人类待过的累赘痕迹。","The name Ada, along with his emotional remnants in the program's low level, has been thoroughly erased during data formatting.
+The shop sign lit up again, and the franchise router operated smoothly. Everything was perfect, leaving no trace of human presence."
+PROMPT_APARTMENT_CLOCK_EXAMINE,E: █ 仔細檢查投影時鐘,E: █ 仔细检查投影时钟,E: █ Examine Projection Clock
+PROMPT_TALK,E: █ 交談,E: █ 交谈,E: █ Talk
+PROMPT_SUBWAY_TO_SETTLEMENT_RIGHT,E: █ 前往聚落右區,E: █ 前往聚落右区,E: █ Go to Right Settlement
+PROMPT_APARTMENT_CLOCK,E: █ 啟動投影時鐘,E: █ 启动投影时钟,E: █ Activate Projection Clock
+PROMPT_ENTRANCE_BACK_TO_APARTMENT,E: █ 回到公寓,E: █ 回到公寓,E: █ Return to Apartment
+PROMPT_PLATFORM_BACK_TO_CONCOURSE,E: █ 回到地鐵站入口,E: █ 回到地铁站入口,E: █ Return to Concourse
+PROMPT_SETTLEMENT_BACK_TO_PLATFORM,E: █ 回到地鐵站台,E: █ 回到地铁站台,E: █ Return to Platform
+PROMPT_SETTLEMENT_BACK_TO_LEFT,E: █ 回到聚落左區,E: █ 回到聚落左区,E: █ Return to Left Settlement
+PROMPT_COLLECTOR_BACK_TO_STREET,E: █ 回到街區,E: █ 回到街区,E: █ Return to Street
+PROMPT_STORE_BACK_TO_STREET,E: █ 回到街道,E: █ 回到街道,E: █ Return to Street
+PROMPT_PLATFORM_DOWN_TO_SETTLEMENT,E: █ 往下到聚落,E: █ 往下到聚落,E: █ Go Down to Settlement
+PROMPT_STORE_BACK_DOOR,E: █ 推推看後門,E: █ 推推看后门,E: █ Push Back Door
+PROMPT_COLLECTOR_INNER_DOOR,E: █ 推推看裡門,E: █ 推推看里门,E: █ Push Inner Door
+PROMPT_COMBAT_LOST_BOX,E: █ 搜索失物物流箱,E: █ 搜索失物物流箱,E: █ Search Lost Supply Box
+PROMPT_APARTMENT_TAPE,E: █ 撥放磁帶雜音,E: █ 播放磁带杂音,E: █ Play Tape Noise
+PROMPT_STORE_MAINFRAME,E: █ 操作店籍主機,E: █ 操作店籍主机,E: █ Access Registry Host
+PROMPT_ENTRANCE_ALLEY,E: █ 望向暗巷,E: █ 望向暗巷,E: █ Look into Alley
+PROMPT_STORE_BULLETIN_BOARD,E: █ 查看佈告欄,E: █ 查看布告栏,E: █ Check Bulletin Board
+PROMPT_ENTRANCE_MAILBOX,E: █ 查看信箱牆,E: █ 查看信箱墙,E: █ Check Mailboxes
+PROMPT_PLATFORM_COMMUTE_SCREEN,E: █ 查看停運螢幕,E: █ 查看停运屏幕,E: █ Check Inactive Screen
+PROMPT_STORE_FREEZER,E: █ 查看冷藏櫃,E: █ 查看冷藏柜,E: █ Check Freezer
+PROMPT_SUBWAY_TICKET_MACHINE,E: █ 查看售票機,E: █ 查看售票机,E: █ Check Ticket Machine
+PROMPT_PLATFORM_DRAINAGE,E: █ 查看排水槽,E: █ 查看排水槽,E: █ Check Drainage
+PROMPT_SETTLEMENT_WATER_TANK,E: █ 查看淨水站,E: █ 查看净水站,E: █ Check Water Tank
+PROMPT_STORE_DELI_MACHINE,E: █ 查看熟食機台,E: █ 查看熟食机台,E: █ Check Deli Machine
+PROMPT_COLLECTOR_WALL_FILE,E: █ 查看牆面檔案,E: █ 查看墙面档案,E: █ Check Wall Files
+PROMPT_SETTLEMENT_TENT,E: █ 查看空帳篷,E: █ 查看空帐篷,E: █ Check Empty Tent
+PROMPT_SUBWAY_STATION_NAME,E: █ 查看站名牌,E: █ 查看站名牌,E: █ Check Station Sign
+PROMPT_SETTLEMENT_MAINTENANCE_DOOR,E: █ 查看維修門,E: █ 查看维修门,E: █ Check Maintenance Door
+PROMPT_STORE_LOCKER,E: █ 查看置物櫃,E: █ 查看置物柜,E: █ Check Locker
+PROMPT_PLATFORM_LUGGAGE,E: █ 查看行李箱,E: █ 查看行李箱,E: █ Check Luggage
+PROMPT_STORE_SHELF,E: █ 查看貨架,E: █ 查看货架,E: █ Check Shelves
+PROMPT_ENTRANCE_VENDING_MACHINE,E: █ 查看販賣機,E: █ 查看贩卖机,E: █ Check Vending Machine
+PROMPT_STORE_NAMEPLATE,E: █ 查看銘牌,E: █ 查看铭牌,E: █ Check Nameplate
+PROMPT_SUBWAY_GATE,E: █ 查看閘口,E: █ 查看闸口,E: █ Check Gates
+PROMPT_COLLECTOR_DISPLAY_SHELF,E: █ 查看陳列架,E: █ 查看陈列架,E: █ Check Display Shelf
+PROMPT_STORE_DIARY_PAGE,E: █ 檢視日記殘頁,E: █ 检视日记残页,E: █ Check Diary Page
+PROMPT_STORE_COUNTER_PHOTO,E: █ 檢視櫃台照片,E: █ 检视柜台照片,E: █ Check Counter Photo
+PROMPT_APARTMENT_WINDOW_EXIT,E: █ 爬出窗外,E: █ 爬出窗外,E: █ Climb Out of Window
+PROMPT_APARTMENT_CABINET,E: █ 翻找櫥櫃殘留,E: █ 翻找橱柜残留,E: █ Search Cabinet
+PROMPT_SETTLEMENT_RADIO,E: █ 聽收音機底噪,E: █ 听收音机底噪,E: █ Listen to Radio Static
+PROMPT_TALK_SEVEN,E: █ 與七號交談,E: █ 与七号交谈,E: █ Talk to Seven
+PROMPT_TALK_WU,E: █ 與伍姐交談,E: █ 与伍姐交谈,E: █ Talk to Wu
+PROMPT_TALK_CEN,E: █ 與小岑交談,E: █ 与小岑交谈,E: █ Talk to Cen
+PROMPT_APARTMENT_EXAMINE,E: █ 觀察住處,E: █ 观察住处,E: █ Examine Apartment
+PROMPT_PLATFORM_EXAMINE,E: █ 觀察月台,E: █ 观察月台,E: █ Examine Platform
+PROMPT_SETTLEMENT_EXAMINE,E: █ 觀察聚落中央,E: █ 观察聚落中央,E: █ Examine Settlement
+PROMPT_APARTMENT_BED,E: █ 躺上磨損床墊,E: █ 躺上磨损床垫,E: █ Lie on Bed
+PROMPT_APARTMENT_CRT,E: █ 載入 CRT 數據,E: █ 载入 CRT 数据,E: █ Load CRT Data
+PROMPT_SETTLEMENT_BACK_TO_RIGHT,E: █ 返回聚落右區,E: █ 返回聚落右区,E: █ Return to Right Settlement
+PROMPT_SUBWAY_TO_PLATFORM,E: █ 通往月台,E: █ 通往月台,E: █ Go to Platform
+PROMPT_ENTRANCE_CONVENIENCE_STORE,E: █ 進入便利店,E: █ 进入便利店,E: █ Enter Convenience Store
+PROMPT_SETTLEMENT_DEEP_TUNNEL,E: █ 進入更深隧道,E: █ 进入更深隧道,E: █ Enter Deep Tunnel
+PROMPT_APARTMENT_FRIDGE,E: █ 開啟低溫儲藏,E: █ 开启低温储藏,E: █ Open Fridge
+PROMPT_APARTMENT_SLOT,E: █ 開啟隱藏插槽,E: █ 开启隐藏插槽,E: █ Open Hidden Slot
+PROMPT_APARTMENT_DOOR_EXIT,E: █ 離開公寓,E: █ 离开公寓,E: █ Leave Apartment
+PROMPT_ENTRANCE_LEAVE_STREET,E: █ 離開街區,E: █ 离开街区,E: █ Leave Street
+PROMPT_FIRE_ESCAPE_BACK_TO_APARTMENT,E: 回到公寓,E: 回到公寓,E: Return to Apartment
+PROMPT_ECHO_COLLECT,E: 感知採集,E: 感知采集,E: Collect Echo
+PROMPT_FIRE_ESCAPE_SEARCH_BOX,E: 搜索箱子,E: 搜索箱子,E: Search Supply Box
+PROMPT_FIRE_ESCAPE_CLIMB_LADDER,W/S 爬梯子,W/S 爬梯子,W/S Climb Ladder
+E: 卸下,E: 卸下,E: 卸下,E: Unequip
+E: 裝備,E: 裝備,E: 装备,E: Equip
+E: 使用,E: 使用,E: 使用,E: Use
+R: 查看,R: 查看,R: 查看,E: Examine
+T: 丟棄,T: 丟棄,T: 丢弃,T: Discard
+Esc/I: 關閉,Esc/I: 關閉,Esc/I: 关闭,Esc/I: Close
+Esc: 關閉,Esc: 關閉,Esc: 关闭,Esc: Close
+A/D: 切分頁,A/D: 切分頁,A/D: 切分页,A/D: Change Tab
+W/S: 選筆記,W/S: 選筆記,W/S: 選笔记,W/S: Select Note
+I: 背包,I: 背包,I: 背包,I: Inventory
+Esc/J: 關閉,Esc/J: 關閉,Esc/J: 关闭,Esc/J: Close
+E/Esc: 關閉,E/Esc: 關閉,E/Esc: 关闭,E/Esc: Close
+A/D: 切欄,A/D: 切欄,A/D: 切栏,A/D: Switch Column
+W/S: 選擇,W/S: 選擇,W/S: 选择,W/S: Select
+E: 買入 / 賣出,E: 買入 / 賣出,E: 买入 / 卖出,E: Buy / Sell

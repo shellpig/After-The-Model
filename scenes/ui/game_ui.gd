@@ -117,13 +117,13 @@ func _process(delta: float) -> void:
 		if _is_simple_message:
 			if is_message_finished() and not _message_hint_shown:
 				_message_hint_shown = true
-				set_message_page_hint("▼ 關閉" if not _message_on_closed.is_valid() and _pending_inspect_modal.is_empty() else "▼ 繼續", true)
+				set_message_page_hint(tr("UI_MSG_CLOSE_HINT") if not _message_on_closed.is_valid() and _pending_inspect_modal.is_empty() else tr("UI_MSG_CONTINUE_HINT"), true)
 			
 			if Input.is_action_just_pressed("interact_primary") or Input.is_action_just_pressed("ui_cancel") or Input.is_action_just_pressed("ui_accept"):
 				if not is_message_finished():
 					force_finish_message()
 					_message_hint_shown = true
-					set_message_page_hint("▼ 關閉" if not _message_on_closed.is_valid() and _pending_inspect_modal.is_empty() else "▼ 繼續", true)
+					set_message_page_hint(tr("UI_MSG_CLOSE_HINT") if not _message_on_closed.is_valid() and _pending_inspect_modal.is_empty() else tr("UI_MSG_CONTINUE_HINT"), true)
 				else:
 					if not _pending_inspect_modal.is_empty():
 						close_message()
@@ -225,7 +225,7 @@ func show_prompt(data: Dictionary) -> void:
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		prompt_panel.visible = false
 		return
-	prompt_label.text = data.get("prompt_text", "")
+	prompt_label.text = tr(data.get("prompt_text", ""))
 	prompt_panel.visible = true
 	if _level_context and _level_context.has_node("Player"):
 		var player_node := _level_context.get_node("Player") as Node2D
@@ -576,10 +576,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		var anchor: Node2D = null
 		if _level_context and _level_context.has_node("Player"):
 			anchor = _level_context.get_node("Player")
-		if _pending_toast_title.begins_with("已更新") or _pending_toast_title.begins_with("已記入"):
-			show_toast(_pending_toast_title, anchor)
-		else:
-			show_toast("已記入筆記：" + _pending_toast_title, anchor)
+		show_toast(tr(_pending_toast_title), anchor)
 		_pending_toast_title = ""
 
 	_last_mode = new_mode
@@ -589,16 +586,16 @@ func _check_and_trigger_endings() -> void:
 		GameState.set_flag("alley_backrooms_ended", true)
 		
 		if GameState.get_flag("gave_wan_old_module", false):
-			var page1 := "【第二段劇情完成 - 結局 3：託付】\n\n你將啟用盒連同隱密夾層中發現的「舊式 AI 授權模組」一起交給了晚。\n你選擇了信任與慷慨，將這份可能非比尋常的遺產託付給了同樣對抗遺忘的晚。"
-			var page2 := "晚感到驚訝，她看著那枚精緻的金屬晶片，眼中閃過少有的溫潤。這份多出來的重禮，讓你們之間多了一層心照不宣的默契。\n\n（提示：若保留授權模組不交，將會觸發「結局 2：拾遺者的直覺」；若從未發現隱密夾層，將觸發「結局 1：盲目的清理者」）"
+			var page1 := tr("UI_OUTRO_ALLEY_END3_PAGE1")
+			var page2 := tr("UI_OUTRO_ALLEY_END3_PAGE2")
 			show_message(page1, func(): show_message(page2))
 		elif QuestManager.get_flag("alley_backrooms_3f", "found_old_ai_authorization_module", false):
-			var page1 := "【第二段劇情完成 - 結局 2：拾遺者的直覺】\n\n你只交出了明面上的啟用盒，而將暗中拆解出的「舊式 AI 授權模組」留在了背包深處。\n你用直覺對抗了系統的遺忘，將真正的遺產扣留了下來。"
-			var page2 := "晚沒有察覺，或者，她只是看破而不說破。這枚晶片將由你妥善保管。\n\n（提示：若連同夾層模組一同交還給晚，將會觸發「結局 3：託付」；若未發現隱密夾層直接回報，將觸發「結局 1：盲目的清理者」）"
+			var page1 := tr("UI_OUTRO_ALLEY_END2_PAGE1")
+			var page2 := tr("UI_OUTRO_ALLEY_END2_PAGE2")
 			show_message(page1, func(): show_message(page2))
 		else:
-			var page1 := "【第二段劇情完成 - 結局 1：盲目的清理者】\n\n你將啟用盒原封不動地交給了晚。你得到了應得的酬勞，轉身步入下層街區的冷雨之中。"
-			var page2 := "這座城市依然在雨中運轉，舊日的痕跡在一點點被抹去。你將手收入口袋，繼續尋找著自己失落的記憶。"
+			var page1 := tr("UI_OUTRO_ALLEY_END1_PAGE1")
+			var page2 := tr("UI_OUTRO_ALLEY_END1_PAGE2")
 			show_message(page1, func(): show_message(page2))
 
 	if QuestManager.get_status("repair_vendor_bot") == "completed" and not GameState.get_flag("repair_vendor_bot_ended", false):
@@ -606,13 +603,13 @@ func _check_and_trigger_endings() -> void:
 		
 		var resolution = GameState.get_flag("store_robot_resolution", "")
 		if resolution == "gleaned":
-			var page1 := "【第三段劇情完成 - 結局 2：溫存的殘響】\n\n你拷貝了阿達在主機備份區留下的最後日記與情緒包，然後才按下了重置鍵。\n店籍主機發出低沉的嗡鳴，重啟後的機器人重新抬起頭，用字正腔圓、毫無溫度的AI合成語音向你致謝。"
-			var page2 := "阿達的怒吼、無奈、與最後的「憑什麼」，在機器人的記憶庫中已經蕩然無存。\n但那塊晶片安靜地躺在你的背包裡。只要你的儲存載體還在，他在這座冰冷都市留下的溫度，就不算完全被系統抹殺。"
-			var page3 := "這座城市不再需要人類的呼吸與體溫，系統只要求一切高效、無瑕。\n但在那段被你帶走的殘響裡，你聽見了一個被拋棄的白領店員最後的掙扎──那是人類不願輕易被AI取代、拒絕被無聲抹除的證明。\n\n（提示：若未深入診斷、未拷貝殘響即直接重置主機，將會觸發「結局 1：高效的系統」）"
+			var page1 := tr("UI_OUTRO_STORE_END2_PAGE1")
+			var page2 := tr("UI_OUTRO_STORE_END2_PAGE2")
+			var page3 := tr("UI_OUTRO_STORE_END2_PAGE3")
 			show_message(page1, func(): show_message(page2, func(): show_message(page3)))
 		else:
-			var page1 := "【第三段劇情完成 - 結局 1：高效的系統】\n\n你重置了店籍主機。那台曾發出人類夢囈與怨言的機器人，如今安靜地退回了原本的零售人格。\n螢幕上的紅色故障燈熄滅，換來的是一行行冰冷、精準且毫無破綻的服務日誌。"
-			var page2 := "阿達這個名字，連同他寫在程式底層的情緒殘留，已經在數據格式化的過程中被徹底抹除。\n店裡的招牌燈光重新亮起，連鎖路由順暢運轉。一切都很完美，沒有留下一絲人類待過的累贅痕跡。"
+			var page1 := tr("UI_OUTRO_STORE_END1_PAGE1")
+			var page2 := tr("UI_OUTRO_STORE_END1_PAGE2")
 			show_message(page1, func(): show_message(page2))
 
 
@@ -710,7 +707,7 @@ func _on_bag_item_action(action: String, instance_id: String) -> void:
 						bag_grid.set_input_active(false)
 						item_detail_modal.show_modal(instance_id, bag_grid, bag_grid.focused_index, inventory_panel)
 		"discard":
-			_start_discard_flow(instance_id, item_meta, bag_grid, bag_grid.focused_index)
+			show_discard_flow(instance_id, item_meta, bag_grid, bag_grid.focused_index)
 		"equip_toggle":
 			var category: String = item_meta.get("category", "")
 			if category == "consumable" or item_meta.has("consume_grants_note"):
@@ -753,7 +750,7 @@ func _on_dual_pane_item_action(action: String, instance_id: String, source_pane:
 					else:
 						item_detail_modal.show_modal(instance_id, active_grid, active_idx, anchor_panel)
 		"discard":
-			_start_discard_flow(instance_id, item_meta, active_grid, active_idx)
+			show_discard_flow(instance_id, item_meta, active_grid, active_idx)
 
 func _handle_inspect_grants_item(instance_id: String, item_meta: Dictionary, grid: Control, index: int, anchor: Control) -> void:
 	var inspect_grants_flag: String = item_meta.get("inspect_grants_flag", "")
@@ -773,13 +770,13 @@ func _handle_inspect_grants_item(instance_id: String, item_meta: Dictionary, gri
 			item_detail_modal.show_modal(instance_id, grid, index, anchor)
 		else:
 			show_message(
-				"你發現了啟用盒底部的夾層，裡面塞著一片泛著冷光的薄卡片，但你的背包太滿了，無法將它取出。整理一下空間後再查看吧。",
+				tr("UI_TOAST_GLOVE_DECRYPT_NO_SPACE"),
 				func():
 					item_detail_modal.show_modal(instance_id, grid, index, anchor)
 			)
 			
 	show_message(
-		"你仔細端詳啟用盒的底部，掀開了一個隱蔽的塑料卡扣夾層。夾層內嵌著一片泛著冷光的薄金屬卡。\n（獲得了「舊式 AI 授權模組」。）",
+		tr("UI_TOAST_GLOVE_DECRYPT_SUCCESS"),
 		on_first_inspect_closed
 	)
 
@@ -793,7 +790,7 @@ func _handle_item_use(instance_id: String, item_meta: Dictionary) -> void:
 		GameState.discard_item(instance_id)
 	else:
 		var toast_panel := _get_active_panel()
-		show_toast("現在用不上。", toast_panel)
+		show_toast(tr("UI_TOAST_CANNOT_USE_NOW"), toast_panel)
 
 func _handle_equip_toggle(instance_id: String, item_meta: Dictionary) -> void:
 	if item_meta.get("category", "") != "equipment":
@@ -804,28 +801,28 @@ func _handle_equip_toggle(instance_id: String, item_meta: Dictionary) -> void:
 		GameState.unequip_by_instance(instance_id)
 	else:
 		if not GameState.equip(instance_id):
-			show_toast(
-				"這類裝備已經滿了，先卸下身上的再裝備新的。",
-				inventory_panel
-			)
+			show_equip_slot_full_toast(inventory_panel)
 		elif item_id == "fingerless_gloves" and not GameState.has_note("clue_gloves_decoder"):
 			GameState.add_knowledge(DECODER_NOTES["clue_gloves_decoder"])
 
-func _start_discard_flow(instance_id: String, item_meta: Dictionary,
+func show_equip_slot_full_toast(toast_panel: Control) -> void:
+	show_toast(tr("UI_TOAST_EQUIP_SLOT_FULL"), toast_panel)
+
+func show_discard_flow(instance_id: String, item_meta: Dictionary,
 						 restore_grid: Control, restore_index: int) -> void:
 	var item_name: String = item_meta.get("name", "物品")
 	var toast_panel := _get_active_panel()
 
 	if not item_meta.get("discardable", true):
-		show_toast("無法丟棄 " + item_name, toast_panel)
+		show_toast(tr("UI_TOAST_CANNOT_DISCARD_FMT") % tr(item_name), toast_panel)
 		return
 	if GameState.is_equipped(instance_id):
-		show_toast("請先卸下再丟棄", toast_panel)
+		show_toast(tr("UI_TOAST_UNEQUIP_BEFORE_DISCARD"), toast_panel)
 		return
 
 	UIMode.enter_confirm()
 	confirm_dialog.show_dialog(
-		"確定要丟棄 " + item_name + "？",
+		tr("UI_CONFIRM_DISCARD_FMT") % tr(item_name),
 		_on_discard_confirmed.bind(instance_id, item_name, toast_panel),
 		restore_grid,
 		restore_index
@@ -833,7 +830,7 @@ func _start_discard_flow(instance_id: String, item_meta: Dictionary,
 
 func _on_discard_confirmed(instance_id: String, item_name: String, toast_panel: Control) -> void:
 	if GameState.discard_item(instance_id):
-		show_toast("已丟棄 " + item_name, toast_panel)
+		show_toast(tr("UI_TOAST_DISCARDED_FMT") % tr(item_name), toast_panel)
 
 func _get_active_panel() -> Control:
 	if UIMode.get_mode() == UIMode.Mode.INVENTORY:

@@ -143,7 +143,7 @@ position = Vector2(4070, 870)
 [node name="ExitToSubwayArea" type="Area2D" parent="Interactables" unique_id=775775924]
 script = ExtResource("3_interactable")
 interaction_id = "exit_to_subway"
-prompt_text = "E: █ 回到地鐵站台"
+prompt_text = "PROMPT_SETTLEMENT_BACK_TO_PLATFORM"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToSubwayArea" unique_id=2122291886]
 position = Vector2(1075, 692)
@@ -152,7 +152,7 @@ shape = SubResource("RectangleShape2D_transition")
 [node name="GoRightArea" type="Area2D" parent="Interactables" unique_id=432174261]
 script = ExtResource("3_interactable")
 interaction_id = "go_right"
-prompt_text = "E: █ 前往聚落右區"
+prompt_text = "PROMPT_SUBWAY_TO_SETTLEMENT_RIGHT"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GoRightArea" unique_id=1984123699]
 position = Vector2(4210, 700)
@@ -161,7 +161,7 @@ shape = SubResource("RectangleShape2D_transition")
 [node name="EmptyTentArea" type="Area2D" parent="Interactables" unique_id=570164947]
 script = ExtResource("3_interactable")
 interaction_id = "empty_tent"
-prompt_text = "E: █ 查看空帳篷"
+prompt_text = "PROMPT_SETTLEMENT_TENT"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EmptyTentArea" unique_id=323896726]
 position = Vector2(2211, 713)
@@ -170,7 +170,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="SettlementCenterArea" type="Area2D" parent="Interactables" unique_id=1652267788]
 script = ExtResource("3_interactable")
 interaction_id = "settlement_center"
-prompt_text = "E: █ 觀察聚落中央"
+prompt_text = "PROMPT_SETTLEMENT_EXAMINE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/SettlementCenterArea" unique_id=1822372747]
 position = Vector2(3440, 705)
@@ -180,7 +180,7 @@ shape = SubResource("RectangleShape2D_flavor")
 position = Vector2(1435, 20)
 script = ExtResource("3_interactable")
 interaction_id = "talk_cen"
-prompt_text = "E: █ 與小岑交談"
+prompt_text = "PROMPT_TALK_CEN"
 dialogue_id = "cen"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/NpcCen" unique_id=721517699]

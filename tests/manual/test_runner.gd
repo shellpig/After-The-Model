@@ -401,7 +401,7 @@ func _ready() -> void:
 		printerr("FAIL: NpcWan node not found in apartment_entrance scene!")
 		get_tree().quit(1)
 		return
-	if npc_wan.interaction_id != "talk_wan" or npc_wan.dialogue_id != "wan" or npc_wan.prompt_text != "E: █ 交談":
+	if npc_wan.interaction_id != "talk_wan" or npc_wan.dialogue_id != "wan" or npc_wan.prompt_text != "PROMPT_TALK":
 		printerr("FAIL: NpcWan interaction properties are incorrect!")
 		get_tree().quit(1)
 		return
@@ -1789,7 +1789,7 @@ func _ready() -> void:
 		printerr("FAIL: Window should be interactable when quest step is checked_alley!")
 		get_tree().quit(1)
 		return
-	if not "爬出窗外" in active_apartment.current_interactable.prompt_text:
+	if not "爬出窗外" in tr(active_apartment.current_interactable.prompt_text):
 		printerr("FAIL: Window prompt text is wrong! Got: ", active_apartment.current_interactable.prompt_text)
 		get_tree().quit(1)
 		return
@@ -5260,7 +5260,7 @@ func _ready() -> void:
 		return
 		
 	var lu_area = interactables_parent.get_node_or_null("LuQichenArea")
-	if not lu_area or lu_area.dialogue_id != "lu_qichen" or lu_area.prompt_text != "E: █ 交談":
+	if not lu_area or lu_area.dialogue_id != "lu_qichen" or lu_area.prompt_text != "PROMPT_TALK":
 		printerr("FAIL 9-C: LuQichenArea interaction properties are incorrect!")
 		get_tree().quit(1)
 		return

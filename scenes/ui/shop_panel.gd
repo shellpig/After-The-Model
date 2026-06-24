@@ -91,35 +91,35 @@ func _do_buy() -> void:
 		return
 	var row: Dictionary = _buy_rows[buy_index]
 	var item_id: String = row.get("item_id", "")
-	var item_name: String = GameState.ITEMS_DB.get(item_id, {}).get("name", item_id)
+	var item_name: String = tr(GameState.ITEMS_DB.get(item_id, {}).get("name", item_id))
 	if GameState.buy_item(shop_id, item_id):
-		FloatingToast.show_toast("已買入 " + item_name + "（-%d cr）" % row.get("price", 0), self)
+		FloatingToast.show_toast(tr("UI_SHOP_TOAST_BOUGHT_FMT") % [tr(item_name), row.get("price", 0)], self)
 		return
 	var check: Dictionary = GameState.can_buy(shop_id, item_id)
 	match check.get("reason", ""):
 		"out_of_stock":
-			FloatingToast.show_toast("已售罄", self)
+			FloatingToast.show_toast(tr("UI_SHOP_TOAST_SOLD_OUT"), self)
 		"not_enough_credits":
-			FloatingToast.show_toast("credits 不足", self)
+			FloatingToast.show_toast(tr("UI_SHOP_TOAST_NO_CREDITS"), self)
 		_:
 			# can_buy 過了但 buy_item 失敗 = add_item 失敗 = 背包滿
-			FloatingToast.show_toast("背包放不下了，先整理一下", self)
+			FloatingToast.show_toast(tr("UI_SHOP_TOAST_BAG_FULL"), self)
 
 func _do_sell() -> void:
 	if sell_index < 0 or sell_index >= _sell_rows.size():
 		return
 	var row: Dictionary = _sell_rows[sell_index]
 	var item_id: String = row.get("item_id", "")
-	var item_name: String = GameState.ITEMS_DB.get(item_id, {}).get("name", item_id)
+	var item_name: String = tr(GameState.ITEMS_DB.get(item_id, {}).get("name", item_id))
 	if row.get("equipped", false):
-		FloatingToast.show_toast("裝備中，先卸下才能賣", self)
+		FloatingToast.show_toast(tr("UI_SHOP_TOAST_EQUIPPED"), self)
 		return
 	if not row.get("sellable", false):
-		FloatingToast.show_toast("這個賣不掉", self)
+		FloatingToast.show_toast(tr("UI_SHOP_TOAST_UNSELLABLE"), self)
 		return
 	var sell_value := GameState.get_sell_value(item_id)
 	if GameState.sell_item(row.get("instance_id", "")):
-		FloatingToast.show_toast("已賣出 " + item_name + "（+%d cr）" % sell_value, self)
+		FloatingToast.show_toast(tr("UI_SHOP_TOAST_SOLD_FMT") % [tr(item_name), sell_value], self)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _input_active or not is_open():
@@ -192,24 +192,25 @@ func _rebuild_sell_rows() -> void:
 
 func _format_buy_row(i: int) -> Dictionary:
 	var row: Dictionary = _buy_rows[i]
-	var item_name: String = GameState.ITEMS_DB.get(row["item_id"], {}).get("name", row["item_id"])
+	var item_name: String = tr(GameState.ITEMS_DB.get(row["item_id"], {}).get("name", row["item_id"]))
 	var out_of_stock: bool = row.get("stock", 0) <= 0
-	var text := "%s ｜ %d cr ｜ %s" % [
+	var stock_part := tr("UI_SHOP_SOLD_OUT") if out_of_stock else tr("UI_SHOP_STOCK_FMT") % row.get("stock", 0)
+	var text := tr("UI_SHOP_BUY_ROW_FMT") % [
 		item_name, row.get("price", 0),
-		"售罄" if out_of_stock else "庫存 %d" % row.get("stock", 0)
+		stock_part
 	]
 	return {"text": text, "disabled": out_of_stock}
 
 func _format_sell_row(i: int) -> Dictionary:
 	var row: Dictionary = _sell_rows[i]
-	var item_name: String = GameState.ITEMS_DB.get(row["item_id"], {}).get("name", row["item_id"])
+	var item_name: String = tr(GameState.ITEMS_DB.get(row["item_id"], {}).get("name", row["item_id"]))
 	var qty_part := " ×%d" % row.get("quantity", 1) if row.get("quantity", 1) > 1 else ""
 	if row.get("equipped", false):
-		return {"text": "%s%s ｜ 已裝備" % [item_name, qty_part], "disabled": true}
+		return {"text": tr("UI_SHOP_ITEM_EQUIPPED_FMT") % [item_name, qty_part], "disabled": true}
 	if not row.get("sellable", false):
-		return {"text": "%s%s ｜ 不可賣" % [item_name, qty_part], "disabled": true}
+		return {"text": tr("UI_SHOP_ITEM_UNSELLABLE_FMT") % [item_name, qty_part], "disabled": true}
 	return {
-		"text": "%s%s ｜ 售 %d cr" % [item_name, qty_part, GameState.get_sell_value(row["item_id"])],
+		"text": tr("UI_SHOP_ITEM_SELL_VAL_FMT") % [item_name, qty_part, GameState.get_sell_value(row["item_id"])],
 		"disabled": false
 	}
 
@@ -221,7 +222,7 @@ func _rebuild_list(list: VBoxContainer, count: int, formatter: Callable, pane: S
 		child.queue_free()
 	if count == 0:
 		var empty_label := Label.new()
-		empty_label.text = "（空）"
+		empty_label.text = tr("UI_SHOP_EMPTY")
 		empty_label.add_theme_color_override("font_color", COLOR_DISABLED)
 		empty_label.add_theme_font_size_override("font_size", 16)
 		list.add_child(empty_label)

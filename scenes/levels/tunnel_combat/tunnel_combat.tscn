@@ -402,7 +402,7 @@ shape = SubResource("RectangleShape2D_walker")
 position = Vector2(4300, 780)
 script = ExtResource("3_interactable")
 interaction_id = "loot_box"
-prompt_text = "E: █ 搜索失物物流箱"
+prompt_text = "PROMPT_COMBAT_LOST_BOX"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/LootBoxArea" unique_id=427632760]
 position = Vector2(-46, -52)
@@ -412,7 +412,7 @@ shape = SubResource("RectangleShape2D_flavor")
 position = Vector2(4650, 750)
 script = ExtResource("3_interactable")
 interaction_id = "exit_to_settlement"
-prompt_text = "E: █ 返回聚落右區"
+prompt_text = "PROMPT_SETTLEMENT_BACK_TO_RIGHT"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToSettlementArea" unique_id=1514453442]
 position = Vector2(-4025, -91)

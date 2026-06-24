@@ -356,7 +356,7 @@ position = Vector2(700, 540)
 script = ExtResource("5_echo")
 echo_id = "proto_echo"
 segment_id = "proto_01"
-prompt_text = "E: 感知採集"
+prompt_text = "PROMPT_ECHO_COLLECT"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EchoPoint" unique_id=510149923]
 shape = SubResource("CircleShape2D_echo")

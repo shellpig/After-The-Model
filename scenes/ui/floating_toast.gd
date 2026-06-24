@@ -47,7 +47,13 @@ func display(text: String, anchor_node: CanvasItem = null) -> void:
 	# Position: 8px above anchor panel, horizontally centered to it.
 	# Note/Quest updates are centered in the viewport, operations are anchored.
 	var final_anchor: CanvasItem = anchor_node
-	if text.begins_with("已記入") or text.begins_with("已更新") or text.begins_with("已寫入"):
+	var check_text = text.strip_edges()
+	var is_notification = false
+	for prefix in ["已記入", "已更新", "已寫入", "Note ", "Task ", "Journal ", "Added", "Updated"]:
+		if check_text.begins_with(prefix):
+			is_notification = true
+			break
+	if is_notification:
 		final_anchor = null
 
 	if final_anchor != null:

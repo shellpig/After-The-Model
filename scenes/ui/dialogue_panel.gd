@@ -137,7 +137,7 @@ func _update_ui() -> void:
 	var exit_choices = []
 	for c in raw_choices:
 		var lbl: String = c.get("label", "")
-		if "離開" in lbl or "Exit" in lbl:
+		if "離開" in lbl or "离开" in lbl or "Exit" in lbl or "exit" in lbl.to_lower():
 			exit_choices.append(c)
 		else:
 			sorted_choices.append(c)
@@ -149,11 +149,11 @@ func _update_ui() -> void:
 
 	if _current_choices.is_empty():
 		if curr.get("is_terminal", false):
-			hint_label.text = "E: 關閉"
+			hint_label.text = tr("UI_DIALOGUE_CLOSE")
 		else:
-			hint_label.text = "E: 繼續"
+			hint_label.text = tr("UI_DIALOGUE_CONTINUE")
 	else:
-		hint_label.text = "E: 繼續"
+		hint_label.text = tr("UI_DIALOGUE_CONTINUE")
 		for i in range(_current_choices.size()):
 			var choice = _current_choices[i]
 			var btn = Button.new()
@@ -277,7 +277,7 @@ func _finish_text() -> void:
 func _show_choices_if_needed() -> void:
 	if not _current_choices.is_empty() and not choices_container.visible:
 		choices_container.visible = true
-		hint_label.text = "W/S: 選擇    E: 確認"
+		hint_label.text = tr("UI_DIALOGUE_SELECT_CONFIRM")
 		if _is_input_active and choices_container.get_child_count() > 0:
 			choices_container.get_child(0).grab_focus()
 

@@ -59,7 +59,7 @@ func _ready() -> void:
 			"Esc/J: 關閉"
 		])
 	else:
-		panel_footer_hint.text = "A/D: 切分頁   W/S: 選筆記   I: 背包   Esc/J: 關閉"
+		panel_footer_hint.text = tr("UI_NOTEBOOK_FOOTER_HINT")
 
 	# Connect global state notes updates
 	GameState.notes_changed.connect(func():
@@ -114,15 +114,15 @@ func load_notebook_data() -> void:
 		for echo_id in EchoDB.ECHOES:
 			if GameState.is_echo_known(echo_id):
 				var echo_data = EchoDB.get_echo(echo_id)
-				var title = echo_data.get("title", "未命名殘響")
+				var title = tr(echo_data.get("title", "UI_NOTEBOOK_UNNAMED_ECHO"))
 				var collected_count = GameState.echo_progress.get(echo_id, {}).get("collected", []).size()
 				var total_segments = EchoDB.get_segment_count(echo_id)
 				var sold = GameState.is_echo_sold(echo_id)
 				
 				var unknown_total = echo_data.get("unknown_total", false)
-				var display_title = title + "（" + str(collected_count) + "/" + ( "?" if unknown_total else str(total_segments) ) + "）"
+				var display_title = tr("UI_NOTEBOOK_ECHO_TITLE_FMT") % [title, str(collected_count), ( "?" if unknown_total else str(total_segments) )]
 				if sold:
-					display_title += " [已售出]"
+					display_title += " " + tr("UI_NOTEBOOK_SOLD_TAG")
 				
 				var body_segments = []
 				var segments_list = echo_data.get("segments", [])
@@ -132,7 +132,7 @@ func load_notebook_data() -> void:
 					if GameState.has_echo_segment(echo_id, seg_id):
 						body_segments.append(seg.get("text", ""))
 					else:
-						body_segments.append("段落 " + str(idx + 1) + "：????")
+						body_segments.append(tr("UI_NOTEBOOK_SEGMENT_LOCKED_FMT") % (idx + 1))
 
 				if unknown_total:
 					body_segments.append("???")
@@ -141,11 +141,11 @@ func load_notebook_data() -> void:
 
 				if collected_count == total_segments and not sold:
 					if echo_id == "echo_room401_tenant":
-						body_text += "\n\n(有一張照片)"
+						body_text += "\n\n" + tr("UI_NOTEBOOK_MEDIA_PHOTO")
 					elif echo_id == "echo_song_rain_doesnt_stop":
-						body_text += "\n\n(有一首歌的錄音)"
+						body_text += "\n\n" + tr("UI_NOTEBOOK_MEDIA_SONG")
 					elif echo_id == "echo_clerk":
-						body_text += "\n\n(有一段錄音)"
+						body_text += "\n\n" + tr("UI_NOTEBOOK_MEDIA_AUDIO")
 				
 				current_list_items.append({
 					"id": echo_id,
@@ -157,76 +157,76 @@ func load_notebook_data() -> void:
 		var summary = GameState.get_progress_summary()
 		
 		# 1. Overall Progress
-		var overall_body = "總體探索進度：" + str(summary["overall_pct"]) + "%\n\n"
-		overall_body += "場景收集：" + str(summary["scenes"]["done"]) + "/" + str(summary["scenes"]["total"]) + "\n"
-		overall_body += "角色會面：" + str(summary["npcs"]["done"]) + "/" + str(summary["npcs"]["total"]) + "\n"
-		overall_body += "任務里程碑：" + str(summary["quests"]["done"]) + "/" + str(summary["quests"]["total"]) + "\n"
-		overall_body += "殘響收集：" + str(summary["echoes"]["done"]) + "/" + str(summary["echoes"]["total"]) + "\n"
-		overall_body += "特殊道具：" + str(summary["special"]["done"]) + "/" + str(summary["special"]["total"])
+		var overall_body = tr("UI_PROGRESS_OVERALL_PCT_FMT") % summary["overall_pct"] + "\n\n"
+		overall_body += tr("UI_PROGRESS_SCENE_COUNT_FMT") % [summary["scenes"]["done"], summary["scenes"]["total"]] + "\n"
+		overall_body += tr("UI_PROGRESS_NPC_COUNT_FMT") % [summary["npcs"]["done"], summary["npcs"]["total"]] + "\n"
+		overall_body += tr("UI_PROGRESS_QUEST_COUNT_FMT") % [summary["quests"]["done"], summary["quests"]["total"]] + "\n"
+		overall_body += tr("UI_PROGRESS_ECHO_COUNT_FMT") % [summary["echoes"]["done"], summary["echoes"]["total"]] + "\n"
+		overall_body += tr("UI_PROGRESS_ITEMS_COUNT_FMT") % [summary["special"]["done"], summary["special"]["total"]]
 		
 		current_list_items.append({
 			"id": "progress_overall",
-			"title": "總進度",
+			"title": tr("UI_PROGRESS_TOTAL_TITLE"),
 			"body": overall_body
 		})
 		
 		# 2. Scenes
-		var scenes_body = "場景收集進度：" + str(summary["scenes"]["done"]) + "/" + str(summary["scenes"]["total"]) + "\n\n"
+		var scenes_body = tr("UI_PROGRESS_SCENES_TITLE_FMT") % [summary["scenes"]["done"], summary["scenes"]["total"]] + "\n\n"
 		for item in summary["scenes"]["items"]:
-			var name = item["name"] if item["done"] else "???"
+			var name = tr(item["name"]) if item["done"] else "???"
 			var check = " [✓]" if item["done"] else ""
 			scenes_body += name + check + "\n"
 		current_list_items.append({
 			"id": "progress_scenes",
-			"title": "場景",
+			"title": tr("UI_PROGRESS_SCENES_TITLE"),
 			"body": scenes_body
 		})
 		
 		# 3. NPCs
-		var npcs_body = "角色會面進度：" + str(summary["npcs"]["done"]) + "/" + str(summary["npcs"]["total"]) + "\n\n"
+		var npcs_body = tr("UI_PROGRESS_NPCS_TITLE_FMT") % [summary["npcs"]["done"], summary["npcs"]["total"]] + "\n\n"
 		for item in summary["npcs"]["items"]:
-			var name = item["name"] if item["done"] else "???"
+			var name = tr(item["name"]) if item["done"] else "???"
 			var check = " [✓]" if item["done"] else ""
 			npcs_body += name + check + "\n"
 		current_list_items.append({
 			"id": "progress_npcs",
-			"title": "角色",
+			"title": tr("UI_PROGRESS_NPCS_TITLE"),
 			"body": npcs_body
 		})
 		
 		# 4. Quests
-		var quests_body = "任務里程碑進度：" + str(summary["quests"]["done"]) + "/" + str(summary["quests"]["total"]) + "\n\n"
+		var quests_body = tr("UI_PROGRESS_QUESTS_TITLE_FMT") % [summary["quests"]["done"], summary["quests"]["total"]] + "\n\n"
 		for item in summary["quests"]["items"]:
-			var name = item["name"] if item["done"] else "???"
+			var name = tr(item["name"]) if item["done"] else "???"
 			var check = " [✓]" if item["done"] else ""
 			quests_body += name + check + "\n"
 		current_list_items.append({
 			"id": "progress_quests",
-			"title": "任務",
+			"title": tr("UI_PROGRESS_QUESTS_TITLE"),
 			"body": quests_body
 		})
 		
 		# 5. Echoes
-		var echoes_body = "殘響收集進度：" + str(summary["echoes"]["done"]) + "/" + str(summary["echoes"]["total"]) + "\n\n"
+		var echoes_body = tr("UI_PROGRESS_ECHOES_TITLE_FMT") % [summary["echoes"]["done"], summary["echoes"]["total"]] + "\n\n"
 		for item in summary["echoes"]["items"]:
-			var name = item["name"] if item["done"] else "???"
+			var name = tr(item["name"]) if item["done"] else "???"
 			var check = " [✓]" if item["done"] else ""
 			echoes_body += name + check + "\n"
 		current_list_items.append({
 			"id": "progress_echoes",
-			"title": "殘響",
+			"title": tr("UI_PROGRESS_ECHOES_TITLE"),
 			"body": echoes_body
 		})
 		
 		# 6. Special Items
-		var special_body = "特殊道具進度：" + str(summary["special"]["done"]) + "/" + str(summary["special"]["total"]) + "\n\n"
+		var special_body = tr("UI_PROGRESS_SPECIAL_TITLE_FMT") % [summary["special"]["done"], summary["special"]["total"]] + "\n\n"
 		for item in summary["special"]["items"]:
-			var name = item["name"] if item["done"] else "???"
+			var name = tr(item["name"]) if item["done"] else "???"
 			var check = " [✓]" if item["done"] else ""
 			special_body += name + check + "\n"
 		current_list_items.append({
 			"id": "progress_special",
-			"title": "特殊道具",
+			"title": tr("UI_PROGRESS_SPECIAL_TITLE"),
 			"body": special_body
 		})
 	else:
@@ -234,7 +234,7 @@ func load_notebook_data() -> void:
 
 	if current_list_items.is_empty():
 		var placeholder := Label.new()
-		placeholder.text = "（尚無筆記）" if category != "殘響" else "（尚無已發現的殘響）"
+		placeholder.text = tr("UI_NOTEBOOK_NO_NOTES") if category != "殘響" else tr("UI_NOTEBOOK_NO_ECHOES")
 		placeholder.custom_minimum_size.y = 32
 		placeholder.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		placeholder.add_theme_font_size_override("font_size", 16)

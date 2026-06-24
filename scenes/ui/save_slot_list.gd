@@ -92,7 +92,7 @@ func _apply_theme_style() -> void:
 
 func initialize(is_save: bool) -> void:
 	is_save_mode = is_save
-	title_label.text = "— 選擇存檔槽 (儲存) —" if is_save_mode else "— 選擇存檔槽 (載入) —"
+	title_label.text = tr("UI_SAVE_TITLE_SAVE") if is_save_mode else tr("UI_SAVE_TITLE_LOAD")
 	refresh_list()
 	
 	# Grab initial focus on the first button or back button
@@ -118,7 +118,7 @@ func refresh_list() -> void:
 		
 		# Set text and state based on mode and metadata
 		if slot_data.get("empty", true):
-			btn.text = "存檔槽 %02d  [ 空白 ]" % slot_idx
+			btn.text = tr("UI_SAVE_SLOT_EMPTY_FMT") % slot_idx
 			if is_save_mode:
 				btn.disabled = false
 				btn.modulate = Color(1, 1, 1, 1)
@@ -126,7 +126,7 @@ func refresh_list() -> void:
 				btn.disabled = true
 				btn.modulate = Color(1, 1, 1, 0.4) # Faded for disabled
 		elif slot_data.get("corrupt", false):
-			btn.text = "存檔槽 %02d  [ 損毀 / 版本不符 ]" % slot_idx
+			btn.text = tr("UI_SAVE_SLOT_CORRUPTED_FMT") % slot_idx
 			if is_save_mode:
 				btn.disabled = false
 				btn.modulate = Color(1, 0.3, 0.3, 1) # Red tint for overwriting corrupt slot
@@ -135,7 +135,7 @@ func refresh_list() -> void:
 				btn.modulate = Color(1, 0.3, 0.3, 0.4)
 		else:
 			var meta = slot_data["meta"]
-			var scene_name = meta.get("scene_name", "未知關卡")
+			var scene_name = tr(meta.get("scene_name", "UI_SAVE_SLOT_UNKNOWN_LEVEL"))
 			var credits_val = meta.get("credits", 0)
 			var timestamp = meta.get("timestamp", 0)
 			
@@ -147,7 +147,7 @@ func refresh_list() -> void:
 				datetime["hour"], datetime["minute"]
 			]
 			
-			btn.text = "存檔槽 %02d  |  %s  |  %d CR  |  %s" % [slot_idx, scene_name, credits_val, time_str]
+			btn.text = tr("UI_SAVE_SLOT_INFO_FMT") % [slot_idx, tr(scene_name), credits_val, time_str]
 			btn.disabled = false
 			btn.modulate = Color(1, 1, 1, 1)
 
@@ -194,13 +194,13 @@ func _perform_save(slot: int) -> void:
 	var game_ui = get_tree().root.find_child("GameUI", true, false)
 	if success:
 		if game_ui and game_ui.has_method("show_toast"):
-			game_ui.show_toast("儲存成功！", _buttons[slot - 1])
+			game_ui.show_toast(tr("UI_SAVE_SUCCESS"), _buttons[slot - 1])
 		refresh_list()
 		# Refocus button after save
 		_buttons[slot - 1].grab_focus()
 	else:
 		if game_ui and game_ui.has_method("show_toast"):
-			game_ui.show_toast("儲存失敗！", _buttons[slot - 1])
+			game_ui.show_toast(tr("UI_SAVE_FAIL"), _buttons[slot - 1])
 
 func _confirm_overwrite(slot: int) -> void:
 	var game_ui = get_tree().root.find_child("GameUI", true, false)
@@ -211,7 +211,7 @@ func _confirm_overwrite(slot: int) -> void:
 		UIMode.enter_confirm()
 		
 		confirm_dialog.show_dialog(
-			"確定要覆蓋此存檔？",
+			tr("UI_SAVE_CONFIRM_OVERWRITE"),
 			func():
 				_perform_save(slot),
 			_buttons[slot - 1],
@@ -227,7 +227,7 @@ func _perform_load(slot: int) -> void:
 		else:
 			var game_ui = get_tree().root.find_child("GameUI", true, false)
 			if game_ui and game_ui.has_method("show_message"):
-				game_ui.show_message("載入失敗：存檔無效或損毀！")
+				game_ui.show_message(tr("UI_LOAD_FAIL_CORRUPTED"))
 	else:
 		# We are in Title Screen (no Main exists)
 		var payload = SaveSystem.read_slot(slot)

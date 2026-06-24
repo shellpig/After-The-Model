@@ -54,7 +54,7 @@ func _on_save_pressed() -> void:
 	if not SaveSystem.can_save_here:
 		var game_ui = get_tree().root.find_child("GameUI", true, false)
 		if game_ui and game_ui.has_method("show_toast"):
-			game_ui.show_toast("目前區域無法儲存進度！", self)
+			game_ui.show_toast(tr("UI_PAUSE_CANNOT_SAVE"), self)
 		return
 		
 	buttons_vbox.visible = false
@@ -94,7 +94,7 @@ func _on_title_pressed() -> void:
 		UIMode.enter_confirm()
 		
 		confirm_dialog.show_dialog(
-			"確定返回標題畫面？\n(未儲存的進度將會遺失)",
+			tr("UI_PAUSE_CONFIRM_TITLE_SCREEN"),
 			func():
 				UIMode.set_mode(UIMode.Mode.NONE)
 				get_tree().change_scene_to_file("res://scenes/ui/title_screen.tscn"),

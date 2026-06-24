@@ -148,7 +148,7 @@ position = Vector2(190, 665)
 [node name="EntranceDoorArea" type="Area2D" parent="Interactables" unique_id=987654330]
 script = ExtResource("3_interactable")
 interaction_id = "auto_door"
-prompt_text = "E: █ 回到街區"
+prompt_text = "PROMPT_COLLECTOR_BACK_TO_STREET"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EntranceDoorArea" unique_id=987654331]
 position = Vector2(217.5, 448)
@@ -158,7 +158,7 @@ debug_color = Color(0.9, 0.1, 0.1, 0.42)
 [node name="DisplayCaseAArea" type="Area2D" parent="Interactables" unique_id=987654332]
 script = ExtResource("3_interactable")
 interaction_id = "display_case_a"
-prompt_text = "E: █ 查看陳列架"
+prompt_text = "PROMPT_COLLECTOR_DISPLAY_SHELF"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DisplayCaseAArea" unique_id=987654333]
 position = Vector2(1043, 508)
@@ -168,7 +168,7 @@ debug_color = Color(0.1, 0.9, 0.1, 0.42)
 [node name="DisplayCaseBArea" type="Area2D" parent="Interactables" unique_id=987654334]
 script = ExtResource("3_interactable")
 interaction_id = "display_case_b"
-prompt_text = "E: █ 查看陳列架"
+prompt_text = "PROMPT_COLLECTOR_DISPLAY_SHELF"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DisplayCaseBArea" unique_id=987654335]
 position = Vector2(728, 508)
@@ -178,7 +178,7 @@ debug_color = Color(0.48034817, 0.7922006, 0.9549977, 0.41960785)
 [node name="WallArchiveArea" type="Area2D" parent="Interactables" unique_id=987654336]
 script = ExtResource("3_interactable")
 interaction_id = "wall_archive"
-prompt_text = "E: █ 查看牆面檔案"
+prompt_text = "PROMPT_COLLECTOR_WALL_FILE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WallArchiveArea" unique_id=987654337]
 position = Vector2(1503, 409)
@@ -188,7 +188,7 @@ debug_color = Color(0.8, 0.8, 0.1, 0.42)
 [node name="LuQichenArea" type="Area2D" parent="Interactables" unique_id=987654338]
 script = ExtResource("3_interactable")
 interaction_id = "talk_lu"
-prompt_text = "E: █ 交談"
+prompt_text = "PROMPT_TALK"
 dialogue_id = "lu_qichen"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/LuQichenArea" unique_id=987654339]
@@ -205,7 +205,7 @@ texture = ExtResource("13_lu_sprite")
 [node name="InnerDoorArea" type="Area2D" parent="Interactables" unique_id=987654341]
 script = ExtResource("3_interactable")
 interaction_id = "inner_door"
-prompt_text = "E: █ 推推看裡門"
+prompt_text = "PROMPT_COLLECTOR_INNER_DOOR"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/InnerDoorArea" unique_id=987654342]
 position = Vector2(2323.5, 389)

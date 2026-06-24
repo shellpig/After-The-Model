@@ -36,7 +36,7 @@ func show_photo(image_path: String, restore_focus_control: Control = null) -> vo
 	if footer_hint is PanelFooterHint:
 		footer_hint.set_hints(self, ["E/Esc: 關閉"])
 	else:
-		footer_hint.text = "E/Esc: 關閉"
+		footer_hint.text = tr("E/Esc: 關閉")
 
 	# Center it on screen
 	await get_tree().process_frame

@@ -395,7 +395,7 @@ position = Vector2(120, 675)
 [node name="BackToApartmentArea" type="Area2D" parent="Interactables" unique_id=70679196]
 script = ExtResource("4_interactable")
 interaction_id = "back_to_apartment"
-prompt_text = "E: █ 回到公寓"
+prompt_text = "PROMPT_ENTRANCE_BACK_TO_APARTMENT"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BackToApartmentArea" unique_id=895055570]
 position = Vector2(739.5, 534)
@@ -405,7 +405,7 @@ debug_color = Color(0.9, 0.1, 0.1, 0.42)
 [node name="MailboxesArea" type="Area2D" parent="Interactables" unique_id=1790471034]
 script = ExtResource("4_interactable")
 interaction_id = "mailboxes"
-prompt_text = "E: █ 查看信箱牆"
+prompt_text = "PROMPT_ENTRANCE_MAILBOX"
 message_id = "mailboxes"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MailboxesArea" unique_id=867365419]
@@ -416,7 +416,7 @@ debug_color = Color(0.95, 0.6, 0, 0.42)
 [node name="AlleyViewArea" type="Area2D" parent="Interactables" unique_id=1302457912]
 script = ExtResource("4_interactable")
 interaction_id = "alley_view"
-prompt_text = "E: █ 望向暗巷"
+prompt_text = "PROMPT_ENTRANCE_ALLEY"
 message_id = "alley_view"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/AlleyViewArea" unique_id=561969924]
@@ -427,7 +427,7 @@ debug_color = Color(0.6, 0.2, 0.95, 0.42)
 [node name="StoreFrontArea" type="Area2D" parent="Interactables" unique_id=208123441]
 script = ExtResource("4_interactable")
 interaction_id = "store_front"
-prompt_text = "E: █ 進入便利店"
+prompt_text = "PROMPT_ENTRANCE_CONVENIENCE_STORE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoreFrontArea" unique_id=208123442]
 position = Vector2(3168.5, 525)
@@ -437,7 +437,7 @@ debug_color = Color(0, 1, 0.86, 0.42)
 [node name="VendingMachineArea" type="Area2D" parent="Interactables" unique_id=208123443]
 script = ExtResource("4_interactable")
 interaction_id = "vending_machine"
-prompt_text = "E: █ 查看販賣機"
+prompt_text = "PROMPT_ENTRANCE_VENDING_MACHINE"
 message_id = "vending_machine"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/VendingMachineArea" unique_id=208123444]
@@ -448,7 +448,7 @@ debug_color = Color(1, 0, 0.7, 0.42)
 [node name="NpcWan" type="Area2D" parent="Interactables" unique_id=208123445]
 script = ExtResource("4_interactable")
 interaction_id = "talk_wan"
-prompt_text = "E: █ 交談"
+prompt_text = "PROMPT_TALK"
 dialogue_id = "wan"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/NpcWan" unique_id=208123446]
@@ -469,7 +469,7 @@ script = ExtResource("ext_idle_break")
 [node name="TravelStreetEastArea" type="Area2D" parent="Interactables" unique_id=208123448]
 script = ExtResource("4_interactable")
 interaction_id = "travel_street_east"
-prompt_text = "E: █ 離開街區"
+prompt_text = "PROMPT_ENTRANCE_LEAVE_STREET"
 dialogue_id = "travel_street_east"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TravelStreetEastArea" unique_id=208123449]
@@ -480,7 +480,7 @@ debug_color = Color(0.1, 0.1, 0.9, 0.42)
 [node name="TravelStreetWestArea" type="Area2D" parent="Interactables" unique_id=208123490]
 script = ExtResource("4_interactable")
 interaction_id = "travel_street_west"
-prompt_text = "E: █ 離開街區"
+prompt_text = "PROMPT_ENTRANCE_LEAVE_STREET"
 dialogue_id = "travel_street_west"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TravelStreetWestArea" unique_id=208123491]

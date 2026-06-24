@@ -255,12 +255,12 @@ func _update_toggle_button_visual() -> void:
 	if btn_toggle == null:
 		return
 	if touch_buttons_enabled:
-		btn_toggle.text = "[ 觸控: 開 ]"
+		btn_toggle.text = tr("UI_TOUCH_ON")
 		if _style_pressed:
 			btn_toggle.add_theme_stylebox_override("normal", _style_pressed)
 			btn_toggle.add_theme_stylebox_override("hover", _style_pressed)
 	else:
-		btn_toggle.text = "[ 觸控: 關 ]"
+		btn_toggle.text = tr("UI_TOUCH_OFF")
 		if _style_normal:
 			btn_toggle.add_theme_stylebox_override("normal", _style_normal)
 			btn_toggle.add_theme_stylebox_override("hover", _style_normal)

@@ -156,7 +156,7 @@ position = Vector2(3750, 870)
 [node name="GoLeftArea" type="Area2D" parent="Interactables" unique_id=194427120]
 script = ExtResource("3_interactable")
 interaction_id = "go_left"
-prompt_text = "E: █ 回到聚落左區"
+prompt_text = "PROMPT_SETTLEMENT_BACK_TO_LEFT"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GoLeftArea" unique_id=1514453442]
 position = Vector2(150, 700)
@@ -165,7 +165,7 @@ shape = SubResource("RectangleShape2D_transition")
 [node name="RightShelterArea" type="Area2D" parent="Interactables" unique_id=866112171]
 script = ExtResource("3_interactable")
 interaction_id = "right_shelter"
-prompt_text = "E: █ 觀察住處"
+prompt_text = "PROMPT_APARTMENT_EXAMINE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/RightShelterArea" unique_id=427632760]
 position = Vector2(2755, 714)
@@ -174,7 +174,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="SealedMaintenanceArea" type="Area2D" parent="Interactables" unique_id=737391447]
 script = ExtResource("3_interactable")
 interaction_id = "sealed_maintenance"
-prompt_text = "E: █ 查看維修門"
+prompt_text = "PROMPT_SETTLEMENT_MAINTENANCE_DOOR"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/SealedMaintenanceArea" unique_id=1859732559]
 position = Vector2(925, 717)
@@ -183,7 +183,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="DeepTunnelArea" type="Area2D" parent="Interactables" unique_id=1275398128]
 script = ExtResource("3_interactable")
 interaction_id = "deep_tunnel"
-prompt_text = "E: █ 進入更深隧道"
+prompt_text = "PROMPT_SETTLEMENT_DEEP_TUNNEL"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeepTunnelArea" unique_id=1435778254]
 position = Vector2(3814, 716)
@@ -192,7 +192,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="WaterPowerArea" type="Area2D" parent="Interactables" unique_id=1686886843]
 script = ExtResource("3_interactable")
 interaction_id = "water_power"
-prompt_text = "E: █ 查看淨水站"
+prompt_text = "PROMPT_SETTLEMENT_WATER_TANK"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WaterPowerArea" unique_id=1909146719]
 position = Vector2(1440, 714)
@@ -201,7 +201,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="RadioNoiseArea" type="Area2D" parent="Interactables" unique_id=777253367]
 script = ExtResource("3_interactable")
 interaction_id = "radio_noise"
-prompt_text = "E: █ 聽收音機底噪"
+prompt_text = "PROMPT_SETTLEMENT_RADIO"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/RadioNoiseArea" unique_id=203781222]
 position = Vector2(3046, 714)
@@ -211,7 +211,7 @@ shape = SubResource("RectangleShape2D_flavor")
 position = Vector2(1961, -19)
 script = ExtResource("3_interactable")
 interaction_id = "talk_wu"
-prompt_text = "E: █ 與伍姐交談"
+prompt_text = "PROMPT_TALK_WU"
 dialogue_id = "wu"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/NpcWu" unique_id=102428718]
@@ -229,7 +229,7 @@ autoplay = "idle"
 position = Vector2(3496, -13)
 script = ExtResource("3_interactable")
 interaction_id = "talk_seven"
-prompt_text = "E: █ 與七號交談"
+prompt_text = "PROMPT_TALK_SEVEN"
 dialogue_id = "seven"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/NpcSeven" unique_id=274558812]

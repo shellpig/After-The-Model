@@ -259,7 +259,7 @@ position = Vector2(4170, 820)
 [node name="ExitToStreetArea" type="Area2D" parent="Interactables" unique_id=274195157]
 script = ExtResource("3_interactable")
 interaction_id = "exit_to_street"
-prompt_text = "E: █ 回到地鐵站入口"
+prompt_text = "PROMPT_PLATFORM_BACK_TO_CONCOURSE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToStreetArea" unique_id=4382670]
 position = Vector2(342.5, 641)
@@ -268,7 +268,7 @@ shape = SubResource("RectangleShape2D_transition")
 [node name="StairsToSettlementArea" type="Area2D" parent="Interactables" unique_id=690277358]
 script = ExtResource("3_interactable")
 interaction_id = "stairs_to_settlement"
-prompt_text = "E: █ 往下到聚落"
+prompt_text = "PROMPT_PLATFORM_DOWN_TO_SETTLEMENT"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StairsToSettlementArea" unique_id=1165351250]
 position = Vector2(4351, 641)
@@ -277,7 +277,7 @@ shape = SubResource("RectangleShape2D_transition")
 [node name="CommuterScreenArea" type="Area2D" parent="Interactables" unique_id=408478037]
 script = ExtResource("3_interactable")
 interaction_id = "commuter_screen"
-prompt_text = "E: █ 查看停運螢幕"
+prompt_text = "PROMPT_PLATFORM_COMMUTE_SCREEN"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/CommuterScreenArea" unique_id=24175246]
 position = Vector2(2285, 647)
@@ -286,7 +286,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="SuitcaseArea" type="Area2D" parent="Interactables" unique_id=197224386]
 script = ExtResource("3_interactable")
 interaction_id = "suitcase"
-prompt_text = "E: █ 查看行李箱"
+prompt_text = "PROMPT_PLATFORM_LUGGAGE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/SuitcaseArea" unique_id=1975832709]
 position = Vector2(2667, 671)
@@ -295,7 +295,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="DrainageArea" type="Area2D" parent="Interactables" unique_id=1897631750]
 script = ExtResource("3_interactable")
 interaction_id = "drainage"
-prompt_text = "E: █ 查看排水槽"
+prompt_text = "PROMPT_PLATFORM_DRAINAGE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DrainageArea" unique_id=1869624739]
 position = Vector2(1590, 670)
@@ -304,7 +304,7 @@ shape = SubResource("RectangleShape2D_flavor")
 [node name="PlatformAnchorArea" type="Area2D" parent="Interactables" unique_id=1571038427]
 script = ExtResource("3_interactable")
 interaction_id = "platform_anchor"
-prompt_text = "E: █ 觀察月台"
+prompt_text = "PROMPT_PLATFORM_EXAMINE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/PlatformAnchorArea" unique_id=2131367901]
 position = Vector2(3460, 650)

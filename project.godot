@@ -108,6 +108,7 @@ pointing/emulate_touch_from_mouse=true
 
 [internationalization]
 
+locale/translations=PackedStringArray("res://locale/ui.zh_TW.translation", "res://locale/ui.zh_CN.translation", "res://locale/ui.en.translation")
 locale/fallback="zh_TW"
 
 [rendering]

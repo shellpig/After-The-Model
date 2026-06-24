@@ -8715,6 +8715,41 @@ func _ready() -> void:
 		return
 	print("PASS M2-A-7: All FONT_FOR font files exist on disk (runtime load verified at GUI walkthrough).")
 
+	# 8. tr() 實際查表（驗 ui.translation 已註冊 + locale 切換真的換字；
+	#    若 project.godot 漏 locale/translations，tr() 會退回 key 本身，此檢查即抓到）
+	if TranslationServer.get_loaded_locales().is_empty():
+		printerr("FAIL M2-A-8: TranslationServer.get_loaded_locales() is empty — locale/translations not registered!")
+		get_tree().quit(1)
+		return
+	var tr_cases := {
+		"zh_TW": "開始新遊戲",
+		"zh_CN": "开始新游戏",
+		"en":    "New Game",
+	}
+	var tr_pass := true
+	for loc: String in tr_cases:
+		LocaleManager.set_locale(loc)
+		var got := tr("UI_TITLE_NEW_GAME")
+		if got == "UI_TITLE_NEW_GAME":
+			printerr("FAIL M2-A-8[%s]: tr(UI_TITLE_NEW_GAME) returned the key itself (translation not loaded)." % loc)
+			tr_pass = false
+		elif got != tr_cases[loc]:
+			printerr("FAIL M2-A-8[%s]: tr(UI_TITLE_NEW_GAME)='%s', expected '%s'." % [loc, got, tr_cases[loc]])
+			tr_pass = false
+		else:
+			print("PASS M2-A-8[%s]: tr(UI_TITLE_NEW_GAME) == '%s'." % [loc, got])
+	if not tr_pass:
+		get_tree().quit(1)
+		return
+	print("PASS M2-A-8: tr() resolves per-locale across zh_TW / zh_CN / en.")
+
+	# 9. 未知 key → tr() 回傳 key 本身（spec：三語全缺 → 顯示 key，作漏譯訊號）
+	if tr("UI_DOES_NOT_EXIST_XYZ") != "UI_DOES_NOT_EXIST_XYZ":
+		printerr("FAIL M2-A-9: unknown key should return itself as missing-translation signal.")
+		get_tree().quit(1)
+		return
+	print("PASS M2-A-9: unknown key returns itself (missing-translation signal).")
+
 	# 恢復預設 locale
 	LocaleManager.set_locale("zh_TW")
 	print("--- Phase M2-A: ALL CHECKS PASSED ---")

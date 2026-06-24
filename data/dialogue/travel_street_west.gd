@@ -10,31 +10,31 @@ const TREE := {
 	},
 	"locked": {
 		"speaker": "",
-		"text": "（這座地鐵站已經停運很久了，入口處拉著警戒線，無法進入。）"
+		"text": "DLG_TRAVEL_STREET_WEST_LOCKED_TEXT"
 	},
 	"menu": {
 		"speaker": "",
-		"text": "你要離開目前街區嗎？",
+		"text": "DLG_TRAVEL_STREET_WEST_MENU_TEXT",
 		"choices": [
 			{
-				"label": "前往地鐵站",
+				"label": "DLG_TRAVEL_STREET_WEST_MENU_CHOICE0",
 				"goto": "travel_to_subway"
 			},
 			{
-				"label": "取消",
+				"label": "DLG_TRAVEL_STREET_WEST_MENU_CHOICE1",
 				"goto": "end"
 			}
 		]
 	},
 	"travel_to_subway": {
 		"speaker": "",
-		"text": "（你沿著街區邊緣往下走。霓虹和雨聲被高架橋吞掉，地鐵入口像一個還沒關上的傷口，等著你進去。）",
+		"text": "DLG_TRAVEL_STREET_WEST_TRAVEL_TO_SUBWAY_TEXT",
 		"effect": [
 			{"op": "travel", "scene_id": "subway_station", "entry_point_id": "from_street"}
 		]
 	},
 	"end": {
 		"speaker": "",
-		"text": "（你決定先留在這條街上。）"
+		"text": "DLG_TRAVEL_STREET_WEST_END_TEXT"
 	}
 }

@@ -12,8 +12,8 @@ const WORK_NOTES_BY_STEP := {
 	"started": {
 		"id": WORK_NOTE_ID,
 		"category": "工作",
-		"title": "便利商店的故障機器人",
-		"body": "公寓樓下那間便利商店的機器人店員行為異常——先是在外面的販賣機遇到奇怪的回應，進店之後店內機器人說的話也讓人費解。\n看起來不像單純的設備老化，倒像是某種資料混入的問題。去查一查吧，說不定有人願意出委託費。",
+		"title": "QUEST_REPAIR_VENDOR_BOT_STEP_STARTED_TITLE",
+		"body": "QUEST_REPAIR_VENDOR_BOT_STEP_STARTED_BODY",
 		"status": "active"
 	}
 }
@@ -23,8 +23,8 @@ const WORK_NOTES_BY_STATUS := {
 	"failed": {
 		"id": WORK_NOTE_ID,
 		"category": "工作",
-		"title": "便利商店的故障機器人",
-		"body": "任務失敗。機器人的問題沒有解決。",
+		"title": "QUEST_REPAIR_VENDOR_BOT_STATUS_FAILED_TITLE",
+		"body": "QUEST_REPAIR_VENDOR_BOT_STATUS_FAILED_BODY",
 		"status": "failed"
 	}
 }
@@ -36,15 +36,15 @@ const WORK_NOTES_COMPLETED := {
 	"reset": {
 		"id": WORK_NOTE_ID,
 		"category": "工作",
-		"title": "便利商店的故障機器人",
-		"body": "機器人的店籍主機已直接重置。那段繼承自店員的記憶、連同他「拒絕工作」的意志，一起被抹除了。\n機器人恢復正常販售功能。街道外面那台販賣機因為連線恢復，也跟著重新上線。\n任務完成，報酬已結清。",
+		"title": "QUEST_REPAIR_VENDOR_BOT_COMPLETED_RESET_TITLE",
+		"body": "QUEST_REPAIR_VENDOR_BOT_COMPLETED_RESET_BODY",
 		"status": "completed"
 	},
 	"gleaned": {
 		"id": WORK_NOTE_ID,
 		"category": "工作",
-		"title": "便利商店的故障機器人",
-		"body": "在重置之前，我把那段混入的店員記憶錄下來了。\n那名店員是被辭退的——不是因為犯錯，而是他的班表直接被 AI 取代。他拒絕配合，機器人把那份拒絕連同日記一起繼承了，然後就失去了販售的能力。\n重置之後，機器人恢復正常。街道那台販賣機也一起上線了。\n殘響存著。我不確定它值什麼，但丟掉這種東西感覺不對。",
+		"title": "QUEST_REPAIR_VENDOR_BOT_COMPLETED_GLEANED_TITLE",
+		"body": "QUEST_REPAIR_VENDOR_BOT_COMPLETED_GLEANED_BODY",
 		"status": "completed"
 	}
 }

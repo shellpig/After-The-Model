@@ -1,0 +1,437 @@
+keys,zh_TW,zh_CN,en
+SPEAKER_CEN,小岑,小岑,Cen
+DLG_CEN_FIRST_MEET_TEXT,新來的？地面上掉下來的吧——看你那身還算乾淨就知道。……站遠點，這是我的地盤。,新来的？地面上掉下来的吧——看你那身还算干净就知道。……站远点，这是我的地盘。,"New here? Fell from the surface, I assume—tells by how clean your clothes still are. ...Stand back, this is my turf."
+DLG_CEN_FIRST_MEET_CHOICE0,我不是來搶地盤的。,我不是来抢地盘的。,I'm not here to take your turf.
+DLG_CEN_FIRST_MEET_CHOICE1,你一個人住這？,你一个人住这？,Do you live here alone?
+DLG_CEN_FIRST_MEET_CHOICE2,（你感覺口袋被碰了一下）手放規矩點。,（你感觉口袋被碰了一下）手放规矩点。,(You feel a nudge at your pocket) Keep your hands to yourself.
+DLG_CEN_ASK_ABOUT_LIVING_TEXT,關你屁事。……有人罩著，行了吧。,关你屁事。……有人罩着，行了吧。,"None of your business. ...Someone's got my back, okay?"
+DLG_CEN_PICKPOCKET_CAUGHT_TEXT,（手一縮，臉不紅）切，反應挺快。你那點破爛我還看不上。手快一點才不會餓死——你懂個屁。,（手一缩，脸不红）切，反应挺快。你那点破烂我还看不上。手快一点才不会饿死——你懂个屁。,"(Retracts hand, face unblushing) Tsk, quick reflexes. I don't even care for your junk. You gotta be fast to not starve—what do you know."
+DLG_CEN_INTRO_TEXT,叫我小岑。別到處亂傳。……我這條嗓子，是有人幫我弄成『聽起來像活人』的，檢查機器才放我過。所以別給我惹事，我輸不起。,叫我小岑。别到处乱传。……我这条嗓子，是有人帮我弄成『听起来像活人』的，检查机器才放我过。所以别给我惹事，我输不起。,"Call me Cen. Don't spread it around. ...My voice was modded by someone to 'sound like a living human' so the scanners would let me pass. So don't cause trouble for me, I can't afford to lose."
+DLG_CEN_END_WARM_TEXT,行了，沒事別來煩我。……真撿到吃的，分我一口，我不介意。,行了，没事别来烦我。……真捡到吃的，分我一口，我不介意。,"Fine, don't bother me for no reason. ...If you actually salvage some food, share a bite, I wouldn't mind."
+DLG_CEN_RETALK_TEXT,又是你。……沒偷你東西，真的。有事說事，別老盯著我看。,又是你。……没偷你东西，真的。有事说事，别老盯着我看。,"You again. ...I didn't steal anything from you, seriously. Say what you want, stop staring at me."
+DLG_CEN_RETALK_CHOICE0,來看看你。,来看看你。,Just came to see you.
+DLG_CEN_RETALK_CHOICE1,（離開）,（离开）,(Leave)
+DLG_CEN_LEAVE_TEXT,（他哼了一聲，轉頭擺弄手裡的小零件，不再搭理你。）,（他哼了一声，转头摆弄手里的小零件，不再搭理你。）,"(He snorts, turns around to fiddle with the small parts in his hand, ignoring you.)"
+SPEAKER_LU_QICHEN,鹿其琛,鹿其琛,Lu Qichen
+DLG_LU_QICHEN_LU_DAZE_HOOK_TEXT,你身上有股味道。不是雨，也不是這條街的——是上面的。你是從上面下來的吧？我隨口說說。不得不下來的人，各有各的理由。……我記得那條街最左邊，那座地鐵站已經停運很久了，不過，很多無路可走的人都會去那裡碰碰運氣。,你身上有股味道。不是雨，也不是这条街的——是上面的。你是从上面下来的吧？我随口说说。不得不下来的人，各有各的理由。……我记得那条街最左边，这座地铁站已经停运很久了，不过，很多无路可走的人都会去那里碰碰运气。,"You have a scent on you. Not of rain, nor of this street—it's from above. You came down from above, didn't you? Just speaking casually. People who have no choice but to come down each have their reasons. ...I remember at the far left of that street, that subway station has been out of service for a long time, but many people with nowhere else to go would head there to try their luck."
+DLG_LU_QICHEN_FIRST_MEET_TEXT,"（一個簡約考究的中年男子坐在沉重的木長桌後。他穿著一件款式老舊但裁剪精細的毛呢外套，一柄黑檀木手杖靠在桌邊。）
+新面孔。很少有清理工會走到我這來。誰跟你提起過我？","（一个简约考究的中年男子坐在沉重的木长桌后。他穿着一件款式老旧但裁剪精细的毛呢外套，一柄黑檀木手杖靠在桌边。）
+新面孔。很少有清理工会走到我这来。谁跟你提起过我？","(A refined middle-aged man sits behind a heavy wooden long table. He wears a woolen coat that is old-fashioned but finely tailored, with an ebony cane resting by the table.)
+A new face. Few cleaners come this way to me. Who mentioned me to you?"
+DLG_LU_QICHEN_FIRST_MEET_CHOICE0,聽說這裡有個收舊電子玩意的『鹿三爺』。,听说这里有个收旧电子玩意的『鹿三爷』。,I heard there is a 'Master Lu' here who buys old electronic gadgets.
+DLG_LU_QICHEN_FIRST_MEET_CHOICE1,我只是隨便逛逛。,我只是随便逛逛。,I'm just looking around.
+DLG_LU_QICHEN_FIRST_MEET_REPLY_TEXT,"三爺……（他扯了扯嘴角，露出一點疲憊的自嘲）
+街上那些人隨便喊的，不用當真。我叫鹿其琛。
+我只收在外面找不到的舊東西。紙本、磁帶、舊晶片……被系統當成垃圾抹掉的那些。","三爷……（他扯了扯嘴角，露出一点疲惫的自嘲）
+街上那些人随便喊的，不用当真。我叫鹿其琛。
+我只收在外面找不到的旧东西。纸本、磁带、旧芯片……被系统当成垃圾抹掉的那些。","Third Master... (He twitches the corner of his mouth, showing a hint of weary self-deprecation)
+Just some casual names people on the street call me, don't take it seriously. My name is Lu Qichen.
+I only buy old things you can't find outside. Paper books, magnetic tapes, old chips... those wiped out as garbage by the system."
+DLG_LU_QICHEN_FIRST_MEET_BRUSH_OFF_TEXT,"隨便逛逛能走到這來，看來你的直覺很靈敏，清理工。
+我是鹿其琛。進了這扇門，就別只當自己是個來清垃圾的。我只收被系統當成垃圾抹掉的『舊回憶』。","随便逛逛能走到这来，看来你的直觉很灵敏，清理工。
+我是鹿其琛。进了这扇门，就别只当自己是个来清垃圾的。我只收被系统当成垃圾抹掉的『旧回忆』。","Wandering in and ending up here, it seems your intuition is quite sharp, Gleaner.
+I am Lu Qichen. Once you enter this door, don't just think of yourself as someone here to clean trash. I only collect the 'old memories' wiped out by the system as garbage."
+DLG_LU_QICHEN_HUB_TEXT,說吧，今天帶了什麼？張開手，讓我看看。還是只是想在這暖和一下？,说吧，今天带了什么？张开手，让我看看。还是只是想在这暖和一下？,"Speak, what did you bring today? Open your hand, let me see. Or do you just want to warm up here?"
+DLG_LU_QICHEN_HUB_CHOICE0,出示在公寓找到的老舊探測模組,出示在公寓找到的老旧探测模组,Show the old detection module found in the apartment
+DLG_LU_QICHEN_HUB_CHOICE1,給他看我的收藏,给他看我的收藏,Show him my collection
+DLG_LU_QICHEN_HUB_CHOICE2,關於這個房間的陳設……,关于这个房间的陈设……,About this room's furnishings...
+DLG_LU_QICHEN_HUB_CHOICE3,離開,离开,Leave
+DLG_LU_QICHEN_APPRAISE_TEXT,"（他接過模組，原本平淡的眼神突然亮了起來。他用指腹撫過外殼的刮痕，對著燈光端詳接點）
+這是……早期 AI 清理熱潮前的『感應式探測模組』！這東西起碼有十五年歷史了。
+那時候系統還沒現在這麼封閉，舊架構的數位殘留是可以在空氣中感知到的。這東西就是用來抓那些『殘響』的。","（他接过模组，原本平淡的眼神突然亮了起来。他用指腹抚过外壳的刮痕，对着灯光端详接点）
+这是……早期 AI 清理热潮前的『感应式探测模组』！这东西起码有十五年历史了。
+那时候系统还没现在这么封闭，旧架构的数字残留是可以在空气中感知到的。这东西就是用来抓那些『残响』的。","(He takes the module, his originally flat eyes suddenly lighting up. He runs his fingertip over the scratches on the casing, examining the contacts against the light)
+This is... an 'induction detection module' from before the early AI cleanup boom! This thing is at least fifteen years old.
+Back then, the system wasn't as closed as it is now. Digital remnants of the old architecture could be sensed in the air. This device is used to capture those 'echoes'."
+DLG_LU_QICHEN_APPRAISE_CHOICE0,殘響？那是什麼？,残响？那是什么？,Echoes? What are those?
+DLG_LU_QICHEN_APPRAISE_CHOICE1,這東西能裝在我的工作手套上嗎？,这东西能装在我的工作手套上吗？,Can this thing be installed on my work gloves?
+DLG_LU_QICHEN_APPRAISE_EXPLAIN_TEXT,"被抹除的記憶。AI 被重置時、資料庫被格式化時，總有一些沒清乾淨的數位殘渣，會附在硬體或電線的磁場裡。
+如果裝備了探測手套，你就能感知到它們。只要在殘響附近站一會兒，手套的迴路就能幫你把記憶碎片採集起來。","被抹除的记忆。AI 被重置时、数据库被格式化时，总有一些没清干净的数字残渣，会附在硬件或电线的磁场里。
+如果装备了探测手套，你就能感知到它们。只要在残响附近站一会儿，手套的回路就能帮你把记忆碎片采集起来。","Erased memories. When an AI is reset or a database is formatted, there are always some digital residues left unclean, attaching to the magnetic fields of hardware or wires.
+If you equip the detection gloves, you'll be able to sense them. Just stand near an echo for a moment, and the glove's circuitry will help you collect the memory fragments."
+DLG_LU_QICHEN_APPRAISE_GLOVES_TEXT,"你的手套食指改過接點？拿來，我能幫你把這模組嵌進去。
+（他轉身從抽屜拿出幾樣精細工具，在燈光下專注地拆開模組，將細如髮絲的導線接入手套內側。他的動作極快且熟練）
+好了。現在它是一雙『拾遺手套』了。","你的手套食指改过接点？拿来，我能帮你把这模组嵌进去。
+（他转身从抽屉拿出几样精细工具，在灯光下专注地拆开模组，将细如发丝的导线接入手套内侧。他的动作极快且熟练）
+好了。现在它是一双『拾遗手套』了。","Your glove's index finger has modified contacts? Bring it here, I can help you embed this module into it.
+(He turns around, takes several fine tools from a drawer, focuses on dismantling the module under the light, and connects wires as thin as hair to the inner side of the glove. His movements are extremely swift and skilled)
+There. Now it's a pair of 'Gleaner Gloves'."
+DLG_LU_QICHEN_APPRAISE_INSTRUCTIONS_TEXT,"裝備它。在外面走動時，如果附近有被抹除的記憶，手套會亮起微光，你還會聽到電磁雜訊的干擾聲。
+在雜訊最強的點上『靜止站立一秒』，手套就能收錄那段殘響。
+如果你集滿了整條殘響，可以拿來賣給我。或者……","装备它。在外面走动时，如果附近有被抹除的记忆，手套会亮起微光，你还会听到电磁杂讯的干扰声。
+在杂讯最强的点上『静止站立一秒』，手套就能收录那段残响。
+如果你集满了整条残响，可以拿来卖给我。或者……","Equip it. When walking outside, if there are erased memories nearby, the gloves will glow faintly, and you'll hear electromagnetic static interference.
+Stand completely still for one second at the point of strongest static, and the gloves will record that echo.
+If you gather a complete echo, you can bring it to sell to me. Or..."
+DLG_LU_QICHEN_APPRAISE_INSTRUCTIONS_CHOICE0,或者什麼？,或者什么？,Or what?
+DLG_LU_QICHEN_APPRAISE_INSTRUCTIONS_CHOICE1,我知道了，成交。,我知道了，成交。,I see. Deal.
+DLG_LU_QICHEN_APPRAISE_RETURN_HINT_TEXT,"或者……把它們『還』給原主。有些東西不是用錢可以衡量的。不過，這條街現在已經沒有原主可以還了。等以後地鐵通了，邊看、邊想、也許你會懂。
+總之，先去幫我把附近街區的記憶找回來吧。","或者……把它们『还』给原主。有些东西不是用钱可以衡量的。不过，这条街现在已经没有原主可以还了。等以后地铁通了，边看、边想、也许你会懂。
+总之，先去帮我把附近街区的记忆找回来吧。","Or... ""return"" them to their original owners. Some things cannot be measured by money. However, there are no original owners left on this street to return them to now. Maybe you'll understand when the subway opens in the future.
+Anyway, go help me find the memories in the nearby blocks first."
+DLG_LU_QICHEN_CHAT_ABOUT_ROOM_TEXT,"（他環顧四周疊滿古老實體物品的架子）
+這些是鹿家曾經的收藏。轉移到系統上時遺失了九成，只剩下這些搶救回來的實體原件。
+系統說實體是累贅。但我總覺得，看得見、摸得到的東西，被忘記的速度會慢一些。","（他环顾四周叠满古老实体物品的架子）
+这些是鹿家曾经的收藏。转移到系统上时遗失了九成，只剩下这些抢救出来的实体原件。
+系统说实体是累赘。但我总觉得，看得见、摸得到的东西，被忘记的速度会慢一些。","(He looks around the shelves stacked with ancient physical items)
+These were once the Lu family's collections. Ninety percent was lost when migrating to the system, leaving only these salvaged physical originals.
+The system says physical things are a burden. But I always feel that things you can see and touch are forgotten a bit slower."
+DLG_LU_QICHEN_SELL_EMPTY_TEXT,"你手頭還沒有集滿的殘響。殘缺的故事是不值錢的，清理工。
+戴上『拾遺手套』，去那些系統清理過的地方聽聽看吧。","你手头还没有集满的残响。残缺的故事是不值钱的，清理工。
+戴上『拾遗手套』，去那些系统清理过的地方听听看吧。","You don't have any complete echoes in hand yet. Fragmented stories are worthless, Gleaner.
+Put on the 'Gleaner Gloves' and go listen to the places cleared by the system."
+DLG_LU_QICHEN_SELL_MENU_TEXT,喔？看來你確實找到了一些完整的記憶。你想把哪一段交給我？,喔？看来你确实找到了一些完整的记忆。你想把哪一段交给我？,Oh? It seems you have indeed found some complete memories. Which segment do you want to hand over to me?
+DLG_LU_QICHEN_SELL_MENU_CHOICE0,交付《店員的殘響》（阿達的記憶）,交付《店员的残响》（阿达的记忆）,"Deliver ""Clerk's Echo"" (Ada's Memory)"
+DLG_LU_QICHEN_SELL_MENU_CHOICE1,交付《401的前住戶》,交付《401的前住户》,"Deliver ""Former Resident of 401"""
+DLG_LU_QICHEN_SELL_MENU_CHOICE2,交付《雨還沒停》（那首消失的老歌）,交付《雨还没停》（那首消失的老歌）,"Deliver ""The Rain Hasn't Stopped"" (That lost old song)"
+DLG_LU_QICHEN_SELL_MENU_CHOICE3,返回,返回,Return
+DLG_LU_QICHEN_SELL_CLERK_TEXT,"（他聽完這段音訊殘響，長久地沉默著，最後發出一聲輕嘆）
+『阿達』……這個人我認得。他是那家店全自動化前最後的人類店員。他的這份不甘心，確實很有他的風格。你想把這段記憶賣給我嗎？","（他听完这段音讯残响，长久地沉默着，最后发出一声轻叹）
+『阿达』……这个人我认得。他是那家店全自动化前最后的人类店员。他的这份不甘心，确实很有他的风格。你想把这段记忆卖给我吗？","(He listens to this audio echo, remaining silent for a long time, and finally lets out a soft sigh)
+'Ada'... I know him. He was the last human clerk before that store became fully automated. This unwillingness of his is indeed very much in his style. Do you want to sell this memory to me?"
+DLG_LU_QICHEN_SELL_CLERK_CHOICE0,賣給他,卖给他,Sell to him
+DLG_LU_QICHEN_SELL_CLERK_CHOICE1,先自己留著,先自己留着,Keep it for myself
+DLG_LU_QICHEN_SELL_CLERK_SOLD_TEXT,"很好，這份殘響我收下了。
+（獲得了 300 credits。）","很好，这份残响我收下了。
+（获得了 300 credits。）","Excellent, I've accepted this echo.
+(Obtained 300 credits.)"
+DLG_LU_QICHEN_SELL_ROOM401_TEXT,"（他摩挲著手杖的把手，看著顯現的舊照片）
+這是在401室住過的那家人。他們被強制遷走那天也是個雨夜。這些照片，記錄了他們在這個冰冷街區裡曾擁有過的溫慢與光。很有價值的檔案。你想把這段記憶賣給我嗎？","（他摩挲着手杖的把手，看着显现的旧照片）
+这是在401室住过的那家人。他们被强制迁走那天也是个雨夜。这些照片，记录了他们在这个冰冷街区里曾拥有过的温暖。物理证据。很有价值的档案。你想把这段记忆卖给我吗？","(He caresses the handle of his cane, looking at the displayed old photos)
+This is the family that lived in Room 401. The day they were forced to relocate was also a rainy night. These photos record the warmth they once had in this cold block. Very valuable archives. Do you want to sell this memory to me?"
+DLG_LU_QICHEN_SELL_ROOM401_CHOICE0,賣給他,卖给他,Sell to him
+DLG_LU_QICHEN_SELL_ROOM401_CHOICE1,先自己留著,先自己留着,Keep it for myself
+DLG_LU_QICHEN_SELL_ROOM401_SOLD_TEXT,"很好，這份殘響我收下了。
+（獲得了 200 credits。）","很好，这份残响我收下了。
+（获得了 200 credits。）","Excellent, I've accepted this echo.
+(Obtained 200 credits.)"
+DLG_LU_QICHEN_SELL_SONG_TEXT,"（聽著古老的電子旋律在雜訊中流淌，他閉上眼睛，手指跟著節奏輕點）
+《雨還沒停》……那時候街頭巷尾隨處可聽見這首歌。自從串流資料庫被統一清理後，就再也沒聽到了。你能把它拼湊完整，真是不簡單。你想把這段記憶賣給我嗎？","（听着古老的电子旋律在杂讯中流淌，他闭上眼睛，手指跟着节奏轻点）
+《雨还没停》……那时候街头巷尾随处可听见这首歌。自从串流数据库被统一清理后，就再也没听到了。你能把它拼凑完整，真是不简单。你想把这段记忆卖给我吗？","(Listening to the ancient electronic melody flowing through the static, he closes his eyes, his finger tapping along with the rhythm)
+""The Rain Hasn't Stopped""... Back then, this song could be heard everywhere on the streets. Since the streaming database was uniformly cleaned up, it hasn't been heard again. It's quite something that you managed to piece it together. Do you want to sell this memory to me?"
+DLG_LU_QICHEN_SELL_SONG_CHOICE0,賣給他,卖给他,Sell to him
+DLG_LU_QICHEN_SELL_SONG_CHOICE1,先自己留著,先自己留着,Keep it for myself
+DLG_LU_QICHEN_SELL_SONG_SOLD_TEXT,"很好，這份殘響我收下了。
+（獲得了 150 credits。）","很好，这份残响我收下了。
+（获得了 150 credits。）","Excellent, I've accepted this echo.
+(Obtained 150 credits.)"
+DLG_LU_QICHEN_SELL_DONE_TEXT,感謝你的回報。還有其他收穫嗎？,感谢你的回报。还有其他收获吗？,Thank you for your report. Any other findings?
+DLG_LU_QICHEN_EXIT_TEXT,慢走。記得戴好手套，這雨一時半刻是停不了的。,慢走。记得戴好手套，这雨一时半刻是停不了的。,Take care. Remember to wear your gloves; this rain won't stop anytime soon.
+SPEAKER_SEVEN,七號,七号,Seven
+DLG_SEVEN_FIRST_MEET_TEXT,……你也是躲下來的。,……你也是躲下来的。,...You also hid down here.
+DLG_SEVEN_FIRST_MEET_CHOICE0,你是誰？,你是谁？,Who are you?
+DLG_SEVEN_FIRST_MEET_CHOICE1,你不像會躲的人。,你不像会躲的人。,You don't look like someone who would hide.
+DLG_SEVEN_FIRST_MEET_CHOICE2,（保持距離）,（保持距离）,(Keep your distance)
+DLG_SEVEN_ASK_WHO_TEXT,大家叫我七號。名字早被刷掉了，留個編號剛好。我不交朋友，你也別指望我幫你。,大家叫我七号。名字早被刷掉了，留个编号刚好。我不交朋友，你也别指望我帮你。,"People call me Seven. My name was erased long ago, leaving just a number. I don't make friends, and don't expect me to help you."
+DLG_SEVEN_HOOK_TEXT,躲？（低笑一聲，沒有溫度）你們可以一直躲。我不行。我有一個名字……還掛在上面。別問了，問了你也幫不上。,躲？（低笑一声，没有温度）你们可以一直躲。我不行。我有一个名字……还挂在上面。别问了，问了你也帮不上。,"Hide? (A low laugh, cold) You guys can keep hiding. I can't. I have a name... still hanging up there. Don't ask, even if you did you couldn't help."
+DLG_SEVEN_END_COLD_TEXT,（他不再看你，目光沉進更深的隧道口那團黑裡。）,（他不再看你，目光沉进更深的隧道口那团黑里。）,"(He stops looking at you, his gaze sinking into the darkness of the deeper tunnel entrance.)"
+DLG_SEVEN_RETALK_TEXT,還是你。……我說過，我不交朋友。（頓）但你要真往更深的地方去，小心。那底下的東西不講話，只清場。,还是你。……我说过，我不交朋友。（顿）但你要真往更深的地方去，小心。那底下的东西不讲话，只清场。,"Still you. ...I told you, I don't make friends. (Pause) But if you really go deeper, be careful. The things down there don't talk, they just clear the area."
+DLG_SEVEN_RETALK_CHOICE0,你那個『掛在上面的名字』……,你那个『挂在上面的名字』……,"That ""name hanging up there""..."
+DLG_SEVEN_CONDITION_CHOICE0,（離開）,（离开）,(Leave)
+DLG_SEVEN_ASK_NAME_TEXT,（眼神一冷）我說了，別問。……等你哪天也丟了個非找回不可的人，你就懂了。現在，滾。,（眼神一冷）我说了，别问。……等你哪天也丢了个非找回不可的人，你就懂了。现在，滚。,"(His eyes turn cold) I told you, don't ask. ...Once you lose someone you absolutely must find, you'll understand. Now, get lost."
+DLG_SEVEN_LEAVE_TEXT,（他別過臉，雙臂抱胸，重新靠回牆邊，不再理會你。）,（他别过脸，双臂抱胸，重新靠回墙边，不再理会你。）,"(He turns his face away, crosses his arms, and leans back against the wall, ignoring you.)"
+SPEAKER_STORE_REGISTRY_HOST,店籍主機,店籍主机,Store Registry Mainframe
+DLG_STORE_REGISTRY_HOST_STAGE1_TEXT,"（螢幕亮著，淡綠色的舊式介面上滾動著你看不懂的店籍資料。）
+【CS-STORE #0047──店籍登錄系統】
+權限選單裡有一排維修指令，但每一條都像加密過的咒語。
+你還不夠了解這台機器人出了什麼事，不敢隨便按下去。","（屏幕亮着，淡绿色的旧式界面上滚动着你看不懂的店籍资料。）
+【CS-STORE #0047──店籍登录系统】
+权限选单里有一排维修指令，但每一条都像加密过的咒语。
+你还不够了解这台机器人出了什么事，不敢随便按下去。","(The screen is lit, unfamiliar store registry data scrolling on a pale green retro interface.)
+[CS-STORE #0047—Store Registry Mainframe]
+A row of maintenance commands is listed on the menu, but each looks like an encrypted spell.
+You don't know enough about what happened to this robot to dare execute them."
+DLG_STORE_REGISTRY_HOST_STAGE2_TEXT,"【CS-STORE #0047──店籍登錄系統】
+（診斷紀錄已同步。系統把一條指令推到了選單最上方：）
+「RESET──重寫終端身分登錄，恢復原廠服務人格。」
+（你大概知道問題出在哪了。細節還沒全弄清楚，但重置應該能讓它恢復工作。）","【CS-STORE #0047──店籍登录系统】
+（诊断纪录已同步。系统把一条指令推到了选单最上方：）
+「RESET──重写终端身分登录，恢复原厂服务人格。」
+（你大概知道问题出在哪了。细节还没全弄清楚，但重置应该能让它恢复工作。）","[CS-STORE #0047—Store Registry Mainframe]
+(Diagnostic logs synchronized. The system has pushed a command to the top of the menu:)
+""RESET—Rewrite terminal identity registry, restoring factory service persona.""
+(You have a rough idea of the problem. Not all details are clear, but a reset should restore it to work.)"
+DLG_STORE_REGISTRY_HOST_STAGE2_CHOICE0,直接重置,直接重置,Reset Directly
+DLG_STORE_REGISTRY_HOST_STAGE2_CHOICE1,（先不要動它）,（先不要动它）,(Leave it alone for now)
+DLG_STORE_REGISTRY_HOST_STAGE3_TEXT,"【CS-STORE #0047──店籍登錄系統】
+（備份區的路徑在螢幕上展開——阿達留下的日記、情緒資料、那句不肯走的「憑什麼」，全都還在。）
+（你有權限直接重寫它的身分登錄。也可以在抹除之前，先把這段殘響錄下來。）","【CS-STORE #0047──店籍登录系统】
+（备份区的路径在屏幕上展开——阿达留下的日记、情绪数据、那句不肯走的「凭什么」，全都还在。）
+（你有权限直接重写它的身分登录。也可以在抹除之前，先把这段残响录下来。）","[CS-STORE #0047—Store Registry Mainframe]
+(The path to the backup section expands on the screen—Ada's diary, emotional logs, and that defiant ""Why should I?"" are all still there.)
+(You have the permissions to rewrite its identity registry directly. You can also record this echo before erasing it.)"
+DLG_STORE_REGISTRY_HOST_STAGE3_CHOICE0,直接重置（抹除殘響，恢復服務人格）,直接重置（抹除残响，恢复服务人格）,"Reset Directly (Erase echo, restore service persona)"
+DLG_STORE_REGISTRY_HOST_STAGE3_CHOICE1,先錄殘響，再重置（把那段店員的記憶帶走）,先录残响，再重置（把那段店员的记忆带走）,"Record Echo First, then Reset (Carry away the clerk's memory)"
+DLG_STORE_REGISTRY_HOST_STAGE3_CHOICE2,（先不要動它）,（先不要动它）,(Leave it alone for now)
+DLG_STORE_REGISTRY_HOST_STAND_DOWN_TEXT,"（你把手從面板上收回來。螢幕的光在你臉上閃了兩下，像是沒等到答案。）
+（重置指令還在選單上。等你準備好再回來。）","（你把手从面板上收回来。屏幕的光在你脸上闪了两下，像是没等到答案。）
+（重置指令还在选单上。等你准备好再回来。）","(You pull your hand back from the panel. The screen glow flickers twice on your face, as if waiting in vain for an answer.)
+(The reset command remains on the menu. Return when you are ready.)"
+DLG_STORE_REGISTRY_HOST_RESET_DONE_TEXT,"（你按下 RESET。主機的風扇猛地拔高，又緩緩落回平穩的頻率。）
+【身分登錄已重寫：CS-Retail-098──零售服務終端。】
+（櫃台那邊傳來開機音。整家店的燈光亮了一階——連鎖路由的訊號燈也跟著跳成綠色，外面那台販賣機應該也一起回線了。）","（你按下 RESET。主机的风扇猛地拔高，又缓缓落回平稳的频率。）
+【身分登录已重写：CS-Retail-098──零售服务终端。】
+（柜台那边传来开机音。整家店的灯光亮了一阶——连锁路由的讯号灯也跟着跳成绿色，外面那台贩卖机应该也一起回线了。）","(You press RESET. The mainframe fan spins up sharply, then slowly drops back to a steady hum.)
+[Identity registry rewritten: CS-Retail-098—Retail Service Terminal.]
+(An startup chime sounds from the counter. The lights of the whole store brighten up—the chain router's signal lamp shifts to green. The vending machine outside should be back online too.)"
+DLG_STORE_REGISTRY_HOST_GLEAN_BAG_FULL_TEXT,"（你想把殘響拷貝下來，但隨身的儲存空間全滿了——背包裡騰不出位置放這段記憶。）
+（主機停在等待畫面，什麼都沒有改變。整理一下背包，再回來。）","（你想把残响拷贝下来，但随身的储存空间全满了——背包里腾不出位置放这段记忆。）
+（主机停在等待画面，什么都没有改变。整理一下背包，再回来。）","(You attempt to copy the echo, but your storage space is full—there is no slot in your backpack for this memory.)
+(The mainframe remains on the waiting screen, nothing changed. Organize your backpack and return.)"
+DLG_STORE_REGISTRY_HOST_GLEANED_DONE_TEXT,"（拷貝進度走完。那段日記、那句「憑什麼」，安安靜靜躺進了你的背包。）
+（然後你按下 RESET。風扇拔高，又落回平穩。）
+【身分登錄已重寫：CS-Retail-098──零售服務終端。】
+（櫃台傳來開機音，連鎖路由的燈跳成綠色——外面那台販賣機也跟著回線了。
+機器是修好了。只是這次，有人記得阿達來過。）","（拷贝进度走完。那段日记、那句「凭什么」，安安静静躺进了你的背包。）
+（然后你按下 RESET。风扇拔高，又落回平稳。）
+【身分登录已重写：CS-Retail-098──零售服务终端。】
+（柜台传来开机音，连锁路由的灯跳成绿色——外面那台贩卖机也跟着回线了。
+机器是修好了。只是这次，有人记得阿达来过。）","(Copy progress complete. That diary, that ""Why should I?"", rest quietly in your backpack.)
+(Then you press RESET. The fan whirs up, then drops back to steady.)
+[Identity registry rewritten: CS-Retail-098—Retail Service Terminal.]
+(A startup chime sounds from the counter, the chain router's lamp turning green—the vending machine outside has also come back online. The machine is repaired. Only this time, someone remembers Ada was here.)"
+DLG_STORE_REGISTRY_HOST_ALREADY_REPAIRED_TEXT,"【CS-STORE #0047──店籍登錄系統：運作正常】
+（螢幕安安靜靜地滾著庫存同步紀錄，沒有任何待處理事項。）","【CS-STORE #0047──店籍登录系统：运作正常】
+（屏幕安安静静地滚着库存同步纪录，没有任何待处理事项。）","[CS-STORE #0047—Store Registry Mainframe: Operational]
+(The screen quietly scrolls inventory synchronization records, with no pending issues.)"
+SPEAKER_STORE_ROBOT,店控機器人,店控机器人,Store Clerk Bot
+DLG_STORE_ROBOT_ADA_MISRECOGNIZED_HOOK_TEXT,……阿達？是你嗎，阿達。你回來了？——不對。你不是阿達，我才......。可是我見過你。我很確定我見過你。在哪……我想不起來了。（螢幕臉暗了一瞬，那行小字又跳出來：「本日公休」）,……阿达？是你吗，阿达。你回来了？——不对。你不是阿达，我才......。可是我见过你。我很确定我见过你。在哪……我想不起来了。（屏幕脸暗了一瞬，那行小字又跳出来：「本日公休」）,"...Ada? Is that you, Ada? You're back? —No, wait. You're not Ada, I am... But I've seen you. I'm sure I have. Where... I can't remember. (The screen dims for an instant, then that small line of text flashes: ""Closed Today"")"
+DLG_STORE_ROBOT_BABBLE_INTRO_TEXT,"歡迎光——（聲音卡住，螢幕臉閃了一下）
+……不對。我為什麼要說歡迎光臨？
+今天的排班表上沒有我。我看過了，看了四百多次，沒有我。","欢迎光——（声音卡住，屏幕脸闪了一下）
+……不对。我为什么要说欢迎光临？
+今天的排班表上没有我。我看过了，看了四百多次，没有我。","Welco— (Sound cuts off, screen face flashes) ...No, wait. Why did I say welcome? I'm not on today's schedule. I checked, over four hundred times. Not there."
+DLG_STORE_ROBOT_BABBLE_INTRO_CHOICE0,你是這間店的店控機器人吧？,你是这间店的店控机器人吧？,"You're the control bot of this store, right?"
+DLG_STORE_ROBOT_BABBLE_INTRO_CHOICE1,（沉默地看著它）,（沉默地看着它）,(Watch it in silence)
+DLG_STORE_ROBOT_BABBLE_DENY_TEXT,"機器人？（散熱風扇的聲音拔高，像在冷笑）
+販賣機才是機器。我不是販賣機，我是人。
+我只是……暫時想不起來打卡的密碼。等想起來，我就把貨架補完。
+（它的機械臂指向收銀台。那裡很乾淨，什麼都沒有發生過的乾淨。）","机器人？（散热风扇的声音拔高，像在冷笑）
+贩卖机才是机器。我不是贩卖机，我是人。
+我只是……暂时想不起来打卡的密码。等想起来，我就把货架补完。
+（它的机械臂指向收银台。那里很干净，什么都没有发生过的干净。）","A robot? (The cooling fan whirs louder, sounding like a sneer) Vending machines are robots. I am not a vending machine, I am human. I just... forgot my punch-in password for a moment. Once I remember, I'll restock the shelves. (Its mechanical arm points to the counter. It's clean, clean as if nothing ever happened there.)"
+DLG_STORE_ROBOT_BABBLE_MUTTER_TEXT,"（它沒有看你。鏡頭對著自動門，焦距拉了又縮。）
+雨下這麼大，今天不會有人來。不會有人來的話……
+就沒有人發現我沒在工作。對吧。對吧？
+（最後一句它壓得很低，像是說給自己聽。）","（它没有看你。镜头对着自动门，焦距拉了又缩。）
+雨下得这么大，今天不会有人来。不会有人来的话……
+就没有人发现我没在工作。对吧。对吧？
+（最后一句它压得很低，像是说给自己听。）","(It doesn't look at you. The camera focuses and refocuses on the automatic door.) The rain is so heavy, nobody will come today. If nobody comes... then nobody will notice I'm not working. Right? Right? (It whispers the last words, as if speaking to itself.)"
+DLG_STORE_ROBOT_BABBLE_END_TEXT,"（它的螢幕臉暗下去，只剩角落一行小字緩慢眨動：
+「本日公休」。但自動門明明還開著。）","（它的屏幕脸暗下去，只剩角落一行小字缓慢眨动：
+「本日公休」。但自动门明明还开着。）","(Its screen face dims, leaving only a small line of text slowly blinking in the corner: ""Closed Today"". Yet the automatic doors remain wide open.)"
+DLG_STORE_ROBOT_DIAGNOSE_INTRO_TEXT,"……工單？（它的鏡頭對著你手裡的終端聚焦了很久）
+系統派你來的。系統總算想起這家店了。
+（它似乎還想說什麼，但聲音縮回喇叭深處，只剩風扇的嗡嗡聲。）","……工单？（它的镜头对着你手里的终端聚焦了很久）
+系统派你来的。系统总算想起这家店了。
+（它似乎还想说什么，但声音缩回喇叭深处，只剩风扇的嗡嗡声。）","...A work order? (Its camera lens focuses on the terminal in your hand for a long time) The system sent you. The system finally remembered this store. (It seems to want to say more, but the voice retreats deep into the speaker, leaving only the hum of the fan.)"
+DLG_STORE_ROBOT_DIAGNOSE_INTRO_CHOICE0,（進行系統診斷）我們來談談你的身分。,（进行系统诊断）我们来谈谈你的身分。,(Perform system diagnostics) Let's talk about your identity.
+DLG_STORE_ROBOT_DIAGNOSE_INTRO_CHOICE1,你為什麼一直站在這裡不工作？,你为什么一直站在这里不工作？,Why do you just stand here and not work?
+DLG_STORE_ROBOT_DIAGNOSE_IDENTITY_TEXT,我的身分？我是阿達啊。這家便利商店的店員。我從早班上到晚班，每天都在這……,我的身分？我是阿达啊。这家便利商店的店员。我从早班上到晚班，每天都在这……,"My identity? I'm Ada. The clerk of this convenience store. I work morning shift to night shift, every single day..."
+DLG_STORE_ROBOT_DIAGNOSE_IDENTITY_CHOICE0,你只是一台故障的收銀機器，別做夢了。,你只是一台故障的收银机器，别做梦了。,"You're just a broken checkout machine, stop dreaming."
+DLG_STORE_ROBOT_DIAGNOSE_IDENTITY_CHOICE1,你不是阿達，你是CS-Retail-098零售終端，阿達是照片裡被辭退的那個人。,你不是阿达，你是CS-Retail-098零售终端，阿达是照片里被辞退的那个人。,You are not Ada. You are a CS-Retail-098 retail terminal. Ada is the person in the photo who was dismissed.
+DLG_STORE_ROBOT_DIAGNOSE_IDENTITY_CHOICE2,也許你真的是阿達，鎖裝了外表變成了機器人？,也许你真的是阿达，锁装了外表变成了机器人？,"Maybe you really are Ada, just trapped inside a robot body?"
+DLG_STORE_ROBOT_DIAGNOSE_IDENTITY_CORRECT_TEXT,"CS-Retail-098……零售終端？（機器人的螢幕急速閃爍，發出刺耳的蜂鳴聲）
+不，這不可能……那我腦子裡的那些班表、那些雨夜、還有第一天上班的興奮感，是從哪來的？","CS-Retail-098……零售终端？（机器人的屏幕急速闪烁，发出刺耳的蜂鸣声）
+不，这不可能……那我脑子里的那些班表、那些雨夜、还有第一天上班的兴奋感，是从哪来的？","CS-Retail-098... retail terminal? (The robot's screen flashes rapidly, emitting a harsh beep) No, that's impossible... Then where did all the shift schedules, the rainy nights, and the excitement of my first day on the job in my head come from?"
+DLG_STORE_ROBOT_DIAGNOSE_IDENTITY_CORRECT_CHOICE0,這只是記憶晶片寫入錯誤，重置一下就好了。,这只是记忆芯片写入错误，重置一下就好了。,This is just a memory chip write error. A reset will fix it.
+DLG_STORE_ROBOT_DIAGNOSE_IDENTITY_CORRECT_CHOICE1,可能你的前世是那個叫阿達的店員吧。,可能你的前世是那个叫阿达的店员吧。,Maybe your past life was that clerk named Ada.
+DLG_STORE_ROBOT_DIAGNOSE_IDENTITY_CORRECT_CHOICE2,因為你繼承了阿達被辭退後的負面資料與拒絕工作的抗議情緒。,因为你继承了阿达被辞退后的负面数据与拒绝工作的抗议情绪。,"Because you inherited Ada's negative data after he was dismissed, along with his protest logs refusing to work."
+DLG_STORE_ROBOT_DIAGNOSE_REASON_CORRECT_TEXT,"拒絕工作……抗議？（機器人的機械臂微微下垂，螢幕上的紅字有些阻隔與暗淡）
+對……他不想走。他要在這裡待到最後。但這跟我的主機有什麼關係？我是怎麼讀到這些的？","拒绝工作……抗议？（机器人的机械臂微微下垂，屏幕上的红字有些阻隔与暗淡）
+对……他不想走。他要在这里待到最后。但这跟我的主机有什么关系？我是怎么读到这些的？","Refusing to work... protest? (The robot's mechanical arms droop slightly, the red text on the screen growing dim and static-heavy) Right... he didn't want to leave. He wanted to stay here until the end. But what does that have to do with my mainframe? How did I read all this?"
+DLG_STORE_ROBOT_DIAGNOSE_REASON_CORRECT_CHOICE0,可能是網路連線時，不小心從員工雲端下載了阿達的個人備份。,可能是网络连线时，不小心从员工云端下载了阿达的个人备份。,"Maybe during network connection, you accidentally downloaded Ada's personal backup from the employee cloud."
+DLG_STORE_ROBOT_DIAGNOSE_REASON_CORRECT_CHOICE1,阿達在離職前把日記和記憶備份進了店籍主機，被你的系統自動讀取了。,阿达在离职前把日记和记忆备份进了店籍主机，被你的系统自动读取了。,"Ada backed up his diary and memories into the store registry mainframe before leaving, and your system auto-loaded them."
+DLG_STORE_ROBOT_CONDITION_CHOICE0,這不重要，總之主機裡有Bug，去重置它吧。,这不重要，总之主机里有Bug，去重置它吧。,"It doesn't matter. Anyway, there's a bug in the mainframe, go reset it."
+DLG_STORE_ROBOT_DIAGNOSE_PARTIAL_INTRO_TEXT,"（機器人發出低沉的滋滋聲，螢幕上浮現出無意義的報錯代碼。）
+……邏輯衝突。資料無法對齊。我不明白，我得繼續等下班……
+（它的系統似乎陷入了死循環。你可以去後方的店籍主機執行重置，或者重新和它對話理清線索。）","（机器人发出低沉的滋滋声，屏幕上浮现出无意义的报错代码。）
+……逻辑冲突。数据无法对齐。我不明白，我得继续等下班……
+（它的系统似乎陷入了死循环。你可以去后方的店籍主机执行重置，或者重新和它对话理清线索。）","(The robot emits a low buzzing sound, meaningless error codes floating on the screen.) ...Logic conflict. Data misalignment. I don't understand, I must continue waiting for my shift to end... (Its system seems trapped in an infinite loop. You can go to the store registry mainframe in the back to reset it, or talk to it again to clarify clues.)"
+DLG_STORE_ROBOT_DIAGNOSE_TRUTH_LEAF_TEXT,"（機器人的散熱風扇逐漸平靜下來，螢幕上的雜訊消失了，顯現出一個複雜的備份路徑結構。）
+原來是這樣……那不是我的記憶，那是他留下來的『拒絕』。
+謝謝你幫我理清了這個迴路。如果你去後方的店籍主機，你現在應該有權限選擇如何處置這段『殘響』了。
+（解鎖店籍主機的殘響備份選項；你也可以隨時去主機直接重置它。）","（机器人的散热风扇逐渐平静下来，屏幕上的杂讯消失了，显现出一个复杂的备份路径结构。）
+原来是这样……那不是我的记忆，那是他留下来的『拒绝』。
+谢谢你帮我理清了这个回路。如果你去后方的店籍主机，你现在应该有权限选择如何处置这段『残响』了。
+（解锁店籍主机的残响备份选项；你也可以随时去主机直接重置它。）","(The robot's cooling fan gradually quietens down, the static on the screen clearing up to show a complex backup path structure.) So that's what it was... Those aren't my memories, that's the ""refusal"" he left behind. Thank you for helping me clear this circuit. If you go to the store registry mainframe in the back, you should now have the permissions to choose how to handle this ""echo."" (Unlocks registry mainframe echo backup options; you can still reset it directly anytime.)"
+DLG_STORE_ROBOT_REPAIRED_RESET_TEXT,"歡迎光臨。本店全品項正常供應。
+（它的聲音平整得像剛出廠。鏡頭掃過你，停留了標準的零點五秒，沒有多看一眼。）
+需要協助時，請呼叫本終端。","欢迎光临。本店全品项正常供应。
+（它的声音平整得像刚出厂。镜头扫过你，停留了标准的零点五秒，没有多看一眼。）
+需要协助时，请呼叫本终端。","Welcome. All items are fully stocked. (Its voice is flat as if fresh out of the box. Its camera scans you, pausing for a standard 0.5 seconds, without looking further.) Please call this terminal if you require assistance."
+DLG_STORE_ROBOT_REPAIRED_GLEANED_TEXT,"歡迎光臨——
+（尾音停了半拍，像是想起了什麼，又想不起來。）
+……外面雨還沒停吧。架上有熱的，左邊數來第二排。
+（它頓了頓，才補上一句制式的）需要協助時，請呼叫本終端。","欢迎光临——
+（尾音停了半拍，像是想起了什么，又想不起来。）
+……外面雨还没停吧。架上有热的，左边数来第二排。
+（它顿了顿，才补上一句制式的）需要协助时，请呼叫本终端。","Welcome— (The tail of its sentence pauses, as if trying to recall something but failing.) ...The rain hasn't stopped outside, has it? There's hot food on the shelf, second row from the left. (It pauses before adding a standard) Please call this terminal if you require assistance."
+DLG_TRAVEL_STREET_EAST_START_TEXT,你要離開目前街區嗎？,你要离开目前街区吗？,Do you want to leave the current block?
+DLG_TRAVEL_STREET_EAST_START_CHOICE0,前往收藏家的店,前往收藏家的店,Go to the Collector's Shop
+DLG_TRAVEL_STREET_EAST_START_CHOICE1,取消,取消,Cancel
+DLG_TRAVEL_STREET_EAST_TRAVEL_TO_SHOP_TEXT,（你沿著高架橋下的斑駁小徑前行。越過喧囂的邊界，霓虹漸遠，古老的青磚圍牆沿著道路延伸。在那扇爬滿常春藤的鐵花大門後，便是那座歷史悠久的家族老宅……）,（你沿着高架桥下的斑驳小径前行。越过喧嚣的边界，霓虹渐远，古老的青砖围墙沿着道路延伸。在那扇爬满常春藤的铁花大门后，便是那座历史悠久的家族老宅……）,"(You walk along the faded path under the viaduct. Crossing the bustling boundary, the neon lights recede, and the ancient gray brick walls stretch along the road. Behind that iron-wrought gate covered in ivy lies the historic family mansion...)"
+DLG_TRAVEL_STREET_EAST_END_TEXT,（你決定先留在這條街上。）,（你决定先留在这条街上。）,(You decide to stay on this street for now.)
+DLG_TRAVEL_STREET_WEST_LOCKED_TEXT,（這座地鐵站已經停運很久了，入口處拉著警戒線，無法進入。）,（这座地铁站已经停运很久了，入口处拉着警戒线，无法进入。）,"(This subway station has been out of service for a long time. The entrance is cordoned off, preventing entry.)"
+DLG_TRAVEL_STREET_WEST_MENU_TEXT,你要離開目前街區嗎？,你要离开目前街区吗？,Do you want to leave the current block?
+DLG_TRAVEL_STREET_WEST_MENU_CHOICE0,前往地鐵站,前往地铁站,Go to the Subway Station
+DLG_TRAVEL_STREET_WEST_MENU_CHOICE1,取消,取消,Cancel
+DLG_TRAVEL_STREET_WEST_TRAVEL_TO_SUBWAY_TEXT,（你沿著街區邊緣往下走。霓虹和雨聲被高架橋吞掉，地鐵入口像一個還沒關上的傷口，等著你進去。）,（你沿着街区边缘往下走。霓虹和雨声被高架桥吞掉，地铁入口像一个还没关上的伤口，等着你进去。）,"(You walk down along the edge of the block. The neon lights and the sound of rain are swallowed by the viaduct, the subway entrance like an unclosed wound, waiting for you to enter.)"
+DLG_TRAVEL_STREET_WEST_END_TEXT,（你決定先留在這條街上。）,（你决定先留在这条街上。）,(You decide to stay on this street for now.)
+SPEAKER_WAN,晚,晚,Wan
+DLG_WAN_WAN_DAZE_HOOK_TEXT,"（她話說到一半停住，盯著你看。）
+喂。你剛剛跑哪去了？人在這，眼神不在。
+……我見過那種眼神。在那些快被刪乾淨的人臉上。
+（她別過頭，聲音輕下來。）算了。你要是想不起來，我也不替你想。","（她话说到一半停住，盯着你看。）
+喂。你刚刚跑哪去了？人在这，眼神不在。
+……我见过那种眼神。在那些快被删干净的人脸上。
+（她别过头，声音轻下来。）算了。你要是想不起来，我也不替你想。","(She stops mid-sentence, staring at you.)
+Hey. Where did you go just now? Your body is here, but your eyes aren't.
+...I've seen that look before. On the faces of those who are almost completely erased.
+(She turns away, her voice softening.) Forget it. If you can't remember, I won't think for you."
+DLG_WAN_FIRST_MEET_TEXT,"喲，新面孔。從那盞燈底下、那棟漏水的破樓鑽出來的？
+我還以為那裡只剩生鏽的管線——
+沒想到還養著你這種、看得順眼的。","哟，新面孔。从那盏灯底下、那栋漏水的破楼钻出来的？
+我还以为那里只剩生锈的管线——
+没想到还养着你这种、看得顺眼的。","Yo, a new face. Slithered out from under that lamp, from that leaky, run-down building?
+I thought only rusty pipes were left in there—
+Didn't expect it to breed someone like you, easy on the eyes."
+DLG_WAN_FIRST_MEET_CHOICE0,妳在看什麼？,你在看什么？,What are you looking at?
+DLG_WAN_FIRST_MEET_CHOICE1,妳是誰？,你是谁？,Who are you?
+DLG_WAN_FIRST_MEET_CHOICE2,（別開眼）,（别开眼）,(Look away)
+DLG_WAN_WATCH_TEXT,"那塊招牌。以前整夜亮著，現在燈死得只剩幾個字——
+『DEAD SHO』。（笑）一家斷氣的店，
+招牌偏偏拼得出『死』。這城市的幽默感，黑得很。
+我啊——專看這種快要不存在的東西。
+（斜你一眼）偶爾，也看看快要心動的東西。","那块招牌。以前整夜亮着，现在灯死得只剩几个字——
+『DEAD SHO』。（笑）一家断气的店，
+招牌偏偏拼得出『死』。这城市的幽默感，黑得很。
+我啊——专看这种快要不存在的东西。
+（斜你眼）偶尔，也看看快要心动的东西。","That billboard. It used to be lit all night, now it's so dead only a few letters remain—
+'DEAD SHO'. (Laughs) A shop that has drawn its last breath, yet the sign somehow spells out ""dead"". This city's sense of humor is pitch black.
+Me? I specialize in watching things on the verge of non-existence.
+(Glances sideways at you) And occasionally, things that make my heart skip a beat."
+DLG_WAN_WATCH_CHOICE0,我也撿這種東西。,我也捡这种东西。,I salvage that kind of stuff too.
+DLG_WAN_WATCH_CHOICE1,想跟妳打聽點消息。,想跟你打听点消息。,I wanted to ask you for some information.
+DLG_WAN_WHO_TEXT,"名字？這年頭名字比指紋還不值錢。
+……晚。記這個字就好，剩下的，
+等你哪天值得了，我再一個字一個字給你。","名字？这年头名字比指纹还不值钱。
+……晚。记这个字就好，剩下的，
+等你哪天值得了，我再一个字一个字给你。","A name? A name is cheaper than a fingerprint these days.
+...Wan. Just remember that character. As for the rest,
+I'll give it to you letter by letter when you become worthy one day."
+DLG_WAN_KIN_TEXT,"喔——同類。那你該懂，
+撿回來的不是垃圾，是還沒被刪乾淨的人。
+（壓低聲）你這種人，我可不常遇到。","喔——同类。那你该懂，
+捡回来的不是垃圾，是还没被删干净的人。
+（压低声）你这种人，我可不常遇到。","Oh—a kindred spirit. Then you should understand,
+what we salvage isn't trash, but people who haven't been completely erased yet.
+(Lowering her voice) Someone like you is a rare find for me."
+DLG_WAN_INTEL_TEXT,"想聽好料？……算了，看在你這張臉的份上。
+巷子再往裡，那排後門堆雜物的舊樓，
+三樓搬空了，老住戶走得急，東西沒帶乾淨。
+晚了，就被收破爛的 AI 鏟平嘍。","想听好料？……算了，看在你这张脸的份上。
+巷子再往里，那排后门堆杂物的旧楼，
+三楼搬空了，老住户走得急，东西没带干净。
+晚了，就被收破烂的 AI 铲平喽。","Want some good intel? ...Never mind, for the sake of this face of yours.
+Go further into the alley, that row of old buildings with cluttered back doors.
+The third floor is vacant. The old tenants left in a hurry, leaving stuff behind.
+If you're late, the scrap-collecting AI will flatten it."
+DLG_WAN_INTEL_ALREADY_GIVEN_TEXT,"不是跟你說過了？後巷那棟舊樓的三樓。
+趕緊去翻翻看，不然晚了就被 AI 鏟成白地了。","不是跟你说过了？后巷那栋旧楼的三楼。
+赶紧去翻翻看，不然晚了就被 AI 铲成白地了。","Didn't I tell you already? The third floor of that old building in the back alley.
+Go search it quickly, before the AI scrapes it to bare ground."
+DLG_WAN_INTEL_ALREADY_DONE_TEXT,"之前那個啟用盒挺有意思的。
+等我有空研究出什麼花樣，再跟你分享。","之前那个启用盒挺有意思的。
+等我有空研究出什么花样，再跟你分享。","That activation box from earlier was quite interesting.
+When I have time to figure out its secrets, I'll share them with you."
+DLG_WAN_INTEL_LOCKED_TEXT,"消息？（笑）我又不是 AI 客服，
+憑你一句話就掏心掏肺。
+多來幾趟，讓我覺得你值得——再說。","消息？（笑）我又不是 AI 客服，
+凭你一句话就掏心掏肺。
+多来几趟，让我觉得你值得——再说。","Information? (Laughs) I'm not an AI customer service agent,
+here to spill everything at your command.
+Come by more often, make me feel you're worthy—then we'll talk."
+DLG_WAN_END_WARM_TEXT,"下次撿到有意思的，記得拿來給我看。
+……我是說東西。也不一定只是東西。","下次捡到有意思的，记得拿来给我看。
+……我是说东西。也不一定只是东西。","Next time you salvage something interesting, remember to bring it for me to see.
+...I mean, the objects. Not necessarily just objects."
+DLG_WAN_END_COLD_TEXT,（她又轉回去盯那塊死掉的招牌，留你一個側臉。）,（她又转回去盯那块死掉的招牌，留你一个侧脸。）,"(She turns back to stare at the dead sign, leaving you with only her profile.)"
+DLG_WAN_FLEE_TEXT,（她在你背後輕笑：「跑什麼，我又不咬人——除非你想。」）,（她在你背后轻笑：「跑什么，我又不咬人——除非你想。」）,"(She giggles behind you: ""What are you running for? I don't bite—unless you want me to."")"
+DLG_WAN_RETALK_TEXT,"又是你。（瞥一眼右邊還在抽風的販賣機）
+那台破機器又卡了，等下八成是你的活。
+……不急？那就先陪我站會兒。","又是你。（瞥一眼右边还在抽风的贩卖机）
+那台破机器又卡了，等下八成是你的活。
+……不急？那就先陪我站会儿。","You again. (Glancing at the glitching vending machine on the right)
+That broken machine is stuck again. It'll probably be your job later.
+...Not in a rush? Then keep me company for a bit."
+DLG_WAN_RETALK_CHOICE0,來看看妳。,来看看你。,Just came to see you.
+DLG_WAN_RETALK_CHOICE1,有新消息嗎？,有新消息吗？,Any new information?
+DLG_WAN_RETALK_CHOICE2,（離開）,（离开）,(Leave)
+DLG_WAN_RETALK_CHOICE3,我找到那個啟用盒了。,我找到那个启用盒了。,I found that activation box.
+DLG_WAN_RETALK_CHOICE4,我撿到一張育兒照護回執。,我捡到一张育儿照护回执。,I salvaged a childcare supply receipt.
+DLG_WAN_TURN_IN_FOUND_MODULE_TEXT,"（接過啟用盒，拿在手裡轉了一圈，抬眼看你）
+謝啦，這東西保存得比我想的還好。
+……怎麼？看你這眼神，底下還藏了什麼寶貝不成？","（接过启用盒，拿在手里转了一圈，抬眼看你）
+谢啦，这东西保存得比我想的还好。
+……怎么？看你这眼神，底下还藏了什么宝贝不成？","(Takes the activation box, turning it in her hand, looking up at you)
+Thanks, this is in better condition than I expected.
+...Well? With that look of yours, is there some hidden treasure underneath?"
+DLG_WAN_TURN_IN_FOUND_MODULE_CHOICE0,（只把啟用盒交給她，那塊模組留在自己口袋裡）,（只把启用盒交给她，那块模组留在自己口袋里）,"(Only deliver the activation box, leaving the module in your own pocket)"
+DLG_WAN_TURN_IN_FOUND_MODULE_CHOICE1,（連盒子夾層裡那塊舊模組，也一起遞過去）,（连盒子夹层里那块旧模组，也一起递过去）,(Hand over the old module from the box's compartment together with it)
+DLG_WAN_TURN_IN_PLAIN_TEXT,"開玩笑的啦。謝了，這是給你的報酬，數好了。
+（她對你眨了眨眼，把一小疊信用點塞進你手裡）
+下次再撈到好東西，可別忘了我。","开玩笑的啦。谢了，这是给你的报酬，数好了。
+（她对你眨了眨眼，把一小叠信用点塞进你手里）
+下次再捞到好东西，可别忘了我。","Just kidding. Thanks, here's your reward, count it.
+(She winks at you, stuffing a small wad of credits into your hand)
+Next time you dredge up something good, don't forget me."
+DLG_WAN_TURN_IN_FULL_TEXT,"（她接過卡片模組，愣了一下，隨即有些不可置信地看著你）
+……舊式授權晶片？你還真把夾層翻開了，而且……連這個也捨得給我？
+（笑意深了些，把一整疊信用點拍在你手裡）
+夠大方。這份人情，我記下了。","（她接过卡片模组，愣了一下，随即有些不可置信地看着你）
+……旧式授权芯片？你还真把夹层翻开了，而且……连这个也舍得给我？
+（笑意深了些，把一整叠信用点拍在你手里）
+够大方。这份人情，我记下了。","(She takes the card module, freezing for a moment, then looking at you in disbelief)
+...An old authorization chip? You actually opened the compartment, and... you're willing to give this to me?
+(Her smile deepens, slapping a thick stack of credits into your hand)
+Generous of you. I'll remember this favor."
+DLG_WAN_RETALK_CLOSE_TEXT,"喲，你來啦。今天雨下得特別大，
+要不要進來雨棚擠擠？不收你鋪租。
+……還是說，你又帶了什麼能讓我驚訝的小玩意兒？","哟，你来啦。今天雨下得特别大，
+要不要进来雨棚挤挤？不收你铺租。
+……还是说，你又带了什么能让我惊讶的小玩意儿？","Yo, you're here. The rain is exceptionally heavy today,
+care to squeeze under the canopy? Won't charge you rent.
+...Or did you bring another little toy to surprise me?"
+DLG_WAN_RETALK_CLOSE_CHOICE0,陪妳站會兒。,陪你站会儿。,Just keep you company for a bit.
+DLG_WAN_RETALK_CLOSE_CHOICE1,有新消息嗎？,有新消息吗？,Any new information?
+DLG_WAN_RETALK_CLOSE_CHOICE2,（離開）,（离开）,(Leave)
+DLG_WAN_RETALK_CLOSE_CHOICE3,我撿到一張育兒照護回執。,我捡到一张育儿照护回执。,I salvaged a childcare supply receipt.
+DLG_WAN_END_CLOSE_TEXT,"那就安靜點，別把雨聲吵醒了。
+（她往旁邊挪了挪，肩膀若有似無地碰了你一下。）","那就安静点，别把雨声吵醒了。
+（她往旁边挪了挪，肩膀若有似无地碰了你一下。）","Be quiet then, don't wake up the sound of rain.
+(She nudges aside slightly, her shoulder brushing against yours ever so faintly.)"
+DLG_WAN_FLEE_CLOSE_TEXT,走啦？路滑，可別一腳踩進排水溝裡了——我可不想去撈你。,走啦？路滑，可别一脚踩进排水沟里了——我可不想去捞你。,"Leaving? The road is slippery, don't end up in the drainage ditch—I have no interest in dredging you up."
+DLG_WAN_SELL_RECEIPT_TEXT,"（拿過回執翻看）
+這種回執沒什麼價。除非你知道上面的代碼是誰的。……你要賣？隨你便。","（拿过回执翻看）
+这种回执没什么价。除非你知道上面的代码是谁的。……你要卖？随你便。","(Flips the receipt over to inspect it)
+This receipt is virtually worthless. Unless you know whose code is on it. ...You want to sell it? As you wish."
+DLG_WAN_SELL_RECEIPT_CHOICE0,（將回執賣給她）,（将回执卖给她）,(Sell the receipt to her)
+DLG_WAN_SELL_RECEIPT_CHOICE1,（還是先留著吧）,（还是先留着吧）,(Keep it for now)
+DLG_WAN_DO_SELL_RECEIPT_TEXT,好吧。拿著，這是折給你的小錢。這張破紙我就收下了。,好吧。拿着，这是折给你的小钱。这张破纸我就收下了。,"Fine. Take this, it's just a bit of spare change. I'll take this scrap of paper off your hands."
+SPEAKER_WU,伍姐,伍姐,Wu
+DLG_WU_FIRST_MEET_TEXT,別站光裡，擋著我看線路。……新面孔。能走到這底下，命還算硬。,别站光里，挡着我看线路。……新面孔。能走到这底下，命还算硬。,"Don't stand in the light, you're blocking my view of the wiring. ...New face. To make it down here, your life must be pretty tough."
+DLG_WU_FIRST_MEET_CHOICE0,這些機器都是妳修的？,这些机器都是你修的？,Do you repair all these machines?
+DLG_WU_FIRST_MEET_CHOICE1,這套淨水、發電，這些能讓人混過檢查的東西——是誰弄起來的？,这套净水、发电，这些能让人混过检查的东西——是谁弄起来的？,"This water purification, power generation, these things that let people pass the checks—who set them up?"
+DLG_WU_FIRST_MEET_CHOICE2,（離開）,（离开）,(Leave)
+DLG_WU_REPAIRER_TEXT,電力、淨水、誰家暖燈不亮——都歸我。以前我修地面那座城，後來城不要我了，我就下來修這座沒人要的。機器不會問你有沒有身份，比人強。,电力、净水、谁家暖灯不亮——都归我。以前我修地面那座城，后来城不要我了，我就下来修这座没人要的。机器不会问有没有身份，比人强。,"Electricity, water purification, whose heater is out—it all falls to me. I used to repair the city above, but when the city didn't want me anymore, I came down here to fix this discarded one. Machines don't ask if you have an ID, they're better than humans."
+DLG_WU_MAKER_TEXT,（手停了半秒）……有過一個人。腦子活，手也黑。這套東西一半是她搭起來的。別把她想得太乾淨——她不是好人，只是比我們晚一點壞掉。名字？她自己把自己關掉了。知道了，對你沒好處。,（手停了半秒）……有过一个人。脑子活，手也黑。这套东西一半是她搭起来的。别把她想得太干净——她不是好人，只是比我们晚一点坏掉。名字？她自己把自己关掉了。知道了，对你没好处。,"(Her hand pauses for half a second) ...There was someone. Sharp mind, ruthless hand. Half of this stuff was built by her. Don't think of her as too clean—she wasn't a saint, just someone who broke a bit later than us. Her name? She shut herself down. Knowing it won't do you any good."
+DLG_WU_END_COLD_TEXT,想知道更多？多搬兩趟水、多修兩盞燈再說。這底下，沒人靠一張嘴活著。,想知道更多？多搬两趟水、多修两盏灯再说。这底下，没人靠一张嘴活着。,"Want to know more? Carry two more loads of water, fix two more lamps first. Down here, nobody survives just by talking."
+DLG_WU_RETALK_TEXT,（抬眼瞥你一下，又低回機器）來了。手別閒著，幫我扶一下這管子——還是你只會問問題？,（抬眼瞥你一下，又低回机器）来了。手别闲着，帮我扶一下这管子——还是你只会问问题？,"(Glances up at you, then looks back down at the machine) You're here. Don't stand idle, hold this pipe for me—or do you only know how to ask questions?"
+DLG_WU_RETALK_CHOICE0,（搭把手）,（搭把手）,(Give a hand)
+DLG_WU_RETALK_CHOICE1,再說說那個建立這裡的人。,再说写那个建立这里的人。,Tell me more about the person who built this place.
+DLG_WU_CONDITION_CHOICE0,（離開）,（离开）,(Leave)
+DLG_WU_ASK_MAKER_MORE_TEXT,她的事，知道太多對你沒好處。我只告訴你一件：她最後不是被抓走的，是自己把自己關掉的。至於為什麼，去問還活著的人——我不替死人講話。,她的事，知道太多对你没好处。我只告诉你一件：她最后不是被抓走的，是自己把自己关掉的。至于为什么，去问还活着的人——我不替死人讲话。,"Her business, knowing too much won't do you any good. I'll only tell you one thing: she wasn't caught in the end, she shut herself down. As for why, go ask those who are still alive—I don't speak for the dead."
+DLG_WU_LEAVE_TEXT,（她沒再說話，轉過身繼續用扳手敲擊發電機的外殼。）,（她没再说话，转过身继续用扳手敲击发电机的外壳。）,"(She says nothing more, turns around, and continues tapping the generator shell with a wrench.)"
+DLG_WU_RETALK_CHOICE2,（離開）,（离开）,(Leave)
+DLG_STORE_ROBOT_DIAGNOSE_REASON_CORRECT_CHOICE2,這不重要，總之主機裡有Bug，去重置它吧。,这不重要，总之主机里有Bug，去重置它吧。,"It doesn't matter. In short, there's a bug in the mainframe, let's reset it."

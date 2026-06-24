@@ -263,7 +263,11 @@ note_id
 | 18-C | ✅ 完成 | 晚對話「賣回執」分支 gate `has_item` → `remove_item` + `add_credits(200)` + `add_trace(-1)` + `add_int(affinity_wan,-1)` + `set_flag(peace_line_locked)`（effect ops 皆既有，無需補）；**賣＝永久鎖死和平線**；headless PASS |
 | 18-D | ✅ 完成 | 回歸 + 存讀檔：`tunnel_machine_defeated` / 回執持有 / `peace_line_locked` round-trip、Phase 1~17 不退化、非戰鬥場景按 attack 無副作用；headless PASS（exit 0）。已知：test_runner 退出時 AudioStream teardown 殘留為框架既有（非本 Phase 引入） |
 | M1 | ✅ 完成 | **進度頁（Meta / 非敘事 QoL，時序卡 Phase 19 之前，不佔故事編號、不順延 19~31）**：筆記分類列最右加「進度」分頁，第一項固定「總進度」（五分類 done/total + 整體 %＝跨分類加總 done÷31）；五收集分類＝場景10 / NPC6 / 任務3（含里程碑「離開公寓家」）/ 殘響5 / 特殊道具7。新增 GameState 三集合 `visited_scenes` / `talked_npcs` / `collected_special_items` + 旗標 `left_apartment_once`（皆納入存讀檔，缺鍵→空/false，舊檔不 backfill）；判定＝曾達成（特殊道具賣/消耗/升級不退勾）；未解鎖顯示 `???`。**純加法不改 Phase 1~18**。規格三份文件已寫（2026-06-23 凍結）；程式已實作（commit `bd4717f`）並驗證完成（2026-06-24，已隨 Windows build v0.18.4 出貨）。契約見 `開發設計方針.md > Phase M1`、驗收見 `遊戲規格書.md > Phase M1`、清單見 `測試指南.md > Phase M1` |
-| M2 | 📐 規格可實作 | **多國語系 i18n（Meta / 非敘事 QoL，與 M1 同類 out-of-band 編號，不插 Phase 19、不順延 19~31）**：系統設定頁可切 **繁中 `zh_TW`（預設+fallback）/ 簡中 `zh_CN` / 英文 `en`**；機制＝**Godot 原生 `tr()` + CSV 翻譯表**（`TranslationServer`），新增 `LocaleManager` autoload（locale 狀態 / 字型 runtime 切換 / `user://settings.cfg` 持久化，與存檔槽隔離 / OS locale 首啟偵測）；簡中與英文均 **LLM 獨立翻譯**（簡中非 OpenCC）；相容 iOS/Android（字型動態載入只駐一個 CJK 字型、需新增 `NotoSansSC`）。新增最小設定頁（標題+暫停皆可進）。**對玩家行為純加法**——只把顯示文字改為查表，不動邏輯 key / 旗標 / 對話分支 / 存檔資料。子階段 M2-A 基礎建設 → B UI chrome → C 敘事資料 → D 對話樹 → E 收尾+真機。規格三份文件已寫（2026-06-24 凍結）；程式未開工。契約見 `開發設計方針.md > Phase M2`、驗收見 `遊戲規格書.md > Phase M2`、清單見 `測試指南.md > Phase M2` |
+| M2-A | ✅ 完成 | 多國語系 i18n 基礎建設：`LocaleManager` autoload、`TranslationServer` 接線、fallback=`zh_TW`、`settings.cfg` 持久化、OS locale 首啟偵測、`NotoSansSC` 字型納入 + runtime 字型切換、最小設定頁（標題 + 暫停入口）與 `ui.csv` 最小閉環已完成；headless 驗證與 `tr()` 三語查表護欄已補（commits `36af800` / `87d07ca`）。 |
+| M2-B | ✅ 完成 | UI Chrome i18n：UI 腳本與 `.tscn` prompt / footer / toast / panel label key 化，`ui.csv` 三語填齊，Control auto-translate 與手動 `tr()` 接線完成；補 coverage lint、CSV/translation 同步、zh_CN 繁體洩漏檢查與 note_title toast 覆蓋（commits `7f39402` / `4f684cd` / `61dc7f2`）。 |
+| M2-C | ✅ 完成 | 敘事資料 i18n：`STORY_NOTES` title/body、`STORY_MESSAGES`、`ITEMS_DB` name/description、分類名改為翻譯 key；`story.csv` / `items.csv` 三語完成；資料驅動覆蓋檢查與抽樣 `tr()` 驗證已加入，對話 / 旗標 / 存檔邏輯不變（commit `29d14e3`）。 |
+| M2-D | ✅ 完成 | 對話樹 i18n：9 棵 dialogue tree 的 speaker / text / choices key 化（`dialogue.csv` 176 keys 三語）、`DialoguePanel` 顯示端全 `tr()`、英文人名音譯對照鎖定（Wan / Lu Qichen / Cen / Wu / Seven）、三語禁字檢查（無「林霏」/「Lin Fei」）；顯示 / 邏輯分離保持（`goto` / `effect` / `condition` 用原 id）。code review 修正 `DialoguePanel` 離開選項排序在英文 locale 失效（`"Exit"` token → 翻譯實際用字 `"leave"`）與 `shop_panel` surgical 雜訊。`data/echoes` / `shops` / `quests` → `data.csv`（46 keys，原列 M2-E）一併前移完成。headless 全鏈 PASS。 |
+| M2-E | 📐 規格可實作 | 收尾 + 真機：~~`data/echoes` / `shops` / `quests` → `data.csv`~~（已於 M2-D 前移完成）、全鏈 Phase 1~19 / M1 回歸、三語 GUI / 純觸控走查、iOS / Android OS locale 偵測與字型無豆腐驗收。 |
 | 19-A | 📐 規格可實作 | 阿達殘響②「穿雨衣、拿維修棍、說只是照流程」：`EchoDB` 加 `echo_ada_reset`（含 `trace_on_collect`＝採集「留」一次性 Trace↑，兌現 11-C 預留）落聚落左室 `EchoPoint`（避開小岑 16-A 站位）；可賣（`sell_echo` → Trace↓）；媒體層可選後置 |
 | 19-B | 📐 規格可實作 | 舊善後工單③（**鎖 2C**，gate＝先採殘響）examine → set `read_old_work_order` + `add_item("old_work_badge")`（既有 ITEMS_DB key item 的首取得點）+ 寫 `clue_old_work_order`；工單編號＝舊工作證號碼＝確認兇手＝失憶前主角；背包滿防呆；未採殘響前只給中性提示 |
 | 19-C | 📐 規格可實作 | 收束碎片「你親手抹過阿達」：`MemoryFragmentArea` 加 `require_flag` gate（預設 "" 向後相容）+ `mem_frag_erased_ada` + `STORY_MESSAGES`；gate＝`read_old_work_order`，揭露工單後離開必經帶觸發 |
@@ -592,7 +596,7 @@ Phase M1 已寫 / 已掛（2026-06-24 完成）：`game_state.gd`（三集合 + 
 
 ### Phase M2 子階段（三份對照）
 
-> 行號以 2026-06-24 M2 規格寫入版為準；大幅改寫後需校正。Phase M2 = 多國語系 i18n（Meta / 非敘事 QoL，out-of-band 編號，不佔故事編號）；規格已展開到可實作（📐），程式未開工。
+> 行號以 2026-06-24 M2 規格寫入版為準；大幅改寫後需校正。Phase M2 = 多國語系 i18n（Meta / 非敘事 QoL，out-of-band 編號，不佔故事編號）。M2-A~M2-D 已完成並有 headless 護欄（M2-D 含 `data.csv` echoes/shops/quests 前移）；M2-E 僅剩全鏈回歸 + 三語 GUI / 觸控走查 + 真機驗收。
 > **凍結決定（2026-06-24 user 拍板）**：三語 `zh_TW`(預設+fallback)/`zh_CN`/`en`；機制＝Godot 原生 `tr()`+CSV；簡中與英文 LLM 獨立翻譯（簡中非 OpenCC）；相容 iOS/Android（字型 runtime 動態切換 + 新增 `NotoSansSC`）；繁中為 fallback；語言偏好存 `user://settings.cfg` 不入存檔槽；對玩家行為純加法。
 
 | 文件 | 段落 | 行範圍 |
@@ -601,7 +605,7 @@ Phase M1 已寫 / 已掛（2026-06-24 完成）：`game_state.gd`（三集合 + 
 | 開發設計方針.md（契約） | Phase M2 — 多國語系 i18n（LocaleManager / project.godot / 字型切換 / CSV+key 規則 / 顯示端 tr() / 設定頁 / 子階段 / 驗證網 / 異動檔）| 3214–3420 |
 | 測試指南.md（清單） | Phase M2 多國語系 i18n（headless + GUI + 真機 checklist）| 1108–1142 |
 
-Phase M2 子階段依賴鏈：**M2-A 基礎建設**（`LocaleManager` autoload / `TranslationServer` 接線 / fallback=zh_TW / `NotoSansSC` runtime 字型切換 / `settings.cfg` / OS locale 偵測 / 最小設定頁）→ **M2-B UI chrome**（178 處 UI + 12 `.tscn` prompt 抽 key）→ **M2-C 敘事資料**（notes / messages / items）→ **M2-D 對話樹**（9 樹 + 英文人名音譯對照）→ **M2-E 收尾**（echoes/shops/quests + 全鏈回歸 + 真機 iOS/Android 驗收）。**前提硬規則**：顯示與邏輯分離（goto/effect/condition 用既有 id/flag）；三語禁字（無「林霏」）；缺翻譯退繁中、三語全缺顯示 key；SaveSystem 不改。
+Phase M2 子階段依賴鏈：**M2-A 基礎建設**（✅ `LocaleManager` autoload / `TranslationServer` 接線 / fallback=zh_TW / `NotoSansSC` runtime 字型切換 / `settings.cfg` / OS locale 偵測 / 最小設定頁）→ **M2-B UI chrome**（✅ 178 處 UI + 12 `.tscn` prompt 抽 key）→ **M2-C 敘事資料**（✅ notes / messages / items）→ **M2-D 對話樹**（✅ 9 樹 + 英文人名音譯對照 + `data.csv` echoes/shops/quests 前移，headless PASS）→ **M2-E 收尾**（📐 全鏈回歸 + 真機 iOS/Android 驗收）。**前提硬規則**：顯示與邏輯分離（goto/effect/condition 用既有 id/flag）；三語禁字（無「林霏」）；缺翻譯退繁中、三語全缺顯示 key；SaveSystem 不改。
 
 ### 規格書 — 常引用系統段（跨階段）
 

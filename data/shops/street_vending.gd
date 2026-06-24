@@ -4,7 +4,7 @@
 # 當前庫存進 GameState.shop_states["street_vending"]（首次開店 lazy-init），
 # 此檔僅為重設來源（refresh_shop_stock）。
 const CATALOG := {
-	"name": "外面販賣機",
+	"name": "SHOP_STREET_VENDING_NAME",
 	"stock": {
 		"synth_cola": {"price": 30, "stock": 5},
 		"packaged_water": {"price": 20, "stock": 10}

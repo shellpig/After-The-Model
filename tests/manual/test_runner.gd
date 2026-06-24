@@ -3,6 +3,7 @@ extends Node
 var _temp_callable: Callable
 
 func _ready() -> void:
+	LocaleManager.set_locale("zh_TW")
 	print("==================================================")
 	print("RUNNING INTEGRATION VERIFICATION FOR UI MODE & BACKPACK")
 	print("==================================================")
@@ -665,8 +666,8 @@ func _ready() -> void:
 	runner.start(wan_tree)
 
 	var curr = runner.current()
-	if curr.get("speaker") != "晚" or not curr.get("text").contains("新面孔"):
-		printerr("FAIL: DialogueRunner start should route to first_meet! Got text: ", curr.get("text"))
+	if tr(curr.get("speaker")) != "晚" or not tr(curr.get("text")).contains("新面孔"):
+		printerr("FAIL: DialogueRunner start should route to first_meet! Got text: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 
@@ -679,7 +680,7 @@ func _ready() -> void:
 	# Choose option 1: "妳是誰？" -> who
 	var idx_who = -1
 	for choice in choices:
-		if choice.get("label").contains("誰"):
+		if tr(choice.get("label")).contains("誰"):
 			idx_who = choice.get("index")
 			break
 	if idx_who != 1:
@@ -689,8 +690,8 @@ func _ready() -> void:
 
 	runner.choose(idx_who)
 	curr = runner.current()
-	if not curr.get("text").contains("名字？"):
-		printerr("FAIL: should go to 'who' node! Got: ", curr.get("text"))
+	if not tr(curr.get("text")).contains("名字？"):
+		printerr("FAIL: should go to 'who' node! Got: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 
@@ -701,8 +702,8 @@ func _ready() -> void:
 
 	runner.advance()
 	curr = runner.current()
-	if not curr.get("text").contains("那塊招牌"):
-		printerr("FAIL: should advance to 'watch' node! Got: ", curr.get("text"))
+	if not tr(curr.get("text")).contains("那塊招牌"):
+		printerr("FAIL: should advance to 'watch' node! Got: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 
@@ -715,7 +716,7 @@ func _ready() -> void:
 	# Choose option 0: "我也撿這種東西。" -> kin
 	var idx_kin = -1
 	for choice in choices:
-		if choice.get("label").contains("撿"):
+		if tr(choice.get("label")).contains("撿"):
 			idx_kin = choice.get("index")
 			break
 	if idx_kin != 0:
@@ -725,8 +726,8 @@ func _ready() -> void:
 
 	runner.choose(idx_kin)
 	curr = runner.current()
-	if not curr.get("text").contains("同類"):
-		printerr("FAIL: should go to 'kin' node! Got: ", curr.get("text"))
+	if not tr(curr.get("text")).contains("同類"):
+		printerr("FAIL: should go to 'kin' node! Got: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 
@@ -737,8 +738,8 @@ func _ready() -> void:
 
 	runner.advance()
 	curr = runner.current()
-	if not curr.get("text").contains("有意思的"):
-		printerr("FAIL: should advance to 'end_warm' node! Got: ", curr.get("text"))
+	if not tr(curr.get("text")).contains("有意思的"):
+		printerr("FAIL: should advance to 'end_warm' node! Got: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 
@@ -761,15 +762,15 @@ func _ready() -> void:
 	# met_wan is true, affinity_wan is 1
 	runner.start(wan_tree)
 	curr = runner.current()
-	if not curr.get("text").contains("又是你"):
-		printerr("FAIL: start should route to retalk since met_wan is true! Got: ", curr.get("text"))
+	if not tr(curr.get("text")).contains("又是你"):
+		printerr("FAIL: start should route to retalk since met_wan is true! Got: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 
 	choices = curr.get("choices")
 	var idx_news = -1
 	for choice in choices:
-		if choice.get("label").contains("消息"):
+		if tr(choice.get("label")).contains("消息"):
 			idx_news = choice.get("index")
 			break
 	if idx_news != 1:
@@ -779,8 +780,8 @@ func _ready() -> void:
 
 	runner.choose(idx_news)
 	curr = runner.current()
-	if not curr.get("text").contains("我又不是 AI 客服"):
-		printerr("FAIL: should route to intel_locked since affinity_wan < 2! Got: ", curr.get("text"))
+	if not tr(curr.get("text")).contains("我又不是 AI 客服"):
+		printerr("FAIL: should route to intel_locked since affinity_wan < 2! Got: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 
@@ -791,8 +792,8 @@ func _ready() -> void:
 
 	runner.advance()
 	curr = runner.current()
-	if not curr.get("text").contains("死掉的招牌"):
-		printerr("FAIL: should advance to 'end_cold'! Got: ", curr.get("text"))
+	if not tr(curr.get("text")).contains("死掉的招牌"):
+		printerr("FAIL: should advance to 'end_cold'! Got: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 	if not curr.get("is_terminal"):
@@ -810,8 +811,8 @@ func _ready() -> void:
 
 	runner.choose(idx_news)
 	curr = runner.current()
-	if not curr.get("text").contains("想聽好料"):
-		printerr("FAIL: should route to intel since affinity_wan >= 2! Got: ", curr.get("text"))
+	if not tr(curr.get("text")).contains("想聽好料"):
+		printerr("FAIL: should route to intel since affinity_wan >= 2! Got: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 
@@ -823,8 +824,8 @@ func _ready() -> void:
 
 	runner.advance()
 	curr = runner.current()
-	if not curr.get("text").contains("有意思的"):
-		printerr("FAIL: should advance to 'end_warm'! Got: ", curr.get("text"))
+	if not tr(curr.get("text")).contains("有意思的"):
+		printerr("FAIL: should advance to 'end_warm'! Got: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 
@@ -876,14 +877,14 @@ func _ready() -> void:
 	curr = runner.current()
 	var idx_news_retalk = -1
 	for ch in curr.get("choices"):
-		if ch.get("label") == "有新消息嗎？":
+		if tr(ch.get("label")) == "有新消息嗎？":
 			idx_news_retalk = ch.get("index")
 			break
 	
 	runner.choose(idx_news_retalk)
 	curr = runner.current()
-	if not curr.get("text").contains("不是跟你說過了"):
-		printerr("FAIL: retalk news with active quest should route to 'intel_already_given'! Got: ", curr.get("text"))
+	if not tr(curr.get("text")).contains("不是跟你說過了"):
+		printerr("FAIL: retalk news with active quest should route to 'intel_already_given'! Got: ", tr(curr.get("text")))
 		get_tree().quit(1)
 		return
 	print("PASS: retalk news with active quest routing verified.")
@@ -1532,8 +1533,8 @@ func _ready() -> void:
 		printerr("FAIL: Work note id is wrong! Got: ", work_note.get("id"))
 		get_tree().quit(1)
 		return
-	if not "「晚」提到暗巷三樓" in work_note.get("body", ""):
-		printerr("FAIL: Work note body for started state is wrong! Got: ", work_note.get("body"))
+	if not "「晚」提到暗巷三樓" in _tr_body(work_note.get("body", "")):
+		printerr("FAIL: Work note body for started state is wrong! Got: ", _tr_body(work_note.get("body")))
 		get_tree().quit(1)
 		return
 	print("PASS: Quest start and initial note sync verified.")
@@ -1559,8 +1560,8 @@ func _ready() -> void:
 		printerr("FAIL: Work notes count after advance is not 1!")
 		get_tree().quit(1)
 		return
-	if not "去後巷看過了" in notes_checked[0].get("body", ""):
-		printerr("FAIL: Work note body for checked_alley state is wrong! Got: ", notes_checked[0].get("body"))
+	if not "去後巷看過了" in _tr_body(notes_checked[0].get("body", "")):
+		printerr("FAIL: Work note body for checked_alley state is wrong! Got: ", _tr_body(notes_checked[0].get("body")))
 		get_tree().quit(1)
 		return
 	print("PASS: Quest advance and note updating verified.")
@@ -1595,8 +1596,8 @@ func _ready() -> void:
 		printerr("FAIL: Work note status was not updated to completed!")
 		get_tree().quit(1)
 		return
-	if not "已將「早期" in notes_completed[0].get("body", ""):
-		printerr("FAIL: Work note body for completed status is wrong! Got: ", notes_completed[0].get("body"))
+	if not "已將「早期" in _tr_body(notes_completed[0].get("body", "")):
+		printerr("FAIL: Work note body for completed status is wrong! Got: ", _tr_body(notes_completed[0].get("body")))
 		get_tree().quit(1)
 		return
 	print("PASS: Quest completion and note status update verified.")
@@ -2196,7 +2197,7 @@ func _ready() -> void:
 	choices = cur.get("choices", [])
 	var turn_in_choice = null
 	for choice in choices:
-		if choice.get("label", "") == "我找到那個啟用盒了。":
+		if tr(choice.get("label", "")) == "我找到那個啟用盒了。":
 			turn_in_choice = choice
 			break
 			
@@ -2210,8 +2211,8 @@ func _ready() -> void:
 	
 	# 6. Verify transition to turn_in_found_module
 	var after_choice = runner.current()
-	if not after_choice.get("text", "").contains("底下還藏了什麼寶貝"):
-		printerr("FAIL: Choice did not transition to turn_in_found_module node! Text got: ", after_choice.get("text"))
+	if not tr(after_choice.get("text", "")).contains("底下還藏了什麼寶貝"):
+		printerr("FAIL: Choice did not transition to turn_in_found_module node! Text got: ", tr(after_choice.get("text")))
 		get_tree().quit(1)
 		return
 		
@@ -2227,8 +2228,8 @@ func _ready() -> void:
 	runner.choose(idx_plain)
 	
 	var plain_node = runner.current()
-	if not plain_node.get("text", "").contains("開玩笑的啦"):
-		printerr("FAIL: turn_in_plain text incorrect! Got: ", plain_node.get("text"))
+	if not tr(plain_node.get("text", "")).contains("開玩笑的啦"):
+		printerr("FAIL: turn_in_plain text incorrect! Got: ", tr(plain_node.get("text")))
 		get_tree().quit(1)
 		return
 		
@@ -2253,7 +2254,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	var notes_b = GameState.get_notes("工作")
-	if notes_b.is_empty() or notes_b[0].get("status") != "completed" or not notes_b[0].get("body").contains("留在了自己身上"):
+	if notes_b.is_empty() or notes_b[0].get("status") != "completed" or not _tr_body(notes_b[0].get("body")).contains("留在了自己身上"):
 		printerr("FAIL: Work note for Ending B incorrect!")
 		get_tree().quit(1)
 		return
@@ -2281,8 +2282,8 @@ func _ready() -> void:
 	runner.choose(end_choices[1].get("index"))
 	
 	var full_node = runner.current()
-	if not full_node.get("text", "").contains("舊式授權晶片"):
-		printerr("FAIL: turn_in_full text incorrect! Got: ", full_node.get("text"))
+	if not tr(full_node.get("text", "")).contains("舊式授權晶片"):
+		printerr("FAIL: turn_in_full text incorrect! Got: ", tr(full_node.get("text")))
 		get_tree().quit(1)
 		return
 		
@@ -2307,7 +2308,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	var notes_c = GameState.get_notes("工作")
-	if notes_c.is_empty() or notes_c[0].get("status") != "completed" or not notes_c[0].get("body").contains("託付"):
+	if notes_c.is_empty() or notes_c[0].get("status") != "completed" or not _tr_body(notes_c[0].get("body")).contains("託付"):
 		printerr("FAIL: Work note for Ending C incorrect!")
 		get_tree().quit(1)
 		return
@@ -2317,8 +2318,8 @@ func _ready() -> void:
 	runner = DialogueRunner.new()
 	runner.start(wan_tree)
 	var close_node = runner.current()
-	if not close_node.get("text", "").contains("擠擠"):
-		printerr("FAIL: Start did not route to retalk_close after Ending C! Got: ", close_node.get("text"))
+	if not tr(close_node.get("text", "")).contains("擠擠"):
+		printerr("FAIL: Start did not route to retalk_close after Ending C! Got: ", tr(close_node.get("text")))
 		get_tree().quit(1)
 		return
 	
@@ -2332,8 +2333,8 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	var close_end = runner.current()
-	if not close_end.get("text", "").contains("別把雨聲"):
-		printerr("FAIL: retalk_close did not transition to end_close! Got: ", close_end.get("text"))
+	if not tr(close_end.get("text", "")).contains("別把雨聲"):
+		printerr("FAIL: retalk_close did not transition to end_close! Got: ", tr(close_end.get("text")))
 		get_tree().quit(1)
 		return
 	print("PASS: retalk_close dialogue flow verified successfully.")
@@ -2357,8 +2358,8 @@ func _ready() -> void:
 	runner.choose(turn_in_choice.get("index"))
 	
 	var plain_node_a = runner.current()
-	if not plain_node_a.get("text", "").contains("開玩笑的啦"):
-		printerr("FAIL: Ending A did not route directly to turn_in_plain! Got text: ", plain_node_a.get("text"))
+	if not tr(plain_node_a.get("text", "")).contains("開玩笑的啦"):
+		printerr("FAIL: Ending A did not route directly to turn_in_plain! Got text: ", tr(plain_node_a.get("text")))
 		get_tree().quit(1)
 		return
 		
@@ -2383,7 +2384,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	var notes_a = GameState.get_notes("工作")
-	if notes_a.is_empty() or notes_a[0].get("status") != "completed" or not notes_a[0].get("body").contains("錯過"):
+	if notes_a.is_empty() or notes_a[0].get("status") != "completed" or not _tr_body(notes_a[0].get("body")).contains("錯過"):
 		printerr("FAIL: Work note for Ending A incorrect!")
 		get_tree().quit(1)
 		return
@@ -3076,12 +3077,12 @@ func _ready() -> void:
 	runner.start(robot_tree)
 
 	var robot_curr = runner.current()
-	if robot_curr.get("speaker") != "店控機器人":
-		printerr("FAIL: store_robot speaker is wrong! Got: ", robot_curr.get("speaker"))
+	if tr(robot_curr.get("speaker")) != "店控機器人":
+		printerr("FAIL: store_robot speaker is wrong! Got: ", tr(robot_curr.get("speaker")))
 		get_tree().quit(1)
 		return
-	if not "排班表" in robot_curr.get("text", ""):
-		printerr("FAIL: babble_intro text lacks the schedule anomaly! Got: ", robot_curr.get("text"))
+	if not "排班表" in tr(robot_curr.get("text", "")):
+		printerr("FAIL: babble_intro text lacks the schedule anomaly! Got: ", tr(robot_curr.get("text")))
 		get_tree().quit(1)
 		return
 	if not GameState.has_flag("talked_store_robot"):
@@ -3105,8 +3106,8 @@ func _ready() -> void:
 		return
 	runner.choose(0)
 	robot_curr = runner.current()
-	if not "我不是販賣機" in robot_curr.get("text", ""):
-		printerr("FAIL: babble_deny text lacks identity denial! Got: ", robot_curr.get("text"))
+	if not "我不是販賣機" in tr(robot_curr.get("text", "")):
+		printerr("FAIL: babble_deny text lacks identity denial! Got: ", tr(robot_curr.get("text")))
 		get_tree().quit(1)
 		return
 	runner.advance()
@@ -3371,16 +3372,16 @@ func _ready() -> void:
 		printerr("FAIL 8-C: resolve_completed_note() default (no resolution) should return 'reset' completed note!")
 		get_tree().quit(1)
 		return
-	if not note_reset.get("body", "").contains("直接重置"):
-		printerr("FAIL 8-C: Default resolved note body should mention '直接重置'! Got: ", note_reset.get("body", ""))
+	if not tr(note_reset.get("body", "")).contains("直接重置"):
+		printerr("FAIL 8-C: Default resolved note body should mention '直接重置'! Got: ", tr(note_reset.get("body", "")))
 		get_tree().quit(1)
 		return
 	print("PASS 8-C: resolve_completed_note() returns reset variant by default.")
 
 	GameState.set_flag("store_robot_resolution", "gleaned")
 	var note_gleaned = repair_quest_data.resolve_completed_note()
-	if not note_gleaned.get("body", "").contains("殘響"):
-		printerr("FAIL 8-C: Gleaned resolved note body should mention '殘響'! Got: ", note_gleaned.get("body", ""))
+	if not tr(note_gleaned.get("body", "")).contains("殘響"):
+		printerr("FAIL 8-C: Gleaned resolved note body should mention '殘響'! Got: ", tr(note_gleaned.get("body", "")))
 		get_tree().quit(1)
 		return
 	print("PASS 8-C: resolve_completed_note() returns gleaned variant when store_robot_resolution='gleaned'.")
@@ -3692,7 +3693,7 @@ func _ready() -> void:
 
 	var find_choice_8e = func(curr: Dictionary, substr: String) -> int:
 		for c in curr.get("choices", []):
-			if substr in c.get("label", ""):
+			if substr in tr(c.get("label", "")):
 				return c.get("index")
 		return -1
 
@@ -3847,7 +3848,7 @@ func _ready() -> void:
 		printerr("FAIL 8-E: Glean ending must complete repair_vendor_bot!")
 		get_tree().quit(1)
 		return
-	if not ("販賣機" in host_runner_8e.current().get("text", "")):
+	if not ("販賣機" in tr(host_runner_8e.current().get("text", ""))):
 		printerr("FAIL 8-E: gleaned_done message must hint the outside vending machine is back online!")
 		get_tree().quit(1)
 		return
@@ -3855,7 +3856,7 @@ func _ready() -> void:
 	for n in GameState.get_notes("工作"):
 		if n.get("id") == "quest_repair_vendor_bot":
 			work_note_gleaned_8e = n
-	if work_note_gleaned_8e.get("status", "") != "completed" or not ("殘響" in work_note_gleaned_8e.get("body", "")):
+	if work_note_gleaned_8e.get("status", "") != "completed" or not ("殘響" in _tr_body(work_note_gleaned_8e.get("body", ""))):
 		printerr("FAIL 8-E: Completed work note should be the gleaned variant! Got: ", work_note_gleaned_8e)
 		get_tree().quit(1)
 		return
@@ -3905,7 +3906,7 @@ func _ready() -> void:
 		printerr("FAIL 8-E: Direct reset must complete repair_vendor_bot!")
 		get_tree().quit(1)
 		return
-	if not ("販賣機" in host_runner_8e.current().get("text", "")):
+	if not ("販賣機" in tr(host_runner_8e.current().get("text", ""))):
 		printerr("FAIL 8-E: reset_done message must hint the outside vending machine is back online!")
 		get_tree().quit(1)
 		return
@@ -3913,7 +3914,7 @@ func _ready() -> void:
 	for n in GameState.get_notes("工作"):
 		if n.get("id") == "quest_repair_vendor_bot":
 			work_note_reset_8e = n
-	if work_note_reset_8e.get("status", "") != "completed" or not ("直接重置" in work_note_reset_8e.get("body", "")):
+	if work_note_reset_8e.get("status", "") != "completed" or not ("直接重置" in _tr_body(work_note_reset_8e.get("body", ""))):
 		printerr("FAIL 8-E: Completed work note should be the reset variant! Got: ", work_note_reset_8e)
 		get_tree().quit(1)
 		return
@@ -4503,7 +4504,7 @@ func _ready() -> void:
 		return
 	
 	var note_reset_8h = GameState.get_notes("工作")
-	if note_reset_8h.is_empty() or not note_reset_8h[0].get("body", "").contains("直接重置"):
+	if note_reset_8h.is_empty() or not _tr_body(note_reset_8h[0].get("body", "")).contains("直接重置"):
 		printerr("FAIL 8-H: Reset work note not restored correctly!")
 		get_tree().quit(1)
 		return
@@ -4537,7 +4538,7 @@ func _ready() -> void:
 		return
 	
 	var note_gleaned_8h = GameState.get_notes("工作")
-	if note_gleaned_8h.is_empty() or not note_gleaned_8h[0].get("body", "").contains("殘響"):
+	if note_gleaned_8h.is_empty() or not _tr_body(note_gleaned_8h[0].get("body", "")).contains("殘響"):
 		printerr("FAIL 8-H: Gleaned work note not restored correctly!")
 		get_tree().quit(1)
 		return
@@ -5825,7 +5826,7 @@ func _ready() -> void:
 	lu_tree = DialogueDB.get_tree_for("lu_qichen")
 	runner.start(lu_tree, "sell_gate")
 	curr = runner.current()
-	if curr.get("text", "") == "" or not curr.get("text", "").contains("你手頭還沒有集滿的殘響"):
+	if curr.get("text", "") == "" or not tr(curr.get("text", "")).contains("你手頭還沒有集滿的殘響"):
 		printerr("FAIL 9-G: sell_gate should route to sell_empty when no echoes are complete! Got: ", curr)
 		get_tree().quit(1)
 		return
@@ -5843,7 +5844,7 @@ func _ready() -> void:
 	# Verify that only completed unsold echoes appear in sell_menu
 	runner.start(lu_tree, "sell_gate")
 	curr = runner.current()
-	if curr.get("text", "") == "" or not curr.get("text", "").contains("你想把哪一段交給我"):
+	if curr.get("text", "") == "" or not tr(curr.get("text", "")).contains("你想把哪一段交給我"):
 		printerr("FAIL 9-G: sell_gate should route to sell_menu when there are completed unsold echoes! Got: ", curr)
 		get_tree().quit(1)
 		return
@@ -5853,7 +5854,7 @@ func _ready() -> void:
 	var clerk_choice = null
 	var lu_family_choice = null
 	for choice in choices:
-		var label = choice.get("label", "")
+		var label = tr(choice.get("label", ""))
 		if "401" in label:
 			room401_choice = choice
 		elif "店員" in label:
@@ -5877,7 +5878,7 @@ func _ready() -> void:
 	# 4. Confirmation & Keep Path: routes back to sell_menu
 	runner.choose(room401_choice.get("index"))
 	curr = runner.current()
-	if curr.get("text", "") == "" or not curr.get("text", "").contains("你想把這段記憶賣給我嗎"):
+	if curr.get("text", "") == "" or not tr(curr.get("text", "")).contains("你想把這段記憶賣給我嗎"):
 		printerr("FAIL 9-G: Selecting echo should route to confirmation node! Got: ", curr)
 		get_tree().quit(1)
 		return
@@ -5886,7 +5887,7 @@ func _ready() -> void:
 	var sell_choice = null
 	var keep_choice = null
 	for choice in conf_choices:
-		var label = choice.get("label", "")
+		var label = tr(choice.get("label", ""))
 		if "賣" in label:
 			sell_choice = choice
 		elif "留" in label:
@@ -5900,7 +5901,7 @@ func _ready() -> void:
 	# Choose to keep
 	runner.choose(keep_choice.get("index"))
 	curr = runner.current()
-	if curr.get("text", "") == "" or not curr.get("text", "").contains("你想把哪一段交給我"):
+	if curr.get("text", "") == "" or not tr(curr.get("text", "")).contains("你想把哪一段交給我"):
 		printerr("FAIL 9-G: Keeping echo should route back to sell_menu! Got: ", curr)
 		get_tree().quit(1)
 		return
@@ -5909,7 +5910,7 @@ func _ready() -> void:
 	# Re-select room 401
 	room401_choice = null
 	for choice in curr.get("choices", []):
-		if "401" in choice.get("label", ""):
+		if "401" in tr(choice.get("label", "")):
 			room401_choice = choice
 			break
 	runner.choose(room401_choice.get("index"))
@@ -5918,7 +5919,7 @@ func _ready() -> void:
 	conf_choices = runner.current().get("choices", [])
 	sell_choice = null
 	for choice in conf_choices:
-		if "賣" in choice.get("label", ""):
+		if "賣" in tr(choice.get("label", "")):
 			sell_choice = choice
 			break
 	
@@ -5938,14 +5939,14 @@ func _ready() -> void:
 		return
 		
 	curr = runner.current()
-	if curr.get("text", "") == "" or not curr.get("text", "").contains("獲得了 200 credits"):
+	if curr.get("text", "") == "" or not tr(curr.get("text", "")).contains("獲得了 200 credits"):
 		printerr("FAIL 9-G: Sold confirmation text incorrect! Got: ", curr)
 		get_tree().quit(1)
 		return
 		
 	runner.advance()
 	curr = runner.current()
-	if curr.get("text", "") == "" or not curr.get("text", "").contains("感謝你的回報"):
+	if curr.get("text", "") == "" or not tr(curr.get("text", "")).contains("感謝你的回報"):
 		printerr("FAIL 9-G: Should route to sell_done! Got: ", curr)
 		get_tree().quit(1)
 		return
@@ -5953,7 +5954,7 @@ func _ready() -> void:
 	# 6. Sold Status & Exclusivity: routes to sell_empty if no completed echoes remain
 	runner.advance()
 	curr = runner.current()
-	if curr.get("text", "") == "" or not curr.get("text", "").contains("你手頭還沒有集滿的殘響"):
+	if curr.get("text", "") == "" or not tr(curr.get("text", "")).contains("你手頭還沒有集滿的殘響"):
 		printerr("FAIL 9-G: After selling, sell_gate should route to sell_empty! Got: ", curr)
 		get_tree().quit(1)
 		return
@@ -7253,7 +7254,7 @@ func _ready() -> void:
 	travel_runner15_locked.start(travel_tree15)
 	var locked_labels := []
 	for choice in travel_runner15_locked.current().get("choices", []):
-		locked_labels.append(choice.get("label", ""))
+		locked_labels.append(tr(choice.get("label", "")))
 	if locked_labels.has("前往地鐵站"):
 		printerr("FAIL 15: subway travel choice should be hidden before lu_hinted_topside!")
 		get_tree().quit(1)
@@ -7263,7 +7264,7 @@ func _ready() -> void:
 	travel_runner15_unlocked.start(travel_tree15)
 	var unlocked_labels := []
 	for choice in travel_runner15_unlocked.current().get("choices", []):
-		unlocked_labels.append(choice.get("label", ""))
+		unlocked_labels.append(tr(choice.get("label", "")))
 	if not unlocked_labels.has("前往地鐵站"):
 		printerr("FAIL 15: subway travel choice should appear after lu_hinted_topside!")
 		get_tree().quit(1)
@@ -7367,14 +7368,14 @@ func _ready() -> void:
 	runner_cen.start(cen_tree)
 	
 	curr_node = runner_cen.current()
-	if curr_node.get("speaker", "") != "小岑" or not "新來的？" in curr_node.get("text", ""):
+	if tr(curr_node.get("speaker", "")) != "小岑" or not "新來的？" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Initial routing should go to first_meet! Got: ", curr_node)
 		get_tree().quit(1)
 		return
 		
 	runner_cen.choose(0) # goto intro
 	curr_node = runner_cen.current()
-	if not "叫我小岑" in curr_node.get("text", ""):
+	if not "叫我小岑" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Choice 0 should route to intro! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7386,7 +7387,7 @@ func _ready() -> void:
 		
 	runner_cen.advance()
 	curr_node = runner_cen.current()
-	if not "真撿到吃的" in curr_node.get("text", ""):
+	if not "真撿到吃的" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: intro should goto end_warm! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7397,7 +7398,7 @@ func _ready() -> void:
 	runner_cen.start(cen_tree)
 	runner_cen.choose(2) # Option 2
 	curr_node = runner_cen.current()
-	if not "手快一點才不會餓死" in curr_node.get("text", ""):
+	if not "手快一點才不會餓死" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Choice 2 should route to pickpocket_caught! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7410,7 +7411,7 @@ func _ready() -> void:
 	runner_cen = DialogueRunner.new()
 	runner_cen.start(cen_tree)
 	curr_node = runner_cen.current()
-	if not "又是你。" in curr_node.get("text", ""):
+	if not "又是你。" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: routing with met_cen=true should go to retalk! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7418,7 +7419,7 @@ func _ready() -> void:
 	var prev_affinity = GameState.get_flag("affinity_cen", 0)
 	runner_cen.choose(0) # 來看看你
 	curr_node = runner_cen.current()
-	if not "真撿到吃的" in curr_node.get("text", ""):
+	if not "真撿到吃的" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: retalk choice 0 should route to end_warm! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7489,14 +7490,14 @@ func _ready() -> void:
 	runner_wu.start(wu_tree)
 	
 	curr_node = runner_wu.current()
-	if curr_node.get("speaker", "") != "伍姐" or not "別站光裡" in curr_node.get("text", ""):
+	if tr(curr_node.get("speaker", "")) != "伍姐" or not "別站光裡" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Wu initial routing should go to first_meet! Got: ", curr_node)
 		get_tree().quit(1)
 		return
 		
 	runner_wu.choose(0) # goto repairer
 	curr_node = runner_wu.current()
-	if not "電力、淨水" in curr_node.get("text", ""):
+	if not "電力、淨水" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Choice 0 should route to repairer! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7508,7 +7509,7 @@ func _ready() -> void:
 		
 	runner_wu.advance()
 	curr_node = runner_wu.current()
-	if not "多搬兩趟水" in curr_node.get("text", ""):
+	if not "多搬兩趟水" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: repairer should goto end_cold! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7519,7 +7520,7 @@ func _ready() -> void:
 	runner_wu.start(wu_tree)
 	runner_wu.choose(1) # Choice 1 (maker)
 	curr_node = runner_wu.current()
-	if not "有過一個人" in curr_node.get("text", ""):
+	if not "有過一個人" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Choice 1 should route to maker! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7534,7 +7535,7 @@ func _ready() -> void:
 		
 	runner_wu.advance()
 	curr_node = runner_wu.current()
-	if not "多搬兩趟水" in curr_node.get("text", ""):
+	if not "多搬兩趟水" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: maker should goto end_cold! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7545,14 +7546,14 @@ func _ready() -> void:
 	runner_wu = DialogueRunner.new()
 	runner_wu.start(wu_tree)
 	curr_node = runner_wu.current()
-	if not "來了。手別閒著" in curr_node.get("text", ""):
+	if not "來了。手別閒著" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: routing with met_wu=true should go to retalk! Got: ", curr_node)
 		get_tree().quit(1)
 		return
 	var choices_no_maker = curr_node.get("choices", [])
 	var has_ask_maker_more := false
 	for choice in choices_no_maker:
-		if "建立這裡的人" in choice.get("label", ""):
+		if "建立這裡的人" in tr(choice.get("label", "")):
 			has_ask_maker_more = true
 	if has_ask_maker_more:
 		printerr("FAIL 16: ask_maker_more should be locked if knows_settlement_had_maker is false!")
@@ -7569,7 +7570,7 @@ func _ready() -> void:
 	var choices_with_maker = curr_node.get("choices", [])
 	var ask_maker_index := -1
 	for idx in range(choices_with_maker.size()):
-		if "建立這裡的人" in choices_with_maker[idx].get("label", ""):
+		if "建立這裡的人" in tr(choices_with_maker[idx].get("label", "")):
 			ask_maker_index = idx
 	if ask_maker_index == -1:
 		printerr("FAIL 16: ask_maker_more option missing from retalk with knows_settlement_had_maker=true!")
@@ -7579,7 +7580,7 @@ func _ready() -> void:
 	# Choose ask_maker_more
 	runner_wu.choose(ask_maker_index)
 	curr_node = runner_wu.current()
-	if not "自己把自己關掉的" in curr_node.get("text", ""):
+	if not "自己把自己關掉的" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: ask_maker_more choice should route to ask_maker_more node! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7645,21 +7646,21 @@ func _ready() -> void:
 	runner_seven.start(seven_tree)
 	
 	curr_node = runner_seven.current()
-	if curr_node.get("speaker", "") != "七號" or not "躲下來的" in curr_node.get("text", ""):
+	if tr(curr_node.get("speaker", "")) != "七號" or not "躲下來的" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Seven initial routing should go to first_meet! Got: ", curr_node)
 		get_tree().quit(1)
 		return
 		
 	runner_seven.choose(0) # goto ask_who
 	curr_node = runner_seven.current()
-	if not "大家叫我七號" in curr_node.get("text", ""):
+	if not "大家叫我七號" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Choice 0 should route to ask_who! Got: ", curr_node)
 		get_tree().quit(1)
 		return
 		
 	runner_seven.advance() # goto hook
 	curr_node = runner_seven.current()
-	if not "我有一個名字" in curr_node.get("text", ""):
+	if not "我有一個名字" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: ask_who should goto hook! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7671,7 +7672,7 @@ func _ready() -> void:
 		
 	runner_seven.advance() # goto end_cold
 	curr_node = runner_seven.current()
-	if not "目光沉進更深" in curr_node.get("text", ""):
+	if not "目光沉進更深" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: hook should goto end_cold! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7682,7 +7683,7 @@ func _ready() -> void:
 	runner_seven.start(seven_tree)
 	runner_seven.choose(1) # Choice 1 (hook)
 	curr_node = runner_seven.current()
-	if not "我有一個名字" in curr_node.get("text", ""):
+	if not "我有一個名字" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Choice 1 should route to hook! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -7693,14 +7694,14 @@ func _ready() -> void:
 	runner_seven = DialogueRunner.new()
 	runner_seven.start(seven_tree)
 	curr_node = runner_seven.current()
-	if not "還是你。……我說過" in curr_node.get("text", ""):
+	if not "還是你。……我說過" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: routing with met_seven=true should go to retalk! Got: ", curr_node)
 		get_tree().quit(1)
 		return
 	var choices_no_name = curr_node.get("choices", [])
 	var has_ask_name := false
 	for choice in choices_no_name:
-		if "掛在上面的名字" in choice.get("label", ""):
+		if "掛在上面的名字" in tr(choice.get("label", "")):
 			has_ask_name = true
 	if has_ask_name:
 		printerr("FAIL 16: ask_name should be locked if seven_hinted_name_topside is false!")
@@ -7717,7 +7718,7 @@ func _ready() -> void:
 	var choices_with_name = curr_node.get("choices", [])
 	var ask_name_index := -1
 	for idx in range(choices_with_name.size()):
-		if "掛在上面的名字" in choices_with_name[idx].get("label", ""):
+		if "掛在上面的名字" in tr(choices_with_name[idx].get("label", "")):
 			ask_name_index = idx
 	if ask_name_index == -1:
 		printerr("FAIL 16: ask_name option missing from retalk with seven_hinted_name_topside=true!")
@@ -7727,7 +7728,7 @@ func _ready() -> void:
 	# Choose ask_name
 	runner_seven.choose(ask_name_index)
 	curr_node = runner_seven.current()
-	if not "非找回不可的人" in curr_node.get("text", ""):
+	if not "非找回不可的人" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: ask_name choice should route to ask_name node! Got: ", curr_node)
 		get_tree().quit(1)
 		return
@@ -8348,7 +8349,7 @@ func _ready() -> void:
 	var p18_choices = p18_curr.get("choices", [])
 	var found_sell_option = false
 	for c in p18_choices:
-		if "我撿到一張育兒照護回執" in c.get("label", ""):
+		if "我撿到一張育兒照護回執" in tr(c.get("label", "")):
 			found_sell_option = true
 			d_runner.choose(c.get("index"))
 			break
@@ -8362,7 +8363,7 @@ func _ready() -> void:
 	p18_choices = p18_curr.get("choices", [])
 	var found_do_sell = false
 	for c in p18_choices:
-		if "將回執賣給她" in c.get("label", ""):
+		if "將回執賣給她" in tr(c.get("label", "")):
 			found_do_sell = true
 			d_runner.choose(c.get("index"))
 			break
@@ -9099,6 +9100,337 @@ func _ready() -> void:
 	LocaleManager.set_locale("zh_TW")
 	print("--- Phase M2-C: ALL CHECKS PASSED ---")
 
+	# ===================== Phase M2-D: 對話樹與資料 i18n =====================
+	print("--- Phase M2-D: 對話樹與資料 i18n ---")
+
+	var dlg_db = load("res://data/dialogue/dialogue_db.gd")
+	var shop_db = load("res://data/shops/shop_db.gd")
+	var quest_db = load("res://data/quests/quest_db.gd")
+
+	# (1) 品質 lint — dialogue.csv / data.csv
+	for csv_domain in ["dialogue", "data"]:
+		var csv_path := "res://locale/%s.csv" % csv_domain
+		var recs := _m2b_parse_csv(csv_path)
+		if recs.size() < 2:
+			printerr("FAIL M2-D: cannot parse %s (records=%d)" % [csv_path, recs.size()])
+			get_tree().quit(1)
+			return
+		var hdr: Array = recs[0]
+		if hdr.size() < 4 or hdr[0] != "keys" or hdr[1] != "zh_TW" or hdr[2] != "zh_CN" or hdr[3] != "en":
+			printerr("FAIL M2-D: unexpected %s header: %s" % [csv_path, str(hdr)])
+			get_tree().quit(1)
+			return
+		var t_tw := load("res://locale/%s.zh_TW.translation" % csv_domain) as Translation
+		var t_cn := load("res://locale/%s.zh_CN.translation" % csv_domain) as Translation
+		var t_en := load("res://locale/%s.en.translation" % csv_domain) as Translation
+		if t_tw == null or t_cn == null or t_en == null:
+			printerr("FAIL M2-D: %s.*.translation artifacts missing (run --import)." % csv_domain)
+			get_tree().quit(1)
+			return
+
+		var c_fail := false
+		var c_checked := 0
+		for ri3 in range(1, recs.size()):
+			var rr: Array = recs[ri3]
+			if rr.size() == 1 and str(rr[0]).strip_edges() == "":
+				continue
+			if rr.size() < 4:
+				printerr("FAIL M2-D: %s row %d has < 4 columns: %s" % [csv_domain, ri3, str(rr)])
+				c_fail = true
+				continue
+			var kk: String = rr[0]
+			if kk.strip_edges() == "":
+				continue
+			c_checked += 1
+			# (a) 三語非空
+			for ci2 in range(1, 4):
+				if str(rr[ci2]).strip_edges() == "":
+					printerr("FAIL M2-D: %s key '%s' has empty column %d." % [csv_domain, kk, ci2])
+					c_fail = true
+			# (b) import 與 CSV 同步
+			if t_tw.get_message(kk) != rr[1]:
+				printerr("FAIL M2-D: %s key '%s' zh_TW out of sync (reimport?)." % [csv_domain, kk])
+				c_fail = true
+			if t_cn.get_message(kk) != rr[2]:
+				printerr("FAIL M2-D: %s key '%s' zh_CN out of sync (reimport?)." % [csv_domain, kk])
+				c_fail = true
+			if t_en.get_message(kk) != rr[3]:
+				printerr("FAIL M2-D: %s key '%s' en out of sync (reimport?)." % [csv_domain, kk])
+				c_fail = true
+			# (c) zh_CN 無繁體字洩漏
+			for ch in rr[2]:
+				if trad_blocklist_c.contains(ch):
+					printerr("FAIL M2-D: %s key '%s' zh_CN contains traditional char '%s'." % [csv_domain, kk, ch])
+					c_fail = true
+					break
+		if c_fail:
+			get_tree().quit(1)
+			return
+		print("PASS M2-D: %s.csv lint over %d keys (3-locale non-empty, import in sync, zh_CN no traditional leak)." % [csv_domain, c_checked])
+
+	# (2) 資料驅動覆蓋：走訪資料字典，斷言 CSV 有對應列
+	var dialogue_keyset := {}
+	var dialogue_recs := _m2b_parse_csv("res://locale/dialogue.csv")
+	for ri4 in range(1, dialogue_recs.size()):
+		var rr4: Array = dialogue_recs[ri4]
+		if rr4.size() >= 1 and str(rr4[0]).strip_edges() != "":
+			dialogue_keyset[rr4[0]] = true
+
+	var data_keyset := {}
+	var data_recs := _m2b_parse_csv("res://locale/data.csv")
+	for ri5 in range(1, data_recs.size()):
+		var rr5: Array = data_recs[ri5]
+		if rr5.size() >= 1 and str(rr5[0]).strip_edges() != "":
+			data_keyset[rr5[0]] = true
+
+	var m2d_coverage_fail := false
+
+	# 1. 9 棵對話 TREE
+	for tree_id in dlg_db.TREES:
+		var dlg_tree: Dictionary = dlg_db.TREES[tree_id]
+		for node_id in dlg_tree:
+			var node: Dictionary = dlg_tree[node_id]
+			
+			# Check speaker
+			if node.has("speaker"):
+				var sp: String = str(node["speaker"])
+				if not sp.is_empty():
+					if not _m2c_is_translation_key(sp):
+						printerr("FAIL M2-D: Dialogue tree '%s' node '%s' speaker is not a translation key: %s" % [tree_id, node_id, sp])
+						m2d_coverage_fail = true
+					elif not dialogue_keyset.has(sp):
+						printerr("FAIL M2-D: Dialogue tree '%s' node '%s' speaker key '%s' missing from dialogue.csv." % [tree_id, node_id, sp])
+						m2d_coverage_fail = true
+					
+			# Check text
+			if node.has("text"):
+				var txt: String = str(node["text"])
+				if not _m2c_is_translation_key(txt):
+					printerr("FAIL M2-D: Dialogue tree '%s' node '%s' text is not a translation key: %s" % [tree_id, node_id, txt])
+					m2d_coverage_fail = true
+				elif not dialogue_keyset.has(txt):
+					printerr("FAIL M2-D: Dialogue tree '%s' node '%s' text key '%s' missing from dialogue.csv." % [tree_id, node_id, txt])
+					m2d_coverage_fail = true
+					
+			# Check choices
+			if node.has("choices"):
+				var node_choices = node["choices"]
+				if node_choices is Array:
+					for choice in node_choices:
+						if choice is Dictionary and choice.has("label"):
+							var lbl: String = str(choice["label"])
+							if not _m2c_is_translation_key(lbl):
+								printerr("FAIL M2-D: Dialogue tree '%s' node '%s' choice label is not a translation key: %s" % [tree_id, node_id, lbl])
+								m2d_coverage_fail = true
+							elif not dialogue_keyset.has(lbl):
+								printerr("FAIL M2-D: Dialogue tree '%s' node '%s' choice label key '%s' missing from dialogue.csv." % [tree_id, node_id, lbl])
+								m2d_coverage_fail = true
+
+	# 2. echoes (EchoDB.ECHOES)
+	for echo_id in EchoDB.ECHOES:
+		var echo: Dictionary = EchoDB.ECHOES[echo_id]
+		
+		# Check title
+		var title: String = str(echo.get("title", ""))
+		if not _m2c_is_translation_key(title):
+			printerr("FAIL M2-D: Echo '%s' title is not a translation key: %s" % [echo_id, title])
+			m2d_coverage_fail = true
+		elif not data_keyset.has(title):
+			printerr("FAIL M2-D: Echo '%s' title key '%s' missing from data.csv." % [echo_id, title])
+			m2d_coverage_fail = true
+			
+		# Check comment
+		if echo.has("comment"):
+			var comment: String = str(echo["comment"])
+			if not _m2c_is_translation_key(comment):
+				printerr("FAIL M2-D: Echo '%s' comment is not a translation key: %s" % [echo_id, comment])
+				m2d_coverage_fail = true
+			elif not data_keyset.has(comment):
+				printerr("FAIL M2-D: Echo '%s' comment key '%s' missing from data.csv." % [echo_id, comment])
+				m2d_coverage_fail = true
+				
+		# Check segments
+		if echo.has("segments"):
+			var segments = echo["segments"]
+			if segments is Array:
+				for seg in segments:
+					if seg is Dictionary and seg.has("text"):
+						var seg_txt: String = str(seg["text"])
+						if not _m2c_is_translation_key(seg_txt):
+							printerr("FAIL M2-D: Echo '%s' segment '%s' text is not a translation key: %s" % [echo_id, str(seg.get("id")), seg_txt])
+							m2d_coverage_fail = true
+						elif not data_keyset.has(seg_txt):
+							printerr("FAIL M2-D: Echo '%s' segment '%s' text key '%s' missing from data.csv." % [echo_id, str(seg.get("id")), seg_txt])
+							m2d_coverage_fail = true
+
+	# 3. shops (ShopDB.SHOPS)
+	for shop_id in shop_db.SHOPS:
+		var shop: Dictionary = shop_db.SHOPS[shop_id]
+		var shop_name: String = str(shop.get("name", ""))
+		if not _m2c_is_translation_key(shop_name):
+			printerr("FAIL M2-D: Shop '%s' name is not a translation key: %s" % [shop_id, shop_name])
+			m2d_coverage_fail = true
+		elif not data_keyset.has(shop_name):
+			printerr("FAIL M2-D: Shop '%s' name key '%s' missing from data.csv." % [shop_id, shop_name])
+			m2d_coverage_fail = true
+
+	# 4. quests (QuestDB.QUESTS)
+	for quest_id in quest_db.QUESTS:
+		var quest_data = quest_db.QUESTS[quest_id]
+		
+		# WORK_NOTES_BY_STEP
+		if "WORK_NOTES_BY_STEP" in quest_data:
+			var steps: Dictionary = quest_data.WORK_NOTES_BY_STEP
+			for step_id in steps:
+				var note: Dictionary = steps[step_id]
+				var q_title: String = str(note.get("title", ""))
+				var q_body: String = str(note.get("body", ""))
+				
+				if not _m2c_is_translation_key(q_title):
+					printerr("FAIL M2-D: Quest '%s' step '%s' note title is not a translation key: %s" % [quest_id, step_id, q_title])
+					m2d_coverage_fail = true
+				elif not data_keyset.has(q_title):
+					printerr("FAIL M2-D: Quest '%s' step '%s' note title key '%s' missing from data.csv." % [quest_id, step_id, q_title])
+					m2d_coverage_fail = true
+					
+				if not _m2c_is_translation_key(q_body):
+					printerr("FAIL M2-D: Quest '%s' step '%s' note body is not a translation key: %s" % [quest_id, step_id, q_body])
+					m2d_coverage_fail = true
+				elif not data_keyset.has(q_body):
+					printerr("FAIL M2-D: Quest '%s' step '%s' note body key '%s' missing from data.csv." % [quest_id, step_id, q_body])
+					m2d_coverage_fail = true
+
+		# WORK_NOTES_BY_STATUS
+		if "WORK_NOTES_BY_STATUS" in quest_data:
+			var statuses: Dictionary = quest_data.WORK_NOTES_BY_STATUS
+			for status_id in statuses:
+				var note: Dictionary = statuses[status_id]
+				var q_title: String = str(note.get("title", ""))
+				var q_body: String = str(note.get("body", ""))
+				
+				if not _m2c_is_translation_key(q_title):
+					printerr("FAIL M2-D: Quest '%s' status '%s' note title is not a translation key: %s" % [quest_id, status_id, q_title])
+					m2d_coverage_fail = true
+				elif not data_keyset.has(q_title):
+					printerr("FAIL M2-D: Quest '%s' status '%s' note title key '%s' missing from data.csv." % [quest_id, status_id, q_title])
+					m2d_coverage_fail = true
+					
+				if not _m2c_is_translation_key(q_body):
+					printerr("FAIL M2-D: Quest '%s' status '%s' note body is not a translation key: %s" % [quest_id, status_id, q_body])
+					m2d_coverage_fail = true
+				elif not data_keyset.has(q_body):
+					printerr("FAIL M2-D: Quest '%s' status '%s' note body key '%s' missing from data.csv." % [quest_id, status_id, q_body])
+					m2d_coverage_fail = true
+
+		# WORK_NOTES_COMPLETED
+		if "WORK_NOTES_COMPLETED" in quest_data:
+			var completed: Dictionary = quest_data.WORK_NOTES_COMPLETED
+			for comp_id in completed:
+				var note: Dictionary = completed[comp_id]
+				var q_title: String = str(note.get("title", ""))
+				var q_body: String = str(note.get("body", ""))
+				
+				if not _m2c_is_translation_key(q_title):
+					printerr("FAIL M2-D: Quest '%s' completed variant '%s' note title is not a translation key: %s" % [quest_id, comp_id, q_title])
+					m2d_coverage_fail = true
+				elif not data_keyset.has(q_title):
+					printerr("FAIL M2-D: Quest '%s' completed variant '%s' note title key '%s' missing from data.csv." % [quest_id, comp_id, q_title])
+					m2d_coverage_fail = true
+					
+				if not _m2c_is_translation_key(q_body):
+					printerr("FAIL M2-D: Quest '%s' completed variant '%s' note body is not a translation key: %s" % [quest_id, comp_id, q_body])
+					m2d_coverage_fail = true
+				elif not data_keyset.has(q_body):
+					printerr("FAIL M2-D: Quest '%s' completed variant '%s' note body key '%s' missing from data.csv." % [quest_id, comp_id, q_body])
+					m2d_coverage_fail = true
+
+	if m2d_coverage_fail:
+		get_tree().quit(1)
+		return
+	print("PASS M2-D: data-driven coverage (9 dialogue TREES + EchoDB + ShopDB + QuestDB) all keys present in CSV.")
+
+	# (3) 抽樣 tr() 真實命中三語
+	var m2d_sample_cases := [
+		{"key": "DLG_CEN_FIRST_MEET_TEXT", "zh_TW_substr": "地盤", "zh_CN_substr": "地盘", "en_substr": "turf"},
+		{"key": "DLG_LU_QICHEN_EXIT_TEXT", "zh_TW_substr": "記得戴好手套", "zh_CN_substr": "记得戴好手套", "en_substr": "Remember to wear your gloves"},
+		{"key": "ECHO_CLERK_TITLE", "zh_TW_substr": "店員的殘響", "zh_CN_substr": "店员的残响", "en_substr": "Clerk's Echo"},
+		{"key": "QUEST_REPAIR_VENDOR_BOT_STEP_STARTED_TITLE", "zh_TW_substr": "故障機器人", "zh_CN_substr": "故障机器人", "en_substr": "Glitched Bot"},
+	]
+	var m2d_sample_pass := true
+	for case in m2d_sample_cases:
+		for loc in ["zh_TW", "zh_CN", "en"]:
+			LocaleManager.set_locale(loc)
+			var got_text := tr(case["key"])
+			var expect_sub: String = case["%s_substr" % loc]
+			if got_text == case["key"]:
+				printerr("FAIL M2-D: tr('%s') in %s returned key itself (translation missing)." % [case["key"], loc])
+				m2d_sample_pass = false
+			elif not expect_sub in got_text:
+				printerr("FAIL M2-D: tr('%s') in %s = '%s' missing expected substr '%s'." % [case["key"], loc, got_text, expect_sub])
+				m2d_sample_pass = false
+	if not m2d_sample_pass:
+		get_tree().quit(1)
+		return
+	print("PASS M2-D: sample tr() across 3 locales for 4 keys (DLG / ECHO / QUEST).")
+
+	# (4) 禁字檢查（跨三語）：全文不得含「林霏」或 English transliterations like "Lin Fei" / "Linfei"
+	var forbidden_fail_d := false
+	for loc2 in ["zh_TW", "zh_CN", "en"]:
+		LocaleManager.set_locale(loc2)
+		
+		# Check dialogue.csv keys
+		for key_f in dialogue_keyset:
+			var txt := tr(key_f)
+			if "林霏" in txt:
+				printerr("FAIL M2-D: forbidden word '林霏' appears in tr('%s') under locale %s: '%s'" % [key_f, loc2, txt])
+				forbidden_fail_d = true
+			var lower_txt = txt.to_lower()
+			if "lin fei" in lower_txt or "linfei" in lower_txt:
+				printerr("FAIL M2-D: forbidden word 'Lin Fei/Linfei' appears in tr('%s') under locale %s: '%s'" % [key_f, loc2, txt])
+				forbidden_fail_d = true
+
+		# Check data.csv keys
+		for key_f in data_keyset:
+			var txt := tr(key_f)
+			if "林霏" in txt:
+				printerr("FAIL M2-D: forbidden word '林霏' appears in tr('%s') under locale %s: '%s'" % [key_f, loc2, txt])
+				forbidden_fail_d = true
+			var lower_txt = txt.to_lower()
+			if "lin fei" in lower_txt or "linfei" in lower_txt:
+				printerr("FAIL M2-D: forbidden word 'Lin Fei/Linfei' appears in tr('%s') under locale %s: '%s'" % [key_f, loc2, txt])
+				forbidden_fail_d = true
+
+	if forbidden_fail_d:
+		get_tree().quit(1)
+		return
+	print("PASS M2-D: forbidden words absent from dialogue & data translations across 3 locales.")
+
+	# (5) 英文人名音譯一致性檢查
+	var name_translations := [
+		{"key": "SPEAKER_WAN", "zh_TW": "晚", "zh_CN": "晚", "en": "Wan"},
+		{"key": "SPEAKER_LU_QICHEN", "zh_TW": "鹿其琛", "zh_CN": "鹿其琛", "en": "Lu Qichen"},
+		{"key": "SPEAKER_CEN", "zh_TW": "小岑", "zh_CN": "小岑", "en": "Cen"},
+		{"key": "SPEAKER_WU", "zh_TW": "伍姐", "zh_CN": "伍姐", "en": "Wu"},
+		{"key": "SPEAKER_SEVEN", "zh_TW": "七號", "zh_CN": "七号", "en": "Seven"},
+	]
+	var names_pass := true
+	for entry in name_translations:
+		for loc in ["zh_TW", "zh_CN", "en"]:
+			LocaleManager.set_locale(loc)
+			var got_val := tr(entry["key"])
+			var expected_val: String = entry[loc]
+			if got_val != expected_val:
+				printerr("FAIL M2-D: name transliteration mismatch for '%s' under locale %s. Expected: '%s', Got: '%s'" % [entry["key"], loc, expected_val, got_val])
+				names_pass = false
+	if not names_pass:
+		get_tree().quit(1)
+		return
+	print("PASS M2-D: name transliterations verified consistently (Wan, Lu Qichen, Cen, Wu, Seven).")
+
+	# 恢復預設 locale
+	LocaleManager.set_locale("zh_TW")
+	print("--- Phase M2-D: ALL CHECKS PASSED ---")
+
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")
@@ -9188,3 +9520,12 @@ func _m2b_parse_csv(path: String) -> Array:
 		record.append(field)
 		records.append(record)
 	return records
+
+func _tr_body(raw_body: String) -> String:
+	if raw_body.is_empty():
+		return ""
+	var parts := raw_body.split("\n\n")
+	var out: Array = []
+	for p in parts:
+		out.append(tr(p))
+	return "\n\n".join(out)

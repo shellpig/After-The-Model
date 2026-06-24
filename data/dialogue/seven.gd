@@ -10,24 +10,24 @@ const TREE := {
 	},
 
 	"first_meet": {
-		"speaker": "七號",
-		"text": "……你也是躲下來的。",
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_FIRST_MEET_TEXT",
 		"choices": [
-			{"label": "你是誰？", "goto": "ask_who"},
-			{"label": "你不像會躲的人。", "goto": "hook"},
-			{"label": "（保持距離）", "goto": "leave"}
+			{"label": "DLG_SEVEN_FIRST_MEET_CHOICE0", "goto": "ask_who"},
+			{"label": "DLG_SEVEN_FIRST_MEET_CHOICE1", "goto": "hook"},
+			{"label": "DLG_SEVEN_FIRST_MEET_CHOICE2", "goto": "leave"}
 		]
 	},
 
 	"ask_who": {
-		"speaker": "七號",
-		"text": "大家叫我七號。名字早被刷掉了，留個編號剛好。我不交朋友，你也別指望我幫你。",
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_ASK_WHO_TEXT",
 		"goto": "hook"
 	},
 
 	"hook": {
-		"speaker": "七號",
-		"text": "躲？（低笑一聲，沒有溫度）你們可以一直躲。我不行。我有一個名字……還掛在上面。別問了，問了你也幫不上。",
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_HOOK_TEXT",
 		"effect": [
 			{"op": "set_flag", "key": "met_seven", "value": true},
 			{"op": "set_flag", "key": "seven_hinted_name_topside", "value": true}
@@ -36,30 +36,30 @@ const TREE := {
 	},
 
 	"end_cold": {
-		"speaker": "七號",
-		"text": "（他不再看你，目光沉進更深的隧道口那團黑裡。）"
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_END_COLD_TEXT"
 	},
 
 	"retalk": {
-		"speaker": "七號",
-		"text": "還是你。……我說過，我不交朋友。（頓）但你要真往更深的地方去，小心。那底下的東西不講話，只清場。",
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_RETALK_TEXT",
 		"choices": [
 			{
-				"label": "你那個『掛在上面的名字』……",
+				"label": "DLG_SEVEN_RETALK_CHOICE0",
 				"condition": {"flag": "seven_hinted_name_topside", "op": "==", "value": true},
 				"goto": "ask_name"
 			},
-			{"label": "（離開）", "goto": "leave"}
+			{"label": "DLG_SEVEN_CONDITION_CHOICE0", "goto": "leave"}
 		]
 	},
 
 	"ask_name": {
-		"speaker": "七號",
-		"text": "（眼神一冷）我說了，別問。……等你哪天也丟了個非找回不可的人，你就懂了。現在，滾。"
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_ASK_NAME_TEXT"
 	},
 
 	"leave": {
-		"speaker": "七號",
-		"text": "（他別過臉，雙臂抱胸，重新靠回牆邊，不再理會你。）"
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_LEAVE_TEXT"
 	}
 }

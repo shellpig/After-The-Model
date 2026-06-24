@@ -123,8 +123,8 @@ func _update_ui() -> void:
 		close_dialogue()
 		return
 
-	name_label.text = curr.get("speaker", "")
-	_dialogue_full_text = curr.get("text", "")
+	name_label.text = tr(curr.get("speaker", ""))
+	_dialogue_full_text = tr(curr.get("text", ""))
 	_dialogue_elapsed = 0.0
 	text_label.text = ""
 
@@ -136,8 +136,9 @@ func _update_ui() -> void:
 	var sorted_choices = []
 	var exit_choices = []
 	for c in raw_choices:
-		var lbl: String = c.get("label", "")
-		if "離開" in lbl or "离开" in lbl or "Exit" in lbl or "exit" in lbl.to_lower():
+		var lbl: String = tr(c.get("label", ""))
+		var lbl_low := lbl.to_lower()
+		if "離開" in lbl or "离开" in lbl or "leave" in lbl_low or "exit" in lbl_low:
 			exit_choices.append(c)
 		else:
 			sorted_choices.append(c)
@@ -157,7 +158,7 @@ func _update_ui() -> void:
 		for i in range(_current_choices.size()):
 			var choice = _current_choices[i]
 			var btn = Button.new()
-			btn.text = "  " + choice.get("label", "")
+			btn.text = "  " + tr(choice.get("label", ""))
 			btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 			btn.focus_mode = Control.FOCUS_ALL
 
@@ -187,7 +188,7 @@ func _update_ui() -> void:
 
 func _on_choice_focused(idx: int, btn: Button) -> void:
 	_focused_choice_idx = idx
-	btn.text = "> " + _current_choices[idx].get("label", "")
+	btn.text = "> " + tr(_current_choices[idx].get("label", ""))
 
 func _on_choice_unfocused(btn: Button) -> void:
 	if btn.text.begins_with("> "):

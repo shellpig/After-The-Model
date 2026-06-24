@@ -45,7 +45,7 @@ func open(p_shop_id: String) -> void:
 	buy_index = 0
 	sell_index = 0
 	var catalog: Dictionary = GameState.ShopDB.get_catalog(shop_id)
-	title_label.text = catalog.get("name", shop_id)
+	title_label.text = tr(catalog.get("name", shop_id))
 	_refresh_all()
 	visible = true
 

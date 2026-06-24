@@ -4,7 +4,7 @@
 # 當前庫存進 GameState.shop_states["convenience_store"]（首次開店 lazy-init），
 # 此檔僅為重設來源（refresh_shop_stock）。
 const CATALOG := {
-	"name": "便利商店",
+	"name": "SHOP_CONVENIENCE_STORE_NAME",
 	"stock": {
 		"canned_food": {"price": 40, "stock": 10},
 		"nutrition_bar_synth_orange": {"price": 25, "stock": 8}

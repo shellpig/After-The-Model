@@ -108,8 +108,9 @@ pointing/emulate_touch_from_mouse=true
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://locale/ui.zh_TW.translation", "res://locale/ui.zh_CN.translation", "res://locale/ui.en.translation", "res://locale/story.zh_TW.translation", "res://locale/story.zh_CN.translation", "res://locale/story.en.translation", "res://locale/items.zh_TW.translation", "res://locale/items.zh_CN.translation", "res://locale/items.en.translation")
+locale/translations=PackedStringArray("res://locale/ui.zh_TW.translation", "res://locale/ui.zh_CN.translation", "res://locale/ui.en.translation", "res://locale/story.zh_TW.translation", "res://locale/story.zh_CN.translation", "res://locale/story.en.translation", "res://locale/items.zh_TW.translation", "res://locale/items.zh_CN.translation", "res://locale/items.en.translation", "res://locale/dialogue.zh_TW.translation", "res://locale/dialogue.zh_CN.translation", "res://locale/dialogue.en.translation", "res://locale/data.zh_TW.translation", "res://locale/data.zh_CN.translation", "res://locale/data.en.translation")
 locale/fallback="zh_TW"
+
 
 [rendering]
 

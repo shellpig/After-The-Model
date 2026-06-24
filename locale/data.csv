@@ -1,0 +1,71 @@
+keys,zh_TW,zh_CN,en
+SHOP_CONVENIENCE_STORE_NAME,便利商店,便利商店,Convenience Store
+SHOP_STREET_VENDING_NAME,外面販賣機,外面贩卖机,Vending Machine
+ECHO_CLERK_TITLE,店員的殘響,店员的残响,Clerk's Echo
+ECHO_CLERK_SEG_S1,"在重置店籍主機之前，我把阿達留在備份區的東西錄了下來——日記、情緒資料，還有那句不肯走的「憑什麼」。
+機器人不會再記得他了。這段殘響現在只存在我這裡。
+賣是不可能賣的。只是還不知道，留著它能做什麼。","在重置店籍主机之前，我把阿达留在备份区的东西录了下来——日记、情绪数据，还有那句不肯走的“凭什么”。
+机器人不会再记得他了。这段残响现在只存在我这里。
+卖是不可能卖的。只是还不知道，留着它能做什么。","Before resetting the store registry mainframe, I recorded what Ada left behind in the backup area—his diary, emotional logs, and that defiant sentence, ""Why should I?""
+The bot won't remember him anymore. This echo now only exists with me.
+Selling it is out of the question. I just don't know what keeping it will do yet."
+ECHO_CLERK_COMMENT,阿達那孩子……我認得他。他在便利商店做了五年，最後被一個零售終端取代了。這段錄音，是他最後留下來的體溫。,阿达那孩子……我认得他。他在便利商店做了五年，最后被一个零售终端取代了。这段录音，是他最后留下来的体温。,"That kid Ada... I remember him. He worked at the convenience store for five years, only to be replaced by a retail terminal in the end. This recording is the last warmth he left behind."
+ECHO_ROOM401_TENANT_TITLE,401 的前住戶,401 的前住户,Former Tenant of 401
+ECHO_ROOM401_TENANT_SEG_S1,舊的租約通知單。上面寫著401室，租戶姓名被黑色墨水粗暴地塗黑了。只剩下一行字：『請於本月底前完成全自動化合約更新，否則將視為自願放棄續租權。』,旧的租约通知单。上面写着401室，租户姓名被黑色墨水粗暴地涂黑了。只剩下一行字：『请于本月底前完成全自动化合约更新，否则将视为自愿放弃续租权。』,"An old lease notice. It says Room 401, but the tenant's name has been crudely blacked out with ink. Only one line remains: 'Please complete the fully automated contract renewal by the end of this month, otherwise it will be deemed as voluntary abandonment of renewal rights.'"
+ECHO_ROOM401_TENANT_SEG_S2,牆角斑駁的塗鴉，看起來是用噴漆寫的：『我不在乎自動管家，我只要我的舊鄰居。』筆跡已經被雨水沖刷得模糊不清。,墙角斑驳的涂鸦，看起来是用喷漆写的：『我不在乎自动管家，我只要我的旧邻居。』笔迹已经被雨水冲刷得模糊不清。,"Faded graffiti in the corner, spray-painted: 'I don't care about the auto-steward, I just want my old neighbors.' The writing has been washed blurry by the rain."
+ECHO_ROOM401_TENANT_SEG_S3,一張撕角的生活照，背景是個溫馨的小客廳。一個老人抱著一隻老貓坐在沙發上，背後是用膠帶貼在牆上的字條：『這不是升級，這是驅逐。』,一张撕角的生活照，背景是个温馨的小客厅。一个老人抱着一只老猫坐在沙发上，背后是用胶带贴在墙上的字条：『这不是升级，这是驱逐。』,"A torn photo showing a cozy little living room. An old man sits on the sofa cuddling an old cat, with a tape-attached note behind him: 'This isn't an upgrade, it's an eviction.'"
+ECHO_ROOM401_TENANT_COMMENT,401室的人啊……我記得他們被遷走那天，雨下得比今天還大。系統說全自動化大樓不需要有溫度的房客。,401室的人啊……我记得他们被迁走那天，雨下得比今天还大。系统说全自动化大楼不需要有温度的房客。,"The folks from Room 401... I remember the day they were moved out, the rain was heavier than today. The system said fully automated buildings don't need warm-blooded tenants."
+ECHO_SONG_RAIN_DOESNT_STOP_TITLE,雨還沒停,雨还没停,The Rain Hasn't Stopped
+ECHO_SONG_RAIN_DOESNT_STOP_SEG_S1,『雨還沒停，街上的燈已經熄了。』這是一首曾經在平民區街頭隨處能聽到的老歌旋律。沒有花哨的電子合成，只有簡單的木吉他。,『雨还没停，街上的灯已经熄了。』这是一首曾经在平民区街头随处能听到的老歌旋律。没有花哨的电子合成，只有简单的木吉他。,"'The rain hasn't stopped, the lights on the street have gone out.' This was an old song melody once heard everywhere on the streets of the plebeian district. No fancy electronic synthesis, just a simple acoustic guitar."
+ECHO_SONG_RAIN_DOESNT_STOP_SEG_S2,『你在無人便利店裡避雨，看著自動清潔機把你的影子擦掉。』歌詞裡記錄著這個城市最平凡的深夜風景。,『你在无人便利店里避雨，看着自动清洁机把你的影子擦掉。』歌词里记录着这个城市最平凡的深夜风景。,"'You take shelter from the rain in an unmanned convenience store, watching the automated cleaner wipe your shadow away.' The lyrics record the most mundane midnight scenery of this city."
+ECHO_SONG_RAIN_DOESNT_STOP_SEG_S3,『我們在霓虹下告別，你說你下週就要去富人區當助理，此後再無音訊。』這首歌已經從所有的官方串流庫中被清理乾淨了。,『我们在霓虹下告别，你说你下周就要去富人区当助理，此后再无音讯。』这首歌已经从所有的官方串流库中被清理干净了。,"'We bid farewell under the neon, you said you were going to be an assistant in the wealthy district next week, never to be heard from again.' This song has been completely scrubbed from all official streaming libraries."
+ECHO_SONG_RAIN_DOESNT_STOP_COMMENT,這首歌……以前地鐵口常有流浪歌手自彈自唱。自從地鐵治安清理把他們趕走後，就再也沒聽到了。這段旋律值這個價。,这首歌……以前地铁口常有流浪歌手自弹自唱。自从地铁治安清理把他们赶走后，就再也没听到了。这段旋律值这个价。,"This song... street buskers used to play and sing it near the subway entrance. Since the transit security cleanup kicked them out, it hasn't been heard. This melody is worth the price."
+ECHO_LU_FAMILY_TITLE,鹿家記事,鹿家记事,Records of the Lu Family
+ECHO_LU_FAMILY_SEG_S1,日記的備份片段：『老三（其琛）又把那些沒用的舊相機搬回來了。大哥說這些垃圾只會佔地方，連二手市場都不要。可我知道，他只是想留住母親拍照時的樣子。』,日记的备份片段：『老三（其琛）又把那些没用的旧相机搬回来了。大哥说这些垃圾只会占地方，连二手市场都不要。可我知道，他只是想留住母亲拍照时的样子。』,"A backup fragment of a diary: 'Old Three (Qichen) brought those useless old cameras back again. Big Brother says this junk just takes up space, not even the second-hand market wants them. But I know, he just wants to preserve the way Mother looked when she took photos.'"
+ECHO_LU_FAMILY_COMMENT,（這是關於鹿其琛過去的記憶，他不收、也不談。）,（这是关于鹿其琛过去的记忆，他不收、也不谈。）,(This is a memory of Lu Qichen's past. He doesn't buy or talk about it.)
+ECHO_SETTLEMENT_ERASED_TITLE,被抹除的住戶,被抹除的住户,The Erased Tenant
+ECHO_SETTLEMENT_ERASED_SEG_S1,一個模糊的語音備忘錄：『老趙，聽說明天大篩查的名單裡有我們……把水槽下面的舊硬碟藏好，那裡面有小岑他們之前的出生登記，就算系統不認，我們也得記得他們來過。』,一个模糊的语音备忘录：『老赵，听说明天大筛查的名单里有我们……把水槽下面的旧硬盘藏好，那里面有小岑他们之前的出生登记，就算系统不认，我们也得记得他们来过。』,"A blurry voice memo: 'Old Zhao, I heard we are on tomorrow's mass screening list... Hide the old hard drive under the sink. It has Cen and the others' previous birth registrations. Even if the system doesn't recognize it, we must remember they were here.'"
+ECHO_SETTLEMENT_ERASED_SEG_S2,一張印著模糊指紋的表格碎片，標題是《非註冊人口格式化名冊》。表格大部分已經被水漬運開，但仍能看清最底部的印章：『完工，確認無殘留。』,一张印着模糊指纹的表格碎片，标题是《非注册人口格式化名册》。表格大部分已经被水渍晕开，但仍能看清最底部的印章：『完工，确认无残留。』,"A fragment of a form stamped with a blurry fingerprint, titled ""Unregistered Population Formatting Registry"". Most of the form is smudged by water stains, but the stamp at the very bottom is still legible: 'Completed, confirmed no residuals.'"
+ECHO_SETTLEMENT_ERASED_COMMENT,被抹除的人啊……這個名字在戶政數據庫裡連個括號都沒留下，但他的備忘錄卻保存在這塊生鏽的硬碟裡。收下吧，這是他的墓碑。,被抹除的人啊……这个名字在户政数据库里连个括号都没留下，但他的备忘录却保存在这块生锈的硬盘里。收下吧，这是他的墓碑。,"The erased people... this name didn't even leave a set of parentheses in the registry database, yet their voice memo is preserved in this rusty hard drive. Accept it, this is their tombstone."
+QUEST_REPAIR_VENDOR_BOT_STEP_STARTED_TITLE,便利商店的故障機器人,便利商店的故障机器人,The Glitched Bot at the Store
+QUEST_REPAIR_VENDOR_BOT_STEP_STARTED_BODY,"公寓樓下那間便利商店的機器人店員行為異常——先是在外面的販賣機遇到奇怪的回應，進店之後店內機器人說的話也讓人費解。
+看起來不像單純的設備老化，倒像是某種資料混入的問題。去查一查吧，說不定有人願意出委託費。","公寓楼下那间便利商店的机器人店员行为异常——先是在外面的贩卖机遇到奇怪的回应，进店之后店内机器人说的话也让人费解。
+看起来不像单纯的设备老化，倒像是某种数据混入的问题。去查一查吧，说不定有人愿意出委托费。","The robot clerk at the convenience store downstairs is acting weird—first encountering strange responses at the vending machine outside, and once inside, the robot's words are baffling.
+It doesn't look like simple aging of hardware, but rather some data corruption or mix-up. Go check it out, maybe someone is willing to pay a bounty."
+QUEST_REPAIR_VENDOR_BOT_STATUS_FAILED_TITLE,便利商店的故障機器人,便利商店的故障机器人,The Glitched Bot at the Store
+QUEST_REPAIR_VENDOR_BOT_STATUS_FAILED_BODY,任務失敗。機器人的問題沒有解決。,任务失败。机器人的问题没有解决。,Task failed. The robot's issue was not resolved.
+QUEST_REPAIR_VENDOR_BOT_COMPLETED_RESET_TITLE,便利商店的故障機器人,便利商店的故障机器人,The Glitched Bot at the Store
+QUEST_REPAIR_VENDOR_BOT_COMPLETED_RESET_BODY,"機器人的店籍主機已直接重置。那段繼承自店員的記憶、連同他「拒絕工作」的意志，一起被抹除了。
+機器人恢復正常販售功能。街道外面那台販賣機因為連線恢復，也跟著重新上線。
+任務完成，報酬已結清。","机器人的店籍主机已直接重置。那段继承自店员的记忆、连同他「拒绝工作」的意志，一起被抹除了。
+机器人恢复正常贩售功能。街道外面那台贩卖机因为连线恢复，也跟着重新上线。
+任务完成，报酬已结清。","The robot's store registry mainframe has been directly reset. That segment of memory inherited from the clerk, along with his defiant will ""refusing to work,"" has been wiped.
+The robot has resumed normal vending functions. The vending machine on the street is back online due to connection recovery.
+Task completed, rewards settled."
+QUEST_REPAIR_VENDOR_BOT_COMPLETED_GLEANED_TITLE,便利商店的故障機器人,便利商店的故障机器人,The Glitched Bot at the Store
+QUEST_REPAIR_VENDOR_BOT_COMPLETED_GLEANED_BODY,"在重置之前，我把那段混入的店員記憶錄下來了。
+那名店員是被辭退的——不是因為犯錯，而是他的班表直接被 AI 取代。他拒絕配合，機器人把那份拒絕連同日記一起繼承了，然後就失去了販售的能力。
+重置之後，機器人恢復正常。街道那台販賣機也一起上線了。
+殘響存著。我不確定它值什麼，但丟掉這種東西感覺不對。","在重置之前，我把那段混入的店员记忆录下来了。
+那名店员是被辞退的——不是因为犯错，而是他的班表直接被 AI 取代。他拒绝配合，机器人把那份拒绝连同日记一起继承了，然后就失去了贩售的能力。
+重置之后，机器人恢复正常。街道那台贩卖机也一起上线了。
+残响存着。我不确定它值什么，但丢掉这种东西感觉不对。","Before resetting, I recorded that blended clerk memory.
+That clerk was dismissed—not for making mistakes, but because his shifts were directly replaced by an AI. He refused to cooperate, and the robot inherited that refusal along with his diary, losing its ability to sell.
+After reset, the robot returned to normal. The vending machine outside went online too.
+The echo is kept. I'm not sure what it's worth, but throwing it away feels wrong."
+QUEST_ALLEY_BACKROOMS_3F_STEP_STARTED_TITLE,暗巷三樓的舊物,暗巷三楼的旧物,The Relic on the Third Floor
+QUEST_ALLEY_BACKROOMS_3F_STEP_STARTED_BODY,「晚」提到暗巷三樓有件舊物需要取得。那裡據說有一些被系統抹掉的殘留記憶。不過暗巷似乎不太好走，可能需要尋找其他能到達三樓的路線。,「晚」提到暗巷三楼有件旧物需要取得。那里据说有一些被系统抹掉的残留记忆。不过暗巷似乎不太好走，可能需要寻找其他能到达三楼的路线。,"""Wan"" mentioned there is a relic to be retrieved from the third floor of the back alley. It is said to contain digital residues erased by the system. However, the alley seems hard to traverse; maybe need to find another route to the third floor."
+QUEST_ALLEY_BACKROOMS_3F_STEP_CHECKED_ALLEY_TITLE,暗巷三樓的舊物,暗巷三楼 of the 旧物,The Relic on the Third Floor
+QUEST_ALLEY_BACKROOMS_3F_STEP_CHECKED_ALLEY_BODY,去後巷看過了，守衛很嚴，不能硬闖。不過我突然想起來我住的公寓在四樓，右側窗外就是外牆火災逃生梯與平台，也許可以從窗戶爬出去，透過天橋繞到左棟三樓。,去后巷看过了，守卫很严，不能硬闯。不过我突然想起来我住的公寓在四楼，右侧窗外就是外墙火灾逃生梯与平台，也许可以从窗户爬出去，透过天桥绕到左栋三楼。,"Checked the back alley, guards are tight, no charging through. But I just remembered my apartment is on the 4th floor, and right outside the window is the fire escape stairs and platform. Maybe I can climb out of the window and cross the bridge to the left building's 3rd floor."
+QUEST_ALLEY_BACKROOMS_3F_STEP_FOUND_ACTIVATION_BOX_TITLE,暗巷三樓的舊物,暗巷三楼的旧物,The Relic on the Third Floor
+QUEST_ALLEY_BACKROOMS_3F_STEP_FOUND_ACTIVATION_BOX_BODY,在左棟三樓的木箱中找到了「早期 AI 助理啟用盒」。拿去給暗巷口的「晚」吧。,在左栋三楼的木箱中找到了「早期 AI 助理启用盒」。拿去给暗巷口的「晚」吧。,"Found the ""early AI assistant activation box"" in the wooden crate on the third floor of the left building. Take it to ""Wan"" at the alley entrance."
+QUEST_ALLEY_BACKROOMS_3F_STATUS_COMPLETED_TITLE,暗巷三樓的舊物,暗巷三楼的旧物,The Relic on the Third Floor
+QUEST_ALLEY_BACKROOMS_3F_STATUS_COMPLETED_BODY,已將「早期 AI 助理啟用盒」安全交給「晚」。她看起來對這個舊盒子很感興趣。任務完成。,已将「早期 AI 助理启用盒」安全交给「晚」。她看起来对这个旧盒子很感兴趣。任务完成。,"Safely delivered the ""early AI assistant activation box"" to ""Wan"". She seems quite interested in this old box. Task completed."
+QUEST_ALLEY_BACKROOMS_3F_STATUS_FAILED_TITLE,暗巷三樓的舊物,暗巷三楼的旧物,The Relic on the Third Floor
+QUEST_ALLEY_BACKROOMS_3F_STATUS_FAILED_BODY,任務失敗。這條線索可能再也找不回來了。,任务失败。这条线索可能再也找不回来了。,Task failed. This clue might be lost forever.
+QUEST_ALLEY_BACKROOMS_3F_COMPLETED_PLAIN_TITLE,暗巷三樓的舊物,暗巷三楼的旧物,The Relic on the Third Floor
+QUEST_ALLEY_BACKROOMS_3F_COMPLETED_PLAIN_BODY,已將「早期 AI 助理啟用盒」安全交給「晚」。她看起來對這個舊盒子很感興趣。雖然在掂量時總覺得重量有些不對勁，但你並未深入探查，就這樣錯過了隱藏的夾層。任務完成。,已将「早期 AI 助理启用盒」安全交给「晚」。她看起来对这个旧盒子很感兴趣。虽然在掂量时总觉得重量有些不对劲，但你并未深入探查，就这样错过了隐藏的夹层。任务完成。,"Safely delivered the ""early AI assistant activation box"" to ""Wan"". She seems quite interested in this old box. Although the weight felt slightly off when handling it, you didn't look deeper and thus missed the hidden compartment. Task completed."
+QUEST_ALLEY_BACKROOMS_3F_COMPLETED_KEPT_MODULE_TITLE,暗巷三樓的舊物,暗巷三楼的旧物,The Relic on the Third Floor
+QUEST_ALLEY_BACKROOMS_3F_COMPLETED_KEPT_MODULE_BODY,已將「早期 AI 助理啟用盒」交給「晚」，但你將暗中拆解出的「舊式 AI 授權模組」留在了自己身上。晚似乎沒有察覺到這個盒子的夾層，這片晶片或許能在未來派上用場。任務完成。,已将「早期 AI 助理启用盒」交给「晚」，但你将暗中拆解出的「旧式 AI 授权模组」留在了自己身上。晚 seem没有察觉到这个盒子的夹层，这片芯片或许能在未来派上用场。任务完成。,"Delivered the ""early AI assistant activation box"" to ""Wan"", but you secretly kept the disassembled ""old AI authorization module"" on you. Wan didn't seem to notice the box's compartment; this chip might come in handy in the future. Task completed."
+QUEST_ALLEY_BACKROOMS_3F_COMPLETED_GAVE_MODULE_TITLE,暗巷三樓的舊物,暗巷三楼的旧物,The Relic on the Third Floor
+QUEST_ALLEY_BACKROOMS_3F_COMPLETED_GAVE_MODULE_BODY,已將「早期 AI 助理啟用盒」交給「晚」，並且主動將暗中拆解出的「舊式 AI 授權模組」也一併交給了她。你選擇了信任與慷慨，將這份可能非比尋常的遺產託付給了晚，這也拉近了你們之間的距離。任務完成。,已将「早期 AI 助理启用盒」交给「晚」，并且主动将暗中拆解出的「旧式 AI 授权模组」也一并交给了她。你选择了信任与慷慨，将这份可能非比寻常的遗产托付给了晚，这也拉近了你们之间的距离。任务完成。,"Delivered the ""early AI assistant activation box"" to ""Wan"", and proactively handed over the ""old AI authorization module"" to her as well. You chose trust and generosity, entrusting this potentially extraordinary legacy to Wan, which also brought you closer. Task completed."

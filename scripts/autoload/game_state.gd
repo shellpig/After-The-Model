@@ -1569,7 +1569,12 @@ func get_progress_summary() -> Dictionary:
 		var name = ""
 		match scene_id:
 			"tunnel_combat": name = "廢棄隧道"
-			_: name = SaveSystem.get_scene_display_name(scene_id)
+			_:
+				# Resolve SaveSystem via node path instead of the autoload global
+				# identifier, so this script still compiles when loaded standalone
+				# (e.g. headless `-s` tests where autoload globals are unregistered).
+				var save_system = get_node_or_null("/root/SaveSystem")
+				name = save_system.get_scene_display_name(scene_id) if save_system else scene_id
 		if done:
 			summary["scenes"]["done"] += 1
 		summary["scenes"]["items"].append({

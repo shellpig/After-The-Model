@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-06-22
+最後更新：2026-06-24
 
 ---
 
@@ -262,11 +262,15 @@ note_id
 | 18-B | ✅ 完成 | 戰後失物物流箱（gate `tunnel_machine_defeated`）→ `add_item("childcare_supply_receipt")`（key item，表面雜物 / 模糊代碼 / 無姓名、不揭七號 / 妹妹 / 林霏）；**背包滿防呆**（add_item 回 false 不掉件）；回執描述禁字測試 PASS；headless PASS |
 | 18-C | ✅ 完成 | 晚對話「賣回執」分支 gate `has_item` → `remove_item` + `add_credits(200)` + `add_trace(-1)` + `add_int(affinity_wan,-1)` + `set_flag(peace_line_locked)`（effect ops 皆既有，無需補）；**賣＝永久鎖死和平線**；headless PASS |
 | 18-D | ✅ 完成 | 回歸 + 存讀檔：`tunnel_machine_defeated` / 回執持有 / `peace_line_locked` round-trip、Phase 1~17 不退化、非戰鬥場景按 attack 無副作用；headless PASS（exit 0）。已知：test_runner 退出時 AudioStream teardown 殘留為框架既有（非本 Phase 引入） |
-| M1 | 📐 規格可實作 | **進度頁（Meta / 非敘事 QoL，時序卡 Phase 19 之前，不佔故事編號、不順延 19~31）**：筆記分類列最右加「進度」分頁，第一項固定「總進度」（五分類 done/total + 整體 %＝跨分類加總 done÷31）；五收集分類＝場景10 / NPC6 / 任務3（含里程碑「離開公寓家」）/ 殘響5 / 特殊道具7。新增 GameState 三集合 `visited_scenes` / `talked_npcs` / `collected_special_items` + 旗標 `left_apartment_once`（皆納入存讀檔，缺鍵→空/false，舊檔不 backfill）；判定＝曾達成（特殊道具賣/消耗/升級不退勾）；未解鎖顯示 `???`。**純加法不改 Phase 1~18**。規格三份文件已寫（2026-06-23 凍結，📐 程式未開工）。契約見 `開發設計方針.md > Phase M1`、驗收見 `遊戲規格書.md > Phase M1`、清單見 `測試指南.md > Phase M1` |
+| M1 | ✅ 完成 | **進度頁（Meta / 非敘事 QoL，時序卡 Phase 19 之前，不佔故事編號、不順延 19~31）**：筆記分類列最右加「進度」分頁，第一項固定「總進度」（五分類 done/total + 整體 %＝跨分類加總 done÷31）；五收集分類＝場景10 / NPC6 / 任務3（含里程碑「離開公寓家」）/ 殘響5 / 特殊道具7。新增 GameState 三集合 `visited_scenes` / `talked_npcs` / `collected_special_items` + 旗標 `left_apartment_once`（皆納入存讀檔，缺鍵→空/false，舊檔不 backfill）；判定＝曾達成（特殊道具賣/消耗/升級不退勾）；未解鎖顯示 `???`。**純加法不改 Phase 1~18**。規格三份文件已寫（2026-06-23 凍結）；程式已實作（commit `bd4717f`）並驗證完成（2026-06-24，已隨 Windows build v0.18.4 出貨）。契約見 `開發設計方針.md > Phase M1`、驗收見 `遊戲規格書.md > Phase M1`、清單見 `測試指南.md > Phase M1` |
+| 19-A | 📐 規格可實作 | 阿達殘響②「穿雨衣、拿維修棍、說只是照流程」：`EchoDB` 加 `echo_ada_reset`（含 `trace_on_collect`＝採集「留」一次性 Trace↑，兌現 11-C 預留）落聚落左室 `EchoPoint`（避開小岑 16-A 站位）；可賣（`sell_echo` → Trace↓）；媒體層可選後置 |
+| 19-B | 📐 規格可實作 | 舊善後工單③（**鎖 2C**，gate＝先採殘響）examine → set `read_old_work_order` + `add_item("old_work_badge")`（既有 ITEMS_DB key item 的首取得點）+ 寫 `clue_old_work_order`；工單編號＝舊工作證號碼＝確認兇手＝失憶前主角；背包滿防呆；未採殘響前只給中性提示 |
+| 19-C | 📐 規格可實作 | 收束碎片「你親手抹過阿達」：`MemoryFragmentArea` 加 `require_flag` gate（預設 "" 向後相容）+ `mem_frag_erased_ada` + `STORY_MESSAGES`；gate＝`read_old_work_order`，揭露工單後離開必經帶觸發 |
+| 19-D | 📐 規格可實作 | 回歸 + 存讀檔：`echo_progress`（含 sold）/ `trace` / `read_old_work_order` / `old_work_badge` 持有 / `mem_frag_erased_ada` round-trip；Phase 1~18 不退化；三拍文字不含「林霏」 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
-> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11 / 12 / 13 / 14 / 15 均已完成（headless PASS + GUI 走查）：Phase 15（Act 2 場景骨架，15-A~D ✅）真美術 4 圖 + 專屬 BGM 2 軌已落地（2026-06-21），4 個 scene_id（地鐵大廳 / 月台、聚落左 / 右）+ travel gate + test_runner 護欄已就緒，GUI 實機走查已完成（實作契約見 `開發設計方針.md > Act 2 場景骨架（Phase 15，實作契約）`，場景設計見 `subdocs/地點/地鐵站.md` / `subdocs/地點/地下道聚落.md`）**；**Phase 16（三張臉 NPC 落地：小岑 / 伍姐 / 七號）已完成（headless PASS + 真機 GUI 走查驗收完成，2026-06-22，16-A~E ✅）：沿用 Phase 5 對話系統（無新系統），3 對話樹 + 條件路由 + 新旗標納入既有存讀檔；NPC 站位用 Phase 15 已建聚落兩室真掛點；三前提硬規則（主角不知「林霏」名字 / 對話不出現「林霏」/ 七號不明說妹妹）。實作契約見 `開發設計方針.md > 三張臉 NPC 落地（Phase 16，實作契約）`，人設 / 對話定稿草案 / 旗標見 `subdocs/人/三張臉.md`**；**Phase 17（Act 2A 記憶碎片 + 殘響鋪設）實作規格已寫入三份文件（2026-06-21，📐 規格可實作）：全程複用既有組件（無新系統）——記憶碎片複用 `MemoryFragmentArea`（Phase 14 同款）、聚落殘響複用 `EchoPoint` + `EchoDB`（Phase 9）；新旗標 `mem_frag_commute_topside` + 新殘響 `echo_settlement_erased` 走既有 story_flags / echo_progress 存讀檔（`game_state.gd` 邏輯不需改，僅加一條 STORY_MESSAGES 文字常數 + 一條 echo 資料）；掛點用 Phase 15 已建真錨（地鐵月台通勤螢幕 / 聚落右室殘響點）；前提硬規則（碎片不揭主角身份 / 聚落殘響不得是林霏 / 阿達、segment 不含「林霏」）。文案方向已寫進規格，定稿待實作者補。實作契約見 `開發設計方針.md > Act 2A 碎片 + 殘響鋪設（Phase 17，實作契約）`**；**Phase 18（Act 2B 戰鬥遭遇 + 回執取得）已完成（headless PASS，2026-06-23，18-A~D ✅；原規格 2026-06-21 寫入三份文件）：複用 Phase 13 戰鬥組件作者化進真動線——`deep_tunnel` 轉場進新戰鬥場景 `tunnel_combat`、敵人沿用 walker_01（13-E 原型同款）、戰後失物物流箱發回執、回執經晚對話分支賣出鎖死和平線；新增 1 條 ITEMS_DB key item `childcare_supply_receipt` + 旗標 `tunnel_machine_defeated` / `peace_line_locked`（走既有 story_flags / inventory 存讀檔）；兌現「戰鬥場景互動契約（前瞻契約）」的 `combat_mode` gate；唯一系統小擴充＝賣出對話的 add_credits / affinity↓ effect op（缺則補最小版，複用既有 match op 結構）。前提硬規則（回執表面＝雜物、不揭七號 / 妹妹 / 林霏；無 Game Over；格式化＝停機不死）。實作契約見 `開發設計方針.md > Act 2B 戰鬥遭遇 + 回執取得（Phase 18，實作契約）`，敘事事實來源 `subdocs/主線/雨還沒停v2.3.md` §4.2.1 / §4.2.2**；**Phase 19 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構已拍板（2026-06-19）＝**方案 A 腳本化拋物弧**（不引入全域重力）。Phase 15 範圍已拍板（2026-06-19）＝**地鐵站 + 地下道聚落 2 真場景**，硬規則**不暫代**（不借 BGM、不放 placeholder 美術、不寫待覆寫佔位文字；NPC/殘響/戰鬥後置但以真掛點預留）；**場景切分（2026-06-21 user 拍板）＝每地點切兩室、共 4 個 scene_id**（原 2 圖拼接單室改為兩室 `InteractableArea` 互轉，利相機 clamp 與後續往兩側補內容）。**另：Phase M1（進度頁）為 meta / 非敘事 QoL 功能，時序卡在 Phase 19 之前，刻意以 out-of-band 編號落地——不插 Phase 19、不順延 19~31，避免動到既有 80+ 處敘事交叉引用（呼應 4-G 教訓）；規格已寫入三份文件、程式未開工（📐，2026-06-23 凍結）。**
+> **主線《雨還沒停》v2.3 後續規劃（Phase 11–31，順敘版）**：完整 Phase / 子階段排程已寫入 `遊戲規格書.md > Phase 11+`、`開發設計方針.md > Phase 11+`、`測試指南.md > Phase 11+`（敘事事實來源 `subdocs/主線/雨還沒停v2.3.md`）。**地基 Phase 11 / 12 / 13 / 14 / 15 均已完成（headless PASS + GUI 走查）：Phase 15（Act 2 場景骨架，15-A~D ✅）真美術 4 圖 + 專屬 BGM 2 軌已落地（2026-06-21），4 個 scene_id（地鐵大廳 / 月台、聚落左 / 右）+ travel gate + test_runner 護欄已就緒，GUI 實機走查已完成（實作契約見 `開發設計方針.md > Act 2 場景骨架（Phase 15，實作契約）`，場景設計見 `subdocs/地點/地鐵站.md` / `subdocs/地點/地下道聚落.md`）**；**Phase 16（三張臉 NPC 落地：小岑 / 伍姐 / 七號）已完成（headless PASS + 真機 GUI 走查驗收完成，2026-06-22，16-A~E ✅）：沿用 Phase 5 對話系統（無新系統），3 對話樹 + 條件路由 + 新旗標納入既有存讀檔；NPC 站位用 Phase 15 已建聚落兩室真掛點；三前提硬規則（主角不知「林霏」名字 / 對話不出現「林霏」/ 七號不明說妹妹）。實作契約見 `開發設計方針.md > 三張臉 NPC 落地（Phase 16，實作契約）`，人設 / 對話定稿草案 / 旗標見 `subdocs/人/三張臉.md`**；**Phase 17（Act 2A 記憶碎片 + 殘響鋪設）實作規格已寫入三份文件（2026-06-21，📐 規格可實作）：全程複用既有組件（無新系統）——記憶碎片複用 `MemoryFragmentArea`（Phase 14 同款）、聚落殘響複用 `EchoPoint` + `EchoDB`（Phase 9）；新旗標 `mem_frag_commute_topside` + 新殘響 `echo_settlement_erased` 走既有 story_flags / echo_progress 存讀檔（`game_state.gd` 邏輯不需改，僅加一條 STORY_MESSAGES 文字常數 + 一條 echo 資料）；掛點用 Phase 15 已建真錨（地鐵月台通勤螢幕 / 聚落右室殘響點）；前提硬規則（碎片不揭主角身份 / 聚落殘響不得是林霏 / 阿達、segment 不含「林霏」）。文案方向已寫進規格，定稿待實作者補。實作契約見 `開發設計方針.md > Act 2A 碎片 + 殘響鋪設（Phase 17，實作契約）`**；**Phase 18（Act 2B 戰鬥遭遇 + 回執取得）已完成（headless PASS，2026-06-23，18-A~D ✅；原規格 2026-06-21 寫入三份文件）：複用 Phase 13 戰鬥組件作者化進真動線——`deep_tunnel` 轉場進新戰鬥場景 `tunnel_combat`、敵人沿用 walker_01（13-E 原型同款）、戰後失物物流箱發回執、回執經晚對話分支賣出鎖死和平線；新增 1 條 ITEMS_DB key item `childcare_supply_receipt` + 旗標 `tunnel_machine_defeated` / `peace_line_locked`（走既有 story_flags / inventory 存讀檔）；兌現「戰鬥場景互動契約（前瞻契約）」的 `combat_mode` gate；唯一系統小擴充＝賣出對話的 add_credits / affinity↓ effect op（缺則補最小版，複用既有 match op 結構）。前提硬規則（回執表面＝雜物、不揭七號 / 妹妹 / 林霏；無 Game Over；格式化＝停機不死）。實作契約見 `開發設計方針.md > Act 2B 戰鬥遭遇 + 回執取得（Phase 18，實作契約）`，敘事事實來源 `subdocs/主線/雨還沒停v2.3.md` §4.2.1 / §4.2.2**；**Phase 19（Act 2C 阿達罪責）規格已寫入三份文件（📐 規格可實作，2026-06-24）：全程複用既有組件（`EchoPoint`/`EchoDB`、`MemoryFragmentArea`、examine）落聚落左室——②阿達殘響 `echo_ada_reset`（新增 `trace_on_collect` 兌現 §6「留→Trace↑」）+ ③舊善後工單 examine（綁既有 `old_work_badge`、設 `read_old_work_order`）+ 收束碎片 `mem_frag_erased_ada`（`MemoryFragmentArea` 新增 `require_flag` gate）；三處小擴充見 `開發設計方針.md > Act 2C 阿達罪責（Phase 19，實作契約）`，前提硬規則：阿達本人不登場（④留 Phase 26）/ 罪責中檔 / 三拍不含「林霏」/ 順序鎖死（殘響→工單→碎片）。Phase 20 起為 ⬜ 待規劃**；嚴格順敘、不跳號。Phase 12 跳躍架構已拍板（2026-06-19）＝**方案 A 腳本化拋物弧**（不引入全域重力）。Phase 15 範圍已拍板（2026-06-19）＝**地鐵站 + 地下道聚落 2 真場景**，硬規則**不暫代**（不借 BGM、不放 placeholder 美術、不寫待覆寫佔位文字；NPC/殘響/戰鬥後置但以真掛點預留）；**場景切分（2026-06-21 user 拍板）＝每地點切兩室、共 4 個 scene_id**（原 2 圖拼接單室改為兩室 `InteractableArea` 互轉，利相機 clamp 與後續往兩側補內容）。**另：Phase M1（進度頁）為 meta / 非敘事 QoL 功能，時序卡在 Phase 19 之前，刻意以 out-of-band 編號落地——不插 Phase 19、不順延 19~31，避免動到既有 80+ 處敘事交叉引用（呼應 4-G 教訓）；規格已寫入三份文件（2026-06-23 凍結）、程式已實作並驗證完成（2026-06-24，commit `bd4717f`，隨 build v0.18.4 出貨）。**
 
 ### Phase 3 子階段（公寓觸控化）
 
@@ -556,9 +560,25 @@ Phase 17 待寫 / 待掛：`data/echoes/echo_db.gd` 加 `echo_settlement_erased`
 
 Phase 18 待寫 / 待掛：`scenes/levels/tunnel_combat/tunnel_combat.tscn` / `.gd`（自 combat_proto 收斂；Player `combat_mode=true`；walker_01 一台；失物物流箱 InteractableArea；出口回右室）；`underground_settlement_right.gd` / `.tscn` `deep_tunnel` 改 `transition_to("tunnel_combat","from_settlement")` + 加回程 entry point `from_deep_tunnel`；`game_state.gd` ITEMS_DB 加 `childcare_supply_receipt`；`dialogue_runner.gd`（如缺）補 add_credits / adjust_affinity effect op；晚對話檔加「賣回執」分支；`player.gd` `combat_mode` gate + E 優先鏈（兌現前瞻契約）；`tests/manual/test_runner.gd` Phase 18 護欄。SceneRegistry 加 `tunnel_combat`（`can_save_here=false`）。**可選後置**：回執 icon / 隧道清潔機專屬圖 / 戰鬥區背景（placeholder 不卡邏輯）。**前提硬規則**：回執表面＝雜物、不揭七號 / 妹妹 / 林霏；無 Game Over；格式化＝停機不死。
 
+### Phase 19 子階段（三份對照）
+
+> 行號以 2026-06-24 Phase 19 實作規格寫入版為準；大幅改寫後需校正。Phase 19 = Act 2C 阿達罪責（②阿達殘響 + ③舊善後工單 + 收束碎片），**全程複用既有組件（`EchoPoint`/`EchoDB`、`MemoryFragmentArea`、examine），落 Phase 15 已建的聚落左室 `underground_settlement`**；唯三處小擴充（`EchoDB` 加 `trace_on_collect` + `collect_echo_segment` 兌現留→Trace↑、`MemoryFragmentArea` 加 `require_flag` gate、左室 controller 加一條 examine 分派）；規格 / 契約 / 測試清單已展開到可實作（📐）；程式未開工。
+> 規格書 Phase 19 為「目的 + 前提 + 旗標 + 內容方向 + 子階段表」整段式，子階段列的規格書欄指子階段表對應列；測試指南為 headless + GUI 扁平 checklist。
+> **敘事事實來源**：`subdocs/主線/雨還沒停v2.3.md` §3（罪責四段式 ②③，③鎖 2C）/ §7.1（2C 拆段）；**真掛點**：`subdocs/地點/地下道聚落.md`（左室殘響 / 工單 / 碎片掛點，待補）。
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 19 總覽 + 前提 + 旗標 + 內容方向 | 2861–2893 | 3017–3037（總覽 / 前提 / 現況基準）| 993–1015 |
+| 19-A 阿達殘響②（`trace_on_collect`）| 2884（表列）| 3038–3043 | 997–999（headless）/ 1009–1015（GUI）|
+| 19-B 舊工單③ examine + 取得 `old_work_badge` | 2885（表列）| 3044–3055 | 1000–1002 / 1009–1015 |
+| 19-C 收束碎片 + `require_flag` gate | 2886（表列）| 3056–3061 | 1003–1004 / 1009–1015 |
+| 19-D 回歸 + 存讀檔 | 2887（表列）| 3062–3072 | 1005–1006 |
+
+依賴：18（Act 2B）、17（碎片 pattern + 媒體層慣例）、14（碎片旗標）、9（`EchoPoint`/`EchoDB`/`echo_progress`/拾遺手套/收購）、11-C（`add_trace` + 賣→Trace↓；本 Phase 兌現「留→Trace↑」）、16-A（左室小岑站位避讓）。`old_work_badge` 既有 ITEMS_DB 定義由本 Phase 接上首個取得點（M1 進度頁不追蹤此道具，無影響）。
+
 ### Phase M1 子階段（三份對照）
 
-> 行號以 2026-06-23 M1 規格寫入版為準；大幅改寫後需校正。Phase M1 = 進度頁（Meta / 非敘事 QoL，純加法，不佔故事編號）；非子階段化，三份文件各為單一整段。規格凍結（📐），程式未開工。
+> 行號以 2026-06-23 M1 規格寫入版為準；大幅改寫後需校正。Phase M1 = 進度頁（Meta / 非敘事 QoL，純加法，不佔故事編號）；非子階段化，三份文件各為單一整段。規格凍結（2026-06-23），程式已實作並驗證完成（2026-06-24，commit `bd4717f`）。
 > **凍結決定**：六分類總數 31（場景10 / NPC6 / 任務3 / 殘響5 / 特殊7）；判定＝曾達成；未解鎖 `???`；整體 %＝跨分類加總 done÷31；新增三集合 + `left_apartment_once` 納入存讀檔，舊檔不 backfill。
 
 | 文件 | 段落 | 行範圍 |
@@ -567,7 +587,7 @@ Phase 18 待寫 / 待掛：`scenes/levels/tunnel_combat/tunnel_combat.tscn` / `.
 | 開發設計方針.md（契約） | Phase M1 — 進度頁（GameState API / 接線點 / UI / 新增異動檔 / 存讀檔）| 3074–3154 |
 | 測試指南.md（清單） | Phase M1 進度頁（headless + GUI checklist）| 1067–1088 |
 
-Phase M1 待寫 / 待掛：`game_state.gd`（三集合 + 5 白名單常數 + `mark_scene_visited` / `mark_npc_talked` / `_maybe_mark_special_item` / `is_echo_complete` / `get_progress_summary` + `add_item` / `change_item_id` hook + 存讀檔納入）；`main.gd`（`transition_to` 進場 `mark_scene_visited` + 偵測離開公寓 set `left_apartment_once`）；`notebook_panel.gd` / `.tscn`（「進度」分頁 + 總進度 / 分類詳情 + `???` 遮罩）；`game_ui.gd` / 對話接線（對話 start `mark_npc_talked` 白名單）；`tests/manual/test_runner.gd` Phase M1 護欄。**SaveSystem 不需改**（payload 由 `GameState.to_save_dict` 自帶）。**前提硬規則**：純加法不改 Phase 1~18；`old_work_badge` 不列特殊道具（遊戲無取得點）。
+Phase M1 已寫 / 已掛（2026-06-24 完成）：`game_state.gd`（三集合 + 5 白名單常數 + `mark_scene_visited` / `mark_npc_talked` / `_maybe_mark_special_item` / `is_echo_complete` / `get_progress_summary` + `add_item` / `change_item_id` hook + 存讀檔納入）；`main.gd`（`transition_to` 進場 `mark_scene_visited` + 偵測離開公寓 set `left_apartment_once`）；`notebook_panel.gd` / `.tscn`（「進度」分頁 + 總進度 / 分類詳情 + `???` 遮罩）；`game_ui.gd` / 對話接線（對話 start `mark_npc_talked` 白名單）；`tests/manual/test_runner.gd` Phase M1 護欄。**SaveSystem 不需改**（payload 由 `GameState.to_save_dict` 自帶）。**前提硬規則**：純加法不改 Phase 1~18；`old_work_badge` 不列特殊道具（遊戲無取得點）。
 
 ### 規格書 — 常引用系統段（跨階段）
 

@@ -5,30 +5,46 @@ extends Control
 @onready var btn_save: Button = $Panel/VBoxContainer/ButtonsVBox/BtnSave
 @onready var btn_load: Button = $Panel/VBoxContainer/ButtonsVBox/BtnLoad
 @onready var btn_title: Button = $Panel/VBoxContainer/ButtonsVBox/BtnTitle
+@onready var btn_settings: Button = $Panel/VBoxContainer/ButtonsVBox/BtnSettings
 @onready var buttons_vbox: VBoxContainer = $Panel/VBoxContainer/ButtonsVBox
 @onready var footer_hint_label: Label = $Panel/VBoxContainer/FooterHintLabel
 
 @onready var save_slot_list: Control = $SaveSlotList
+@onready var settings_panel: Control = $SettingsPanel
 
 func _ready() -> void:
 	save_slot_list.visible = false
 	save_slot_list.back_pressed.connect(_on_save_slot_list_back)
+	settings_panel.back_pressed.connect(_on_settings_back)
 	
 	btn_resume.pressed.connect(_on_resume_pressed)
 	btn_save.pressed.connect(_on_save_pressed)
 	btn_load.pressed.connect(_on_load_pressed)
 	btn_title.pressed.connect(_on_title_pressed)
+	btn_settings.pressed.connect(_on_settings_pressed)
 	
-	for btn in [btn_resume, btn_save, btn_load, btn_title]:
+	for btn in [btn_resume, btn_save, btn_load, btn_title, btn_settings]:
 		btn.focus_mode = Control.FOCUS_ALL
 		
 	_apply_theme_style()
+	_refresh_labels()
+	LocaleManager.locale_changed.connect(func(_l): _refresh_labels())
 
 func initialize_menu() -> void:
 	save_slot_list.visible = false
 	buttons_vbox.visible = true
 	footer_hint_label.visible = true
+	_refresh_labels()
 	btn_resume.grab_focus()
+
+func _refresh_labels() -> void:
+	title_label.text       = tr("UI_PAUSE_TITLE")
+	btn_resume.text        = tr("UI_PAUSE_RESUME")
+	btn_save.text          = tr("UI_PAUSE_SAVE")
+	btn_load.text          = tr("UI_PAUSE_LOAD")
+	btn_title.text         = tr("UI_PAUSE_TITLE_SCREEN")
+	btn_settings.text      = tr("UI_PAUSE_SETTINGS")
+	footer_hint_label.text = tr("UI_PAUSE_FOOTER_HINT")
 
 func _on_resume_pressed() -> void:
 	UIMode.set_mode(UIMode.Mode.NONE)
@@ -57,6 +73,17 @@ func _on_save_slot_list_back() -> void:
 	buttons_vbox.visible = true
 	footer_hint_label.visible = true
 	btn_save.grab_focus()
+
+func _on_settings_pressed() -> void:
+	buttons_vbox.visible = false
+	footer_hint_label.visible = false
+	settings_panel.open_panel()
+
+func _on_settings_back() -> void:
+	settings_panel.visible = false
+	buttons_vbox.visible = true
+	footer_hint_label.visible = true
+	btn_settings.grab_focus()
 
 func _on_title_pressed() -> void:
 	var game_ui = get_tree().root.find_child("GameUI", true, false)
@@ -123,7 +150,7 @@ func _apply_theme_style() -> void:
 	btn_pressed.bg_color = Color(0.78, 0.42, 0.20, 0.3)
 	btn_pressed.border_color = Color(0.78, 0.42, 0.20, 1.0)
 	
-	for btn in [btn_resume, btn_save, btn_load, btn_title]:
+	for btn in [btn_resume, btn_save, btn_load, btn_title, btn_settings]:
 		btn.add_theme_stylebox_override("normal", btn_normal)
 		btn.add_theme_stylebox_override("hover", btn_hover)
 		btn.add_theme_stylebox_override("focus", btn_hover)
@@ -135,7 +162,7 @@ func _apply_theme_style() -> void:
 		btn.add_theme_font_size_override("font_size", 18)
 
 func _input(event: InputEvent) -> void:
-	if not visible or save_slot_list.visible:
+	if not visible or save_slot_list.visible or settings_panel.visible:
 		return
 
 	var game_ui = get_tree().root.find_child("GameUI", true, false)
@@ -146,7 +173,7 @@ func _input(event: InputEvent) -> void:
 	if not vp:
 		return
 
-	var buttons = [btn_resume, btn_save, btn_load, btn_title]
+	var buttons = [btn_resume, btn_save, btn_load, btn_title, btn_settings]
 	if event.is_action_pressed("move_up"):
 		var focused = vp.gui_get_focus_owner()
 		var idx = buttons.find(focused)
@@ -173,3 +200,6 @@ func _input(event: InputEvent) -> void:
 		elif focused == btn_title:
 			vp.set_input_as_handled()
 			_on_title_pressed()
+		elif focused == btn_settings:
+			vp.set_input_as_handled()
+			_on_settings_pressed()

@@ -21,6 +21,7 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 [autoload]
 
 GameState="*res://scripts/autoload/game_state.gd"
+LocaleManager="*res://scripts/autoload/locale_manager.gd"
 UIMode="*res://scripts/autoload/ui_mode.gd"
 TouchControls="*res://scenes/ui/touch_controls.tscn"
 SaveSystem="*res://scripts/autoload/save_system.gd"
@@ -32,10 +33,6 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/handheld/orientation="landscape"
-
-[gui]
-
-theme/custom_font="res://assets/font/Noto_Sans_TC/static/NotoSansTC-Regular.ttf"
 
 [input]
 
@@ -108,6 +105,10 @@ attack={
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
+
+[internationalization]
+
+locale/fallback="zh_TW"
 
 [rendering]
 

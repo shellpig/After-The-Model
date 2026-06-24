@@ -1,0 +1,20 @@
+keys,zh_TW,zh_CN,en
+UI_TITLE_GAME_TITLE,After-The-Model,After-The-Model,After-The-Model
+UI_TITLE_NEW_GAME,開始新遊戲,开始新游戏,New Game
+UI_TITLE_LOAD_GAME,載入進度,载入进度,Load Game
+UI_TITLE_SETTINGS,設定,设定,Settings
+UI_TITLE_FOOTER_HINT,W/S：選擇    E：確認,W/S：选择    E：确认,W/S: Select    E: Confirm
+UI_PAUSE_TITLE,— 暫停選單 —,— 暂停菜单 —,— Pause —
+UI_PAUSE_RESUME,繼續遊戲,继续游戏,Resume
+UI_PAUSE_SAVE,儲存進度,存档,Save
+UI_PAUSE_LOAD,載入進度,读档,Load
+UI_PAUSE_TITLE_SCREEN,回主畫面,回主界面,Title Screen
+UI_PAUSE_SETTINGS,設定,设定,Settings
+UI_PAUSE_FOOTER_HINT,W/S：選擇    E：確認    Esc：繼續,W/S：选择    E：确认    Esc：继续,W/S: Select    E: Confirm    Esc: Resume
+UI_SETTINGS_TITLE,語言設定,语言设定,Language Settings
+UI_SETTINGS_LANGUAGE,語言,语言,Language
+UI_SETTINGS_LANG_ZH_TW,繁體中文,繁體中文,繁體中文
+UI_SETTINGS_LANG_ZH_CN,简体中文,简体中文,简体中文
+UI_SETTINGS_LANG_EN,English,English,English
+UI_SETTINGS_BACK,返回,返回,Back
+UI_SETTINGS_FOOTER_HINT,W/S：選擇    E：確認    Esc：返回,W/S：选择    E：确认    Esc：返回,W/S: Select    E: Confirm    Esc: Back

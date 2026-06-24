@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="1_pause_menu"]
 [ext_resource type="PackedScene" path="res://scenes/ui/save_slot_list.tscn" id="2_save_slot_list"]
+[ext_resource type="PackedScene" path="res://scenes/ui/settings_panel.tscn" id="3_settings_panel"]
 
 [node name="PauseMenu" type="Control"]
 layout_mode = 3
@@ -74,16 +75,31 @@ text = "載入進度 (Load)"
 custom_minimum_size = Vector2(240, 44)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "回主畫面 (Title Screen)"
+text = "回主畫面"
+
+[node name="BtnSettings" type="Button" parent="Panel/VBoxContainer/ButtonsVBox"]
+custom_minimum_size = Vector2(240, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "設定"
 
 [node name="FooterHintLabel" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
-text = "W/S : 選擇    E/Enter : 確認    Esc : 繼續遊戲"
+text = "W/S：選擇    E：確認    Esc：繼續遊戲"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SaveSlotList" parent="." instance=ExtResource("2_save_slot_list")]
 visible = false
 layout_mode = 1
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsPanel" parent="." instance=ExtResource("3_settings_panel")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2

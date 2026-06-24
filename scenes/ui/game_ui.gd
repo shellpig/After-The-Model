@@ -901,14 +901,12 @@ func _on_note_added(note_data: Dictionary, is_update: bool) -> void:
 func _show_or_queue_note_toast(note_data: Dictionary, is_update: bool) -> void:
 	var title: String = note_data.get("title", "")
 	var category: String = note_data.get("category", "")
-	var prefix = "已更新" if is_update else "已記入"
-	
-	# Determine toast text
+	# Determine toast text (uses i18n format keys)
 	var toast_text = ""
 	if category == "工作":
-		toast_text = prefix + "工作：" + title
+		toast_text = tr("UI_TOAST_QUEST_UPDATED_FMT" if is_update else "UI_TOAST_QUEST_ADDED_FMT") % tr(title)
 	else:
-		toast_text = prefix + "筆記：" + title
+		toast_text = tr("UI_TOAST_NOTE_UPDATED_FMT" if is_update else "UI_TOAST_NOTE_ADDED_FMT") % tr(title)
 
 	# If message box or dialogue is active, queue it
 	var mode := UIMode.get_mode()

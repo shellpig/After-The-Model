@@ -37,7 +37,7 @@ func _ready() -> void:
 	GameState.inventory_changed.connect(_on_state_changed)
 	GameState.credits_changed.connect(_on_credits_changed)
 	GameState.equipment_changed.connect(_on_state_changed)
-	footer_hint.text = "A/D: 切欄    W/S: 選擇    E: 買入 / 賣出    Esc: 關閉"
+	footer_hint.text = tr("UI_SHOP_FOOTER_HINT")
 
 func open(p_shop_id: String) -> void:
 	shop_id = p_shop_id

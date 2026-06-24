@@ -27,7 +27,7 @@ UI_DUAL_PANE_NOT_ACCEPTED,根本放不進去。,根本放不进去。,Cannot fit
 UI_DUAL_PANE_NO_SPACE,放不下了。,放不下了。,No space left.
 UI_TOAST_NOTE_ADDED_FMT,已記入筆記：%s,已写入笔记：%s,Note added: %s
 UI_TOAST_NOTE_UPDATED_FMT,已更新筆記：%s,已更新笔记：%s,Note updated: %s
-UI_TOAST_QUEST_ADDED_FMT,已記入工作：%s,已記入工作：%s,Task added: %s
+UI_TOAST_QUEST_ADDED_FMT,已記入工作：%s,已记入工作：%s,Task added: %s
 UI_TOAST_QUEST_UPDATED_FMT,已更新工作：%s,已更新工作：%s,Task updated: %s
 UI_TOAST_UPDATED_DOOR,已更新筆記：我鎖上的門,已更新笔记：我锁上的门,Note updated: The locked door
 UI_MSG_CLOSE_HINT,▼ 關閉,▼ 关闭,▼ Close
@@ -59,7 +59,7 @@ UI_NOTEBOOK_MEDIA_SONG,(有一首歌的錄音),(有一首歌的录音),(There is
 UI_NOTEBOOK_MEDIA_AUDIO,(有一段錄音),(有一段录音),(There is an audio recording)
 UI_NOTEBOOK_NO_NOTES,（尚無筆記）,（尚无笔记）,(No notes)
 UI_NOTEBOOK_NO_ECHOES,（尚無已發現的殘響）,（尚无已发现的残响）,(No echoes found)
-UI_NOTEBOOK_FOOTER_HINT,A/D: 切分頁   W/S: 選筆記   I: 背包   Esc/J: 關閉,A/D: 切分页   W/S: 選笔记   I: 背包   Esc/J: 关闭,A/D: Change Tab   W/S: Select Note   I: Inventory   Esc/J: Close
+UI_NOTEBOOK_FOOTER_HINT,A/D: 切分頁   W/S: 選筆記   I: 背包   Esc/J: 關閉,A/D: 切分页   W/S: 选笔记   I: 背包   Esc/J: 关闭,A/D: Change Tab   W/S: Select Note   I: Inventory   Esc/J: Close
 UI_PROGRESS_TOTAL_TITLE,總進度,总进度,Total Progress
 UI_PROGRESS_SCENES_TITLE,場景,场景,Scenes
 UI_PROGRESS_NPCS_TITLE,角色,角色,Characters
@@ -111,16 +111,16 @@ UI_TOUCH_OFF,[ 觸控: 關 ],[ 触控: 关 ],[ Touch: OFF ]
 UI_OUTRO_ALLEY_END3_PAGE1,"【第二段劇情完成 - 結局 3：託付】
 
 你將啟用盒連同隱密夾層中發現的「舊式 AI 授權模組」一起交給了晚。
-你選擇了信任與慷慨，將這份可能非比尋常的遺產託付給了同樣對抗遺忘的晚。","【第二段剧情完成 - 结局 3：託付】
+你選擇了信任與慷慨，將這份可能非比尋常的遺產託付給了同樣對抗遺忘的晚。","【第二段剧情完成 - 结局 3：托付】
 
 你将启用盒连同隐密夹层中发现的「旧式 AI 授权模组」一起交给了晚。
-你选择了信任与慷慨，将这份可能非比寻常的遗产託付给了同样对抗遗忘的晚。","[Chapter 2 Complete - Ending 3: Entrustment]
+你选择了信任与慷慨，将这份可能非比寻常的遗产托付给了同样对抗遗忘的晚。","[Chapter 2 Complete - Ending 3: Entrustment]
 
 You handed over the activation box along with the 'Old AI Authorization Module' found in the hidden slot to Wan.
 You chose trust and generosity, committing this potentially extraordinary legacy to Wan, who also fights against oblivion."
 UI_OUTRO_ALLEY_END3_PAGE2,"晚感到驚訝，她看著那枚精緻的金屬晶片，眼中閃過少有的溫潤。這份多出來的重禮，讓你們之間多了一層心照不宣的默契。
 
-（提示：若保留授權模組不交，將會觸發「結局 2：拾遺者的直覺」；若從未發現隱密夾層，將觸發「結局 1：盲目的清理者」）","晚感到惊讶，她看着那枚精致的金屬芯片，眼中闪过少有的温润。这份多出来的重礼，让你们之间多了一层心照不宣的默契。
+（提示：若保留授權模組不交，將會觸發「結局 2：拾遺者的直覺」；若從未發現隱密夾層，將觸發「結局 1：盲目的清理者」）","晚感到惊讶，她看着那枚精致的金属芯片，眼中闪过少有的温润。这份多出来的重礼，让你们之间多了一层心照不宣的默契。
 
 （提示：若保留授权模组不交，将会触发「结局 2：拾遗者的直觉」；若从未发现隐密夹层，将触发「结局 1：盲目的清理者」）","Wan was surprised. Looking at the delicate metal chip, a rare softness flashed in her eyes. This extra gift added an unspoken understanding between you.
 
@@ -139,7 +139,7 @@ UI_OUTRO_ALLEY_END2_PAGE2,"晚沒有察覺，或者，她只是看破而不說�
 
 （提示：若連同夾層模組一同交還給晚，將會觸發「結局 3：託付」；若未發現隱密夾層直接回報，將觸發「結局 1：盲目的清理者」）","晚没有察觉，或者，她只是看破而不说破。这枚芯片将由你妥善保管。
 
-（提示：若连同夹层模组一同交还给晚，将会触发「结局 3：託付」；若未发现隐密夹层直接汇报，将触发「结局 1：盲目的清理者」）","Wan did not notice, or perhaps she saw through it but kept silent. This chip will be safely kept by you.
+（提示：若连同夹层模组一同交还给晚，将会触发「结局 3：托付」；若未发现隐密夹层直接汇报，将触发「结局 1：盲目的清理者」）","Wan did not notice, or perhaps she saw through it but kept silent. This chip will be safely kept by you.
 
 (Tip: Handing over the module together triggers 'Ending 3: Entrustment'; reporting without finding the slot triggers 'Ending 1: Blind Cleanup Artist')"
 UI_OUTRO_ALLEY_END1_PAGE1,"【第二段劇情完成 - 結局 1：盲目的清理者】
@@ -252,15 +252,19 @@ PROMPT_FIRE_ESCAPE_CLIMB_LADDER,W/S 爬梯子,W/S 爬梯子,W/S Climb Ladder
 E: 卸下,E: 卸下,E: 卸下,E: Unequip
 E: 裝備,E: 裝備,E: 装备,E: Equip
 E: 使用,E: 使用,E: 使用,E: Use
-R: 查看,R: 查看,R: 查看,E: Examine
+R: 查看,R: 查看,R: 查看,R: Examine
 T: 丟棄,T: 丟棄,T: 丢弃,T: Discard
 Esc/I: 關閉,Esc/I: 關閉,Esc/I: 关闭,Esc/I: Close
 Esc: 關閉,Esc: 關閉,Esc: 关闭,Esc: Close
 A/D: 切分頁,A/D: 切分頁,A/D: 切分页,A/D: Change Tab
-W/S: 選筆記,W/S: 選筆記,W/S: 選笔记,W/S: Select Note
+W/S: 選筆記,W/S: 選筆記,W/S: 选笔记,W/S: Select Note
 I: 背包,I: 背包,I: 背包,I: Inventory
 Esc/J: 關閉,Esc/J: 關閉,Esc/J: 关闭,Esc/J: Close
 E/Esc: 關閉,E/Esc: 關閉,E/Esc: 关闭,E/Esc: Close
 A/D: 切欄,A/D: 切欄,A/D: 切栏,A/D: Switch Column
 W/S: 選擇,W/S: 選擇,W/S: 选择,W/S: Select
 E: 買入 / 賣出,E: 買入 / 賣出,E: 买入 / 卖出,E: Buy / Sell
+UI_SHOP_FOOTER_HINT,A/D: 切欄    W/S: 選擇    E: 買入 / 賣出    Esc: 關閉,A/D: 切栏    W/S: 选择    E: 买入 / 卖出    Esc: 关闭,A/D: Switch Column    W/S: Select    E: Buy / Sell    Esc: Close
+R: 播放錄音,R: 播放錄音,R: 播放录音,R: Play Recording
+E: 看照片,E: 看照片,E: 看照片,E: View Photo
+E: 播放錄音,E: 播放錄音,E: 播放录音,E: Play Recording

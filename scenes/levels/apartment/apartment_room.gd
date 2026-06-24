@@ -375,7 +375,7 @@ func _trigger_interaction() -> void:
 			interaction_requested.emit({
 				"type": "message",
 				"message_text": MESSAGES.get("desk_computer_dispatch_quest", ""),
-				"note_title": "已接下委託：便利商店的故障機器人"
+				"note_title": "UI_TOAST_QUEST_ACCEPTED_VENDOR_BOT"
 			})
 		else:
 			# 其他情況（已有筆記 / 任務已接 / 未發現異常）→ 舊內容重播

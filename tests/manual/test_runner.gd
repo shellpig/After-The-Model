@@ -8845,9 +8845,15 @@ func _ready() -> void:
 	var re_seth := RegEx.new(); re_seth.compile('set_hints\\([^\\]\\n]*\\[([^\\]]*)\\]')
 	var re_str := RegEx.new();  re_str.compile('"([^"]*)"')
 	var re_pmt := RegEx.new();  re_pmt.compile('prompt_text = "([^"]*)"')
+	# emit 內嵌的 toast 標題：note_title 的字面量值最終會被 game_ui tr()，
+	# 所以「直接給字面量」必須是 ui.csv 的 key，否則英文/簡中不會翻譯。
+	# （動態值如 note_title": _pending_toast_title 無引號，不被此 regex 匹配。）
+	var re_note := RegEx.new(); re_note.compile('"note_title"\\s*:\\s*"([^"]*)"')
 
 	var scan_refs := 0
 	var scan_missing := {}
+	var note_refs := 0
+	var note_missing := {}
 	for f in gd_files:
 		var fa2 := FileAccess.open(f, FileAccess.READ)
 		if fa2 == null:
@@ -8863,6 +8869,9 @@ func _ready() -> void:
 			for sm in re_str.search_all(m.get_string(1)):
 				scan_refs += 1
 				_m2b_check_ref(sm.get_string(1), f, csv_keyset, scan_missing)
+		for m in re_note.search_all(txt):
+			note_refs += 1
+			_m2b_check_ref(m.get_string(1), f, csv_keyset, note_missing)
 	for f in tscn_files:
 		var fa3 := FileAccess.open(f, FileAccess.READ)
 		if fa3 == null:
@@ -8877,6 +8886,14 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS M2-B-2: %d literal key refs (tr/set_hints/hints/prompt_text) all present in ui.csv." % scan_refs)
+
+	# M2-B-3: 內嵌 note_title 字面量必須是 ui.csv key（攔截硬編繁中 toast 標題）。
+	if not note_missing.is_empty():
+		for k in note_missing:
+			printerr("FAIL M2-B-3: literal note_title '%s' is not a ui.csv key (e.g. %s) — toast 標題不會被翻譯。" % [k, note_missing[k]])
+		get_tree().quit(1)
+		return
+	print("PASS M2-B-3: %d literal note_title refs all resolve to ui.csv keys." % note_refs)
 	print("--- Phase M2-B: ALL CHECKS PASSED ---")
 
 	# ===================== Phase M2-C: 敘事資料 i18n =====================

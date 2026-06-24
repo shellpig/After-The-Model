@@ -254,7 +254,7 @@ func _trigger_interaction() -> void:
 						interaction_requested.emit({
 							"type": "message",
 							"message_text": MESSAGES["alley_view_danger"],
-							"note_title": "已更新筆記：暗巷三樓的舊物"
+							"note_title": "UI_TOAST_NOTE_UPDATED_ALLEY_3F"
 						})
 					else:
 						interaction_requested.emit({

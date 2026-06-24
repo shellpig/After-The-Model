@@ -598,7 +598,7 @@ Phase M1 已寫 / 已掛（2026-06-24 完成）：`game_state.gd`（三集合 + 
 | 文件 | 段落 | 行範圍 |
 |---|---|---|
 | 遊戲規格書.md（驗收意圖） | Phase M2 — 多國語系 i18n（目的 / 驗收意圖 / fallback / 前提 / 邊界）| 3074–3117 |
-| 開發設計方針.md（契約） | Phase M2 — 多國語系 i18n（LocaleManager / project.godot / 字型切換 / CSV+key 規則 / 顯示端 tr() / 設定頁 / 子階段 / 異動檔）| 3214–3396 |
+| 開發設計方針.md（契約） | Phase M2 — 多國語系 i18n（LocaleManager / project.godot / 字型切換 / CSV+key 規則 / 顯示端 tr() / 設定頁 / 子階段 / 驗證網 / 異動檔）| 3214–3420 |
 | 測試指南.md（清單） | Phase M2 多國語系 i18n（headless + GUI + 真機 checklist）| 1108–1142 |
 
 Phase M2 子階段依賴鏈：**M2-A 基礎建設**（`LocaleManager` autoload / `TranslationServer` 接線 / fallback=zh_TW / `NotoSansSC` runtime 字型切換 / `settings.cfg` / OS locale 偵測 / 最小設定頁）→ **M2-B UI chrome**（178 處 UI + 12 `.tscn` prompt 抽 key）→ **M2-C 敘事資料**（notes / messages / items）→ **M2-D 對話樹**（9 樹 + 英文人名音譯對照）→ **M2-E 收尾**（echoes/shops/quests + 全鏈回歸 + 真機 iOS/Android 驗收）。**前提硬規則**：顯示與邏輯分離（goto/effect/condition 用既有 id/flag）；三語禁字（無「林霏」）；缺翻譯退繁中、三語全缺顯示 key；SaveSystem 不改。

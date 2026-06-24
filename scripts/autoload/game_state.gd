@@ -64,116 +64,116 @@ const STORY_NOTES := {
 	"work_ai_cleanup_role": {
 		"id": "work_ai_cleanup_role",
 		"category": "工作",
-		"title": "AI 善後員",
-		"body": "派工單一筆一筆自己跳出來, 地址、編號, 註記欄寫著「殘留清除」「記憶體焚毀」。從沒見過發派的人, 只有螢幕那頭簡短的指示, 從不寒暄, 也從不出錯。原來你靠這個過活——收拾 AI 留下的、人們不想再看見的東西。",
+		"title": "NOTE_WORK_AI_CLEANUP_ROLE_TITLE",
+		"body": "NOTE_WORK_AI_CLEANUP_ROLE_BODY",
 		"status": "active"
 	},
 	"identity_gleaner": {
 		"id": "identity_gleaner",
 		"category": "身份",
-		"title": "拾遺者",
-		"body": "牆上整排都是舊帶子, 老歌、舊廣播、不知道誰的留言。這些早該被善後員銷毀的東西, 你卻一捲一捲留了下來。你一邊清除過去, 一邊偷偷把它撿回家。",
+		"title": "NOTE_IDENTITY_GLEANER_TITLE",
+		"body": "NOTE_IDENTITY_GLEANER_BODY",
 		"status": "active"
 	},
 	"clue_gloves_decoder": {
 		"id": "clue_gloves_decoder",
 		"category": "線索",
-		"title": "不只是手套",
-		"body": "這雙手套你戴得很習慣, 習慣到忘了它哪裡不對勁。指尖那圈接點碰到某些東西時, 會有反應。你還想不起它是用來「讀」什麼的——但你的手記得。",
+		"title": "NOTE_CLUE_GLOVES_DECODER_TITLE",
+		"body": "NOTE_CLUE_GLOVES_DECODER_BODY",
 		"status": "active"
 	},
 	"clue_decoder_cube": {
 		"id": "clue_decoder_cube",
 		"category": "線索",
-		"title": "解碼方塊",
-		"body": "一種普遍用於解開設備功能的道具, 性質有點像鑰匙。放入對應的插槽, 就能開啟特定功能。",
+		"title": "NOTE_CLUE_DECODER_CUBE_TITLE",
+		"body": "NOTE_CLUE_DECODER_CUBE_BODY",
 		"status": "active"
 	},
 	"clue_projection_clock": {
 		"id": "clue_projection_clock",
 		"category": "線索",
-		"title": "別信那個時鐘",
-		"body": "營養棒的空包裝裡藏了張紙, 是你自己寫的。那台投影時鐘不只是時鐘——它底下還裝著別的東西。",
+		"title": "NOTE_CLUE_PROJECTION_CLOCK_TITLE",
+		"body": "NOTE_CLUE_PROJECTION_CLOCK_BODY",
 		"status": "active"
 	},
 	"identity_door_unlock_method": {
 		"id": "identity_door_unlock_method",
 		"category": "身份",
-		"title": "我鎖上的門",
-		"body": "戴上手套那刻就該想起來的——指尖那圈接點, 是我自己改的。是我把那顆方塊解了碼, 用時鐘裡的舊終端掃出牆內的插槽, 再把它嵌進去。一整套機關, 全是我親手裝的。我把自己鎖在這裡, 連從裡面都打不開。可這道門不挑人——它一樣能把別人關在裡面。當初, 我到底是想鎖住誰?",
+		"title": "NOTE_IDENTITY_DOOR_UNLOCK_METHOD_TITLE",
+		"body": "NOTE_IDENTITY_DOOR_UNLOCK_METHOD_BODY",
 		"status": "active"
 	},
 	"clue_clerk_locker": {
 		"id": "clue_clerk_locker",
 		"category": "線索",
-		"title": "阿達的置物櫃",
-		"body": "便利商店員工區的置物櫃裡有一套屬於店員『阿達』的制服。機器人顯然不是阿達，但它表現得像是這間店的唯一負責人。",
+		"title": "NOTE_CLUE_CLERK_LOCKER_TITLE",
+		"body": "NOTE_CLUE_CLERK_LOCKER_BODY",
 		"status": "active"
 	},
 	"clue_clerk_diary": {
 		"id": "clue_clerk_diary",
 		"category": "線索",
-		"title": "日記殘頁",
-		"body": "被辭退的店員阿達在最後的日記中提到，他被要求將工作交接給櫃台終端（機器人），於是他賭氣地把個人日記與情緒資料備份進了店籍主機中。",
+		"title": "NOTE_CLUE_CLERK_DIARY_TITLE",
+		"body": "NOTE_CLUE_CLERK_DIARY_BODY",
 		"status": "active"
 	},
 	"clue_termination_notice": {
 		"id": "clue_termination_notice",
 		"category": "線索",
-		"title": "自動化通知",
-		"body": "店內的辭退公告證實了這家便利商店已全面無人化。排班表上的名字都被劃掉，取而代之的是 AI 系統自動接管的指令。",
+		"title": "NOTE_CLUE_TERMINATION_NOTICE_TITLE",
+		"body": "NOTE_CLUE_TERMINATION_NOTICE_BODY",
 		"status": "active"
 	},
 	"clue_robot_plate": {
 		"id": "clue_robot_plate",
 		"category": "線索",
-		"title": "機器人型號銘牌",
-		"body": "櫃台上的機器人有明確的工業銘牌，型號是 CS-Retail-098。它是一個零售服務終端，但它的行為卻在模仿人類店員阿達。",
+		"title": "NOTE_CLUE_ROBOT_PLATE_TITLE",
+		"body": "NOTE_CLUE_ROBOT_PLATE_BODY",
 		"status": "active"
 	},
 	"clue_counter_photo": {
 		"id": "clue_counter_photo",
 		"category": "線索",
-		"title": "褪色的照片",
-		"body": "照片上的人就是店員阿達。這張照片被隨意塞在收銀檯下方，是阿達曾經在這裡工作過的唯一真實物證。",
+		"title": "NOTE_CLUE_COUNTER_PHOTO_TITLE",
+		"body": "NOTE_CLUE_COUNTER_PHOTO_BODY",
 		"status": "active"
 	},
 	"clue_vendor_error_lead": {
 		"id": "clue_vendor_error_lead",
 		"category": "線索",
-		"title": "異常的售貨設備",
-		"body": "街上的自動販賣機和便利商店內的零售機器人都出現了類似的通訊混亂與行為異常。這看起來不像是單一設備的硬體故障，更像是系統層面的殘留問題。或許這能成為一筆新的善後委託，該回房間的電腦確認看看。",
+		"title": "NOTE_CLUE_VENDOR_ERROR_LEAD_TITLE",
+		"body": "NOTE_CLUE_VENDOR_ERROR_LEAD_BODY",
 		"status": "active"
 	},
 	"clue_probe_module_lead": {
 		"id": "clue_probe_module_lead",
 		"category": "線索",
-		"title": "老舊的探測器",
-		"body": "從公寓投影時鐘底下拆出來的模組，看起來是用來探測某種微弱數位訊號的。\n既然大門已經解鎖，或許可以去街區外碰碰運氣。聽說街區最東端有個收廢舊電子玩意的『鹿三爺』，他對這種古怪老設備最感興趣，也許能找他看看。",
+		"title": "NOTE_CLUE_PROBE_MODULE_LEAD_TITLE",
+		"body": "NOTE_CLUE_PROBE_MODULE_LEAD_BODY",
 		"status": "active"
 	}
 }
 
 const STORY_MESSAGES := {
-	"bed_bad_sleep": "你心中有事, 根本睡不著...",
-	"door_locked": "門上了鎖, 而你發現自己不知道如何打開...",
-	"door_opened": "你將手套貼上讀取器，綠燈閃爍。伴隨著液壓氣動沉悶的釋放聲，門鎖緩慢退開，滑出一條縫。門外灌進了深夜的冷雨、舊機油與高架鐵軌呼嘯而過的冷冽氣息。外頭是五彩斑斕的折射霓虹——你終於要回到那座把你遺忘的都市了。",
-	"desk_computer_msg": "螢幕還亮著, 一份新的派工單正自己跳出來, 沒有寄件人。",
-	"desk_computer_dispatch_quest": "新的派工單跳進收件匣，標題寫著「異常販賣行為回報」，末尾只有一行備註：\n「接案者須具備基礎設備診斷能力。任務地點：附近便利商店。報酬視修復結果結算。」\n你感覺這不像普通的清理工作，但這個工作本來就沒有普通這回事。\n（已接下委託：便利商店的故障機器人）",
-	"tape_recorder_msg": "錄音機裡卡著一捲帶子。按下播放, 是首沒人記得的老歌, 雜訊裡有人輕輕跟著哼。",
-	"decoder_cube_decoded": "當你戴著無指手套拿起魔術方塊時，指尖的接點突然傳來一陣微弱的電流，方塊的接縫處隨之亮起了一道黯淡的迴路光芒。方塊的結構在微弱的喀噠聲中重新排列——它被解碼了。",
-	"nutrition_bar_consume": "包裝比手感該有的輕。撕開才發現裡頭沒有營養棒, 只有一張折起來的紙——上面是你自己的字跡：「別信那個時鐘。」",
-	"slot_unlocked": "方塊嵌進凹槽, 牆裡某個東西「喀」地鬆開了。你忽然想起來——這道門是你自己鎖上的。不是壞了, 是你親手裝了這套機關, 把自己關在裡面。連從裡面都打不開……當初到底是為了什麼?\n（門, 解鎖了。）",
-	"mem_frag_linfei_1": "（你經過時，胸口無端一緊，像有人在很遠的地方喊了你一聲——又像那一聲其實是衝著別人去的。）\n雨水順著脖子灌進來。你停了半秒，說不出自己在等什麼。\n那陣震過去了。你想不起來，剛才差點想起的是什麼。",
-	"mem_frag_commute_topside": "（站在這塊早已熄滅的通勤螢幕前，你的手掌不由自主地貼上金屬邊框，大腦一片空白，但雙腿卻升起一股近乎本能的緊繃感——那是每天清晨等待列車、準備『往上』通勤的預備姿勢。）\n指尖觸及冰冷的螢幕，殘存的肌肉記憶像是一道微弱的電流閃過，又在瞬間歸於死寂。\n你搖了搖頭，無法拼湊出那條通往上層的軌道，只留下腳底站立過久的微微發麻。"
+	"bed_bad_sleep": "MSG_BED_BAD_SLEEP",
+	"door_locked": "MSG_DOOR_LOCKED",
+	"door_opened": "MSG_DOOR_OPENED",
+	"desk_computer_msg": "MSG_DESK_COMPUTER_MSG",
+	"desk_computer_dispatch_quest": "MSG_DESK_COMPUTER_DISPATCH_QUEST",
+	"tape_recorder_msg": "MSG_TAPE_RECORDER_MSG",
+	"decoder_cube_decoded": "MSG_DECODER_CUBE_DECODED",
+	"nutrition_bar_consume": "MSG_NUTRITION_BAR_CONSUME",
+	"slot_unlocked": "MSG_SLOT_UNLOCKED",
+	"mem_frag_linfei_1": "MSG_MEM_FRAG_LINFEI_1",
+	"mem_frag_commute_topside": "MSG_MEM_FRAG_COMMUTE_TOPSIDE"
 }
 
 # MVP Temporary Stub DB
 const ITEMS_DB := {
 	"old_work_badge": {
 		"id": "old_work_badge",
-		"name": "磨損的工作證",
-		"description": "一張舊式的工作識別證，上面的照片已經有些模糊。",
+		"name": "ITEM_OLD_WORK_BADGE_NAME",
+		"description": "ITEM_OLD_WORK_BADGE_DESC",
 		"category": "key_item",
 		"stackable": false,
 		"max_stack": 1,
@@ -184,8 +184,8 @@ const ITEMS_DB := {
 	},
 	"fingerless_gloves": {
 		"id": "fingerless_gloves",
-		"name": "無指工作手套",
-		"description": "半截手套, 指節處的布料磨得發亮。右手食指內側有一圈細小的接點, 不像普通手套該有的東西。你戴上時, 指尖有極輕微的、像是在「讀取」什麼的震動。",
+		"name": "ITEM_FINGERLESS_GLOVES_NAME",
+		"description": "ITEM_FINGERLESS_GLOVES_DESC",
 		"category": "equipment",
 		"stackable": false,
 		"max_stack": 1,
@@ -198,8 +198,8 @@ const ITEMS_DB := {
 	},
 	"old_probe_module": {
 		"id": "old_probe_module",
-		"name": "老舊探測模組",
-		"description": "底座彈出的老舊探測模組。外殼有些磨損，指示燈已經熄滅。它看起來不像普通的儲存介質，更像某種專門用來接收特定頻段訊號的古老天線。",
+		"name": "ITEM_OLD_PROBE_MODULE_NAME",
+		"description": "ITEM_OLD_PROBE_MODULE_DESC",
 		"category": "misc",
 		"stackable": false,
 		"max_stack": 1,
@@ -210,8 +210,8 @@ const ITEMS_DB := {
 	},
 	"gleaner_gloves": {
 		"id": "gleaner_gloves",
-		"name": "拾遺手套",
-		"description": "裝有老舊探測模組的工作手套。電路接點與手套表面的貼合處有些粗糙，但當你握拳時，能感覺到微弱的電磁共振。\n（可用於感知並採集環境中的數位殘響。）",
+		"name": "ITEM_GLEANER_GLOVES_NAME",
+		"description": "ITEM_GLEANER_GLOVES_DESC",
 		"category": "equipment",
 		"stackable": false,
 		"max_stack": 1,
@@ -225,8 +225,8 @@ const ITEMS_DB := {
 
 	"canned_food": {
 		"id": "canned_food",
-		"name": "合成罐頭",
-		"description": "便宜的合成肉罐頭，雖然味道一般但能填飽肚子。",
+		"name": "ITEM_CANNED_FOOD_NAME",
+		"description": "ITEM_CANNED_FOOD_DESC",
 		"category": "consumable",
 		"value": 20,
 		"stackable": true,
@@ -238,8 +238,8 @@ const ITEMS_DB := {
 	},
 	"faded_jacket": {
 		"id": "faded_jacket",
-		"name": "隱士防風夾克",
-		"description": "一件低調的防雨夾克，兩側口袋極深。",
+		"name": "ITEM_FADED_JACKET_NAME",
+		"description": "ITEM_FADED_JACKET_DESC",
 		"category": "equipment",
 		"value": 60,
 		"stackable": false,
@@ -251,8 +251,8 @@ const ITEMS_DB := {
 	},
 	"worn_rubiks_cube": {
 		"id": "worn_rubiks_cube",
-		"name": "普通魔術方塊",
-		"description": "一個褪色的舊塑料魔術方塊，邊角已經磨損，很久沒有人玩過了。普通得不能再普通。",
+		"name": "ITEM_WORN_RUBIKS_CUBE_NAME",
+		"description": "ITEM_WORN_RUBIKS_CUBE_DESC",
 		"category": "misc",
 		"value": 1,
 		"stackable": false,
@@ -265,8 +265,8 @@ const ITEMS_DB := {
 	},
 	"decoder_cube": {
 		"id": "decoder_cube",
-		"name": "在公寓裡找到的解碼方塊",
-		"description": "配色與接點完全改變的方塊。上面印有細微的導電迴路與一圈感應觸點。你的手套指尖在碰到它時，會發出輕微的同步震動。",
+		"name": "ITEM_DECODER_CUBE_NAME",
+		"description": "ITEM_DECODER_CUBE_DESC",
 		"category": "misc",
 		"stackable": false,
 		"max_stack": 1,
@@ -277,8 +277,8 @@ const ITEMS_DB := {
 	},
 	"nutrition_bar_synth_blueberry": {
 		"id": "nutrition_bar_synth_blueberry",
-		"name": "合成藍莓口味營養棒",
-		"description": "一條包裝完好的合成藍莓口味營養棒，拿在手上感覺異常輕盈。",
+		"name": "ITEM_NUTRITION_BAR_SYNTH_BLUEBERRY_NAME",
+		"description": "ITEM_NUTRITION_BAR_SYNTH_BLUEBERRY_DESC",
 		"category": "consumable",
 		"value": 12,
 		"stackable": true,
@@ -291,8 +291,8 @@ const ITEMS_DB := {
 	},
 	"nutrition_bar_synth_orange": {
 		"id": "nutrition_bar_synth_orange",
-		"name": "合成橘子口味營養棒",
-		"description": "一條包裝完好的合成橘子口味營養棒，便宜又耐餓。",
+		"name": "ITEM_NUTRITION_BAR_SYNTH_ORANGE_NAME",
+		"description": "ITEM_NUTRITION_BAR_SYNTH_ORANGE_DESC",
 		"category": "consumable",
 		"value": 12,
 		"stackable": true,
@@ -304,8 +304,8 @@ const ITEMS_DB := {
 	},
 	"early_ai_assistant_activation_box": {
 		"id": "early_ai_assistant_activation_box",
-		"name": "早期 AI 助理啟用盒",
-		"description": "一個保存良好的早期 AI 助理啟用盒。那時候，人們還會把 AI 當成新家電一樣帶回家，拆封、註冊、期待它讓生活變好。",
+		"name": "ITEM_EARLY_AI_ASSISTANT_ACTIVATION_BOX_NAME",
+		"description": "ITEM_EARLY_AI_ASSISTANT_ACTIVATION_BOX_DESC",
 		"category": "misc",
 		"stackable": false,
 		"max_stack": 1,
@@ -317,8 +317,8 @@ const ITEMS_DB := {
 	},
 	"old_ai_authorization_module": {
 		"id": "old_ai_authorization_module",
-		"name": "舊式 AI 授權模組",
-		"description": "薄片狀的舊式 AI 授權模組。標籤已經褪色，但接點仍然完整。它看起來不像收藏品，比較像某種能讓舊系統暫時認人的鑰匙。",
+		"name": "ITEM_OLD_AI_AUTHORIZATION_MODULE_NAME",
+		"description": "ITEM_OLD_AI_AUTHORIZATION_MODULE_DESC",
 		"category": "key_item",
 		"stackable": false,
 		"max_stack": 1,
@@ -328,8 +328,8 @@ const ITEMS_DB := {
 	},
 	"clerk_echo_recording": {
 		"id": "clerk_echo_recording",
-		"name": "店員的殘響",
-		"description": "一段從店籍主機備份區拷貝出來的資料——被辭退店員阿達的日記、情緒殘片，與他拒絕離開的那句「憑什麼」。標籤上沒有型號，也沒有條碼。這種東西沒有市場價格，也不該有。",
+		"name": "ITEM_CLERK_ECHO_RECORDING_NAME",
+		"description": "ITEM_CLERK_ECHO_RECORDING_DESC",
 		"category": "misc",
 		"stackable": false,
 		"max_stack": 1,
@@ -340,8 +340,8 @@ const ITEMS_DB := {
 	},
 	"synth_cola": {
 		"id": "synth_cola",
-		"name": "合成可樂",
-		"description": "一罐廉價的合成氣泡飲料，包裝上印著早已過期的生產序號。拉環拉開時，發出無機的嘶嘶聲。",
+		"name": "ITEM_SYNTH_COLA_NAME",
+		"description": "ITEM_SYNTH_COLA_DESC",
 		"category": "consumable",
 		"value": 15,
 		"stackable": true,
@@ -353,8 +353,8 @@ const ITEMS_DB := {
 	},
 	"packaged_water": {
 		"id": "packaged_water",
-		"name": "包裝飲用水",
-		"description": "淨化過的回收水，帶有微弱的過濾後塑料味。便宜，安全，毫無特色。",
+		"name": "ITEM_PACKAGED_WATER_NAME",
+		"description": "ITEM_PACKAGED_WATER_DESC",
 		"category": "consumable",
 		"value": 10,
 		"stackable": true,
@@ -366,8 +366,8 @@ const ITEMS_DB := {
 	},
 	"childcare_supply_receipt": {
 		"id": "childcare_supply_receipt",
-		"name": "兒少照護補給回執",
-		"description": "一張沾有油漬的行政物流單，字跡有些模糊。上面印著隨機的收件代碼，但沒有留下名字。",
+		"name": "ITEM_CHILDCARE_SUPPLY_RECEIPT_NAME",
+		"description": "ITEM_CHILDCARE_SUPPLY_RECEIPT_DESC",
 		"category": "key_item",
 		"stackable": false,
 		"max_stack": 1,

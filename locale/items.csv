@@ -1,0 +1,36 @@
+keys,zh_TW,zh_CN,en
+ITEM_OLD_WORK_BADGE_NAME,磨損的工作證,磨损的工作证,Worn Work ID
+ITEM_OLD_WORK_BADGE_DESC,一張舊式的工作識別證，上面的照片已經有些模糊。,一张旧式的工作识别证，上面的照片已经有些模糊。,An old-style work ID. The photo on it has gone soft and blurry.
+ITEM_FINGERLESS_GLOVES_NAME,無指工作手套,无指工作手套,Fingerless Work Gloves
+ITEM_FINGERLESS_GLOVES_DESC,"半截手套, 指節處的布料磨得發亮。右手食指內側有一圈細小的接點, 不像普通手套該有的東西。你戴上時, 指尖有極輕微的、像是在「讀取」什麼的震動。","半截手套，指节处的布料磨得发亮。右手食指内侧有一圈细小的接点，不像普通手套该有的东西。你戴上时，指尖有极轻微的、像是在「读取」什么的震动。","Half-length gloves; the fabric over the knuckles is worn smooth and shiny. A ring of tiny contacts sits on the inside of the right index finger — nothing a normal glove should have. When you slip them on, there's a faint, almost imperceptible buzz at the fingertips, as if they're ""reading"" something."
+ITEM_OLD_PROBE_MODULE_NAME,老舊探測模組,老旧探测模块,Old Probe Module
+ITEM_OLD_PROBE_MODULE_DESC,"底座彈出的老舊探測模組。外殼有些磨損，指示燈已經熄滅。它看起來不像普通的儲存介質，更像某種專門用來接收特定頻段訊號的古老天線。","底座弹出的老旧探测模块。外壳有些磨损，指示灯已经熄灭。它看起来不像普通的存储介质，更像某种专门用来接收特定频段信号的古老天线。",An old probe module ejected from a base unit. The casing is worn and its indicator light has gone out. It doesn't look like ordinary storage media — more like an antique antenna tuned for receiving a specific band of signals.
+ITEM_GLEANER_GLOVES_NAME,拾遺手套,拾遗手套,Gleaner Gloves
+ITEM_GLEANER_GLOVES_DESC,"裝有老舊探測模組的工作手套。電路接點與手套表面的貼合處有些粗糙，但當你握拳時，能感覺到微弱的電磁共振。
+（可用於感知並採集環境中的數位殘響。）","装有老旧探测模块的工作手套。电路接点与手套表面的贴合处有些粗糙，但当你握拳时，能感觉到微弱的电磁共振。
+（可用于感知并采集环境中的数字残响。）","Work gloves with the old probe module wired into them. The seam between circuit and fabric is rough, but when you clench your fist you can feel a faint electromagnetic resonance.
+(Lets you sense and gather digital echoes left in the environment.)"
+ITEM_CANNED_FOOD_NAME,合成罐頭,合成罐头,Synthetic Canned Food
+ITEM_CANNED_FOOD_DESC,便宜的合成肉罐頭，雖然味道一般但能填飽肚子。,便宜的合成肉罐头，虽然味道一般但能填饱肚子。,Cheap canned synth-meat. The taste is nothing special — but it fills you up.
+ITEM_FADED_JACKET_NAME,隱士防風夾克,隐士防风夹克,Recluse Windbreaker
+ITEM_FADED_JACKET_DESC,一件低調的防雨夾克，兩側口袋極深。,一件低调的防雨夹克，两侧口袋极深。,A low-key rain jacket. The side pockets are surprisingly deep.
+ITEM_WORN_RUBIKS_CUBE_NAME,普通魔術方塊,普通魔术方块,Ordinary Rubik's Cube
+ITEM_WORN_RUBIKS_CUBE_DESC,一個褪色的舊塑料魔術方塊，邊角已經磨損，很久沒有人玩過了。普通得不能再普通。,一个褪色的旧塑料魔术方块，边角已经磨损，很久没有人玩过了。普通得不能再普通。,A faded old plastic Rubik's cube. The corners are worn down; no one has touched it in a long time. Nothing special about it at all.
+ITEM_DECODER_CUBE_NAME,在公寓裡找到的解碼方塊,在公寓里找到的解码方块,Decoder Cube (found in the apartment)
+ITEM_DECODER_CUBE_DESC,"配色與接點完全改變的方塊。上面印有細微的導電迴路與一圈感應觸點。你的手套指尖在碰到它時，會發出輕微的同步震動。","配色与接点完全改变的方块。上面印有细微的导电回路与一圈感应触点。你的手套指尖在碰到它时，会发出轻微的同步震动。",A cube whose colors and contact points have been completely altered. Fine conductive traces and a ring of induction pads have been printed across its faces. Your glove's fingertips give off a faint, synchronized hum the moment they meet it.
+ITEM_NUTRITION_BAR_SYNTH_BLUEBERRY_NAME,合成藍莓口味營養棒,合成蓝莓口味营养棒,Synth Blueberry Nutrition Bar
+ITEM_NUTRITION_BAR_SYNTH_BLUEBERRY_DESC,一條包裝完好的合成藍莓口味營養棒，拿在手上感覺異常輕盈。,一条包装完好的合成蓝莓口味营养棒，拿在手上感觉异常轻盈。,A perfectly sealed synth blueberry nutrition bar. It feels strangely light in your hand.
+ITEM_NUTRITION_BAR_SYNTH_ORANGE_NAME,合成橘子口味營養棒,合成橘子口味营养棒,Synth Orange Nutrition Bar
+ITEM_NUTRITION_BAR_SYNTH_ORANGE_DESC,一條包裝完好的合成橘子口味營養棒，便宜又耐餓。,一条包装完好的合成橘子口味营养棒，便宜又耐饿。,A sealed synth orange nutrition bar — cheap and filling.
+ITEM_EARLY_AI_ASSISTANT_ACTIVATION_BOX_NAME,早期 AI 助理啟用盒,早期 AI 助理启用盒,Early AI Assistant Activation Box
+ITEM_EARLY_AI_ASSISTANT_ACTIVATION_BOX_DESC,一個保存良好的早期 AI 助理啟用盒。那時候，人們還會把 AI 當成新家電一樣帶回家，拆封、註冊、期待它讓生活變好。,一个保存良好的早期 AI 助理启用盒。那时候，人们还会把 AI 当成新家电一样带回家，拆封、注册、期待它让生活变好。,"A well-preserved activation box from an early-generation AI assistant. Back then, people still brought AI home like any new appliance — unboxed it, registered it, and hoped it would make their lives a little better."
+ITEM_OLD_AI_AUTHORIZATION_MODULE_NAME,舊式 AI 授權模組,旧式 AI 授权模块,Old AI Authorization Module
+ITEM_OLD_AI_AUTHORIZATION_MODULE_DESC,薄片狀的舊式 AI 授權模組。標籤已經褪色，但接點仍然完整。它看起來不像收藏品，比較像某種能讓舊系統暫時認人的鑰匙。,薄片状的旧式 AI 授权模块。标签已经褪色，但接点仍然完整。它看起来不像收藏品，比较像某种能让旧系统暂时认人的钥匙。,A thin wafer of an old-generation AI authorization module. The label has faded, but the contacts are still clean. It doesn't feel like a collector's piece — more like a key that lets some legacy system briefly recognize you as a person.
+ITEM_CLERK_ECHO_RECORDING_NAME,店員的殘響,店员的残响,Clerk's Echo
+ITEM_CLERK_ECHO_RECORDING_DESC,"一段從店籍主機備份區拷貝出來的資料——被辭退店員阿達的日記、情緒殘片，與他拒絕離開的那句「憑什麼」。標籤上沒有型號，也沒有條碼。這種東西沒有市場價格，也不該有。","一段从店籍主机备份区拷贝出来的数据——被辞退店员阿达的日记、情绪残片，与他拒绝离开的那句「凭什么」。标签上没有型号，也没有条码。这种东西没有市场价格，也不该有。","A copy pulled out of the backup section of the store's registry mainframe — the dismissed clerk Ah-Da's diary, fragments of his emotional logs, and that one sentence he refused to take back: ""Why should I?"" No model number on the label, no barcode either. This kind of thing has no market price. It shouldn't have one."
+ITEM_SYNTH_COLA_NAME,合成可樂,合成可乐,Synth Cola
+ITEM_SYNTH_COLA_DESC,一罐廉價的合成氣泡飲料，包裝上印著早已過期的生產序號。拉環拉開時，發出無機的嘶嘶聲。,一罐廉价的合成气泡饮料，包装上印着早已过期的生产序号。拉环拉开时，发出无机的嘶嘶声。,A can of cheap synth fizz. The serial number stamped on the side expired a long time ago. When you pop the tab, it gives off a thin, inorganic hiss.
+ITEM_PACKAGED_WATER_NAME,包裝飲用水,包装饮用水,Packaged Drinking Water
+ITEM_PACKAGED_WATER_DESC,淨化過的回收水，帶有微弱的過濾後塑料味。便宜，安全，毫無特色。,净化过的回收水，带有微弱的过滤后塑料味。便宜，安全，毫无特色。,"Purified reclaimed water, with the faint aftertaste of plastic that comes through any filter. Cheap, safe, utterly unremarkable."
+ITEM_CHILDCARE_SUPPLY_RECEIPT_NAME,兒少照護補給回執,儿少照护补给回执,Childcare Supply Receipt
+ITEM_CHILDCARE_SUPPLY_RECEIPT_DESC,一張沾有油漬的行政物流單，字跡有些模糊。上面印著隨機的收件代碼，但沒有留下名字。,一张沾有油渍的行政物流单，字迹有些模糊。上面印着随机的收件代码，但没有留下名字。,An admin logistics slip smudged with oil. The handwriting is smeared. There's a randomized recipient code printed on it — but no name.

@@ -268,3 +268,5 @@ UI_SHOP_FOOTER_HINT,A/D: 切欄    W/S: 選擇    E: 買入 / 賣出    Esc: 關
 R: 播放錄音,R: 播放錄音,R: 播放录音,R: Play Recording
 E: 看照片,E: 看照片,E: 看照片,E: View Photo
 E: 播放錄音,E: 播放錄音,E: 播放录音,E: Play Recording
+UI_TOAST_NOTED_PROBE_MODULE,已記入筆記：老舊的探測器,已记入笔记：老旧的探测器,Note added: The Old Probe
+UI_ITEM_GENERIC_FALLBACK,物品,物品,Item

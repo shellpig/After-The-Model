@@ -245,7 +245,7 @@ func load_notebook_data() -> void:
 		for i in range(current_list_items.size()):
 			var note: Dictionary = current_list_items[i]
 			var btn := Button.new()
-			btn.text = note.get("title", "")
+			btn.text = tr(note.get("title", ""))
 			btn.custom_minimum_size.y = 32
 			btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 			btn.add_theme_font_size_override("font_size", 16)
@@ -285,7 +285,7 @@ func load_notebook_data() -> void:
 			first_btn.grab_focus.call_deferred()
 
 func _on_note_selected(note: Dictionary, index: int) -> void:
-	body_label.text = note.get("body", "")
+	body_label.text = _translate_body(note.get("body", ""))
 	var v_scroll := body_label.get_v_scroll_bar()
 	if v_scroll != null:
 		v_scroll.value = 0
@@ -341,6 +341,17 @@ func _update_footer_hints(note: Dictionary) -> void:
 		for h in hints:
 			text_parts.append(str(h))
 		panel_footer_hint.text = "   ".join(text_parts)
+
+# M2-C：note.body 可能是單一翻譯 key（首次寫入）或多段 "\n\n" 串接（後續 add_knowledge append，
+# 例如門解鎖後追加雨夜旁白）。對每一段 tr()，非 key 段為 no-op，鬆綁混合資料。
+func _translate_body(raw_body: String) -> String:
+	if raw_body.is_empty():
+		return ""
+	var parts := raw_body.split("\n\n")
+	var out: Array = []
+	for p in parts:
+		out.append(tr(p))
+	return "\n\n".join(out)
 
 func _select_tab_index(index: int) -> void:
 	if active_category_index == index:

@@ -413,12 +413,12 @@ func _trigger_interaction() -> void:
 							if note.get("id") == "identity_door_unlock_method":
 								existing_note = note
 								break
-						if not existing_note.is_empty() and not "氣壓大門在背後合上" in existing_note.get("body", ""):
+						if not existing_note.is_empty() and not "NOTE_IDENTITY_DOOR_UNLOCK_METHOD_OUTRO_BODY" in existing_note.get("body", ""):
 							var updated_note = existing_note.duplicate()
-							# add_knowledge() 對既有筆記會自動 append 合併，這裡只傳雨夜旁白 delta，避免 base 內文被重複拼接
-							updated_note.body = "氣壓大門在背後合上，把這間發霉的安全溫室反鎖在身後。\n迎面而來的是深夜的冷雨，高架軌道上輕軌呼嘯而過，將鐵鏽與酸雨的水霧灑在我的護目鏡上。下層街區的霓虹招柄在積水裡折射出廉價的青色與桃紅。\n這裡沒有陽光，沒有申訴管道，只有成千上萬在 AI 陰影下掙扎討生活的普通人。\n我踏進了水窪，邁向雨夜。已經沒有回頭路了，我的名字與記憶，一定就藏在這座城市的某個夜班角落。"
+							# add_knowledge() 對既有筆記會自動 append 合併；雨夜旁白 delta 為 M2-C 翻譯 key，顯示由 notebook tr()。
+							updated_note.body = "NOTE_IDENTITY_DOOR_UNLOCK_METHOD_OUTRO_BODY"
 							GameState.add_knowledge(updated_note)
-							_pending_toast_title = "已更新筆記：我鎖上的門"
+							_pending_toast_title = "UI_TOAST_UPDATED_DOOR"
 						
 						interaction_requested.emit({
 							"type": "message",
@@ -445,23 +445,23 @@ func _trigger_interaction() -> void:
 					if not GameState.add_item("old_probe_module", 1):
 						interaction_requested.emit({
 							"type": "message",
-							"message_text": "你發現了投影時鐘底部的面板微弱彈開，裡面露出一個老舊的探測模組。但你的背包太滿了，無法將它取出。整理一下空間後再查看吧。"
+							"message_text": "MSG_PROBE_MODULE_BAG_FULL"
 						})
 						return
-					
+
 					GameState.set_flag("probe_module_taken", true)
 					GameState.add_knowledge(NOTES["clue_probe_module_lead"])
-					
+
 					var clock = $Interactables.get_node_or_null("ProjectionClockArea")
 					if clock:
 						nearby_interactables.erase(clock)
 						clock.queue_free()
 					_refresh_current_interactable()
-					
+
 					interaction_requested.emit({
 						"type": "message",
-						"message_text": "你將手套貼上投影時鐘底部的面板。伴隨著一陣微弱的氣流釋放聲，底座彈出了一個老舊的探測模組。這東西看起來比這間公寓還要古老。\n（獲得了「老舊探測模組」。）",
-						"note_title": "已記入筆記：老舊的探測器"
+						"message_text": "MSG_PROBE_MODULE_OBTAINED",
+						"note_title": "UI_TOAST_NOTED_PROBE_MODULE"
 					})
 				else:
 					_start_sonar()

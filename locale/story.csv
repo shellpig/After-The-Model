@@ -1,0 +1,85 @@
+keys,zh_TW,zh_CN,en
+CAT_IDENTITY,身份,身份,Identity
+CAT_WORK,工作,工作,Work
+CAT_CLUE,線索,线索,Clues
+CAT_ECHO,殘響,残响,Echoes
+CAT_PROGRESS,進度,进度,Progress
+MSG_BED_BAD_SLEEP,"你心中有事, 根本睡不著...","你心中有事，根本睡不着……",Your mind is too restless to sleep...
+MSG_DOOR_LOCKED,"門上了鎖, 而你發現自己不知道如何打開...","门上了锁，而你发现自己不知道如何打开……","The door is locked, and you have no idea how to open it..."
+MSG_DOOR_OPENED,"你將手套貼上讀取器，綠燈閃爍。伴隨著液壓氣動沉悶的釋放聲，門鎖緩慢退開，滑出一條縫。門外灌進了深夜的冷雨、舊機油與高架鐵軌呼嘯而過的冷冽氣息。外頭是五彩斑斕的折射霓虹——你終於要回到那座把你遺忘的都市了。","你将手套贴上读取器，绿灯闪烁。伴随着液压气动沉闷的释放声，门锁缓慢退开，滑出一条缝。门外灌进了深夜的冷雨、旧机油与高架铁轨呼啸而过的冷冽气息。外头是五彩斑斓的折射霓虹——你终于要回到那座把你遗忘的都市了。","You press the glove against the reader; a green light flickers. With a dull hiss of hydraulics the lock retreats, and the door slides open a crack. The night rushes in — cold rain, old motor oil, the icy roar of the elevated rails. Beyond it sprawls a riot of refracted neon. You're finally heading back into the city that forgot you."
+MSG_DESK_COMPUTER_MSG,"螢幕還亮著, 一份新的派工單正自己跳出來, 沒有寄件人。","屏幕还亮着，一份新的派工单正自己跳出来，没有寄件人。",The screen is still on. A new dispatch order has just popped up by itself — with no sender.
+MSG_DESK_COMPUTER_DISPATCH_QUEST,"新的派工單跳進收件匣，標題寫著「異常販賣行為回報」，末尾只有一行備註：
+「接案者須具備基礎設備診斷能力。任務地點：附近便利商店。報酬視修復結果結算。」
+你感覺這不像普通的清理工作，但這個工作本來就沒有普通這回事。
+（已接下委託：便利商店的故障機器人）","新的派工单跳进收件匣，标题写着「异常贩卖行为回报」，末尾只有一行备注：
+「接案者须具备基础设备诊断能力。任务地点：附近便利商店。报酬视修复结果结算。」
+你感觉这不像普通的清理工作，但这个工作本来就没有普通这回事。
+（已接下委托：便利商店的故障机器人）","A new dispatch order drops into the inbox: ""Anomalous Vending Behavior Report."" One line at the bottom:
+""Contractor must have basic equipment diagnostics. Site: the nearby convenience store. Pay scaled to the repair outcome.""
+This doesn't feel like a normal cleanup job. But then, this work has never been normal.
+(Contract accepted: The Broken Robot at the Convenience Store.)"
+MSG_TAPE_RECORDER_MSG,"錄音機裡卡著一捲帶子。按下播放, 是首沒人記得的老歌, 雜訊裡有人輕輕跟著哼。","录音机里卡着一卷带子。按下播放，是首没人记得的老歌，杂讯里有人轻轻跟着哼。","A reel is jammed in the recorder. You press play — an old song no one remembers anymore, with someone humming softly under the static."
+MSG_DECODER_CUBE_DECODED,"當你戴著無指手套拿起魔術方塊時，指尖的接點突然傳來一陣微弱的電流，方塊的接縫處隨之亮起了一道黯淡的迴路光芒。方塊的結構在微弱的喀噠聲中重新排列——它被解碼了。","当你戴着无指手套拿起魔术方块时，指尖的接点突然传来一阵微弱的电流，方块的接缝处随之亮起了一道黯淡的回路光芒。方块的结构在微弱的喀哒声中重新排列——它被解码了。","The moment you pick up the Rubik's cube with the fingerless glove, a faint current crackles through the fingertip contacts. A dim circuit glow traces the cube's seams. With a series of soft clicks, its structure rearranges itself — it has been decoded."
+MSG_NUTRITION_BAR_CONSUME,"包裝比手感該有的輕。撕開才發現裡頭沒有營養棒, 只有一張折起來的紙——上面是你自己的字跡：「別信那個時鐘。」","包装比手感该有的轻。撕开才发现里头没有营养棒，只有一张折起来的纸——上面是你自己的字迹：「别信那个时钟。」","The wrapper feels lighter than it should. You tear it open — no bar inside, just a folded slip of paper. In your own handwriting: ""Don't trust that clock."""
+MSG_SLOT_UNLOCKED,"方塊嵌進凹槽, 牆裡某個東西「喀」地鬆開了。你忽然想起來——這道門是你自己鎖上的。不是壞了, 是你親手裝了這套機關, 把自己關在裡面。連從裡面都打不開……當初到底是為了什麼?
+（門, 解鎖了。）","方块嵌进凹槽，墙里某个东西「咔」地松开了。你忽然想起来——这道门是你自己锁上的。不是坏了，是你亲手装了这套机关，把自己关在里面。连从里面都打不开……当初到底是为了什么？
+（门，解锁了。）","The cube slots into place, and something inside the wall releases with a sharp click. It hits you in a rush — this door was locked by you. It isn't broken. You installed this whole rig with your own hands and sealed yourself inside. It won't even open from in here... what were you trying to keep out, back then?
+(The door is unlocked.)"
+MSG_MEM_FRAG_LINFEI_1,"（你經過時，胸口無端一緊，像有人在很遠的地方喊了你一聲——又像那一聲其實是衝著別人去的。）
+雨水順著脖子灌進來。你停了半秒，說不出自己在等什麼。
+那陣震過去了。你想不起來，剛才差點想起的是什麼。","（你经过时，胸口无端一紧，像有人在很远的地方喊了你一声——又像那一声其实是冲着别人去的。）
+雨水顺着脖子灌进来。你停了半秒，说不出自己在等什么。
+那阵震过去了。你想不起来，刚才差点想起的是什么。","(As you pass through, your chest tightens for no reason at all — as if someone far away just called your name. Or as if that voice was actually aimed at someone else.)
+Rain slips down inside your collar. You pause for half a second, unable to say what you're waiting for.
+The tremor passes. You can't remember what you almost remembered."
+MSG_MEM_FRAG_COMMUTE_TOPSIDE,"（站在這塊早已熄滅的通勤螢幕前，你的手掌不由自主地貼上金屬邊框，大腦一片空白，但雙腿卻升起一股近乎本能的緊繃感——那是每天清晨等待列車、準備『往上』通勤的預備姿勢。）
+指尖觸及冰冷的螢幕，殘存的肌肉記憶像是一道微弱的電流閃過，又在瞬間歸於死寂。
+你搖了搖頭，無法拼湊出那條通往上層的軌道，只留下腳底站立過久的微微發麻。","（站在这块早已熄灭的通勤屏幕前，你的手掌不由自主地贴上金属边框，大脑一片空白，但双腿却升起一股近乎本能的紧绷感——那是每天清晨等待列车、准备『往上』通勤的预备姿势。）
+指尖触及冰冷的屏幕，残存的肌肉记忆像是一道微弱的电流闪过，又在瞬间归于死寂。
+你摇了摇头，无法拼凑出那条通往上层的轨道，只留下脚底站立过久的微微发麻。","(Standing before this long-dead commuter board, your palm rises on its own and presses against the metal frame. Your mind goes blank — but your legs feel an almost instinctive tension, the stance of every dawn spent waiting for the train, ready to head 'up'.)
+Your fingertips meet the cold screen. The residual muscle memory flashes through you like a weak current, then dies out in an instant.
+You shake your head. The line up there refuses to take shape — only a dull tingling lingers in the soles of your feet, from standing too long."
+MSG_PROBE_MODULE_BAG_FULL,"你發現了投影時鐘底部的面板微弱彈開，裡面露出一個老舊的探測模組。但你的背包太滿了，無法將它取出。整理一下空間後再查看吧。","你发现了投影时钟底部的面板微弱弹开，里面露出一个老旧的探测模块。但你的背包太满了，无法将它取出。整理一下空间后再查看吧。",You notice the panel at the base of the projection clock has popped open a crack — an old probe module is tucked inside. But your pack is too full to take it out. Make some room and come back.
+MSG_PROBE_MODULE_OBTAINED,"你將手套貼上投影時鐘底部的面板。伴隨著一陣微弱的氣流釋放聲，底座彈出了一個老舊的探測模組。這東西看起來比這間公寓還要古老。
+（獲得了「老舊探測模組」。）","你将手套贴上投影时钟底部的面板。伴随着一阵微弱的气流释放声，底座弹出了一个老旧的探测模块。这东西看起来比这间公寓还要古老。
+（获得了「老旧探测模块」。）","You press the glove against the panel at the base of the projection clock. With a soft hiss of escaping air, the base ejects an old probe module. The thing looks older than this apartment.
+(Acquired 'Old Probe Module'.)"
+NOTE_WORK_AI_CLEANUP_ROLE_TITLE,AI 善後員,AI 善后员,AI Cleanup Worker
+NOTE_WORK_AI_CLEANUP_ROLE_BODY,"派工單一筆一筆自己跳出來, 地址、編號, 註記欄寫著「殘留清除」「記憶體焚毀」。從沒見過發派的人, 只有螢幕那頭簡短的指示, 從不寒暄, 也從不出錯。原來你靠這個過活——收拾 AI 留下的、人們不想再看見的東西。","派工单一笔一笔自己跳出来，地址、编号，注记栏写着「残留清除」「内存焚毁」。从没见过发派的人，只有屏幕那头简短的指示，从不寒暄，也从不出错。原来你靠这个过活——收拾 AI 留下的、人们不想再看见的东西。","Dispatch orders pop up one after another on their own — an address, a serial number, notes that say things like ""Residual Erasure"" or ""Memory Incineration."" You've never seen who sends them; just terse instructions from the other side of the screen, no small talk, never wrong. So this is how you scrape by — cleaning up the things AI leaves behind that nobody wants to see anymore."
+NOTE_IDENTITY_GLEANER_TITLE,拾遺者,拾遗者,The Gleaner
+NOTE_IDENTITY_GLEANER_BODY,"牆上整排都是舊帶子, 老歌、舊廣播、不知道誰的留言。這些早該被善後員銷毀的東西, 你卻一捲一捲留了下來。你一邊清除過去, 一邊偷偷把它撿回家。","墙上整排都是旧带子，老歌、旧广播、不知道是谁的留言。这些早该被善后员销毁的东西，你却一卷一卷留了下来。你一边清除过去，一边偷偷把它捡回家。",A whole row of old tapes lines the wall — vintage songs, dead broadcasts, voicemails from people you can't name. By the rules of your job, every one of these should already be incinerated. Instead you saved them, reel by reel. You erase the past for a living. And then, on the quiet, you carry it home.
+NOTE_CLUE_GLOVES_DECODER_TITLE,不只是手套,不只是手套,More Than Just Gloves
+NOTE_CLUE_GLOVES_DECODER_BODY,"這雙手套你戴得很習慣, 習慣到忘了它哪裡不對勁。指尖那圈接點碰到某些東西時, 會有反應。你還想不起它是用來「讀」什麼的——但你的手記得。","这双手套你戴得很习惯，习惯到忘了它哪里不对劲。指尖那圈接点碰到某些东西时，会有反应。你还想不起它是用来「读」什么的——但你的手记得。","You've worn these gloves for so long you've stopped noticing what's wrong with them. The ring of contacts at the fingertips reacts when it touches certain things. You can't remember what they're meant to ""read"" — but your hands do."
+NOTE_CLUE_DECODER_CUBE_TITLE,解碼方塊,解码方块,The Decoder Cube
+NOTE_CLUE_DECODER_CUBE_BODY,"一種普遍用於解開設備功能的道具, 性質有點像鑰匙。放入對應的插槽, 就能開啟特定功能。","一种普遍用于解开设备功能的道具，性质有点像钥匙。放入对应的插槽，就能开启特定功能。","A widely used tool for unlocking device functions — somewhere between a key and a token. Drop it in the matching slot, and the right function comes online."
+NOTE_CLUE_PROJECTION_CLOCK_TITLE,別信那個時鐘,别信那个时钟,Don't Trust That Clock
+NOTE_CLUE_PROJECTION_CLOCK_BODY,"營養棒的空包裝裡藏了張紙, 是你自己寫的。那台投影時鐘不只是時鐘——它底下還裝著別的東西。","营养棒的空包装里藏了张纸，是你自己写的。那台投影时钟不只是时钟——它底下还装着别的东西。",A slip of paper was hidden inside the empty nutrition-bar wrapper — and it's in your own handwriting. That projection clock isn't just a clock. There's something else tucked away under it.
+NOTE_IDENTITY_DOOR_UNLOCK_METHOD_TITLE,我鎖上的門,我锁上的门,The Door I Locked
+NOTE_IDENTITY_DOOR_UNLOCK_METHOD_BODY,"戴上手套那刻就該想起來的——指尖那圈接點, 是我自己改的。是我把那顆方塊解了碼, 用時鐘裡的舊終端掃出牆內的插槽, 再把它嵌進去。一整套機關, 全是我親手裝的。我把自己鎖在這裡, 連從裡面都打不開。可這道門不挑人——它一樣能把別人關在裡面。當初, 我到底是想鎖住誰?","戴上手套那刻就该想起来的——指尖那圈接点，是我自己改的。是我把那颗方块解了码，用时钟里的旧终端扫出墙内的插槽，再把它嵌进去。一整套机关，全是我亲手装的。我把自己锁在这里，连从里面都打不开。可这道门不挑人——它一样能把别人关在里面。当初，我到底是想锁住谁？","I should have remembered the moment I slipped the gloves on — that ring of fingertip contacts, I rewired it myself. I decoded the cube. I used the old terminal inside the clock to scan out the slot hidden in the wall, then sank the cube into it. The whole mechanism — every piece of it — I installed it with my own hands. I locked myself in here, and even I can't open it from inside. But the door doesn't care who's behind it. It would seal anyone in just the same. Back then... who was I trying to lock away?"
+NOTE_IDENTITY_DOOR_UNLOCK_METHOD_OUTRO_BODY,"氣壓大門在背後合上，把這間發霉的安全溫室反鎖在身後。
+迎面而來的是深夜的冷雨，高架軌道上輕軌呼嘯而過，將鐵鏽與酸雨的水霧灑在我的護目鏡上。下層街區的霓虹招柄在積水裡折射出廉價的青色與桃紅。
+這裡沒有陽光，沒有申訴管道，只有成千上萬在 AI 陰影下掙扎討生活的普通人。
+我踏進了水窪，邁向雨夜。已經沒有回頭路了，我的名字與記憶，一定就藏在這座城市的某個夜班角落。","气压大门在背后合上，把这间发霉的安全温室反锁在身后。
+迎面而来的是深夜的冷雨，高架轨道上轻轨呼啸而过，将铁锈与酸雨的水雾洒在我的护目镜上。下层街区的霓虹招牌在积水里折射出廉价的青色与桃红。
+这里没有阳光，没有申诉管道，只有成千上万在 AI 阴影下挣扎讨生活的普通人。
+我踏进了水洼，迈向雨夜。已经没有回头路了，我的名字与记忆，一定就藏在这座城市的某个夜班角落。","The pneumatic door seals shut behind me, locking that mildewed little greenhouse safely out of reach.
+Cold night rain hits me head-on. A light rail screams past overhead, scattering rust and acid mist across my goggles. Down on the lower-street, the neon signs splinter into cheap teals and pinks in the standing water.
+There's no sunlight down here, no one to file a complaint with — just thousands of ordinary people scraping by in the long shadow of the AI.
+I step into a puddle and walk on into the rain. There's no going back now. My name, my memories — they're somewhere out there, in one of this city's graveyard-shift corners."
+NOTE_CLUE_CLERK_LOCKER_TITLE,阿達的置物櫃,阿达的置物柜,Ah-Da's Locker
+NOTE_CLUE_CLERK_LOCKER_BODY,"便利商店員工區的置物櫃裡有一套屬於店員『阿達』的制服。機器人顯然不是阿達，但它表現得像是這間店的唯一負責人。","便利商店员工区的置物柜里有一套属于店员『阿达』的制服。机器人显然不是阿达，但它表现得像是这间店的唯一负责人。",There's a clerk's uniform inside a locker in the staff area of the convenience store — it belonged to someone called Ah-Da. The robot obviously isn't Ah-Da. But it's acting as if it's the only one running the place.
+NOTE_CLUE_CLERK_DIARY_TITLE,日記殘頁,日记残页,Diary Fragment
+NOTE_CLUE_CLERK_DIARY_BODY,"被辭退的店員阿達在最後的日記中提到，他被要求將工作交接給櫃台終端（機器人），於是他賭氣地把個人日記與情緒資料備份進了店籍主機中。","被辞退的店员阿达在最后的日记中提到，他被要求将工作交接给柜台终端（机器人），于是他赌气地把个人日记与情绪资料备份进了店籍主机中。",In his final diary entry, the dismissed clerk Ah-Da writes that he was ordered to hand his job over to the counter terminal — the robot. Out of spite, he backed up his personal diary and emotional logs into the store's registry mainframe before he went.
+NOTE_CLUE_TERMINATION_NOTICE_TITLE,自動化通知,自动化通知,Automation Notice
+NOTE_CLUE_TERMINATION_NOTICE_BODY,"店內的辭退公告證實了這家便利商店已全面無人化。排班表上的名字都被劃掉，取而代之的是 AI 系統自動接管的指令。","店内的辞退公告证实了这家便利商店已全面无人化。排班表上的名字都被划掉，取而代之的是 AI 系统自动接管的指令。",The termination notice posted inside confirms it: this convenience store has gone fully unstaffed. Every name on the shift roster has been struck through. Where the names used to be, there are now standing orders from the AI system that took over.
+NOTE_CLUE_ROBOT_PLATE_TITLE,機器人型號銘牌,机器人型号铭牌,Robot Model Plate
+NOTE_CLUE_ROBOT_PLATE_BODY,"櫃台上的機器人有明確的工業銘牌，型號是 CS-Retail-098。它是一個零售服務終端，但它的行為卻在模仿人類店員阿達。","柜台上的机器人有明确的工业铭牌，型号是 CS-Retail-098。它是一个零售服务终端，但它的行为却在模仿人类店员阿达。",The robot behind the counter wears a clear industrial plate: model CS-Retail-098. It's a retail service terminal — but its behavior is imitating a human clerk named Ah-Da.
+NOTE_CLUE_COUNTER_PHOTO_TITLE,褪色的照片,褪色的照片,Faded Photo
+NOTE_CLUE_COUNTER_PHOTO_BODY,"照片上的人就是店員阿達。這張照片被隨意塞在收銀檯下方，是阿達曾經在這裡工作過的唯一真實物證。","照片上的人就是店员阿达。这张照片被随意塞在收银台下方，是阿达曾经在这里工作过的唯一真实物证。",The person in the photo is Ah-Da. It was stuffed carelessly underneath the counter — the only solid evidence left that Ah-Da ever worked here.
+NOTE_CLUE_VENDOR_ERROR_LEAD_TITLE,異常的售貨設備,异常的售货设备,Malfunctioning Vending Hardware
+NOTE_CLUE_VENDOR_ERROR_LEAD_BODY,"街上的自動販賣機和便利商店內的零售機器人都出現了類似的通訊混亂與行為異常。這看起來不像是單一設備的硬體故障，更像是系統層面的殘留問題。或許這能成為一筆新的善後委託，該回房間的電腦確認看看。","街上的自动贩卖机和便利商店内的零售机器人都出现了类似的通讯混乱与行为异常。这看起来不像是单一设备的硬体故障，更像是系统层面的残留问题。或许这能成为一笔新的善后委托，该回房间的电脑确认看看。",The vending machine out on the street and the retail bot inside the convenience store are both glitching the same way: scrambled comms, off-pattern behavior. This doesn't look like a hardware failure on one box. It looks like residue at the system level. Could be a new cleanup contract in this — better check the computer back in the apartment.
+NOTE_CLUE_PROBE_MODULE_LEAD_TITLE,老舊的探測器,老旧的探测器,The Old Probe
+NOTE_CLUE_PROBE_MODULE_LEAD_BODY,"從公寓投影時鐘底下拆出來的模組，看起來是用來探測某種微弱數位訊號的。
+既然大門已經解鎖，或許可以去街區外碰碰運氣。聽說街區最東端有個收廢舊電子玩意的『鹿三爺』，他對這種古怪老設備最感興趣，也許能找他看看。","从公寓投影时钟底下拆出来的模块，看起来是用来探测某种微弱数字信号的。
+既然大门已经解锁，或许可以去街区外碰碰运气。听说街区最东端有个收废旧电子玩意的『鹿三爷』，他对这种古怪老设备最感兴趣，也许能找他看看。","The module you pulled out from under the apartment's projection clock — it looks like it was built to sniff out some kind of faint digital signal.
+With the front door unlocked, it might be worth trying your luck out beyond the block. Word is there's an old man at the far east end of the district, ""Third Master Lu,"" who collects scrap electronics. He has a soft spot for weird old hardware like this. Worth showing him."

@@ -255,7 +255,8 @@ func set_monologue_active(active: bool) -> void:
 func show_message(text: String, on_closed: Callable = Callable(), note_title: String = "") -> void:
 	_is_simple_message = true
 	_message_on_closed = on_closed
-	_message_full_text = text
+	# M2-C：text 可能是翻譯 key（STORY_MESSAGES 值）或已翻譯字串；tr() 對非 key 字串為 no-op。
+	_message_full_text = tr(text)
 	_message_elapsed = 0.0
 	message_label.text = ""
 	_current_chars_per_second = 12.0
@@ -270,7 +271,8 @@ func show_message(text: String, on_closed: Callable = Callable(), note_title: St
 
 func begin_message(text: String, options: Dictionary = {}) -> void:
 	_is_simple_message = false
-	_message_full_text = text
+	# M2-C：text 可能是翻譯 key 或已翻譯字串；tr() 對非 key 字串為 no-op。
+	_message_full_text = tr(text)
 	_message_elapsed = 0.0
 	message_label.text = ""
 	_current_chars_per_second = options.get("chars_per_second", 12.0)
@@ -810,7 +812,7 @@ func show_equip_slot_full_toast(toast_panel: Control) -> void:
 
 func show_discard_flow(instance_id: String, item_meta: Dictionary,
 						 restore_grid: Control, restore_index: int) -> void:
-	var item_name: String = item_meta.get("name", "物品")
+	var item_name: String = item_meta.get("name", "UI_ITEM_GENERIC_FALLBACK")
 	var toast_panel := _get_active_panel()
 
 	if not item_meta.get("discardable", true):

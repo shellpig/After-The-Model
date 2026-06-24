@@ -30,31 +30,31 @@ theme_override_constants/separation = 8
 custom_minimum_size = Vector2(120, 36)
 layout_mode = 2
 focus_mode = 0
-text = "身份"
+text = "CAT_IDENTITY"
 
 [node name="TabWork" type="Button" parent="VBoxContainer/TabBar"]
 custom_minimum_size = Vector2(120, 36)
 layout_mode = 2
 focus_mode = 0
-text = "工作"
+text = "CAT_WORK"
 
 [node name="TabClues" type="Button" parent="VBoxContainer/TabBar"]
 custom_minimum_size = Vector2(120, 36)
 layout_mode = 2
 focus_mode = 0
-text = "線索"
+text = "CAT_CLUE"
 
 [node name="TabEchoes" type="Button" parent="VBoxContainer/TabBar"]
 custom_minimum_size = Vector2(120, 36)
 layout_mode = 2
 focus_mode = 0
-text = "殘響"
+text = "CAT_ECHO"
 
 [node name="TabProgress" type="Button" parent="VBoxContainer/TabBar"]
 custom_minimum_size = Vector2(120, 36)
 layout_mode = 2
 focus_mode = 0
-text = "進度"
+text = "CAT_PROGRESS"
 
 
 [node name="ContentSplit" type="HBoxContainer" parent="VBoxContainer"]

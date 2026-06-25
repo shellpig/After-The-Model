@@ -18,7 +18,7 @@ signal travel_requested(scene_id: String, entry_point_id: String)
 @onready var shop_panel: Control = $ShopPanel
 @onready var world_hud_label: Label = $WorldHUDLabel
 @onready var message_box: Control = $MessageBoxContainer/MessageBox
-@onready var message_label: Label = $MessageBoxContainer/MessageBox/MarginContainer/MessageLabel
+@onready var message_label: RichTextLabel = $MessageBoxContainer/MessageBox/MarginContainer/MessageLabel
 @onready var page_hint_label: Label = $MessageBoxContainer/MessageBox/PageHintLabel
 @onready var photo_viewer: Control = $PhotoViewer
 
@@ -34,6 +34,9 @@ var _audio_echo: AudioStreamPlayer = null
 var _main: Node = null
 
 # Typewriter variables for show_message
+# B-lite 旁白 OS 樣式旋鈕：白字為 40。
+const OS_FONT_SIZE := 30       # OS 字級（略小於白字）
+const OS_SLANT := 0.18         # OS 斜度：0=不斜，越大越斜（Godot 內建約 0.2，偏兇）
 var _message_full_text := ""
 var _message_elapsed := 0.0
 var _current_chars_per_second := 12.0
@@ -66,7 +69,9 @@ func _ready() -> void:
 	page_hint_label.visible = false
 	
 	_apply_message_box_style()
-	
+	# 切語言時 ThemeDB.fallback_font 會換，OS 斜體字型需用新字型重建。
+	LocaleManager.locale_changed.connect(func(_loc): _apply_os_italic_font())
+
 	UIMode.mode_changed.connect(_on_ui_mode_changed)
 	
 	# Enable item actions for bag grid
@@ -258,7 +263,8 @@ func show_message(text: String, on_closed: Callable = Callable(), note_title: St
 	# M2-C：text 可能是翻譯 key（STORY_MESSAGES 值）或已翻譯字串；tr() 對非 key 字串為 no-op。
 	_message_full_text = tr(text)
 	_message_elapsed = 0.0
-	message_label.text = ""
+	message_label.text = _build_message_bbcode(_message_full_text)
+	message_label.visible_characters = 0
 	_current_chars_per_second = 12.0
 	_message_hint_shown = false
 	set_message_page_hint("", false)
@@ -274,7 +280,8 @@ func begin_message(text: String, options: Dictionary = {}) -> void:
 	# M2-C：text 可能是翻譯 key 或已翻譯字串；tr() 對非 key 字串為 no-op。
 	_message_full_text = tr(text)
 	_message_elapsed = 0.0
-	message_label.text = ""
+	message_label.text = _build_message_bbcode(_message_full_text)
+	message_label.visible_characters = 0
 	_current_chars_per_second = options.get("chars_per_second", 12.0)
 	_message_hint_shown = false
 	set_message_page_hint("", false)
@@ -285,11 +292,11 @@ func begin_message(text: String, options: Dictionary = {}) -> void:
 
 
 func force_finish_message() -> void:
-	message_label.text = _message_full_text
+	message_label.visible_characters = -1
 	_message_elapsed = _message_full_text.length() / _current_chars_per_second + 1.0
 
 func is_message_finished() -> bool:
-	return message_label.text.length() >= _message_full_text.length()
+	return message_label.visible_characters < 0 or message_label.visible_characters >= _message_full_text.length()
 
 func set_message_page_hint(text: String, visible: bool) -> void:
 	page_hint_label.text = text
@@ -619,6 +626,27 @@ func _check_and_trigger_endings() -> void:
 
 
 
+func _build_message_bbcode(raw: String) -> String:
+	# B-lite 旁白分層：以全形括號（…）標記內心 OS，套斜體 + 冷色 + 縮排。
+	# 注意：此判斷靠 `（）` 約定，正式敘事文案內若含全形括號會被誤判為 OS。
+	var out := ""
+	var inside := false
+	for ch in raw:
+		if ch == "[":
+			out += "[lb]"
+		elif ch == "（":
+			inside = true
+			# 大小用 bbcode [font_size] 明寫（theme italic_font_size 在 shaping 階段常被忽略）。
+			out += "[i][font_size=%d][color=#8fb9c9]（" % OS_FONT_SIZE
+		elif ch == "）":
+			out += "）[/color][/font_size][/i]"
+			inside = false
+		else:
+			out += ch
+	if inside:
+		out += "[/color][/font_size][/i]"
+	return out
+
 func _apply_message_box_style() -> void:
 	var message_style := StyleBoxFlat.new()
 	message_style.bg_color = Color(0.08, 0.09, 0.10, 0.78)
@@ -637,9 +665,19 @@ func _apply_message_box_style() -> void:
 	message_style.content_margin_bottom = 20.0
 	message_box.add_theme_stylebox_override("panel", message_style)
 
-	message_label.add_theme_font_size_override("font_size", 40)
-	message_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	message_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	message_label.add_theme_font_size_override("normal_font_size", 36)
+	_apply_os_italic_font()
+
+# OS 斜體：用目前 locale 的 Noto 字型做 skew 變形，塞進 italic_font 槽，
+# 讓 [i] 走的是「你的 Noto 斜過來」而非 Godot 內建合成斜體。
+func _apply_os_italic_font() -> void:
+	var base: Font = ThemeDB.fallback_font
+	if base == null:
+		base = message_label.get_theme_font("normal_font")
+	var fv := FontVariation.new()
+	fv.base_font = base
+	fv.variation_transform = Transform2D(Vector2(1, 0), Vector2(OS_SLANT, 1), Vector2.ZERO)
+	message_label.add_theme_font_override("italic_font", fv)
 
 func _update_message_typewriter(delta: float) -> void:
 	if not message_box.visible or _message_full_text.is_empty():
@@ -647,11 +685,11 @@ func _update_message_typewriter(delta: float) -> void:
 
 	_message_elapsed += delta
 	var visible_chars: int = min(_message_full_text.length(), int(floor(_message_elapsed * _current_chars_per_second)))
-	message_label.text = _message_full_text.substr(0, visible_chars)
+	message_label.visible_characters = visible_chars
 
 func _resize_message_box_for_text(text: String) -> void:
-	var font: Font = message_label.get_theme_font("font")
-	var font_size: int = message_label.get_theme_font_size("font_size")
+	var font: Font = message_label.get_theme_font("normal_font")
+	var font_size: int = message_label.get_theme_font_size("normal_font_size")
 
 	var max_width: float = 900.0
 	var text_size: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)

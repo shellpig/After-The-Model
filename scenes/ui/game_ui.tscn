@@ -157,10 +157,13 @@ layout_mode = 2
 layout_mode = 2
 
 
-[node name="MessageLabel" type="Label" parent="MessageBoxContainer/MessageBox/MarginContainer"]
+[node name="MessageLabel" type="RichTextLabel" parent="MessageBoxContainer/MessageBox/MarginContainer"]
 visible = false
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+theme_override_font_sizes/normal_font_size = 40
 
 [node name="PageHintLabel" type="Label" parent="MessageBoxContainer/MessageBox"]
 layout_mode = 2

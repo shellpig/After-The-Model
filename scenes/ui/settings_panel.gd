@@ -30,7 +30,7 @@ func _ready() -> void:
 	_apply_theme_style()
 
 	# 即時跟隨 LocaleManager 重繪標籤文字
-	LocaleManager.locale_changed.connect(_refresh_labels)
+	LocaleManager.locale_changed.connect(func(_l): _refresh_labels())
 
 func open_panel() -> void:
 	visible = true

@@ -50,8 +50,9 @@ This project uses local skills from `C:\_work\AI_Work\Skills\`.
 Trigger rules:
 - Diagnosing bugs / analyzing errors / finding root cause → read `Skills\engineering\diagnose\SKILL.md` first
 - Requirements unclear / spec discussion / planning / need to ask clarifying questions → read `Skills\productivity\grill-me\SKILL.md` first
+- Planning game specs / verification with code review → read `Skills\gamestudio\SKILL.md` first
 - Frontend / local web app verification, UI behavior debugging, browser screenshots, or console logs → read `Skills\engineering\webapp-testing\SKILL.md` first
-- Normal state / no urgent or special situation → read `Skills\productivity\caveman\SKILL.md` first
+
 
 Only modify files when user explicitly requests fix, implement, or commit. Verify/diagnose = report only.
 

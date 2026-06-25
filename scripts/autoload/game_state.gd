@@ -1212,7 +1212,14 @@ func collect_echo_segment(echo_id: String, segment_id: String) -> bool:
 	if collected_arr.has(segment_id):
 		return false
 		
+	var was_complete = is_echo_complete(echo_id)
 	collected_arr.append(segment_id)
+	
+	if not was_complete and is_echo_complete(echo_id):
+		var echo_data = EchoDB.get_echo(echo_id)
+		if echo_data.has("trace_on_collect"):
+			add_trace(echo_data["trace_on_collect"])
+			
 	echo_changed.emit(echo_id)
 	return true
 

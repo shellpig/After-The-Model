@@ -82,6 +82,19 @@ static var ECHOES := {
 		],
 		"sell_price": 250,
 		"comment": "ECHO_SETTLEMENT_ERASED_COMMENT"
+	},
+	"echo_ada_reset": {
+		"title": "ECHO_ADA_RESET_TITLE",
+		"segments": [
+			{
+				"id": "s1",
+				"text": "ECHO_ADA_RESET_SEG_S1"
+			}
+		],
+		"image_path": "res://assets/images/echoes/echo_ada_reset.jpeg",
+		"sell_price": 300,
+		"comment": "ECHO_ADA_RESET_COMMENT",
+		"trace_on_collect": 1
 	}
 }
 

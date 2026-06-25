@@ -151,6 +151,13 @@ const STORY_NOTES := {
 		"title": "NOTE_CLUE_PROBE_MODULE_LEAD_TITLE",
 		"body": "NOTE_CLUE_PROBE_MODULE_LEAD_BODY",
 		"status": "active"
+	},
+	"clue_old_work_order": {
+		"id": "clue_old_work_order",
+		"category": "身份",
+		"title": "NOTE_CLUE_OLD_WORK_ORDER_TITLE",
+		"body": "NOTE_CLUE_OLD_WORK_ORDER_BODY",
+		"status": "active"
 	}
 }
 

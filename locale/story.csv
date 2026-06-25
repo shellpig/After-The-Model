@@ -83,3 +83,29 @@ NOTE_CLUE_PROBE_MODULE_LEAD_BODY,"從公寓投影時鐘底下拆出來的模組�
 既然大門已經解鎖，或許可以去街區外碰碰運氣。聽說街區最東端有個收廢舊電子玩意的『鹿三爺』，他對這種古怪老設備最感興趣，也許能找他看看。","从公寓投影时钟底下拆出来的模块，看起来是用来探测某种微弱数字信号的。
 既然大门已经解锁，或许可以去街区外碰碰运气。听说街区最东端有个收废旧电子玩意的『鹿三爷』，他对这种古怪老设备最感兴趣，也许能找他看看。","The module you pulled out from under the apartment's projection clock — it looks like it was built to sniff out some kind of faint digital signal.
 With the front door unlocked, it might be worth trying your luck out beyond the block. Word is there's an old man at the far east end of the district, ""Third Master Lu,"" who collects scrap electronics. He has a soft spot for weird old hardware like this. Worth showing him."
+MSG_OLD_WORK_ORDER_NEUTRAL,"一張看不懂的舊派工單，編號被磨花了。","一张看不懂的旧派工单，编号被磨花了。","An illegible old dispatch order. The serial number is heavily scuffed."
+MSG_OLD_WORK_ORDER_REVEALED,"「派工單號碼：B7-013009，清除對象：阿達，狀態：已重置。」你突然想起，這個單號與你右肩上的舊工作證編號完全一致。那件雨衣、那根維修棍……你就是那個執行人。","“派工单号码：B7-013009，清除对象：阿达，状态：已重置。”你突然想起，这个单号与你右肩上的旧工作证编号完全一致。那件雨衣、那根维修棍……你就是那个执行人。","""Dispatch No: B7-013009. Target: Ada. Status: Reset."" It strikes you — this serial number matches the old work badge on your right shoulder. That raincoat, that maintenance rod... You were the executor."
+MSG_OLD_WORK_ORDER_READ,"舊派工單上寫著阿達被重置的記錄，以及與你的舊工作證相符的執行編號。","旧派工单上写着阿达被重置的记录，以及与你的旧工作证相符的执行编号。","The old dispatch order lists Ada's reset status, with the executor ID matching your own work badge."
+NOTE_CLUE_OLD_WORK_ORDER_TITLE,舊派工單,旧派工单,Old Dispatch Order
+NOTE_CLUE_OLD_WORK_ORDER_BODY,"派工單編號：B7-013009
+清除對象：阿達
+狀態：已重置
+
+備註欄上有一行你的手寫字跡：
+「只是照流程。」
+
+你突然明白，這個執行編號與你右肩上的舊工作證編號完全一致。那件雨衣、那根維修棍……你就是那個執行人。","派工单编号：B7-013009
+清除对象：阿达
+状态：已重置
+
+备注栏上有一行你的手写字迹：
+“只是照流程。”
+
+你突然明白，这个执行编号与你右肩上的旧工作证编号完全一致。那件雨衣、那根维修棍……你就是那个执行人。","Dispatch No: B7-013009
+Target: Ada
+Status: Reset
+
+There is a line of your own handwriting in the notes:
+""Just following the protocol.""
+
+You suddenly realize that this executor ID matches the old work badge on your right shoulder. That raincoat, that maintenance rod... You were the executor."

@@ -204,6 +204,15 @@ segment_id = "s1"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=987654352]
 shape = SubResource("RectangleShape2D_flavor")
 
+[node name="OldWorkOrderArea" type="Area2D" parent="Interactables" unique_id=987654353]
+script = ExtResource("3_interactable")
+interaction_id = "examine_old_work_order"
+prompt_text = "PROMPT_EXAMINE_OLD_WORK_ORDER"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/OldWorkOrderArea" unique_id=987654354]
+position = Vector2(3000, 705)
+shape = SubResource("RectangleShape2D_flavor")
+
 [node name="Player" type="CharacterBody2D" parent="." unique_id=355216945]
 position = Vector2(180, 870)
 scale = Vector2(0.8, 0.8)

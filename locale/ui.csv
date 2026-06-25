@@ -272,3 +272,4 @@ UI_TOAST_NOTED_PROBE_MODULE,已記入筆記：老舊的探測器,已记入笔记
 UI_TOAST_QUEST_ACCEPTED_VENDOR_BOT,已接下委託：便利商店的故障機器人,已接下委托：便利商店的故障机器人,Task accepted: The convenience store's faulty robot
 UI_TOAST_NOTE_UPDATED_ALLEY_3F,已更新筆記：暗巷三樓的舊物,已更新笔记：暗巷三楼的旧物,Note updated: The old belongings on the alley's 3rd floor
 UI_ITEM_GENERIC_FALLBACK,物品,物品,Item
+PROMPT_EXAMINE_OLD_WORK_ORDER,E: █ 翻看一張舊派工單,E: █ 翻看一张旧派工单,E: █ Examine Old Dispatch Order

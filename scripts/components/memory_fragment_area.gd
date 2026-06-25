@@ -6,6 +6,7 @@ signal player_exited(interactable: Area2D)
 
 @export var fragment_flag: String = "mem_frag_linfei_1"
 @export var message_id: String = "mem_frag_linfei_1"
+@export var require_flag: String = ""
 
 # Dummy properties to prevent attribute errors if queried by level
 var prompt_text: String = ""
@@ -20,6 +21,9 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.name != "Player":
 		return
 	
+	if require_flag != "" and not GameState.get_flag(require_flag, false):
+		return
+		
 	if GameState.get_flag(fragment_flag, false):
 		return
 		

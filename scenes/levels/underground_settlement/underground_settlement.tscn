@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="walk7"]
  [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="walk8"]
 [ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
+[ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4352, 16)
@@ -212,6 +213,16 @@ prompt_text = "PROMPT_EXAMINE_OLD_WORK_ORDER"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/OldWorkOrderArea" unique_id=987654354]
 position = Vector2(3000, 705)
 shape = SubResource("RectangleShape2D_flavor")
+
+[node name="MemoryFragmentErasedAda" type="Area2D" parent="Interactables" unique_id=987654355]
+script = ExtResource("ext_mem_frag_area")
+fragment_flag = "mem_frag_erased_ada"
+message_id = "mem_frag_erased_ada"
+require_flag = "read_old_work_order"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentErasedAda" unique_id=987654356]
+position = Vector2(1300, 705)
+shape = SubResource("RectangleShape2D_transition")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=355216945]
 position = Vector2(180, 870)

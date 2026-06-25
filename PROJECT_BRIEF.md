@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-06-24
+最後更新：2026-06-25
 
 ---
 
@@ -268,10 +268,10 @@ note_id
 | M2-C | ✅ 完成 | 敘事資料 i18n：`STORY_NOTES` title/body、`STORY_MESSAGES`、`ITEMS_DB` name/description、分類名改為翻譯 key；`story.csv` / `items.csv` 三語完成；資料驅動覆蓋檢查與抽樣 `tr()` 驗證已加入，對話 / 旗標 / 存檔邏輯不變（commit `29d14e3`）。 |
 | M2-D | ✅ 完成 | 對話樹 i18n：9 棵 dialogue tree 的 speaker / text / choices key 化（`dialogue.csv` 176 keys 三語）、`DialoguePanel` 顯示端全 `tr()`、英文人名音譯對照鎖定（Wan / Lu Qichen / Cen / Wu / Seven）、三語禁字檢查（無「林霏」/「Lin Fei」）；顯示 / 邏輯分離保持（`goto` / `effect` / `condition` 用原 id）。code review 修正 `DialoguePanel` 離開選項排序在英文 locale 失效（`"Exit"` token → 翻譯實際用字 `"leave"`）與 `shop_panel` surgical 雜訊。`data/echoes` / `shops` / `quests` → `data.csv`（46 keys，原列 M2-E）一併前移完成。headless 全鏈 PASS。 |
 | M2-E | ✅ 完成 | 收尾 + 全域 i18n 驗證網：~~`data/echoes` / `shops` / `quests` → `data.csv`~~（已於 M2-D 前移完成）；全鏈 Phase 1~19 / M1 / M2-A~E headless 回歸 PASS；新增跨 5 份 CSV（ui/story/items/dialogue/data）key 唯一性、佔位型別簽章一致、`林霏`/`Lin Fei` 禁字全域掃描護欄。三語 GUI / 純觸控走查與 iOS / Android 真機（OS locale 偵測 + 字型無豆腐）屬手動裝置驗收清單（見 `測試指南.md`），留待真機階段執行。 |
-| 19-A | 📐 規格可實作 | 阿達殘響②「穿雨衣、拿維修棍、說只是照流程」：`EchoDB` 加 `echo_ada_reset`（含 `trace_on_collect`＝採集「留」一次性 Trace↑，兌現 11-C 預留）落聚落左室 `EchoPoint`（避開小岑 16-A 站位）；可賣（`sell_echo` → Trace↓）；媒體層可選後置 |
-| 19-B | 📐 規格可實作 | 舊善後工單③（**鎖 2C**，gate＝先採殘響）examine → set `read_old_work_order` + `add_item("old_work_badge")`（既有 ITEMS_DB key item 的首取得點）+ 寫 `clue_old_work_order`；工單編號＝舊工作證號碼＝確認兇手＝失憶前主角；背包滿防呆；未採殘響前只給中性提示 |
-| 19-C | 📐 規格可實作 | 收束碎片「你親手抹過阿達」：`MemoryFragmentArea` 加 `require_flag` gate（預設 "" 向後相容）+ `mem_frag_erased_ada` + `STORY_MESSAGES`；gate＝`read_old_work_order`，揭露工單後離開必經帶觸發 |
-| 19-D | 📐 規格可實作 | 回歸 + 存讀檔：`echo_progress`（含 sold）/ `trace` / `read_old_work_order` / `old_work_badge` 持有 / `mem_frag_erased_ada` round-trip；Phase 1~18 不退化；三拍文字不含「林霏」 |
+| 19-A | ✅ 完成 | 阿達殘響②「穿雨衣、拿維修棍、說只是照流程」：`EchoDB` 加 `echo_ada_reset`（含 `trace_on_collect`＝採集「留」一次性 Trace↑，兌現 11-C 預留）落聚落左室 `EchoPoint`（避開小岑 16-A 站位）；可賣（`sell_echo` → Trace↓）；媒體層可選後置；headless PASS（commit `a823cea`）|
+| 19-B | ✅ 完成 | 舊善後工單③（**鎖 2C**，gate＝先採殘響）examine → set `read_old_work_order` + `add_item("old_work_badge")`（既有 ITEMS_DB key item 的首取得點）+ 寫 `clue_old_work_order`；工單編號＝舊工作證號碼＝確認兇手＝失憶前主角；背包滿防呆；未採殘響前只給中性提示；headless PASS（commit `f3c3ada`）|
+| 19-C | ✅ 完成 | 收束碎片「你親手抹過阿達」：`MemoryFragmentArea` 加 `require_flag` gate（預設 "" 向後相容）+ `mem_frag_erased_ada` + `STORY_MESSAGES`；gate＝`read_old_work_order`，揭露工單後離開必經帶觸發；headless PASS（commit `d41028f`）|
+| 19-D | ✅ 完成 | 回歸 + 存讀檔護欄（折入 19-A/B/C commit，非獨立 commit）：`echo_progress`（含 sold）/ `trace` / `read_old_work_order` / `old_work_badge` 持有 / `mem_frag_erased_ada` round-trip；Phase 1~18 不退化；三拍文字不含「林霏」；2026-06-25 本機 headless 350 PASS / 0 FAIL（exit 0）|
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 

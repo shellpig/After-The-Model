@@ -50,7 +50,6 @@ const TREE := {
 				"condition": {"flag": "seven_hinted_name_topside", "op": "==", "value": true},
 				"goto": "ask_name"
 			},
-			{"label": "DLG_SEVEN_CONDITION_CHOICE0", "goto": "leave"},
 			{
 				"label": "DLG_SEVEN_RETALK_CHOICE_RECEIPT",
 				"condition": [
@@ -58,8 +57,12 @@ const TREE := {
 					{"flag": "peace_line_locked", "op": "!=", "value": true},
 					{"flag": "seven_peace_branch_d", "op": "!=", "value": true}
 				],
-				"goto": "receipt_probe"
-			}
+				"goto": [
+					{"condition": {"flag": "seven_receipt_rebuffed", "op": "==", "value": true}, "target": "receipt_reprobe"},
+					{"target": "receipt_probe"}
+				]
+			},
+			{"label": "DLG_SEVEN_CONDITION_CHOICE0", "goto": "leave"}
 		]
 	},
 
@@ -95,7 +98,21 @@ const TREE := {
 	"receipt_fail_cold": {
 		"speaker": "SPEAKER_SEVEN",
 		"text": "DLG_SEVEN_RECEIPT_FAIL_COLD_TEXT",
+		"effect": [
+			{"op": "set_flag", "key": "seven_receipt_rebuffed", "value": true}
+		],
 		"goto": "leave"
+	},
+
+	"receipt_reprobe": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_RECEIPT_REPROBE_TEXT",
+		"choices": [
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_THREAT", "goto": "receipt_fail_cold"},
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_TAUNT", "goto": "receipt_fail_cold"},
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_QUESTION", "goto": "receipt_fail_cold"},
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_RETURN", "goto": "receipt_return"}
+		]
 	},
 
 	"receipt_return": {

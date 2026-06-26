@@ -138,6 +138,7 @@ DLG_SEVEN_RECEIPT_CHOICE_TAUNT,"躲在地下的人，原來也會有關心的東
 DLG_SEVEN_RECEIPT_CHOICE_QUESTION,"老實說，這張兒少照護回執到底是給誰的？","老实说，这张儿少照护回执到底是给谁的？","Honestly, who is this childcare supply receipt actually for?"
 DLG_SEVEN_RECEIPT_CHOICE_RETURN,"拿去吧，這應該屬於你。","拿去吧，这应该属于你。","Here, take it. This belongs to you."
 DLG_SEVEN_RECEIPT_FAIL_COLD_TEXT,"（七號把回執塞回你手裡，眼神冰冷）無聊的把戲。滾一邊去，別來試探我。","（七号把回执塞回你手里，眼神冰冷）无聊的把戏。滚一边去，别来试探我。","(Seven shoves the receipt back into your hand, his eyes cold) Bored games. Get lost, don't test me."
+DLG_SEVEN_RECEIPT_REPROBE_TEXT,"（他瞥了那張回執一眼，沒接）又是這個。你到底想說什麼？","（他瞥了那张回执一眼，没接）又是这个。你到底想说什么？","(He glances at the receipt without taking it) This again. What are you actually trying to say?"
 DLG_SEVEN_RECEIPT_RETURN_TEXT,"（他看著你遞過去的回執，眼神移到代碼的某個細節，突然整個人僵住）……這個符號，還有這個故意打錯的字。","（他看着你递过去的回执，眼神移到代码的某个细节，突然整个人僵住）……这个符号，还有这个故意打错的字。","(He looks at the receipt you hand over, his eyes moving to a detail in the code, suddenly freezing) ...This symbol, and this deliberate typo."
 DLG_SEVEN_RECEIPT_RECOGNIZED_TEXT,"她還在。（他死死攥著那張紙，指關節發白）……那我不能回去。我一回去，他們就會順著我找到她。……幹。","她还在。（他死死攥着那张纸，指关节发白）……那我不能回去。我一回去，他们就会顺着我找到她。……干。","She is still here. (He grips the paper tightly, his knuckles turning white) ...Then I can't go back. If I go back, they will follow me straight to her. ...Damn it."
 DLG_SEVEN_PEACE_BRANCH_D_DONE_TEXT,"（他把紙條塞進懷裡最深的口袋）我欠你一次。不是欠你們。是欠你。","（他把纸条塞进怀里最深的口袋）我欠你一次。不是欠你们。是欠你。","(He stuffs the paper into his deepest inner pocket) I owe you one. Not your kind. You."

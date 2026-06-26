@@ -10103,6 +10103,55 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
+	# Test Case 8: Failure sets seven_receipt_rebuffed; on retry the receipt choice
+	# routes to receipt_reprobe (terse, no naive first-time replay) and can still succeed.
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.add_item("childcare_supply_receipt", 1)
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	receipt_choice_index = -1
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			receipt_choice_index = choice.get("index", -1)
+	runner_20.choose(receipt_choice_index)
+	runner_20.choose(0) # Threaten -> receipt_fail_cold (sets seven_receipt_rebuffed)
+	if not GameState.get_flag("seven_receipt_rebuffed", false):
+		printerr("FAIL 20: seven_receipt_rebuffed not set after failure path!")
+		get_tree().quit(1)
+		return
+
+	# Re-open dialogue: receipt choice now routes to receipt_reprobe.
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	receipt_choice_index = -1
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			receipt_choice_index = choice.get("index", -1)
+	runner_20.choose(receipt_choice_index)
+	curr_20 = runner_20.current()
+	if not "又是這個" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected receipt_reprobe on retry after rebuff, got: ", curr_20)
+		get_tree().quit(1)
+		return
+
+	# Return path from reprobe still reaches the success node and applies effects.
+	runner_20.choose(3) # Return
+	runner_20.advance() # receipt_recognized
+	runner_20.advance() # peace_branch_d_done (effects fire on enter)
+	if GameState.has_item("childcare_supply_receipt", 1):
+		printerr("FAIL 20: receipt NOT removed on reprobe success path!")
+		get_tree().quit(1)
+		return
+	if not GameState.get_flag("seven_peace_branch_d", false):
+		printerr("FAIL 20: seven_peace_branch_d NOT set on reprobe success path!")
+		get_tree().quit(1)
+		return
+
 	# Forbidden word checks for all Phase 20 keys
 	var keys_20 = [
 		"DLG_SEVEN_RETALK_CHOICE_RECEIPT",
@@ -10113,6 +10162,7 @@ func _ready() -> void:
 		"DLG_SEVEN_RECEIPT_CHOICE_QUESTION",
 		"DLG_SEVEN_RECEIPT_CHOICE_RETURN",
 		"DLG_SEVEN_RECEIPT_FAIL_COLD_TEXT",
+		"DLG_SEVEN_RECEIPT_REPROBE_TEXT",
 		"DLG_SEVEN_RECEIPT_RETURN_TEXT",
 		"DLG_SEVEN_RECEIPT_RECOGNIZED_TEXT",
 		"DLG_SEVEN_PEACE_BRANCH_D_DONE_TEXT"

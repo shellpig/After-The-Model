@@ -130,6 +130,17 @@ DLG_SEVEN_RETALK_CHOICE0,你那個『掛在上面的名字』……,你那个『
 DLG_SEVEN_CONDITION_CHOICE0,（離開）,（离开）,(Leave)
 DLG_SEVEN_ASK_NAME_TEXT,（眼神一冷）我說了，別問。……等你哪天也丟了個非找回不可的人，你就懂了。現在，滾。,（眼神一冷）我说了，别问。……等你哪天也丢了个非找回不可的人，你就懂了。现在，滚。,"(His eyes turn cold) I told you, don't ask. ...Once you lose someone you absolutely must find, you'll understand. Now, get lost."
 DLG_SEVEN_LEAVE_TEXT,（他別過臉，雙臂抱胸，重新靠回牆邊，不再理會你。）,（他别过脸，双臂抱胸，重新靠回墙边，不再理会你。）,"(He turns his face away, crosses his arms, and leans back against the wall, ignoring you.)"
+DLG_SEVEN_RETALK_CHOICE_RECEIPT,"（把那張回執拿給他看）","（把那张回执拿给他看）","(Show him the receipt)"
+DLG_SEVEN_RETALK_D_TEXT,"是你。……我說過，我欠你一次。沒別的事就別煩我。","是你。……我说过，我欠你一次。没别的事就别烦我。","Still you. ...I told you, I owe you one. Don't bother me if there's nothing else."
+DLG_SEVEN_RECEIPT_PROBE_TEXT,"……這什麼？（他接過回執，眉頭微皺，看了那排代碼一眼）這只是一張廢棄物流單。你想說什麼？","……这什么？（他接过回执，眉头微皱，看了那排代码一眼）这只是一张废弃物流单。你想说什么？","...What is this? (He takes the receipt, frowning slightly as he glances at the code) This is just a discarded logistics slip. What are you trying to say?"
+DLG_SEVEN_RECEIPT_CHOICE_THREAT,"這東西要是給了別人，你會有麻煩吧？","这东西要是给了别人，你会有麻烦吧？","If this falls into other hands, you'll be in trouble, right?"
+DLG_SEVEN_RECEIPT_CHOICE_TAUNT,"躲在地下的人，原來也會有關心的東西。","躲在地下的人，原来也会有关心的东西。","So someone hiding underground actually cares about something."
+DLG_SEVEN_RECEIPT_CHOICE_QUESTION,"老實說，這張兒少照護回執到底是給誰的？","老实说，这张儿少照护回执到底是给谁的？","Honestly, who is this childcare supply receipt actually for?"
+DLG_SEVEN_RECEIPT_CHOICE_RETURN,"拿去吧，這應該屬於你。","拿去吧，这应该属于你。","Here, take it. This belongs to you."
+DLG_SEVEN_RECEIPT_FAIL_COLD_TEXT,"（七號把回執塞回你手裡，眼神冰冷）無聊的把戲。滾一邊去，別來試探我。","（七号把回执塞回你手里，眼神冰冷）无聊的把戏。滚一边去，别来试探我。","(Seven shoves the receipt back into your hand, his eyes cold) Bored games. Get lost, don't test me."
+DLG_SEVEN_RECEIPT_RETURN_TEXT,"（他看著你遞過去的回執，眼神移到代碼的某個細節，突然整個人僵住）……這個符號，還有這個故意打錯的字。","（他看着你递过去的回执，眼神移到代码的某个细节，突然整个人僵住）……这个符号，还有这个故意打错的字。","(He looks at the receipt you hand over, his eyes moving to a detail in the code, suddenly freezing) ...This symbol, and this deliberate typo."
+DLG_SEVEN_RECEIPT_RECOGNIZED_TEXT,"她還在。（他死死攥著那張紙，指關節發白）……那我不能回去。我一回去，他們就會順著我找到她。……幹。","她还在。（他死死攥着那张纸，指关节发白）……那我不能回去。我一回去，他们就会顺着我找到她。……干。","She is still here. (He grips the paper tightly, his knuckles turning white) ...Then I can't go back. If I go back, they will follow me straight to her. ...Damn it."
+DLG_SEVEN_PEACE_BRANCH_D_DONE_TEXT,"（他把紙條塞進懷裡最深的口袋）我欠你一次。不是欠你們。是欠你。","（他把纸条塞进怀里最深的口袋）我欠你一次。不是欠你们。是欠你。","(He stuffs the paper into his deepest inner pocket) I owe you one. Not your kind. You."
 SPEAKER_STORE_REGISTRY_HOST,店籍主機,店籍主机,Store Registry Mainframe
 DLG_STORE_REGISTRY_HOST_STAGE1_TEXT,"（螢幕亮著，淡綠色的舊式介面上滾動著你看不懂的店籍資料。）
 【CS-STORE #0047──店籍登錄系統】

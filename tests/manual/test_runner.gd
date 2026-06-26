@@ -9883,6 +9883,258 @@ func _ready() -> void:
 	LocaleManager.set_locale("zh_TW")
 	print("--- Phase M2-E: ALL CHECKS PASSED ---")
 
+	# ===================== Phase 20: Act 2D 七號可選 + 和平線 Branch D =====================
+	print("--- Phase 20: Act 2D 七號可選 + 和平線 Branch D ---")
+	var dialogue_db_p20 = load("res://data/dialogue/dialogue_db.gd")
+	var seven_tree_20 = dialogue_db_p20.get_tree_for("seven")
+
+	# Test Case 1: Without receipt item, the receipt-hand-over choice should NOT be visible.
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	var runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	var curr_20 = runner_20.current()
+	var choices_20 = curr_20.get("choices", [])
+	var has_receipt_choice = false
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			has_receipt_choice = true
+	if has_receipt_choice:
+		printerr("FAIL 20: Receipt choice visible when item is missing!")
+		get_tree().quit(1)
+		return
+
+	# Test Case 2: With receipt item but peace_line_locked = true, the choice should NOT be visible.
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.set_flag("peace_line_locked", true)
+	GameState.add_item("childcare_supply_receipt", 1)
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	has_receipt_choice = false
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			has_receipt_choice = true
+	if has_receipt_choice:
+		printerr("FAIL 20: Receipt choice visible when peace_line_locked is true!")
+		get_tree().quit(1)
+		return
+
+	# Test Case 3: With receipt item and peace_line_locked = false, choice is visible. Choose return path.
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.add_item("childcare_supply_receipt", 1)
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	var receipt_choice_index := -1
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			receipt_choice_index = choice.get("index", -1)
+	if receipt_choice_index == -1:
+		printerr("FAIL 20: Receipt choice NOT visible when conditions are met!")
+		get_tree().quit(1)
+		return
+
+	# Choose the receipt choice
+	runner_20.choose(receipt_choice_index)
+	curr_20 = runner_20.current()
+	if not "物流單" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected receipt_probe node, got: ", curr_20)
+		get_tree().quit(1)
+		return
+
+	# Inside receipt_probe, choices should be: Threaten, Taunt, Question, Return.
+	var probe_choices = curr_20.get("choices", [])
+	if probe_choices.size() != 4:
+		printerr("FAIL 20: Expected 4 choices in receipt_probe, got: ", probe_choices.size())
+		get_tree().quit(1)
+		return
+
+	# Choose Threaten (index 0) -> receipt_fail_cold -> leave
+	runner_20.choose(0)
+	curr_20 = runner_20.current()
+	if not "無聊的把戲" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected receipt_fail_cold, got: ", curr_20)
+		get_tree().quit(1)
+		return
+	runner_20.advance()
+	curr_20 = runner_20.current()
+	if not "不再理會你" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected leave node after failure, got: ", curr_20)
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("seven_peace_branch_d", false):
+		printerr("FAIL 20: seven_peace_branch_d set on failure path!")
+		get_tree().quit(1)
+		return
+	if not GameState.has_item("childcare_supply_receipt", 1):
+		printerr("FAIL 20: receipt item removed on failure path!")
+		get_tree().quit(1)
+		return
+
+	# Test Case 4: Choose Taunt (index 1) -> receipt_fail_cold
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.add_item("childcare_supply_receipt", 1)
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	receipt_choice_index = -1
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			receipt_choice_index = choice.get("index", -1)
+	runner_20.choose(receipt_choice_index)
+	runner_20.choose(1) # Taunt
+	curr_20 = runner_20.current()
+	if not "無聊的把戲" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected receipt_fail_cold for Taunt, got: ", curr_20)
+		get_tree().quit(1)
+		return
+
+	# Test Case 5: Choose Question (index 2) -> receipt_fail_cold
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.add_item("childcare_supply_receipt", 1)
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	receipt_choice_index = -1
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			receipt_choice_index = choice.get("index", -1)
+	runner_20.choose(receipt_choice_index)
+	runner_20.choose(2) # Question
+	curr_20 = runner_20.current()
+	if not "無聊的把戲" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected receipt_fail_cold for Question, got: ", curr_20)
+		get_tree().quit(1)
+		return
+
+	# Test Case 6: Choose Return (index 3) -> Success path!
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.add_item("childcare_supply_receipt", 1)
+	
+	var initial_affinity_phase20 = GameState.get_trust("seven")
+	var initial_trace_phase20 = GameState.get_trace()
+	
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	receipt_choice_index = -1
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			receipt_choice_index = choice.get("index", -1)
+	runner_20.choose(receipt_choice_index)
+	
+	runner_20.choose(3) # Return
+	curr_20 = runner_20.current()
+	if not "故意打錯的字" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected receipt_return, got: ", curr_20)
+		get_tree().quit(1)
+		return
+		
+	runner_20.advance()
+	curr_20 = runner_20.current()
+	if not "那我不能回去" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected receipt_recognized, got: ", curr_20)
+		get_tree().quit(1)
+		return
+		
+	runner_20.advance()
+	curr_20 = runner_20.current()
+	if not "我欠你一次" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected peace_branch_d_done, got: ", curr_20)
+		get_tree().quit(1)
+		return
+		
+	if GameState.has_item("childcare_supply_receipt", 1):
+		printerr("FAIL 20: receipt item was NOT removed on success path!")
+		get_tree().quit(1)
+		return
+	if not GameState.get_flag("seven_peace_branch_d", false):
+		printerr("FAIL 20: seven_peace_branch_d flag NOT set to true on success path!")
+		get_tree().quit(1)
+		return
+	if GameState.get_trust("seven") != initial_affinity_phase20 + 2:
+		printerr("FAIL 20: affinity_seven did not increase by 2! Got: ", GameState.get_trust("seven"))
+		get_tree().quit(1)
+		return
+	if GameState.get_trace() != initial_trace_phase20 - 1:
+		printerr("FAIL 20: trace did not decrease by 1! Got: ", GameState.get_trace())
+		get_tree().quit(1)
+		return
+
+	# Test save & load round-trip
+	var save_data_phase20 = SaveSystem.capture("underground_settlement_right", 100.0, 1)
+	GameState.reset_for_new_game()
+	SaveSystem.apply(save_data_phase20)
+	if not GameState.get_flag("seven_peace_branch_d", false):
+		printerr("FAIL 20: seven_peace_branch_d flag not restored after save/load!")
+		get_tree().quit(1)
+		return
+	if GameState.get_trust("seven") != initial_affinity_phase20 + 2:
+		printerr("FAIL 20: affinity_seven not restored after save/load!")
+		get_tree().quit(1)
+		return
+	if GameState.get_trace() != initial_trace_phase20 - 1:
+		printerr("FAIL 20: trace not restored after save/load!")
+		get_tree().quit(1)
+		return
+
+	# Test Case 7: retalk_d routing when seven_peace_branch_d is true.
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	if not "沒別的事就別煩我" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected retalk_d when seven_peace_branch_d is true, got: ", curr_20)
+		get_tree().quit(1)
+		return
+	choices_20 = curr_20.get("choices", [])
+	if choices_20.size() != 1 or not "離開" in tr(choices_20[0].get("label", "")):
+		printerr("FAIL 20: Expected only 'leave' choice in retalk_d, got: ", choices_20)
+		get_tree().quit(1)
+		return
+
+	# Forbidden word checks for all Phase 20 keys
+	var keys_20 = [
+		"DLG_SEVEN_RETALK_CHOICE_RECEIPT",
+		"DLG_SEVEN_RETALK_D_TEXT",
+		"DLG_SEVEN_RECEIPT_PROBE_TEXT",
+		"DLG_SEVEN_RECEIPT_CHOICE_THREAT",
+		"DLG_SEVEN_RECEIPT_CHOICE_TAUNT",
+		"DLG_SEVEN_RECEIPT_CHOICE_QUESTION",
+		"DLG_SEVEN_RECEIPT_CHOICE_RETURN",
+		"DLG_SEVEN_RECEIPT_FAIL_COLD_TEXT",
+		"DLG_SEVEN_RECEIPT_RETURN_TEXT",
+		"DLG_SEVEN_RECEIPT_RECOGNIZED_TEXT",
+		"DLG_SEVEN_PEACE_BRANCH_D_DONE_TEXT"
+	]
+	for k in keys_20:
+		for lang in ["zh_TW", "zh_CN", "en"]:
+			LocaleManager.set_locale(lang)
+			var txt = tr(k)
+			if lang == "en":
+				var lower_txt = txt.to_lower()
+				if "lin fei" in lower_txt or "linfei" in lower_txt:
+					printerr("FAIL 20: Forbidden word Lin Fei found in key ", k, " for lang ", lang)
+					get_tree().quit(1)
+					return
+			else:
+				if "林霏" in txt:
+					printerr("FAIL 20: Forbidden word 林霏 found in key ", k, " for lang ", lang)
+					get_tree().quit(1)
+					return
+	LocaleManager.set_locale("zh_TW")
+	print("PASS: Phase 20 seven dialogue choices and state effects verified.")
+
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")

@@ -4,6 +4,7 @@
 const TREE := {
 	"start": {
 		"goto": [
+			{"condition": {"flag": "seven_peace_branch_d", "op": "==", "value": true}, "target": "retalk_d"},
 			{"condition": {"flag": "met_seven", "op": "==", "value": true}, "target": "retalk"},
 			{"target": "first_meet"}
 		]
@@ -49,6 +50,23 @@ const TREE := {
 				"condition": {"flag": "seven_hinted_name_topside", "op": "==", "value": true},
 				"goto": "ask_name"
 			},
+			{"label": "DLG_SEVEN_CONDITION_CHOICE0", "goto": "leave"},
+			{
+				"label": "DLG_SEVEN_RETALK_CHOICE_RECEIPT",
+				"condition": [
+					{"type": "has_item", "item_id": "childcare_supply_receipt", "op": "==", "value": true},
+					{"flag": "peace_line_locked", "op": "!=", "value": true},
+					{"flag": "seven_peace_branch_d", "op": "!=", "value": true}
+				],
+				"goto": "receipt_probe"
+			}
+		]
+	},
+
+	"retalk_d": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_RETALK_D_TEXT",
+		"choices": [
 			{"label": "DLG_SEVEN_CONDITION_CHOICE0", "goto": "leave"}
 		]
 	},
@@ -61,5 +79,46 @@ const TREE := {
 	"leave": {
 		"speaker": "SPEAKER_SEVEN",
 		"text": "DLG_SEVEN_LEAVE_TEXT"
+	},
+
+	"receipt_probe": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_RECEIPT_PROBE_TEXT",
+		"choices": [
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_THREAT", "goto": "receipt_fail_cold"},
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_TAUNT", "goto": "receipt_fail_cold"},
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_QUESTION", "goto": "receipt_fail_cold"},
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_RETURN", "goto": "receipt_return"}
+		]
+	},
+
+	"receipt_fail_cold": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_RECEIPT_FAIL_COLD_TEXT",
+		"goto": "leave"
+	},
+
+	"receipt_return": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_RECEIPT_RETURN_TEXT",
+		"goto": "receipt_recognized"
+	},
+
+	"receipt_recognized": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_RECEIPT_RECOGNIZED_TEXT",
+		"goto": "peace_branch_d_done"
+	},
+
+	"peace_branch_d_done": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_PEACE_BRANCH_D_DONE_TEXT",
+		"effect": [
+			{"op": "remove_item", "item_id": "childcare_supply_receipt", "value": 1},
+			{"op": "set_flag", "key": "seven_peace_branch_d", "value": true},
+			{"op": "add_int", "key": "affinity_seven", "value": 2},
+			{"op": "add_trace", "value": -1}
+		],
+		"goto": "leave"
 	}
 }

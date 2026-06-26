@@ -1,0 +1,153 @@
+g2d 生夜總會門面廳 map（修訂版2）。富區室內 lobby/bar，奢華熱鬧氛圍但「完全沒有人」，加強 cyberpunk，side-view。
+尺寸：3840 × 896 px（≈ 3 個螢幕寬，挑高天花）。沿用已 OK 的構圖（吧檯+酒牆/沙發休息區/金色 emblem/酒桌+價目板+VIP讀卡/右側後門）。
+色彩聖經對齊 anchor-04（富區黑金 + cyber-purple）。
+重點：①不畫任何人形/黑色剪影；②吧檯留空（NPC 後掛）；③加全息投影 + 懸浮無人機 + 霓虹光槽等 cyberpunk 元素，用「剛用過的痕跡」代替人潮。
+
+---
+
+A 2D side-scrolling video game background. STRICTLY orthographic
+side view, like Hollow Knight, The Last Night, Limbo. A
+WEALTHY-DISTRICT INTERIOR — the ground-floor LOBBY / BAR of an
+upscale nightclub. It is glamorous, expensive, and high-tech, BUT
+COMPLETELY EMPTY OF PEOPLE. Same 富人區 palette as anchor-04
+(near-pure cold ink black + GLOWING gold/champagne + cyber-purple),
+warm and lavish, with STRONG CYBERPUNK tech presence.
+
+## CANVAS
+- 3840 × 896 px. A WIDE interior hall (~3 screens). Tall ceiling
+  to sell luxury height. Keep the already-approved layout below.
+
+## ★ NO PEOPLE RULE (CRITICAL) ★
+There are NO human figures anywhere in this image — NO patrons,
+NO bartender, NO silhouettes, NO dark human shapes, NO bodies of
+any kind, in foreground, midground, OR background. The room reads
+as "an opulent bar that is open but momentarily empty." The sense
+of life/occupancy comes ENTIRELY from SET DRESSING and TECH, not
+from people:
+- gold-lit drink glasses left on tables (recently used)
+- softly lit, slightly-disturbed plush seating
+- live glowing screens and holograms
+- hovering service DRONES (machines, not people)
+Absolutely do NOT paint any human silhouette to suggest a crowd.
+
+## ★ CYBERPUNK ELEMENTS (add these — the upgrade) ★
+- A floating CYBER-PURPLE holographic "real conversation" price
+  projection hovering above the bar or beside the menu board
+  (abstract glyphs, NO readable text, thin scanline shimmer)
+- Holographic gold/purple bottle labels or a rotating holo drink
+  display floating above the bar counter
+- ONE or TWO small sleek HOVER SERVICE DRONES drifting in the
+  lounge (dark chrome bodies, a gold tray or a cyber-purple sensor
+  ring, faint thruster glow) — the "staff" of this place is
+  automated
+- Thin GOLD + CYBER-PURPLE LED light channels traced along the
+  architecture: floor-embedded strips, column edges, ceiling
+  coffers, booth outlines — sleek neon piping
+- A faint holographic brand sigil shimmering in front of / over
+  the big gold emblem (animated AR layer feel)
+- A subtle cyber-purple ambient data-mist / volumetric glow near
+  the ceiling tech, signalling pervasive AI presence
+- Keep these tasteful and surgical — luxury cyberpunk, not arcade
+  clutter
+
+## VERTICAL LAYOUT
+- BOTTOM 15-18%: polished black marble walking floor (thin strip,
+  CLEAR horizontal walk line, faint gold + purple reflections).
+  Keep this front floor strip clear of furniture.
+- REMAINING 82-85%: bar, raised lounge, columns, emblem, signage,
+  holograms, ceiling — NON-PLAYABLE context. Player moves left-
+  right on the floor strip only.
+
+## HORIZONTAL LAYOUT (zones, left → right — flat cutouts, NO people)
+- LEFT EDGE (~8%): a discreet SERVICE / STAFF DOOR (dark panel,
+  small cyber-purple lock indicator), the player's entry — quiet
+  interaction prop.
+- LEFT (~18%): the BAR. Long polished black-marble counter with a
+  gold drink-tap fixture and a row of empty bar stools, backed by a
+  tall GOLD-BACKLIT bottle wall (bottle silhouettes glowing
+  champagne-gold). The bar service spot is EMPTY — NO bartender,
+  NO robot (NPC placed later in Godot). Add a floating holo drink
+  display above the counter for tech flavor.
+- LEFT-CENTER (~22%): a RAISED VIP LOUNGE — plush velvet booths and
+  low sofas on a marble step, low tables with gold-glowing drink
+  glasses left out (recently used), a suspended gold chandelier /
+  light sculpture overhead, neon light channels outlining the
+  seating. EMPTY of people. The warm, lavish heart of the frame.
+- CENTER (~16%, breathing space): empty walk area; back wall
+  carries a MASSIVE 2-story GOLD-INLAID brand emblem (abstract
+  sigil, NO readable text) with a faint AR holo sigil shimmering
+  over it, flanked by tall champagne-gold uplit columns.
+- RIGHT-CENTER (~18%): a cluster of tall cocktail tables (drinks
+  left, no people) + a wall-mounted "real conversation" PRICE MENU
+  board (abstract gold glyphs, NO readable text) + a floating
+  cyber-purple holographic price projection + a VIP card-reader
+  pedestal with a cyber-purple scan panel.
+- RIGHT EDGE (~18%): the BACK DOOR to the private rooms — tall
+  brushed-gold door flanked by dark marble, ONE cyber-purple
+  security scanner beside it. Clear floor in front (security NPC
+  placed in Godot — do NOT paint a person).
+
+## SCALE REFERENCE
+Implied human scale ~26-28% of frame height (bar stools, door, and
+furniture sized to it), but NO actual figures drawn. Bar counter is
+chest height. Back door ~40% of frame height.
+
+## VIEW RULES (HIGHEST PRIORITY — VIOLATION = FAIL)
+- ORTHOGRAPHIC ONLY. No perspective, no vanishing point, no
+  foreshortening. Floor and ceiling perfectly horizontal.
+- Camera EXACTLY perpendicular. ONLY flat front faces. NO side
+  walls, NO receding floor, NO 3/4 view.
+- Every object & hologram is a FLAT CARDBOARD CUTOUT / flat layer.
+
+## COMPOSITION DISCIPLINE (HARD CONTRAST, WARM, HIGH-TECH)
+- ~45% near-pure cold ink black (back marble wall, ceiling, dark
+  recesses, emblem negative space)
+- ~25% midtones (black marble floor sheen, dark glass, slate)
+- ~30% bright: GLOWING GOLD (bottle wall, chandelier, emblem,
+  uplit columns, drink glows, neon channels) + CYBER-PURPLE
+  (holo price projection, AR sigil, VIP reader, back-door scanner,
+  drone glow, ceiling data-mist). Gold = warm wealth; cyber-purple
+  = pervasive AI. Both GLOW.
+- Focal warmth: gold bar + lit lounge (left-center). Cool counter-
+  focal: cyber-purple holograms + back-door scanner (right).
+
+## STRICT DO NOT
+- DO NOT draw ANY human figure or silhouette anywhere — no patrons,
+  no bartender, no crowd, no dark human shapes. The room is empty
+  of people.
+- NO bartender / robot at the bar service spot — leave it EMPTY.
+- NO readable text/letters — abstract glyphs only.
+- NO perspective, NO side walls, NO receding floor, NO 3/4 view.
+- NO pure white (lightest = champagne cream, sparse).
+- NO pure black (~2% off true black, hardest black in bible).
+- NO cyan, NO cool-white LED — district tech here is CYBER PURPLE.
+- NO faded amber / burnt orange / rust (那是平民區). Warm = glowing
+  gold / champagne / brushed brass only.
+- NO ink purple-black (那是平民區的黑) — near-pure cold ink black.
+- NO graffiti, posters, trash, exposed pipes, peeling paint,
+  weathering — glossy immaculate luxury.
+- NO arcade-style neon clutter — cyberpunk tech stays sleek,
+  surgical, expensive.
+- NO anime lighting, photorealism, or 3D render look.
+- Front floor strip must NOT exceed 18% of frame height.
+
+## COMIC TECHNIQUE
+American indie cyberpunk comic (HD 2D, NOT pixel art). Mike Mignola
+heavy-black mastery (marble walls as black masses, emblem as
+negative space). Frank Miller Sin City contrast. Sean Murphy
+corporate-luxury interiors. Geof Darrow precise linework for the
+holograms and drones. Moebius clean geometry for the emblem. Hand-
+inked SHARP, clean lines. Halftone LIGHTER and sparser (glossy
+magazine). Flat cel-shade, no gradients.
+
+## GODOT OUTPUT
+- single background image (no parallax split needed)
+- primary walk line guide (front floor strip, ~Y bottom 15-18%)
+- left/right movement bounds (limit_left=0, limit_right≈3840)
+- camera bounds (3840 × 896)
+- interaction zone hints (invisible Area2D placed in editor):
+  service_door (left), bar_bot NPC spot (left, behind empty bar),
+  staff_pass + VIP price board (right-center), security NPC +
+  back_door (right)
+- spawn point: from_entrance ≈ left 8% on floor
+- collision: leftmost wall, rightmost wall

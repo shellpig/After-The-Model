@@ -1,0 +1,149 @@
+g2d 生夜總會後場 VIP 包廂 map（修訂版2）。富區頂級私人包廂，奢華 cyberpunk，三個「大」包廂、間距收窄、各自不同風格與副配色，side-view。
+尺寸：3840 × 720 px（≈ 3 個螢幕寬，矮天花、私密）。
+色彩聖經對齊 anchor-04（黑金 + cyber-purple 為主導且每包廂皆主導），每包廂另加「一抹」珠寶副色：①玫瑰酒紅 ②皇家紫羅蘭 ③翡翠綠。
+重點：包廂之間不要大空格、把包廂做大填滿；三包廂座位風格/燈具/副色各不同；房內無人、奢華非破爛。
+
+---
+
+A 2D side-scrolling video game background. STRICTLY orthographic
+side view, like Hollow Knight, The Last Night, Limbo. A
+WEALTHY-DISTRICT BACKSTAGE INTERIOR — a run of EXACTLY THREE LARGE,
+opulent VIP "real conversation" private booths along a plush
+backstage corridor. HIGH LUXURY + CYBERPUNK, pristine and intact,
+intimate and dim-but-RICH, EMPTY OF PEOPLE. Same 富人區 palette as
+anchor-04 (near-pure cold ink black + GLOWING gold/champagne +
+cyber-purple) — which stays DOMINANT in every booth — but EACH of
+the three booths has its OWN distinct style and ONE small secondary
+jewel-tone accent.
+
+## CANVAS
+- 3840 × 720 px. A LONG corridor (~3 screens). LOW ceiling —
+  intimate, private, lavish (not cramped-shabby).
+
+## ★ THREE LARGE BOOTHS, TIGHT SPACING (CRITICAL — the fix) ★
+EXACTLY THREE booths. Make each booth BIG — they should fill most
+of the frame width. The corridor walls BETWEEN booths are NARROW
+(just a slim marble pier / divider, ~4-6% width each), NOT wide
+empty gaps. Distribution across the 3840 width roughly:
+  left entry ~10% | BOOTH 1 ~24% | pier | BOOTH 2 ~24% | pier |
+  BOOTH 3 ~24% | right vanity ~10%.
+Each booth is a generous alcove the player clearly walks past.
+
+## ★ THREE DISTINCT BOOTHS (each its own style + ONE accent color) ★
+Black + gold + cyber-purple stays DOMINANT in all three; the
+secondary color is a SUBTLE single accent (tinting the velvet
+upholstery + the booth's holo-screen glow + a thread in the neon
+trim), never overpowering gold/black.
+
+- BOOTH 1 (left) — "LOUNGE": a long curved button-tufted velvet
+  BANQUETTE wrapping the alcove + low marble table with gold-lit
+  champagne glasses. Ceiling: a cascading linear gold pendant.
+  Secondary accent = DEEP ROSE / WINE (rosé-tinted velvet + a
+  faint rose tint in its holo-screen and trim).
+
+- BOOTH 2 (center) — "INTIMATE FACE-TO-FACE": a pair of plush
+  barrel/tub armchairs facing across a round marble table with a
+  single gold-lit decanter. Ceiling: a circular gold halo
+  chandelier. Secondary accent = ROYAL VIOLET / deeper cyber-
+  purple (violet-tinted velvet + a stronger purple holo glow).
+
+- BOOTH 3 (right) — "RECLINE": a chaise-longue + a single accent
+  chair + a low ottoman, more relaxed asymmetric arrangement.
+  Ceiling: a cluster of suspended small gold orbs. Secondary
+  accent = EMERALD / JADE GREEN (emerald-tinted velvet + a jade
+  tint in its holo-screen and trim).
+
+All three booths share: GLOWING brushed-gold neon trim around the
+alcove mouth, a softly GLOWING privacy holo-screen on the back
+wall (sleek panel with abstract glyphs, NO readable text, tinted
+by that booth's accent — NOT a dead black rectangle), pristine
+luxury, NO people.
+
+## ENDS
+- LEFT EDGE (~10%): entry from lobby — a sumptuous deep velvet
+  drape pulled aside, framed by glowing brushed-gold trim
+  (from_lobby spawn).
+- RIGHT EDGE (~10%): an elegant vanity / host station — a large
+  gold-framed mirror with a backlit warm gold light bar (clean,
+  reflective) + a sleek dark concierge terminal with a live
+  CYBER-PURPLE standby glow.
+
+## VERTICAL LAYOUT
+- BOTTOM 16-18%: polished dark marble + rich velvet carpet runner
+  walking floor (thin strip, CLEAR horizontal walk line, faint
+  gold reflections)
+- REMAINING 82-84%: booth openings + back wall — NON-PLAYABLE.
+  Player moves left-right only.
+
+## SCALE REFERENCE
+Implied human scale ~30-32% of this shorter frame (furniture sized
+to it), but NO figures drawn. Each booth opening ~58-62% of frame
+height.
+
+## VIEW RULES (HIGHEST PRIORITY)
+- ORTHOGRAPHIC ONLY. No perspective, no vanishing point. Floor and
+  ceiling perfectly horizontal.
+- Booths shown as FLAT side-profile alcoves — NO receding interior
+  depth, NO 3/4 view, like luxury stage boxes head-on.
+- Every object a FLAT CARDBOARD CUTOUT. Floor strip stays clear.
+
+## COMPOSITION DISCIPLINE (DIM, PRIVATE, LAVISH, GLOWING)
+- ~45% near-pure cold ink black (booth recesses, low ceiling,
+  shadowed piers — clean deep dark, not grimy)
+- ~20% rich midtones (velvet upholstery, polished dark marble,
+  warm gold-lit mirror)
+- ~35% bright & GLOWING: champagne/brushed-GOLD that GLOWS (neon
+  trim, light fixtures, gold-lit drinks, mirror bar, floor
+  reflections) + CYBER-PURPLE holo glow + each booth's small
+  jewel accent (rose / violet / jade). Gold is LIVE and lustrous,
+  never tarnished.
+- Mood: an exclusive private lounge after hours — opulent, hushed,
+  cyber-lit, waiting. Empty = "no one here right now," NOT
+  "fell apart."
+
+## STRICT DO NOT
+- DO NOT make it look run-down, shabby, broken, abandoned. NO dust
+  sheets, NO ripped/tipped/broken furniture, NO cracked mirrors,
+  NO fallen ropes, NO trash, NO grime. PRISTINE LUXURY.
+- DO NOT use wide empty gaps between booths — piers are slim,
+  booths are large and close.
+- More or fewer than THREE booths = WRONG. EXACTLY THREE, each a
+  different style + accent.
+- DO NOT let any booth's secondary accent overpower black/gold —
+  it is a subtle single tint only.
+- DO NOT draw ANY human figure or silhouette anywhere.
+- DO NOT use dead flat-black screens — privacy screens softly GLOW.
+- DO NOT make the gold dull, tarnished, or desaturated — gold
+  GLOWS.
+- NO readable text — abstract glyphs only.
+- NO perspective, NO side walls, NO receding interiors, NO 3/4
+  view.
+- NO pure white, NO pure black (~2% off). NO cyan, NO cool-white
+  LED — AI tech is CYBER PURPLE only.
+- NO faded amber / burnt orange / rust (那是平民區). The jewel
+  accents are rose-wine / royal-violet / emerald — NOT orange,
+  NOT cyan.
+- NO ink purple-black (那是平民區的黑) — near-pure cold ink black.
+- NO graffiti, posters, exposed pipes.
+- NO anime lighting, photorealism, 3D render look.
+- Floor strip must NOT exceed 18% of frame height.
+
+## COMIC TECHNIQUE
+American indie cyberpunk comic (HD 2D, NOT pixel art). Mike Mignola
+heavy black for the deep booth recesses (rich negative space, not
+grime). Frank Miller contrast. Sean Murphy glossy corporate-luxury
+interiors. Geof Darrow precise linework for the holo-screens,
+fixtures, and terminal. Hand-inked clean SHARP lines. Halftone
+light and sparse (glossy magazine). Flat cel-shade, no gradients.
+
+## GODOT OUTPUT
+- single background image (no parallax split needed)
+- primary walk line guide (floor strip, ~Y bottom 16-18%)
+- left/right movement bounds (limit_left=0, limit_right≈3840)
+- camera bounds (3840 × 720)
+- interaction zone hints (placed in editor):
+  4-5 EchoPoint nodes distributed across the three booths + the
+  slim piers between them; mem_frag_hideout near the exit /
+  forced-pass point; exit_to_lobby at left drape
+- spawn point: from_lobby ≈ left 10% on floor
+- collision: leftmost wall, rightmost wall

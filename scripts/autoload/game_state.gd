@@ -51,7 +51,7 @@ const PROGRESS_SCENES := ["apartment","apartment_entrance","convenience_store","
 const PROGRESS_NPCS := ["wan","store_robot","lu_qichen","cen","wu","seven"]
 const PROGRESS_QUESTS := ["alley_backrooms_3f","repair_vendor_bot"]
 const PROGRESS_ECHOES := ["echo_clerk","echo_room401_tenant","echo_song_rain_doesnt_stop","echo_lu_family","echo_settlement_erased"]
-const PROGRESS_SPECIAL_ITEMS := ["early_ai_assistant_activation_box","old_ai_authorization_module","childcare_supply_receipt","old_probe_module","gleaner_gloves","clerk_echo_recording","decoder_cube"]
+const PROGRESS_SPECIAL_ITEMS := ["early_ai_assistant_activation_box","old_ai_authorization_module","childcare_supply_receipt","old_probe_module","gleaner_gloves","clerk_echo_recording","decoder_cube","nightclub_staff_pass"]
 
 
 const ShopDB = preload("res://data/shops/shop_db.gd")
@@ -177,7 +177,8 @@ const STORY_MESSAGES := {
 	"mem_frag_hideout": "MSG_MEM_FRAG_HIDEOUT",
 	"nightclub_security_blocked": "MSG_NIGHTCLUB_SECURITY_BLOCKED",
 	"nightclub_staff_pass_found": "MSG_NIGHTCLUB_STAFF_PASS_FOUND",
-	"nightclub_examine_pass_bag_full": "MSG_NIGHTCLUB_EXAMINE_PASS_BAG_FULL"
+	"nightclub_examine_pass_bag_full": "MSG_NIGHTCLUB_EXAMINE_PASS_BAG_FULL",
+	"nightclub_bar_bot_distracted": "MSG_NIGHTCLUB_BAR_BOT_DISTRACTED"
 }
 
 # MVP Temporary Stub DB

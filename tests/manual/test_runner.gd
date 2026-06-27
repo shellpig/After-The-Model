@@ -8825,11 +8825,11 @@ func _ready() -> void:
 		printerr("FAIL M1: Initial echo count mismatch")
 		get_tree().quit(1)
 		return
-	if summary["special"]["done"] != 0 or summary["special"]["total"] != 7:
+	if summary["special"]["done"] != 0 or summary["special"]["total"] != 8:
 		printerr("FAIL M1: Initial special item count mismatch")
 		get_tree().quit(1)
 		return
-	if summary["overall_done"] != 0 or summary["overall_total"] != 31 or summary["overall_pct"] != 0:
+	if summary["overall_done"] != 0 or summary["overall_total"] != 32 or summary["overall_pct"] != 0:
 		printerr("FAIL M1: Initial overall counts mismatch")
 		get_tree().quit(1)
 		return
@@ -11040,6 +11040,250 @@ func _ready() -> void:
 		return
 		
 	print("PASS: Phase 23-B bodyguard dialogue, bribe logic, fake identity, and credits condition verified.")
+
+	# ===================== Phase 23-C: Act 3 夜總會保全引開與潛行 =====================
+	print("--- Phase 23-C: Act 3 夜總會保全引開與潛行 ---")
+	GameState.reset_for_new_game()
+	
+	# 載入門面廳場景
+	var nightclub_scene = load("res://scenes/levels/nightclub/nightclub.tscn")
+	if nightclub_scene == null:
+		printerr("FAIL 23-C: Could not load nightclub.tscn")
+		get_tree().quit(1)
+		return
+		
+	var nightclub_node = nightclub_scene.instantiate()
+	get_tree().root.add_child(nightclub_node)
+	
+	# 初始化場景入口
+	nightclub_node.set_entry_point("from_entrance")
+	
+	# 準備捕捉 interaction_requested 與 scene_transition_requested
+	var captured_transition_p23c: Dictionary = {}
+	var captured_msg_p23c: Dictionary = {}
+	
+	nightclub_node.scene_transition_requested.connect(func(scene_id, entry_point, payload):
+		captured_transition_p23c["scene_id"] = scene_id
+		captured_transition_p23c["entry_point"] = entry_point
+	)
+	nightclub_node.interaction_requested.connect(func(data):
+		captured_msg_p23c.merge(data, true)
+	)
+	
+	# 1. 測試：未引開保全時，互動 back_door 應該被阻擋
+	var back_door = nightclub_node.get_node_or_null("Interactables/BackDoorArea")
+	if back_door == null:
+		printerr("FAIL 23-C: BackDoorArea interactable not found!")
+		get_tree().quit(1)
+		return
+		
+	nightclub_node.current_interactable = back_door
+	nightclub_node._trigger_interaction()
+	
+	if not captured_msg_p23c.has("message_text") or captured_msg_p23c.get("message_text", "") != "MSG_NIGHTCLUB_SECURITY_BLOCKED":
+		printerr("FAIL 23-C: back_door should be blocked when bodyguard is on post, got msg: ", captured_msg_p23c)
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("passed_nightclub_security", false):
+		printerr("FAIL 23-C: passed_nightclub_security should not be set yet!")
+		get_tree().quit(1)
+		return
+		
+	# 清空捕捉的資訊
+	captured_msg_p23c.clear()
+	
+	# 2. 測試：互動 bar_bot 觸發引開，保全 _bodyguard_off_post 應設為 true 且保全應該淡出 (modulate.a 變小)
+	var bar_bot = nightclub_node.get_node_or_null("Interactables/BarBot")
+	if bar_bot == null:
+		printerr("FAIL 23-C: BarBot interactable not found!")
+		get_tree().quit(1)
+		return
+		
+	var bodyguard_node = nightclub_node.get_node_or_null("Interactables/Bodyguard")
+	if bodyguard_node == null:
+		printerr("FAIL 23-C: Bodyguard interactable not found!")
+		get_tree().quit(1)
+		return
+		
+	# 先確認保全在崗 (visible=true, process_mode=INHERIT)
+	if not bodyguard_node.visible or bodyguard_node.process_mode != Node.PROCESS_MODE_INHERIT:
+		printerr("FAIL 23-C: Bodyguard should be visible and inheriting process mode initially!")
+		get_tree().quit(1)
+		return
+		
+	nightclub_node.current_interactable = bar_bot
+	nightclub_node._trigger_interaction()
+	
+	if not nightclub_node._bodyguard_off_post:
+		printerr("FAIL 23-C: _bodyguard_off_post should be true after distracting bar_bot!")
+		get_tree().quit(1)
+		return
+		
+	# 觸發後，保全的 process_mode 應該被 disabled 且 visible 應該將要為 false
+	if bodyguard_node.process_mode != Node.PROCESS_MODE_DISABLED:
+		printerr("FAIL 23-C: Distracted bodyguard should have process mode disabled!")
+		get_tree().quit(1)
+		return
+		
+	# 且 bar_bot 也應該被 disabled 且從互動範圍移除
+	if bar_bot.process_mode != Node.PROCESS_MODE_DISABLED:
+		printerr("FAIL 23-C: Distracted bar_bot should have process mode disabled!")
+		get_tree().quit(1)
+		return
+		
+	# 驗證有顯示騷動訊息
+	if not captured_msg_p23c.has("message_text") or captured_msg_p23c.get("message_text", "") != "MSG_NIGHTCLUB_BAR_BOT_DISTRACTED":
+		printerr("FAIL 23-C: Should show bar bot distracted message after interaction!")
+		get_tree().quit(1)
+		return
+		
+	# 3. 測試：引開保全後，此時互動 back_door 應該可以潛行通過 (set passed_nightclub_security=true 且 transition to nightclub_back)
+	nightclub_node.current_interactable = back_door
+	nightclub_node._trigger_interaction()
+	
+	if not GameState.get_flag("passed_nightclub_security", false):
+		printerr("FAIL 23-C: passed_nightclub_security should be set to true after sneak in!")
+		get_tree().quit(1)
+		return
+	if captured_transition_p23c.get("scene_id", "") != "nightclub_back":
+		printerr("FAIL 23-C: Should transition to nightclub_back, got: ", captured_transition_p23c)
+		get_tree().quit(1)
+		return
+		
+	# 4. 測試：場景 transient 變數且重新加載時保全歸位
+	# 在 passed_nightclub_security 仍為 false 情況下
+	get_tree().root.remove_child(nightclub_node)
+	nightclub_node.queue_free()
+	
+	GameState.reset_for_new_game()
+	# 此時 passed_nightclub_security 應為 false
+	nightclub_node = nightclub_scene.instantiate()
+	get_tree().root.add_child(nightclub_node)
+	
+	# 重進場景後，保全應重新歸位 (visible=true, process_mode=INHERIT)
+	bodyguard_node = nightclub_node.get_node_or_null("Interactables/Bodyguard")
+	if bodyguard_node == null or not bodyguard_node.visible or bodyguard_node.process_mode != Node.PROCESS_MODE_INHERIT:
+		printerr("FAIL 23-C: Bodyguard should reset to visible and inheriting process mode when passed_nightclub_security is false!")
+		get_tree().quit(1)
+		return
+		
+	# 5. 測試：如果 passed_nightclub_security 已經為 true，重進場景時，保全應維持隱藏並 disabled
+	get_tree().root.remove_child(nightclub_node)
+	nightclub_node.queue_free()
+	
+	GameState.reset_for_new_game()
+	GameState.set_flag("passed_nightclub_security", true)
+	
+	nightclub_node = nightclub_scene.instantiate()
+	get_tree().root.add_child(nightclub_node)
+	
+	bodyguard_node = nightclub_node.get_node_or_null("Interactables/Bodyguard")
+	if bodyguard_node != null and (bodyguard_node.visible or bodyguard_node.process_mode != Node.PROCESS_MODE_DISABLED):
+		printerr("FAIL 23-C: Bodyguard should be hidden and disabled when passed_nightclub_security is true!")
+		get_tree().quit(1)
+		return
+		
+	# 結束清理
+	get_tree().root.remove_child(nightclub_node)
+	nightclub_node.queue_free()
+	
+	print("PASS: Phase 23-C bodyguard distraction and sneak in mechanics verified.")
+
+	# ===================== Phase 23-D: Act 3 夜總會回歸、存讀檔與進度驗證 =====================
+	print("--- Phase 23-D: Act 3 夜總會回歸、存讀檔與進度驗證 ---")
+	GameState.reset_for_new_game()
+	
+	# 1. 測試：在新遊戲重置狀態下，各旗標應為 false/空，進度為 0
+	if GameState.get_flag("passed_nightclub_security", false) or GameState.get_flag("found_staff_pass", false) or GameState.has_item("nightclub_staff_pass"):
+		printerr("FAIL 23-D: New game reset failed to clear Phase 23 states!")
+		get_tree().quit(1)
+		return
+		
+	# 2. 測試：特殊道具進度因取得工牌打勾，且不退勾
+	var added_pass_p23d := GameState.add_item("nightclub_staff_pass", 1)
+	if not added_pass_p23d:
+		printerr("FAIL 23-D: Could not add nightclub_staff_pass during progress check!")
+		get_tree().quit(1)
+		return
+		
+	var progress_summary_p23d = GameState.get_progress_summary()
+	var collected_items_p23d = GameState.collected_special_items
+	if not collected_items_p23d.get("nightclub_staff_pass", false):
+		printerr("FAIL 23-D: nightclub_staff_pass should mark progress special items collected!")
+		get_tree().quit(1)
+		return
+		
+	var badge_instance_id_p23d = ""
+	for item in GameState.get_inventory():
+		if item != null and item.get("item_id", "") == "nightclub_staff_pass":
+			badge_instance_id_p23d = item.get("instance_id", "")
+			break
+	if badge_instance_id_p23d != "":
+		GameState.remove_item(badge_instance_id_p23d)
+		
+	if not GameState.collected_special_items.get("nightclub_staff_pass", false):
+		printerr("FAIL 23-D: progress special items should remain marked after item removal (no unticking)!")
+		get_tree().quit(1)
+		return
+		
+	# 3. 測試：存讀檔 round-trip
+	GameState.reset_for_new_game()
+	GameState.set_flag("passed_nightclub_security", true)
+	GameState.set_flag("found_staff_pass", true)
+	var added_pass_again_p23d = GameState.add_item("nightclub_staff_pass", 1)
+	if not added_pass_again_p23d:
+		printerr("FAIL 23-D: Setup failed for save/load test!")
+		get_tree().quit(1)
+		return
+		
+	var save_dict_p23d = SaveSystem.capture("nightclub", 100.0, 1)
+	
+	GameState.reset_for_new_game()
+	if GameState.get_flag("passed_nightclub_security", false) or GameState.get_flag("found_staff_pass", false) or GameState.has_item("nightclub_staff_pass"):
+		printerr("FAIL 23-D: State reset failed during save/load check!")
+		get_tree().quit(1)
+		return
+		
+	if not SaveSystem.validate(save_dict_p23d):
+		printerr("FAIL 23-D: SaveSystem.validate() failed for save_dict_p23d!")
+		get_tree().quit(1)
+		return
+	SaveSystem.apply(save_dict_p23d)
+		
+	if not GameState.get_flag("passed_nightclub_security", false) or not GameState.get_flag("found_staff_pass", false):
+		printerr("FAIL 23-D: Save/load failed to restore story flags!")
+		get_tree().quit(1)
+		return
+	if not GameState.has_item("nightclub_staff_pass"):
+		printerr("FAIL 23-D: Save/load failed to restore nightclub_staff_pass in inventory!")
+		get_tree().quit(1)
+		return
+	if not GameState.collected_special_items.get("nightclub_staff_pass", false):
+		printerr("FAIL 23-D: Save/load failed to restore special item progress!")
+		get_tree().quit(1)
+		return
+		
+	# 4. 測試：缺鍵/歷史存檔相容性
+	var compat_dict_p23d = save_dict_p23d.duplicate(true)
+	var data_dict_p23d = compat_dict_p23d.get("data", {})
+	if data_dict_p23d.has("story_flags"):
+		data_dict_p23d["story_flags"].erase("passed_nightclub_security")
+		data_dict_p23d["story_flags"].erase("found_staff_pass")
+	if data_dict_p23d.has("collected_special_items"):
+		data_dict_p23d["collected_special_items"].erase("nightclub_staff_pass")
+		
+	GameState.reset_for_new_game()
+	if not SaveSystem.validate(compat_dict_p23d):
+		printerr("FAIL 23-D: SaveSystem.validate() failed for compat_dict_p23d!")
+		get_tree().quit(1)
+		return
+	SaveSystem.apply(compat_dict_p23d)
+	if GameState.get_flag("passed_nightclub_security", false) or GameState.get_flag("found_staff_pass", false) or GameState.collected_special_items.get("nightclub_staff_pass", false):
+		printerr("FAIL 23-D: Compatibility load should restore missing keys to false!")
+		get_tree().quit(1)
+		return
+		
+	print("PASS: Phase 23-D regression, save/load, and M1 progress integration verified.")
 
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")

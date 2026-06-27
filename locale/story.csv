@@ -114,3 +114,4 @@ MSG_MEM_FRAG_HIDEOUT,"（那些偷來的 VIP 數據，被重新包裝成了一�
 MSG_NIGHTCLUB_SECURITY_BLOCKED,"保全冷冷地攔住你：「後面是私人包廂，閒雜人等禁止進入。」","保全冷冷地拦住你：「后面是私人包厢，闲杂人等禁止进入。」","The bodyguard stops you coldly: \"Private booths in the back. No unauthorized entry.\""
 MSG_NIGHTCLUB_STAFF_PASS_FOUND,"你在一張舊的員工通行證上掃描到了權限。雖然照片與名字都已經磨損，但背面的磁條似乎仍然完好。你將它收了起來。","你在一张旧的员工通行证上扫描到了权限。虽然照片与名字都已经磨损，但背面的磁条似乎仍然完好。你将它收了起来。","You find an old staff pass with access rights still intact. Although the photo and name are worn off, the magnetic strip on the back seems valid. You tuck it away."
 MSG_NIGHTCLUB_EXAMINE_PASS_BAG_FULL,"背包放不下了。整理一下空間後再試試看。","背包放不下了。整理一下空间后再试试看。","Inventory is full. Please make some space and try again."
+MSG_NIGHTCLUB_BAR_BOT_DISTRACTED,"（酒水機器人突然冒出火花並開始亂噴飲料，週遭的賓客發出驚呼。保全一臉惱怒地快步走去處理。）","（酒水机器人突然冒出火花并开始乱喷饮料，周遭的宾客发出惊呼。保全一脸恼怒地快步走去处理。）","(The drink bot suddenly sparks and sprays drinks everywhere, causing a commotion among guests. The bodyguard storms off annoyed to handle it.)"

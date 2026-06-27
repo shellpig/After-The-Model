@@ -15,6 +15,7 @@ const MAP_WIDTH := 4288.0
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
 var _entry_point_id: String = "from_entrance"
+var _bodyguard_off_post: bool = false
 var _entry_payload: Dictionary = {}
 
 func prepare_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
@@ -39,6 +40,18 @@ func _ready() -> void:
 		var pass_node = $Interactables.get_node_or_null("StaffPassExamine")
 		if pass_node != null:
 			pass_node.queue_free()
+
+	_bodyguard_off_post = false
+	var passed := GameState.has_flag("passed_nightclub_security")
+	var bodyguard = $Interactables.get_node_or_null("Bodyguard")
+	if bodyguard != null:
+		if passed:
+			bodyguard.visible = false
+			bodyguard.process_mode = PROCESS_MODE_DISABLED
+		else:
+			bodyguard.visible = true
+			bodyguard.modulate.a = 1.0
+			bodyguard.process_mode = PROCESS_MODE_INHERIT
 
 	for interactable in $Interactables.get_children():
 		if interactable == null or interactable.is_queued_for_deletion():
@@ -79,11 +92,37 @@ func _trigger_interaction() -> void:
 		"back_door":
 			if GameState.has_flag("passed_nightclub_security"):
 				scene_transition_requested.emit("nightclub_back", "from_lobby", {})
+			elif _bodyguard_off_post:
+				GameState.set_flag("passed_nightclub_security", true)
+				scene_transition_requested.emit("nightclub_back", "from_lobby", {})
 			else:
 				interaction_requested.emit({
 					"type": "message",
 					"message_text": GameState.STORY_MESSAGES["nightclub_security_blocked"]
 				})
+		"bar_bot_distract":
+			_bodyguard_off_post = true
+			var bodyguard = $Interactables.get_node_or_null("Bodyguard")
+			if bodyguard != null:
+				bodyguard.process_mode = PROCESS_MODE_DISABLED
+				if nearby_interactables.has(bodyguard):
+					nearby_interactables.erase(bodyguard)
+				var tween = create_tween()
+				tween.tween_property(bodyguard, "modulate:a", 0.0, 1.0)
+				tween.tween_callback(func(): bodyguard.visible = false)
+
+			var bar_bot = $Interactables.get_node_or_null("BarBot")
+			if bar_bot != null:
+				bar_bot.process_mode = PROCESS_MODE_DISABLED
+				if nearby_interactables.has(bar_bot):
+					nearby_interactables.erase(bar_bot)
+
+			_refresh_current_interactable()
+
+			interaction_requested.emit({
+				"type": "message",
+				"message_text": GameState.STORY_MESSAGES["nightclub_bar_bot_distracted"]
+			})
 		"staff_pass_examine":
 			if GameState.has_flag("found_staff_pass"):
 				return

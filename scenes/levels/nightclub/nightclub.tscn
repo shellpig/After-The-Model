@@ -22,6 +22,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c176q1xeyy2ls" path="res://assets/generated/sprites/nightclub_bodyguard/map_npc/sprite.png" id="bodyguard_sprite"]
 [ext_resource type="Texture2D" path="res://assets/generated/sprites/items/nightclub_staff_pass/icon.png" id="staff_pass_icon"]
+[ext_resource type="Texture2D" uid="uid://1jrvqwm7li3t" path="res://assets/generated/sprites/nightclub_bar_bot/map_npc/sprite.png" id="bar_bot_sprite"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4288, 16)
@@ -37,6 +38,9 @@ size = Vector2(100, 200)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_staff_pass"]
 size = Vector2(80, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bar_bot"]
+size = Vector2(100, 200)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -190,6 +194,18 @@ shape = SubResource("RectangleShape2D_staff_pass")
 
 [node name="Sprite2D" type="Sprite2D" parent="Interactables/StaffPassExamine" unique_id=210200052]
 texture = ExtResource("staff_pass_icon")
+
+[node name="BarBot" type="Area2D" parent="Interactables" unique_id=210200060]
+position = Vector2(1200, 800)
+script = ExtResource("3_interactable")
+interaction_id = "bar_bot_distract"
+prompt_text = "PROMPT_NIGHTCLUB_BAR_BOT"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BarBot" unique_id=210200061]
+shape = SubResource("RectangleShape2D_bar_bot")
+
+[node name="Sprite2D" type="Sprite2D" parent="Interactables/BarBot" unique_id=210200062]
+texture = ExtResource("bar_bot_sprite")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=210200017]
 position = Vector2(200, 848)

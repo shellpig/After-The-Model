@@ -9942,18 +9942,18 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	# Inside receipt_probe, choices should be: Threaten, Taunt, Question, Return.
+	# Stage 1 now offers 3 choices: Threaten, Taunt, and the correct give-it line.
 	var probe_choices = curr_20.get("choices", [])
-	if probe_choices.size() != 4:
-		printerr("FAIL 20: Expected 4 choices in receipt_probe, got: ", probe_choices.size())
+	if probe_choices.size() != 3:
+		printerr("FAIL 20: Expected 3 choices in receipt_probe stage 1, got: ", probe_choices.size())
 		get_tree().quit(1)
 		return
 
-	# Choose Threaten (index 0) -> receipt_fail_cold -> leave
+	# Test Case 3: Stage-1 Threaten (index 0) -> rebuff_leverage -> leave.
 	runner_20.choose(0)
 	curr_20 = runner_20.current()
-	if not "無聊的把戲" in tr(curr_20.get("text", "")):
-		printerr("FAIL 20: Expected receipt_fail_cold, got: ", curr_20)
+	if not "我不做這種買賣" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected rebuff_leverage on stage-1 threat, got: ", curr_20)
 		get_tree().quit(1)
 		return
 	runner_20.advance()
@@ -9970,28 +9970,12 @@ func _ready() -> void:
 		printerr("FAIL 20: receipt item removed on failure path!")
 		get_tree().quit(1)
 		return
-
-	# Test Case 4: Choose Taunt (index 1) -> receipt_fail_cold
-	GameState.reset_for_new_game()
-	GameState.set_flag("met_seven", true)
-	GameState.add_item("childcare_supply_receipt", 1)
-	runner_20 = DialogueRunner.new()
-	runner_20.start(seven_tree_20)
-	curr_20 = runner_20.current()
-	choices_20 = curr_20.get("choices", [])
-	receipt_choice_index = -1
-	for choice in choices_20:
-		if "回執" in tr(choice.get("label", "")):
-			receipt_choice_index = choice.get("index", -1)
-	runner_20.choose(receipt_choice_index)
-	runner_20.choose(1) # Taunt
-	curr_20 = runner_20.current()
-	if not "無聊的把戲" in tr(curr_20.get("text", "")):
-		printerr("FAIL 20: Expected receipt_fail_cold for Taunt, got: ", curr_20)
+	if not GameState.get_flag("seven_receipt_rebuffed", false):
+		printerr("FAIL 20: seven_receipt_rebuffed not set on stage-1 threat failure!")
 		get_tree().quit(1)
 		return
 
-	# Test Case 5: Choose Question (index 2) -> receipt_fail_cold
+	# Test Case 4: Stage-1 Taunt (index 1) -> rebuff_probe.
 	GameState.reset_for_new_game()
 	GameState.set_flag("met_seven", true)
 	GameState.add_item("childcare_supply_receipt", 1)
@@ -10004,10 +9988,106 @@ func _ready() -> void:
 		if "回執" in tr(choice.get("label", "")):
 			receipt_choice_index = choice.get("index", -1)
 	runner_20.choose(receipt_choice_index)
-	runner_20.choose(2) # Question
+	runner_20.choose(1) # Taunt -> rebuff_probe
 	curr_20 = runner_20.current()
-	if not "無聊的把戲" in tr(curr_20.get("text", "")):
-		printerr("FAIL 20: Expected receipt_fail_cold for Question, got: ", curr_20)
+	if not "別在我面前耍花樣" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected rebuff_probe on stage-1 taunt, got: ", curr_20)
+		get_tree().quit(1)
+		return
+
+	# Test Case 5a: Stage-1 correct -> stage 2; Pry (index 0) -> rebuff_probe.
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.add_item("childcare_supply_receipt", 1)
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	receipt_choice_index = -1
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			receipt_choice_index = choice.get("index", -1)
+	runner_20.choose(receipt_choice_index)
+	runner_20.choose(2) # Stage 1 correct -> stage 2
+	curr_20 = runner_20.current()
+	if not "在哪裡撿到的" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected receipt_probe_s2 after stage-1 correct, got: ", curr_20)
+		get_tree().quit(1)
+		return
+	runner_20.choose(0) # Pry -> rebuff_probe
+	curr_20 = runner_20.current()
+	if not "別在我面前耍花樣" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected rebuff_probe on stage-2 pry, got: ", curr_20)
+		get_tree().quit(1)
+		return
+
+	# Test Case 5b: Stage-1 correct -> stage 2; Bargain (index 1) -> rebuff_leverage.
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.add_item("childcare_supply_receipt", 1)
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	receipt_choice_index = -1
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			receipt_choice_index = choice.get("index", -1)
+	runner_20.choose(receipt_choice_index)
+	runner_20.choose(2) # Stage 1 correct -> stage 2
+	runner_20.choose(1) # Bargain -> rebuff_leverage
+	curr_20 = runner_20.current()
+	if not "我不做這種買賣" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected rebuff_leverage on stage-2 bargain, got: ", curr_20)
+		get_tree().quit(1)
+		return
+
+	# Test Case 5c: Stage 1+2 correct -> stage 3; Pity (index 0) -> rebuff_leverage.
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.add_item("childcare_supply_receipt", 1)
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	receipt_choice_index = -1
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			receipt_choice_index = choice.get("index", -1)
+	runner_20.choose(receipt_choice_index)
+	runner_20.choose(2) # Stage 1 correct
+	runner_20.choose(2) # Stage 2 correct -> stage 3
+	curr_20 = runner_20.current()
+	if not "為什麼拿來給我" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected receipt_probe_s3 after stage-2 correct, got: ", curr_20)
+		get_tree().quit(1)
+		return
+	runner_20.choose(0) # Pity -> rebuff_leverage
+	curr_20 = runner_20.current()
+	if not "我不做這種買賣" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected rebuff_leverage on stage-3 pity, got: ", curr_20)
+		get_tree().quit(1)
+		return
+
+	# Test Case 5d: Stage 1+2 correct -> stage 3; Withdraw (index 1) -> rebuff_probe.
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_seven", true)
+	GameState.add_item("childcare_supply_receipt", 1)
+	runner_20 = DialogueRunner.new()
+	runner_20.start(seven_tree_20)
+	curr_20 = runner_20.current()
+	choices_20 = curr_20.get("choices", [])
+	receipt_choice_index = -1
+	for choice in choices_20:
+		if "回執" in tr(choice.get("label", "")):
+			receipt_choice_index = choice.get("index", -1)
+	runner_20.choose(receipt_choice_index)
+	runner_20.choose(2) # Stage 1 correct
+	runner_20.choose(2) # Stage 2 correct
+	runner_20.choose(1) # Withdraw -> rebuff_probe
+	curr_20 = runner_20.current()
+	if not "別在我面前耍花樣" in tr(curr_20.get("text", "")):
+		printerr("FAIL 20: Expected rebuff_probe on stage-3 withdraw, got: ", curr_20)
 		get_tree().quit(1)
 		return
 
@@ -10028,8 +10108,10 @@ func _ready() -> void:
 		if "回執" in tr(choice.get("label", "")):
 			receipt_choice_index = choice.get("index", -1)
 	runner_20.choose(receipt_choice_index)
-	
-	runner_20.choose(3) # Return
+
+	runner_20.choose(2) # Stage 1 correct
+	runner_20.choose(2) # Stage 2 correct
+	runner_20.choose(2) # Stage 3 return
 	curr_20 = runner_20.current()
 	if not "故意打錯的字" in tr(curr_20.get("text", "")):
 		printerr("FAIL 20: Expected receipt_return, got: ", curr_20)
@@ -10112,7 +10194,7 @@ func _ready() -> void:
 		if "回執" in tr(choice.get("label", "")):
 			receipt_choice_index = choice.get("index", -1)
 	runner_20.choose(receipt_choice_index)
-	runner_20.choose(0) # Threaten -> receipt_fail_cold (sets seven_receipt_rebuffed)
+	runner_20.choose(0) # Threaten -> rebuff_leverage (sets seven_receipt_rebuffed)
 	if not GameState.get_flag("seven_receipt_rebuffed", false):
 		printerr("FAIL 20: seven_receipt_rebuffed not set after failure path!")
 		get_tree().quit(1)
@@ -10134,8 +10216,10 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	# Return path from reprobe still reaches the success node and applies effects.
-	runner_20.choose(3) # Return
+	# Return path from reprobe still walks the 3 stages to success and applies effects.
+	runner_20.choose(2) # Stage 1 correct (from reprobe) -> stage 2
+	runner_20.choose(2) # Stage 2 correct -> stage 3
+	runner_20.choose(2) # Stage 3 return -> receipt_return
 	runner_20.advance() # receipt_recognized
 	runner_20.advance() # peace_branch_d_done (effects fire on enter)
 	if GameState.has_item("childcare_supply_receipt", 1):
@@ -10154,10 +10238,18 @@ func _ready() -> void:
 		"DLG_SEVEN_RECEIPT_PROBE_TEXT",
 		"DLG_SEVEN_RECEIPT_CHOICE_THREAT",
 		"DLG_SEVEN_RECEIPT_CHOICE_TAUNT",
-		"DLG_SEVEN_RECEIPT_CHOICE_QUESTION",
+		"DLG_SEVEN_RECEIPT_S1_CHOICE_CORRECT",
 		"DLG_SEVEN_RECEIPT_CHOICE_RETURN",
-		"DLG_SEVEN_RECEIPT_FAIL_COLD_TEXT",
 		"DLG_SEVEN_RECEIPT_REPROBE_TEXT",
+		"DLG_SEVEN_RECEIPT_S2_TEXT",
+		"DLG_SEVEN_RECEIPT_S2_CHOICE_PRY",
+		"DLG_SEVEN_RECEIPT_S2_CHOICE_BARGAIN",
+		"DLG_SEVEN_RECEIPT_S2_CHOICE_CORRECT",
+		"DLG_SEVEN_RECEIPT_S3_TEXT",
+		"DLG_SEVEN_RECEIPT_S3_CHOICE_PITY",
+		"DLG_SEVEN_RECEIPT_S3_CHOICE_WITHDRAW",
+		"DLG_SEVEN_REBUFF_LEVERAGE_TEXT",
+		"DLG_SEVEN_REBUFF_PROBE_TEXT",
 		"DLG_SEVEN_RECEIPT_RETURN_TEXT",
 		"DLG_SEVEN_RECEIPT_RECOGNIZED_TEXT",
 		"DLG_SEVEN_PEACE_BRANCH_D_DONE_TEXT"

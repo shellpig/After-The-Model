@@ -84,35 +84,81 @@ const TREE := {
 		"text": "DLG_SEVEN_LEAVE_TEXT"
 	},
 
+	# Receipt funnel = a 3-stage puzzle (mirrors the convenience-store robot
+	# diagnosis): the player must pick the correct option in all three
+	# consecutive stages for Seven to lower his guard and accept the receipt.
+	# A wrong pick at ANY stage routes to a shared cold rebuff and ends at
+	# leave (retriable). The protagonist never claims the receipt is Seven's;
+	# the "this belongs to you" line only becomes available at stage 3, after
+	# Seven's own reaction has revealed the connection.
+	#
+	# Stage 1 (first time).
 	"receipt_probe": {
 		"speaker": "SPEAKER_SEVEN",
 		"text": "DLG_SEVEN_RECEIPT_PROBE_TEXT",
 		"choices": [
-			{"label": "DLG_SEVEN_RECEIPT_CHOICE_THREAT", "goto": "receipt_fail_cold"},
-			{"label": "DLG_SEVEN_RECEIPT_CHOICE_TAUNT", "goto": "receipt_fail_cold"},
-			{"label": "DLG_SEVEN_RECEIPT_CHOICE_QUESTION", "goto": "receipt_fail_cold"},
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_THREAT", "goto": "rebuff_leverage"},
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_TAUNT", "goto": "rebuff_probe"},
+			{"label": "DLG_SEVEN_RECEIPT_S1_CHOICE_CORRECT", "goto": "receipt_probe_s2"}
+		]
+	},
+
+	# Stage 1 (retry, after a prior rebuff): terser opener, same branching.
+	"receipt_reprobe": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_RECEIPT_REPROBE_TEXT",
+		"choices": [
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_THREAT", "goto": "rebuff_leverage"},
+			{"label": "DLG_SEVEN_RECEIPT_CHOICE_TAUNT", "goto": "rebuff_probe"},
+			{"label": "DLG_SEVEN_RECEIPT_S1_CHOICE_CORRECT", "goto": "receipt_probe_s2"}
+		]
+	},
+
+	# Stage 2.
+	"receipt_probe_s2": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_RECEIPT_S2_TEXT",
+		"choices": [
+			{"label": "DLG_SEVEN_RECEIPT_S2_CHOICE_PRY", "goto": "rebuff_probe"},
+			{"label": "DLG_SEVEN_RECEIPT_S2_CHOICE_BARGAIN", "goto": "rebuff_leverage"},
+			{"label": "DLG_SEVEN_RECEIPT_S2_CHOICE_CORRECT", "goto": "receipt_probe_s3"}
+		]
+	},
+
+	# Stage 3 (the "give it back" line lives here, earned by Seven's reaction).
+	"receipt_probe_s3": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_RECEIPT_S3_TEXT",
+		"choices": [
+			{"label": "DLG_SEVEN_RECEIPT_S3_CHOICE_PITY", "goto": "rebuff_leverage"},
+			{"label": "DLG_SEVEN_RECEIPT_S3_CHOICE_WITHDRAW", "goto": "rebuff_probe"},
 			{"label": "DLG_SEVEN_RECEIPT_CHOICE_RETURN", "goto": "receipt_return"}
 		]
 	},
 
-	"receipt_fail_cold": {
+	# Two shared cold-rejection replies. Every wrong choice across the three
+	# stages routes to one of these by its nature; both set
+	# seven_receipt_rebuffed, change no Trace/affinity, and are retriable.
+	#  - rebuff_leverage: player treated the receipt as leverage / a bargaining
+	#    chip / a pitying handout (threat, "what's it worth", "do you a favor").
+	#  - rebuff_probe: player pried, mocked, or wavered (taunt, forcing him to
+	#    admit it, taking the offer back).
+	"rebuff_leverage": {
 		"speaker": "SPEAKER_SEVEN",
-		"text": "DLG_SEVEN_RECEIPT_FAIL_COLD_TEXT",
+		"text": "DLG_SEVEN_REBUFF_LEVERAGE_TEXT",
 		"effect": [
 			{"op": "set_flag", "key": "seven_receipt_rebuffed", "value": true}
 		],
 		"goto": "leave"
 	},
 
-	"receipt_reprobe": {
+	"rebuff_probe": {
 		"speaker": "SPEAKER_SEVEN",
-		"text": "DLG_SEVEN_RECEIPT_REPROBE_TEXT",
-		"choices": [
-			{"label": "DLG_SEVEN_RECEIPT_CHOICE_THREAT", "goto": "receipt_fail_cold"},
-			{"label": "DLG_SEVEN_RECEIPT_CHOICE_TAUNT", "goto": "receipt_fail_cold"},
-			{"label": "DLG_SEVEN_RECEIPT_CHOICE_QUESTION", "goto": "receipt_fail_cold"},
-			{"label": "DLG_SEVEN_RECEIPT_CHOICE_RETURN", "goto": "receipt_return"}
-		]
+		"text": "DLG_SEVEN_REBUFF_PROBE_TEXT",
+		"effect": [
+			{"op": "set_flag", "key": "seven_receipt_rebuffed", "value": true}
+		],
+		"goto": "leave"
 	},
 
 	"receipt_return": {

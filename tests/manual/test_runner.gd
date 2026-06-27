@@ -10325,6 +10325,31 @@ func _ready() -> void:
 		printerr("FAIL 21-A: commuter_screen interaction should set learned_topside_shortcut to true!")
 		get_tree().quit(1)
 		return
+
+	# i18n: commuter_screen flavour resolves through tr() in all 3 locales and
+	# reflects the corrected route (back on the street, head left to the old
+	# maintenance corridor up to the Upper District — not "deep in the subway").
+	var commuter_msg_key_21: String = platform_inst.MESSAGES["commuter_screen"]
+	if not commuter_msg_key_21.begins_with("MSG_"):
+		printerr("FAIL 21-A: commuter_screen message should be an i18n key, got: ", commuter_msg_key_21)
+		get_tree().quit(1)
+		return
+	for loc_21 in ["zh_TW", "zh_CN", "en"]:
+		LocaleManager.set_locale(loc_21)
+		if tr(commuter_msg_key_21) == commuter_msg_key_21:
+			printerr("FAIL 21-A: commuter_screen key has no %s translation." % loc_21)
+			get_tree().quit(1)
+			return
+	LocaleManager.set_locale("zh_TW")
+	var commuter_zh_21: String = tr(commuter_msg_key_21)
+	if not ("向左" in commuter_zh_21 and "舊維修通道" in commuter_zh_21):
+		printerr("FAIL 21-A: commuter_screen zh_TW missing corrected route wording, got: ", commuter_zh_21)
+		get_tree().quit(1)
+		return
+	if "地鐵站深處" in commuter_zh_21:
+		printerr("FAIL 21-A: commuter_screen still contains the old wrong 'deep in the subway' wording!")
+		get_tree().quit(1)
+		return
 	platform_inst.free()
 
 	# 4. 驗證 travel_street_west 對話樹分流

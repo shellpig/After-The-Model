@@ -10942,9 +10942,27 @@ func _ready() -> void:
 		printerr("FAIL 23-A: Should transition to nightclub_back after security passed!")
 		get_tree().quit(1)
 		return
-		
+
+	# 5. 驗證保全 NPC 互動會派發對話（dialogue_id dispatch，實機唯一入口）
+	var bodyguard_node_p23a = inst_nightclub.get_node("Interactables/Bodyguard")
+	inst_nightclub.current_interactable = bodyguard_node_p23a
+
+	var captured_dialogue_p23a: Dictionary = {}
+	for conn_p23a in inst_nightclub.interaction_requested.get_connections():
+		inst_nightclub.interaction_requested.disconnect(conn_p23a.callable)
+	inst_nightclub.interaction_requested.connect(func(data):
+		captured_dialogue_p23a.merge(data, true)
+	)
+
+	inst_nightclub._trigger_interaction()
+
+	if captured_dialogue_p23a.get("type", "") != "dialogue" or captured_dialogue_p23a.get("dialogue_id", "") != "nightclub_bodyguard":
+		printerr("FAIL 23-A: Bodyguard interaction should dispatch dialogue 'nightclub_bodyguard', got: ", captured_dialogue_p23a)
+		get_tree().quit(1)
+		return
+
 	inst_nightclub.free()
-	
+
 	print("PASS: Phase 23-A bodyguard, back_door block, and staff_pass_examine verified.")
 
 	# ===================== Phase 23-B: Act 3 夜總會保全對話與智取 =====================

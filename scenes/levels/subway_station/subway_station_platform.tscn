@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://cxse0nknh6geu" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-1-stylematch-v3.png" id="cw1"]
 [ext_resource type="Texture2D" uid="uid://dwo1nkoejwbha" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-2-stylematch-v3.png" id="cw2"]
 [ext_resource type="Texture2D" uid="uid://bqsaduk65257o" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-3-stylematch-v3.png" id="cw3"]
+[ext_resource type="AudioStream" path="res://assets/audio/echoes/echo_song_rain_doesnt_stop.mp3" id="ext_rain_song"]
 [ext_resource type="Texture2D" uid="uid://cb3qahecygj4y" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-4-stylematch-v3.png" id="cw4"]
 [ext_resource type="Texture2D" uid="uid://cklwjjc6jk3q" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-5-stylematch-v3.png" id="cw5"]
 [ext_resource type="Texture2D" uid="uid://755a058kmgmd" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-6-stylematch-v3.png" id="cw6"]
@@ -329,6 +330,12 @@ message_id = "mem_frag_commute_topside"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentArea" unique_id=987654322]
 shape = SubResource("RectangleShape2D_mem_frag")
 debug_color = Color(0.9, 0.1, 0.9, 0.42)
+
+[node name="ThemeMotifPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("ext_rain_song")
+volume_db = -24.0
+autoplay = true
+bus = &"Ambient"
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1167683997]
 position = Vector2(180, 820)

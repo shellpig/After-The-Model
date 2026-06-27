@@ -57,7 +57,7 @@ DLG_LU_QICHEN_APPRAISE_GLOVES_TEXT,"你的手套食指改過接點？拿來，�
 (He turns around, takes several fine tools from a drawer, focuses on dismantling the module under the light, and connects wires as thin as hair to the inner side of the glove. His movements are extremely swift and skilled)
 There. Now it's a pair of 'Gleaner Gloves'."
 DLG_LU_QICHEN_APPRAISE_INSTRUCTIONS_TEXT,"裝備它。在外面走動時，如果附近有被抹除的記憶，手套會亮起微光，你還會聽到電磁雜訊的干擾聲。
-在雜訊最強的點上『靜止站立一秒』，手套就能收錄那段殘響。
+在雜訊最强的點上『靜止站立一秒』，手套就能收錄那段殘響。
 如果你集滿了整條殘響，可以拿來賣給我。或者……","装备它。在外面走动时，如果附近有被抹除的记忆，手套会亮起微光，你还会听到电磁杂讯的干扰声。
 在杂讯最强的点上『静止站立一秒』，手套就能收录那段残响。
 如果你集满了整条残响，可以拿来卖给我。或者……","Equip it. When walking outside, if there are erased memories nearby, the gloves will glow faintly, and you'll hear electromagnetic static interference.
@@ -115,6 +115,24 @@ DLG_LU_QICHEN_SELL_SONG_SOLD_TEXT,"很好，這份殘響我收下了。
 （獲得了 150 credits。）","很好，这份残响我收下了。
 （获得了 150 credits。）","Excellent, I've accepted this echo.
 (Obtained 150 credits.)"
+DLG_LU_QICHEN_SELL_MENU_CHOICE_SETTLEMENT,交付《被抹除的住戶》,交付《被抹除的住户》,"Deliver ""The Erased Tenant"""
+DLG_LU_QICHEN_SELL_MENU_CHOICE_ADA,交付《被格式化的阿達》,交付《被格式化的阿达》,"Deliver ""The Formatted Ada"""
+DLG_LU_QICHEN_SELL_MENU_CHOICE_LINFEI,交付《核心善後員的殘響》,交付《核心善后员的残响》,"Deliver ""Core Agent's Echo"""
+DLG_LU_QICHEN_SELL_SETTLEMENT_TEXT,"（他戴上單片眼鏡，仔細查看硬碟裡的出生登記）這是一段冰冷的記錄，但對某些人來說，這是他們存在過的唯一溫柔證明。你想把這段記憶賣給我嗎？","（他戴上单片眼镜，仔细查看硬盘里的出生登记）这是一段冰冷的记录，但对某些人来说，这是他们存在过的唯一温柔证明。你想把这段记忆卖给我吗？","(He puts on a monocle, carefully inspecting the birth registration in the hard drive) This is a cold record, but to some, it is the only gentle proof that they ever existed. Do you want to sell this memory to me?"
+DLG_LU_QICHEN_SELL_SETTLEMENT_SOLD_TEXT,"很好，這份殘響我收下了。
+（獲得了 250 credits。）","很好，这份残响我收下了。
+（获得了 250 credits。）","Excellent, I've accepted this echo.
+(Obtained 250 credits.)"
+DLG_LU_QICHEN_SELL_ADA_TEXT,"（他聽著那段語音，手輕輕敲打著手杖）阿達……那個總是穿著濕透雨衣的人。他只是執行程序，但程序抹去了太多東西。你想把這段記憶賣給我嗎？","（他听着那段语音，手轻轻敲打着手杖）阿达……那个总是穿着湿透雨衣的人。他只是执行程序，但程序抹去了太多东西。你想把这段记忆卖给我吗？","(He listens to the audio, tapping his cane gently) Ada... that person who always wore a soaked raincoat. He just executed the procedure, but the procedure wiped away too much. Do you want to sell this memory to me?"
+DLG_LU_QICHEN_SELL_ADA_SOLD_TEXT,"很好，這份殘響我收下了。
+（獲得了 300 credits。）","很好，这份残响我收下了。
+（获得了 300 credits。）","Excellent, I've accepted this echo.
+(Obtained 300 credits.)"
+DLG_LU_QICHEN_SELL_LINFEI_TEXT,"（他的手指微微顫抖，聽完錄音後長久地閉上眼睛）是她……那個核心善後員。她用自己的格式化換取了藏身網的安全。這份殘響，我會妥善保管。你想把這段記憶賣給我嗎？","（他的手指微微颤抖，听完录音后长久地闭上眼睛）是她……那个核心善后员。她用自己的格式化换取了藏身网的安全。这份残响，我会妥善保管。你想把这段记忆卖给我吗？","(His fingers tremble slightly as he closes his eyes for a long time after listening) It's her... That core agent. She traded her own formatting for the safety of the hideout network. I will keep this echo safe. Do you want to sell this memory to me?"
+DLG_LU_QICHEN_SELL_LINFEI_SOLD_TEXT,"很好，這份殘響我收下了。
+（獲得了 400 credits。）","很好，这份残响我收下了。
+（获得了 400 credits。）","Excellent, I've accepted this echo.
+(Obtained 400 credits.)"
 DLG_LU_QICHEN_SELL_DONE_TEXT,感謝你的回報。還有其他收穫嗎？,感谢你的回报。还有其他收获吗？,Thank you for your report. Any other findings?
 DLG_LU_QICHEN_EXIT_TEXT,慢走。記得戴好手套，這雨一時半刻是停不了的。,慢走。记得戴好手套，这雨一时半刻是停不了的。,Take care. Remember to wear your gloves; this rain won't stop anytime soon.
 SPEAKER_SEVEN,七號,七号,Seven

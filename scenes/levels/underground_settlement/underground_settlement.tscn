@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="walk8"]
 [ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 [ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
+[ext_resource type="AudioStream" path="res://assets/audio/echoes/echo_song_rain_doesnt_stop.mp3" id="ext_rain_song"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4352, 16)
@@ -232,6 +233,12 @@ require_flag = "read_old_work_order"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentErasedAda" unique_id=987654356]
 position = Vector2(1300, 705)
 shape = SubResource("RectangleShape2D_transition")
+
+[node name="ThemeMotifPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("ext_rain_song")
+volume_db = -24.0
+autoplay = true
+bus = &"Ambient"
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=355216945]
 position = Vector2(180, 870)

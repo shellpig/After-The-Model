@@ -127,6 +127,9 @@ const TREE := {
 			{"condition": [{"type": "echo_complete", "value": "echo_clerk"}, {"type": "echo_unsold", "value": "echo_clerk"}], "target": "sell_menu"},
 			{"condition": [{"type": "echo_complete", "value": "echo_room401_tenant"}, {"type": "echo_unsold", "value": "echo_room401_tenant"}], "target": "sell_menu"},
 			{"condition": [{"type": "echo_complete", "value": "echo_song_rain_doesnt_stop"}, {"type": "echo_unsold", "value": "echo_song_rain_doesnt_stop"}], "target": "sell_menu"},
+			{"condition": [{"type": "echo_complete", "value": "echo_settlement_erased"}, {"type": "echo_unsold", "value": "echo_settlement_erased"}], "target": "sell_menu"},
+			{"condition": [{"type": "echo_complete", "value": "echo_ada_reset"}, {"type": "echo_unsold", "value": "echo_ada_reset"}], "target": "sell_menu"},
+			{"condition": [{"type": "echo_complete", "value": "echo_linfei"}, {"type": "echo_unsold", "value": "echo_linfei"}], "target": "sell_menu"},
 			{"target": "sell_empty"}
 		]
 	},
@@ -163,6 +166,30 @@ const TREE := {
 					{"type": "echo_unsold", "value": "echo_song_rain_doesnt_stop"}
 				],
 				"goto": "sell_song"
+			},
+			{
+				"label": "DLG_LU_QICHEN_SELL_MENU_CHOICE_SETTLEMENT",
+				"condition": [
+					{"type": "echo_complete", "value": "echo_settlement_erased"},
+					{"type": "echo_unsold", "value": "echo_settlement_erased"}
+				],
+				"goto": "sell_settlement"
+			},
+			{
+				"label": "DLG_LU_QICHEN_SELL_MENU_CHOICE_ADA",
+				"condition": [
+					{"type": "echo_complete", "value": "echo_ada_reset"},
+					{"type": "echo_unsold", "value": "echo_ada_reset"}
+				],
+				"goto": "sell_ada"
+			},
+			{
+				"label": "DLG_LU_QICHEN_SELL_MENU_CHOICE_LINFEI",
+				"condition": [
+					{"type": "echo_complete", "value": "echo_linfei"},
+					{"type": "echo_unsold", "value": "echo_linfei"}
+				],
+				"goto": "sell_linfei"
 			},
 			{
 				"label": "DLG_LU_QICHEN_SELL_MENU_CHOICE3",
@@ -237,6 +264,73 @@ const TREE := {
 		"text": "DLG_LU_QICHEN_SELL_SONG_SOLD_TEXT",
 		"goto": "sell_done"
 	},
+	"sell_settlement": {
+		"speaker": "SPEAKER_LU_QICHEN",
+		"text": "DLG_LU_QICHEN_SELL_SETTLEMENT_TEXT",
+		"choices": [
+			{
+				"label": "DLG_LU_QICHEN_SELL_SONG_CHOICE0",
+				"effect": [
+					{"op": "sell_echo", "value": "echo_settlement_erased"}
+				],
+				"goto": "sell_settlement_sold"
+			},
+			{
+				"label": "DLG_LU_QICHEN_SELL_SONG_CHOICE1",
+				"goto": "sell_menu"
+			}
+		]
+	},
+	"sell_settlement_sold": {
+		"speaker": "SPEAKER_LU_QICHEN",
+		"text": "DLG_LU_QICHEN_SELL_SETTLEMENT_SOLD_TEXT",
+		"goto": "sell_done"
+	},
+	"sell_ada": {
+		"speaker": "SPEAKER_LU_QICHEN",
+		"text": "DLG_LU_QICHEN_SELL_ADA_TEXT",
+		"choices": [
+			{
+				"label": "DLG_LU_QICHEN_SELL_SONG_CHOICE0",
+				"effect": [
+					{"op": "sell_echo", "value": "echo_ada_reset"}
+				],
+				"goto": "sell_ada_sold"
+			},
+			{
+				"label": "DLG_LU_QICHEN_SELL_SONG_CHOICE1",
+				"goto": "sell_menu"
+			}
+		]
+	},
+	"sell_ada_sold": {
+		"speaker": "SPEAKER_LU_QICHEN",
+		"text": "DLG_LU_QICHEN_SELL_ADA_SOLD_TEXT",
+		"goto": "sell_done"
+	},
+	"sell_linfei": {
+		"speaker": "SPEAKER_LU_QICHEN",
+		"text": "DLG_LU_QICHEN_SELL_LINFEI_TEXT",
+		"choices": [
+			{
+				"label": "DLG_LU_QICHEN_SELL_SONG_CHOICE0",
+				"effect": [
+					{"op": "sell_echo", "value": "echo_linfei"}
+				],
+				"goto": "sell_linfei_sold"
+			},
+			{
+				"label": "DLG_LU_QICHEN_SELL_SONG_CHOICE1",
+				"goto": "sell_menu"
+			}
+		]
+	},
+	"sell_linfei_sold": {
+		"speaker": "SPEAKER_LU_QICHEN",
+		"text": "DLG_LU_QICHEN_SELL_LINFEI_SOLD_TEXT",
+		"goto": "sell_done"
+	},
+
 	"sell_done": {
 		"speaker": "SPEAKER_LU_QICHEN",
 		"text": "DLG_LU_QICHEN_SELL_DONE_TEXT",

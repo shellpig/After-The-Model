@@ -41,6 +41,10 @@ func _ready() -> void:
 	if main and main.has_method("play_bgm"):
 		main.play_bgm("res://assets/bgm/The Deleted Still Breathe.mp3")
 
+	var motif_player = get_node_or_null("ThemeMotifPlayer")
+	if motif_player and motif_player.stream and "loop" in motif_player.stream:
+		motif_player.stream.loop = true
+
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)

@@ -1339,6 +1339,8 @@ func sell_echo(echo_id: String) -> bool:
 	var price = echo_data.get("sell_price", 0)
 	add_credits(price)
 	echo_progress[echo_id]["sold"] = true
+	if echo_id == "echo_linfei":
+		set_flag("sold_linfei_echo", true)
 	# 11-C：賣＝把別人的存在再次商品化，原始資料離手 → Trace↓（集中在此，與對話無關）
 	add_trace(TRACE_DELTA_SELL)
 	echo_changed.emit(echo_id)

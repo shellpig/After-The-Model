@@ -153,3 +153,9 @@ Default mode: read-only reviewer.
 - No file writes, deletes, staging, commits, or pushes.
 - Do not read `.env`, `data/`, `舊文件/`, or `C:\_work\AI_Work\Tools\`.
 - Treat output as second opinion; review it before reporting.
+
+## 實作安全與編譯驗證守則
+
+1. **避免長函式變數衝突（後綴規範）**：在大型或長函式（如 `test_runner.gd` 等集成測試檔案）中撰寫程式碼時，所有新增的變數（如 `save_dict`, `runner`, `initial_trace` 等）必須加上專屬後綴（例如以 Phase 名或特色標註，如 `save_dict_phase21`），絕不宣告簡單的同名通用變數。
+2. **API 簽名預先核對**：調用任何專案內自訂腳本、Autoload、DialogueRunner 等 API 前，必須主動使用 `grep_search` 或 `view_file` 核對其最新定義、方法名稱與參數列，不憑記憶編寫調用。
+3. **編譯錯誤同 Turn 自主修復**：執行測試或語法檢查指令時，將 `WaitMsBeforeAsync` 設定為最大值（如 `10000`ms），以同步模式取得編譯/測試結果。若有錯誤，必須在同一個 turn 內直接修正並重新驗證，直到測試完全通過後才結束回合，不讓編譯錯誤流向使用者。

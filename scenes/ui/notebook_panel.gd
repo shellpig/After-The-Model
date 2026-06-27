@@ -319,12 +319,11 @@ func _update_footer_hints(note: Dictionary) -> void:
 	
 	if note.get("is_echo", false):
 		var echo_id = note.get("id", "")
-		if GameState.is_echo_complete(echo_id) and not GameState.is_echo_sold(echo_id):
-			var echo_data = EchoDB.get_echo(echo_id)
-			var image_path = echo_data.get("image_path", "")
-			var audio_path = echo_data.get("audio_path", "")
-			var has_image = not image_path.is_empty()
-			var has_audio = not audio_path.is_empty()
+		if not GameState.is_echo_sold(echo_id):
+			var has_image = GameState.is_echo_image_unlocked(echo_id)
+			var has_audio = GameState.is_echo_audio_unlocked(echo_id)
+			var image_path = GameState.get_echo_image_path(echo_id) if has_image else ""
+			var audio_path = GameState.get_echo_audio_path(echo_id) if has_audio else ""
 			
 			if has_image and has_audio:
 				hints.insert(0, "R: 播放錄音")
@@ -419,12 +418,11 @@ func get_media_actions() -> Dictionary:
 			var note = current_list_items[idx]
 			if note.get("is_echo", false):
 				var echo_id = note.get("id")
-				if GameState.is_echo_complete(echo_id) and not GameState.is_echo_sold(echo_id):
-					var echo_data = EchoDB.get_echo(echo_id)
-					var image_path = echo_data.get("image_path", "")
-					var audio_path = echo_data.get("audio_path", "")
-					var has_image = not image_path.is_empty()
-					var has_audio = not audio_path.is_empty()
+				if not GameState.is_echo_sold(echo_id):
+					var has_image = GameState.is_echo_image_unlocked(echo_id)
+					var has_audio = GameState.is_echo_audio_unlocked(echo_id)
+					var image_path = GameState.get_echo_image_path(echo_id) if has_image else ""
+					var audio_path = GameState.get_echo_audio_path(echo_id) if has_audio else ""
 					
 					if has_image and has_audio:
 						return {"primary": "view_photo", "secondary": "play_audio"}
@@ -483,13 +481,13 @@ func _input(event: InputEvent) -> void:
 				var echo_id = note.get("id")
 				var echo_data = EchoDB.get_echo(echo_id)
 				if action == "view_photo":
-					var image_path = echo_data.get("image_path", "")
+					var image_path = GameState.get_echo_image_path(echo_id)
 					var game_ui = get_parent()
 					if game_ui and game_ui.has_method("open_photo_viewer"):
 						game_ui.open_photo_viewer(image_path, current_focus)
 						get_viewport().set_input_as_handled()
 				elif action == "play_audio":
-					var audio_path = echo_data.get("audio_path", "")
+					var audio_path = GameState.get_echo_audio_path(echo_id)
 					var game_ui = get_parent()
 					if game_ui and game_ui.has_method("toggle_echo_audio"):
 						game_ui.toggle_echo_audio(audio_path)
@@ -505,7 +503,7 @@ func _input(event: InputEvent) -> void:
 				var echo_id = note.get("id")
 				var echo_data = EchoDB.get_echo(echo_id)
 				if action == "play_audio":
-					var audio_path = echo_data.get("audio_path", "")
+					var audio_path = GameState.get_echo_audio_path(echo_id)
 					var game_ui = get_parent()
 					if game_ui and game_ui.has_method("toggle_echo_audio"):
 						game_ui.toggle_echo_audio(audio_path)

@@ -10,7 +10,7 @@ const SCENES := {
 	"apartment_entrance": {
 		"path": "res://scenes/levels/apartment_entrance.tscn",
 		"default_entry_point_id": "from_apartment",
-		"entry_points": ["from_apartment", "from_store", "from_collector_shop", "from_subway"],
+		"entry_points": ["from_apartment", "from_store", "from_collector_shop", "from_subway", "from_topside"],
 		"music_id": "street_rain"
 	},
 	"convenience_store": {
@@ -60,6 +60,24 @@ const SCENES := {
 		"default_entry_point_id": "from_settlement",
 		"entry_points": ["from_settlement"],
 		"music_id": "underground_settlement"
+	},
+	"nightclub_entrance": {
+		"path": "res://scenes/levels/nightclub/nightclub_entrance.tscn",
+		"default_entry_point_id": "from_street",
+		"entry_points": ["from_street", "from_lobby"],
+		"music_id": "nightclub_front"
+	},
+	"nightclub": {
+		"path": "res://scenes/levels/nightclub/nightclub.tscn",
+		"default_entry_point_id": "from_entrance",
+		"entry_points": ["from_entrance", "from_back"],
+		"music_id": "nightclub_front"
+	},
+	"nightclub_back": {
+		"path": "res://scenes/levels/nightclub/nightclub_back.tscn",
+		"default_entry_point_id": "from_lobby",
+		"entry_points": ["from_lobby"],
+		"music_id": "nightclub_back"
 	}
 }
 

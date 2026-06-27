@@ -21,6 +21,11 @@ const TREE := {
 				"goto": "travel_to_subway"
 			},
 			{
+				"label": "DLG_TRAVEL_STREET_WEST_MENU_CHOICE2",
+				"condition": {"flag": "learned_topside_shortcut", "op": "==", "value": true},
+				"goto": "travel_to_nightclub"
+			},
+			{
 				"label": "DLG_TRAVEL_STREET_WEST_MENU_CHOICE1",
 				"goto": "end"
 			}
@@ -31,6 +36,13 @@ const TREE := {
 		"text": "DLG_TRAVEL_STREET_WEST_TRAVEL_TO_SUBWAY_TEXT",
 		"effect": [
 			{"op": "travel", "scene_id": "subway_station", "entry_point_id": "from_street"}
+		]
+	},
+	"travel_to_nightclub": {
+		"speaker": "",
+		"text": "DLG_TRAVEL_STREET_WEST_TRAVEL_TO_NIGHTCLUB_TEXT",
+		"effect": [
+			{"op": "travel", "scene_id": "nightclub_entrance", "entry_point_id": "from_street"}
 		]
 	},
 	"end": {

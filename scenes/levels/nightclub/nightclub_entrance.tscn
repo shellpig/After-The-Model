@@ -1,0 +1,184 @@
+[gd_scene format=3 uid="uid://df247v78k405a"]
+
+[ext_resource type="Script" path="res://scenes/levels/nightclub/nightclub_entrance.gd" id="1_script"]
+[ext_resource type="Script" path="res://scenes/actors/player/player.gd" id="2_player"]
+[ext_resource type="Script" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
+[ext_resource type="Script" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
+[ext_resource type="Texture2D" path="res://assets/generated/maps/nightclub/nightclub-entrance-20260627-073900.jpeg" id="4_map"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="jumpf4"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="4_walk1"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="5_walk2"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="6_walk3"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="7_walk4"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="8_walk5"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="9_walk6"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="10_walk7"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="11_walk8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(1376, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(80, 200)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
+radius = 45.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_player"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("jumpf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf6")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 11.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_walk2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_walk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_walk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_walk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_walk4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_walk5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_walk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_walk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_walk8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(24, 454)
+
+[node name="NightclubEntrance" type="Node2D" unique_id=210100001]
+script = ExtResource("1_script")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=210100002]
+texture = ExtResource("4_map")
+centered = false
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=210100003]
+position = Vector2(640, 360)
+limit_left = 0
+limit_top = 0
+limit_right = 1376
+limit_bottom = 768
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="Collision" type="Node2D" parent="." unique_id=210100004]
+
+[node name="Ground" type="StaticBody2D" parent="Collision" unique_id=210100005]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground" unique_id=210100006]
+z_index = 1
+position = Vector2(688, 684)
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=210100007]
+
+[node name="from_street" type="Marker2D" parent="SpawnPoints" unique_id=210100008]
+position = Vector2(120, 655)
+
+[node name="from_lobby" type="Marker2D" parent="SpawnPoints" unique_id=210100009]
+position = Vector2(1200, 655)
+
+[node name="Interactables" type="Node2D" parent="." unique_id=210100010]
+
+[node name="ExitToStreetArea" type="Area2D" parent="Interactables" unique_id=210100011]
+script = ExtResource("3_interactable")
+interaction_id = "exit_to_street"
+prompt_text = "PROMPT_STORE_BACK_TO_STREET"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToStreetArea" unique_id=210100012]
+position = Vector2(60, 565)
+shape = SubResource("RectangleShape2D_door")
+
+[node name="ServiceDoorArea" type="Area2D" parent="Interactables" unique_id=210100013]
+script = ExtResource("3_interactable")
+interaction_id = "service_door"
+prompt_text = "PROMPT_NIGHTCLUB_ENTRANCE_SERVICE_DOOR"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ServiceDoorArea" unique_id=210100014]
+position = Vector2(1300, 565)
+shape = SubResource("RectangleShape2D_door")
+
+[node name="BiometricGateArea" type="Area2D" parent="Interactables" unique_id=210100015]
+script = ExtResource("3_interactable")
+interaction_id = "biometric_gate"
+prompt_text = "PROMPT_NIGHTCLUB_BIOMETRIC_GATE"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BiometricGateArea" unique_id=210100016]
+position = Vector2(800, 565)
+shape = SubResource("RectangleShape2D_door")
+
+[node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=210100020]
+position = Vector2(500, 655)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_linfei"
+segment_id = "s1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=210100021]
+shape = SubResource("CircleShape2D_echo")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=210100017]
+position = Vector2(120, 665)
+scale = Vector2(1.1, 1.1)
+script = ExtResource("2_player")
+min_x = 50.0
+max_x = 1320.0
+walk_line_y = 655.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=210100018]
+position = Vector2(20, -184)
+sprite_frames = SubResource("SpriteFrames_player")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=210100019]
+position = Vector2(30, -221)
+shape = SubResource("RectangleShape2D_player")

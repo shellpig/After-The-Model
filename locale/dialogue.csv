@@ -288,7 +288,9 @@ DLG_TRAVEL_STREET_WEST_LOCKED_TEXT,（這座地鐵站已經停運很久了，入
 DLG_TRAVEL_STREET_WEST_MENU_TEXT,你要離開目前街區嗎？,你要离开目前街区吗？,Do you want to leave the current block?
 DLG_TRAVEL_STREET_WEST_MENU_CHOICE0,前往地鐵站,前往地铁站,Go to the Subway Station
 DLG_TRAVEL_STREET_WEST_MENU_CHOICE1,取消,取消,Cancel
+DLG_TRAVEL_STREET_WEST_MENU_CHOICE2,前往上層區,前往上层区,Go to the Upper District
 DLG_TRAVEL_STREET_WEST_TRAVEL_TO_SUBWAY_TEXT,（你沿著街區邊緣往下走。霓虹和雨聲被高架橋吞掉，地鐵入口像一個還沒關上的傷口，等著你進去。）,（你沿着街区边缘往下走。霓虹和雨声被高架桥吞掉，地铁入口像一个还没关上的伤口，等着你进去。）,"(You walk down along the edge of the block. The neon lights and the sound of rain are swallowed by the viaduct, the subway entrance like an unclosed wound, waiting for you to enter.)"
+DLG_TRAVEL_STREET_WEST_TRAVEL_TO_NIGHTCLUB_TEXT,"（你沿著最左側的舊維修通道，一步步爬上這座高架結構的頂層。周圍的雨聲漸漸變小，取而代之的是遠處隱約傳來的喧囂與高空冷冽的風。在霓虹流光的最深處，那座奢華的夜總會入口出現在你的眼前……）","（你沿着最侧的旧维修通道，一步步爬上这座高架结构的顶层。周围的雨声渐渐变小，取而代之的是远处隐约传来的喧嚣与高空冷冽的风。在霓虹流光的最深处，这座奢华的夜总会入口出现在你的眼前……）","(You walk up along the old maintenance corridor on the far left, climbing step by step to the top of this elevated structure. The sound of rain gradually fades, replaced by the faint hubbub from afar and the cold high-altitude wind. At the deepest end of the neon stream, the entrance of that luxurious nightclub appears before your eyes...)"
 DLG_TRAVEL_STREET_WEST_END_TEXT,（你決定先留在這條街上。）,（你决定先留在这条街上。）,(You decide to stay on this street for now.)
 SPEAKER_WAN,晚,晚,Wan
 DLG_WAN_WAN_DAZE_HOOK_TEXT,"（她話說到一半停住，盯著你看。）

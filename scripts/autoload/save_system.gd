@@ -16,7 +16,10 @@ const SCENE_NAMES := {
 	"subway_station": "地鐵站入口",
 	"subway_station_platform": "地鐵站月台",
 	"underground_settlement": "地下道聚落",
-	"underground_settlement_right": "地下道聚落右區"
+	"underground_settlement_right": "地下道聚落右區",
+	"nightclub_entrance": "夜總會大門口",
+	"nightclub": "夜總會前廳",
+	"nightclub_back": "夜總會後場包廂"
 }
 
 func capture(scene_id: String, player_x: float, facing := 1) -> Dictionary:

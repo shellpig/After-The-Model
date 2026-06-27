@@ -1270,6 +1270,52 @@ func is_echo_complete(echo_id: String) -> bool:
 	var collected_count = echo_progress[echo_id].get("collected", []).size()
 	return collected_count == EchoDB.get_segment_count(echo_id)
 
+func is_echo_audio_unlocked(echo_id: String) -> bool:
+	if not echo_progress.has(echo_id) or is_echo_sold(echo_id):
+		return false
+	var echo_data = EchoDB.get_echo(echo_id)
+	if echo_data.is_empty():
+		return false
+	if echo_data.has("media_slots"):
+		var slots = echo_data.get("media_slots", {})
+		if slots.has("audio"):
+			var threshold = slots["audio"].get("threshold", 0)
+			return get_collected_segment_count(echo_id) >= threshold
+		return false
+	else:
+		return is_echo_complete(echo_id) and not echo_data.get("audio_path", "").is_empty()
+
+func is_echo_image_unlocked(echo_id: String) -> bool:
+	if not echo_progress.has(echo_id) or is_echo_sold(echo_id):
+		return false
+	var echo_data = EchoDB.get_echo(echo_id)
+	if echo_data.is_empty():
+		return false
+	if echo_data.has("media_slots"):
+		var slots = echo_data.get("media_slots", {})
+		if slots.has("image"):
+			var threshold = slots["image"].get("threshold", 0)
+			return get_collected_segment_count(echo_id) >= threshold
+		return false
+	else:
+		return is_echo_complete(echo_id) and not echo_data.get("image_path", "").is_empty()
+
+func get_echo_audio_path(echo_id: String) -> String:
+	if not is_echo_audio_unlocked(echo_id):
+		return ""
+	var echo_data = EchoDB.get_echo(echo_id)
+	if echo_data.has("media_slots"):
+		return echo_data.get("media_slots", {}).get("audio", {}).get("path", "")
+	return echo_data.get("audio_path", "")
+
+func get_echo_image_path(echo_id: String) -> String:
+	if not is_echo_image_unlocked(echo_id):
+		return ""
+	var echo_data = EchoDB.get_echo(echo_id)
+	if echo_data.has("media_slots"):
+		return echo_data.get("media_slots", {}).get("image", {}).get("path", "")
+	return echo_data.get("image_path", "")
+
 # Phase M1 進度頁專用：與 is_echo_complete 刻意分流。
 # is_echo_complete 對 unknown_total 殘響（鹿家記事）永遠回 false（給媒體/筆記 gate 用，嚴格）；
 # 進度頁依凍結決定「採到現有段數即算完成」，確保 100% 可達。勿合併成 is_echo_complete。

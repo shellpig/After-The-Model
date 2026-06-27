@@ -95,6 +95,30 @@ static var ECHOES := {
 		"sell_price": 300,
 		"comment": "ECHO_ADA_RESET_COMMENT",
 		"trace_on_collect": 1
+	},
+	"echo_linfei": {
+		"title": "ECHO_LINFEI_TITLE",
+		"segments": [
+			{"id": "s1", "text": "ECHO_LINFEI_SEG_S1"},
+			{"id": "s2", "text": "ECHO_LINFEI_SEG_S2"},
+			{"id": "s3", "text": "ECHO_LINFEI_SEG_S3"},
+			{"id": "s4", "text": "ECHO_LINFEI_SEG_S4"},
+			{"id": "s5", "text": "ECHO_LINFEI_SEG_S5"},
+			{"id": "s6", "text": "ECHO_LINFEI_SEG_S6"}
+		],
+		"media_slots": {
+			"audio": {
+				"threshold": 3,
+				"path": ""
+			},
+			"image": {
+				"threshold": 6,
+				"path": "res://assets/images/echoes/echo_linfei.jpeg"
+			}
+		},
+		"sell_price": 400,
+		"comment": "ECHO_LINFEI_COMMENT",
+		"trace_on_collect": 1
 	}
 }
 

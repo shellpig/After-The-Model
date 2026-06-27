@@ -24,7 +24,7 @@ const BLACKOUT_BLINK := 0.05                       # per flicker blip
 const BLACKOUT_FADE := 0.28                        # settle/recover fade
 
 const MESSAGES := {
-	"commuter_screen": "停運通勤螢幕還掛在月台上方。畫面每隔幾秒閃一下，只剩一行像傷口一樣亮著的字：往上的線停了。",
+	"commuter_screen": "停運通勤螢幕還掛在月台上方。畫面每隔幾秒閃一下，只剩一行像傷口一樣亮著的字：往上的線停了。看著這行字，你突然想起地鐵站深處似乎有一條能繞過封鎖、通往上層區的廢棄通道。",
 	"suitcase": "一個被遺留在角落的行李箱，鎖扣已經被暴力撬開。裡面除了幾張受潮發霉的舊貼紙與衣物碎屑外，空無一物。當時這裡顯然發生了某些極其倉促的變故，讓人們連隨身行李都來不及帶走，而殘存的值錢物品也早已被後來的拾荒者洗劫一空。",
 	"drainage": "滲漏排水槽裡積著一層薄薄的油膜。遠處列車的低頻從牆內傳來，像城市還在睡夢裡磨牙。",
 	"platform_anchor": "月台中央空得太乾淨，乾淨到像有人刻意把等待的人都從畫面裡拿掉。這裡之後會留下某個記憶的回聲，但現在只剩停運的風。"
@@ -110,7 +110,13 @@ func _trigger_interaction() -> void:
 			scene_transition_requested.emit("subway_station", "from_platform", {})
 		"stairs_to_settlement":
 			scene_transition_requested.emit("underground_settlement", "from_subway", {})
-		"commuter_screen", "suitcase", "drainage", "platform_anchor":
+		"commuter_screen":
+			GameState.set_flag("learned_topside_shortcut", true)
+			interaction_requested.emit({
+				"type": "message",
+				"message_text": MESSAGES[current_interactable.interaction_id]
+			})
+		"suitcase", "drainage", "platform_anchor":
 			interaction_requested.emit({
 				"type": "message",
 				"message_text": MESSAGES[current_interactable.interaction_id]

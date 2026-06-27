@@ -273,3 +273,8 @@ UI_TOAST_QUEST_ACCEPTED_VENDOR_BOT,已接下委託：便利商店的故障機器
 UI_TOAST_NOTE_UPDATED_ALLEY_3F,已更新筆記：暗巷三樓的舊物,已更新笔记：暗巷三楼的旧物,Note updated: The old belongings on the alley's 3rd floor
 UI_ITEM_GENERIC_FALLBACK,物品,物品,Item
 PROMPT_EXAMINE_OLD_WORK_ORDER,E: █ 翻看一張舊派工單,E: █ 翻看一张旧派工单,E: █ Examine Old Dispatch Order
+PROMPT_NIGHTCLUB_ENTRANCE_SERVICE_DOOR,E: █ 進入清潔通道,E: █ 进入清洁通道,E: █ Enter Service Corridor
+PROMPT_NIGHTCLUB_BIOMETRIC_GATE,E: █ 刷辨識閘門,E: █ 刷辨识闸门,E: █ Scan Biometric Gate
+PROMPT_NIGHTCLUB_BACK_DOOR,E: █ 進入後場包廂,E: █ 进入后场包厢,E: █ Enter Backroom
+PROMPT_NIGHTCLUB_BACK_TO_LOBBY,E: █ 返回前廳,E: █ 返回前厅,E: █ Return to Lobby
+PROMPT_NIGHTCLUB_BACK_TO_ENTRANCE,E: █ 離開夜總會,E: █ 离开夜总会,E: █ Leave Nightclub

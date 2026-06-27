@@ -85,7 +85,7 @@ func _fill_content(instance_id: String) -> void:
 	name_label.text = tr(item_meta.get("name", "???"))
 
 	# Description
-	desc_label.text = tr(item_meta.get("description", ""))
+	desc_label.text = tr(GameState.get_item_description(item_id))
 
 	# Category tag
 	var category: String = item_meta.get("category", "misc")

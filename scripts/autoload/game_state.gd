@@ -1042,6 +1042,15 @@ func discard_item(instance_id: String) -> bool:
 	return true
 
 # ==========================================
+# Item Metadata API (Phase 19-B refactored)
+# ==========================================
+func get_item_description(item_id: String) -> String:
+	if item_id == "old_work_badge" and get_flag("read_old_work_order", false):
+		return "ITEM_OLD_WORK_BADGE_DESC_REVEALED"
+	var item_meta: Dictionary = ITEMS_DB.get(item_id, {})
+	return item_meta.get("description", "")
+
+# ==========================================
 # Commerce API (Phase 8-F)
 # ==========================================
 func get_item_value(item_id: String) -> int:

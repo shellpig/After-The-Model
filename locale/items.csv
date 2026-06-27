@@ -1,6 +1,10 @@
 keys,zh_TW,zh_CN,en
 ITEM_OLD_WORK_BADGE_NAME,磨損的工作證,磨损的工作证,Worn Work ID
 ITEM_OLD_WORK_BADGE_DESC,一張舊式的工作識別證，上面的照片已經有些模糊。,一张旧式的工作识别证，上面的照片已经有些模糊。,An old-style work ID. The photo on it has gone soft and blurry.
+ITEM_OLD_WORK_BADGE_DESC_REVEALED,"一張舊式的工作識別證，上面的照片已經有些模糊。
+在比對過工單後，你認出編號與上面的筆跡就是失憶前的你，你曾是這座城市裡的 AI 善後員。","一张旧式的工作识别证，上面的照片已经有些模糊。
+在比对过工单后，你认出编号与上面的笔迹就是失忆前的你，你曾是这座城市里的 AI 善后员。","An old-style work ID. The photo on it has gone soft and blurry.
+After cross-referencing the work order, you recognize the ID number and handwriting as yours from before your memory loss — you were once an AI Cleanup Agent in this city."
 ITEM_FINGERLESS_GLOVES_NAME,無指工作手套,无指工作手套,Fingerless Work Gloves
 ITEM_FINGERLESS_GLOVES_DESC,"半截手套, 指節處的布料磨得發亮。右手食指內側有一圈細小的接點, 不像普通手套該有的東西。你戴上時, 指尖有極輕微的、像是在「讀取」什麼的震動。","半截手套，指节处的布料磨得发亮。右手食指内侧有一圈细小的接点，不像普通手套该有的东西。你戴上时，指尖有极轻微的、像是在「读取」什么的震动。","Half-length gloves; the fabric over the knuckles is worn smooth and shiny. A ring of tiny contacts sits on the inside of the right index finger — nothing a normal glove should have. When you slip them on, there's a faint, almost imperceptible buzz at the fingertips, as if they're ""reading"" something."
 ITEM_OLD_PROBE_MODULE_NAME,老舊探測模組,老旧探测模块,Old Probe Module

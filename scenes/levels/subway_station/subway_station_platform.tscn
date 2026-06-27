@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
 [ext_resource type="Texture2D" uid="uid://b2ylh7vjxdro2" path="res://assets/generated/maps/subway_station/subway-station-platform.png" id="4_map"]
 [ext_resource type="Shader" uid="uid://dabillscr1x4d" path="res://assets/shaders/billboard_screen.gdshader" id="ad_shader"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/platform_service_screen/subway-platform-service-suspended-20260623-200245.png" id="ad_tex"]
+[ext_resource type="Texture2D" uid="uid://bhcwgtyod2a4o" path="res://assets/generated/sprites/platform_service_screen/subway-platform-service-suspended-20260623-200245.png" id="ad_tex"]
 [ext_resource type="Texture2D" uid="uid://b3bvmptrhb0yq" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-1.png" id="at1"]
 [ext_resource type="Texture2D" uid="uid://ct1jeksj1qf7c" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-2.png" id="at2"]
 [ext_resource type="Texture2D" uid="uid://c2hnt1y67a2s6" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-3.png" id="at3"]
@@ -24,12 +24,12 @@
 [ext_resource type="Texture2D" uid="uid://cxse0nknh6geu" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-1-stylematch-v3.png" id="cw1"]
 [ext_resource type="Texture2D" uid="uid://dwo1nkoejwbha" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-2-stylematch-v3.png" id="cw2"]
 [ext_resource type="Texture2D" uid="uid://bqsaduk65257o" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-3-stylematch-v3.png" id="cw3"]
-[ext_resource type="AudioStream" path="res://assets/audio/echoes/echo_song_rain_doesnt_stop.mp3" id="ext_rain_song"]
 [ext_resource type="Texture2D" uid="uid://cb3qahecygj4y" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-4-stylematch-v3.png" id="cw4"]
 [ext_resource type="Texture2D" uid="uid://cklwjjc6jk3q" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-5-stylematch-v3.png" id="cw5"]
 [ext_resource type="Texture2D" uid="uid://755a058kmgmd" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-6-stylematch-v3.png" id="cw6"]
-[ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
 [ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
+[ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
+[ext_resource type="AudioStream" uid="uid://bae4wsudiwdmd" path="res://assets/audio/echoes/echo_song_rain_doesnt_stop.mp3" id="ext_rain_song"]
 [ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
 [ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
 [ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
@@ -64,7 +64,7 @@ size = Vector2(4800, 16)
 size = Vector2(107, 360)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_flavor"]
-size = Vector2(70, 300)
+size = Vector2(70, 298)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mem_frag"]
 size = Vector2(80, 300)
@@ -313,12 +313,13 @@ position = Vector2(3460, 650)
 shape = SubResource("RectangleShape2D_flavor")
 
 [node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=210400001]
-position = Vector2(2000, 730)
+position = Vector2(4646, 713)
 script = ExtResource("ext_echo_point")
 echo_id = "echo_linfei"
 segment_id = "s2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=210400002]
+position = Vector2(-4, 4)
 shape = SubResource("RectangleShape2D_flavor")
 
 [node name="MemoryFragmentArea" type="Area2D" parent="Interactables" unique_id=987654321]
@@ -331,7 +332,7 @@ message_id = "mem_frag_commute_topside"
 shape = SubResource("RectangleShape2D_mem_frag")
 debug_color = Color(0.9, 0.1, 0.9, 0.42)
 
-[node name="ThemeMotifPlayer" type="AudioStreamPlayer" parent="."]
+[node name="ThemeMotifPlayer" type="AudioStreamPlayer" parent="." unique_id=2129337974]
 stream = ExtResource("ext_rain_song")
 volume_db = -24.0
 autoplay = true

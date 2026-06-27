@@ -104,16 +104,12 @@ func _trigger_interaction() -> void:
 				})
 			else:
 				if not GameState.get_flag("read_old_work_order", false):
-					var ok = GameState.add_item("old_work_badge")
-					if not ok:
-						FloatingToast.show_toast(tr("UI_DUAL_PANE_NO_SPACE"), player)
-					else:
-						GameState.set_flag("read_old_work_order", true)
-						GameState.add_knowledge(GameState.STORY_NOTES["clue_old_work_order"])
-						interaction_requested.emit({
-							"type": "message",
-							"message_text": "MSG_OLD_WORK_ORDER_REVEALED"
-						})
+					GameState.set_flag("read_old_work_order", true)
+					GameState.add_knowledge(GameState.STORY_NOTES["clue_old_work_order"])
+					interaction_requested.emit({
+						"type": "message",
+						"message_text": "MSG_OLD_WORK_ORDER_REVEALED"
+					})
 				else:
 					interaction_requested.emit({
 						"type": "message",

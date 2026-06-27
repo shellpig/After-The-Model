@@ -8590,6 +8590,7 @@ func _ready() -> void:
 		
 	# 2. Test interaction before collecting Ada's echo
 	GameState.reset_for_new_game()
+	GameState.add_item("old_work_badge", 1)
 	
 	var last_msg = {"text": ""}
 	var on_msg = func(data: Dictionary):
@@ -8605,35 +8606,14 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	if GameState.get_flag("read_old_work_order", false) or GameState.has_note("clue_old_work_order") or GameState.has_item("old_work_badge"):
+	if GameState.get_flag("read_old_work_order", false) or GameState.has_note("clue_old_work_order"):
 		printerr("FAIL 19-B: States modified before echo collection!")
 		get_tree().quit(1)
 		return
 
-	# 3. Test backpack full scenario
-	GameState.add_item("gleaner_gloves")
-	var gloves_id := ""
-	for slot in GameState.inventory:
-		if not slot.is_empty() and slot.get("item_id") == "gleaner_gloves":
-			gloves_id = slot.get("instance_id")
-			break
-	GameState.equip(gloves_id)
-	GameState.collect_echo_segment("echo_ada_reset", "s1")
-	
+	# 3. Test successful interaction
 	GameState.reset_for_new_game()
-	GameState.collect_echo_segment("echo_ada_reset", "s1")
-	for i in range(15):
-		GameState.add_item("worn_rubiks_cube")
-		
-	settlement_inst._trigger_interaction()
-	
-	if GameState.get_flag("read_old_work_order", false) or GameState.has_item("old_work_badge"):
-		printerr("FAIL 19-B: Badge granted or flag set when backpack is full!")
-		get_tree().quit(1)
-		return
-
-	# 4. Test successful interaction
-	GameState.reset_for_new_game()
+	GameState.add_item("old_work_badge", 1)
 	GameState.collect_echo_segment("echo_ada_reset", "s1")
 	
 	last_msg["text"] = ""
@@ -8650,7 +8630,21 @@ func _ready() -> void:
 		return
 		
 	if not GameState.has_item("old_work_badge"):
-		printerr("FAIL 19-B: old_work_badge not added to inventory!")
+		printerr("FAIL 19-B: old_work_badge not in inventory!")
+		get_tree().quit(1)
+		return
+		
+	var badge_count_success = 0
+	for slot in GameState.inventory:
+		if not slot.is_empty() and slot.get("item_id") == "old_work_badge":
+			badge_count_success += slot.get("quantity", 0)
+	if badge_count_success != 1:
+		printerr("FAIL 19-B: old_work_badge count is not 1, got: ", badge_count_success)
+		get_tree().quit(1)
+		return
+		
+	if GameState.get_item_description("old_work_badge") != "ITEM_OLD_WORK_BADGE_DESC_REVEALED":
+		printerr("FAIL 19-B: old_work_badge description was not updated dynamically!")
 		get_tree().quit(1)
 		return
 		
@@ -8659,12 +8653,12 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	# 5. Test subsequent interaction (already read)
+	# 4. Test subsequent interaction (already read)
 	last_msg["text"] = ""
 	var badge_count_before = 0
 	for slot in GameState.inventory:
 		if not slot.is_empty() and slot.get("item_id") == "old_work_badge":
-			badge_count_before += 1
+			badge_count_before += slot.get("quantity", 0)
 			
 	settlement_inst._trigger_interaction()
 	
@@ -8676,21 +8670,22 @@ func _ready() -> void:
 	var badge_count_after = 0
 	for slot in GameState.inventory:
 		if not slot.is_empty() and slot.get("item_id") == "old_work_badge":
-			badge_count_after += 1
+			badge_count_after += slot.get("quantity", 0)
 			
 	if badge_count_after != badge_count_before:
 		printerr("FAIL 19-B: Re-granted old_work_badge on repeat exam!")
 		get_tree().quit(1)
 		return
 
-	# 6. Verification of forbidden words
+	# 5. Verification of forbidden words
 	var i18n_keys := [
 		"MSG_OLD_WORK_ORDER_NEUTRAL",
 		"MSG_OLD_WORK_ORDER_REVEALED",
 		"MSG_OLD_WORK_ORDER_READ",
 		"NOTE_CLUE_OLD_WORK_ORDER_TITLE",
 		"NOTE_CLUE_OLD_WORK_ORDER_BODY",
-		"PROMPT_EXAMINE_OLD_WORK_ORDER"
+		"PROMPT_EXAMINE_OLD_WORK_ORDER",
+		"ITEM_OLD_WORK_BADGE_DESC_REVEALED"
 	]
 	
 	for lang in ["zh_TW", "zh_CN", "en"]:

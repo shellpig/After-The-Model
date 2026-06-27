@@ -276,6 +276,7 @@ note_id
 | 21 | 🟦 21-A~F 待驗收（GUI / 真機）| **Act 3 夜總會 + 林霏核心殘響 + 主題歌整合**（原 Phase 21 主題歌 + 原 Phase 22 夜總會 / 林霏殘響合併；**Phase 22 編號保留不再使用**，23~31 不變）：三份文件已寫入實作規格（2026-06-25）+ **場景設計檔 `subdocs/地點/夜總會.md` 已寫（2026-06-26 拍板）**。**已落地（2026-06-27，commit `f1a6549` + `f47223f`，headless PASS）：21-A 三場景骨架 + 雙向轉場 + 月台→上層捷徑動線 + BGM 兩軌；21-B `echo_linfei` 6 段 + 分段媒體門檻（半收集 3 段→女聲歌、全收集 6 段→照片）+ 向後相容舊式 echo；21-C 收束碎片 `mem_frag_hideout`（gate＝採滿 `echo_linfei`）；21-D 女聲歌掛載半收集 slot。修補（本 session）：`echo_linfei` s2~s6 EchoPoint 原僅 s1 真佈點、其餘靠測試灌段數假綠燈 → 已補擺 s2 月台 / s3 聚落左室 / s4 門面廳 / s5·s6 後場（後場 s5/s6 置於碎片右側使折返必經），並加 test_runner 跨場景佈點守門測試防回歸。** **已落地（2026-06-27，commit `7058974`，headless PASS）：21-E《雨還沒停》環境母題（複用既有 `echo_song_rain_doesnt_stop.mp3`，掛地鐵月台 / 地下道聚落 `ThemeMotifPlayer`，Ambient bus / -24dB）；21-F 林霏殘響可賣（`sell_echo`→credits 400 + Trace↓ + set `sold_linfei_echo` forward-契約）+ 回歸 + 存讀檔 round-trip；一併補接收藏家賣出選單缺的 `echo_settlement_erased`(P17) / `echo_ada_reset`(P19)。修補（驗證後）：① `ThemeMotifPlayer` 直改共享快取資源 `.loop` 會污染同檔殘響回放成無限循環 → 改 `duplicate()` 後再設 loop（比照 `echo_point.gd`）；② `dialogue.csv` zh_TW 欄誤植簡體 `最强`→還原 `最強` + reimport。本機 headless 全測 PASS（exit 0）。** **待驗收：GUI / 真機走查（母題聽感、殘響回放不循環）。** **保全四解小解謎依 `遊戲規格書.md` 子階段表歸 Phase 23（人類保全潛行），不在 21-A~D；canonical `passed_nightclub_security` / `found_staff_pass` 及保全 / bar_bot 立繪保留待 Phase 23 接線。****新增 3 場景**（`nightclub_entrance` 大門口＝Art Bible `anchor-04` 方向已定 / `nightclub` 門面廳 / `nightclub_back` 後場對話包廂＝林霏舊工作間殘響房）+ 1 跨幕殘響 `echo_linfei`；**系統擴充＝EchoDB/EchoPoint 媒體分段門檻**（半收集→女聲歌、全收集→照片）**+ 保全小解謎**（門面廳→後場，四解全做：賄賂[複用 Phase 8]/假裝身份/引開/潛行；前門自動閘門被拒＝純劇情拍子無 Trace；保全沿用 Phase 13-C 人類不可殺，先不做完整戰鬥），其餘純複用 Phase 9 拾遺 / Phase 10 ducking·Ambient / Phase 14 碎片。**進入動線改造**：月台 `commuter_screen` 互動 → `learned_topside_shortcut` → 街道最左端 travel 新增「前往上層區」選項 → `nightclub_entrance`。canonical：`echo_linfei`（分段媒體 + 可賣）/ `mem_frag_hideout` / `sold_linfei_echo`（賣林霏殘響→結局僅台詞微調的 forward-契約）/ `learned_topside_shortcut` / `passed_nightclub_security` / `found_staff_pass`。結構先行（21-A~C 無素材依賴）、素材後掛（21-D/E）。**外部 blocker：已全數到貨（2026-06-27）——夜總會美術 3 圖（大門口/門面廳/後場）+ BGM 兩軌（前區 `nightclub-1` / 後場 `nightclub-2`）+ 林霏女聲歌 / 殘響照片，待 21-D/E 接線。剩餘僅 g2d 可生的保全 NPC / bar_bot 圖（非 user blocker）。**（《雨還沒停》非 blocker——既有 `echo_song_rain_doesnt_stop` 歌檔已在，21-E 複用。） 契約見 `開發設計方針.md > Act 3 夜總會 + 林霏核心殘響 + 主題歌（Phase 21，實作契約）`；驗收見 `遊戲規格書.md > Phase 21`；清單見 `測試指南.md > Phase 21`；場景設計見 `subdocs/地點/夜總會.md` |
 | 22 | — 併入 21 | **已併入 Phase 21（編號保留，不再使用）**；原 22-A~D（夜總會場景 / 林霏核心殘響 / 黑戶碎片 / 回歸）整併進 Phase 21；23~31 編號不變 |
 | 23 | 📐 規格可實作 | **Act 3 夜總會保全四解小解謎（戰鬥② 智取版）**（23-A~D）：把 Phase 21 落地的門面廳 `back_door` 無條件門改造成**四解殊途同歸**（賄賂[credits≥500，複用 Phase 8 經濟]/ 假裝身份[gate `found_staff_pass`]/ 引開[`bar_bot` 故障→保全淡出離崗]/ 潛行[離崗空窗 E `back_door` 溜過，與引開兩步組合]），任一成功 set `passed_nightclub_security`。**不新增場景**（沿用 Phase 21 三場景）；新增保全 NPC（`Bodyguard` Area2D + `data/dialogue/nightclub_bodyguard.gd`）+ `bar_bot` 互動 + 工牌 examine + ITEMS_DB key item `nightclub_staff_pass`（與 Phase 19-B `old_work_badge` 為**不同物件**，命名 / 顯示名 / 描述刻意拉開）。**唯一系統擴充＝DialogueRunner 補 `credits` condition type（最小 op）**；引開 / 潛行 transient（`_bodyguard_off_post`）不存檔，只 `passed_nightclub_security` 持久。**範圍更正（2026-06-27）**：原 23 子階段表「人類保全潛行 / 撐過（13-C）」為舊薄殼，已改寫為四解小解謎、**不做 13-C 式戰鬥**。**無外部素材 blocker**（保全 / bar_bot 立繪 + 夜總會美術 / BGM 皆已到貨；唯 `nightclub_staff_pass` icon 由實作者自製）。canonical：`passed_nightclub_security` / `found_staff_pass` / `nightclub_staff_pass`。前提硬規則：保全人類不可打死 / 格式化；大門口閘門無 Trace 無代價；工牌不點名七號 / 林霏 / 妹妹；四解皆不動 Trace。契約見 `開發設計方針.md > Act 3 夜總會保全四解小解謎（Phase 23，實作契約）`；驗收見 `遊戲規格書.md > Phase 23`；清單見 `測試指南.md > Phase 23`；場景設計見 `subdocs/地點/夜總會.md > 保全解謎`。程式未開工 |
+| 24 | 📐 規格可實作 | **Act 3→4 七號小爆點（三分支 quest）**（24-A~E）：v2.3 §7.2 三分支（D 和平 / A 攔下 / B 部分攔下，**無 C / 不做大災難線**）quest 化。沿用既有 QuestManager + 七號 NPC（聚落右圖）+ Trust/Trace + Phase 12 跳躍 + Phase 7 攀爬；**新增 1 追逐場景 `tunnel_chase` + 1 目的地選單對話 `travel_deep_tunnel` + 1 quest 檔 `data/quests/seven_betrayal.gd`**；聚落右圖深隧道口從「直通 `tunnel_combat`」改「看 `deep_tunnel_opened` 路由」（爆點前仍直通 tunnel_combat、爆點後出兩去處選單，**不取代既有 Phase 18 戰鬥區入口**）。分支判定確定性可 headless：`seven_stopped_partial =（get_trace() >= TRACE_BETRAYAL_THRESHOLD[第一版 3]）and not（get_trust("wu") >= 2 or get_trust("cen") >= 2）`，否則 `seven_stopped_full`；D＝`seven_peace_branch_d`（Phase 20）爆發前已成則不爆。canonical：`seven_betrayal_triggered` / `seven_stopped_full`(A) / `seven_stopped_partial`(B，餵 26-D 檔案重標記)/ `cen_voiceprint_exposed`(餵 28-C 小岑缺席)/ `deep_tunnel_opened`。前提硬規則：無 C 分支 / 七號人類不可殺 / 小岑代價純敘事（無 minigame）/ D 窗口只在 Phase 20 / 三分支皆不動 Trace。**外部 blocker（user 出圖）**：`tunnel_chase` 背景 map（未到位以 placeholder 驗 headless）。契約見 `開發設計方針.md > Act 3→4 七號小爆點（Phase 24，實作契約）`；驗收見 `遊戲規格書.md > Phase 24`；清單見 `測試指南.md > Phase 24`；敘事 `subdocs/主線/雨還沒停v2.3 §7.2`。程式未開工 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測仍待進行。
 
@@ -627,37 +628,54 @@ Phase 18 待寫 / 待掛：`scenes/levels/tunnel_combat/tunnel_combat.tscn` / `.
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
 |---|---|---|---|
-| Phase 23 總覽 + 前提 + 旗標 | 2941–2959 | 3276–3308（總覽 / 前提 / 現況基準 / canonical 旗標）| 1051–1053 |
-| 23-A 場景接線骨架（保全 NPC / `back_door` gate / 工牌 item）| 2961（表列）| 3309–3335 | 1054–1069（headless）/ 1070–1077（GUI）|
-| 23-B 保全對話樹（賄賂 + 假裝身份）+ `credits` condition | 2962（表列）| 3336–3368 | 1054–1069 / 1070–1077 |
-| 23-C 引開→潛行 transient（兩步組合）| 2963（表列）| 3369–3375 | 1054–1069 / 1070–1077 |
-| 23-D 回歸 + 存讀檔 + GUI / 觸控走查 | 2964（表列）| 3376–3387 | 1054–1069 / 1070–1077 |
+| Phase 23 總覽 + 前提 + 旗標 | 2941–2959 | 3277–3309（總覽 / 前提 / 現況基準 / canonical 旗標）| 1051–1053 |
+| 23-A 場景接線骨架（保全 NPC / `back_door` gate / 工牌 item）| 2961（表列）| 3310–3336 | 1054–1069（headless）/ 1070–1077（GUI）|
+| 23-B 保全對話樹（賄賂 + 假裝身份）+ `credits` condition | 2962（表列）| 3337–3369 | 1054–1069 / 1070–1077 |
+| 23-C 引開→潛行 transient（兩步組合）| 2963（表列）| 3370–3376 | 1054–1069 / 1070–1077 |
+| 23-D 回歸 + 存讀檔 + GUI / 觸控走查 | 2964（表列）| 3377–3388 | 1054–1069 / 1070–1077 |
 
 依賴：21（夜總會三場景 / `back_door` / `echo_linfei` 後場房 / 已備料旗標 `passed_nightclub_security`·`found_staff_pass` 與保全 / bar_bot 立繪）、13-C（人類不可格式化分支精神）、8（賄賂複用 credits 經濟）、11-C（四解皆不動 Trace）。新 canonical：`passed_nightclub_security`（四解殊途同歸）/ `found_staff_pass`（假裝身份 gate）/ `nightclub_staff_pass`（ITEMS_DB key item，與 `old_work_badge` 為不同物件）。**無外部素材 blocker**（立繪 / 美術 / BGM 已到貨；唯工牌 icon 由實作者自製）。**前提硬規則**：保全人類不可打死 / 格式化；大門口閘門無 Trace 無代價；工牌不點名七號 / 林霏 / 妹妹；引開 / 潛行 transient 不存檔。
 
+### Phase 24 子階段（三份對照）
+
+> 行號以 2026-06-27 Phase 24 規格寫入版為準；大幅改寫後需校正。Phase 24 = Act 3→4 七號小爆點（三分支 quest）；📐 規格可實作，程式未開工。三分支（D 和平 / A 攔下 / B 部分攔下，**無 C / 不做大災難線**）由旗標確定性計算，可 headless 重現。
+> **唯一新場景**：`tunnel_chase`（深隧道追逐，跳躍翻越複用 Phase 12 / 7）；**新對話**：`travel_deep_tunnel`（深隧道口兩去處選單，沿用 `travel` op）。深隧道口爆點前直通 `tunnel_combat`、爆點後出選單，**不取代既有 Phase 18 戰鬥區入口**。
+> **敘事事實來源**：`subdocs/主線/雨還沒停v2.3` §7.2（七號事件三分支）。
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 24 總覽 + 前提 + 旗標 + 公式 | 2968–3020 | 3390–3426（總覽 / 前提 / 現況基準 / canonical 旗標）| 1078–1079 |
+| 24-A quest 化 + 爆發 gate | 3021（表列）| 3427–3445 | 1081–1082 |
+| 24-B 分支判定 + 伍姐 / 小岑提前警告 | 3022（表列）| 3446–3457 | 1083–1084 |
+| 24-C 深隧道追逐 + 兩去處選單接線 | 3023（表列）| 3458–3488 | 1085–1087 |
+| 24-D Branch B 代價（小岑暴露演出）| 3024（表列）| 3489–3494 | 1088 |
+| 24-E 回歸 + 存讀檔 | 3025（表列）| 3495–3507 | 1089–1093 |
+
+依賴：20（和平線前置 / `seven_peace_branch_d` / `seven_betrayal_pending` / `affinity_seven`）、23（`passed_nightclub_security` ＝ Act 3→4 爆發 gate）、12（跳躍動詞）、7（攀爬 + `from_deep_tunnel` 往返）、16（七號 / 伍姐 / 小岑 NPC 與 affinity）、9-C（`travel` 目的地選單 pattern）、11-B（`get_trust`）、11-C（`get_trace`）。新 canonical：`seven_betrayal_triggered` / `seven_stopped_full`(A) / `seven_stopped_partial`(B，餵 26-D)/ `cen_voiceprint_exposed`(餵 28-C)/ `deep_tunnel_opened`。**外部 blocker（user 出圖）**：`tunnel_chase` 背景 map；未到位以 placeholder 驗 headless。**系統小擴充**：`TRACE_BETRAYAL_THRESHOLD` 常數（建議放 `seven_betrayal.gd`），其餘純複用既有 quest / dialogue / travel / 移動系統。**前提硬規則**：無 C 分支 / 不做大災難線；七號人類不可殺 / 格式化；小岑代價純敘事（無 minigame）；D 窗口只在 Phase 20。
+
 ### Phase M1 子階段（三份對照）
 
-> 行號以 2026-06-23 M1 規格寫入版為準；大幅改寫後需校正。Phase M1 = 進度頁（Meta / 非敘事 QoL，純加法，不佔故事編號）；非子階段化，三份文件各為單一整段。規格凍結（2026-06-23），程式已實作並驗證完成（2026-06-24，commit `bd4717f`）。
+> 行號以 2026-06-27 校正版為準（Phase 21/23/24 spec 寫入後重校）；大幅改寫後需校正。Phase M1 = 進度頁（Meta / 非敘事 QoL，純加法，不佔故事編號）；非子階段化，三份文件各為單一整段。規格凍結（2026-06-23），程式已實作並驗證完成（2026-06-24，commit `bd4717f`）。
 > **凍結決定**：六分類總數 31（場景10 / NPC6 / 任務3 / 殘響5 / 特殊7）；判定＝曾達成；未解鎖 `???`；整體 %＝跨分類加總 done÷31；新增三集合 + `left_apartment_once` 納入存讀檔，舊檔不 backfill。
 
 | 文件 | 段落 | 行範圍 |
 |---|---|---|
-| 遊戲規格書.md（驗收意圖） | Phase M1 — 進度頁（目的 / 分類判定表 / 驗收意圖 / 邊界）| 3017–3052 |
-| 開發設計方針.md（契約） | Phase M1 — 進度頁（GameState API / 接線點 / UI / 新增異動檔 / 存讀檔）| 3074–3154 |
-| 測試指南.md（清單） | Phase M1 進度頁（headless + GUI checklist）| 1067–1088 |
+| 遊戲規格書.md（驗收意圖） | Phase M1 — 進度頁（目的 / 分類判定表 / 驗收意圖 / 邊界）| 3110–3145 |
+| 開發設計方針.md（契約） | Phase M1 — 進度頁（GameState API / 接線點 / UI / 新增異動檔 / 存讀檔）| 3516–3599 |
+| 測試指南.md（清單） | Phase M1 進度頁（headless + GUI checklist）| 1137–1158 |
 
 Phase M1 已寫 / 已掛（2026-06-24 完成）：`game_state.gd`（三集合 + 5 白名單常數 + `mark_scene_visited` / `mark_npc_talked` / `_maybe_mark_special_item` / `is_echo_complete` / `get_progress_summary` + `add_item` / `change_item_id` hook + 存讀檔納入）；`main.gd`（`transition_to` 進場 `mark_scene_visited` + 偵測離開公寓 set `left_apartment_once`）；`notebook_panel.gd` / `.tscn`（「進度」分頁 + 總進度 / 分類詳情 + `???` 遮罩）；`game_ui.gd` / 對話接線（對話 start `mark_npc_talked` 白名單）；`tests/manual/test_runner.gd` Phase M1 護欄。**SaveSystem 不需改**（payload 由 `GameState.to_save_dict` 自帶）。**前提硬規則**：純加法不改 Phase 1~18；`old_work_badge` 不列特殊道具（遊戲無取得點）。
 
 ### Phase M2 子階段（三份對照）
 
-> 行號以 2026-06-24 M2 規格寫入版為準；大幅改寫後需校正。Phase M2 = 多國語系 i18n（Meta / 非敘事 QoL，out-of-band 編號，不佔故事編號）。M2-A~M2-D 已完成並有 headless 護欄（M2-D 含 `data.csv` echoes/shops/quests 前移）；M2-E 僅剩全鏈回歸 + 三語 GUI / 觸控走查 + 真機驗收。
+> 行號以 2026-06-27 校正版為準（Phase 21/23/24 spec 寫入後重校）；大幅改寫後需校正。Phase M2 = 多國語系 i18n（Meta / 非敘事 QoL，out-of-band 編號，不佔故事編號）。M2-A~M2-D 已完成並有 headless 護欄（M2-D 含 `data.csv` echoes/shops/quests 前移）；M2-E 僅剩全鏈回歸 + 三語 GUI / 觸控走查 + 真機驗收。
 > **凍結決定（2026-06-24 user 拍板）**：三語 `zh_TW`(預設+fallback)/`zh_CN`/`en`；機制＝Godot 原生 `tr()`+CSV；簡中與英文 LLM 獨立翻譯（簡中非 OpenCC）；相容 iOS/Android（字型 runtime 動態切換 + 新增 `NotoSansSC`）；繁中為 fallback；語言偏好存 `user://settings.cfg` 不入存檔槽；對玩家行為純加法。
 
 | 文件 | 段落 | 行範圍 |
 |---|---|---|
-| 遊戲規格書.md（驗收意圖） | Phase M2 — 多國語系 i18n（目的 / 驗收意圖 / fallback / 前提 / 邊界）| 3074–3117 |
-| 開發設計方針.md（契約） | Phase M2 — 多國語系 i18n（LocaleManager / project.godot / 字型切換 / CSV+key 規則 / 顯示端 tr() / 設定頁 / 子階段 / 驗證網 / 異動檔）| 3214–3420 |
-| 測試指南.md（清單） | Phase M2 多國語系 i18n（headless + GUI + 真機 checklist）| 1108–1142 |
+| 遊戲規格書.md（驗收意圖） | Phase M2 — 多國語系 i18n（目的 / 驗收意圖 / fallback / 前提 / 邊界）| 3147–3190 |
+| 開發設計方針.md（契約） | Phase M2 — 多國語系 i18n（LocaleManager / project.godot / 字型切換 / CSV+key 規則 / 顯示端 tr() / 設定頁 / 子階段 / 驗證網 / 異動檔）| 3600–3806 |
+| 測試指南.md（清單） | Phase M2 多國語系 i18n（headless + GUI + 真機 checklist）| 1160–1194 |
 
 Phase M2 子階段依賴鏈：**M2-A 基礎建設**（✅ `LocaleManager` autoload / `TranslationServer` 接線 / fallback=zh_TW / `NotoSansSC` runtime 字型切換 / `settings.cfg` / OS locale 偵測 / 最小設定頁）→ **M2-B UI chrome**（✅ 178 處 UI + 12 `.tscn` prompt 抽 key）→ **M2-C 敘事資料**（✅ notes / messages / items）→ **M2-D 對話樹**（✅ 9 樹 + 英文人名音譯對照 + `data.csv` echoes/shops/quests 前移，headless PASS）→ **M2-E 收尾**（📐 全鏈回歸 + 真機 iOS/Android 驗收）。**前提硬規則**：顯示與邏輯分離（goto/effect/condition 用既有 id/flag）；三語禁字（無「林霏」）；缺翻譯退繁中、三語全缺顯示 key；SaveSystem 不改。
 

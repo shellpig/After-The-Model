@@ -43,6 +43,7 @@ UI_TOAST_CANNOT_DISCARD_FMT,無法丟棄 %s,无法丢弃 %s,Cannot discard %s
 UI_TOAST_UNEQUIP_BEFORE_DISCARD,請先卸下再丟棄,请先卸下再丢弃,Please unequip it before discarding.
 UI_CONFIRM_DISCARD_FMT,確定要丟棄 %s？,确定要丢弃 %s？,Are you sure you want to discard %s?
 UI_TOAST_DISCARDED_FMT,已丟棄 %s,已丢弃 %s,Discarded %s
+UI_TOAST_ECHO_RECORDED_FMT,殘響已記錄：%s (%d/%d),残响已记录：%s (%d/%d),Echo recorded: %s (%d/%d)
 UI_SLOT_CLOTHING,衣服,衣服,Clothing
 UI_SLOT_HAND,手持,手持,Hand
 UI_SLOT_ACCESSORY,其他,其他,Accessory

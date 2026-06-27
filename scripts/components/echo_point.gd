@@ -165,10 +165,10 @@ func collect() -> void:
 	
 	# Show notification toast
 	var echo_data = EchoDB.get_echo(echo_id)
-	var title = echo_data.get("title", "未知殘響")
+	var title = tr(echo_data.get("title", "UI_NOTEBOOK_UNNAMED_ECHO"))
 	var collected_count = GameState.get_collected_segment_count(echo_id)
 	var total_count = EchoDB.get_segment_count(echo_id)
-	var toast_text = "殘響已記錄：%s (%d/%d)" % [title, collected_count, total_count]
+	var toast_text = tr("UI_TOAST_ECHO_RECORDED_FMT") % [title, collected_count, total_count]
 	
 	var main = get_tree().root.find_child("Main", true, false)
 	var game_ui = main.get_node("GameUI") if main else null

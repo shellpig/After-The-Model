@@ -20,6 +20,9 @@
 [ext_resource type="Texture2D" uid="uid://dr0483468d6l7" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
 [ext_resource type="Texture2D" uid="uid://xvrwlgw2fiwr" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
 
+[ext_resource type="Texture2D" uid="uid://c176q1xeyy2ls" path="res://assets/generated/sprites/nightclub_bodyguard/map_npc/sprite.png" id="bodyguard_sprite"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/items/nightclub_staff_pass/icon.png" id="staff_pass_icon"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4288, 16)
 
@@ -28,6 +31,12 @@ size = Vector2(121, 365)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
 radius = 45.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bodyguard"]
+size = Vector2(100, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_staff_pass"]
+size = Vector2(80, 80)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -156,6 +165,31 @@ segment_id = "s4"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=210200031]
 shape = SubResource("CircleShape2D_echo")
+
+[node name="Bodyguard" type="Area2D" parent="Interactables" unique_id=210200040]
+position = Vector2(500, 800)
+script = ExtResource("3_interactable")
+interaction_id = "bodyguard"
+prompt_text = "PROMPT_NIGHTCLUB_BODYGUARD"
+dialogue_id = "nightclub_bodyguard"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Bodyguard" unique_id=210200041]
+shape = SubResource("RectangleShape2D_bodyguard")
+
+[node name="Sprite2D" type="Sprite2D" parent="Interactables/Bodyguard" unique_id=210200042]
+texture = ExtResource("bodyguard_sprite")
+
+[node name="StaffPassExamine" type="Area2D" parent="Interactables" unique_id=210200050]
+position = Vector2(2200, 850)
+script = ExtResource("3_interactable")
+interaction_id = "staff_pass_examine"
+prompt_text = "PROMPT_NIGHTCLUB_EXAMINE_PASS"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StaffPassExamine" unique_id=210200051]
+shape = SubResource("RectangleShape2D_staff_pass")
+
+[node name="Sprite2D" type="Sprite2D" parent="Interactables/StaffPassExamine" unique_id=210200052]
+texture = ExtResource("staff_pass_icon")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=210200017]
 position = Vector2(200, 848)

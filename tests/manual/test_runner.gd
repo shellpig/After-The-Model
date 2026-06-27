@@ -10308,6 +10308,9 @@ func _ready() -> void:
 		}
 	}
 	
+	# Pre-set passed_nightclub_security so that back_door transition check succeeds
+	GameState.set_flag("passed_nightclub_security", true)
+	
 	for scene_id in nightclub_specs:
 		var spec = nightclub_specs[scene_id]
 		var packed = load(spec["path"])
@@ -10805,6 +10808,238 @@ func _ready() -> void:
 		return
 		
 	print("PASS: Phase 21-F sellable, regression, and save/load verified.")
+
+	# ===================== Phase 23-A: Act 3 夜總會保全四解小解謎骨架 =====================
+	print("--- Phase 23-A: Act 3 夜總會保全四解小解謎骨架 ---")
+	
+	# 重置狀態
+	GameState.reset_for_new_game()
+	
+	# 1. 驗證 biometric_gate 劇情拍子（不設 flag、不扣款）
+	var inst_entrance = load("res://scenes/levels/nightclub/nightclub_entrance.tscn").instantiate()
+	var gate_node = inst_entrance.get_node("Interactables/BiometricGateArea")
+	inst_entrance.current_interactable = gate_node
+	
+	print("DEBUG: gate_node.interaction_id = ", gate_node.interaction_id)
+	print("DEBUG: current_interactable = ", inst_entrance.current_interactable)
+	
+	var captured_msg_p23a: Dictionary = {}
+	inst_entrance.interaction_requested.connect(func(data):
+		print("DEBUG: interaction_requested received: ", data)
+		captured_msg_p23a.merge(data, true)
+	)
+	inst_entrance._trigger_interaction()
+	
+	print("DEBUG: captured_msg_p23a = ", captured_msg_p23a)
+	
+	if captured_msg_p23a.get("type", "") != "message":
+		printerr("FAIL 23-A: biometric_gate should trigger message!")
+		get_tree().quit(1)
+		return
+		
+	var gate_msg_key = inst_entrance.MESSAGES.get("biometric_gate", "")
+	if captured_msg_p23a.get("message_text", "") != gate_msg_key:
+		printerr("FAIL 23-A: biometric_gate message text mismatch!")
+		get_tree().quit(1)
+		return
+		
+	if GameState.get_flag("found_staff_pass", false) or GameState.get_flag("passed_nightclub_security", false):
+		printerr("FAIL 23-A: biometric_gate should not set flags!")
+		get_tree().quit(1)
+		return
+		
+	inst_entrance.free()
+	
+	# 2. 驗證未通過安全檢驗時 back_door 被擋
+	var inst_nightclub = load("res://scenes/levels/nightclub/nightclub.tscn").instantiate()
+	var door_node = inst_nightclub.get_node("Interactables/BackDoorArea")
+	inst_nightclub.current_interactable = door_node
+	
+	var captured_door_msg: Dictionary = {}
+	inst_nightclub.interaction_requested.connect(func(data):
+		captured_door_msg.merge(data, true)
+	)
+	inst_nightclub._trigger_interaction()
+	
+	if captured_door_msg.get("type", "") != "message":
+		printerr("FAIL 23-A: back_door should trigger message when blocked!")
+		get_tree().quit(1)
+		return
+		
+	if captured_door_msg.get("message_text", "") != GameState.STORY_MESSAGES["nightclub_security_blocked"]:
+		printerr("FAIL 23-A: Blocked message text mismatch!")
+		get_tree().quit(1)
+		return
+		
+	# 3. 驗證工牌 examine 與背包滿防呆
+	# 塞滿背包
+	while GameState.add_item("canned_food", 1):
+		pass
+		
+	var pass_node = inst_nightclub.get_node("Interactables/StaffPassExamine")
+	inst_nightclub.current_interactable = pass_node
+	
+	var captured_pass_msg: Dictionary = {}
+	# 重新連結 interaction_requested 訊號
+	for conn in inst_nightclub.interaction_requested.get_connections():
+		inst_nightclub.interaction_requested.disconnect(conn.callable)
+	inst_nightclub.interaction_requested.connect(func(data):
+		captured_pass_msg.merge(data, true)
+	)
+	
+	inst_nightclub._trigger_interaction()
+	
+	if captured_pass_msg.get("message_text", "") != GameState.STORY_MESSAGES["nightclub_examine_pass_bag_full"]:
+		printerr("FAIL 23-A: Should show bag full message when picking staff pass with full inventory!")
+		get_tree().quit(1)
+		return
+		
+	if GameState.get_flag("found_staff_pass", false):
+		printerr("FAIL 23-A: found_staff_pass flag should not be set when bag is full!")
+		get_tree().quit(1)
+		return
+		
+	# 清空背包第一格
+	GameState.inventory[0] = {}
+	
+	# 重置 captured_pass_msg
+	captured_pass_msg.clear()
+	
+	inst_nightclub._trigger_interaction()
+	
+	if not GameState.get_flag("found_staff_pass", false):
+		printerr("FAIL 23-A: found_staff_pass flag should be set after successful picking!")
+		get_tree().quit(1)
+		return
+		
+	if not GameState.has_item("nightclub_staff_pass"):
+		printerr("FAIL 23-A: nightclub_staff_pass item should be in inventory!")
+		get_tree().quit(1)
+		return
+		
+	if captured_pass_msg.get("message_text", "") != GameState.STORY_MESSAGES["nightclub_staff_pass_found"]:
+		printerr("FAIL 23-A: Staff pass found message text mismatch!")
+		get_tree().quit(1)
+		return
+		
+	# 驗證物件被隱藏
+	if pass_node.visible or pass_node.process_mode != ProcessMode.PROCESS_MODE_DISABLED:
+		printerr("FAIL 23-A: StaffPassExamine node should be hidden and disabled!")
+		get_tree().quit(1)
+		return
+		
+	# 4. 驗證通過安全檢驗後 back_door 轉場正常
+	GameState.set_flag("passed_nightclub_security", true)
+	inst_nightclub.current_interactable = door_node
+	
+	var captured_trans: Dictionary = {}
+	inst_nightclub.scene_transition_requested.connect(func(scene_id, entry_point_id, payload):
+		captured_trans.merge({"scene": scene_id, "entry": entry_point_id}, true)
+	)
+	inst_nightclub._trigger_interaction()
+	
+	if captured_trans.get("scene", "") != "nightclub_back" or captured_trans.get("entry", "") != "from_lobby":
+		printerr("FAIL 23-A: Should transition to nightclub_back after security passed!")
+		get_tree().quit(1)
+		return
+		
+	inst_nightclub.free()
+	
+	print("PASS: Phase 23-A bodyguard, back_door block, and staff_pass_examine verified.")
+
+	# ===================== Phase 23-B: Act 3 夜總會保全對話與智取 =====================
+	print("--- Phase 23-B: Act 3 夜總會保全對話與智取 ---")
+	
+	var dialogue_runner_script = load("res://scripts/dialogue/dialogue_runner.gd")
+	if not dialogue_runner_script:
+		printerr("FAIL 23-B: Could not load dialogue_runner.gd")
+		get_tree().quit(1)
+		return
+		
+	# 1. 驗證 credits condition (op >= 500) 在 DialogueRunner 中正常評估
+	GameState.reset_for_new_game()
+	GameState.set_credits(499)
+	
+	var runner_p23b = dialogue_runner_script.new()
+	var bodyguard_tree = DialogueDB.get_tree_for("nightclub_bodyguard")
+	if bodyguard_tree.is_empty():
+		printerr("FAIL 23-B: nightclub_bodyguard tree not found in DialogueDB!")
+		get_tree().quit(1)
+		return
+		
+	# 2. 測試：Credits 不足時，賄賂分流走向 bribe_fail
+	runner_p23b.start(bodyguard_tree, "lobby")
+	# 選擇 0 (賄賂)
+	runner_p23b.choose(0)
+	var state_fail = runner_p23b.current()
+	if state_fail.get("text", "") != "DLG_BODYGUARD_BRIBE_FAIL_TEXT":
+		printerr("FAIL 23-B: Bribe with 499 credits should fail, got text: ", state_fail.get("text"))
+		get_tree().quit(1)
+		return
+	if GameState.get_credits() != 499 or GameState.get_flag("passed_nightclub_security", false):
+		printerr("FAIL 23-B: Failed bribe should not deduct credits or set security flag!")
+		get_tree().quit(1)
+		return
+		
+	# 3. 測試：Credits 足夠時，賄賂成功走向 bribe_success
+	GameState.reset_for_new_game()
+	GameState.set_credits(500)
+	var runner_success = dialogue_runner_script.new()
+	runner_success.start(bodyguard_tree, "lobby")
+	runner_success.choose(0)
+	var state_success = runner_success.current()
+	if state_success.get("text", "") != "DLG_BODYGUARD_BRIBE_SUCCESS_TEXT":
+		printerr("FAIL 23-B: Bribe with 500 credits should succeed, got text: ", state_success.get("text"))
+		get_tree().quit(1)
+		return
+	if GameState.get_credits() != 0 or not GameState.get_flag("passed_nightclub_security", false):
+		printerr("FAIL 23-B: Bribe success should deduct 500 credits and set security flag!")
+		get_tree().quit(1)
+		return
+		
+	# 4. 測試：無工牌時，假裝身份走向 fake_identity_fail
+	GameState.reset_for_new_game()
+	var runner_fake_fail = dialogue_runner_script.new()
+	runner_fake_fail.start(bodyguard_tree, "lobby")
+	runner_fake_fail.choose(1) # 選擇 1 (假裝身份)
+	var state_fake_fail = runner_fake_fail.current()
+	if state_fake_fail.get("text", "") != "DLG_BODYGUARD_FAKE_IDENTITY_FAIL_TEXT":
+		printerr("FAIL 23-B: Pretend without pass should fail, got text: ", state_fake_fail.get("text"))
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("passed_nightclub_security", false):
+		printerr("FAIL 23-B: Failed fake identity should not set security flag!")
+		get_tree().quit(1)
+		return
+		
+	# 5. 測試：有工牌時，假裝身份走向 fake_identity_success
+	GameState.reset_for_new_game()
+	GameState.set_flag("found_staff_pass", true)
+	var runner_fake_ok = dialogue_runner_script.new()
+	runner_fake_ok.start(bodyguard_tree, "lobby")
+	runner_fake_ok.choose(1)
+	var state_fake_ok = runner_fake_ok.current()
+	if state_fake_ok.get("text", "") != "DLG_BODYGUARD_FAKE_IDENTITY_SUCCESS_TEXT":
+		printerr("FAIL 23-B: Pretend with pass should succeed, got text: ", state_fake_ok.get("text"))
+		get_tree().quit(1)
+		return
+	if not GameState.get_flag("passed_nightclub_security", false):
+		printerr("FAIL 23-B: Fake identity success should set security flag!")
+		get_tree().quit(1)
+		return
+		
+	# 6. 測試：已通關狀態下，對話會直接進入 already_passed
+	GameState.reset_for_new_game()
+	GameState.set_flag("passed_nightclub_security", true)
+	var runner_passed = dialogue_runner_script.new()
+	runner_passed.start(bodyguard_tree, "start")
+	var state_passed = runner_passed.current()
+	if state_passed.get("text", "") != "DLG_BODYGUARD_ALREADY_PASSED_TEXT":
+		printerr("FAIL 23-B: Start when already passed should go to already_passed node, got text: ", state_passed.get("text"))
+		get_tree().quit(1)
+		return
+		
+	print("PASS: Phase 23-B bodyguard dialogue, bribe logic, fake identity, and credits condition verified.")
 
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")

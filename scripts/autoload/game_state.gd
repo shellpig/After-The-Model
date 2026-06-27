@@ -174,7 +174,10 @@ const STORY_MESSAGES := {
 	"mem_frag_linfei_1": "MSG_MEM_FRAG_LINFEI_1",
 	"mem_frag_commute_topside": "MSG_MEM_FRAG_COMMUTE_TOPSIDE",
 	"mem_frag_erased_ada": "MSG_MEM_FRAG_ERASED_ADA",
-	"mem_frag_hideout": "MSG_MEM_FRAG_HIDEOUT"
+	"mem_frag_hideout": "MSG_MEM_FRAG_HIDEOUT",
+	"nightclub_security_blocked": "MSG_NIGHTCLUB_SECURITY_BLOCKED",
+	"nightclub_staff_pass_found": "MSG_NIGHTCLUB_STAFF_PASS_FOUND",
+	"nightclub_examine_pass_bag_full": "MSG_NIGHTCLUB_EXAMINE_PASS_BAG_FULL"
 }
 
 # MVP Temporary Stub DB
@@ -384,6 +387,18 @@ const ITEMS_DB := {
 		"sellable": true,
 		"usable": false,
 		"icon_path": "res://assets/generated/sprites/items/childcare_supply_receipt/icon.png"
+	},
+	"nightclub_staff_pass": {
+		"id": "nightclub_staff_pass",
+		"name": "ITEM_NIGHTCLUB_STAFF_PASS_NAME",
+		"description": "ITEM_NIGHTCLUB_STAFF_PASS_DESC",
+		"category": "key_item",
+		"stackable": false,
+		"max_stack": 1,
+		"discardable": false,
+		"sellable": false,
+		"usable": false,
+		"icon_path": "res://assets/generated/sprites/items/nightclub_staff_pass/icon.png"
 	}
 }
 

@@ -175,6 +175,8 @@ func _eval_condition_dict(cond: Dictionary) -> bool:
 			var quest_id = cond.get("quest_id", "")
 			var key = cond.get("key", "")
 			current_val = QuestManager.get_flag(quest_id, key, false)
+		"credits":
+			current_val = GameState.get_credits()
 		"story_flag", _:
 			var flag = cond.get("flag", "")
 			if flag.is_empty():

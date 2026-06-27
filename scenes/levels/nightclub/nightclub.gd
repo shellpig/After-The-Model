@@ -35,7 +35,14 @@ func _ready() -> void:
 	if main and main.has_method("play_bgm"):
 		main.play_bgm("res://assets/bgm/nightclub-1.mp3")
 
+	if GameState.has_flag("found_staff_pass"):
+		var pass_node = $Interactables.get_node_or_null("StaffPassExamine")
+		if pass_node != null:
+			pass_node.queue_free()
+
 	for interactable in $Interactables.get_children():
+		if interactable == null or interactable.is_queued_for_deletion():
+			continue
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)
 	player.anim.play("idle")
@@ -70,10 +77,32 @@ func _trigger_interaction() -> void:
 		"exit_to_entrance":
 			scene_transition_requested.emit("nightclub_entrance", "from_lobby", {})
 		"back_door":
-			scene_transition_requested.emit("nightclub_back", "from_lobby", {})
+			if GameState.has_flag("passed_nightclub_security"):
+				scene_transition_requested.emit("nightclub_back", "from_lobby", {})
+			else:
+				interaction_requested.emit({
+					"type": "message",
+					"message_text": GameState.STORY_MESSAGES["nightclub_security_blocked"]
+				})
+		"staff_pass_examine":
+			if GameState.has_flag("found_staff_pass"):
+				return
+			var added := GameState.add_item("nightclub_staff_pass", 1)
+			if not added:
+				interaction_requested.emit({
+					"type": "message",
+					"message_text": GameState.STORY_MESSAGES["nightclub_examine_pass_bag_full"]
+				})
+				return
+			GameState.set_flag("found_staff_pass", true)
+			interaction_requested.emit({
+				"type": "message",
+				"message_text": GameState.STORY_MESSAGES["nightclub_staff_pass_found"]
+			})
+			_hide_staff_pass_interactable()
 
 func _update_camera() -> void:
-	if camera == null:
+	if camera == null or player == null:
 		return
 	camera.global_position = Vector2(
 		clamp(player.global_position.x, CAMERA_HALF_WIDTH, MAP_WIDTH - CAMERA_HALF_WIDTH),
@@ -104,6 +133,8 @@ func _refresh_current_interactable() -> void:
 		})
 
 func _get_closest_interactable() -> Area2D:
+	if player == null:
+		return null
 	var closest_interactable: Area2D = null
 	var closest_distance := INF
 	var player_position := player.global_position
@@ -125,3 +156,12 @@ func _get_interactable_position(interactable: Area2D) -> Vector2:
 		return collision_shape.global_position
 
 	return interactable.global_position
+
+func _hide_staff_pass_interactable() -> void:
+	var pass_node = $Interactables.get_node_or_null("StaffPassExamine")
+	if pass_node != null:
+		# Disable interactions and hide the node
+		pass_node.process_mode = PROCESS_MODE_DISABLED
+		pass_node.visible = false
+		nearby_interactables.erase(pass_node)
+		_refresh_current_interactable()

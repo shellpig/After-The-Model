@@ -467,3 +467,15 @@ DLG_WU_ASK_MAKER_MORE_TEXT,她的事，知道太多對你沒好處。我只告�
 DLG_WU_LEAVE_TEXT,（她沒再說話，轉過身繼續用扳手敲擊發電機的外殼。）,（她没再说话，转过身继续用扳手敲击发电机的外壳。）,"(She says nothing more, turns around, and continues tapping the generator shell with a wrench.)"
 DLG_WU_RETALK_CHOICE2,（離開）,（离开）,(Leave)
 DLG_STORE_ROBOT_DIAGNOSE_REASON_CORRECT_CHOICE2,這不重要，總之主機裡有Bug，去重置它吧。,这不重要，总之主机里有Bug，去重置它吧。,"It doesn't matter. In short, there's a bug in the mainframe, let's reset it."
+SPEAKER_BODYGUARD,夜總會保全,夜总会保全,Nightclub Guard
+DLG_BODYGUARD_START_TEXT,"站住。非請勿入。後面是夜總會的 VIP 後場包廂，閒雜人等不得通行。","站住。非请勿入。后面是夜总会的 VIP 后场包厢，闲杂人等不得通行。","Stop. No entry without invitation. Beyond this is the nightclub's VIP private box, no unauthorized personnel allowed."
+DLG_BODYGUARD_ALREADY_PASSED_TEXT,"是你啊。進去吧，後面沒你的事了。","是你啊。进去吧，后面没你的事了。","Oh, it's you. Go ahead, nothing more for you here."
+DLG_BODYGUARD_BRIBE_CHOICE,"【賄賂】支付 500 Credits 給予買路財","【贿赂】支付 500 Credits 给予买路财",Bribe: Pay 500 Credits for entry
+DLG_BODYGUARD_BRIBE_SUCCESS_TEXT,"（保全看了看四周，快速把錢收進兜裡）算你識相。進去吧，別給我惹麻煩。","（保全看了看四周，快速把钱收进兜里）算你识相。进去吧，别给我惹麻烦。","(The guard glances around, quickly tucks the money into his pocket) Sensible of you. Go on in, don't cause any trouble for me."
+DLG_BODYGUARD_BRIBE_FAIL_TEXT,"Credits？就這點錢？你當我是要飯的？一邊涼快去！","Credits？就这点钱？你当我是要饭的？一边凉快去！","Credits? This tiny amount? Do you think I'm begging? Get lost!"
+DLG_BODYGUARD_FAKE_IDENTITY_CHOICE,"【出示工牌】假裝自己是夜總會員工","【出示工牌】假装自己是夜总会员工",Show pass: Pretend to be a staff member
+DLG_BODYGUARD_FAKE_IDENTITY_SUCCESS_TEXT,"（保全接過舊工牌仔細端詳，刷了刷掌上終端機）……磁條居然還能用。行，進去交班吧，別磨蹭了。","（保全接过旧工牌仔细端详，刷了刷掌上终端机）……磁条居然还能用。行，进去交班吧，别磨蹭了。","(The guard takes the old pass and inspects it, swiping it on his hand-held terminal) ...The magnetic stripe actually still works. Fine, go in for your shift, quit stalling."
+DLG_BODYGUARD_FAKE_IDENTITY_FAIL_TEXT,"你說你是員工？那我怎麼沒見過你？連個工牌都拿不出來，少在這裡裝模作樣，快滾！","你说你是员工？那我怎么没见过你？连个工牌都拿不出来，少在这里装模作样，快滚！","You claim to be staff? Then why haven't I seen you? Can't even produce a pass, stop pretending and beat it!"
+DLG_BODYGUARD_LEAVE_CHOICE,"【離開】轉身走開","【离开】转身走开",Leave: Walk away
+DLG_BODYGUARD_LEAVE_TEXT,"別擋在門口礙事。","别挡在门口碍事。","Don't block the doorway."
+

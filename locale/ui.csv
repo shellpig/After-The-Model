@@ -278,3 +278,6 @@ PROMPT_NIGHTCLUB_BIOMETRIC_GATE,E: █ 刷辨識閘門,E: █ 刷辨识闸门,E:
 PROMPT_NIGHTCLUB_BACK_DOOR,E: █ 進入後場包廂,E: █ 进入后场包厢,E: █ Enter Backroom
 PROMPT_NIGHTCLUB_BACK_TO_LOBBY,E: █ 返回前廳,E: █ 返回前厅,E: █ Return to Lobby
 PROMPT_NIGHTCLUB_BACK_TO_ENTRANCE,E: █ 離開夜總會,E: █ 离开夜总会,E: █ Leave Nightclub
+PROMPT_NIGHTCLUB_EXAMINE_PASS,E: █ 撿起舊員工工牌,E: █ 捡起旧员工工牌,E: █ Pick Up Old Staff Pass
+PROMPT_NIGHTCLUB_BODYGUARD,E: █ 與保全交談,E: █ 与保全交谈,E: █ Talk to Bodyguard
+

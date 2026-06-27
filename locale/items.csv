@@ -34,3 +34,6 @@ ITEM_PACKAGED_WATER_NAME,包裝飲用水,包装饮用水,Packaged Drinking Water
 ITEM_PACKAGED_WATER_DESC,淨化過的回收水，帶有微弱的過濾後塑料味。便宜，安全，毫無特色。,净化过的回收水，带有微弱的过滤后塑料味。便宜，安全，毫无特色。,"Purified reclaimed water, with the faint aftertaste of plastic that comes through any filter. Cheap, safe, utterly unremarkable."
 ITEM_CHILDCARE_SUPPLY_RECEIPT_NAME,兒少照護補給回執,儿少照护补给回执,Childcare Supply Receipt
 ITEM_CHILDCARE_SUPPLY_RECEIPT_DESC,一張沾有油漬的行政物流單，字跡有些模糊。上面印著隨機的收件代碼，但沒有留下名字。,一张沾有油渍的行政物流单，字迹有些模糊。上面印着随机的收件代码，但没有留下名字。,An admin logistics slip smudged with oil. The handwriting is smeared. There's a randomized recipient code printed on it — but no name.
+ITEM_NIGHTCLUB_STAFF_PASS_NAME,舊員工通行證,旧员工通行证,Old Staff Pass
+ITEM_NIGHTCLUB_STAFF_PASS_DESC,"一張破損的夜總會舊員工工牌，照片和名字已經被刮去。背面印著某個已經失效的權限代碼。雖然是個過期品，但也許還能用來糊弄一些老舊的保全設備。","一张破损的夜总会旧员工工牌，照片和名字已被刮去。背面印着某个已失效的权限代码。虽然是个过期品，但也许还能用来糊弄一些老旧的安全设备。","A damaged old staff pass for the nightclub, with the photo and name scratched off. A legacy clearance code is printed on the back. It is expired, but it might still fool some older security equipment."
+

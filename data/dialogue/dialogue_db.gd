@@ -12,6 +12,7 @@ const LuQichenDialogue = preload("res://data/dialogue/lu_qichen.gd")
 const CenDialogue = preload("res://data/dialogue/cen.gd")
 const WuDialogue = preload("res://data/dialogue/wu.gd")
 const SevenDialogue = preload("res://data/dialogue/seven.gd")
+const NightclubBodyguardDialogue = preload("res://data/dialogue/nightclub_bodyguard.gd")
 
 const TREES := {
 	"wan": WanDialogue.TREE,
@@ -22,7 +23,8 @@ const TREES := {
 	"lu_qichen": LuQichenDialogue.TREE,
 	"cen": CenDialogue.TREE,
 	"wu": WuDialogue.TREE,
-	"seven": SevenDialogue.TREE
+	"seven": SevenDialogue.TREE,
+	"nightclub_bodyguard": NightclubBodyguardDialogue.TREE
 }
 
 static func get_tree_for(dialogue_id: String) -> Dictionary:

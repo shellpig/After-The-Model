@@ -109,7 +109,7 @@ static var ECHOES := {
 		"media_slots": {
 			"audio": {
 				"threshold": 3,
-				"path": ""
+				"path": "res://assets/audio/echoes/echo_linfei_song.mp3"
 			},
 			"image": {
 				"threshold": 6,

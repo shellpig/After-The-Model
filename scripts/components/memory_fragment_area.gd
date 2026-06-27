@@ -21,8 +21,13 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.name != "Player":
 		return
 	
-	if require_flag != "" and not GameState.get_flag(require_flag, false):
-		return
+	if require_flag != "":
+		if require_flag.begins_with("echo_"):
+			if not GameState.is_echo_complete(require_flag):
+				return
+		else:
+			if not GameState.get_flag(require_flag, false):
+				return
 		
 	if GameState.get_flag(fragment_flag, false):
 		return

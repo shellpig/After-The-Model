@@ -173,7 +173,8 @@ const STORY_MESSAGES := {
 	"slot_unlocked": "MSG_SLOT_UNLOCKED",
 	"mem_frag_linfei_1": "MSG_MEM_FRAG_LINFEI_1",
 	"mem_frag_commute_topside": "MSG_MEM_FRAG_COMMUTE_TOPSIDE",
-	"mem_frag_erased_ada": "MSG_MEM_FRAG_ERASED_ADA"
+	"mem_frag_erased_ada": "MSG_MEM_FRAG_ERASED_ADA",
+	"mem_frag_hideout": "MSG_MEM_FRAG_HIDEOUT"
 }
 
 # MVP Temporary Stub DB

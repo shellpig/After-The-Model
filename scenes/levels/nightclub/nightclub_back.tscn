@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bm7nihhjkgkq6" path="res://scenes/levels/nightclub/nightclub_back.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_player"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
+[ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="12_mem_frag"]
 [ext_resource type="Texture2D" uid="uid://dfvty01hc315v" path="res://assets/generated/maps/nightclub/nightclub-back-20260627-073558.png" id="4_map"]
 [ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="4_walk1"]
 [ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="5_walk2"]
@@ -24,6 +25,9 @@ size = Vector2(4800, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
 size = Vector2(92, 365)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mem_frag"]
+size = Vector2(80, 800)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -131,6 +135,18 @@ prompt_text = "PROMPT_NIGHTCLUB_BACK_TO_LOBBY"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToLobbyArea" unique_id=210300012]
 position = Vector2(303, 647)
 shape = SubResource("RectangleShape2D_door")
+
+[node name="MemoryFragmentArea" type="Area2D" parent="Interactables" unique_id=210300020]
+position = Vector2(800, 400)
+script = ExtResource("12_mem_frag")
+fragment_flag = "mem_frag_hideout"
+message_id = "mem_frag_hideout"
+require_flag = "echo_linfei"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentArea" unique_id=210300021]
+shape = SubResource("RectangleShape2D_mem_frag")
+debug_color = Color(0.9, 0.1, 0.9, 0.42)
+
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=210300017]
 position = Vector2(200, 740)

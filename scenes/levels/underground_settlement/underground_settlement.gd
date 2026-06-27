@@ -43,6 +43,9 @@ func _ready() -> void:
 
 	var motif_player = get_node_or_null("ThemeMotifPlayer")
 	if motif_player and motif_player.stream and "loop" in motif_player.stream:
+		# duplicate() 避免污染共享快取資源：此 mp3 同時是可賣殘響 echo_song_rain_doesnt_stop
+		# 的媒體檔，直接改 loop 會讓筆記回放變成無限循環（比照 echo_point.gd）
+		motif_player.stream = motif_player.stream.duplicate()
 		motif_player.stream.loop = true
 
 	for interactable in $Interactables.get_children():

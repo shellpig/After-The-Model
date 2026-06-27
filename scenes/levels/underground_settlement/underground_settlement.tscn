@@ -205,6 +205,15 @@ segment_id = "s1"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=987654352]
 shape = SubResource("RectangleShape2D_flavor")
 
+[node name="EchoPointLinfei" type="Area2D" parent="Interactables" unique_id=210400011]
+position = Vector2(2300, 714)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_linfei"
+segment_id = "s3"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPointLinfei" unique_id=210400012]
+shape = SubResource("RectangleShape2D_flavor")
+
 [node name="OldWorkOrderArea" type="Area2D" parent="Interactables" unique_id=987654353]
 script = ExtResource("3_interactable")
 interaction_id = "examine_old_work_order"

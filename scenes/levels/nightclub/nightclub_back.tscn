@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_player"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
 [ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="12_mem_frag"]
+[ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 [ext_resource type="Texture2D" uid="uid://dfvty01hc315v" path="res://assets/generated/maps/nightclub/nightclub-back-20260627-073558.png" id="4_map"]
 [ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="4_walk1"]
 [ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="5_walk2"]
@@ -28,6 +29,9 @@ size = Vector2(92, 365)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mem_frag"]
 size = Vector2(80, 800)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
+radius = 45.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -146,6 +150,24 @@ require_flag = "echo_linfei"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentArea" unique_id=210300021]
 shape = SubResource("RectangleShape2D_mem_frag")
 debug_color = Color(0.9, 0.1, 0.9, 0.42)
+
+[node name="EchoPointS5" type="Area2D" parent="Interactables" unique_id=210300030]
+position = Vector2(2400, 730)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_linfei"
+segment_id = "s5"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPointS5" unique_id=210300031]
+shape = SubResource("CircleShape2D_echo")
+
+[node name="EchoPointS6" type="Area2D" parent="Interactables" unique_id=210300032]
+position = Vector2(4400, 730)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_linfei"
+segment_id = "s6"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPointS6" unique_id=210300033]
+shape = SubResource("CircleShape2D_echo")
 
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=210300017]

@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://cklwjjc6jk3q" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-5-stylematch-v3.png" id="cw5"]
 [ext_resource type="Texture2D" uid="uid://755a058kmgmd" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-6-stylematch-v3.png" id="cw6"]
 [ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
+[ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 [ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
 [ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
 [ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
@@ -308,6 +309,15 @@ prompt_text = "PROMPT_PLATFORM_EXAMINE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/PlatformAnchorArea" unique_id=2131367901]
 position = Vector2(3460, 650)
+shape = SubResource("RectangleShape2D_flavor")
+
+[node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=210400001]
+position = Vector2(2000, 730)
+script = ExtResource("ext_echo_point")
+echo_id = "echo_linfei"
+segment_id = "s2"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=210400002]
 shape = SubResource("RectangleShape2D_flavor")
 
 [node name="MemoryFragmentArea" type="Area2D" parent="Interactables" unique_id=987654321]

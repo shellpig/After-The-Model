@@ -10418,7 +10418,40 @@ func _ready() -> void:
 		printerr("FAIL 21-B: echo_linfei segments size incorrect (expected 6, got ", EchoDB.get_segment_count("echo_linfei"), ")")
 		get_tree().quit(1)
 		return
-		
+
+	# 1b. 場景內 EchoPoint 跨圖佈點驗證（防止資料層通過但世界裡採不到的假綠燈）
+	var linfei_point_scenes := {
+		"res://scenes/levels/nightclub/nightclub_entrance.tscn": ["s1"],
+		"res://scenes/levels/subway_station/subway_station_platform.tscn": ["s2"],
+		"res://scenes/levels/underground_settlement/underground_settlement.tscn": ["s3"],
+		"res://scenes/levels/nightclub/nightclub.tscn": ["s4"],
+		"res://scenes/levels/nightclub/nightclub_back.tscn": ["s5", "s6"]
+	}
+	var found_linfei_segments := {}
+	for scene_path in linfei_point_scenes:
+		var packed_lf = load(scene_path)
+		if not packed_lf:
+			printerr("FAIL 21-B: Could not load scene for EchoPoint placement check: ", scene_path)
+			get_tree().quit(1)
+			return
+		var inst_lf = packed_lf.instantiate()
+		var scene_segments := []
+		for area in inst_lf.find_children("*", "Area2D", true, false):
+			if area.get("echo_id") == "echo_linfei":
+				scene_segments.append(area.get("segment_id"))
+				found_linfei_segments[area.get("segment_id")] = true
+		inst_lf.free()
+		for expected_seg in linfei_point_scenes[scene_path]:
+			if not expected_seg in scene_segments:
+				printerr("FAIL 21-B: echo_linfei EchoPoint segment ", expected_seg, " not authored in ", scene_path, " (found: ", scene_segments, ")")
+				get_tree().quit(1)
+				return
+	for seg in ["s1", "s2", "s3", "s4", "s5", "s6"]:
+		if not seg in found_linfei_segments:
+			printerr("FAIL 21-B: echo_linfei segment ", seg, " has no EchoPoint placed in any scene!")
+			get_tree().quit(1)
+			return
+
 	var keys_21b = [
 		"ECHO_LINFEI_TITLE",
 		"ECHO_LINFEI_SEG_S1",

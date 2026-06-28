@@ -11313,19 +11313,19 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	# 5. 測試：如果 passed_nightclub_security 已經為 true，重進場景時，保全應維持隱藏並 disabled
+	# 5. 測試：即使 passed_nightclub_security 已為 true，保全仍永遠在崗（可見、INHERIT），只是後場門放行
 	get_tree().root.remove_child(nightclub_node)
 	nightclub_node.queue_free()
-	
+
 	GameState.reset_for_new_game()
 	GameState.set_flag("passed_nightclub_security", true)
-	
+
 	nightclub_node = nightclub_scene.instantiate()
 	get_tree().root.add_child(nightclub_node)
-	
+
 	bodyguard_node = nightclub_node.get_node_or_null("Interactables/Bodyguard")
-	if bodyguard_node != null and (bodyguard_node.visible or bodyguard_node.process_mode != Node.PROCESS_MODE_DISABLED):
-		printerr("FAIL 23-C: Bodyguard should be hidden and disabled when passed_nightclub_security is true!")
+	if bodyguard_node == null or not bodyguard_node.visible or bodyguard_node.process_mode != Node.PROCESS_MODE_INHERIT:
+		printerr("FAIL 23-C: Bodyguard should stay visible and at post even when passed_nightclub_security is true!")
 		get_tree().quit(1)
 		return
 		

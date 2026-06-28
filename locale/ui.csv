@@ -283,4 +283,5 @@ PROMPT_NIGHTCLUB_EXAMINE_PASS,E: █ 撿起舊員工工牌,E: █ 捡起旧员�
 PROMPT_NIGHTCLUB_BODYGUARD,E: █ 與保全交談,E: █ 与保全交谈,E: █ Talk to Bodyguard
 PROMPT_NIGHTCLUB_BAR_BOT,E: █ 擾亂酒水機器人,E: █ 扰乱酒水机器人,E: █ Tamper with Drink Bot
 PROMPT_NIGHTCLUB_BAR_BOT_EXAMINE,E: █ 查看酒水機器人,E: █ 查看酒水机器人,E: █ Examine Drink Bot
+UI_NIGHTCLUB_CHAOS_TIME,混亂時間,混乱时间,CHAOS TIME
 

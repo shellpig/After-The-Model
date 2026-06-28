@@ -16,8 +16,12 @@ const MAP_WIDTH := 4288.0
 # expires the guard returns and the distraction is permanently spent.
 const SITUATION_IMAGE_PATH := "res://assets/generated/sprites/nightclub_bar_bot_distraction/situation/nightclub-bar-distraction-situation-20260628-123600.jpg"
 const SITUATION_IMAGE_HOLD := 5.0   # seconds the locked situation image is shown
-const SNEAK_WINDOW_SECONDS := 10.0  # seconds the player has to sneak in after it
-const DISTRACT_FADE_TIME := 0.6
+const SNEAK_WINDOW_SECONDS := 20.0  # seconds the player has to sneak in after it
+const BGM_LOBBY := "res://assets/bgm/nightclub-1.mp3"
+const BGM_CHAOS := "res://assets/bgm/nightclub-chaos.mp3"
+const DISTRACT_FADE_TIME := 0.6     # actor / blackout fade
+const SITUATION_IMAGE_FADE := 0.5   # situation image fade-in / fade-out
+const COUNTDOWN_RED := Color(0.92, 0.21, 0.21, 1.0)
 
 enum DistractPhase { IDLE, IMAGE, WINDOW, RESOLVING }
 
@@ -33,9 +37,11 @@ var _entry_payload: Dictionary = {}
 var _distract_phase: int = DistractPhase.IDLE
 var _distract_countdown: float = 0.0
 var _game_ui: Node = null
+var _main: Node = null
 var _distract_fx_layer: CanvasLayer = null
 var _situation_backdrop: ColorRect = null
 var _situation_image: TextureRect = null
+var _chaos_label: Label = null
 var _countdown_label: Label = null
 var _blackout_layer: CanvasLayer = null
 var _blackout_rect: ColorRect = null
@@ -54,26 +60,24 @@ func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 
 func _ready() -> void:
 	SaveSystem.can_save_here = true
-	var main = get_tree().root.find_child("Main", true, false)
-	if main and main.has_method("play_bgm"):
-		main.play_bgm("res://assets/bgm/nightclub-1.mp3")
+	_main = get_tree().root.find_child("Main", true, false)
+	if _main and _main.has_method("play_bgm"):
+		_main.play_bgm(BGM_LOBBY)
 
 	if GameState.has_flag("found_staff_pass"):
 		var pass_node = $Interactables.get_node_or_null("StaffPassExamine")
 		if pass_node != null:
 			pass_node.queue_free()
 
+	# The bodyguard is a permanent fixture: he always stands at his post. Whether
+	# the back door opens is governed by `passed_nightclub_security` alone (once
+	# passed, he recognizes the player and lets them through silently).
 	_bodyguard_off_post = false
-	var passed := GameState.has_flag("passed_nightclub_security")
 	var bodyguard = $Interactables.get_node_or_null("Bodyguard")
 	if bodyguard != null:
-		if passed:
-			bodyguard.visible = false
-			bodyguard.process_mode = PROCESS_MODE_DISABLED
-		else:
-			bodyguard.visible = true
-			bodyguard.modulate.a = 1.0
-			bodyguard.process_mode = PROCESS_MODE_INHERIT
+		bodyguard.visible = true
+		bodyguard.modulate.a = 1.0
+		bodyguard.process_mode = PROCESS_MODE_INHERIT
 
 	for interactable in $Interactables.get_children():
 		if interactable == null or interactable.is_queued_for_deletion():
@@ -144,8 +148,7 @@ func _trigger_interaction() -> void:
 			elif _bodyguard_off_post:
 				# Sneak succeeds: close the window so it can't expire mid-transition.
 				_distract_phase = DistractPhase.IDLE
-				if _countdown_label != null:
-					_countdown_label.visible = false
+				_hide_countdown_ui()
 				GameState.set_flag("passed_nightclub_security", true)
 				scene_transition_requested.emit("nightclub_back", "from_lobby", {})
 			else:
@@ -282,13 +285,26 @@ func _build_distraction_overlay() -> void:
 	_situation_image.visible = false
 	_distract_fx_layer.add_child(_situation_image)
 
+	# "混亂時間" caption above the big red countdown number (format B).
+	_chaos_label = Label.new()
+	_chaos_label.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+	_chaos_label.offset_top = 28.0
+	_chaos_label.offset_bottom = 68.0
+	_chaos_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_chaos_label.add_theme_font_size_override("font_size", 30)
+	_chaos_label.add_theme_color_override("font_color", COUNTDOWN_RED)
+	_chaos_label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
+	_chaos_label.add_theme_constant_override("outline_size", 8)
+	_chaos_label.visible = false
+	_distract_fx_layer.add_child(_chaos_label)
+
 	_countdown_label = Label.new()
 	_countdown_label.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	_countdown_label.offset_top = 40.0
-	_countdown_label.offset_bottom = 150.0
+	_countdown_label.offset_top = 64.0
+	_countdown_label.offset_bottom = 174.0
 	_countdown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_countdown_label.add_theme_font_size_override("font_size", 72)
-	_countdown_label.add_theme_color_override("font_color", Color(0.94, 0.92, 0.84, 1.0))
+	_countdown_label.add_theme_font_size_override("font_size", 76)
+	_countdown_label.add_theme_color_override("font_color", COUNTDOWN_RED)
 	_countdown_label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
 	_countdown_label.add_theme_constant_override("outline_size", 10)
 	_countdown_label.visible = false
@@ -328,10 +344,23 @@ func _begin_distraction() -> void:
 
 	_distract_phase = DistractPhase.IMAGE
 	_set_player_locked(true)
+	_play_bgm(BGM_CHAOS, 0.8)
+	_chaos_label.visible = false
+	_countdown_label.visible = false
+	_situation_backdrop.modulate.a = 0.0
+	_situation_image.modulate.a = 0.0
 	_situation_backdrop.visible = true
 	_situation_image.visible = true
-	_countdown_label.visible = false
-	get_tree().create_timer(SITUATION_IMAGE_HOLD).timeout.connect(_on_situation_image_done)
+	# Transition: let the actors fade out first, then fade the situation image in,
+	# hold it, and fade it back out before the sneak window opens.
+	var tw := create_tween()
+	tw.tween_interval(DISTRACT_FADE_TIME)
+	tw.tween_property(_situation_backdrop, "modulate:a", 1.0, SITUATION_IMAGE_FADE)
+	tw.parallel().tween_property(_situation_image, "modulate:a", 1.0, SITUATION_IMAGE_FADE)
+	tw.tween_interval(SITUATION_IMAGE_HOLD)
+	tw.tween_property(_situation_backdrop, "modulate:a", 0.0, SITUATION_IMAGE_FADE)
+	tw.parallel().tween_property(_situation_image, "modulate:a", 0.0, SITUATION_IMAGE_FADE)
+	tw.tween_callback(_on_situation_image_done)
 
 func _fade_out_disable(n: Node) -> void:
 	if n == null:
@@ -352,13 +381,20 @@ func _on_situation_image_done() -> void:
 	_set_player_locked(false)
 	_distract_phase = DistractPhase.WINDOW
 	_distract_countdown = SNEAK_WINDOW_SECONDS
+	_chaos_label.text = tr("UI_NIGHTCLUB_CHAOS_TIME")
+	_chaos_label.visible = true
 	_countdown_label.text = str(int(SNEAK_WINDOW_SECONDS))
 	_countdown_label.visible = true
 
-func _resolve_distraction() -> void:
-	_distract_phase = DistractPhase.RESOLVING
+func _hide_countdown_ui() -> void:
+	if _chaos_label != null:
+		_chaos_label.visible = false
 	if _countdown_label != null:
 		_countdown_label.visible = false
+
+func _resolve_distraction() -> void:
+	_distract_phase = DistractPhase.RESOLVING
+	_hide_countdown_ui()
 
 	if DisplayServer.get_name() == "headless":
 		_restore_guard_and_bar_bot()
@@ -388,6 +424,8 @@ func _on_guard_returned_closed() -> void:
 	_restore_guard_and_bar_bot()
 	_bodyguard_off_post = false
 	_distract_phase = DistractPhase.IDLE
+	# Chaos is over: cross-fade back to the calm lobby track.
+	_play_bgm(BGM_LOBBY, 1.5)
 	if _blackout_rect != null:
 		var tw := create_tween()
 		tw.tween_property(_blackout_rect, "color:a", 0.0, DISTRACT_FADE_TIME)
@@ -405,6 +443,10 @@ func _restore_guard_and_bar_bot() -> void:
 		bar_bot.visible = true
 		bar_bot.modulate.a = 1.0
 		bar_bot.process_mode = PROCESS_MODE_INHERIT
+
+func _play_bgm(path: String, fade: float = 1.0) -> void:
+	if _main != null and _main.has_method("play_bgm"):
+		_main.play_bgm(path, fade)
 
 func _set_player_locked(locked: bool) -> void:
 	if player != null:

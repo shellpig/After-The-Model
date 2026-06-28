@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://d1hksgs2jsbfw" path="res://scenes/levels/nightclub/nightclub.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="2_player"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
-[ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 [ext_resource type="Texture2D" uid="uid://ckw8biqtk1wxp" path="res://assets/generated/maps/nightclub/nightclub-lobby-20260627-073725.png" id="4_map"]
 [ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="4_walk1"]
 [ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="5_walk2"]
@@ -13,34 +12,34 @@
 [ext_resource type="Texture2D" uid="uid://dds2hje33t54j" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="9_walk6"]
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="10_walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="11_walk8"]
+[ext_resource type="Texture2D" uid="uid://1jrvqwm7li3t" path="res://assets/generated/sprites/nightclub_bar_bot/map_npc/sprite.png" id="bar_bot_sprite"]
+[ext_resource type="Texture2D" uid="uid://c176q1xeyy2ls" path="res://assets/generated/sprites/nightclub_bodyguard/map_npc/sprite.png" id="bodyguard_sprite"]
+[ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 [ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
 [ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
 [ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
 [ext_resource type="Texture2D" uid="uid://cqlevyto1pcct" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="jumpf4"]
 [ext_resource type="Texture2D" uid="uid://dr0483468d6l7" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
 [ext_resource type="Texture2D" uid="uid://xvrwlgw2fiwr" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
-
-[ext_resource type="Texture2D" uid="uid://c176q1xeyy2ls" path="res://assets/generated/sprites/nightclub_bodyguard/map_npc/sprite.png" id="bodyguard_sprite"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/items/nightclub_staff_pass/icon.png" id="staff_pass_icon"]
-[ext_resource type="Texture2D" uid="uid://1jrvqwm7li3t" path="res://assets/generated/sprites/nightclub_bar_bot/map_npc/sprite.png" id="bar_bot_sprite"]
+[ext_resource type="Texture2D" uid="uid://dderk4ag3acr4" path="res://assets/generated/sprites/items/nightclub_staff_pass/icon.png" id="staff_pass_icon"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4288, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
-size = Vector2(121, 365)
+size = Vector2(135, 390.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_echo"]
 radius = 45.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bodyguard"]
-size = Vector2(100, 200)
+size = Vector2(200, 368)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_staff_pass"]
 size = Vector2(80, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bar_bot"]
-size = Vector2(100, 200)
+size = Vector2(154, 382)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -106,7 +105,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(24, 454)
+size = Vector2(107.27283, 454)
 
 [node name="Nightclub" type="Node2D" unique_id=210200001]
 script = ExtResource("1_script")
@@ -149,7 +148,7 @@ interaction_id = "exit_to_entrance"
 prompt_text = "PROMPT_NIGHTCLUB_BACK_TO_ENTRANCE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToEntranceArea" unique_id=210200012]
-position = Vector2(3952, 706)
+position = Vector2(3952.5, 718.75)
 shape = SubResource("RectangleShape2D_door")
 
 [node name="BackDoorArea" type="Area2D" parent="Interactables" unique_id=210200013]
@@ -162,25 +161,29 @@ position = Vector2(163, 715)
 shape = SubResource("RectangleShape2D_door")
 
 [node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=210200030]
-position = Vector2(2000, 838)
+position = Vector2(1973, 848)
 script = ExtResource("ext_echo_point")
 echo_id = "echo_linfei"
 segment_id = "s4"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=210200031]
+position = Vector2(3, 0)
 shape = SubResource("CircleShape2D_echo")
 
 [node name="Bodyguard" type="Area2D" parent="Interactables" unique_id=210200040]
-position = Vector2(500, 800)
+position = Vector2(430, 840)
 script = ExtResource("3_interactable")
 interaction_id = "bodyguard"
 prompt_text = "PROMPT_NIGHTCLUB_BODYGUARD"
 dialogue_id = "nightclub_bodyguard"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Bodyguard" unique_id=210200041]
+position = Vector2(-3, -86.25)
 shape = SubResource("RectangleShape2D_bodyguard")
 
 [node name="Sprite2D" type="Sprite2D" parent="Interactables/Bodyguard" unique_id=210200042]
+position = Vector2(-0.30001223, -85)
+scale = Vector2(0.22, 0.22)
 texture = ExtResource("bodyguard_sprite")
 
 [node name="StaffPassExamine" type="Area2D" parent="Interactables" unique_id=210200050]
@@ -196,30 +199,33 @@ shape = SubResource("RectangleShape2D_staff_pass")
 texture = ExtResource("staff_pass_icon")
 
 [node name="BarBot" type="Area2D" parent="Interactables" unique_id=210200060]
-position = Vector2(1200, 800)
+position = Vector2(839, 619)
 script = ExtResource("3_interactable")
 interaction_id = "bar_bot_distract"
 prompt_text = "PROMPT_NIGHTCLUB_BAR_BOT"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BarBot" unique_id=210200061]
+position = Vector2(-8, 91)
 shape = SubResource("RectangleShape2D_bar_bot")
 
 [node name="Sprite2D" type="Sprite2D" parent="Interactables/BarBot" unique_id=210200062]
+scale = Vector2(0.22, 0.22)
 texture = ExtResource("bar_bot_sprite")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=210200017]
-position = Vector2(200, 848)
+position = Vector2(3724.9998, 914)
 scale = Vector2(1.1, 1.1)
 script = ExtResource("2_player")
 min_x = 100.0
 max_x = 4188.0
-walk_line_y = 838.0
+walk_line_y = 958.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=210200018]
 position = Vector2(20, -184)
+scale = Vector2(0.85, 0.85)
 sprite_frames = SubResource("SpriteFrames_player")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=210200019]
-position = Vector2(30, -221)
+position = Vector2(24.545654, -220.99994)
 shape = SubResource("RectangleShape2D_player")

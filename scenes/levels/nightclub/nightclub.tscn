@@ -187,7 +187,7 @@ scale = Vector2(0.22, 0.22)
 texture = ExtResource("bodyguard_sprite")
 
 [node name="StaffPassExamine" type="Area2D" parent="Interactables" unique_id=210200050]
-position = Vector2(2200, 850)
+position = Vector2(4245, 901)
 script = ExtResource("3_interactable")
 interaction_id = "staff_pass_examine"
 prompt_text = "PROMPT_NIGHTCLUB_EXAMINE_PASS"
@@ -196,6 +196,8 @@ prompt_text = "PROMPT_NIGHTCLUB_EXAMINE_PASS"
 shape = SubResource("RectangleShape2D_staff_pass")
 
 [node name="Sprite2D" type="Sprite2D" parent="Interactables/StaffPassExamine" unique_id=210200052]
+scale = Vector2(0.5, 0.5)
+skew = 0.23212878
 texture = ExtResource("staff_pass_icon")
 
 [node name="BarBot" type="Area2D" parent="Interactables" unique_id=210200060]

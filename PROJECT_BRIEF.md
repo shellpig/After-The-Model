@@ -289,7 +289,7 @@ note_id
 | 23-D | ✅ 完成 | 回歸 + 存讀檔 + GUI / 觸控走查：本機 headless 全測 PASS（exit 0）；GUI / 純觸控走查（四解各自可玩、保全淡出 / 歸位、刷閘導向側門）已完成。canonical：`passed_nightclub_security` / `found_staff_pass` / `nightclub_staff_pass`。前提硬規則：保全人類不可打死 / 格式化；大門口閘門無 Trace；四解皆不動 Trace |
 | 24-A | 📐 規格可實作 | quest 化 + 爆發 gate：v2.3 §7.2 三分支（D 和平 / A 攔下 / B 部分攔下，無 C / 不做大災難線）quest 化；新增 `data/quests/seven_betrayal.gd`；沿用 QuestManager + 七號 NPC + Trust/Trace。程式未開工 |
 | 24-B | 📐 規格可實作 | 分支判定 + 伍姐 / 小岑提前警告：確定性可 headless＝`seven_stopped_partial =（get_trace() >= TRACE_BETRAYAL_THRESHOLD[第一版 3]）and not（get_trust("wu") >= 2 or get_trust("cen") >= 2）`，否則 `seven_stopped_full`；D＝`seven_peace_branch_d`（Phase 20）爆發前已成則不爆 |
-| 24-C | 📐 規格可實作 | 深隧道追逐 + 兩去處選單接線：新增追逐場景 `tunnel_chase` + 目的地選單對話 `travel_deep_tunnel`；聚落右室深隧道口改看 `deep_tunnel_opened` 路由（爆點前直通 `tunnel_combat`、爆點後出兩去處選單，不取代 Phase 18 戰鬥入口）；沿用 Phase 12 跳躍 + Phase 7 攀爬。外部 blocker＝`tunnel_chase` 背景 map（user 出圖，未到位以 placeholder 驗 headless）|
+| 24-C | 📐 規格可實作 | 深隧道追逐（**2026-06-28 重設計＝限時選門迷宮，兩室**）+ 兩去處選單接線：新增兩室 `tunnel_chase`（房間1，固定正解高門）/ `tunnel_chase_right`（房間2，`tunnel_chase_true_exit` 隨機真出口、reset 骰一次存讀檔固定）+ 目的地選單 `travel_deep_tunnel`；聚落右室深隧道口改看 `deep_tunnel_opened` 路由（爆點前直通 `tunnel_combat`、爆點後出兩去處選單，不取代 Phase 18）；全域 180 秒倒數＝七號交易通話接通 %（錯誤口各扣 20 秒一次、已試短訊息、純張力不改分支）；真出口 or 倒數歸零 → 七號攤牌情境圖（複用 23-C overlay）套 24-B 分支；梯子沿用 Phase 7-F 防火梯 climb 機制、窄 gap 用 Phase 12 跳躍；兩室 `can_save_here=false`、房間1左緣鎖住。規格／契約／測試清單已改寫三份文件；美術已到貨（`tunnel-chase-left/right.png` + 七號攤牌情境圖）。**程式未開工** |
 | 24-D | 📐 規格可實作 | Branch B 代價（小岑暴露演出）：set `cen_voiceprint_exposed`（餵 28-C 小岑缺席）；小岑代價純敘事（無 minigame）|
 | 24-E | 📐 規格可實作 | 回歸 + 存讀檔：canonical＝`seven_betrayal_triggered` / `seven_stopped_full`(A) / `seven_stopped_partial`(B，餵 26-D 檔案重標記) / `cen_voiceprint_exposed`(餵 28-C) / `deep_tunnel_opened`。前提硬規則：無 C 分支 / 七號人類不可殺 / 三分支皆不動 Trace |
 
@@ -654,7 +654,7 @@ Phase 18 待寫 / 待掛：`scenes/levels/tunnel_combat/tunnel_combat.tscn` / `.
 ### Phase 24 子階段（三份對照）
 
 > 行號以 2026-06-27 Phase 24 規格寫入版為準；大幅改寫後需校正。Phase 24 = Act 3→4 七號小爆點（三分支 quest）；📐 規格可實作，程式未開工。三分支（D 和平 / A 攔下 / B 部分攔下，**無 C / 不做大災難線**）由旗標確定性計算，可 headless 重現。
-> **唯一新場景**：`tunnel_chase`（深隧道追逐，跳躍翻越複用 Phase 12 / 7）；**新對話**：`travel_deep_tunnel`（深隧道口兩去處選單，沿用 `travel` op）。深隧道口爆點前直通 `tunnel_combat`、爆點後出選單，**不取代既有 Phase 18 戰鬥區入口**。
+> **新場景**：`tunnel_chase`（房間1）+ `tunnel_chase_right`（房間2）＝深隧道追逐限時選門迷宮（2026-06-28 重設計，取代原單室跳躍翻越版；梯子沿用 Phase 7-F 防火梯 climb、窄 gap 用 Phase 12 跳躍）；**新對話**：`travel_deep_tunnel`（深隧道口兩去處選單，沿用 `travel` op）。深隧道口爆點前直通 `tunnel_combat`、爆點後出選單，**不取代既有 Phase 18 戰鬥區入口**。
 > **敘事事實來源**：`subdocs/主線/雨還沒停v2.3` §7.2（七號事件三分支）。
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
@@ -666,7 +666,7 @@ Phase 18 待寫 / 待掛：`scenes/levels/tunnel_combat/tunnel_combat.tscn` / `.
 | 24-D Branch B 代價（小岑暴露演出）| 3024（表列）| 3489–3494 | 1088 |
 | 24-E 回歸 + 存讀檔 | 3025（表列）| 3495–3507 | 1089–1093 |
 
-依賴：20（和平線前置 / `seven_peace_branch_d` / `seven_betrayal_pending` / `affinity_seven`）、23（`passed_nightclub_security` ＝ Act 3→4 爆發 gate）、12（跳躍動詞）、7（攀爬 + `from_deep_tunnel` 往返）、16（七號 / 伍姐 / 小岑 NPC 與 affinity）、9-C（`travel` 目的地選單 pattern）、11-B（`get_trust`）、11-C（`get_trace`）。新 canonical：`seven_betrayal_triggered` / `seven_stopped_full`(A) / `seven_stopped_partial`(B，餵 26-D)/ `cen_voiceprint_exposed`(餵 28-C)/ `deep_tunnel_opened`。**外部 blocker（user 出圖）**：`tunnel_chase` 背景 map；未到位以 placeholder 驗 headless。**系統小擴充**：`TRACE_BETRAYAL_THRESHOLD` 常數（建議放 `seven_betrayal.gd`），其餘純複用既有 quest / dialogue / travel / 移動系統。**前提硬規則**：無 C 分支 / 不做大災難線；七號人類不可殺 / 格式化；小岑代價純敘事（無 minigame）；D 窗口只在 Phase 20。
+依賴：20（和平線前置 / `seven_peace_branch_d` / `seven_betrayal_pending` / `affinity_seven`）、23（`passed_nightclub_security` ＝ Act 3→4 爆發 gate）、12（跳躍動詞）、7（攀爬 + `from_deep_tunnel` 往返）、16（七號 / 伍姐 / 小岑 NPC 與 affinity）、9-C（`travel` 目的地選單 pattern）、11-B（`get_trust`）、11-C（`get_trace`）。新 canonical：`seven_betrayal_triggered` / `seven_stopped_full`(A) / `seven_stopped_partial`(B，餵 26-D)/ `cen_voiceprint_exposed`(餵 28-C)/ `deep_tunnel_opened` / `tunnel_chase_true_exit`(int，reset 骰一次存讀檔固定)。**外部素材：已全數到貨（2026-06-28）**——`tunnel-chase-left/right.png` + 七號攤牌情境圖。**系統小擴充**：`TRACE_BETRAYAL_THRESHOLD` 常數（建議放 `seven_betrayal.gd`）+ 追逐關全域倒數/通話接通 % UI（複用 23-C）+ 攤牌情境圖 overlay（複用 23-C）+ `tunnel_chase_true_exit` 隨機骰於 reset，其餘純複用既有 quest / dialogue / travel / 移動系統。**前提硬規則**：無 C 分支 / 不做大災難線；七號人類不可殺 / 格式化；小岑代價純敘事（無 minigame）；D 窗口只在 Phase 20。
 
 ### Phase M1 子階段（三份對照）
 

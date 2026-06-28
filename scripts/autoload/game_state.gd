@@ -178,7 +178,9 @@ const STORY_MESSAGES := {
 	"nightclub_security_blocked": "MSG_NIGHTCLUB_SECURITY_BLOCKED",
 	"nightclub_staff_pass_found": "MSG_NIGHTCLUB_STAFF_PASS_FOUND",
 	"nightclub_examine_pass_bag_full": "MSG_NIGHTCLUB_EXAMINE_PASS_BAG_FULL",
-	"nightclub_bar_bot_distracted": "MSG_NIGHTCLUB_BAR_BOT_DISTRACTED"
+	"nightclub_bar_bot_pre_talk": "MSG_NIGHTCLUB_BAR_BOT_PRE_TALK",
+	"nightclub_bar_bot_used": "MSG_NIGHTCLUB_BAR_BOT_USED",
+	"nightclub_guard_returned": "MSG_NIGHTCLUB_GUARD_RETURNED"
 }
 
 # MVP Temporary Stub DB

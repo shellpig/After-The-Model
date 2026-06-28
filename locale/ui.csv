@@ -282,4 +282,5 @@ PROMPT_NIGHTCLUB_BACK_TO_ENTRANCE,E: █ 離開夜總會,E: █ 离开夜总会,
 PROMPT_NIGHTCLUB_EXAMINE_PASS,E: █ 撿起舊員工工牌,E: █ 捡起旧员工工牌,E: █ Pick Up Old Staff Pass
 PROMPT_NIGHTCLUB_BODYGUARD,E: █ 與保全交談,E: █ 与保全交谈,E: █ Talk to Bodyguard
 PROMPT_NIGHTCLUB_BAR_BOT,E: █ 擾亂酒水機器人,E: █ 扰乱酒水机器人,E: █ Tamper with Drink Bot
+PROMPT_NIGHTCLUB_BAR_BOT_EXAMINE,E: █ 查看酒水機器人,E: █ 查看酒水机器人,E: █ Examine Drink Bot
 

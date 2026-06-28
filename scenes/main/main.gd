@@ -78,6 +78,18 @@ const SCENES := {
 		"default_entry_point_id": "from_lobby",
 		"entry_points": ["from_lobby"],
 		"music_id": "nightclub_back"
+	},
+	"tunnel_chase": {
+		"path": "res://scenes/levels/tunnel_chase/tunnel_chase.tscn",
+		"default_entry_point_id": "from_settlement",
+		"entry_points": ["from_settlement", "from_right"],
+		"music_id": "underground_settlement"
+	},
+	"tunnel_chase_right": {
+		"path": "res://scenes/levels/tunnel_chase/tunnel_chase_right.tscn",
+		"default_entry_point_id": "from_left",
+		"entry_points": ["from_left"],
+		"music_id": "underground_settlement"
 	}
 }
 

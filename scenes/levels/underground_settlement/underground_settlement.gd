@@ -51,6 +51,26 @@ func _ready() -> void:
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)
+
+	# Phase 24-D: Cen exposure handling
+	var cen_exposed: bool = GameState.get_flag("cen_voiceprint_exposed", false)
+	var npc_cen = get_node_or_null("Interactables/NpcCen")
+	var empty_tent = get_node_or_null("Interactables/EmptyTentArea")
+	if cen_exposed:
+		if npc_cen != null:
+			npc_cen.queue_free()
+		if empty_tent != null:
+			empty_tent.visible = true
+			var col = empty_tent.get_node_or_null("CollisionShape2D") as CollisionShape2D
+			if col != null:
+				col.disabled = false
+	else:
+		if empty_tent != null:
+			empty_tent.visible = false
+			var col = empty_tent.get_node_or_null("CollisionShape2D") as CollisionShape2D
+			if col != null:
+				col.disabled = true
+
 	player.anim.play("idle")
 	_refresh_current_interactable()
 

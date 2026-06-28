@@ -1,0 +1,181 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/levels/tunnel_chase/tunnel_chase.gd" id="1_script"]
+[ext_resource type="Script" path="res://scenes/actors/player/player.gd" id="2_player"]
+[ext_resource type="Script" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
+[ext_resource type="Texture2D" path="res://assets/generated/maps/tunnel_chase/tunnel-chase-left.png" id="4_map"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/cen/idle/cen-idle-outline-candidate-20260621-203000/idle_512h_cropped.png" id="cen_idle_sprite"]
+[ext_resource type="Script" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
+[ext_resource type="Script" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
+[ext_resource type="AudioStream" path="res://assets/audio/echoes/echo_song_rain_doesnt_stop.mp3" id="ext_rain_song"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="jumpf4"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="jumpf5"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="jumpf6"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="walk1"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="walk2"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-3_upscayl_2x_upscayl-lite-4x.png" id="walk3"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-4_upscayl_2x_upscayl-lite-4x.png" id="walk4"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-5_upscayl_2x_upscayl-lite-4x.png" id="walk5"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-6_upscayl_2x_upscayl-lite-4x.png" id="walk6"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="walk7"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="walk8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(4352, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_transition"]
+size = Vector2(130, 360)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_flavor"]
+size = Vector2(120, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cen"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("cen_idle_sprite")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_player"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("jumpf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jumpf6")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 11.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("walk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("walk8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(24, 454)
+
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(100, 150)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ladder"]
+size = Vector2(100, 450)
+
+[node name="TunnelChaseRoom1" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("4_map")
+centered = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="from_settlement" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(200, 1050)
+
+[node name="from_right" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(3000, 600)
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="ChaseLadder" type="Area2D" parent="Interactables"]
+position = Vector2(2500, 825)
+script = ExtResource("3_interactable")
+interaction_id = "chase_ladder"
+prompt_text = "PROMPT_TUNNEL_LADDER"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ChaseLadder"]
+shape = SubResource("RectangleShape2D_ladder")
+
+[node name="ChaseDoor" type="Area2D" parent="Interactables"]
+position = Vector2(2800, 600)
+script = ExtResource("3_interactable")
+interaction_id = "chase_door"
+prompt_text = "PROMPT_TUNNEL_NEXT_AREA"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ChaseDoor"]
+shape = SubResource("RectangleShape2D_door")
+
+[node name="ChaseDead0" type="Area2D" parent="Interactables"]
+position = Vector2(1500, 1050)
+script = ExtResource("3_interactable")
+interaction_id = "chase_dead_0"
+prompt_text = "PROMPT_TUNNEL_EXPLORE_DEAD"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ChaseDead0"]
+shape = SubResource("RectangleShape2D_door")
+
+[node name="ChaseDead1" type="Area2D" parent="Interactables"]
+position = Vector2(2200, 1050)
+script = ExtResource("3_interactable")
+interaction_id = "chase_dead_1"
+prompt_text = "PROMPT_TUNNEL_EXPLORE_DEAD"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ChaseDead1"]
+shape = SubResource("RectangleShape2D_door")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=355216945]
+position = Vector2(200, 1050)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("2_player")
+min_x = 100.0
+max_x = 3200.0
+walk_line_y = 1050.0

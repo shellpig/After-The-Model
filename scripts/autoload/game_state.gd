@@ -41,6 +41,11 @@ var trace: int = 0
 var quest_states: Dictionary = {}
 var shop_states: Dictionary = {}
 var echo_progress: Dictionary = {}
+var tunnel_chase_true_exit: int = 0
+
+# Transient variables for Phase 24-C (not in save dict)
+var _tunnel_chase_time_left: float = 180.0
+var _tunnel_chase_tried: Array = []
 
 # Phase M1: 進度追蹤集合
 var visited_scenes: Dictionary = {}
@@ -1483,6 +1488,7 @@ func to_save_dict() -> Dictionary:
 		"visited_scenes": visited_scenes.duplicate(true),
 		"talked_npcs": talked_npcs.duplicate(true),
 		"collected_special_items": collected_special_items.duplicate(true),
+		"tunnel_chase_true_exit": tunnel_chase_true_exit,
 		"_last_instance_id": _last_instance_id
 	}
 
@@ -1548,6 +1554,11 @@ func load_save_dict(data: Dictionary) -> void:
 	else:
 		collected_special_items.clear()
 
+	if data.has("tunnel_chase_true_exit"):
+		tunnel_chase_true_exit = int(data["tunnel_chase_true_exit"])
+	else:
+		tunnel_chase_true_exit = 0
+
 	if data.has("_last_instance_id"):
 		_last_instance_id = data["_last_instance_id"]
 
@@ -1594,6 +1605,9 @@ func reset_for_new_game() -> void:
 	visited_scenes.clear()
 	talked_npcs.clear()
 	collected_special_items.clear()
+	tunnel_chase_true_exit = randi() % 3
+	_tunnel_chase_time_left = 180.0
+	_tunnel_chase_tried.clear()
 
 	# Emit signals
 	inventory_changed.emit()

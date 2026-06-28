@@ -4,6 +4,14 @@
 const TREE := {
 	"start": {
 		"goto": [
+			{
+				"condition": [
+					{"flag": "seven_betrayal_triggered", "op": "==", "value": true},
+					{"flag": "seven_peace_branch_d", "op": "!=", "value": true},
+					{"flag": "seven_betrayal_pending", "op": "==", "value": true}
+				],
+				"target": "betrayal_start"
+			},
 			{"condition": {"flag": "seven_peace_branch_d", "op": "==", "value": true}, "target": "retalk_d"},
 			{"condition": {"flag": "met_seven", "op": "==", "value": true}, "target": "retalk"},
 			{"target": "first_meet"}
@@ -183,5 +191,22 @@ const TREE := {
 			{"op": "add_trace", "value": -1}
 		],
 		"goto": "leave"
+	},
+
+	"betrayal_start": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_BETRAYAL_START_TEXT",
+		"choices": [
+			{"label": "DLG_SEVEN_BETRAYAL_CHOICE0", "goto": "betrayal_response"}
+		]
+	},
+
+	"betrayal_response": {
+		"speaker": "SPEAKER_SEVEN",
+		"text": "DLG_SEVEN_BETRAYAL_RESPONSE_TEXT",
+		"effect": [
+			{"op": "set_flag", "key": "deep_tunnel_opened", "value": true},
+			{"op": "travel", "scene_id": "tunnel_chase", "entry_point_id": "from_settlement"}
+		]
 	}
 }

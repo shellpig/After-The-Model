@@ -284,4 +284,15 @@ PROMPT_NIGHTCLUB_BODYGUARD,E: █ 與保全交談,E: █ 与保全交谈,E: █ 
 PROMPT_NIGHTCLUB_BAR_BOT,E: █ 擾亂酒水機器人,E: █ 扰乱酒水机器人,E: █ Tamper with Drink Bot
 PROMPT_NIGHTCLUB_BAR_BOT_EXAMINE,E: █ 查看酒水機器人,E: █ 查看酒水机器人,E: █ Examine Drink Bot
 UI_NIGHTCLUB_CHAOS_TIME,混亂時間,混乱时间,CHAOS TIME
-
+UI_TUNNEL_CALL_TIMER_TITLE,傳輸進度,传输进度,TRANSMISSION
+UI_TUNNEL_CALL_DIALING,正在撥號...,正在拨号...,Dialing...
+UI_TUNNEL_CALL_VERIFYING,驗證主機中...,验证主机中...,Verifying...
+UI_TUNNEL_CALL_CONFIRMING,傳輸加密中...,传输加密中...,Encrypting...
+UI_TUNNEL_CALL_CLOSING,連線即將成交...,连线即将成交...,Finalizing...
+PROMPT_TUNNEL_LADDER,W/S 爬梯子,W/S 爬梯子,W/S Climb Ladder
+PROMPT_TUNNEL_NEXT_AREA,E: █ 進入下一個區域,E: █ 进入下一个区域,E: █ Enter Next Area
+PROMPT_TUNNEL_EXPLORE_DEAD,E: █ 探索分支通道,E: █ 探索分支通道,E: █ Explore Branch Tunnel
+PROMPT_TUNNEL_EXIT_0,E: █ 進入光洞通道,E: █ 进入光洞通道,E: █ Enter Light Shaft Tunnel
+PROMPT_TUNNEL_EXIT_1,E: █ 進入風扇口,E: █ 进入风扇口,E: █ Enter Fan Vent
+PROMPT_TUNNEL_EXIT_2,E: █ 進入緊急出口,E: █ 进入紧急出口,E: █ Enter Emergency Exit
+PROMPT_TUNNEL_BACKTRACK,E: █ 返回前一個隧道,E: █ 返回前一个隧道,E: █ Backtrack to Previous Tunnel

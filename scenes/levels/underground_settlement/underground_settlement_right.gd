@@ -86,7 +86,13 @@ func _trigger_interaction() -> void:
 		"go_left":
 			scene_transition_requested.emit("underground_settlement", "from_right", {})
 		"deep_tunnel":
-			scene_transition_requested.emit("tunnel_combat", "from_settlement", {})
+			if GameState.get_flag("deep_tunnel_opened", false):
+				interaction_requested.emit({
+					"type": "dialogue",
+					"dialogue_id": "travel_deep_tunnel"
+				})
+			else:
+				scene_transition_requested.emit("tunnel_combat", "from_settlement", {})
 		"right_shelter", "sealed_maintenance", "water_power", "radio_noise":
 			interaction_requested.emit({
 				"type": "message",

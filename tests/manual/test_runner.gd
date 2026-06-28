@@ -11676,17 +11676,29 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	# Settle Case 24B-3 and check outputs
+	# Settle Case 24B-3 and check outputs (Idempotency test)
 	QuestManager.start("seven_betrayal")
 	var initial_seven_aff_p24b = GameState.get_flag("affinity_seven", 0)
 	var initial_wu_aff_p24b = GameState.get_flag("affinity_wu", 0)
-	SevenBetrayal_p24b.resolve_betrayal_results()
+	
+	var res_first_p24b = SevenBetrayal_p24b.resolve_betrayal_results()
+	if not res_first_p24b:
+		printerr("FAIL 24-B: first resolve_betrayal_results() call should return true!")
+		get_tree().quit(1)
+		return
+		
+	var res_second_p24b = SevenBetrayal_p24b.resolve_betrayal_results()
+	if res_second_p24b:
+		printerr("FAIL 24-B: second resolve_betrayal_results() call should return false (not idempotent)!")
+		get_tree().quit(1)
+		return
+		
 	if GameState.get_flag("seven_stopped_full", false) != true or GameState.get_flag("seven_stopped_partial", false) == true:
 		printerr("FAIL 24-B: Settle trace=2 failed stopped_full or mutual exclusion failed!")
 		get_tree().quit(1)
 		return
 	if GameState.get_flag("affinity_seven", 0) != initial_seven_aff_p24b - 2:
-		printerr("FAIL 24-B: stopped_full should reduce affinity_seven by 2!")
+		printerr("FAIL 24-B: stopped_full should reduce affinity_seven by 2, and no further on second call!")
 		get_tree().quit(1)
 		return
 	if GameState.get_flag("affinity_wu", 0) != initial_wu_aff_p24b:

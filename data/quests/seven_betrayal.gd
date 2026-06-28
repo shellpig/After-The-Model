@@ -62,7 +62,9 @@ static func get_betrayal_branch() -> String:
 	else:
 		return "stopped_full"
 
-static func resolve_betrayal_results() -> void:
+static func resolve_betrayal_results() -> bool:
+	if QuestManager.get_status("seven_betrayal") != "active":
+		return false
 	var branch = get_betrayal_branch()
 	if branch == "stopped_partial":
 		GameState.set_flag("seven_stopped_partial", true)
@@ -74,6 +76,7 @@ static func resolve_betrayal_results() -> void:
 		GameState.add_int("affinity_seven", -2)
 	GameState.set_flag("seven_betrayal_pending", false)
 	QuestManager.complete("seven_betrayal")
+	return true
 
 static func resolve_completed_note() -> Dictionary:
 	if GameState.get_flag("seven_peace_branch_d", false):

@@ -11257,8 +11257,15 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
+	captured_msg_p23c.clear()
 	nightclub_node.current_interactable = bar_bot
 	nightclub_node._trigger_interaction()
+
+	# 引發時應先跳「玩家動手腳→混亂」前置 message box
+	if captured_msg_p23c.get("message_text", "") != "MSG_NIGHTCLUB_BAR_BOT_TAMPER":
+		printerr("FAIL 23-C: distraction should first show tamper narration, got: ", captured_msg_p23c)
+		get_tree().quit(1)
+		return
 
 	if not nightclub_node._bodyguard_off_post:
 		printerr("FAIL 23-C: _bodyguard_off_post should be true after distracting bar_bot!")

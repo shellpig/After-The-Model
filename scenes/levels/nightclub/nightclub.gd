@@ -324,6 +324,27 @@ func _build_distraction_overlay() -> void:
 
 func _begin_distraction() -> void:
 	GameState.set_flag("nightclub_bar_bot_used", true)
+	# Tense BGM kicks in as the narration box appears (the track is long).
+	_play_bgm(BGM_CHAOS, 0.8)
+
+	if DisplayServer.get_name() == "headless":
+		# Skip the message-box wait; run the cinematic logic immediately so headless
+		# tests can drive the window. Still emit the tamper narration for parity.
+		interaction_requested.emit({
+			"type": "message",
+			"message_text": GameState.STORY_MESSAGES["nightclub_bar_bot_tamper"]
+		})
+		_start_distraction_cinematic()
+		return
+
+	# Narrate what the player just did, then run the cinematic once the box closes.
+	interaction_requested.emit({
+		"type": "message",
+		"message_text": GameState.STORY_MESSAGES["nightclub_bar_bot_tamper"],
+		"on_closed": Callable(self, "_start_distraction_cinematic")
+	})
+
+func _start_distraction_cinematic() -> void:
 	_bodyguard_off_post = true
 
 	var bodyguard := $Interactables.get_node_or_null("Bodyguard")
@@ -337,14 +358,12 @@ func _begin_distraction() -> void:
 	_refresh_current_interactable()
 
 	if DisplayServer.get_name() == "headless":
-		# Skip the cinematic; the window is logically open so headless tests can
-		# drive the back-door sneak or call force_resolve_distraction().
+		# The window is logically open; tests drive the sneak or force-expire it.
 		_distract_phase = DistractPhase.WINDOW
 		return
 
 	_distract_phase = DistractPhase.IMAGE
 	_set_player_locked(true)
-	_play_bgm(BGM_CHAOS, 0.8)
 	_chaos_label.visible = false
 	_countdown_label.visible = false
 	_situation_backdrop.modulate.a = 0.0

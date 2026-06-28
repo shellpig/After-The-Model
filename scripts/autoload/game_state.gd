@@ -180,6 +180,7 @@ const STORY_MESSAGES := {
 	"nightclub_examine_pass_bag_full": "MSG_NIGHTCLUB_EXAMINE_PASS_BAG_FULL",
 	"nightclub_bar_bot_pre_talk": "MSG_NIGHTCLUB_BAR_BOT_PRE_TALK",
 	"nightclub_bar_bot_used": "MSG_NIGHTCLUB_BAR_BOT_USED",
+	"nightclub_bar_bot_tamper": "MSG_NIGHTCLUB_BAR_BOT_TAMPER",
 	"nightclub_guard_returned": "MSG_NIGHTCLUB_GUARD_RETURNED"
 }
 

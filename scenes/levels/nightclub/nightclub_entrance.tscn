@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://sintnjgtu7fv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-7_upscayl_2x_upscayl-lite-4x.png" id="10_walk7"]
 [ext_resource type="Texture2D" uid="uid://bqfofe6rp4bip" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-8_upscayl_2x_upscayl-lite-4x.png" id="11_walk8"]
 [ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
+[ext_resource type="Texture2D" uid="uid://diy8l64jrpyx6" path="res://assets/generated/maps/nightclub/nightclub-entrance-20260627-073900-2.png" id="ext_foreground"]
 [ext_resource type="Texture2D" uid="uid://cil5jmxb5an1f" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-1.png" id="jumpf1"]
 [ext_resource type="Texture2D" uid="uid://1bbmomry5exp" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-2.png" id="jumpf2"]
 [ext_resource type="Texture2D" uid="uid://dlqehugvouimv" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-3.png" id="jumpf3"]
@@ -184,3 +185,8 @@ animation = &"idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=210100019]
 position = Vector2(28.181812, -4.5454493)
 shape = SubResource("RectangleShape2D_player")
+
+[node name="Foreground" type="Sprite2D" parent="." unique_id=210100022]
+z_index = 10
+texture = ExtResource("ext_foreground")
+centered = false

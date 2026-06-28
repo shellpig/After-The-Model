@@ -485,5 +485,6 @@ DLG_BODYGUARD_FAKE_IDENTITY_CHOICE,"【出示工牌】假裝自己是夜總會�
 DLG_BODYGUARD_FAKE_IDENTITY_SUCCESS_TEXT,"（保全接過舊工牌仔細端詳，刷了刷掌上終端機）……磁條居然還能用。行，進去交班吧，別磨蹭了。","（保全接过旧工牌仔细端详，刷了刷掌上终端机）……磁条居然还能用。行，进去交班吧，别磨蹭了。","(The guard takes the old pass and inspects it, swiping it on his hand-held terminal) ...The magnetic stripe actually still works. Fine, go in for your shift, quit stalling."
 DLG_BODYGUARD_FAKE_IDENTITY_FAIL_TEXT,"你說你是員工？那我怎麼沒見過你？連個工牌都拿不出來，少在這裡裝模作樣，快滾！","你说你是员工？那我怎么没见过你？连个工牌都拿不出来，少在这里装模作样，快滚！","You claim to be staff? Then why haven't I seen you? Can't even produce a pass, stop pretending and beat it!"
 DLG_BODYGUARD_LEAVE_CHOICE,"【離開】轉身走開","【离开】转身走开",Leave: Walk away
-DLG_BODYGUARD_LEAVE_TEXT,"別擋在門口礙事。","别挡在门口碍事。","Don't block the doorway."
-
+DLG_BODYGUARD_LEAVE_TEXT,別擋在門口礙事。,别挡在门口碍事。,"Don't block the doorway."
+DLG_WU_WARNING_TEXT,"（壓低聲音）七號最近怪怪的。我看到他背著大家，在跟上面的人接觸。他可能想拿聚落的一部分名單去換點什麼。你自己防著點。","（压低声音）七号最近怪怪的。我看到他背着大家，在跟上面的人接触。他可能想拿聚落的一部分名单去换点什么。你自己防着点。","(Lowers her voice) Seven has been acting strange lately. I saw him contacting the topside people behind everyone's back. He might be trying to trade a part of our registry for something. Keep your guard up."
+DLG_CEN_WARNING_TEXT,"喂，大叔。我警告你啊，七號那傢伙最近不太對勁。我看到他偷摸著在查我們的聲紋數據，好像要賣給什麼人換他妹妹的消息。你最好盯緊他。","喂，大叔。我警告你啊，七号那家伙最近不太对劲。我看到他偷摸着在查我们的声纹数据，好像要卖给什么人换他妹妹的消息。你最好盯紧他。","Hey, uncle. I'm warning you, Seven is acting really weird lately. I saw him sneaking around, copying our voiceprint data, probably to sell it for info about his sister. You'd better watch him."

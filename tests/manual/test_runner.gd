@@ -11497,6 +11497,174 @@ func _ready() -> void:
 		
 	print("PASS: Phase 23-D regression, save/load, and M1 progress integration verified.")
 
+	# ===================== Phase 24-A: 七號事件 quest 化 + 爆發 gate =====================
+	print("--- Phase 24-A: 七號事件 quest 化 + 爆發 gate ---")
+	
+	# 1. 測試任務資料與 resolver 預設分流
+	var QuestDB_p24a = load("res://data/quests/quest_db.gd")
+	var quest_data_p24a = QuestDB_p24a.get_quest_data("seven_betrayal")
+	if quest_data_p24a == null:
+		printerr("FAIL 24-A: seven_betrayal quest data not registered in QuestDB!")
+		get_tree().quit(1)
+		return
+	
+	# 模擬 resolve_completed_note 分支
+	# A: 預設/成功攔下
+	GameState.reset_for_new_game()
+	var note_full_p24a = quest_data_p24a.resolve_completed_note()
+	if note_full_p24a.get("title", "") != "QUEST_SEVEN_BETRAYAL_COMPLETED_FULL_TITLE":
+		printerr("FAIL 24-A: resolve_completed_note() should return full completion note by default!")
+		get_tree().quit(1)
+		return
+		
+	# B: 部分攔下
+	GameState.set_flag("seven_stopped_partial", true)
+	var note_partial_p24a = quest_data_p24a.resolve_completed_note()
+	if note_partial_p24a.get("title", "") != "QUEST_SEVEN_BETRAYAL_COMPLETED_PARTIAL_TITLE":
+		printerr("FAIL 24-A: resolve_completed_note() should return partial completion note when seven_stopped_partial is true!")
+		get_tree().quit(1)
+		return
+		
+	# D: 和平線
+	GameState.set_flag("seven_stopped_partial", false)
+	GameState.set_flag("seven_peace_branch_d", true)
+	var note_peace_p24a = quest_data_p24a.resolve_completed_note()
+	if note_peace_p24a.get("title", "") != "QUEST_SEVEN_BETRAYAL_COMPLETED_PEACE_TITLE":
+		printerr("FAIL 24-A: resolve_completed_note() should return peace completion note when seven_peace_branch_d is true!")
+		get_tree().quit(1)
+		return
+	
+	# 2. 測試爆發 gate
+	# A: 未通關夜總會 -> 不爆發
+	GameState.reset_for_new_game()
+	var level_p24a = load("res://scenes/levels/underground_settlement/underground_settlement_right.tscn").instantiate()
+	add_child(level_p24a)
+	level_p24a.set_entry_point("from_left")
+	if GameState.get_flag("seven_betrayal_triggered", false):
+		printerr("FAIL 24-A: betrayal should not trigger before nightclub security is passed!")
+		get_tree().quit(1)
+		return
+	remove_child(level_p24a)
+	level_p24a.free()
+	
+	# B: 已通關夜總會，未走 D -> 爆發
+	GameState.reset_for_new_game()
+	GameState.set_flag("passed_nightclub_security", true)
+	level_p24a = load("res://scenes/levels/underground_settlement/underground_settlement_right.tscn").instantiate()
+	add_child(level_p24a)
+	level_p24a.set_entry_point("from_left")
+	if not GameState.get_flag("seven_betrayal_triggered", false) or not GameState.get_flag("seven_betrayal_pending", false):
+		printerr("FAIL 24-A: betrayal trigger gate failed to activate seven_betrayal_triggered/pending!")
+		get_tree().quit(1)
+		return
+	if QuestManager.get_status("seven_betrayal") != "active":
+		printerr("FAIL 24-A: seven_betrayal quest should be active after trigger!")
+		get_tree().quit(1)
+		return
+	remove_child(level_p24a)
+	level_p24a.free()
+	
+	# C: 已通關夜總會，已走 D -> 不爆發
+	GameState.reset_for_new_game()
+	GameState.set_flag("passed_nightclub_security", true)
+	GameState.set_flag("seven_peace_branch_d", true)
+	level_p24a = load("res://scenes/levels/underground_settlement/underground_settlement_right.tscn").instantiate()
+	add_child(level_p24a)
+	level_p24a.set_entry_point("from_left")
+	if GameState.get_flag("seven_betrayal_triggered", false):
+		printerr("FAIL 24-A: betrayal should not trigger when seven_peace_branch_d is true!")
+		get_tree().quit(1)
+		return
+	remove_child(level_p24a)
+	level_p24a.free()
+	
+	# 3. 驗證 i18n 翻譯（測試 M2 系統是否可正確 resolve）
+	for loc_p24a in ["zh_TW", "zh_CN", "en"]:
+		TranslationServer.set_locale(loc_p24a)
+		var tr_title = tr("QUEST_SEVEN_BETRAYAL_STEP_STARTED_TITLE")
+		if tr_title == "QUEST_SEVEN_BETRAYAL_STEP_STARTED_TITLE" or tr_title.is_empty():
+			printerr("FAIL 24-A: missing translation for QUEST_SEVEN_BETRAYAL_STEP_STARTED_TITLE in locale: " + loc_p24a)
+			get_tree().quit(1)
+			return
+	
+	# 還原 locale 到 zh_TW
+	TranslationServer.set_locale("zh_TW")
+	
+	print("PASS: Phase 24-A questification and trigger gate verified.")
+
+	# ===================== Phase 24-B: 分支判定 + 伍姐 / 小岑提前警告 =====================
+	print("--- Phase 24-B: 分支判定 + 伍姐 / 小岑提前警告 ---")
+	
+	# 1. 驗證對話樹是否有 warning 節點
+	var wu_tree_p24b = load("res://data/dialogue/wu.gd").TREE
+	if not wu_tree_p24b.has("warning"):
+		printerr("FAIL 24-B: wu.gd missing 'warning' node!")
+		get_tree().quit(1)
+		return
+	var cen_tree_p24b = load("res://data/dialogue/cen.gd").TREE
+	if not cen_tree_p24b.has("warning"):
+		printerr("FAIL 24-B: cen.gd missing 'warning' node!")
+		get_tree().quit(1)
+		return
+		
+	# 2. 模擬 DialogueRunner 評估警告條件 (Wu)
+	var runner_wu_p24b = load("res://scripts/dialogue/dialogue_runner.gd").new()
+	# Case 24B-1: met_wu=true, affinity_wu=2, heard_wu_warning=false -> goto warning
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_wu", true)
+	GameState.set_flag("affinity_wu", 2)
+	runner_wu_p24b.start(wu_tree_p24b)
+	if runner_wu_p24b._current_node_id != "warning":
+		printerr("FAIL 24-B: Wu dialogue should route to 'warning' when met_wu=true and affinity_wu=2!")
+		get_tree().quit(1)
+		return
+	
+	# 推進對話，確認設了 heard_wu_warning 並進入 retalk
+	runner_wu_p24b.advance() # 進入 warning node 會執行 set_flag heard_wu_warning
+	if GameState.get_flag("heard_wu_warning", false) != true:
+		printerr("FAIL 24-B: heard_wu_warning flag not set after warning node!")
+		get_tree().quit(1)
+		return
+		
+	# Case 24B-2: met_wu=true, affinity_wu=2, heard_wu_warning=true -> goto retalk
+	var runner_wu_retalk_p24b = load("res://scripts/dialogue/dialogue_runner.gd").new()
+	runner_wu_retalk_p24b.start(wu_tree_p24b)
+	if runner_wu_retalk_p24b._current_node_id != "retalk":
+		printerr("FAIL 24-B: Wu dialogue should route to 'retalk' when warning already heard!")
+		get_tree().quit(1)
+		return
+
+	# 3. 模擬 DialogueRunner 評估警告條件 (Cen)
+	var runner_cen_p24b = load("res://scripts/dialogue/dialogue_runner.gd").new()
+	GameState.reset_for_new_game()
+	GameState.set_flag("met_cen", true)
+	GameState.set_flag("affinity_cen", 2)
+	runner_cen_p24b.start(cen_tree_p24b)
+	if runner_cen_p24b._current_node_id != "warning":
+		printerr("FAIL 24-B: Cen dialogue should route to 'warning' when met_cen=true and affinity_cen=2!")
+		get_tree().quit(1)
+		return
+	runner_cen_p24b.advance()
+	if GameState.get_flag("heard_cen_warning", false) != true:
+		printerr("FAIL 24-B: heard_cen_warning flag not set after warning node!")
+		get_tree().quit(1)
+		return
+
+	# 4. 驗證對話 i18n 翻譯是否齊全
+	for loc_p24b in ["zh_TW", "zh_CN", "en"]:
+		TranslationServer.set_locale(loc_p24b)
+		for key_p24b in ["DLG_WU_WARNING_TEXT", "DLG_CEN_WARNING_TEXT"]:
+			var tr_text = tr(key_p24b)
+			if tr_text == key_p24b or tr_text.is_empty():
+				printerr("FAIL 24-B: missing translation for " + key_p24b + " in locale: " + loc_p24b)
+				get_tree().quit(1)
+				return
+				
+	# 還原 locale
+	TranslationServer.set_locale("zh_TW")
+	
+	print("PASS: Phase 24-B warning dialogues and routing verified.")
+
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")

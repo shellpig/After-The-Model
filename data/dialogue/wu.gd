@@ -4,9 +4,26 @@
 const TREE := {
 	"start": {
 		"goto": [
+			{
+				"condition": [
+					{"flag": "met_wu", "op": "==", "value": true},
+					{"flag": "affinity_wu", "op": ">=", "value": 2},
+					{"flag": "heard_wu_warning", "op": "!=", "value": true}
+				],
+				"target": "warning"
+			},
 			{"condition": {"flag": "met_wu", "op": "==", "value": true}, "target": "retalk"},
 			{"target": "first_meet"}
 		]
+	},
+
+	"warning": {
+		"speaker": "SPEAKER_WU",
+		"text": "DLG_WU_WARNING_TEXT",
+		"effect": [
+			{"op": "set_flag", "key": "heard_wu_warning", "value": true}
+		],
+		"goto": "retalk"
 	},
 
 	"first_meet": {

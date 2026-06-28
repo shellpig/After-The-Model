@@ -36,6 +36,7 @@ func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 		player.global_position = spawn.global_position
 	player.anim.play("idle")
 	_update_camera()
+	_maybe_trigger_betrayal()
 
 func _ready() -> void:
 	SaveSystem.can_save_here = true
@@ -145,3 +146,14 @@ func _get_interactable_position(interactable: Area2D) -> Vector2:
 		return collision_shape.global_position
 
 	return interactable.global_position
+
+func _maybe_trigger_betrayal() -> void:
+	if not GameState.get_flag("passed_nightclub_security", false):
+		return
+	if GameState.get_flag("seven_betrayal_triggered", false):
+		return
+	if GameState.get_flag("seven_peace_branch_d", false):
+		return
+	GameState.set_flag("seven_betrayal_triggered", true)
+	GameState.set_flag("seven_betrayal_pending", true)
+	QuestManager.start("seven_betrayal")

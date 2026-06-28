@@ -54,10 +54,34 @@ const WORK_NOTES_COMPLETED := {
 	}
 }
 
+static func get_betrayal_branch() -> String:
+	var got_warning := GameState.get_trust("wu") >= 2 or GameState.get_trust("cen") >= 2
+	var trace_high := GameState.get_trace() >= TRACE_BETRAYAL_THRESHOLD
+	if trace_high and not got_warning:
+		return "stopped_partial"
+	else:
+		return "stopped_full"
+
+static func resolve_betrayal_results() -> void:
+	var branch = get_betrayal_branch()
+	if branch == "stopped_partial":
+		GameState.set_flag("seven_stopped_partial", true)
+		GameState.set_flag("cen_voiceprint_exposed", true)
+		GameState.add_int("affinity_seven", -1)
+		GameState.add_int("affinity_wu", -1)
+	else:
+		GameState.set_flag("seven_stopped_full", true)
+		GameState.add_int("affinity_seven", -2)
+	GameState.set_flag("seven_betrayal_pending", false)
+	QuestManager.complete("seven_betrayal")
+
 static func resolve_completed_note() -> Dictionary:
 	if GameState.get_flag("seven_peace_branch_d", false):
 		return WORK_NOTES_COMPLETED["peace_branch_d"]
 	elif GameState.get_flag("seven_stopped_partial", false):
 		return WORK_NOTES_COMPLETED["stopped_partial"]
-	else:
+	elif GameState.get_flag("seven_stopped_full", false):
 		return WORK_NOTES_COMPLETED["stopped_full"]
+	else:
+		var branch = get_betrayal_branch()
+		return WORK_NOTES_COMPLETED[branch]

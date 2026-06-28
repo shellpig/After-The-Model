@@ -11663,7 +11663,99 @@ func _ready() -> void:
 	# 還原 locale
 	TranslationServer.set_locale("zh_TW")
 	
+	# 5. 驗證 24-B 分支判定公式與攔截結算
+	var SevenBetrayal_p24b = load("res://data/quests/seven_betrayal.gd")
+	
+	# Case 24B-3: trace = 2, no warning -> Branch A (stopped_full)
+	GameState.reset_for_new_game()
+	GameState.add_trace(2)
+	GameState.set_flag("affinity_wu", 0)
+	GameState.set_flag("affinity_cen", 0)
+	if SevenBetrayal_p24b.get_betrayal_branch() != "stopped_full":
+		printerr("FAIL 24-B: trace=2 should result in stopped_full!")
+		get_tree().quit(1)
+		return
+		
+	# Settle Case 24B-3 and check outputs
+	QuestManager.start("seven_betrayal")
+	var initial_seven_aff_p24b = GameState.get_flag("affinity_seven", 0)
+	var initial_wu_aff_p24b = GameState.get_flag("affinity_wu", 0)
+	SevenBetrayal_p24b.resolve_betrayal_results()
+	if GameState.get_flag("seven_stopped_full", false) != true or GameState.get_flag("seven_stopped_partial", false) == true:
+		printerr("FAIL 24-B: Settle trace=2 failed stopped_full or mutual exclusion failed!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_seven", 0) != initial_seven_aff_p24b - 2:
+		printerr("FAIL 24-B: stopped_full should reduce affinity_seven by 2!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_wu", 0) != initial_wu_aff_p24b:
+		printerr("FAIL 24-B: stopped_full should not change affinity_wu!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("seven_betrayal_pending", false) == true:
+		printerr("FAIL 24-B: betrayal_pending should be false after resolution!")
+		get_tree().quit(1)
+		return
+	if QuestManager.get_status("seven_betrayal") != "completed":
+		printerr("FAIL 24-B: seven_betrayal quest should be completed after resolution!")
+		get_tree().quit(1)
+		return
+		
+	# Case 24B-4: trace = 3, no warning -> Branch B (stopped_partial)
+	GameState.reset_for_new_game()
+	GameState.add_trace(3)
+	GameState.set_flag("affinity_wu", 0)
+	GameState.set_flag("affinity_cen", 0)
+	if SevenBetrayal_p24b.get_betrayal_branch() != "stopped_partial":
+		printerr("FAIL 24-B: trace=3 without warnings should result in stopped_partial!")
+		get_tree().quit(1)
+		return
+		
+	# Settle Case 24B-4 and check outputs
+	QuestManager.start("seven_betrayal")
+	initial_seven_aff_p24b = GameState.get_flag("affinity_seven", 0)
+	initial_wu_aff_p24b = GameState.get_flag("affinity_wu", 0)
+	SevenBetrayal_p24b.resolve_betrayal_results()
+	if GameState.get_flag("seven_stopped_partial", false) != true or GameState.get_flag("seven_stopped_full", false) == true:
+		printerr("FAIL 24-B: Settle trace=3 failed stopped_partial or mutual exclusion failed!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("cen_voiceprint_exposed", false) != true:
+		printerr("FAIL 24-B: stopped_partial should expose Cen's voiceprint!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_seven", 0) != initial_seven_aff_p24b - 1:
+		printerr("FAIL 24-B: stopped_partial should reduce affinity_seven by 1!")
+		get_tree().quit(1)
+		return
+	if GameState.get_flag("affinity_wu", 0) != initial_wu_aff_p24b - 1:
+		printerr("FAIL 24-B: stopped_partial should reduce affinity_wu by 1!")
+		get_tree().quit(1)
+		return
+
+	# Case 24B-5: trace = 3, wu warning -> Branch A (stopped_full)
+	GameState.reset_for_new_game()
+	GameState.add_trace(3)
+	GameState.set_flag("affinity_wu", 2)
+	GameState.set_flag("affinity_cen", 0)
+	if SevenBetrayal_p24b.get_betrayal_branch() != "stopped_full":
+		printerr("FAIL 24-B: trace=3 with wu warning should result in stopped_full!")
+		get_tree().quit(1)
+		return
+
+	# Case 24B-6: trace = 3, cen warning -> Branch A (stopped_full)
+	GameState.reset_for_new_game()
+	GameState.add_trace(3)
+	GameState.set_flag("affinity_wu", 0)
+	GameState.set_flag("affinity_cen", 2)
+	if SevenBetrayal_p24b.get_betrayal_branch() != "stopped_full":
+		printerr("FAIL 24-B: trace=3 with cen warning should result in stopped_full!")
+		get_tree().quit(1)
+		return
+	
 	print("PASS: Phase 24-B warning dialogues and routing verified.")
+	print("PASS: Phase 24-B branch formula boundary and settlement verified.")
 
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")

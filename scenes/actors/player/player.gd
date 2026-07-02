@@ -293,6 +293,15 @@ func apply_knockback(push_dir: float, distance: float, stagger_time: float) -> v
 		return
 	_staggered = true
 	_stagger_t = stagger_time
+	# Cancel an in-flight jump / attack outright (same as the UIMode-block branch)
+	# so the arc / swing doesn't invisibly resume after the stagger ends.
+	if _jumping:
+		_jumping = false
+		_jump_t = 0.0
+	if _attacking:
+		_attacking = false
+		_attack_t = 0.0
+		_attack_impact_emitted = false
 	position.x = clamp(position.x + push_dir * distance, min_x, max_x)
 	velocity = Vector2.ZERO
 

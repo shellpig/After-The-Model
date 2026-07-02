@@ -36,6 +36,10 @@ func _ready() -> void:
 	_start_moving()
 
 func _physics_process(delta: float) -> void:
+	# Freeze (patrol + stun timers) while any UI is open, matching the player's
+	# UIMode freeze.
+	if UIMode.is_world_input_blocked():
+		return
 	if _defeated:
 		return
 	if _stunned:

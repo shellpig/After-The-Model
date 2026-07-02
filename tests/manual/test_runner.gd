@@ -6586,6 +6586,9 @@ func _ready() -> void:
 	print("PASS 13-B: can_format() == false when not stunned.")
 
 	# Enter stun (PRONE) state
+	# 25-B 起敵人 _physics_process 在 UIMode != NONE 時凍結；先確保前置為 NONE，
+	# 否則前面測試殘留的 UI mode 會擋住 FALL -> PRONE 狀態機推進。
+	UIMode.set_mode(UIMode.Mode.NONE)
 	walker_13b.apply_stun(99.0)
 	for _f13b in range(10):
 		await get_tree().process_frame
@@ -12396,6 +12399,8 @@ func _ready() -> void:
 	print("PASS 25-B: SecurityGuard can_format()==false and apply_stun() is a no-op.")
 
 	# 3. 人類保全最小追擊：朝玩家 x 移動（唯一新做的 AI）
+	# 敵人 _physics_process 在 UIMode != NONE 時凍結；先確保前置為 NONE。
+	UIMode.set_mode(UIMode.Mode.NONE)
 	guard_phase25b.global_position = Vector2(3300.0, 800.0)
 	backup_player_phase25b.global_position = Vector2(2800.0, 800.0)
 	var guard_x_before_phase25b: float = guard_phase25b.global_position.x
@@ -12425,6 +12430,39 @@ func _ready() -> void:
 		return
 	print("PASS 25-B: SecurityGuard contact staggers + knocks back the player (no failure flag).")
 
+	# 4b. UI 開啟（背包 / 筆記等）時保全凍結，不得追擊位移（比照 player 的 UIMode 凍結）
+	UIMode.set_mode(UIMode.Mode.INVENTORY)
+	guard_phase25b.global_position = Vector2(3300.0, 800.0)
+	backup_player_phase25b.global_position = Vector2(2800.0, 690.0)
+	var guard_x_ui_frozen_phase25b: float = guard_phase25b.global_position.x
+	guard_phase25b._physics_process(0.5)
+	if guard_phase25b.global_position.x != guard_x_ui_frozen_phase25b:
+		printerr("FAIL 25-B: SecurityGuard must freeze (no chase) while a UI mode is open!")
+		get_tree().quit(1)
+		return
+	UIMode.set_mode(UIMode.Mode.NONE)
+	print("PASS 25-B: SecurityGuard freezes while UI is open (no chase displacement).")
+
+	# 4c. knockback 直接取消跳躍 / 攻擊狀態（stagger 結束後不得隱形續播弧線 / 揮擊）
+	backup_player_phase25b._staggered = false
+	backup_player_phase25b._stagger_t = 0.0
+	backup_player_phase25b._jumping = true
+	backup_player_phase25b._jump_t = 0.2
+	backup_player_phase25b._attacking = true
+	backup_player_phase25b._attack_t = 0.3
+	backup_player_phase25b.apply_knockback(1.0, 90.0, 0.5)
+	if backup_player_phase25b.is_jumping() or backup_player_phase25b.is_attacking():
+		printerr("FAIL 25-B: apply_knockback must cancel in-flight jump / attack state!")
+		get_tree().quit(1)
+		return
+	if not backup_player_phase25b.is_staggered():
+		printerr("FAIL 25-B: apply_knockback should still stagger the player when cancelling jump / attack!")
+		get_tree().quit(1)
+		return
+	backup_player_phase25b._staggered = false
+	backup_player_phase25b._stagger_t = 0.0
+	print("PASS 25-B: apply_knockback cancels in-flight jump / attack state.")
+
 	# 5. 勝利條件：抵達右端門 x → 轉場核心（沿用既有 exit_to_core interactable，見 25-A）
 	var exit_to_core_phase25b = backup_inst_phase25b.get_node("Interactables/ExitToCoreArea")
 	backup_inst_phase25b.current_interactable = exit_to_core_phase25b
@@ -12447,6 +12485,18 @@ func _ready() -> void:
 	print("PASS 25-B: datacenter_backup keeps can_save_here == false.")
 
 	backup_inst_phase25b.free()
+	await get_tree().process_frame
+
+	# 6b. 離開戰鬥廊道進核心：can_save_here 恢復 true（core _ready 設定）
+	var core_save_inst_phase25b = load("res://scenes/levels/datacenter_backup_core/datacenter_backup_core.tscn").instantiate()
+	add_child(core_save_inst_phase25b)
+	await get_tree().process_frame
+	if not SaveSystem.can_save_here:
+		printerr("FAIL 25-B: entering datacenter_backup_core must restore can_save_here == true!")
+		get_tree().quit(1)
+		return
+	print("PASS 25-B: datacenter_backup_core restores can_save_here == true.")
+	core_save_inst_phase25b.free()
 	await get_tree().process_frame
 
 	# 7. 非戰鬥場景：attack 無副作用（combat_mode 預設 false，apartment 房間攻擊鍵不觸發攻擊）

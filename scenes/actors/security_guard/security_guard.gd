@@ -31,6 +31,11 @@ func _ready() -> void:
 	anim.play("idle")
 
 func _physics_process(delta: float) -> void:
+	# Freeze while any UI (inventory / notebook / message...) is open, matching the
+	# player's own UIMode freeze so the guard can't shove a menu-locked player.
+	if UIMode.is_world_input_blocked():
+		anim.play("idle")
+		return
 	_cooldown_t = max(0.0, _cooldown_t - delta)
 	if _player == null or not is_instance_valid(_player):
 		return

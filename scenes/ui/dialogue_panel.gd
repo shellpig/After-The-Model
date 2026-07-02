@@ -43,7 +43,7 @@ func start_dialogue(dialogue_id: String) -> void:
 	_runner.start(tree)
 
 	# Load character portrait dynamically
-	if dialogue_id == "wan":
+	if dialogue_id == "wan" or dialogue_id == "wan_datacenter":
 		var img_path = "res://assets/generated/sprites/wan/dialogue_portrait/wan-dialogue-portrait-20260607-100732/portrait.png"
 		if ResourceLoader.exists(img_path):
 			portrait_rect.texture = load(img_path)
@@ -77,6 +77,12 @@ func start_dialogue(dialogue_id: String) -> void:
 		var img_path = "res://assets/generated/sprites/seven/dialogue_portrait/seven-dialogue-portrait-idle-match-right-20260621-214200/portrait.png"
 		if ResourceLoader.exists(img_path):
 			portrait_rect.texture = load(img_path)
+		else:
+			portrait_rect.texture = null
+	elif dialogue_id == "ada":
+		var ada_img_path = "res://assets/generated/sprites/ada/dialogue_portrait/ada-dialogue-portrait-from-concept-20260702-201200/portrait.png"
+		if ResourceLoader.exists(ada_img_path):
+			portrait_rect.texture = load(ada_img_path)
 		else:
 			portrait_rect.texture = null
 	elif dialogue_id == "nightclub_bodyguard":

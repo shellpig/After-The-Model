@@ -18,6 +18,9 @@
 [ext_resource type="Texture2D" uid="uid://cqlevyto1pcct" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="16_jump4"]
 [ext_resource type="Texture2D" uid="uid://dr0483468d6l7" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="17_jump5"]
 [ext_resource type="Texture2D" uid="uid://xvrwlgw2fiwr" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="18_jump6"]
+[ext_resource type="Script" path="res://scripts/components/npc_auto_dialogue_area.gd" id="19_npc_auto_dialogue"]
+[ext_resource type="Texture2D" uid="uid://bhgfvr24iqkvh" path="res://assets/generated/sprites/wan/idle_glance/wan-idle-glance-20260616-225800/hires_1024/final_normalized/01_idle.png" id="20_wan_idle"]
+[ext_resource type="Texture2D" uid="uid://y2yn6nae23a4" path="res://assets/generated/sprites/ada/idle/ada-idle-from-concept-20260702-203842/idle.png" id="21_ada_idle"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(1376, 16)
@@ -30,6 +33,40 @@ size = Vector2(140, 220)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_flavor"]
 size = Vector2(90, 140)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wan_datacenter"]
+size = Vector2(120, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wan_pull_trigger"]
+size = Vector2(160, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wan_datacenter"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_wan_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ada"]
+size = Vector2(120, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ada_trigger"]
+size = Vector2(160, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ada"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_ada_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -157,6 +194,59 @@ prompt_text = "PROMPT_DATACENTER_ENTRANCE_DELIVERY_BOT"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/DeliveryBotArea"]
 position = Vector2(500, 665)
 shape = SubResource("RectangleShape2D_flavor")
+
+[node name="AdaNPC" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "talk_ada"
+prompt_text = "PROMPT_TALK"
+dialogue_id = "ada"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/AdaNPC"]
+position = Vector2(300, 700)
+shape = SubResource("RectangleShape2D_ada")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Interactables/AdaNPC"]
+position = Vector2(300, 640)
+scale = Vector2(0.24, 0.23)
+sprite_frames = SubResource("SpriteFrames_ada")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="AdaTriggerArea" type="Area2D" parent="Interactables"]
+script = ExtResource("19_npc_auto_dialogue")
+dialogue_id = "ada"
+seen_flag = "ada_final_words_seen"
+require_flag = "read_old_work_order"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/AdaTriggerArea"]
+position = Vector2(280, 700)
+shape = SubResource("RectangleShape2D_ada_trigger")
+
+[node name="WanDatacenterNPC" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "talk_wan_datacenter"
+prompt_text = "PROMPT_TALK"
+dialogue_id = "wan_datacenter"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WanDatacenterNPC"]
+position = Vector2(620, 700)
+shape = SubResource("RectangleShape2D_wan_datacenter")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Interactables/WanDatacenterNPC"]
+position = Vector2(620, 640)
+scale = Vector2(0.24, 0.23)
+sprite_frames = SubResource("SpriteFrames_wan_datacenter")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="WanPullTriggerArea" type="Area2D" parent="Interactables"]
+script = ExtResource("19_npc_auto_dialogue")
+dialogue_id = "wan_datacenter"
+seen_flag = "wan_act4_pull_seen"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WanPullTriggerArea"]
+position = Vector2(590, 700)
+shape = SubResource("RectangleShape2D_wan_pull_trigger")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(120, 700)

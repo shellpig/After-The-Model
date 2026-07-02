@@ -4,6 +4,8 @@ class_name DialogueDB
 
 
 const WanDialogue = preload("res://data/dialogue/wan.gd")
+const WanDatacenterDialogue = preload("res://data/dialogue/wan_datacenter.gd")
+const AdaDialogue = preload("res://data/dialogue/ada.gd")
 const StoreRobotDialogue = preload("res://data/dialogue/store_robot.gd")
 const StoreRegistryHostDialogue = preload("res://data/dialogue/store_registry_host.gd")
 const TravelStreetEastDialogue = preload("res://data/dialogue/travel_street_east.gd")
@@ -18,6 +20,8 @@ const NightclubBodyguardDialogue = preload("res://data/dialogue/nightclub_bodygu
 
 const TREES := {
 	"wan": WanDialogue.TREE,
+	"wan_datacenter": WanDatacenterDialogue.TREE,
+	"ada": AdaDialogue.TREE,
 	"store_robot": StoreRobotDialogue.TREE,
 	"store_registry_host": StoreRegistryHostDialogue.TREE,
 	"travel_street_east": TravelStreetEastDialogue.TREE,

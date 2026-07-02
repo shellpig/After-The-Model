@@ -13,11 +13,13 @@ const BGM_PATH := "res://assets/bgm/The Cold Mirror (Loop).mp3"
 
 @onready var player: CharacterBody2D = $Player
 @onready var camera: Camera2D = $Camera2D
+@onready var ada_npc: Area2D = $Interactables.get_node_or_null("AdaNPC")
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
 var _entry_point_id: String = "from_nightclub"
 var _entry_payload: Dictionary = {}
+var _ada_faded: bool = false
 
 func prepare_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "from_nightclub"
@@ -37,14 +39,54 @@ func _ready() -> void:
 	if main and main.has_method("play_bgm"):
 		main.play_bgm(BGM_PATH)
 
+	_setup_ada()
+
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)
 	player.anim.play("idle")
 	_refresh_current_interactable()
 
+# Phase 26-B: 阿達④順序護欄——已看過永久消失；未看過但工單尚未揭露（③早於④）本趟也不登場。
+func _setup_ada() -> void:
+	if GameState.get_flag("ada_final_words_seen", false):
+		_ada_faded = true
+	elif GameState.get_flag("read_old_work_order", false):
+		return
+
+	if ada_npc != null:
+		ada_npc.free()
+		ada_npc = null
+	var ada_trigger := $Interactables.get_node_or_null("AdaTriggerArea")
+	if ada_trigger != null:
+		ada_trigger.free()
+
+# Phase 26-B: 對話結束（UIMode 回 NONE 且旗標已設）→ 淡出並永久停用 AdaNPC / 觸發區。
+func _update_ada_fade() -> void:
+	if _ada_faded or ada_npc == null:
+		return
+	if not GameState.get_flag("ada_final_words_seen", false):
+		return
+	if UIMode.get_mode() != UIMode.Mode.NONE:
+		return
+
+	_ada_faded = true
+	var ada_trigger := $Interactables.get_node_or_null("AdaTriggerArea")
+	if ada_trigger != null:
+		ada_trigger.free()
+
+	var npc_to_fade := ada_npc
+	ada_npc = null
+	var tween := create_tween()
+	tween.tween_property(npc_to_fade, "modulate:a", 0.0, 1.0)
+	tween.tween_callback(func():
+		if is_instance_valid(npc_to_fade):
+			npc_to_fade.queue_free()
+	)
+
 func _process(_delta: float) -> void:
 	_update_camera()
+	_update_ada_fade()
 
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
@@ -68,6 +110,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		_trigger_interaction()
 
 func _trigger_interaction() -> void:
+	if current_interactable.dialogue_id != "":
+		interaction_requested.emit({
+			"type": "dialogue",
+			"dialogue_id": current_interactable.dialogue_id
+		})
+		return
+
 	match current_interactable.interaction_id:
 		"exit_to_nightclub":
 			scene_transition_requested.emit("nightclub_entrance", "from_datacenter", {})

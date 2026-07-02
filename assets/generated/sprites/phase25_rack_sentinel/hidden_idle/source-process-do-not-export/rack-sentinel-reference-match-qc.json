@@ -1,0 +1,45 @@
+{
+  "target": "idle.png",
+  "source_reference": "assets/generated/sprites/phase25_enemy_concepts/phase25-rack-sentinel-concept.png",
+  "raw": "assets\\generated\\sprites\\phase25_rack_sentinel\\hidden_idle\\source-process-do-not-export\\rack-sentinel-hidden-idle-reference-match-raw-20260702.png",
+  "raw_size": [
+    1024,
+    1536
+  ],
+  "raw_content_bbox": [
+    265,
+    81,
+    759,
+    1449
+  ],
+  "removed_hot_magenta_bg_pixels": 1068465,
+  "magenta_edge_pixels_before": 4043,
+  "magenta_edge_pixels_after": 0,
+  "recolored_to_ink_black": 4043,
+  "external_outline_pixels_added": 4024,
+  "key_line_pixels_darkened": 22348,
+  "output_size": [
+    1024,
+    1024
+  ],
+  "output_bbox": [
+    355,
+    87,
+    668,
+    949
+  ],
+  "ink_black_rgb": [
+    18,
+    14,
+    22
+  ],
+  "identity_locked_features": [
+    "tall white armored tower body",
+    "horizontal orange sensor slit",
+    "black front vent grille",
+    "lower exposed black mechanical column",
+    "dark side armor plate",
+    "tracked base with purple light strip",
+    "top rear antenna"
+  ]
+}

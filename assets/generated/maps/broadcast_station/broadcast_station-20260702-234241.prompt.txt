@@ -1,0 +1,10 @@
+An asymmetrical, non-repeating 32:9 panoramic 2D side-scroller game level background, depicting an isolated underground broadcast station. Orthographic flat 2D cross-section view, strict 2D side-view, no perspective lines, no 3D depth, no vanishing point. 
+
+The horizontal layout is strictly asymmetrical from left to right, divided into three distinct zones:
+- Left Zone (Entrance Point): A single heavy, rusted metal bulkhead security door on the concrete wall, representing the sealed entry point. There are NO stairs or secondary exits. The ground here is empty and flat, serving as the clean starting point for the player.
+- Middle-Right Zone (Key Facility): A single central broadcasting console desk (non-repeating). It has vintage CRT monitors showing glowing lines, a classic radio microphone on a boom arm, and a complex transmitter rack with tangled patch cables. This is the main focus area.
+- Far-Right Zone (Corner): The room ends at a solid concrete wall. This corner is filled with cluttered junk, stacked cardboard boxes, defunct electronic parts, and dust, leaving the interactive desk slightly away from the far edge.
+
+A single dramatic spotlight shines down on the middle-right console desk, casting heavy black shadows (chiaroscuro, Mignola style) to the left and right sides. 
+
+Art style: 2030s cheap cyberpunk zine aesthetic. Hand-drawn ink outlines with varying thickness, visible halftone dots, and risograph print offset texture. Limited color palette: deep teal, ink purple-black, and gray-blue as base colors, with small luminous accents of cold cyan and faded orange. No pure white, no pure black, faded paper texture.

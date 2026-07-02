@@ -64,7 +64,7 @@ const SCENES := {
 	"nightclub_entrance": {
 		"path": "res://scenes/levels/nightclub/nightclub_entrance.tscn",
 		"default_entry_point_id": "from_street",
-		"entry_points": ["from_street", "from_lobby"],
+		"entry_points": ["from_street", "from_lobby", "from_datacenter"],
 		"music_id": "nightclub_front"
 	},
 	"nightclub": {
@@ -90,6 +90,24 @@ const SCENES := {
 		"default_entry_point_id": "from_left",
 		"entry_points": ["from_left"],
 		"music_id": "underground_settlement"
+	},
+	"datacenter_entrance": {
+		"path": "res://scenes/levels/datacenter_entrance/datacenter_entrance.tscn",
+		"default_entry_point_id": "from_nightclub",
+		"entry_points": ["from_nightclub", "from_backup"],
+		"music_id": "datacenter_entrance"
+	},
+	"datacenter_backup": {
+		"path": "res://scenes/levels/datacenter_backup/datacenter_backup.tscn",
+		"default_entry_point_id": "from_entrance",
+		"entry_points": ["from_entrance", "from_core"],
+		"music_id": "datacenter_backup"
+	},
+	"datacenter_backup_core": {
+		"path": "res://scenes/levels/datacenter_backup_core/datacenter_backup_core.tscn",
+		"default_entry_point_id": "from_backup",
+		"entry_points": ["from_backup"],
+		"music_id": "datacenter_entrance"
 	}
 }
 

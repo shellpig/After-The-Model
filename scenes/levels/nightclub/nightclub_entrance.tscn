@@ -129,6 +129,9 @@ position = Vector2(120, 655)
 [node name="from_lobby" type="Marker2D" parent="SpawnPoints" unique_id=210100009]
 position = Vector2(1200, 655)
 
+[node name="from_datacenter" type="Marker2D" parent="SpawnPoints" unique_id=210100023]
+position = Vector2(850, 655)
+
 [node name="Interactables" type="Node2D" parent="." unique_id=210100010]
 
 [node name="ExitToStreetArea" type="Area2D" parent="Interactables" unique_id=210100011]
@@ -156,6 +159,15 @@ prompt_text = "PROMPT_NIGHTCLUB_BIOMETRIC_GATE"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/BiometricGateArea" unique_id=210100016]
 position = Vector2(635, 635)
+shape = SubResource("RectangleShape2D_door")
+
+[node name="TravelDatacenterArea" type="Area2D" parent="Interactables" unique_id=210100024]
+script = ExtResource("3_interactable")
+prompt_text = "PROMPT_NIGHTCLUB_ENTRANCE_TRAVEL_DATACENTER"
+dialogue_id = "travel_datacenter"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TravelDatacenterArea" unique_id=210100025]
+position = Vector2(850, 635)
 shape = SubResource("RectangleShape2D_door")
 
 [node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=210100020]

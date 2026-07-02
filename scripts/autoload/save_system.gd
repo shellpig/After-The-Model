@@ -19,7 +19,9 @@ const SCENE_NAMES := {
 	"underground_settlement_right": "地下道聚落右區",
 	"nightclub_entrance": "夜總會大門口",
 	"nightclub": "夜總會前廳",
-	"nightclub_back": "夜總會後場包廂"
+	"nightclub_back": "夜總會後場包廂",
+	"datacenter_entrance": "資料中心入口",
+	"datacenter_backup_core": "資料中心核心備份區"
 }
 
 func capture(scene_id: String, player_x: float, facing := 1) -> Dictionary:

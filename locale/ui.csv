@@ -296,3 +296,11 @@ PROMPT_TUNNEL_EXIT_0,E: █ 進入光洞通道,E: █ 进入光洞通道,E: █ 
 PROMPT_TUNNEL_EXIT_1,E: █ 進入風扇口,E: █ 进入风扇口,E: █ Enter Fan Vent
 PROMPT_TUNNEL_EXIT_2,E: █ 進入緊急出口,E: █ 进入紧急出口,E: █ Enter Emergency Exit
 PROMPT_TUNNEL_BACKTRACK,E: █ 返回前一個隧道,E: █ 返回前一个隧道,E: █ Backtrack to Previous Tunnel
+PROMPT_NIGHTCLUB_ENTRANCE_TRAVEL_DATACENTER,E: █ 前往 AI 資料中心,E: █ 前往 AI 数据中心,E: █ Head to the AI Data Center
+PROMPT_DATACENTER_ENTRANCE_EXIT_TO_NIGHTCLUB,E: █ 返回夜總會大門口,E: █ 返回夜总会大门口,E: █ Return to Nightclub Entrance
+PROMPT_DATACENTER_ENTRANCE_MAIN_GATE,E: █ 刷卡進入大門,E: █ 刷卡进入大门,E: █ Swipe Badge at Main Gate
+PROMPT_DATACENTER_ENTRANCE_DELIVERY_BOT,E: █ 查看運輸機器人,E: █ 查看运输机器人,E: █ Examine Delivery Bot
+PROMPT_DATACENTER_BACKUP_EXIT_TO_ENTRANCE,E: █ 返回入口大門,E: █ 返回入口大门,E: █ Return to Main Gate
+PROMPT_DATACENTER_BACKUP_EXIT_TO_CORE,E: █ 前往核心備份區,E: █ 前往核心备份区,E: █ Head to the Core Backup Area
+PROMPT_DATACENTER_CORE_EXIT_TO_BACKUP,E: █ 返回廊道,E: █ 返回廊道,E: █ Return to the Corridor
+PROMPT_DATACENTER_CORE_OWN_BACKUP,E: █ 查看終端機,E: █ 查看终端机,E: █ Examine Terminal

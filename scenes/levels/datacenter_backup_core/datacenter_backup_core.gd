@@ -1,4 +1,5 @@
-# res://scenes/levels/nightclub/nightclub_entrance.gd
+# res://scenes/levels/datacenter_backup_core/datacenter_backup_core.gd
+# Phase 25-A: 核心備份區骨架。「自己的備份」互動掛點本階段只給中性佔位訊息，不觸發結局（26-D 才接）。
 extends Node2D
 
 signal current_interactable_changed(data: Dictionary)
@@ -6,23 +7,21 @@ signal interaction_requested(data: Dictionary)
 signal scene_transition_requested(scene_id: String, entry_point_id: String, payload: Dictionary)
 
 const CAMERA_HALF_WIDTH := 640.0
-const CAMERA_Y := 408.0
-const MAP_WIDTH := 1376.0
+const CAMERA_Y := 536.0 # 896 - 360
+const MAP_WIDTH := 4768.0
 
-const MESSAGES := {
-	"biometric_gate": "自動生物辨識閘門的掃描紅光掠過你的瞳孔。螢幕跳出紅色警示：未在賓客名單中，拒絕訪問。你只能尋找側邊的清潔通道。"
-}
+const BGM_PATH := "res://assets/bgm/The Cold Mirror (Loop).mp3"
 
 @onready var player: CharacterBody2D = $Player
 @onready var camera: Camera2D = $Camera2D
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
-var _entry_point_id: String = "from_street"
+var _entry_point_id: String = "from_backup"
 var _entry_payload: Dictionary = {}
 
 func prepare_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
-	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "from_street"
+	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "from_backup"
 	_entry_payload = payload.duplicate(true)
 
 func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
@@ -37,7 +36,7 @@ func _ready() -> void:
 	SaveSystem.can_save_here = true
 	var main = get_tree().root.find_child("Main", true, false)
 	if main and main.has_method("play_bgm"):
-		main.play_bgm("res://assets/bgm/nightclub-1.mp3")
+		main.play_bgm(BGM_PATH)
 
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
@@ -70,22 +69,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		_trigger_interaction()
 
 func _trigger_interaction() -> void:
-	if current_interactable.dialogue_id != "":
-		interaction_requested.emit({
-			"type": "dialogue",
-			"dialogue_id": current_interactable.dialogue_id
-		})
-		return
-
 	match current_interactable.interaction_id:
-		"exit_to_street":
-			scene_transition_requested.emit("apartment_entrance", "from_topside", {})
-		"service_door":
-			scene_transition_requested.emit("nightclub", "from_entrance", {})
-		"biometric_gate":
+		"exit_to_backup":
+			scene_transition_requested.emit("datacenter_backup", "from_core", {})
+		"own_backup":
+			# Phase 25-A：中性佔位，不觸發結局（26-D 才接結局路由）。
 			interaction_requested.emit({
 				"type": "message",
-				"message_text": MESSAGES[current_interactable.interaction_id]
+				"message_text": GameState.STORY_MESSAGES["datacenter_own_backup_placeholder"]
 			})
 
 func _update_camera() -> void:

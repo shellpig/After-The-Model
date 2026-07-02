@@ -9,6 +9,7 @@ const StoreRegistryHostDialogue = preload("res://data/dialogue/store_registry_ho
 const TravelStreetEastDialogue = preload("res://data/dialogue/travel_street_east.gd")
 const TravelStreetWestDialogue = preload("res://data/dialogue/travel_street_west.gd")
 const TravelDeepTunnelDialogue = preload("res://data/dialogue/travel_deep_tunnel.gd")
+const TravelDatacenterDialogue = preload("res://data/dialogue/travel_datacenter.gd")
 const LuQichenDialogue = preload("res://data/dialogue/lu_qichen.gd")
 const CenDialogue = preload("res://data/dialogue/cen.gd")
 const WuDialogue = preload("res://data/dialogue/wu.gd")
@@ -22,6 +23,7 @@ const TREES := {
 	"travel_street_east": TravelStreetEastDialogue.TREE,
 	"travel_street_west": TravelStreetWestDialogue.TREE,
 	"travel_deep_tunnel": TravelDeepTunnelDialogue.TREE,
+	"travel_datacenter": TravelDatacenterDialogue.TREE,
 	"lu_qichen": LuQichenDialogue.TREE,
 	"cen": CenDialogue.TREE,
 	"wu": WuDialogue.TREE,

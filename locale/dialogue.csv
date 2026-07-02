@@ -498,3 +498,10 @@ DLG_TRAVEL_DEEP_TUNNEL_END_TEXT,（你留在原處。）,（你留在原处。�
 DLG_SEVEN_BETRAYAL_START_TEXT,「讓開。」七號站在終端前，手指懸在屏幕上方。在他身後，伍姐神色焦急，小岑正被推開。「我要把名單交出去，一部分就好……換回我的合法身份。」,「让开。」七号站在终端前，手指悬在屏幕上方。在他身后，伍姐神色焦急，小岑正被推开。「我要把名单交出去，一部分就好……换回我的合法身份。」,"""Step aside."" Seven stands before the terminal, his finger hovering over the screen. Behind him, Wu looks anxious while Cen is pushed away. ""I'm turning the list in, just a part of it... to trade for my legal identity."""
 DLG_SEVEN_BETRAYAL_CHOICE0,你這是背叛聚落的所有人！,你这是背叛聚落的所有人！,You are betraying everyone in the settlement!
 DLG_SEVEN_BETRAYAL_RESPONSE_TEXT,「你們可以一直躲。我不行！」七號吼了出來，手指重重按下，「我妹妹還在系統裡！我只想確認她還活著！」他轉身撞開你，瘋狂地跑進深邃的隧道中。,「你们可以一直躲。我不行！」七号吼了出来，手指重重按下，「我妹妹还在系统里！我只想确认她还活着！」他转身撞开你，疯狂地跑进深邃的隧道中。,"""You can keep hiding. I can't!"" Seven roars as he hits the button. ""My sister is still in the system! I just want to make sure she's alive!"" He spins around, shoulders past you, and runs wildly into the deep tunnel."
+DLG_TRAVEL_DATACENTER_LOCKED_TEXT,（那扇通往上層資料設施的門，此刻對你來說還太遙遠。）,（那扇通往上层资料设施的门，此刻对你来说还太遥远。）,(That door to the upper data facility is still out of reach for you right now.)
+DLG_TRAVEL_DATACENTER_MENU_TEXT,你想起地圖上標示的「AI 資料中心」——那是你被派去善後的地方之一。要現在過去嗎？,你想起地图上标示的「AI 数据中心」——那是你被派去善后的地方之一。要现在过去吗？,You recall the ""AI Data Center"" marked on the map — one of the places you were dispatched to clean up. Head there now?
+DLG_TRAVEL_DATACENTER_MENU_CHOICE0,前往 AI 資料中心,前往 AI 数据中心,Head to the AI Data Center
+DLG_TRAVEL_DATACENTER_MENU_CHOICE1,取消,取消,Cancel
+DLG_TRAVEL_DATACENTER_WAN_FLAVOR_TEXT,「走之前，再看一眼你那張舊識別證吧。」,「走之前，再看一眼你那张旧识别证吧。」,"""Before you go, take another look at that old badge of yours."""
+DLG_TRAVEL_DATACENTER_TRAVEL_TEXT,（你順著記憶中的路線，朝資料中心走去。）,（你顺着记忆中的路线，朝数据中心走去。）,(You follow the route from memory, heading towards the data center.)
+DLG_TRAVEL_DATACENTER_END_TEXT,（你決定先留在原地。）,（你决定先留在原地。）,(You decide to stay put for now.)

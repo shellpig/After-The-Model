@@ -300,6 +300,10 @@ note_id
 | 26-C | 📐 規格可實作 | 真相碎片「你自己選擇被刪、為保護那個網」：`datacenter_backup_core` 備份主機前必經 `MemoryFragmentArea`（14 同款）自動收取 → set `mem_frag_chose_deletion`；文案回連 `mem_frag_commute_topside` / `mem_frag_hideout`。程式未開工 |
 | 26-D | 📐 規格可實作 | 結局觸發點武裝 + Branch B 檔案重標記（**v2.3 §12 開放問題 5 拍板，2026-07-02**）：「自己的備份」碎片後 examine 換重量級文字（名字露出一次）＋ set `stood_before_own_backup`（**forward 契約：27-B 三結局路由掛點**；不開選單，4-G 教訓）；新「檔案索引終端」examine `seven_stopped_partial` 變體＝小岑聲紋檔具體標紅「待清理」＋未具名黑戶檔案重標記（不點名伍姐／七號／林霏）。程式未開工 |
 | 26-E | 📐 規格可實作 | 回歸 + 存讀檔 + GUI：四旗標 round-trip、26-A/B 一次性跨存讀不重播、順序護欄、Phase 1~25 不退化。程式未開工 |
+| 27-A | 📐 規格可實作 | `broadcast_station` 正式場景（**v2.3 §12 問題 1 拍板升正式，2026-07-02**）：單室、唯一 entry `from_backup_core`、進場一次性 MessageBox、flavor examine（**不放 NPC**）、**無回程出口**（單向）、`can_save_here = true`、**新 BGM（user 委製，blocker）**、map g2d。程式未開工 |
+| 27-B | 📐 規格可實作 | 三結局路由（26-D forward 契約兌現；**v2.3 §12 問題 3 拍板不硬鎖**）：`stood_before_own_backup` 後重看「自己的備份」開三選對話（重錨定→三動詞「灌回去 / 刪掉它 / 拷貝走」→確認前小節→鎖點）；三選無條件全開不看 Trust / Trace；互斥旗標 `ending_route_reclaim/protect/expose`；退開不寫旗標、選定即鎖（DECIDED 不可重選）；R / P 停原地待 28、Expose 單向轉場廣播站。程式未開工 |
+| 27-C | 📐 規格可實作 | 上傳前清洗閘五拍（**清洗第一次硬兌現**，11-D 移入）：掃描染色（`echo_count` 兩檔）→ 中性警告（Branch B 變體）→ 手藝反諷三選 → 代價當場兌現 → 最終確認鎖點寫 `expose_upload_cleaned` + `expose_upload_done`；單一 bool 無逐項清洗 UI；退開不留半套狀態。系統擴充唯一＝DialogueRunner `echo_count` condition。程式未開工 |
+| 27-D | 📐 規格可實作 | 回歸 + 存讀檔：5 旗標 round-trip、廣播站內存讀、三選前留檔三路皆可達、Phase 1~26 不退化；**本 Phase 不碰 Trace / 不做 A/B/C 判定（29）/ 不做結局演出（28）**。程式未開工 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測已完成。
 
@@ -705,6 +709,21 @@ Phase 18 待寫 / 待掛：`scenes/levels/tunnel_combat/tunnel_combat.tscn` / `.
 | 26-E 回歸 + 存讀檔（test_runner）| 3093（子階段表）| 3655–3662 | 1123–1126 |
 
 依賴：25（三場景 + 核心佔位 + BGM 已接）、24（`seven_stopped_partial`）、19-B（`read_old_work_order`）、5/16（對話系統 + NPC 掛法）、14（`MemoryFragmentArea`）、19（examine 條件變體 pattern）。新 canonical（皆 bool / story_flags）：`wan_act4_pull_seen` / `ada_final_words_seen` / `mem_frag_chose_deletion` / `stood_before_own_backup`（**forward 契約：27-B 三結局路由掛點**）。**外部素材（唯一缺口，g2d 可生、非 user blocker）**：阿達世界 sprite（idle，離場 fade 不需 walk）＋對話立繪，26-B 動工前補。**前提硬規則**：不碰 Trace；不寫結局分支 / 不開結局選單；④不得早於③；私心版不設 affinity 門檻；Branch B 小岑具體、其餘不具名、不點名伍姐／七號／林霏。
+
+### Phase 27 子階段（三份對照）
+
+> 行號以 2026-07-02 Phase 27 規格寫入版為準；大幅改寫後需校正。Phase 27 = 地下廣播站 + 三結局路由 + 清洗閘兌現；📐 規格可實作，程式未開工（依賴 26 先行）。**1 新場景**（`broadcast_station`，Expose 唯一出口、單向、可存檔、無 NPC）、**1 系統小擴充**（DialogueRunner `echo_count` condition，23 補 `credits` 同例）、**零新存讀檔 schema**（5 旗標全走 story_flags）。A/B/C 判定與 Trace 臨界值＝Phase 29；結局演出＝Phase 28/29；**本 Phase 不碰 Trace**。
+> **敘事事實來源**：`subdocs/主線/雨還沒停v2.3` §8（三結局共用觸發點 + Expose 清洗）+ §6（清洗定義）+ §4.1（名字不對稱）。規格 2026-07-02 討論定案，同日拍板 v2.3 §12 開放問題 1（地下廣播站升正式場景）與 3（Reclaim / Protect 不硬鎖，三選無條件全開）。
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 27 總覽 + 路由規則 + 節拍 + 子階段表 | 3105–3140 | 3663–3736（核心 / 27-A~C / 旗標 / i18n / test_runner）| 1128–1137 |
+| 27-A `broadcast_station` 場景 | 3127（子階段表）| 3668–3675 | 1131 |
+| 27-B 三結局路由（三選對話） | 3110–3115（節拍）+ 3128 | 3676–3701 | 1132–1133 |
+| 27-C 清洗閘五拍 | 3117–3123（五拍）+ 3129 | 3702–3712 | 1134 |
+| 27-D 回歸 + 存讀檔（test_runner）| 3130（子階段表）| 3730–3736 | 1135 |
+
+依賴：26（`stood_before_own_backup` 觸發點武裝）、5/16（對話系統）、24（`travel` effect op / `seven_stopped_partial`）、4-E（entry point 演出）、9（`echo_progress` 計數）、11（清洗概念自 11-D 移入）。新 canonical（皆 bool / story_flags）：`ending_route_reclaim` / `ending_route_protect` / `ending_route_expose`（**互斥**，27-B 確認拍寫入；下游 28-A / 28-B / 29）＋ `expose_upload_cleaned` / `expose_upload_done`（27-C 鎖點寫入；29-A/B 分界 / 判定觸發）。**外部素材**：map 一張（g2d 可生、非 user blocker）＋ **廣播站 BGM 新軌（user 委製，blocker，27-A 動工前到貨）**。**前提硬規則**：三選無條件全開；選定即鎖、確認拍前皆可退開；名字不再露出（26-D 已露一次）；清洗＝單一 bool 不可逐項檢視；不碰 Trace / 不做 A/B/C 判定 / 不做結局演出；台詞補白實作時定稿。
 
 ### Phase M1 子階段（三份對照）
 

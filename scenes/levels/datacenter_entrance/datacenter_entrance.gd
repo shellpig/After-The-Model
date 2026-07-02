@@ -76,6 +76,7 @@ func _update_ada_fade() -> void:
 		ada_trigger.free()
 
 	var npc_to_fade := ada_npc
+	npc_to_fade.dialogue_id = "" # fade 窗口內 E 重談失效，避免對半透明的阿達重播最後一句
 	ada_npc = null
 	var tween := create_tween()
 	tween.tween_property(npc_to_fade, "modulate:a", 0.0, 1.0)

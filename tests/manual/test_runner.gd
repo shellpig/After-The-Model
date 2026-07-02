@@ -12853,6 +12853,19 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
+	# 5. Fade 窗口內（AdaNPC 尚未 queue_free）E 重談應失效，不可對半透明的阿達重播最後一句
+	if ada_npc_phase26b.dialogue_id != "":
+		printerr("FAIL 26-B: AdaNPC.dialogue_id should be cleared immediately once fade starts, to block E re-talk mid-fade!")
+		get_tree().quit(1)
+		return
+	captured_ada_phase26b.clear()
+	entrance_inst_phase26b.current_interactable = ada_npc_phase26b
+	entrance_inst_phase26b._trigger_interaction()
+	if not captured_ada_phase26b.is_empty():
+		printerr("FAIL 26-B: pressing E on the fading AdaNPC must not replay the ada dialogue!")
+		get_tree().quit(1)
+		return
+
 	fake_player_phase26b.free()
 	entrance_inst_phase26b.free()
 	await get_tree().process_frame

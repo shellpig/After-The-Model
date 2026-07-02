@@ -1,0 +1,23 @@
+{
+  "source": "assets\\generated\\sprites\\ada\\idle\\ada-idle-from-concept-20260702-203842\\ada-idle-1.png",
+  "output": "assets\\generated\\sprites\\ada\\idle\\ada-idle-from-concept-20260702-203842\\idle.png",
+  "size": [
+    1024,
+    1024
+  ],
+  "bbox": [
+    397,
+    81,
+    627,
+    945
+  ],
+  "idle_512h_cropped_size": [
+    136,
+    512
+  ],
+  "exact_hot_magenta_before": 496,
+  "magenta_like_visible_before": 2000,
+  "fixed_visible_pixels": 2000,
+  "exact_hot_magenta_after": 0,
+  "magenta_like_visible_after": 0
+}

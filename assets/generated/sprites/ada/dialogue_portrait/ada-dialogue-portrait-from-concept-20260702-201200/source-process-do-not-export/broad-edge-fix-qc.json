@@ -1,0 +1,11 @@
+{
+  "active_portrait": "assets\\generated\\sprites\\ada\\dialogue_portrait\\ada-dialogue-portrait-from-concept-20260702-201200\\portrait.png",
+  "backup": "assets\\generated\\sprites\\ada\\dialogue_portrait\\ada-dialogue-portrait-from-concept-20260702-201200\\source-process-do-not-export\\portrait-before-broad-edge-fix-20260702-2027.png",
+  "edge_band_px": 7,
+  "pale_low_sat_edge_candidates_before": 6141,
+  "pixels_recolored_this_pass": 6141,
+  "pale_low_sat_edge_candidates_after": 0,
+  "hot_ff00ff_pixels_after": 0,
+  "magenta_like_edge_pixels_after": 0,
+  "note": "Second pass: recolored non-pure white/cream/gray low-saturation outer-edge flecks to project ink black while preserving alpha."
+}

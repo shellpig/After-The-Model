@@ -1,0 +1,28 @@
+{
+  "source": "assets\\generated\\sprites\\ada\\idle\\ada-idle-from-concept-20260702-203842\\idle.png",
+  "backup_before_fix": "assets\\generated\\sprites\\ada\\idle\\ada-idle-from-concept-20260702-203842\\source-process-do-not-export\\idle-before-black-edge-fix-20260702-2049.png",
+  "output": "assets\\generated\\sprites\\ada\\idle\\ada-idle-from-concept-20260702-203842\\idle.png",
+  "size": [
+    1024,
+    1024
+  ],
+  "bbox": [
+    397,
+    81,
+    627,
+    945
+  ],
+  "idle_512h_cropped_size": [
+    136,
+    512
+  ],
+  "magenta_like_visible_before_broad_fix": 2149,
+  "outer_edge_pixels_blackened": 7299,
+  "remaining_magenta_like_pixels_blackened": 19,
+  "magenta_like_visible_after_broad_fix": 0,
+  "ink_rgb": [
+    18,
+    14,
+    22
+  ]
+}

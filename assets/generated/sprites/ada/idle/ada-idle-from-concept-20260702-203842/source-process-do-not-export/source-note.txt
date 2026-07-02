@@ -1,0 +1,8 @@
+Primary references:
+- assets/generated/sprites/ada/concept/ada-act4-concept-20260702-200442.png
+- assets/generated/sprites/ada/dialogue_portrait/ada-dialogue-portrait-from-concept-20260702-201200/portrait.png
+
+Secondary scale/style reference:
+- assets/generated/sprites/wan/idle/wan-idle-single-20260607-102716/idle.png
+
+Method: image-to-image/reference generation using the displayed Ada concept and portrait images as the identity source. The Wan idle image was used only for in-game framing and outline/scale discipline.

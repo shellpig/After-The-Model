@@ -1,0 +1,4 @@
+Source: assets/generated/sprites/ada/concept/ada-act4-concept-20260702-200442.png
+Method: deterministic crop from the right-side bust/detail view, paper background removed to transparent, non-main connected fragments removed.
+Identity rule: no redraw and no image regeneration; the portrait preserves the concept art appearance exactly except for crop/transparent-background processing.
+QC: output portrait.png is 1024x1024 RGBA; hot #FF00FF pixels = 0; magenta-like transparent-edge pixels = 0.

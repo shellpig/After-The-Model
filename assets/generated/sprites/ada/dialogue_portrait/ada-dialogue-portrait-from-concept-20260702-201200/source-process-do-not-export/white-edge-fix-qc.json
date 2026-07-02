@@ -1,0 +1,11 @@
+{
+  "active_portrait": "assets\\generated\\sprites\\ada\\dialogue_portrait\\ada-dialogue-portrait-from-concept-20260702-201200\\portrait.png",
+  "backup": "assets\\generated\\sprites\\ada\\dialogue_portrait\\ada-dialogue-portrait-from-concept-20260702-201200\\source-process-do-not-export\\portrait-before-white-edge-fix-20260702-2018.png",
+  "source_dir": "assets\\generated\\sprites\\ada\\dialogue_portrait\\ada-dialogue-portrait-from-concept-20260702-201200\\source-process-do-not-export",
+  "white_edge_pixels_recolored": 2358,
+  "white_edge_pixels_before": 2358,
+  "white_edge_pixels_after": 0,
+  "hot_ff00ff_pixels_after": 0,
+  "magenta_like_edge_pixels_after": 0,
+  "note": "Converted pale paper/white edge flecks within 3px of transparency to project ink black while preserving alpha."
+}

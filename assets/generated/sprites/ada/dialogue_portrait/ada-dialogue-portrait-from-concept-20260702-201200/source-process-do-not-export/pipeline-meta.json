@@ -1,0 +1,31 @@
+{
+  "source": "assets/generated/sprites/ada/concept/ada-act4-concept-20260702-200442.png",
+  "source_crop_box": [
+    470,
+    90,
+    1010,
+    1125
+  ],
+  "background_sample_rgb": [
+    237,
+    222,
+    202
+  ],
+  "output": "portrait.png",
+  "size": [
+    1024,
+    1024
+  ],
+  "mode": "RGBA",
+  "bbox": [
+    289,
+    54,
+    734,
+    984
+  ],
+  "visible_pixels": 320722,
+  "removed_non_main_component_pixels": 28721,
+  "hot_ff00ff_pixels": 0,
+  "magenta_like_edge_pixels": 0,
+  "note": "Deterministic crop from right bust of concept art; main portrait component only; no redraw or image regeneration."
+}

@@ -1,0 +1,64 @@
+{
+  "target": "asset",
+  "mode": "single",
+  "prompt": "",
+  "role": "",
+  "input": "assets\\generated\\sprites\\ada\\idle\\ada-idle-from-concept-20260702-203842\\ada-idle-raw-20260702-203842.png",
+  "threshold": 80,
+  "edge_threshold": 24,
+  "duration": 600,
+  "rows": 1,
+  "cols": 1,
+  "cell_size": 1024,
+  "fit_scale": 0.85,
+  "trim_border": 0,
+  "edge_clean_depth": 2,
+  "align": "feet",
+  "shared_scale": false,
+  "component_mode": "largest",
+  "component_padding": 8,
+  "min_component_area": 512,
+  "edge_touch_margin": 0,
+  "frame_labels": [
+    "ada-idle-1"
+  ],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_box": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "component_mode": "largest",
+      "component_count": 1,
+      "selected_component_area": 326540,
+      "selected_component_bbox": [
+        337,
+        89,
+        687,
+        1419
+      ],
+      "crop_bbox": [
+        329,
+        81,
+        695,
+        1427
+      ],
+      "edge_touch": false,
+      "output_size": [
+        236,
+        870
+      ],
+      "paste_position": [
+        394,
+        78
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}

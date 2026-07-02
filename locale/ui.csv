@@ -305,3 +305,7 @@ PROMPT_DATACENTER_BACKUP_EXIT_TO_CORE,E: █ 前往核心備份區,E: █ 前往
 PROMPT_DATACENTER_CORE_EXIT_TO_BACKUP,E: █ 返回廊道,E: █ 返回廊道,E: █ Return to the Corridor
 PROMPT_DATACENTER_CORE_OWN_BACKUP,E: █ 查看終端機,E: █ 查看终端机,E: █ Examine Terminal
 PROMPT_DATACENTER_CORE_FILE_INDEX,E: █ 查看檔案索引終端,E: █ 查看档案索引终端,E: █ Examine File Index Terminal
+PROMPT_BROADCAST_UPLOAD_TERMINAL,E: █ 使用上傳終端,E: █ 使用上传终端,E: █ Use the Upload Terminal
+PROMPT_BROADCAST_TRANSMITTER,E: █ 查看發射設備,E: █ 查看发射设备,E: █ Examine the Transmitter
+PROMPT_BROADCAST_OLD_MEDIA,E: █ 查看舊錄音載體,E: █ 查看旧录音载体,E: █ Examine the Old Recordings
+PROMPT_BROADCAST_PREDECESSOR,E: █ 查看前人痕跡,E: █ 查看前人痕迹,E: █ Examine the Traces Left Behind

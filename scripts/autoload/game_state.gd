@@ -193,7 +193,11 @@ const STORY_MESSAGES := {
 	"mem_frag_chose_deletion": "MSG_MEM_FRAG_CHOSE_DELETION",
 	"datacenter_own_backup_truth": "MSG_DATACENTER_OWN_BACKUP_TRUTH",
 	"datacenter_file_index_neutral": "MSG_DATACENTER_FILE_INDEX_NEUTRAL",
-	"datacenter_file_index_remarked": "MSG_DATACENTER_FILE_INDEX_REMARKED"
+	"datacenter_file_index_remarked": "MSG_DATACENTER_FILE_INDEX_REMARKED",
+	"broadcast_arrival": "MSG_BROADCAST_ARRIVAL",
+	"broadcast_flavor_transmitter": "MSG_BROADCAST_FLAVOR_TRANSMITTER",
+	"broadcast_flavor_old_media": "MSG_BROADCAST_FLAVOR_OLD_MEDIA",
+	"broadcast_flavor_predecessor": "MSG_BROADCAST_FLAVOR_PREDECESSOR"
 }
 
 # MVP Temporary Stub DB

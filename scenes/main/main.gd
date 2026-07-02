@@ -108,6 +108,12 @@ const SCENES := {
 		"default_entry_point_id": "from_backup",
 		"entry_points": ["from_backup"],
 		"music_id": "datacenter_entrance"
+	},
+	"broadcast_station": {
+		"path": "res://scenes/levels/broadcast/broadcast_station.tscn",
+		"default_entry_point_id": "from_backup_core",
+		"entry_points": ["from_backup_core"],
+		"music_id": "broadcast_station"
 	}
 }
 

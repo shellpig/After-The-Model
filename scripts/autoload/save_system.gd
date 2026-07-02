@@ -21,7 +21,8 @@ const SCENE_NAMES := {
 	"nightclub": "夜總會前廳",
 	"nightclub_back": "夜總會後場包廂",
 	"datacenter_entrance": "資料中心入口",
-	"datacenter_backup_core": "資料中心核心備份區"
+	"datacenter_backup_core": "資料中心核心備份區",
+	"broadcast_station": "地下廣播站"
 }
 
 func capture(scene_id: String, player_x: float, facing := 1) -> Dictionary:

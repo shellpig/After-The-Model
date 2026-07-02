@@ -1,0 +1,9 @@
+A highly detailed 2D side-scrolling video game background, 4768x896 resolution, strictly orthographic 2D side view, flat profile. SEGMENTED into 4 distinct visual zones from left to right. Segmented interior of a high-tech monumental AI core backup chamber (datacenter_backup_core).
+Visual style: Flat cel-shaded indie comic art style, clean line art, no textures, no halftone, solid colors. Intricate mechanical details and layered visual depth.
+Composition & layers:
+1. [Left 25%] Airlock: Heavy steel door flanked by security panels, glowing indicator lights, and exposed wiring conduits.
+2. [Middle-left] Liquid cooling: Multi-layered horizontal and vertical metallic pipes, thick hanging bundles of black cables, wall ventilation vents, and analytical terminal screens with violet charts.
+3. [Middle-right] Server Core: A massive cylindrical server capsule pod (main core) in the center-right, glowing with intense violet database flow. The core is supported by complex structural steel frames and thick conduits. Floor has industrial grates with faint purple light shining from underneath.
+4. [Right 15%] Console: A solitary control terminal with a massive curved diagnostic screen suspended above it on the wall, glowing with detailed purple wave patterns and system codes, under a soft purple spotlight.
+Background details: Add a subtle background layer of blurred silhouettes of massive server arrays behind glass windows to create deep visual perspective. Technical wall panels with visible grid seams and bolts fill the empty spaces.
+Color palette: 70% off-white and cool blue-white, 15% cool gray-blue, 10% deep ink-black, 5% cyber-purple. STRICT RULE: 0% warm colors (NO orange, NO amber, NO gold).

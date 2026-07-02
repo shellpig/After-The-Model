@@ -1,0 +1,1 @@
+Edit attached walk sprite: preserve pose and identity; make baton/nightstick about 2x longer; keep flat #FF00FF background.

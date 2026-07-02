@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-06-28
+最後更新：2026-06-29
 
 ---
 
@@ -287,8 +287,8 @@ note_id
 | 23-B | ✅ 完成 | 保全對話樹（賄賂 + 假裝身份）+ `credits` condition：`data/dialogue/nightclub_bodyguard.gd`（賄賂 credits≥500 複用 Phase 8 經濟 / 假裝身份 gate `found_staff_pass`）+ DialogueRunner 補 `credits` condition type（最小 op）+ 三語 locale + staff_pass icon。code review 修補：`nightclub.gd._trigger_interaction()` 補回標準 `dialogue_id` dispatch（原缺→保全對話實機不可觸發）|
 | 23-C | ✅ 完成 | 引開→潛行（一次性限時組合，2026-06-28 redesign）：① 前置 gate＝先與保全對話（`talked_nightclub_bodyguard`）才解鎖 `bar_bot` 引開；② 引發＝先跳前置 messagebox（玩家動手腳→吧台混亂 `MSG_NIGHTCLUB_BAR_BOT_TAMPER`，緊張 BGM 此時切入）→ 關閉後保全 + bar_bot 淡出停用 → 中央情境圖鎖操作 5 秒（複用 `set_monologue_active` 擋熱鍵 + `player.set_physics_process(false)`）→ 淡出後解鎖並開 20 秒倒數空窗；③ 空窗內 E `back_door` 溜過 set `passed_nightclub_security`；④ 倒數歸零未潛入＝全暗 messagebox「保全已處理完畢」(`MSG_NIGHTCLUB_GUARD_RETURNED`) → 保全 + bar_bot 歸位；⑤ **引開永久一次性**：`nightclub_bar_bot_used`（持久、納存讀檔），用過後 bar_bot prompt 改中性「查看」+ 給中性訊息。`_bodyguard_off_post` 仍 transient 不存檔。**演出細節（2026-06-28 二修）**：情境圖 fade-in/hold/fade-out 轉場（非直接 pop）；倒數＝紅色大數字 + 上方「混亂時間」(`UI_NIGHTCLUB_CHAOS_TIME`) 標題；**保全永遠在崗**（移除 passed→隱藏保全邏輯，四解仍永久通行、passed 只負責後場門放行）。情境圖 `assets/generated/sprites/nightclub_bar_bot_distraction/situation/`；新訊息 key `MSG_NIGHTCLUB_BAR_BOT_PRE_TALK`/`_USED`/`_TAMPER`/`MSG_NIGHTCLUB_GUARD_RETURNED` + prompt `PROMPT_NIGHTCLUB_BAR_BOT_EXAMINE`（移除舊 `MSG_NIGHTCLUB_BAR_BOT_DISTRACTED`）；緊張氛圍 BGM `nightclub-chaos.mp3`（引發瞬間切入，保全歸位切回 `nightclub-1`，潛入成功由後場 `nightclub-2` 接手）；headless PASS（含一次性 + 視窗到期歸位測試）|
 | 23-D | ✅ 完成 | 回歸 + 存讀檔 + GUI / 觸控走查：本機 headless 全測 PASS（exit 0）；GUI / 純觸控走查（四解各自可玩、保全淡出 / 歸位、刷閘導向側門）已完成。canonical：`passed_nightclub_security` / `found_staff_pass` / `nightclub_staff_pass`。前提硬規則：保全人類不可打死 / 格式化；大門口閘門無 Trace；四解皆不動 Trace |
-| 24-A | 📐 規格可實作 | quest 化 + 爆發 gate：v2.3 §7.2 三分支（D 和平 / A 攔下 / B 部分攔下，無 C / 不做大災難線）quest 化；新增 `data/quests/seven_betrayal.gd`；沿用 QuestManager + 七號 NPC + Trust/Trace。程式未開工 |
-| 24-B | 📐 規格可實作 | 分支判定 + 伍姐 / 小岑提前警告：確定性可 headless＝`seven_stopped_partial =（get_trace() >= TRACE_BETRAYAL_THRESHOLD[第一版 3]）and not（get_trust("wu") >= 2 or get_trust("cen") >= 2）`，否則 `seven_stopped_full`；D＝`seven_peace_branch_d`（Phase 20）爆發前已成則不爆 |
+| 24-A | ✅ 完成 | quest 化 + 爆發 gate：v2.3 §7.2 三分支（D 和平 / A 攔下 / B 部分攔下，無 C / 不做大災難線）quest 化；新增 `data/quests/seven_betrayal.gd` + 註冊 `quest_db.gd`；沿用 QuestManager + 七號 NPC + Trust/Trace；伍姐 / 小岑提前警告對話分支（`wu.gd` / `cen.gd`）+ 聚落右室觸發接線 + i18n（`data.csv` / `dialogue.csv`）+ test_runner 護欄；headless PASS（commit `ef9f94b`）|
+| 24-B | ✅ 完成 | 分支判定 + 伍姐 / 小岑提前警告：確定性可 headless＝`seven_stopped_partial =（get_trace() >= TRACE_BETRAYAL_THRESHOLD[第一版 3]）and not（get_trust("wu") >= 2 or get_trust("cen") >= 2）`，否則 `seven_stopped_full`；D＝`seven_peace_branch_d`（Phase 20）爆發前已成則不爆；`resolve_betrayal_results()` 結算 + 邊界測試；double-settlement 漏洞已修（`resolve_betrayal_results()` 改為冪等，commit `c9d9706`）；headless PASS（commit `ef9f94b` + `786c1dc`）|
 | 24-C | ✅ 完成 | 深隧道追逐（**2026-06-28 重設計＝限時選門迷宮，兩室**）+ 兩去處選單接線：新增兩室 `tunnel_chase`（房間1，固定正解高門）/ `tunnel_chase_right`（房間2，`tunnel_chase_true_exit` 隨機真出口、reset 骰一次存讀檔固定）+ 目的地選單 `travel_deep_tunnel`；聚落右室深隧道口改看 `deep_tunnel_opened` 路由（爆點前直通 `tunnel_combat`、爆點後出兩去處選單，不取代 Phase 18）；全域 180 秒倒數＝七號交易通話接通 %（錯誤口各扣 20 秒一次、已試短訊息、純張力不改分支）；真出口 or 倒數歸零 → 七號攤牌情境圖（複用 23-C overlay）套 24-B 分支；梯子沿用 Phase 7-F 防火梯 climb 機制、窄 gap 用 Phase 12 跳躍；兩室 `can_save_here=false`、房間1左緣鎖住。規格／契約／測試清單已改寫三份文件；美術已到貨（`tunnel-chase-left/right.png` + 七號攤牌情境圖）。|
 | 24-D | ✅ 完成 | Branch B 代價（小岑暴露演出）：set `cen_voiceprint_exposed`（餵 28-C 小岑缺席）；小岑代價純敘事（無 minigame）|
 | 24-E | ✅ 完成 | 回歸 + 存讀檔：canonical＝`seven_betrayal_triggered` / `seven_stopped_full`(A) / `seven_stopped_partial`(B，餵 26-D 檔案重標記) / `cen_voiceprint_exposed`(餵 28-C) / `deep_tunnel_opened`。前提硬規則：無 C 分支 / 七號人類不可殺 / 三分支皆不動 Trace |

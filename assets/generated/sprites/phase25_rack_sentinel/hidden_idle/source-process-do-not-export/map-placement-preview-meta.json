@@ -1,0 +1,20 @@
+{
+  "map": "assets\\generated\\maps\\datacenter_backup\\datacenter_backup-20260629-224400.png",
+  "sprite": "assets\\generated\\sprites\\phase25_rack_sentinel\\hidden_idle\\idle.png",
+  "placement": {
+    "x": 3588,
+    "y": 237,
+    "bottom_y": 812,
+    "scaled_size": [
+      242,
+      575
+    ],
+    "scale": 0.6374722838137472
+  },
+  "intended_scene_position": "right-side rack channel, before the violet rear corridor",
+  "outputs": [
+    "assets\\generated\\sprites\\phase25_rack_sentinel\\hidden_idle\\source-process-do-not-export\\map-placement-preview-full.png",
+    "assets\\generated\\sprites\\phase25_rack_sentinel\\hidden_idle\\source-process-do-not-export\\map-placement-preview-closeup.png",
+    "assets\\generated\\sprites\\phase25_rack_sentinel\\hidden_idle\\source-process-do-not-export\\map-placement-preview-closeup-marked.png"
+  ]
+}

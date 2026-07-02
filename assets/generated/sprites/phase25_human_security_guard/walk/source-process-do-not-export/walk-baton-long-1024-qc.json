@@ -1,0 +1,28 @@
+{
+  "output": "assets\\generated\\sprites\\phase25_human_security_guard\\walk\\walk.png",
+  "preview_dark": "assets\\generated\\sprites\\phase25_human_security_guard\\walk\\source-process-do-not-export\\walk-preview-dark-1024.png",
+  "size": [
+    1024,
+    1024
+  ],
+  "bbox_after": [
+    228,
+    104,
+    794,
+    920
+  ],
+  "alignment_source_bbox_1254": [
+    304,
+    234,
+    870,
+    1050
+  ],
+  "paste_offset": [
+    -76,
+    -130
+  ],
+  "target_center_x": 511,
+  "target_bottom_y": 920,
+  "magenta_polluted_after": 0,
+  "edge_touch": false
+}

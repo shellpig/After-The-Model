@@ -1,0 +1,36 @@
+{
+  "source_concept": "assets/generated/sprites/phase25_enemy_concepts/phase25-rack-sentinel-concept.png",
+  "map_reference": "assets/generated/maps/datacenter_backup/datacenter_backup-20260629-224400.png",
+  "raw_size": [
+    1254,
+    1254
+  ],
+  "raw_content_bbox": [
+    399,
+    53,
+    872,
+    1178
+  ],
+  "removed_hot_magenta_bg_pixels": 1064855,
+  "magenta_edge_pixels_before": 2866,
+  "magenta_edge_pixels_after": 0,
+  "recolored_to_ink_black": 2866,
+  "external_outline_pixels_added": 2274,
+  "key_line_pixels_darkened": 33162,
+  "output": "idle.png",
+  "output_size": [
+    1024,
+    1024
+  ],
+  "output_bbox": [
+    322,
+    51,
+    702,
+    953
+  ],
+  "ink_black_rgb": [
+    18,
+    14,
+    22
+  ]
+}

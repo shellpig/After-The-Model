@@ -1,0 +1,23 @@
+{
+  "target": "idle.png",
+  "magenta_edge_pixels_before": 3942,
+  "magenta_edge_pixels_after": 0,
+  "recolored_to_ink_black": 3942,
+  "external_outline_pixels_added": 3794,
+  "key_line_pixels_darkened": 18436,
+  "ink_black_rgb": [
+    18,
+    14,
+    22
+  ],
+  "bbox": [
+    392,
+    106,
+    630,
+    920
+  ],
+  "output_size": [
+    1024,
+    1024
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "source": "C:\\Users\\User\\.codex\\generated_images\\019f207b-3879-7182-bccc-92185953a114\\ig_00d25309d8c9b695016a45c3a567dc8191a1da7289e016680e.png",
+  "raw": "assets\\generated\\sprites\\phase25_human_security_guard\\walk\\source-process-do-not-export\\human-security-guard-walk-baton-long-raw-20260702-095025.png",
+  "output": "assets\\generated\\sprites\\phase25_human_security_guard\\walk\\walk.png",
+  "preview_dark": "assets\\generated\\sprites\\phase25_human_security_guard\\walk\\source-process-do-not-export\\walk-preview-dark.png",
+  "size": [
+    1254,
+    1254
+  ],
+  "bbox_before": [
+    0,
+    0,
+    1254,
+    1254
+  ],
+  "bbox_after": [
+    304,
+    234,
+    870,
+    1050
+  ],
+  "removed_key_pixels": 1411242,
+  "exact_hot_magenta_before": 2,
+  "magenta_polluted_before_recolor": 2071,
+  "recolored_visible_magenta_pixels": 2071,
+  "magenta_polluted_after": 0,
+  "edge_touch": false
+}

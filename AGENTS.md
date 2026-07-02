@@ -7,7 +7,7 @@
 - **類型**：2D 橫向探索 / 都市漫遊 / 碎片化敘事
 - **目標平台**：Steam（Windows/macOS/Linux）+ iOS + Android
 - **引擎**：Godot 4.6.3 / GDScript
-- **目前進度**：概念、技術方向、美術風格（HD 2D 插畫 + riso）、視角（純 2D 側捲 + light platforming）均已確認。MVP 範圍為一條街 + 一個地鐵站 + 一個小公寓 + 2 NPC + 1 零工任務。
+- **目前進度**：概念、技術方向、美術風格（HD 2D 插畫 + riso）、視角（純 2D 側捲 + light platforming）均已確認。
   - Phase 進度清單（單一事實來源）見 `PROJECT_BRIEF.md > Phase 進度`；詳細規劃見 `遊戲規格書.md > Phase 規劃`。
 
 ## New Conversation Opening Check
@@ -16,11 +16,9 @@ At conversation start, read in this layered order. Ignore `舊文件/`.
 
 **Layer 1 — 必讀（建立全貌）：**
 1. `AGENTS.md`（本檔）
-2. `遊戲概念.md`（世界觀、玩家定位、氛圍）
-3. `技術概念.md`（架構、工具鏈、MVP 架構決策）
-4. `Art Bible.md`（美術方向、限色、構圖紀律、3 個視覺錨點）
-5. `遊戲規格書.md`（全遊戲通用系統規格與驗收條件；場景專屬規格 link 到 `subdocs/地點/`）
-6. `git log --oneline -10`（近期變更）
+2. `PROJECT_BRIEF.md`
+3. `遊戲規格書.md`（全遊戲通用系統規格與驗收條件；場景專屬規格 link 到 `subdocs/地點/`）
+4. `git log --oneline -10`（近期變更）
 
 **Layer 2 — 實作 / 測試文件：**
 - `開發設計方針.md` ✅ 實作細節、檔案結構、Autoload 簽名、資料契約（自 Phase 2 起新寫，不 backfill Phase 1）
@@ -28,6 +26,7 @@ At conversation start, read in this layered order. Ignore `舊文件/`.
 - `驗證後已知問題.md` — 待修清單與已接受的邊界決定
 
 **Layer 3 — 任務相關細節與實作參考：**
+- `Art Bible.md`（美術方向、限色、構圖紀律、3 個視覺錨點）
 
 次要細節文件統一放在 `subdocs/`，按主題分子資料夾，依當前任務需要讀取：
 

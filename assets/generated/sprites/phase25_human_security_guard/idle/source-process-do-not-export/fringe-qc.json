@@ -1,0 +1,33 @@
+{
+  "magenta_polluted_before": 14755,
+  "magenta_polluted_after": 0,
+  "files": {
+    "sheet-transparent.png": {
+      "magenta_polluted_before": 2302,
+      "magenta_polluted_after": 0,
+      "changed_to_ink_black": 2302
+    },
+    "idle-1.png": {
+      "magenta_polluted_before": 3194,
+      "magenta_polluted_after": 0,
+      "changed_to_ink_black": 3194
+    },
+    "idle-2.png": {
+      "magenta_polluted_before": 3058,
+      "magenta_polluted_after": 0,
+      "changed_to_ink_black": 3058
+    },
+    "idle-3.png": {
+      "magenta_polluted_before": 3139,
+      "magenta_polluted_after": 0,
+      "changed_to_ink_black": 3139
+    },
+    "idle-4.png": {
+      "magenta_polluted_before": 3062,
+      "magenta_polluted_after": 0,
+      "changed_to_ink_black": 3062
+    }
+  },
+  "final_single": "idle.png",
+  "preview": "idle-preview-dark.png"
+}

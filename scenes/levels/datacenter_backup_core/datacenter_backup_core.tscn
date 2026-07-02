@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://scenes/levels/datacenter_backup_core/datacenter_backup_core.gd" id="2_script"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
+[ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="19_mem_frag_area"]
 [ext_resource type="Texture2D" uid="uid://d3j5uv2yd8qpx" path="res://assets/generated/maps/datacenter_backup_core/datacenter_backup_core-20260630-073049.png" id="4_map"]
 [ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="5_walk1"]
 [ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="6_walk2"]
@@ -134,6 +135,15 @@ prompt_text = "PROMPT_DATACENTER_CORE_EXIT_TO_BACKUP"
 position = Vector2(90, 750)
 shape = SubResource("RectangleShape2D_transition")
 
+[node name="MemoryFragmentArea" type="Area2D" parent="Interactables"]
+script = ExtResource("19_mem_frag_area")
+fragment_flag = "mem_frag_chose_deletion"
+message_id = "mem_frag_chose_deletion"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentArea"]
+position = Vector2(1200, 750)
+shape = SubResource("RectangleShape2D_flavor")
+
 [node name="OwnBackupArea" type="Area2D" parent="Interactables"]
 script = ExtResource("3_interactable")
 interaction_id = "own_backup"
@@ -141,6 +151,15 @@ prompt_text = "PROMPT_DATACENTER_CORE_OWN_BACKUP"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/OwnBackupArea"]
 position = Vector2(2384, 750)
+shape = SubResource("RectangleShape2D_flavor")
+
+[node name="FileIndexTerminalArea" type="Area2D" parent="Interactables"]
+script = ExtResource("3_interactable")
+interaction_id = "file_index_terminal"
+prompt_text = "PROMPT_DATACENTER_CORE_FILE_INDEX"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FileIndexTerminalArea"]
+position = Vector2(3100, 750)
 shape = SubResource("RectangleShape2D_flavor")
 
 [node name="Player" type="CharacterBody2D" parent="."]

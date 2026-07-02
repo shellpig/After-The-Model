@@ -304,3 +304,4 @@ PROMPT_DATACENTER_BACKUP_EXIT_TO_ENTRANCE,E: █ 返回入口大門,E: █ 返�
 PROMPT_DATACENTER_BACKUP_EXIT_TO_CORE,E: █ 前往核心備份區,E: █ 前往核心备份区,E: █ Head to the Core Backup Area
 PROMPT_DATACENTER_CORE_EXIT_TO_BACKUP,E: █ 返回廊道,E: █ 返回廊道,E: █ Return to the Corridor
 PROMPT_DATACENTER_CORE_OWN_BACKUP,E: █ 查看終端機,E: █ 查看终端机,E: █ Examine Terminal
+PROMPT_DATACENTER_CORE_FILE_INDEX,E: █ 查看檔案索引終端,E: █ 查看档案索引终端,E: █ Examine File Index Terminal

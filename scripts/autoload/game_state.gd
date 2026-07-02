@@ -189,7 +189,11 @@ const STORY_MESSAGES := {
 	"nightclub_guard_returned": "MSG_NIGHTCLUB_GUARD_RETURNED",
 	"datacenter_access_denied": "MSG_DATACENTER_ACCESS_DENIED",
 	"datacenter_delivery_bot_flavor": "MSG_DATACENTER_DELIVERY_BOT_FLAVOR",
-	"datacenter_own_backup_placeholder": "MSG_DATACENTER_OWN_BACKUP_PLACEHOLDER"
+	"datacenter_own_backup_placeholder": "MSG_DATACENTER_OWN_BACKUP_PLACEHOLDER",
+	"mem_frag_chose_deletion": "MSG_MEM_FRAG_CHOSE_DELETION",
+	"datacenter_own_backup_truth": "MSG_DATACENTER_OWN_BACKUP_TRUTH",
+	"datacenter_file_index_neutral": "MSG_DATACENTER_FILE_INDEX_NEUTRAL",
+	"datacenter_file_index_remarked": "MSG_DATACENTER_FILE_INDEX_REMARKED"
 }
 
 # MVP Temporary Stub DB

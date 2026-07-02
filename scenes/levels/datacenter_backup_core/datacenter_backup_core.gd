@@ -1,5 +1,6 @@
 # res://scenes/levels/datacenter_backup_core/datacenter_backup_core.gd
-# Phase 25-A: 核心備份區骨架。「自己的備份」互動掛點本階段只給中性佔位訊息，不觸發結局（26-D 才接）。
+# Phase 25-A: 核心備份區骨架。Phase 26-D: 結局觸發點武裝——「自己的備份」依 mem_frag_chose_deletion 分派中性/重量級文字並武裝
+# stood_before_own_backup（27-B 三結局路由掛點）；新增「檔案索引終端」依 seven_stopped_partial 分派 Branch B 檔案重標記變體。
 extends Node2D
 
 signal current_interactable_changed(data: Dictionary)
@@ -73,11 +74,31 @@ func _trigger_interaction() -> void:
 		"exit_to_backup":
 			scene_transition_requested.emit("datacenter_backup", "from_core", {})
 		"own_backup":
-			# Phase 25-A：中性佔位，不觸發結局（26-D 才接結局路由）。
-			interaction_requested.emit({
-				"type": "message",
-				"message_text": GameState.STORY_MESSAGES["datacenter_own_backup_placeholder"]
-			})
+			if GameState.get_flag("mem_frag_chose_deletion", false):
+				# Phase 26-D：碎片後換重量級文字（名字露出一次）＋ 武裝 forward 契約（27-B 三結局路由掛點）。
+				GameState.set_flag("stood_before_own_backup", true)
+				interaction_requested.emit({
+					"type": "message",
+					"message_text": GameState.STORY_MESSAGES["datacenter_own_backup_truth"]
+				})
+			else:
+				# 碎片前維持 25-A 中性佔位，不 set 旗標。
+				interaction_requested.emit({
+					"type": "message",
+					"message_text": GameState.STORY_MESSAGES["datacenter_own_backup_placeholder"]
+				})
+		"file_index_terminal":
+			# Phase 26-D：Branch B（seven_stopped_partial）具體重標記變體；其餘中性 flavor。可重看、不 set 旗標。
+			if GameState.get_flag("seven_stopped_partial", false):
+				interaction_requested.emit({
+					"type": "message",
+					"message_text": GameState.STORY_MESSAGES["datacenter_file_index_remarked"]
+				})
+			else:
+				interaction_requested.emit({
+					"type": "message",
+					"message_text": GameState.STORY_MESSAGES["datacenter_file_index_neutral"]
+				})
 
 func _update_camera() -> void:
 	if camera == null:

@@ -179,3 +179,12 @@ script = ExtResource("2_player")
 min_x = 100.0
 max_x = 3200.0
 walk_line_y = 1050.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(20, -184)
+sprite_frames = SubResource("SpriteFrames_player")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(30, -221)
+shape = SubResource("RectangleShape2D_player")

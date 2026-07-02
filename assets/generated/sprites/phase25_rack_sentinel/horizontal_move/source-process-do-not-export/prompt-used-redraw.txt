@@ -1,0 +1,1 @@
+Redraw single horizontal movement frame: tracked base clearly driving right, x-axis movement, preserve hidden_idle rack sentinel identity, flat #FF00FF raw background.

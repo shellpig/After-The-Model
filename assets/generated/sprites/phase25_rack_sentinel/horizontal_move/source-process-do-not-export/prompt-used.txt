@@ -1,0 +1,1 @@
+Single horizontal movement frame for Phase 25 rack sentinel; preserve hidden_idle appearance; moving sideways on tracked base; flat #FF00FF raw background.

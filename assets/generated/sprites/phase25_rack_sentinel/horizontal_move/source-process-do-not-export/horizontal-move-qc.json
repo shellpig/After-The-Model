@@ -1,0 +1,38 @@
+{
+  "source": "C:\\Users\\User\\.codex\\generated_images\\019f207b-3879-7182-bccc-92185953a114\\ig_00300f7e5566a08a016a45cc3f9ed08191ac6169efbf389ca0.png",
+  "raw": "assets\\generated\\sprites\\phase25_rack_sentinel\\horizontal_move\\source-process-do-not-export\\rack-sentinel-horizontal-move-raw-20260702-102719.png",
+  "output": "assets\\generated\\sprites\\phase25_rack_sentinel\\horizontal_move\\horizontal_move.png",
+  "preview_dark": "assets\\generated\\sprites\\phase25_rack_sentinel\\horizontal_move\\source-process-do-not-export\\horizontal-move-preview-dark.png",
+  "raw_size": [
+    1254,
+    1254
+  ],
+  "raw_bbox_after_key": [
+    412,
+    81,
+    835,
+    1127
+  ],
+  "reference_bbox": [
+    355,
+    87,
+    668,
+    949
+  ],
+  "output_bbox": [
+    337,
+    87,
+    686,
+    949
+  ],
+  "scale_to_reference_height": 0.8240917782026769,
+  "paste_position": [
+    337,
+    87
+  ],
+  "removed_key_pixels": 1273225,
+  "exact_hot_magenta_before": 0,
+  "edge_magenta_recolored": 5059,
+  "remaining_edge_magenta_pixels": 0,
+  "edge_touch": false
+}

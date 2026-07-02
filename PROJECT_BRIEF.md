@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-06-29
+最後更新：2026-07-02
 
 ---
 
@@ -294,7 +294,7 @@ note_id
 | 24-E | ✅ 完成 | 回歸 + 存讀檔：canonical＝`seven_betrayal_triggered` / `seven_stopped_full`(A) / `seven_stopped_partial`(B，餵 26-D 檔案重標記) / `cen_voiceprint_exposed`(餵 28-C) / `deep_tunnel_opened`。前提硬規則：無 C 分支 / 七號人類不可殺 / 三分支皆不動 Trace |
 | 25-A | 📐 規格可實作 | Act 4 備份區三場景骨架（`datacenter_entrance`＝anchor-05 / `datacenter_backup` 戰鬥③廊道 / `datacenter_backup_core` 核心＝結局觸發掛點佔位）+ SceneRegistry + 雙向轉場 + `nightclub_entrance` travel「AI 資料中心」+ 善後員合法門禁 gate（反諷）。travel gate＝`passed_nightclub_security AND (seven_peace_branch_d OR seven_stopped_full OR seven_stopped_partial)`、門禁 gate＝`has_item("old_work_badge") AND get_flag("read_old_work_order")`，**皆讀既有旗標 / 物品，零新存讀檔欄位、不改 Phase 24**。晚 flavor 提醒「再看一眼舊卡」純演出不參與 gate。程式未開工 |
 | 25-B | 📐 規格可實作 | 戰鬥③（低階保全，跑到門）：`datacenter_backup` 混合敵人＝機器哨兵（`machine_enemy` 格式化清路，沿用 13）+ 人類保全（`human_enemy` 朝玩家 x 追擊、**不可殺**，唯一新做＝最小追擊 AI）；勝利＝抵達右端門 x → 轉 `datacenter_backup_core`；**無失敗態**（碰撞＝knockback / stagger，無 Game Over / 無 combat_loss 岔線）。程式未開工 |
-| 25-C | 📐 規格可實作 | 回歸 + 存讀檔護欄：三場景載入 + 全鏈 round-trip、travel / 門禁 gate、戰鬥③ 抵達門、Phase 1~24 不退化（尤其 Phase 24 追逐 / 攤牌、`tunnel_combat` 入口、聚落往返）。前提硬規則：人類不可打死 / 格式化；無 Game Over；不碰 Phase 26 演出 / 結局；不動 Trace。外部素材（你方提供）：兩室 map 圖 + 機器哨兵 / 人類保全 sprite + Act 4 專屬 BGM；entrance 用 anchor-05。程式未開工 |
+| 25-C | 📐 規格可實作 | 回歸 + 存讀檔護欄：三場景載入 + 全鏈 round-trip、travel / 門禁 gate、戰鬥③ 抵達門、Phase 1~24 不退化（尤其 Phase 24 追逐 / 攤牌、`tunnel_combat` 入口、聚落往返）。前提硬規則：人類不可打死 / 格式化；無 Game Over；不碰 Phase 26 演出 / 結局；不動 Trace。外部素材已全數到貨（2026-07-02）：兩室 map 圖 + 機器哨兵 / 人類保全 sprite + Act 4 BGM 兩軌（`Heartbeat of the Machine`＝戰鬥③ `datacenter_backup`、`The Cold Mirror (Loop)`＝entrance / core）；entrance 用 anchor-05。程式未開工 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測已完成。
 

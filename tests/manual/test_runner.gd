@@ -1,5 +1,10 @@
 extends Node
 
+const TEST_VALID_SAVE_SLOT := 1
+const TEST_SCRATCH_SAVE_SLOT := 2
+const TEST_VALID_SAVE_FILE := "save_01.sav"
+const TEST_SCRATCH_SAVE_FILE := "save_02.sav"
+
 var _temp_callable: Callable
 
 func _ready() -> void:
@@ -1143,10 +1148,10 @@ func _ready() -> void:
 	print("PASS: Capture and validate verified.")
 	
 	# Write slot and read back
-	var slot_idx := 1
+	var slot_idx := TEST_VALID_SAVE_SLOT
 	var dir = DirAccess.open("user://")
-	if dir and dir.file_exists("save_01.sav"):
-		dir.remove("save_01.sav")
+	if dir and dir.file_exists(TEST_VALID_SAVE_FILE):
+		dir.remove(TEST_VALID_SAVE_FILE)
 	
 	var slots_list_before = SaveSystem.list_slots()
 	if not slots_list_before[0]["empty"]:
@@ -1180,8 +1185,8 @@ func _ready() -> void:
 	print("PASS: Read slot and validation verified.")
 	
 	# Corrupt slot simulation
-	var corrupt_slot_idx := 2
-	var corrupt_file = FileAccess.open("user://save_02.sav", FileAccess.WRITE)
+	var corrupt_slot_idx := TEST_SCRATCH_SAVE_SLOT
+	var corrupt_file = FileAccess.open("user://%s" % TEST_SCRATCH_SAVE_FILE, FileAccess.WRITE)
 	if corrupt_file:
 		corrupt_file.store_string("THIS IS NOT A VALID SAV OBJECT")
 		corrupt_file.close()
@@ -1195,7 +1200,7 @@ func _ready() -> void:
 	
 	# Clean up corrupt file
 	if dir:
-		dir.remove("save_02.sav")
+		dir.remove(TEST_SCRATCH_SAVE_FILE)
 	
 	# Reset state and apply read data
 	GameState.reset_for_new_game()
@@ -1246,7 +1251,7 @@ func _ready() -> void:
 	GameState.reset_for_new_game()
 	
 	# Load slot 1 (which we saved in 6-A with player_x = 425.0, facing = -1)
-	var load_success = main_instance.load_game_slot(1)
+	var load_success = main_instance.load_game_slot(TEST_VALID_SAVE_SLOT)
 	if not load_success:
 		printerr("FAIL: load_game_slot(1) failed to load valid slot!")
 		get_tree().quit(1)
@@ -1283,16 +1288,16 @@ func _ready() -> void:
 	# 1. Validation fail due to invalid scene registry on Main
 	var invalid_scene_payload = SaveSystem.capture("apartment", 425.0, -1)
 	invalid_scene_payload["data"]["current_scene_id"] = "nonexistent_scene_id"
-	if not SaveSystem.write_slot(3, invalid_scene_payload):
-		printerr("FAIL: Failed to write test payload to slot 3!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, invalid_scene_payload):
+		printerr("FAIL: Failed to write test payload to scratch slot!")
 		get_tree().quit(1)
 		return
 	
 	# Set some check value in GameState
 	GameState.set_credits(9999)
-	var load_invalid_success = main_instance.load_game_slot(3)
+	var load_invalid_success = main_instance.load_game_slot(TEST_SCRATCH_SAVE_SLOT)
 	if load_invalid_success:
-		printerr("FAIL: load_game_slot(3) should have failed due to invalid scene ID registry check!")
+		printerr("FAIL: load_game_slot(scratch slot) should have failed due to invalid scene ID registry check!")
 		get_tree().quit(1)
 		return
 	if GameState.get_credits() != 9999:
@@ -1301,25 +1306,25 @@ func _ready() -> void:
 		return
 	print("PASS: Scene registry validation failure correctly aborted load and left GameState intact.")
 	
-	# Clean up slot 3
-	if dir and dir.file_exists("save_03.sav"):
-		dir.remove("save_03.sav")
+	# Clean up scratch slot
+	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
+		dir.remove(TEST_SCRATCH_SAVE_FILE)
 		
 	# 2. Validation fail due to corrupted payload (validate() check)
-	if not SaveSystem.write_slot(3, {}): # Empty payload
-		printerr("FAIL: Failed to write empty dict to slot 3!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, {}): # Empty payload
+		printerr("FAIL: Failed to write empty dict to scratch slot!")
 		get_tree().quit(1)
 		return
-	var load_empty_success = main_instance.load_game_slot(3)
+	var load_empty_success = main_instance.load_game_slot(TEST_SCRATCH_SAVE_SLOT)
 	if load_empty_success:
-		printerr("FAIL: load_game_slot(3) should have failed due to validate check on empty payload!")
+		printerr("FAIL: load_game_slot(scratch slot) should have failed due to validate check on empty payload!")
 		get_tree().quit(1)
 		return
 	print("PASS: Payload validation failure correctly aborted load.")
 	
-	# Clean up slot 3
-	if dir and dir.file_exists("save_03.sav"):
-		dir.remove("save_03.sav")
+	# Clean up scratch slot
+	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
+		dir.remove(TEST_SCRATCH_SAVE_FILE)
 		
 	# Verify start_new_game resets state and plays monologue
 	main_instance.start_new_game()
@@ -2432,13 +2437,13 @@ func _ready() -> void:
 	QuestManager.start("alley_backrooms_3f")
 	
 	var save_p1 = SaveSystem.capture("apartment", 100.0, 1)
-	if not SaveSystem.write_slot(4, save_p1):
-		printerr("FAIL: Failed to write save_p1 to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p1):
+		printerr("FAIL: Failed to write save_p1 to scratch slot!")
 		get_tree().quit(1)
 		return
 		
 	GameState.reset_for_new_game()
-	var loaded_p1 = SaveSystem.read_slot(4)
+	var loaded_p1 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p1)
 	
 	if QuestManager.get_status("alley_backrooms_3f") != "active" or QuestManager.get_step("alley_backrooms_3f") != "started":
@@ -2456,13 +2461,13 @@ func _ready() -> void:
 	# 2. Alley Checked Save/Load Check
 	QuestManager.advance("alley_backrooms_3f", "checked_alley")
 	var save_p2 = SaveSystem.capture("apartment", 100.0, 1)
-	if not SaveSystem.write_slot(4, save_p2):
-		printerr("FAIL: Failed to write save_p2 to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p2):
+		printerr("FAIL: Failed to write save_p2 to scratch slot!")
 		get_tree().quit(1)
 		return
 		
 	GameState.reset_for_new_game()
-	var loaded_p2 = SaveSystem.read_slot(4)
+	var loaded_p2 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p2)
 	
 	if QuestManager.get_step("alley_backrooms_3f") != "checked_alley":
@@ -2495,13 +2500,13 @@ func _ready() -> void:
 	GameState.add_item("early_ai_assistant_activation_box", 1)
 	
 	var save_p3 = SaveSystem.capture("apartment", 100.0, 1)
-	if not SaveSystem.write_slot(4, save_p3):
-		printerr("FAIL: Failed to write save_p3 to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p3):
+		printerr("FAIL: Failed to write save_p3 to scratch slot!")
 		get_tree().quit(1)
 		return
 		
 	GameState.reset_for_new_game()
-	var loaded_p3 = SaveSystem.read_slot(4)
+	var loaded_p3 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p3)
 	
 	if not GameState.has_item("early_ai_assistant_activation_box", 1) or GameState.has_item("old_ai_authorization_module", 1):
@@ -2534,13 +2539,13 @@ func _ready() -> void:
 	
 	# 4. Authorization Module Obtained Save/Load Check
 	var save_p4 = SaveSystem.capture("apartment", 100.0, 1)
-	if not SaveSystem.write_slot(4, save_p4):
-		printerr("FAIL: Failed to write save_p4 to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p4):
+		printerr("FAIL: Failed to write save_p4 to scratch slot!")
 		get_tree().quit(1)
 		return
 		
 	GameState.reset_for_new_game()
-	var loaded_p4 = SaveSystem.read_slot(4)
+	var loaded_p4 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p4)
 	
 	if not GameState.has_item("early_ai_assistant_activation_box", 1) or not GameState.has_item("old_ai_authorization_module", 1):
@@ -2567,13 +2572,13 @@ func _ready() -> void:
 	QuestManager.complete("alley_backrooms_3f")
 	
 	var save_p5 = SaveSystem.capture("apartment", 100.0, 1)
-	if not SaveSystem.write_slot(4, save_p5):
-		printerr("FAIL: Failed to write save_p5 to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p5):
+		printerr("FAIL: Failed to write save_p5 to scratch slot!")
 		get_tree().quit(1)
 		return
 		
 	GameState.reset_for_new_game()
-	var loaded_p5 = SaveSystem.read_slot(4)
+	var loaded_p5 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p5)
 	
 	if GameState.has_item("early_ai_assistant_activation_box", 1) or not GameState.has_item("old_ai_authorization_module", 1):
@@ -2961,14 +2966,14 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	var save_store = SaveSystem.capture("convenience_store", 900.0, -1)
-	if not SaveSystem.write_slot(5, save_store):
-		printerr("FAIL: Failed to write store save to slot 5!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_store):
+		printerr("FAIL: Failed to write store save to scratch slot!")
 		get_tree().quit(1)
 		return
 
 	GameState.reset_for_new_game()
-	if not main_instance.load_game_slot(5):
-		printerr("FAIL: load_game_slot(5) failed for store save!")
+	if not main_instance.load_game_slot(TEST_SCRATCH_SAVE_SLOT):
+		printerr("FAIL: load_game_slot(scratch slot) failed for store save!")
 		get_tree().quit(1)
 		return
 	await get_tree().process_frame
@@ -2997,9 +3002,9 @@ func _ready() -> void:
 		return
 	print("PASS: Store save/load round-trip restores scene, position, and facing.")
 
-	# Clean up slot 5 and release store scene reference
-	if dir and dir.file_exists("save_05.sav"):
-		dir.remove("save_05.sav")
+	# Clean up scratch slot and release store scene reference
+	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
+		dir.remove(TEST_SCRATCH_SAVE_FILE)
 	store_scene = null
 
 	print("PASS: Phase 8-A Convenience Store scene skeleton & transitions verified successfully.")
@@ -4426,13 +4431,13 @@ func _ready() -> void:
 	GameState.set_flag("used_room_computer_once", true)
 	
 	var save_8h_p1 = SaveSystem.capture("apartment", 200.0, 1)
-	if not SaveSystem.write_slot(4, save_8h_p1):
-		printerr("FAIL 8-H: Failed to write save_8h_p1 to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_8h_p1):
+		printerr("FAIL 8-H: Failed to write save_8h_p1 to scratch slot!")
 		get_tree().quit(1)
 		return
 		
 	GameState.reset_for_new_game()
-	var loaded_8h_p1 = SaveSystem.read_slot(4)
+	var loaded_8h_p1 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_8h_p1)
 	
 	if not GameState.get_flag("discovered_vendor_error", false) or not GameState.get_flag("used_room_computer_once", false) or not GameState.has_note("clue_vendor_error_lead"):
@@ -4454,13 +4459,13 @@ func _ready() -> void:
 	QuestManager.set_flag("repair_vendor_bot", "understood_robot_truth", true)
 	
 	var save_8h_p2 = SaveSystem.capture("convenience_store", 500.0, 1)
-	if not SaveSystem.write_slot(4, save_8h_p2):
-		printerr("FAIL 8-H: Failed to write save_8h_p2 to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_8h_p2):
+		printerr("FAIL 8-H: Failed to write save_8h_p2 to scratch slot!")
 		get_tree().quit(1)
 		return
 		
 	GameState.reset_for_new_game()
-	var loaded_8h_p2 = SaveSystem.read_slot(4)
+	var loaded_8h_p2 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_8h_p2)
 	
 	if QuestManager.get_status("repair_vendor_bot") != "active":
@@ -4485,13 +4490,13 @@ func _ready() -> void:
 	QuestManager.complete("repair_vendor_bot")
 	
 	var save_8h_p3 = SaveSystem.capture("convenience_store", 500.0, 1)
-	if not SaveSystem.write_slot(4, save_8h_p3):
-		printerr("FAIL 8-H: Failed to write save_8h_p3 to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_8h_p3):
+		printerr("FAIL 8-H: Failed to write save_8h_p3 to scratch slot!")
 		get_tree().quit(1)
 		return
 		
 	GameState.reset_for_new_game()
-	var loaded_8h_p3 = SaveSystem.read_slot(4)
+	var loaded_8h_p3 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_8h_p3)
 	
 	if not GameState.get_flag("vendor_bot_repaired", false) or GameState.get_flag("store_robot_resolution", "") != "reset":
@@ -4519,13 +4524,13 @@ func _ready() -> void:
 	GameState.add_item("clerk_echo_recording", 1)
 	
 	var save_8h_p4 = SaveSystem.capture("convenience_store", 500.0, 1)
-	if not SaveSystem.write_slot(4, save_8h_p4):
-		printerr("FAIL 8-H: Failed to write save_8h_p4 to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_8h_p4):
+		printerr("FAIL 8-H: Failed to write save_8h_p4 to scratch slot!")
 		get_tree().quit(1)
 		return
 		
 	GameState.reset_for_new_game()
-	var loaded_8h_p4 = SaveSystem.read_slot(4)
+	var loaded_8h_p4 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_8h_p4)
 	
 	if not GameState.get_flag("vendor_bot_repaired", false) or GameState.get_flag("store_robot_resolution", "") != "gleaned":
@@ -7149,7 +7154,7 @@ func _ready() -> void:
 	GameState.set_flag("ada_misrecognized", true)
 	
 	var save_p14 = SaveSystem.capture("apartment_entrance", 1500.0, 1)
-	if not SaveSystem.write_slot(4, save_p14):
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p14):
 		printerr("FAIL 14-D: SaveSystem.write_slot failed for Phase 14 flags!")
 		get_tree().quit(1)
 		return
@@ -7162,7 +7167,7 @@ func _ready() -> void:
 		return
 		
 	# Load and check applied flags
-	var loaded_p14 = SaveSystem.read_slot(4)
+	var loaded_p14 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p14)
 	
 	if not GameState.get_flag("mem_frag_linfei_1", false):
@@ -7801,10 +7806,10 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	# Capture save state to slot 4
+	# Capture save state to scratch slot
 	var save_data_16d = SaveSystem.capture("underground_settlement", 100.0, 1)
-	if not SaveSystem.write_slot(4, save_data_16d):
-		printerr("FAIL 16-D: Failed to write Phase 16 save to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_data_16d):
+		printerr("FAIL 16-D: Failed to write Phase 16 save to scratch slot!")
 		get_tree().quit(1)
 		return
 
@@ -7825,10 +7830,10 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	# Read slot 4
-	var read_data_16d = SaveSystem.read_slot(4)
+	# Read scratch slot
+	var read_data_16d = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	if read_data_16d.is_empty():
-		printerr("FAIL 16-D: Failed to read save from slot 4!")
+		printerr("FAIL 16-D: Failed to read save from scratch slot!")
 		get_tree().quit(1)
 		return
 
@@ -7927,12 +7932,12 @@ func _ready() -> void:
 		return
 
 	# Save/Load (round-trip) verification
-	# Set flag true, save to slot 4, reset, load, assert flag is true
+	# Set flag true, save to scratch slot, reset, load, assert flag is true
 	GameState.reset_for_new_game()
 	GameState.set_flag("mem_frag_commute_topside", true)
 	var save_p17 = SaveSystem.capture("subway_station_platform", 100.0, 1)
-	if not SaveSystem.write_slot(4, save_p17):
-		printerr("FAIL 17-A: Failed to write Phase 17 save to slot 4!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p17):
+		printerr("FAIL 17-A: Failed to write Phase 17 save to scratch slot!")
 		get_tree().quit(1)
 		return
 
@@ -7942,9 +7947,9 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	var load_p17 = SaveSystem.read_slot(4)
+	var load_p17 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	if load_p17.is_empty():
-		printerr("FAIL 17-A: Failed to read Phase 17 save from slot 4!")
+		printerr("FAIL 17-A: Failed to read Phase 17 save from scratch slot!")
 		get_tree().quit(1)
 		return
 	SaveSystem.apply(load_p17)
@@ -8059,8 +8064,8 @@ func _ready() -> void:
 	GameState.reset_for_new_game()
 	GameState.collect_echo_segment("echo_settlement_erased", "s1")
 	var save_p17b = SaveSystem.capture("underground_settlement_right", 100.0, 1)
-	if not SaveSystem.write_slot(5, save_p17b):
-		printerr("FAIL 17-B: Failed to write Phase 17-B save to slot 5!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p17b):
+		printerr("FAIL 17-B: Failed to write Phase 17-B save to scratch slot!")
 		get_tree().quit(1)
 		return
 
@@ -8070,9 +8075,9 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	var load_p17b = SaveSystem.read_slot(5)
+	var load_p17b = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	if load_p17b.is_empty():
-		printerr("FAIL 17-B: Failed to read Phase 17-B save from slot 5!")
+		printerr("FAIL 17-B: Failed to read Phase 17-B save from scratch slot!")
 		get_tree().quit(1)
 		return
 	SaveSystem.apply(load_p17b)
@@ -8087,8 +8092,8 @@ func _ready() -> void:
 	settlement_right_inst.free()
 	settlement_right_scene = null
 	
-	if dir and dir.file_exists("save_05.sav"):
-		dir.remove("save_05.sav")
+	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
+		dir.remove(TEST_SCRATCH_SAVE_FILE)
 
 	print("PASS: Phase 17-B EchoPoint and registry verified.")
 
@@ -8142,8 +8147,8 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	if not SaveSystem.write_slot(6, save_p17c):
-		printerr("FAIL 17-C: Failed to write save to slot 6!")
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p17c):
+		printerr("FAIL 17-C: Failed to write save to scratch slot!")
 		get_tree().quit(1)
 		return
 		
@@ -8153,9 +8158,9 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	var load_p17c = SaveSystem.read_slot(6)
+	var load_p17c = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	if load_p17c.is_empty():
-		printerr("FAIL 17-C: Failed to read save from slot 6!")
+		printerr("FAIL 17-C: Failed to read save from scratch slot!")
 		get_tree().quit(1)
 		return
 	SaveSystem.apply(load_p17c)
@@ -8183,9 +8188,9 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 		
-	# Clean up slot 6
-	if dir and dir.file_exists("save_06.sav"):
-		dir.remove("save_06.sav")
+	# Clean up scratch slot
+	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
+		dir.remove(TEST_SCRATCH_SAVE_FILE)
 		
 	print("PASS: Phase 17-C Regression and Save/Load Guards verified.")
 
@@ -8974,9 +8979,9 @@ func _ready() -> void:
 	p18_combat_scene = null
 	await get_tree().process_frame
 
-	# Clean up slot 4
-	if dir and dir.file_exists("save_04.sav"):
-		dir.remove("save_04.sav")
+	# Clean up scratch slot
+	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
+		dir.remove(TEST_SCRATCH_SAVE_FILE)
 		
 	# Clean up temporary instances
 	ui_instance_j.free()
@@ -12539,7 +12544,7 @@ func _ready() -> void:
 	GameState.mark_scene_visited("datacenter_backup_core")
 
 	var save_dict_phase25c = SaveSystem.capture("datacenter_backup_core", 100.0, 1)
-	if not SaveSystem.write_slot(4, save_dict_phase25c):
+	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_dict_phase25c):
 		printerr("FAIL 25-C: SaveSystem.write_slot failed for combined Phase 24/25 flags!")
 		get_tree().quit(1)
 		return
@@ -12551,8 +12556,8 @@ func _ready() -> void:
 	add_child(main_instance_phase25c)
 	await get_tree().process_frame
 
-	if not main_instance_phase25c.load_game_slot(4):
-		printerr("FAIL 25-C: load_game_slot(4) failed to load combined Phase 24/25 save!")
+	if not main_instance_phase25c.load_game_slot(TEST_SCRATCH_SAVE_SLOT):
+		printerr("FAIL 25-C: load_game_slot(scratch slot) failed to load combined Phase 24/25 save!")
 		get_tree().quit(1)
 		return
 	await get_tree().process_frame
@@ -12635,6 +12640,8 @@ func _ready() -> void:
 		return
 
 	GameState.reset_for_new_game()
+	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
+		dir.remove(TEST_SCRATCH_SAVE_FILE)
 
 	print("PASS: Phase 25-C regression (Phase 1~24 core routes intact) and save/load guardrails verified.")
 

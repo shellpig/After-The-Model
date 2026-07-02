@@ -295,6 +295,11 @@ note_id
 | 25-A | ✅ 完成 | Act 4 備份區三場景骨架（`datacenter_entrance`＝anchor-05 / `datacenter_backup` 戰鬥③廊道 / `datacenter_backup_core` 核心＝結局觸發掛點佔位）+ SceneRegistry + 雙向轉場 + `nightclub_entrance` travel「AI 資料中心」+ 善後員合法門禁 gate（反諷）。travel gate＝`passed_nightclub_security AND (seven_peace_branch_d OR seven_stopped_full OR seven_stopped_partial)`、門禁 gate＝`has_item("old_work_badge") AND get_flag("read_old_work_order")`，**皆讀既有旗標 / 物品，零新存讀檔欄位、不改 Phase 24**。晚 flavor 提醒「再看一眼舊卡」純演出不參與 gate。headless PASS（commit `9ec5bad`）|
 | 25-B | ✅ 完成 | 戰鬥③（低階保全，跑到門）：`datacenter_backup` 混合敵人＝機器哨兵（`machine_enemy` 格式化清路，沿用 13）+ 人類保全（`human_enemy` 朝玩家 x 追擊、**不可殺**，唯一新做＝最小追擊 AI）；勝利＝抵達右端門按 E（`exit_to_core` 互動，與 tunnel_combat / 24-C 出口同型）→ 轉 `datacenter_backup_core`；**無失敗態**（碰撞＝knockback / stagger，無 Game Over / 無 combat_loss 岔線）。headless PASS（commit `97fb782`；驗證後修正＝UI 開啟時敵人凍結（walker_01 / rack_sentinel / security_guard 比照 player 查 UIMode）+ knockback 直接取消跳躍 / 攻擊狀態，均含回歸測試）|
 | 25-C | ✅ 完成 | 回歸 + 存讀檔護欄：三場景載入 + 全鏈 round-trip、travel / 門禁 gate、戰鬥③ 抵達門、Phase 1~24 不退化（尤其 Phase 24 追逐 / 攤牌、`tunnel_combat` 入口、聚落往返）。前提硬規則：人類不可打死 / 格式化；無 Game Over；不碰 Phase 26 演出 / 結局；不動 Trace。外部素材已全數到貨（2026-07-02）：兩室 map 圖 + 機器哨兵 / 人類保全 sprite + Act 4 BGM 兩軌（`Heartbeat of the Machine`＝戰鬥③ `datacenter_backup`、`The Cold Mirror (Loop)`＝entrance / core）；entrance 用 anchor-05。headless PASS（commit `4dcb28b`；該 commit 並補回 24-C `tunnel_chase` 兩室 Player 缺失的 AnimatedSprite2D / CollisionShape2D 節點，見 `驗證後已知問題.md > 25-C`）|
+| 26-A | 📐 規格可實作 | 晚拉扯演出：晚實體到場 `datacenter_entrance` 門禁大門前，走近自動觸發一次性對話（v2.3 §4.3 活人安全版＋私心版**一次給足、不設 affinity 門檻**）→ set `wan_act4_pull_seen`；之後留原地可 E retalk 短版（5-D 慣例）；**不參與門禁 gate**。程式未開工 |
+| 26-B | 📐 規格可實作 | 阿達④本人短暫登場一次（「你忘了啊？也好。至少有人可以忘」，§3 四段式收尾）：`datacenter_entrance` 靠 travel 落點，首次到場且 `read_old_work_order`（**順序護欄④不早於③**）自動觸發一拍短對話 → set `ada_final_words_seen` → 淡出**永久消失**。素材唯一缺口：阿達世界 sprite（idle）＋對話立繪（g2d 可生、非 user blocker）。程式未開工 |
+| 26-C | 📐 規格可實作 | 真相碎片「你自己選擇被刪、為保護那個網」：`datacenter_backup_core` 備份主機前必經 `MemoryFragmentArea`（14 同款）自動收取 → set `mem_frag_chose_deletion`；文案回連 `mem_frag_commute_topside` / `mem_frag_hideout`。程式未開工 |
+| 26-D | 📐 規格可實作 | 結局觸發點武裝 + Branch B 檔案重標記（**v2.3 §12 開放問題 5 拍板，2026-07-02**）：「自己的備份」碎片後 examine 換重量級文字（名字露出一次）＋ set `stood_before_own_backup`（**forward 契約：27-B 三結局路由掛點**；不開選單，4-G 教訓）；新「檔案索引終端」examine `seven_stopped_partial` 變體＝小岑聲紋檔具體標紅「待清理」＋未具名黑戶檔案重標記（不點名伍姐／七號／林霏）。程式未開工 |
+| 26-E | 📐 規格可實作 | 回歸 + 存讀檔 + GUI：四旗標 round-trip、26-A/B 一次性跨存讀不重播、順序護欄、Phase 1~25 不退化。程式未開工 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測已完成。
 
@@ -673,7 +678,7 @@ Phase 18 待寫 / 待掛：`scenes/levels/tunnel_combat/tunnel_combat.tscn` / `.
 
 ### Phase 25 子階段（三份對照）
 
-> 行號以 2026-06-28 Phase 25 規格寫入版為準；大幅改寫後需校正。Phase 25 = Act 4 備份區三場景骨架 + 戰鬥③（跑到門）；📐 規格可實作，程式未開工。純複用既有系統（travel / interactable / scene router / Phase 13 戰鬥），唯一新做＝人類保全最小追擊 AI；**無新存讀檔欄位**（gate 全讀既有旗標 / 物品）。
+> 行號以 2026-06-28 Phase 25 規格寫入版為準；大幅改寫後需校正。Phase 25 = Act 4 備份區三場景骨架 + 戰鬥③（跑到門）；✅ 25-A~C 已完成（headless PASS，commits `9ec5bad` / `97fb782` / `4dcb28b` + 驗證修補 `c620ba5`；GUI / 純觸控走查完成，2026-07-02）。純複用既有系統（travel / interactable / scene router / Phase 13 戰鬥），唯一新做＝人類保全最小追擊 AI；**無新存讀檔欄位**（gate 全讀既有旗標 / 物品）。
 > **新場景**：`datacenter_entrance`（anchor-05）/ `datacenter_backup`（戰鬥③）/ `datacenter_backup_core`（核心＝結局觸發掛點佔位，26-D 才接）。**入口**：`nightclub_entrance` travel「AI 資料中心」。**敘事事實來源**：`subdocs/主線/雨還沒停v2.3` §7（Act 4）+ §6 + §8。
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
@@ -684,6 +689,22 @@ Phase 18 待寫 / 待掛：`scenes/levels/tunnel_combat/tunnel_combat.tscn` / `.
 | 25-C 回歸 + 存讀檔護欄 | 3039（子階段表）| 3569–3586（存讀檔 / test_runner / 素材）| 1110–1114 |
 
 依賴：13（戰鬥組件 / 機器格式化 / 人類不可殺）、24（Act 3→4 終端旗標＝travel gate）、23（`passed_nightclub_security`）、19-B（`read_old_work_order` 門禁前置→自動成 Act 4 硬前置）、9-C（`travel` 目的地選單）、21（anchor-05 / `nightclub_entrance` 入口）。canonical（**皆既有、無新增**）：`old_work_badge`（公寓開場 key item，不可丟 / 不可賣）/ `read_old_work_order` / `passed_nightclub_security` / `seven_peace_branch_d` / `seven_stopped_full` / `seven_stopped_partial`。**外部素材（blocker，你方提供）**：`datacenter_backup` / `datacenter_backup_core` 兩張 map 圖、機器哨兵 + 人類保全 sprite、Act 4 專屬 BGM；`datacenter_entrance` 用既有 anchor-05。**前提硬規則**：人類保全不可打死 / 格式化；無 Game Over / 無失敗岔線；不碰 Phase 26 演出 / 結局；不動 Trace。
+
+### Phase 26 子階段（三份對照）
+
+> 行號以 2026-07-02 Phase 26 規格寫入版為準；大幅改寫後需校正。Phase 26 = Act 4 演出（阿達④ / 晚拉扯）+ 真相碎片 + 結局觸發點武裝；📐 規格可實作，程式未開工。**零新系統**（對話 5/16、`MemoryFragmentArea` 14、examine 條件變體 19、自動觸發 Area2D 全複用）、**零新存讀檔 schema**（4 旗標全走 story_flags）；三結局路由本體＝27-B，本 Phase 不寫結局分支 / 不開選單 / 不碰 Trace。
+> **無新場景**（全掛 Phase 25 三場景；`datacenter_backup` 戰鬥③不動）。**敘事事實來源**：`subdocs/主線/雨還沒停v2.3` §4.3（晚拉扯拍板台詞）+ §3（四段式④拍板台詞）+ §7（Act 4 碎片）+ §8（共用觸發點）+ §7.2（Branch B）。規格 2026-07-02 討論定案，同日拍板 v2.3 §12 開放問題 5（Branch B 檔案重標記＝core 檔案索引終端、小岑具體＋其餘不具名）。
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 26 總覽 + 節拍動線 + 子階段表 | 3075–3103 | 3587–3662（核心 / 佈點 / 26-A~D / 旗標 / i18n / test_runner）| 1115–1126 |
+| 26-A 晚拉扯 | 3089（子階段表）| 3603–3610 | 1118 |
+| 26-B 阿達④ | 3090（子階段表）| 3611–3617 | 1119 |
+| 26-C 真相碎片 | 3091（子階段表）| 3618–3623 | 1120 |
+| 26-D 觸發點武裝 + Branch B 檔案重標記 | 3092（子階段表）| 3624–3637 | 1121–1122 |
+| 26-E 回歸 + 存讀檔（test_runner）| 3093（子階段表）| 3655–3662 | 1123–1126 |
+
+依賴：25（三場景 + 核心佔位 + BGM 已接）、24（`seven_stopped_partial`）、19-B（`read_old_work_order`）、5/16（對話系統 + NPC 掛法）、14（`MemoryFragmentArea`）、19（examine 條件變體 pattern）。新 canonical（皆 bool / story_flags）：`wan_act4_pull_seen` / `ada_final_words_seen` / `mem_frag_chose_deletion` / `stood_before_own_backup`（**forward 契約：27-B 三結局路由掛點**）。**外部素材（唯一缺口，g2d 可生、非 user blocker）**：阿達世界 sprite（idle，離場 fade 不需 walk）＋對話立繪，26-B 動工前補。**前提硬規則**：不碰 Trace；不寫結局分支 / 不開結局選單；④不得早於③；私心版不設 affinity 門檻；Branch B 小岑具體、其餘不具名、不點名伍姐／七號／林霏。
 
 ### Phase M1 子階段（三份對照）
 

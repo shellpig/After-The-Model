@@ -18,6 +18,33 @@
 [ext_resource type="Texture2D" uid="uid://cqlevyto1pcct" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="16_jump4"]
 [ext_resource type="Texture2D" uid="uid://dr0483468d6l7" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="17_jump5"]
 [ext_resource type="Texture2D" uid="uid://xvrwlgw2fiwr" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="18_jump6"]
+[ext_resource type="Texture2D" uid="uid://cklwjjc6jk3q" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-5-stylematch-v3.png" id="19_cw5"]
+[ext_resource type="Texture2D" uid="uid://cxse0nknh6geu" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-1-stylematch-v3.png" id="20_cw1"]
+[ext_resource type="Texture2D" uid="uid://dwo1nkoejwbha" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-2-stylematch-v3.png" id="21_cw2"]
+[ext_resource type="Texture2D" uid="uid://bqsaduk65257o" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-3-stylematch-v3.png" id="22_cw3"]
+[ext_resource type="Texture2D" uid="uid://cb3qahecygj4y" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-4-stylematch-v3.png" id="23_cw4"]
+[ext_resource type="Texture2D" uid="uid://755a058kmgmd" path="res://assets/generated/sprites/main_character/combat_walk/main-character-combat-walk-6-stylematch-v3.png" id="24_cw6"]
+[ext_resource type="Texture2D" uid="uid://b3bvmptrhb0yq" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-1.png" id="25_a1"]
+[ext_resource type="Texture2D" uid="uid://ct1jeksj1qf7c" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-2.png" id="26_a2"]
+[ext_resource type="Texture2D" uid="uid://c2hnt1y67a2s6" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-3.png" id="27_a3"]
+[ext_resource type="Texture2D" uid="uid://0opwh5dxjmtg" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-4.png" id="28_a4"]
+[ext_resource type="Texture2D" uid="uid://bda61wg3cqu8n" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-5.png" id="29_a5"]
+[ext_resource type="Texture2D" uid="uid://kud8yqfhd1ic" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-6.png" id="30_a6"]
+[ext_resource type="Texture2D" uid="uid://dqc6kypwwj4ps" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-7.png" id="31_a7"]
+[ext_resource type="Texture2D" uid="uid://car2cy8ayorh" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-8.png" id="32_a8"]
+[ext_resource type="Texture2D" uid="uid://dauowl3a8yvft" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-9.png" id="33_a9"]
+[ext_resource type="Texture2D" uid="uid://bkdo1ipdpfidr" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-10.png" id="34_a10"]
+[ext_resource type="Texture2D" uid="uid://deqx8fpte1ayg" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-11.png" id="35_a11"]
+[ext_resource type="Texture2D" uid="uid://c8g155i8o2tej" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-12.png" id="36_a12"]
+[ext_resource type="Texture2D" uid="uid://c5e7a0mthoyv3" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-13.png" id="37_a13"]
+[ext_resource type="Texture2D" uid="uid://d1m7buhc6asps" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-14.png" id="38_a14"]
+[ext_resource type="Texture2D" uid="uid://bxijd10e7vafq" path="res://assets/generated/sprites/main_character/attack/main-character-attack-20260620-081727/main-character-attack-15.png" id="39_a15"]
+[ext_resource type="Script" path="res://scenes/actors/rack_sentinel/rack_sentinel.gd" id="40_rack_script"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_rack_sentinel/hidden_idle/idle.png" id="41_rack_idle"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_rack_sentinel/horizontal_move/horizontal_move.png" id="42_rack_move"]
+[ext_resource type="Script" path="res://scenes/actors/security_guard/security_guard.gd" id="43_guard_script"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/idle/idle.png" id="44_guard_idle"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/walk/walk.png" id="45_guard_walk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4768, 16)
@@ -27,6 +54,87 @@ size = Vector2(130, 360)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_a1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_a2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_a3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_a4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_a5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_a6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_a7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_a8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_a9")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_a10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_a11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_a12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_a13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_a14")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_a15")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("19_cw5")
+}],
+"loop": true,
+"name": &"combat_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_cw1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_cw2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_cw3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_cw4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_cw5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_cw6")
+}],
+"loop": true,
+"name": &"combat_walk",
+"speed": 10.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("6_walk2")
@@ -89,7 +197,54 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(24, 454)
+size = Vector2(34, 454)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rack_sentinel"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("41_rack_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("42_rack_move")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rack_sentinel"]
+size = Vector2(220, 190)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_security_guard"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("44_guard_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("45_guard_walk")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_guard_body"]
+size = Vector2(160, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_guard_contact"]
+size = Vector2(90, 300)
 
 [node name="DatacenterBackup" type="Node2D"]
 script = ExtResource("2_script")
@@ -149,12 +304,59 @@ script = ExtResource("1_player")
 min_x = 100.0
 max_x = 4680.0
 walk_line_y = 690.0
+walk_anim = "combat_walk"
+idle_anim = "combat_idle"
+combat_mode = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
-position = Vector2(20, -184)
+position = Vector2(0, -50)
 sprite_frames = SubResource("SpriteFrames_player")
-animation = &"idle"
+animation = &"combat_walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(30, -221)
+position = Vector2(-14, 0)
 shape = SubResource("RectangleShape2D_player")
+
+[node name="RackSentinel" type="CharacterBody2D" parent="."]
+position = Vector2(1700, 800)
+script = ExtResource("40_rack_script")
+min_x = 1200.0
+max_x = 2200.0
+speed = 90.0
+ground_y = 780.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="RackSentinel"]
+position = Vector2(0, -60)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_rack_sentinel")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RackSentinel"]
+visible = false
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_rack_sentinel")
+
+[node name="SecurityGuard" type="CharacterBody2D" parent="."]
+position = Vector2(3300, 800)
+script = ExtResource("43_guard_script")
+min_x = 800.0
+max_x = 4550.0
+speed = 110.0
+ground_y = 780.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SecurityGuard"]
+position = Vector2(0, -140)
+scale = Vector2(0.28, 0.28)
+sprite_frames = SubResource("SpriteFrames_security_guard")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SecurityGuard"]
+visible = false
+position = Vector2(0, -80)
+shape = SubResource("RectangleShape2D_guard_body")
+
+[node name="ContactArea" type="Area2D" parent="SecurityGuard"]
+position = Vector2(0, -80)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SecurityGuard/ContactArea"]
+shape = SubResource("RectangleShape2D_guard_contact")

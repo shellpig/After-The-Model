@@ -49,6 +49,10 @@ var _attack_impact_emitted := false
 # Used by uneven walk surfaces (e.g. the sagging fire-escape bridge).
 var walk_height_points: Array = []
 
+# Phase 25-B: brief, non-punishing stagger when a chasing human guard makes contact.
+var _staggered := false
+var _stagger_t := 0.0
+
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
 # Climb mode variables for Phase 7-F
@@ -104,6 +108,15 @@ func _physics_process(delta: float) -> void:
 			_attack_impact_emitted = false
 		anim.play(idle_anim)
 		_apply_sprite_transform()
+		return
+
+	if _staggered:
+		_stagger_t -= delta
+		position.y = _walk_y_at(position.x)
+		anim.play(idle_anim)
+		_apply_sprite_transform()
+		if _stagger_t <= 0.0:
+			_staggered = false
 		return
 
 	if climb_mode:
@@ -272,6 +285,19 @@ func is_jumping() -> bool:
 # Phase 13-A: attack state query.
 func is_attacking() -> bool:
 	return _attacking
+
+# Phase 25-B: called by SecurityGuard on contact. Shoves the player along x and
+# freezes movement/attack/jump briefly. No damage, no flags -- knockback only.
+func apply_knockback(push_dir: float, distance: float, stagger_time: float) -> void:
+	if _staggered:
+		return
+	_staggered = true
+	_stagger_t = stagger_time
+	position.x = clamp(position.x + push_dir * distance, min_x, max_x)
+	velocity = Vector2.ZERO
+
+func is_staggered() -> bool:
+	return _staggered
 
 func _play_attack_anim() -> void:
 	if anim.sprite_frames and anim.sprite_frames.has_animation("attack"):

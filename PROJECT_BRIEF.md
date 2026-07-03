@@ -2,7 +2,7 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-07-02
+最後更新：2026-07-03
 
 ---
 
@@ -301,9 +301,13 @@ note_id
 | 26-D | 📐 規格可實作 | 結局觸發點武裝 + Branch B 檔案重標記（**v2.3 §12 開放問題 5 拍板，2026-07-02**）：「自己的備份」碎片後 examine 換重量級文字（名字露出一次）＋ set `stood_before_own_backup`（**forward 契約：27-B 三結局路由掛點**；不開選單，4-G 教訓）；新「檔案索引終端」examine `seven_stopped_partial` 變體＝小岑聲紋檔具體標紅「待清理」＋未具名黑戶檔案重標記（不點名伍姐／七號／林霏）。程式未開工 |
 | 26-E | 📐 規格可實作 | 回歸 + 存讀檔 + GUI：四旗標 round-trip、26-A/B 一次性跨存讀不重播、順序護欄、Phase 1~25 不退化。程式未開工 |
 | 27-A | 📐 規格可實作 | `broadcast_station` 正式場景（**v2.3 §12 問題 1 拍板升正式，2026-07-02**）：單室、唯一 entry `from_backup_core`、進場一次性 MessageBox、flavor examine（**不放 NPC**）、**無回程出口**（單向）、`can_save_here = true`、新 BGM（user 委製，**已到貨 2026-07-02**＝`assets/bgm/The Yellow Light Tape.mp3`）、map（**已到貨 2026-07-02**＝`assets/generated/maps/broadcast_station/`）。程式未開工 |
-| 27-B | 📐 規格可實作 | 三結局路由（26-D forward 契約兌現；**v2.3 §12 問題 3 拍板不硬鎖**）：`stood_before_own_backup` 後重看「自己的備份」開三選對話（重錨定→三動詞「灌回去 / 刪掉它 / 拷貝走」→確認前小節→鎖點）；三選無條件全開不看 Trust / Trace；互斥旗標 `ending_route_reclaim/protect/expose`；退開不寫旗標、選定即鎖（DECIDED 不可重選）；R / P 停原地待 28、Expose 單向轉場廣播站。程式未開工 |
+| 27-B | 📐 規格可實作 | 三結局路由（26-D forward 契約兌現；**v2.3 §12 問題 3 拍板不硬鎖**）：`stood_before_own_backup` 後重看「自己的備份」開三選對話（存檔提示[一次性，set `ending_save_hint_seen`，文案拍板 2026-07-03]→重錨定→三動詞「灌回去 / 刪掉它 / 拷貝走」→確認前小節→鎖點）；三選無條件全開不看 Trust / Trace；互斥旗標 `ending_route_reclaim/protect/expose`；退開不寫旗標、選定即鎖（DECIDED 不可重選）；R / P 停原地待 28、Expose 單向轉場廣播站。程式未開工 |
 | 27-C | 📐 規格可實作 | 上傳前清洗閘五拍（**清洗第一次硬兌現**，11-D 移入）：掃描染色（`echo_count` 兩檔）→ 中性警告（Branch B 變體）→ 手藝反諷三選 → 代價當場兌現 → 最終確認鎖點寫 `expose_upload_cleaned` + `expose_upload_done`；單一 bool 無逐項清洗 UI；退開不留半套狀態。系統擴充唯一＝DialogueRunner `echo_count` condition。程式未開工 |
-| 27-D | 📐 規格可實作 | 回歸 + 存讀檔：5 旗標 round-trip、廣播站內存讀、三選前留檔三路皆可達、Phase 1~26 不退化；**本 Phase 不碰 Trace / 不做 A/B/C 判定（29）/ 不做結局演出（28）**。程式未開工 |
+| 27-D | 📐 規格可實作 | 回歸 + 存讀檔：6 旗標 round-trip（含 `ending_save_hint_seen`）、廣播站內存讀、三選前留檔三路皆可達、Phase 1~26 不退化；**本 Phase 不碰 Trace / 不做 A/B/C 判定（29）/ 不做結局演出（28）**。程式未開工 |
+| 28-A | 📐 規格可實作 | Reclaim 三站腳本化序列（**2026-07-03 規格定案**）：backup_core 灌回演出（2-G 開場鏡像多頁＋`trace` 兩檔壓垮拍）→ `apartment_entrance` 晚訣別（`affinity_wan` 兩檔）＋fade out **永久消失** → 公寓痕跡拍＋set `ending_reclaim_played` 靜止停（30-A 掛點）；站間自動 travel、全程禁存。程式未開工 |
+| 28-B | 📐 規格可實作 | Protect 主體：刪除演出（短、與 Reclaim 刻意不對稱）→ 28-C 中間站 → 晚拍板台詞「你又變回來了」固定**不消失** → 公寓 set `ending_protect_played` 靜止停；Protect 全程無染色變體。程式未開工 |
+| 28-C | 📐 規格可實作 | 小岑條件式回收＝中間站分岔：not-B → `subway_station` 大廳**上行線復駛背景事件**（廣播拍＋`AmbientSubway` 遠轟；與主角／分支無關、不改聚落安全）＋小岑過閘「大叔，站那邊幹嘛？車要來了欸。」（v2.3 §8 舞台化改句）；B → 聚落 `empty_tent`＋伍姐沉默搖頭拍。程式未開工 |
+| 28-D | 📐 規格可實作 | 回歸 + 存讀檔：2 旗標（`ending_reclaim/protect_played`）round-trip、序列站禁存、選擇前留檔 R / P 含 28-C 兩變體共 3 條路可達、**孤兒檔救援**（route 已設未 played 讀檔強制回 backup_core 開序列）、Phase 1~27 不退化。程式未開工 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測已完成。
 
@@ -712,18 +716,33 @@ Phase 18 待寫 / 待掛：`scenes/levels/tunnel_combat/tunnel_combat.tscn` / `.
 
 ### Phase 27 子階段（三份對照）
 
-> 行號以 2026-07-02 Phase 27 規格寫入版為準；大幅改寫後需校正。Phase 27 = 地下廣播站 + 三結局路由 + 清洗閘兌現；📐 規格可實作，程式未開工（依賴 26 先行）。**1 新場景**（`broadcast_station`，Expose 唯一出口、單向、可存檔、無 NPC）、**1 系統小擴充**（DialogueRunner `echo_count` condition，23 補 `credits` 同例）、**零新存讀檔 schema**（5 旗標全走 story_flags）。A/B/C 判定與 Trace 臨界值＝Phase 29；結局演出＝Phase 28/29；**本 Phase 不碰 Trace**。
+> 行號以 2026-07-03 Phase 28 規格寫入後重校版為準；大幅改寫後需校正。Phase 27 = 地下廣播站 + 三結局路由 + 清洗閘兌現；📐 規格可實作，程式未開工（依賴 26 先行）。**1 新場景**（`broadcast_station`，Expose 唯一出口、單向、可存檔、無 NPC）、**1 系統小擴充**（DialogueRunner `echo_count` condition，23 補 `credits` 同例）、**零新存讀檔 schema**（5 旗標全走 story_flags）。A/B/C 判定與 Trace 臨界值＝Phase 29；結局演出＝Phase 28/29；**本 Phase 不碰 Trace**。
 > **敘事事實來源**：`subdocs/主線/雨還沒停v2.3` §8（三結局共用觸發點 + Expose 清洗）+ §6（清洗定義）+ §4.1（名字不對稱）。規格 2026-07-02 討論定案，同日拍板 v2.3 §12 開放問題 1（地下廣播站升正式場景）與 3（Reclaim / Protect 不硬鎖，三選無條件全開）。
 
 | 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
 |---|---|---|---|
-| Phase 27 總覽 + 路由規則 + 節拍 + 子階段表 | 3105–3140 | 3663–3736（核心 / 27-A~C / 旗標 / i18n / test_runner）| 1128–1137 |
-| 27-A `broadcast_station` 場景 | 3127（子階段表）| 3668–3675 | 1131 |
-| 27-B 三結局路由（三選對話） | 3110–3115（節拍）+ 3128 | 3676–3701 | 1132–1133 |
-| 27-C 清洗閘五拍 | 3117–3123（五拍）+ 3129 | 3702–3712 | 1134 |
-| 27-D 回歸 + 存讀檔（test_runner）| 3130（子階段表）| 3730–3736 | 1135 |
+| Phase 27 總覽 + 路由規則 + 節拍 + 子階段表 | 3105–3141 | 3663–3737（核心 / 27-A~C / 旗標 / i18n / test_runner）| 1128–1138 |
+| 27-A `broadcast_station` 場景 | 3128（子階段表）| 3668–3675 | 1131 |
+| 27-B 三結局路由（三選對話＋存檔提示拍） | 3110–3116（節拍）+ 3129 | 3676–3702 | 1132–1134 |
+| 27-C 清洗閘五拍 | 3118–3124（五拍）+ 3130 | 3703–3713 | 1135 |
+| 27-D 回歸 + 存讀檔（test_runner）| 3131（子階段表）| 3732–3737 | 1136 |
 
-依賴：26（`stood_before_own_backup` 觸發點武裝）、5/16（對話系統）、24（`travel` effect op / `seven_stopped_partial`）、4-E（entry point 演出）、9（`echo_progress` 計數）、11（清洗概念自 11-D 移入）。新 canonical（皆 bool / story_flags）：`ending_route_reclaim` / `ending_route_protect` / `ending_route_expose`（**互斥**，27-B 確認拍寫入；下游 28-A / 28-B / 29）＋ `expose_upload_cleaned` / `expose_upload_done`（27-C 鎖點寫入；29-A/B 分界 / 判定觸發）。**外部素材：已全數到貨（2026-07-02）**——map（`assets/generated/maps/broadcast_station/broadcast_station-20260702-234241.png`）＋ 廣播站 BGM 新軌（`assets/bgm/The Yellow Light Tape.mp3`，user 委製）；無剩餘 blocker。**前提硬規則**：三選無條件全開；選定即鎖、確認拍前皆可退開；名字不再露出（26-D 已露一次）；清洗＝單一 bool 不可逐項檢視；不碰 Trace / 不做 A/B/C 判定 / 不做結局演出；台詞補白實作時定稿。
+依賴：26（`stood_before_own_backup` 觸發點武裝）、5/16（對話系統）、24（`travel` effect op / `seven_stopped_partial`）、4-E（entry point 演出）、9（`echo_progress` 計數）、11（清洗概念自 11-D 移入）。新 canonical（皆 bool / story_flags）：`ending_route_reclaim` / `ending_route_protect` / `ending_route_expose`（**互斥**，27-B 確認拍寫入；下游 28-A / 28-B / 29）＋ `expose_upload_cleaned` / `expose_upload_done`（27-C 鎖點寫入；29-A/B 分界 / 判定觸發）＋ `ending_save_hint_seen`（27-B 存檔提示一次性去重，2026-07-03 拍板回補）。**外部素材：已全數到貨（2026-07-02）**——map（`assets/generated/maps/broadcast_station/broadcast_station-20260702-234241.png`）＋ 廣播站 BGM 新軌（`assets/bgm/The Yellow Light Tape.mp3`，user 委製）；無剩餘 blocker。**前提硬規則**：三選無條件全開；選定即鎖、確認拍前皆可退開；名字不再露出（26-D 已露一次）；清洗＝單一 bool 不可逐項檢視；不碰 Trace / 不做 A/B/C 判定 / 不做結局演出；台詞補白實作時定稿。
+
+### Phase 28 子階段（三份對照）
+
+> 行號以 2026-07-03 Phase 28 規格寫入版為準；大幅改寫後需校正。Phase 28 = Reclaim + Protect 結局演出；📐 規格可實作，程式未開工（依賴 27 先行）。**零新場景、零系統擴充、零新存讀檔 schema**（2 旗標走 story_flags）；腳本化單向序列（站間自動 travel、玩家不自由走動、全程禁存）；染色只落 Reclaim（`trace` / `affinity_wan` 各兩檔共四版文字）、Protect 拍板台詞固定。共用收尾（雨＋歌＋橙）＝30-A；Expose＝29；**Trace 只讀不寫**。
+> **敘事事實來源**：v2.3 §8（＋2026-07-03 加註：小岑台詞舞台化改句「車要來了欸」、「上行線復駛」背景事件；後日談點子記 §12-6）。規格 2026-07-03 討論定案（序列形態 / 存檔提示 / R 序列 / P+C 序列 / 染色範圍 / 存檔語意 六題拍板）；同日拍板回補 27-B 存檔提示拍（`ending_save_hint_seen`）。
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 28 總覽 + 序列規則 + 兩序列節拍 + 子階段表 | 3143–3177 | 3739–3797（序列控制 / 28-A~C / 旗標 / i18n / test_runner）| 1140–1148 |
+| 28-A Reclaim 三站（灌回＋訣別＋痕跡） | 3148–3152（節拍）+ 3164 | 3756–3761 | 1143–1144 |
+| 28-B Protect 主體（刪除＋晚固定拍） | 3154–3162（節拍）+ 3165 | 3762–3767 | 1145 |
+| 28-C 小岑條件式回收（中間站分岔＋復駛） | 3157–3159（節拍）+ 3166 | 3768–3774 | 1146 |
+| 28-D 回歸 + 存讀檔（test_runner） | 3167（子階段表）| 3790–3797 | 1147 |
+
+依賴：27（`ending_route_reclaim/protect`＋停原地掛點）、26（五枚碎片旗標 / 26-A 自動對話 / 26-B fade）、24（`travel` op / `cen_voiceprint_exposed` / `empty_tent`）、11（`trace` 只讀）、10（`AmbientSubway`）、5/16（對話系統）、4-E（entry point 演出）、2-G（begin_message 序列）。新 canonical（皆 bool / story_flags）：`ending_reclaim_played` / `ending_protect_played`（公寓終站寫入；30-A 共用收尾掛點）。新 epilogue entry points：`apartment_entrance:epilogue_wan` / `subway_station:epilogue_cen` / `underground_settlement:epilogue_settlement` / `apartment:epilogue_home`。**外部素材**：小岑 walk sprite（若既有僅 idle；g2d 可生）＋可選地鐵大廳亮屏 overlay；**非 user blocker**。**前提硬規則**：序列全自動＋全程禁存；Protect 固定台詞不染色；復駛＝世界背景事件（與主角／分支無關、不改聚落安全、僅 Protect not-B 途經可見）；七號不實體登場（30-A 文字帶）；孤兒檔救援（route 已設未 played 強制回 backup_core）；名字不露出；台詞補白實作時定稿。
 
 ### Phase M1 子階段（三份對照）
 

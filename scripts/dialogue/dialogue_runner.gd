@@ -177,6 +177,9 @@ func _eval_condition_dict(cond: Dictionary) -> bool:
 			current_val = QuestManager.get_flag(quest_id, key, false)
 		"credits":
 			current_val = GameState.get_credits()
+		"echo_count":
+			# Phase 27-C：清洗閘掃描拍用——已蒐殘響 segment 總數（未賣），供兩檔文字變體判斷。
+			current_val = GameState.get_collected_echo_segment_count()
 		"story_flag", _:
 			var flag = cond.get("flag", "")
 			if flag.is_empty():

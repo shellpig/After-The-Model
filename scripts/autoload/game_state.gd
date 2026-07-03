@@ -198,7 +198,8 @@ const STORY_MESSAGES := {
 	"broadcast_arrival": "MSG_BROADCAST_ARRIVAL",
 	"broadcast_flavor_transmitter": "MSG_BROADCAST_FLAVOR_TRANSMITTER",
 	"broadcast_flavor_old_media": "MSG_BROADCAST_FLAVOR_OLD_MEDIA",
-	"broadcast_flavor_predecessor": "MSG_BROADCAST_FLAVOR_PREDECESSOR"
+	"broadcast_flavor_predecessor": "MSG_BROADCAST_FLAVOR_PREDECESSOR",
+	"broadcast_upload_done_idle": "MSG_BROADCAST_UPLOAD_DONE_IDLE"
 }
 
 # MVP Temporary Stub DB
@@ -1375,6 +1376,16 @@ func is_echo_sold(echo_id: String) -> bool:
 	if not echo_progress.has(echo_id):
 		return false
 	return echo_progress[echo_id].get("sold", false)
+
+# Phase 27-C：清洗閘掃描拍用——加總目前持有（未賣）殘響的已收 segment 總數，
+# 供 DialogueRunner echo_count condition 判斷「蒐得多 / 少」兩檔文字變體。
+func get_collected_echo_segment_count() -> int:
+	var total := 0
+	for echo_id in echo_progress:
+		if is_echo_sold(echo_id):
+			continue
+		total += echo_progress[echo_id].get("collected", []).size()
+	return total
 
 func sell_echo(echo_id: String) -> bool:
 	if not is_echo_complete(echo_id) or is_echo_sold(echo_id):

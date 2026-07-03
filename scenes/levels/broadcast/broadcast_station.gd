@@ -1,5 +1,7 @@
 # res://scenes/levels/broadcast/broadcast_station.gd
 # Phase 27-A: 地下廣播站正式場景。單室、唯一 entry from_backup_core、單向（無回資料中心出口）、can_save_here=true。
+# Phase 27-C: 上傳終端（UploadTerminal）分派升級——expose_upload_done 已設 -> 中性 idle examine（不重開清洗閘樹）；
+# 否則開 broadcast_upload 對話（五拍清洗閘）。
 extends Node2D
 
 signal current_interactable_changed(data: Dictionary)
@@ -79,6 +81,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		_trigger_interaction()
 
 func _trigger_interaction() -> void:
+	if current_interactable.interaction_id == "upload_terminal":
+		# Phase 27-C：已上傳（expose_upload_done）-> 中性 idle examine，不重開清洗閘樹。
+		if GameState.get_flag("expose_upload_done", false):
+			interaction_requested.emit({
+				"type": "message",
+				"message_text": GameState.STORY_MESSAGES["broadcast_upload_done_idle"]
+			})
+		else:
+			interaction_requested.emit({
+				"type": "dialogue",
+				"dialogue_id": "broadcast_upload"
+			})
+		return
+
 	if current_interactable.dialogue_id != "":
 		interaction_requested.emit({
 			"type": "dialogue",

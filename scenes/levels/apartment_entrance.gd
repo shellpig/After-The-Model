@@ -63,6 +63,10 @@ const BILLBOARD_GLITCH_DURATION := 0.35  # transition length
 @onready var ambient_rain: AudioStreamPlayer = $AmbientRain
 @onready var ambient_subway: AudioStreamPlayer = $AmbientSubway
 @onready var subway_timer: Timer = $SubwayTimer
+@onready var game_ui: CanvasLayer = _find_game_ui()
+
+# Phase 28-A：Reclaim 站 2 — 晚訣別 + CG「走進雨裡」永久消失。
+const WAN_CG_RAIN_PATH := "res://assets/generated/sprites/wan/cg_walk_into_rain/cg_walk_into_rain.jpeg"
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
@@ -71,6 +75,16 @@ var _entry_payload: Dictionary = {}
 var _ambience_time: float = 0.0
 var _camera_drift_strength: float = 1.0
 var _subway_first_armed: bool = false
+var _reclaim_farewell_active: bool = false
+var _reclaim_cg_shown: bool = false
+
+func _find_game_ui() -> CanvasLayer:
+	var root := get_tree().root if is_inside_tree() else null
+	if root:
+		var gu = root.find_child("GameUI", true, false)
+		if gu:
+			return gu
+	return null
 
 # Per-billboard carousel runtime state.
 class BillboardCarousel:
@@ -103,6 +117,8 @@ func _ready() -> void:
 	if main and main.has_method("play_bgm"):
 		main.play_bgm("res://assets/bgm/Faded Neon Departure.mp3")
 
+	_setup_wan_epilogue()
+
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)
@@ -112,6 +128,22 @@ func _ready() -> void:
 	_start_ambience()
 	_setup_billboards()
 	_update_subway_entrance_state()
+
+	if _entry_point_id == "epilogue_wan" and GameState.get_flag("ending_route_reclaim", false) and not GameState.get_flag("ending_reclaim_played", false):
+		_reclaim_farewell_active = true
+		SaveSystem.can_save_here = false
+
+# Phase 28-A：晚訣別演出已讀完過（ending_reclaim_wan_farewell_seen）-> 晚節點永久移除，
+# 不論本次以哪個 entry point 進場（26-B AdaNPC 同款守衛）。
+func _setup_wan_epilogue() -> void:
+	if not GameState.get_flag("ending_reclaim_wan_farewell_seen", false):
+		return
+	var wan_npc := $Interactables.get_node_or_null("NpcWan")
+	if wan_npc != null:
+		wan_npc.free()
+	var wan_trigger := $Interactables.get_node_or_null("WanEpilogueTriggerArea")
+	if wan_trigger != null:
+		wan_trigger.free()
 
 func _update_subway_entrance_state() -> void:
 	var west_area = $Interactables.get_node_or_null("TravelStreetWestArea")
@@ -209,6 +241,10 @@ func _process(delta: float) -> void:
 	_update_camera(delta)
 	_update_billboards(delta)
 
+	if _reclaim_farewell_active:
+		_update_reclaim_farewell()
+		return
+
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
 
@@ -219,7 +255,42 @@ func _process(delta: float) -> void:
 		if current_interactable != null and Input.is_action_just_pressed("interact_primary"):
 			_trigger_interaction()
 
+# ==========================================
+# Phase 28-A: Reclaim 站 2 — 晚訣別 + CG 永久消失
+# ==========================================
+# CG 顯示期間刻意不借用 UIMode（會讓 message_box/其它面板背景殘留內容一併現形）；
+# 改用 player.min_x/max_x 鎖死原地座標達成世界凍結，NpcAutoDialogueArea 沿用 26-A 元件本身。
+func _update_reclaim_farewell() -> void:
+	if not _reclaim_cg_shown:
+		if GameState.get_flag("ending_reclaim_wan_farewell_seen", false) and UIMode.get_mode() == UIMode.Mode.NONE:
+			_reclaim_cg_shown = true
+			player.min_x = player.global_position.x
+			player.max_x = player.global_position.x
+			if game_ui:
+				game_ui.open_photo_viewer(WAN_CG_RAIN_PATH, null)
+		return
+
+	if game_ui and not game_ui.is_photo_viewer_open():
+		_reclaim_farewell_active = false
+		_remove_wan_epilogue_nodes()
+		scene_transition_requested.emit("apartment", "epilogue_home", {})
+
+func _remove_wan_epilogue_nodes() -> void:
+	var wan_npc := $Interactables.get_node_or_null("NpcWan")
+	var wan_trigger := $Interactables.get_node_or_null("WanEpilogueTriggerArea")
+	if wan_trigger != null:
+		nearby_interactables.erase(wan_trigger)
+		wan_trigger.queue_free()
+	if wan_npc != null:
+		nearby_interactables.erase(wan_npc)
+		if current_interactable == wan_npc:
+			current_interactable = null
+		wan_npc.queue_free()
+
 func _unhandled_input(event: InputEvent) -> void:
+	if _reclaim_farewell_active:
+		return
+
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
 

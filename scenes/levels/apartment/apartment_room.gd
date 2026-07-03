@@ -61,6 +61,9 @@ func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 		"from_fire_escape":
 			player.global_position = Vector2(1000.0, 700.0)
 			player.anim.play("idle")
+		"epilogue_home":
+			player.global_position = Vector2(1160.0, 700.0)
+			player.anim.play("idle")
 
 
 var _entry_point_id: String = "wake_bed"
@@ -258,6 +261,9 @@ func _ready() -> void:
 		GameState.apartment_beyond_door_bgm_triggered = true
 		player.anim.play("idle")
 		UIMode.set_mode(UIMode.Mode.NONE)
+
+	if _entry_point_id == "epilogue_home" and GameState.get_flag("ending_route_reclaim", false) and not GameState.get_flag("ending_reclaim_played", false):
+		_start_reclaim_epilogue_home()
 
 
 func _process(_delta: float) -> void:
@@ -701,6 +707,17 @@ func _skip_opening_page() -> void:
 	if game_ui:
 		game_ui.force_finish_message()
 	_advance_opening_page()
+
+# ==========================================
+# Phase 28-A: Reclaim 站 3 — 公寓痕跡拍 + 靜止停（30-A 接手點）
+# ==========================================
+# 進場一拍不可跳過（begin_message，2-G 慣例）；設旗標後刻意不 close_message() /
+# 不回 UIMode.NONE——序列終態靜止在這一拍上，直到 Phase 30-A 接手正式收尾。
+func _start_reclaim_epilogue_home() -> void:
+	SaveSystem.can_save_here = false
+	if game_ui:
+		game_ui.begin_message("MSG_EPILOGUE_RECLAIM_TRACE")
+	GameState.set_flag("ending_reclaim_played", true)
 
 func _end_opening_monologue() -> void:
 	_opening_monologue_active = false

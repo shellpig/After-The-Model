@@ -4,13 +4,13 @@ const SCENES := {
 	"apartment": {
 		"path": "res://scenes/levels/apartment/apartment_room.tscn",
 		"default_entry_point_id": "wake_bed",
-		"entry_points": ["wake_bed", "from_street", "from_fire_escape"],
+		"entry_points": ["wake_bed", "from_street", "from_fire_escape", "epilogue_home"],
 		"music_id": "apartment_night"
 	},
 	"apartment_entrance": {
 		"path": "res://scenes/levels/apartment_entrance.tscn",
 		"default_entry_point_id": "from_apartment",
-		"entry_points": ["from_apartment", "from_store", "from_collector_shop", "from_subway", "from_topside"],
+		"entry_points": ["from_apartment", "from_store", "from_collector_shop", "from_subway", "from_topside", "epilogue_wan"],
 		"music_id": "street_rain"
 	},
 	"convenience_store": {

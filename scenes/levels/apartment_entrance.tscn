@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://bdw637kurfccr" path="res://scripts/components/echo_point.gd" id="ext_echo_point"]
 [ext_resource type="Script" uid="uid://cxglowlyr01gd" path="res://scripts/components/glow_layer.gd" id="ext_glow_layer"]
 [ext_resource type="Script" uid="uid://clyks0mlawvmd" path="res://scripts/components/idle_break.gd" id="ext_idle_break"]
+[ext_resource type="Script" path="res://scripts/components/npc_auto_dialogue_area.gd" id="ext_npc_auto_dialogue"]
 [ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="ext_mem_frag_area"]
 [ext_resource type="Shader" uid="uid://cxneonref01sd" path="res://assets/shaders/neon_reflection.gdshader" id="ext_neon_reflection"]
 [ext_resource type="AudioStream" uid="uid://dah5aba0j5u7h" path="res://assets/audio/ambient/street_rain_loop.mp3" id="ext_rain_loop"]
@@ -146,6 +147,9 @@ size = Vector2(91, 270)
 size = Vector2(95, 285)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact_wan"]
+size = Vector2(166, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wan_epilogue_trigger"]
 size = Vector2(166, 300)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wan"]
@@ -393,6 +397,9 @@ position = Vector2(120, 675)
 [node name="from_topside" type="Marker2D" parent="SpawnPoints" unique_id=1245430799]
 position = Vector2(180, 675)
 
+[node name="epilogue_wan" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2130, 675)
+
 [node name="Interactables" type="Node2D" parent="." unique_id=542570424]
 
 [node name="BackToApartmentArea" type="Area2D" parent="Interactables" unique_id=70679196]
@@ -468,6 +475,16 @@ autoplay = "idle"
 
 [node name="IdleBreak" type="Node" parent="Interactables/NpcWan" unique_id=208123450]
 script = ExtResource("ext_idle_break")
+
+[node name="WanEpilogueTriggerArea" type="Area2D" parent="Interactables"]
+script = ExtResource("ext_npc_auto_dialogue")
+dialogue_id = "wan_epilogue"
+seen_flag = "ending_reclaim_wan_farewell_seen"
+require_flag = "ending_route_reclaim"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WanEpilogueTriggerArea"]
+position = Vector2(2207, 551.88)
+shape = SubResource("RectangleShape2D_wan_epilogue_trigger")
 
 [node name="TravelStreetEastArea" type="Area2D" parent="Interactables" unique_id=208123448]
 script = ExtResource("4_interactable")

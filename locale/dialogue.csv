@@ -542,3 +542,8 @@ DLG_BROADCAST_UPLOAD_COST_RAW_TEXT,"終端沒有做任何改動，安靜地跳�
 DLG_BROADCAST_UPLOAD_CONFIRM_TEXT,最後一步：現在把它送出去嗎？,最后一步：现在把它送出去吗？,One last step: send it now?
 DLG_BROADCAST_UPLOAD_CHOICE_UPLOAD,開始上傳,开始上传,Start upload
 DLG_BROADCAST_UPLOAD_DONE_TEXT,"終端顯示一行字：『開始傳輸。』訊號沿著老舊的線路送出去——你已經沒有辦法把它拉回來了。","终端显示一行字：『开始传输。』信号沿着老旧的线路送出去——你已经没有办法把它拉回来了。","The terminal displays a single line: ""Transmission started."" The signal goes out over the old wiring — there's no pulling it back now."
+DLG_WAN_EPILOGUE_RECLAIM_WARM_P1_TEXT,晚看著你，沒有立刻說話，像是在確認你是不是真的決定了。,晚看着你，没有立刻说话，像是在确认你是不是真的决定了。,Wan looks at you without speaking right away, as if making sure you've really decided.
+DLG_WAN_EPILOGUE_RECLAIM_WARM_P2_TEXT,"「你要把它全部灌回去。」她說，聲音很輕，「連我們這幾次講的話，也會一起變重吧。」","「你要把它全部灌回去。」她说，声音很轻，「连我们这几次讲的话，也会一起变重吧。」","""You're loading it all back in,"" she says, her voice quiet. ""Even the things we talked about — those will get heavier too, won't they."""
+DLG_WAN_EPILOGUE_RECLAIM_WARM_P3_TEXT,"「早知道……就該早一點跟你講清楚。」她別過臉，雨水把她的輪廓洗得很淡，「走吧。趁你還記得怎麼走。」","「早知道……就该早一点跟你讲清楚。」她别过脸，雨水把她的轮廓洗得很淡，「走吧。趁你还记得怎么走。」","""If I'd known... I should've told you sooner."" She turns her face away, the rain washing her outline pale. ""Go. While you still remember how."""
+DLG_WAN_EPILOGUE_RECLAIM_COLD_P1_TEXT,晚只是點了點頭，像是早就猜到你會做這個選擇。,晚只是点了点头，像是早就猜到你会做这个选择。,Wan only nods, as if she'd already guessed you'd make this choice.
+DLG_WAN_EPILOGUE_RECLAIM_COLD_P2_TEXT,"「保重。」她說完，沒有再多看你一眼，轉身走進雨裡。","「保重。」她说完，没有再多看你一眼，转身走进雨里。","""Take care."" With that, she doesn't look at you again, and turns to walk into the rain."

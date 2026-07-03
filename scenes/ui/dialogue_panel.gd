@@ -43,7 +43,7 @@ func start_dialogue(dialogue_id: String) -> void:
 	_runner.start(tree)
 
 	# Load character portrait dynamically
-	if dialogue_id == "wan" or dialogue_id == "wan_datacenter":
+	if dialogue_id == "wan" or dialogue_id == "wan_datacenter" or dialogue_id == "wan_epilogue":
 		var img_path = "res://assets/generated/sprites/wan/dialogue_portrait/wan-dialogue-portrait-20260607-100732/portrait.png"
 		if ResourceLoader.exists(img_path):
 			portrait_rect.texture = load(img_path)

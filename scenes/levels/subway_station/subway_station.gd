@@ -15,13 +15,35 @@ const MESSAGES := {
 	"fare_gate": "閘口卡在半開的位置，通勤人潮早就消失，只剩轉軸偶爾發出乾澀的喀聲。往右走，就是月台。"
 }
 
+# Phase 28-C：Protect not-B 中間站 — 上行線復駛廣播 + 小岑過閘 CG（假聲紋不認得你）。
+const SUBWAY_RUMBLE_PATHS := [
+	"res://assets/audio/ambient/subway_rumble_a.mp3",
+	"res://assets/audio/ambient/subway_rumble_b.mp3"
+]
+const CEN_CG_GATE_PASS_PATH := "res://assets/generated/sprites/cen/cg_gate_pass/cg_gate_pass.jpeg"
+
 @onready var player: CharacterBody2D = $Player
 @onready var camera: Camera2D = $Camera2D
+@onready var ambient_subway: AudioStreamPlayer = $AmbientSubway
+@onready var game_ui: CanvasLayer = _find_game_ui()
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
 var _entry_point_id: String = "from_street"
 var _entry_payload: Dictionary = {}
+
+# stage: 0 = 復駛廣播頁, 1 = 小岑台詞頁, 2 = CG 顯示中
+var _cen_epilogue_active: bool = false
+var _cen_epilogue_stage: int = 0
+var _cen_epilogue_page_done: bool = false
+
+func _find_game_ui() -> CanvasLayer:
+	var root := get_tree().root if is_inside_tree() else null
+	if root:
+		var gu = root.find_child("GameUI", true, false)
+		if gu:
+			return gu
+	return null
 
 func prepare_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "from_street"
@@ -47,8 +69,17 @@ func _ready() -> void:
 	player.anim.play("idle")
 	_refresh_current_interactable()
 
+	if _entry_point_id == "epilogue_cen" and GameState.get_flag("ending_route_protect", false) and not GameState.get_flag("cen_voiceprint_exposed", false) and not GameState.get_flag("ending_protect_cen_seen", false):
+		_cen_epilogue_active = true
+		SaveSystem.can_save_here = false
+		_start_cen_epilogue()
+
 func _process(_delta: float) -> void:
 	_update_camera()
+
+	if _cen_epilogue_active:
+		_update_cen_epilogue()
+		return
 
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
@@ -60,6 +91,9 @@ func _process(_delta: float) -> void:
 			_trigger_interaction()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _cen_epilogue_active:
+		return
+
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
 
@@ -70,6 +104,70 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact_primary"):
 		get_viewport().set_input_as_handled()
 		_trigger_interaction()
+
+# ==========================================
+# Phase 28-C: Protect not-B 中間站 — 復駛廣播 -> 小岑過閘台詞 -> CG -> 移除 + travel
+# ==========================================
+func _start_cen_epilogue() -> void:
+	_cen_epilogue_stage = 0
+	if ambient_subway:
+		var path: String = SUBWAY_RUMBLE_PATHS[randi() % SUBWAY_RUMBLE_PATHS.size()]
+		var stream := load(path) as AudioStream
+		if stream:
+			ambient_subway.stream = stream
+			ambient_subway.play()
+	_show_cen_epilogue_page("MSG_EPILOGUE_SUBWAY_RESUME")
+
+func _show_cen_epilogue_page(message_key: String) -> void:
+	_cen_epilogue_page_done = false
+	if game_ui:
+		game_ui.begin_message(message_key)
+		game_ui.set_message_page_hint("", false)
+
+func _update_cen_epilogue() -> void:
+	if _cen_epilogue_stage == 2:
+		if game_ui and not game_ui.is_photo_viewer_open():
+			_finish_cen_epilogue()
+		return
+
+	if not _cen_epilogue_page_done:
+		if game_ui and game_ui.is_message_finished():
+			_cen_epilogue_page_done = true
+			if game_ui:
+				game_ui.set_message_page_hint("▼ 繼續", true)
+		return
+
+	var advance_pressed := (
+		Input.is_action_just_pressed("interact_primary") or
+		Input.is_action_just_pressed("ui_accept") or
+		Input.is_action_just_pressed("ui_cancel")
+	)
+	if DisplayServer.get_name() == "headless":
+		advance_pressed = true
+
+	if advance_pressed:
+		_advance_cen_epilogue()
+
+func _advance_cen_epilogue() -> void:
+	if _cen_epilogue_stage == 0:
+		_cen_epilogue_stage = 1
+		var cen_node := get_node_or_null("NpcCenEpilogue")
+		if cen_node:
+			cen_node.visible = true
+		_show_cen_epilogue_page("MSG_EPILOGUE_CEN_PASS")
+	elif _cen_epilogue_stage == 1:
+		_cen_epilogue_stage = 2
+		if game_ui:
+			game_ui.close_message()
+			game_ui.open_photo_viewer(CEN_CG_GATE_PASS_PATH, null)
+
+func _finish_cen_epilogue() -> void:
+	_cen_epilogue_active = false
+	GameState.set_flag("ending_protect_cen_seen", true)
+	var cen_node := get_node_or_null("NpcCenEpilogue")
+	if cen_node:
+		cen_node.queue_free()
+	scene_transition_requested.emit("apartment_entrance", "epilogue_wan", {})
 
 func _trigger_interaction() -> void:
 	match current_interactable.interaction_id:

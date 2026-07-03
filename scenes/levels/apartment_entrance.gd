@@ -129,21 +129,30 @@ func _ready() -> void:
 	_setup_billboards()
 	_update_subway_entrance_state()
 
-	if _entry_point_id == "epilogue_wan" and GameState.get_flag("ending_route_reclaim", false) and not GameState.get_flag("ending_reclaim_played", false):
-		_reclaim_farewell_active = true
-		SaveSystem.can_save_here = false
+	if _entry_point_id == "epilogue_wan":
+		if GameState.get_flag("ending_route_reclaim", false) and not GameState.get_flag("ending_reclaim_played", false):
+			_reclaim_farewell_active = true
+			SaveSystem.can_save_here = false
+		elif GameState.get_flag("ending_route_protect", false) and not GameState.get_flag("ending_protect_played", false):
+			# Phase 28-B：晚固定三句台詞走一般 NpcAutoDialogueArea + wan_epilogue 對話流程
+			# （effect 自帶 travel），本層不需要疊加任何輪詢狀態機。
+			SaveSystem.can_save_here = false
 
 # Phase 28-A：晚訣別演出已讀完過（ending_reclaim_wan_farewell_seen）-> 晚節點永久移除，
 # 不論本次以哪個 entry point 進場（26-B AdaNPC 同款守衛）。
+# Phase 28-B：Protect 支晚不消失（拍板），讀完後只移除 Protect 專屬 trigger area 防重播。
 func _setup_wan_epilogue() -> void:
-	if not GameState.get_flag("ending_reclaim_wan_farewell_seen", false):
-		return
-	var wan_npc := $Interactables.get_node_or_null("NpcWan")
-	if wan_npc != null:
-		wan_npc.free()
-	var wan_trigger := $Interactables.get_node_or_null("WanEpilogueTriggerArea")
-	if wan_trigger != null:
-		wan_trigger.free()
+	if GameState.get_flag("ending_reclaim_wan_farewell_seen", false):
+		var wan_npc := $Interactables.get_node_or_null("NpcWan")
+		if wan_npc != null:
+			wan_npc.free()
+		var wan_trigger := $Interactables.get_node_or_null("WanEpilogueTriggerArea")
+		if wan_trigger != null:
+			wan_trigger.free()
+	if GameState.get_flag("ending_protect_wan_seen", false):
+		var wan_protect_trigger := $Interactables.get_node_or_null("WanEpilogueProtectTriggerArea")
+		if wan_protect_trigger != null:
+			wan_protect_trigger.free()
 
 func _update_subway_entrance_state() -> void:
 	var west_area = $Interactables.get_node_or_null("TravelStreetWestArea")

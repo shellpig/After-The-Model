@@ -7,6 +7,10 @@
 # ending_reclaim_played 未設 -> 原地自動播 Reclaim 站 1（五枚碎片頁 + trace 兩檔壓垮拍，begin_message
 # 多頁不可跳過，2-G 慣例）；結束後 travel 至 apartment_entrance:epilogue_wan（28-A 站 2）。
 # 27 本身的 own_backup.gd / 鎖點節點不動，此為疊掛觸發，不改 27 的行為。
+# Phase 28-B：同款疊掛，換 ending_route_protect / ending_protect_played 兩旗標——原地自動播
+# Protect 站 1（一至兩頁短刪除演出，刻意與 Reclaim 五頁+壓垮拍不對稱，無 trace 染色）；結束後
+# 依 cen_voiceprint_exposed（24-D）分派 28-C 中間站：true -> underground_settlement:epilogue_settlement，
+# false -> subway_station:epilogue_cen。
 extends Node2D
 
 signal current_interactable_changed(data: Dictionary)
@@ -42,6 +46,16 @@ var _reclaim_active: bool = false
 var _reclaim_pages: Array = []
 var _reclaim_page_index: int = 0
 var _reclaim_page_done: bool = false
+
+# Phase 28-B：Protect 站 1 短刪除演出（一至兩頁，與 Reclaim 五頁+壓垮拍刻意不對稱）。
+const PROTECT_DELETE_PAGES := [
+	"MSG_EPILOGUE_PROTECT_P1",
+	"MSG_EPILOGUE_PROTECT_P2"
+]
+
+var _protect_active: bool = false
+var _protect_page_index: int = 0
+var _protect_page_done: bool = false
 
 func _find_game_ui() -> CanvasLayer:
 	var root := get_tree().root if is_inside_tree() else null
@@ -82,6 +96,10 @@ func _process(_delta: float) -> void:
 		_update_reclaim_sequence()
 		return
 
+	if _protect_active:
+		_update_protect_sequence()
+		return
+
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
 
@@ -89,13 +107,16 @@ func _process(_delta: float) -> void:
 	_maybe_start_reclaim_sequence()
 	if _reclaim_active:
 		return
+	_maybe_start_protect_sequence()
+	if _protect_active:
+		return
 
 	if DisplayServer.get_name() == "headless":
 		if current_interactable != null and Input.is_action_just_pressed("interact_primary"):
 			_trigger_interaction()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _reclaim_active:
+	if _reclaim_active or _protect_active:
 		return
 
 	if UIMode.get_mode() != UIMode.Mode.NONE:
@@ -169,6 +190,68 @@ func _finish_reclaim_sequence() -> void:
 		game_ui.close_message()
 	UIMode.set_mode(UIMode.Mode.NONE)
 	scene_transition_requested.emit("apartment_entrance", "epilogue_wan", {})
+
+# ==========================================
+# Phase 28-B: Protect 站 1 — 原地短刪除演出
+# ==========================================
+func _maybe_start_protect_sequence() -> void:
+	if not GameState.get_flag("ending_route_protect", false):
+		return
+	if GameState.get_flag("ending_protect_played", false):
+		return
+	_start_protect_sequence()
+
+func _start_protect_sequence() -> void:
+	_protect_active = true
+	SaveSystem.can_save_here = false
+	current_interactable = null
+	current_interactable_changed.emit({})
+
+	_protect_page_index = 0
+	_show_protect_page()
+
+func _show_protect_page() -> void:
+	_protect_page_done = false
+	if game_ui:
+		game_ui.begin_message(PROTECT_DELETE_PAGES[_protect_page_index])
+		game_ui.set_message_page_hint("", false)
+
+func _update_protect_sequence() -> void:
+	if not _protect_page_done:
+		if game_ui and game_ui.is_message_finished():
+			_protect_page_done = true
+			if game_ui:
+				game_ui.set_message_page_hint("▼ 繼續", true)
+		return
+
+	var advance_pressed := (
+		Input.is_action_just_pressed("interact_primary") or
+		Input.is_action_just_pressed("ui_accept") or
+		Input.is_action_just_pressed("ui_cancel")
+	)
+	if DisplayServer.get_name() == "headless":
+		advance_pressed = true
+
+	if advance_pressed:
+		_advance_protect_page()
+
+func _advance_protect_page() -> void:
+	_protect_page_index += 1
+	if _protect_page_index >= PROTECT_DELETE_PAGES.size():
+		_finish_protect_sequence()
+	else:
+		_show_protect_page()
+
+func _finish_protect_sequence() -> void:
+	_protect_active = false
+	if game_ui:
+		game_ui.close_message()
+	UIMode.set_mode(UIMode.Mode.NONE)
+	# Phase 28-C：中間站分岔——true 走聚落（小岑永遠缺席），false 走地鐵大廳（小岑過閘不認得你）。
+	if GameState.get_flag("cen_voiceprint_exposed", false):
+		scene_transition_requested.emit("underground_settlement", "epilogue_settlement", {})
+	else:
+		scene_transition_requested.emit("subway_station", "epilogue_cen", {})
 
 func _trigger_interaction() -> void:
 	match current_interactable.interaction_id:

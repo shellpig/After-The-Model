@@ -265,6 +265,9 @@ func _ready() -> void:
 	if _entry_point_id == "epilogue_home" and GameState.get_flag("ending_route_reclaim", false) and not GameState.get_flag("ending_reclaim_played", false):
 		_start_reclaim_epilogue_home()
 
+	if _entry_point_id == "epilogue_home" and GameState.get_flag("ending_route_protect", false) and not GameState.get_flag("ending_protect_played", false):
+		_start_protect_epilogue_home()
+
 
 func _process(_delta: float) -> void:
 	_adjust_bgm_volume_dynamics()
@@ -718,6 +721,15 @@ func _start_reclaim_epilogue_home() -> void:
 	if game_ui:
 		game_ui.begin_message("MSG_EPILOGUE_RECLAIM_TRACE")
 	GameState.set_flag("ending_reclaim_played", true)
+
+# ==========================================
+# Phase 28-B: Protect 站 3b — 公寓收尾拍 + 靜止停（30-A 接手點）
+# ==========================================
+func _start_protect_epilogue_home() -> void:
+	SaveSystem.can_save_here = false
+	if game_ui:
+		game_ui.begin_message("MSG_EPILOGUE_PROTECT_HOME")
+	GameState.set_flag("ending_protect_played", true)
 
 func _end_opening_monologue() -> void:
 	_opening_monologue_active = false

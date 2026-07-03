@@ -141,6 +141,9 @@ position = Vector2(1279, 845)
 [node name="from_right" type="Marker2D" parent="SpawnPoints" unique_id=35102972]
 position = Vector2(4070, 870)
 
+[node name="epilogue_settlement" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2100, 845)
+
 [node name="Interactables" type="Node2D" parent="." unique_id=1042398408]
 
 [node name="ExitToSubwayArea" type="Area2D" parent="Interactables" unique_id=775775924]

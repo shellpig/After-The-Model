@@ -34,7 +34,7 @@ const SCENES := {
 	"subway_station": {
 		"path": "res://scenes/levels/subway_station/subway_station.tscn",
 		"default_entry_point_id": "from_street",
-		"entry_points": ["from_street", "from_platform"],
+		"entry_points": ["from_street", "from_platform", "epilogue_cen"],
 		"music_id": "subway_station"
 	},
 	"subway_station_platform": {
@@ -46,7 +46,7 @@ const SCENES := {
 	"underground_settlement": {
 		"path": "res://scenes/levels/underground_settlement/underground_settlement.tscn",
 		"default_entry_point_id": "from_subway",
-		"entry_points": ["from_subway", "from_right"],
+		"entry_points": ["from_subway", "from_right", "epilogue_settlement"],
 		"music_id": "underground_settlement"
 	},
 	"underground_settlement_right": {

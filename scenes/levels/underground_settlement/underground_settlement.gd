@@ -16,11 +16,26 @@ const MESSAGES := {
 
 @onready var player: CharacterBody2D = $Player
 @onready var camera: Camera2D = $Camera2D
+@onready var game_ui: CanvasLayer = _find_game_ui()
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
 var _entry_point_id: String = "from_subway"
 var _entry_payload: Dictionary = {}
+
+# Phase 28-C：Protect Branch B 中間站 — 空帳篷一拍 + 伍姐沉默搖頭一拍（純文字，不開對話樹）。
+# stage: 0 = 空帳篷頁（複用 24-D empty_tent 文字）, 1 = 伍姐沉默搖頭頁
+var _wu_epilogue_active: bool = false
+var _wu_epilogue_stage: int = 0
+var _wu_epilogue_page_done: bool = false
+
+func _find_game_ui() -> CanvasLayer:
+	var root := get_tree().root if is_inside_tree() else null
+	if root:
+		var gu = root.find_child("GameUI", true, false)
+		if gu:
+			return gu
+	return null
 
 func prepare_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	_entry_point_id = entry_point_id if not entry_point_id.is_empty() else "from_subway"
@@ -74,8 +89,17 @@ func _ready() -> void:
 	player.anim.play("idle")
 	_refresh_current_interactable()
 
+	if _entry_point_id == "epilogue_settlement" and GameState.get_flag("ending_route_protect", false) and GameState.get_flag("cen_voiceprint_exposed", false) and not GameState.get_flag("ending_protect_wu_seen", false):
+		_wu_epilogue_active = true
+		SaveSystem.can_save_here = false
+		_start_wu_epilogue()
+
 func _process(_delta: float) -> void:
 	_update_camera()
+
+	if _wu_epilogue_active:
+		_update_wu_epilogue()
+		return
 
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
@@ -87,6 +111,9 @@ func _process(_delta: float) -> void:
 			_trigger_interaction()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _wu_epilogue_active:
+		return
+
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
 
@@ -97,6 +124,50 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact_primary"):
 		get_viewport().set_input_as_handled()
 		_trigger_interaction()
+
+# ==========================================
+# Phase 28-C: Protect Branch B 中間站 — 空帳篷 -> 伍姐沉默搖頭 -> travel
+# ==========================================
+func _start_wu_epilogue() -> void:
+	_wu_epilogue_stage = 0
+	_show_wu_epilogue_page(MESSAGES["empty_tent"])
+
+func _show_wu_epilogue_page(text: String) -> void:
+	_wu_epilogue_page_done = false
+	if game_ui:
+		game_ui.begin_message(text)
+		game_ui.set_message_page_hint("", false)
+
+func _update_wu_epilogue() -> void:
+	if not _wu_epilogue_page_done:
+		if game_ui and game_ui.is_message_finished():
+			_wu_epilogue_page_done = true
+			if game_ui:
+				game_ui.set_message_page_hint("▼ 繼續", true)
+		return
+
+	var advance_pressed := (
+		Input.is_action_just_pressed("interact_primary") or
+		Input.is_action_just_pressed("ui_accept") or
+		Input.is_action_just_pressed("ui_cancel")
+	)
+	if DisplayServer.get_name() == "headless":
+		advance_pressed = true
+
+	if advance_pressed:
+		_advance_wu_epilogue()
+
+func _advance_wu_epilogue() -> void:
+	if _wu_epilogue_stage == 0:
+		_wu_epilogue_stage = 1
+		_show_wu_epilogue_page("MSG_EPILOGUE_WU_SILENT")
+	else:
+		_finish_wu_epilogue()
+
+func _finish_wu_epilogue() -> void:
+	_wu_epilogue_active = false
+	GameState.set_flag("ending_protect_wu_seen", true)
+	scene_transition_requested.emit("apartment_entrance", "epilogue_wan", {})
 
 func _trigger_interaction() -> void:
 	if current_interactable.dialogue_id != "":

@@ -547,3 +547,6 @@ DLG_WAN_EPILOGUE_RECLAIM_WARM_P2_TEXT,"「你要把它全部灌回去。」她�
 DLG_WAN_EPILOGUE_RECLAIM_WARM_P3_TEXT,"「早知道……就該早一點跟你講清楚。」她別過臉，雨水把她的輪廓洗得很淡，「走吧。趁你還記得怎麼走。」","「早知道……就该早一点跟你讲清楚。」她别过脸，雨水把她的轮廓洗得很淡，「走吧。趁你还记得怎么走。」","""If I'd known... I should've told you sooner."" She turns her face away, the rain washing her outline pale. ""Go. While you still remember how."""
 DLG_WAN_EPILOGUE_RECLAIM_COLD_P1_TEXT,晚只是點了點頭，像是早就猜到你會做這個選擇。,晚只是点了点头，像是早就猜到你会做这个选择。,Wan only nods, as if she'd already guessed you'd make this choice.
 DLG_WAN_EPILOGUE_RECLAIM_COLD_P2_TEXT,"「保重。」她說完，沒有再多看你一眼，轉身走進雨裡。","「保重。」她说完，没有再多看你一眼，转身走进雨里。","""Take care."" With that, she doesn't look at you again, and turns to walk into the rain."
+DLG_WAN_EPILOGUE_PROTECT_P1_TEXT,「你又變回來了。」,「你又变回来了。」,"""You changed back again."""
+DLG_WAN_EPILOGUE_PROTECT_P2_TEXT,「變回什麼？」,「变回什么？」,"""Changed back into what?"""
+DLG_WAN_EPILOGUE_PROTECT_P3_TEXT,晚看著雨，沒有回答。,晚看着雨，没有回答。,Wan looks out at the rain and doesn't answer.

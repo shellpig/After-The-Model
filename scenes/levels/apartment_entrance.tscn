@@ -486,6 +486,16 @@ require_flag = "ending_route_reclaim"
 position = Vector2(2207, 551.88)
 shape = SubResource("RectangleShape2D_wan_epilogue_trigger")
 
+[node name="WanEpilogueProtectTriggerArea" type="Area2D" parent="Interactables"]
+script = ExtResource("ext_npc_auto_dialogue")
+dialogue_id = "wan_epilogue"
+seen_flag = "ending_protect_wan_seen"
+require_flag = "ending_route_protect"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WanEpilogueProtectTriggerArea"]
+position = Vector2(2207, 551.88)
+shape = SubResource("RectangleShape2D_wan_epilogue_trigger")
+
 [node name="TravelStreetEastArea" type="Area2D" parent="Interactables" unique_id=208123448]
 script = ExtResource("4_interactable")
 interaction_id = "travel_street_east"

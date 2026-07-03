@@ -513,3 +513,18 @@ DLG_ADA_FINAL_WORDS_TEXT,"（他站在原地，維修棍靠在肩上，濕透的
 「你忘了啊？也好。至少有人可以忘。」","（他站在原地，维修棍靠在肩上，湿透的雨衣还在滴水，像是一直在等你经过。）
 「你忘了啊？也好。至少有人可以忘。」","(He stands there, the maintenance rod resting on his shoulder, his soaked raincoat still dripping, as if he's been waiting for you to pass by.)
 ""You forgot, huh? Good. At least someone gets to forget."""
+DLG_OWN_BACKUP_SAVE_HINT_TEXT,"你站在自己的備份前面。也許，你也該為現在的自己留一份。（接下來的選擇無法撤回——建議先存檔。）","你站在自己的备份前面。也许，你也该为现在的自己留一份。（接下来的选择无法撤回——建议先存档。）","You're standing in front of your own backup. Maybe you should leave one for the person you are now, too. (The choice ahead can't be undone — you should save first.)"
+DLG_OWN_BACKUP_ANCHOR_TEXT,這是你自己的備份——不是別人的檔案，是你。你有全部的權限，只差一個決定：要拿它做什麼。,这是你自己的备份——不是别人的档案，是你。你有全部的权限，只差一个决定：要拿它做什么。,This is your own backup — not someone else's file. Yours. You hold full access. All that's left is a decision: what to do with it.
+DLG_OWN_BACKUP_CHOICE_RECLAIM,灌回去,灌回去,Load it back in
+DLG_OWN_BACKUP_CHOICE_PROTECT,刪掉它,删掉它,Delete it
+DLG_OWN_BACKUP_CHOICE_EXPOSE,拷貝走,拷贝走,Copy it out
+DLG_OWN_BACKUP_CHOICE_WITHDRAW,退開,退开,Step back
+DLG_OWN_BACKUP_WITHDRAW_TEXT,"你收回手。備份還在原地，什麼都沒有改變——至少現在還沒有。","你收回手。备份还在原地，什么都没有改变——至少现在还没有。","You pull your hand back. The backup stays where it is — nothing has changed. Not yet, anyway."
+DLG_OWN_BACKUP_CONFIRM_RECLAIM_TEXT,"把它灌回去，你會想起全部——沒有篩選過的那種。有些重量，一旦扛上肩，就放不下來了。","把它灌回去，你会想起全部——没有筛选过的那种。有些重量，一旦扛上肩，就放不下来了。","Load it back in, and you'll remember everything — unfiltered. Some weight, once you pick it up, doesn't set back down."
+DLG_OWN_BACKUP_CONFIRM_PROTECT_TEXT,"刪掉它，你會繼續當現在這個不記得的人。這次不是意外，是你自己選的遺忘。","删掉它，你会继续当现在这个不记得的人。这次不是意外，是你自己选的遗忘。","Delete it, and you go on being the person who doesn't remember. This time it isn't an accident. It's a forgetting you chose."
+DLG_OWN_BACKUP_CONFIRM_EXPOSE_TEXT,"拷貝走，你會帶著它離開這裡，去找一個能把它送出去的地方。送出去以後，你擋不住誰會被看見，也擋不住誰會被找到。","拷贝走，你会带着它离开这里，去找一个能把它送出去的地方。送出去以后，你挡不住谁会被看见，也挡不住谁会被找到。","Copy it out, and you'll carry it out of here to find somewhere that can send it further. Once it's out, you can't stop who gets seen — or who gets found."
+DLG_OWN_BACKUP_LOCK_IN,就這麼做,就这么做,Do it
+DLG_OWN_BACKUP_RECONSIDER,回去再想,回去再想,Think it over
+DLG_OWN_BACKUP_RECLAIM_LOCK_TEXT,"你選了。備份開始灌回——從現在起，這份重量只有你自己扛得住。","你选了。备份开始灌回——从现在起，这份重量只有你自己扛得住。","You've chosen. The backup starts loading back in — from here on, only you carry this weight."
+DLG_OWN_BACKUP_PROTECT_LOCK_TEXT,"你選了。刪除指令送出——安靜得像什麼都沒有發生過。","你选了。删除指令送出——安静得像什么都没有发生过。","You've chosen. The delete command goes out — quiet, as if nothing happened at all."
+DLG_OWN_BACKUP_EXPOSE_LOCK_TEXT,你選了。備份拷貝進隨身儲存——接下來，你得自己找一個能把它送出去的地方。,你选了。备份拷贝进随身储存——接下来，你得自己找一个能把它送出去的地方。,You've chosen. The backup copies onto a drive you can carry — now you just need somewhere to send it.

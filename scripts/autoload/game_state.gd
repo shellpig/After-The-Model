@@ -194,6 +194,7 @@ const STORY_MESSAGES := {
 	"datacenter_own_backup_truth": "MSG_DATACENTER_OWN_BACKUP_TRUTH",
 	"datacenter_file_index_neutral": "MSG_DATACENTER_FILE_INDEX_NEUTRAL",
 	"datacenter_file_index_remarked": "MSG_DATACENTER_FILE_INDEX_REMARKED",
+	"datacenter_own_backup_decided": "MSG_DATACENTER_OWN_BACKUP_DECIDED",
 	"broadcast_arrival": "MSG_BROADCAST_ARRIVAL",
 	"broadcast_flavor_transmitter": "MSG_BROADCAST_FLAVOR_TRANSMITTER",
 	"broadcast_flavor_old_media": "MSG_BROADCAST_FLAVOR_OLD_MEDIA",

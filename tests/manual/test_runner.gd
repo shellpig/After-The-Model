@@ -12963,7 +12963,8 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
-	# 2. 碎片後：own_backup 換重量級文字 + set stood_before_own_backup（冪等、可重看）
+	# 2. 碎片後：own_backup 換重量級文字 + set stood_before_own_backup
+	# （原 26-D「TRUTH 冪等可重看」語意已被 27-B 四層分派取代：武裝後重看改開三選對話）
 	GameState.set_flag("mem_frag_chose_deletion", true)
 	captured_26d.clear()
 	core_inst_phase26d._trigger_interaction()
@@ -12978,8 +12979,8 @@ func _ready() -> void:
 
 	captured_26d.clear()
 	core_inst_phase26d._trigger_interaction()
-	if captured_26d.get("message_text", "") != "MSG_DATACENTER_OWN_BACKUP_TRUTH" or not GameState.get_flag("stood_before_own_backup", false):
-		printerr("FAIL 26-D: own_backup TRUTH examine should stay idempotent and re-viewable!")
+	if captured_26d.get("type", "") != "dialogue" or captured_26d.get("dialogue_id", "") != "own_backup" or not GameState.get_flag("stood_before_own_backup", false):
+		printerr("FAIL 26-D: re-examining own_backup after armament should open dialogue 'own_backup' (27-B layer), got: ", captured_26d)
 		get_tree().quit(1)
 		return
 
@@ -13009,10 +13010,11 @@ func _ready() -> void:
 		return
 
 	# 5. Branch B 變體不寫進「自己的備份」examine（兩互動物分屬不同情緒重點）
+	# （武裝後 own_backup 走 27-B 對話分派：斷言仍開 own_backup 對話、不受 seven_stopped_partial 影響）
 	core_inst_phase26d.current_interactable = own_backup_phase26d
 	captured_26d.clear()
 	core_inst_phase26d._trigger_interaction()
-	if captured_26d.get("message_text", "") != "MSG_DATACENTER_OWN_BACKUP_TRUTH":
+	if captured_26d.get("type", "") != "dialogue" or captured_26d.get("dialogue_id", "") != "own_backup":
 		printerr("FAIL 26-D: seven_stopped_partial must not leak Branch B variant into own_backup examine!")
 		get_tree().quit(1)
 		return

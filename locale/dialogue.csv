@@ -505,9 +505,9 @@ DLG_TRAVEL_DATACENTER_MENU_CHOICE1,取消,取消,Cancel
 DLG_TRAVEL_DATACENTER_WAN_FLAVOR_TEXT,「走之前，再看一眼你那張舊識別證吧。」,「走之前，再看一眼你那张旧识别证吧。」,"""Before you go, take another look at that old badge of yours."""
 DLG_TRAVEL_DATACENTER_TRAVEL_TEXT,（你順著記憶中的路線，朝資料中心走去。）,（你顺着记忆中的路线，朝数据中心走去。）,(You follow the route from memory, heading towards the data center.)
 DLG_TRAVEL_DATACENTER_END_TEXT,（你決定先留在原地。）,（你决定先留在原地。）,(You decide to stay put for now.)
-DLG_WAN_DATACENTER_PULL_SAFE_TEXT,你想起來以後，誰會被你一起拖回系統裡,你想起来以后，谁会被你一起拖回系统里,"Once you remember, who gets dragged back into the system with you?"
-DLG_WAN_DATACENTER_PULL_PRIVATE_TEXT,我說是為了他們。可是也有一點，是為了我自己。你想起來以後，就不會是現在這個你了。,我说是为了他们。可是也有一点，是为了我自己。你想起来以后，就不会是现在这个你了。,"I told myself it was for them. But there's also a small part—that's for myself. Once you remember, you won't be the you standing here right now."
-DLG_WAN_DATACENTER_RETALK_TEXT,「還沒想好？我在這裡等你——但別讓我等太久。」,「还没想好？我在这里等你——但别让我等太久。」,Still thinking it over? I'll wait here—but don't make me wait too long.
+DLG_WAN_DATACENTER_PULL_SAFE_TEXT,「你可以想起來。但你要先知道，你想起來以後，誰會被你一起拖回系統裡。」,「你可以想起来。但你要先知道，你想起来以后，谁会被你一起拖回系统里。」,"""You can remember. But you need to know first — once you remember, who gets dragged back into the system with you."""
+DLG_WAN_DATACENTER_PULL_PRIVATE_TEXT,「我說是為了他們。可是也有一點，是為了我自己。你想起來以後，就不會是現在這個你了。」,「我说是为了他们。可是也有一点，是为了我自己。你想起来以后，就不会是现在这个你了。」,"""I told myself it was for them. But there's also a small part — that's for myself. Once you remember, you won't be the you standing here right now."""
+DLG_WAN_DATACENTER_RETALK_TEXT,「還沒想好？我在這裡等你——但別讓我等太久。」,「还没想好？我在这里等你——但别让我等太久。」,"""Still thinking it over? I'll wait here — but don't make me wait too long."""
 SPEAKER_ADA,阿達,阿达,Ada
 DLG_ADA_FINAL_WORDS_TEXT,"（他站在原地，維修棍靠在肩上，濕透的雨衣還在滴水，像是一直在等你經過。）
 「你忘了啊？也好。至少有人可以忘。」","（他站在原地，维修棍靠在肩上，湿透的雨衣还在滴水，像是一直在等你经过。）

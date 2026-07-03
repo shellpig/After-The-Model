@@ -308,6 +308,10 @@ note_id
 | 28-B | 📐 規格可實作 | Protect 主體：刪除演出（短、與 Reclaim 刻意不對稱）→ 28-C 中間站 → 晚拍板台詞「你又變回來了」固定**不消失** → 公寓 set `ending_protect_played` 靜止停；Protect 全程無染色變體。程式未開工 |
 | 28-C | 📐 規格可實作 | 小岑條件式回收＝中間站分岔：not-B → `subway_station` 大廳**上行線復駛背景事件**（廣播拍＋`AmbientSubway` 遠轟；與主角／分支無關、不改聚落安全）＋小岑過閘情境圖 CG 拍＋「大叔，站那邊幹嘛？車要來了欸。」（v2.3 §8 舞台化改句）；B → 聚落 `empty_tent`＋伍姐沉默搖頭拍。程式未開工 |
 | 28-D | 📐 規格可實作 | 回歸 + 存讀檔：2 旗標（`ending_reclaim/protect_played`）round-trip、序列站禁存、選擇前留檔 R / P 含 28-C 兩變體共 3 條路可達、**孤兒檔救援**（route 已設未 played 讀檔強制回 backup_core 開序列）、Phase 1~27 不退化。程式未開工 |
+| 29-A | 📐 規格可實作 | Trace 經濟補正＋判定框架＋A 分支（**2026-07-03 規格定案**）：echo_db 全殘響 `trace_on_collect: 1`（補 4 條，trace 上限 2→6；**Phase 24 Branch B 連帶救活**）＋`EXPOSE_TRACE_THRESHOLD := 3`（獨立常數）；27-C 確認拍後**連續式**接判定序列（上傳演出→判定一次→分派；鎖點後禁存、無自由行動間隙）；A（未清洗＋trace 未臨界）＝警報拍＋聚落火光 CG 拍（photo_viewer）＋敘述終拍＋set `ending_expose_a_played` 靜止停。程式未開工 |
+| 29-B | 📐 規格可實作 | B 分支：已清洗＋trace 未臨界 → 雜訊收尾拍（安靜、無 CG、頁數少）＋set `ending_expose_b_played` 靜止停。程式未開工 |
+| 29-C | 📐 規格可實作 | C 分支：trace ≥ 臨界（**不看清洗、優先於 A/B**）→ 99% 攔截→抹除，畫面收黑／白噪（收「系統毫不在意」的虛無、不收懲罰）＋set `ending_expose_c_played` 靜止停於收黑畫面。程式未開工 |
+| 29-D | 📐 規格可實作 | 回歸＋存讀檔：四組合判定矩陣（含 C 優先序雙驗）、三 played 互斥 round-trip、**孤兒檔救援**（`expose_upload_done` 已設未 played 讀檔強制回廣播站直開判定、重演同判）、Phase 24 兩分支回歸（Branch B 首次真可達）、Phase 1~27 不退化。程式未開工 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless 自動測試 PASS，但互動 / 視覺 / 真機驗收尚未執行；🟧 待 headless = 程式實作完成，但 headless 自動測試尚未執行（本機待跑）；📐 規格可實作 = 規格 / 契約 / 測試清單已寫到可動工，但程式未開工；⬜ 待開工 / 待規劃。3-B~3-D 的「純觸控 GUI 走查」與 B0–B9 里程碑實測已完成。
 
@@ -743,6 +747,21 @@ Phase 18 待寫 / 待掛：`scenes/levels/tunnel_combat/tunnel_combat.tscn` / `.
 | 28-D 回歸 + 存讀檔（test_runner） | 3167（子階段表）| 3790–3797 | 1147 |
 
 依賴：27（`ending_route_reclaim/protect`＋停原地掛點）、26（五枚碎片旗標 / 26-A 自動對話 / 26-B fade）、24（`travel` op / `cen_voiceprint_exposed` / `empty_tent`）、11（`trace` 只讀）、10（`AmbientSubway`）、5/16（對話系統）、4-E（entry point 演出）、2-G（begin_message 序列）。新 canonical（皆 bool / story_flags）：`ending_reclaim_played` / `ending_protect_played`（公寓終站寫入；30-A 共用收尾掛點）。新 epilogue entry points：`apartment_entrance:epilogue_wan` / `subway_station:epilogue_cen` / `underground_settlement:epilogue_settlement` / `apartment:epilogue_home`。**外部素材**：情境圖 CG ×2（`sprites/cen/cg_gate_pass/` 小岑過閘綠燈 / `sprites/wan/cg_walk_into_rain/` 晚走進雨裡；g2d 可生、不需 walk sprite）；**非 user blocker**。**前提硬規則**：序列全自動＋全程禁存；**情境圖 CG＝正式形式非暫代（2026-07-03 拍板；升級僅連續情境圖加法、動畫化不列入規劃；顯示複用 9-E photo_viewer）**；Protect 固定台詞不染色；復駛＝世界背景事件（與主角／分支無關、不改聚落安全、僅 Protect not-B 途經可見）；七號不實體登場（30-A 文字帶）；孤兒檔救援（route 已設未 played 強制回 backup_core）；名字不露出；台詞補白實作時定稿。
+
+### Phase 29 子階段（三份對照）
+
+> 行號以 2026-07-03 Phase 29 規格寫入版為準；大幅改寫後需校正。Phase 29 = Edited Expose 三判定（A / B / C）；📐 規格可實作，程式未開工（依賴 27 已完成；與 28 無相互依賴，實作順序自由）。**零新場景、零系統擴充、零新存讀檔 schema**（3 旗標走 story_flags）；連續式判定序列（27-C 最終確認拍直接續接、鎖點後禁存、三條統一靜止停輸入不恢復＝30-A 接手點）；判定順序 C（`trace >= 3`）→ A（未清洗）→ B，判定一次鎖死旗標、30-A 不重算；附帶 **Trace 經濟補正**（echo_db 全殘響 `trace_on_collect: 1`，補 4 條、上限 2→6——Phase 24 Branch B 與 26-D / 28-C 掛其上的內容連帶救活，屬拍板意圖非 regression）。共用收尾＝30-A；**Trace 只讀不寫**。
+> **敘事事實來源**：v2.3 §8（Edited Expose 三分支表＋演出把關「C 收虛無不收懲罰」）。規格 2026-07-03 討論定案（經濟補正＋臨界值 / 連續式 / 演出形態 A=CG / 三互斥旗標 / 統一靜止停 / 子階段切法 六題拍板）。
+
+| 子階段 | 遊戲規格書.md（驗收意圖） | 開發設計方針.md（契約） | 測試指南.md（清單） |
+|---|---|---|---|
+| Phase 29 總覽 + 判定規則 + 序列節拍 + 子階段表 | 3181–3210 | 3801–3855（核心 / 判定與序列控制 / 29-A~C / 旗標 / i18n / test_runner）| 1152–1160 |
+| 29-A 經濟補正＋共用框架＋A 分支 | 3186–3193（節拍）+ 3197 | 3818–3823 | 1155–1156 |
+| 29-B B 分支 | 3198 | 3824–3827 | 1157 |
+| 29-C C 分支 | 3199 | 3828–3832 | 1158 |
+| 29-D 回歸 + 存讀檔（test_runner）| 3200（子階段表）| 3848–3855 | 1159–1160 |
+
+依賴：27（`expose_upload_cleaned` / `expose_upload_done`＋判定掛點＋`broadcast_station`）、11（`trace` 只讀）、24（`TRACE_BETRAYAL_THRESHOLD` 分支回歸）、9（echo_db `trace_on_collect` 讀取路徑）、9-E（photo_viewer）。新 canonical（皆 bool / story_flags）：`ending_expose_a_played` / `ending_expose_b_played` / `ending_expose_c_played`（**互斥**，各分支演出終點寫入；30-A 共用收尾掛點）。**外部素材**：情境圖 CG ×1（`assets/generated/maps/cg_settlement_burning/`＝聚落火光廢墟；g2d 可生、29-A 動工前補、非 user blocker）；B / C 無新素材。**前提硬規則**：連續式無「已上傳未判定」可玩中間態；`EXPOSE_TRACE_THRESHOLD` 獨立於 `TRACE_BETRAYAL_THRESHOLD` 與 28-A 壓垮拍門檻（語意各自獨立、數值可獨立調）；C 無 Game Over 畫面；孤兒檔救援重演必同判（trace / cleaned 上傳後凍結）；名字不露出；文案補白實作時定稿。
 
 ### Phase M1 子階段（三份對照）
 

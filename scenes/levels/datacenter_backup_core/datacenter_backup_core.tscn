@@ -122,7 +122,7 @@ shape = SubResource("RectangleShape2D_ground")
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="from_backup" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(150, 800)
+position = Vector2(150, 828)
 
 [node name="Interactables" type="Node2D" parent="."]
 
@@ -167,7 +167,7 @@ position = Vector2(150, 800)
 script = ExtResource("1_player")
 min_x = 100.0
 max_x = 4680.0
-walk_line_y = 690.0
+walk_line_y = 828.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
 position = Vector2(20, -184)

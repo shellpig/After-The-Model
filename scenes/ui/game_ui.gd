@@ -21,6 +21,8 @@ signal travel_requested(scene_id: String, entry_point_id: String)
 @onready var message_label: RichTextLabel = $MessageBoxContainer/MessageBox/MarginContainer/MessageLabel
 @onready var page_hint_label: Label = $MessageBoxContainer/MessageBox/PageHintLabel
 @onready var photo_viewer: Control = $PhotoViewer
+@onready var ending_epilogue: Control = $EndingEpilogue
+
 
 
 var _last_mode: int = UIMode.Mode.NONE
@@ -65,7 +67,9 @@ func _ready() -> void:
 	pause_menu.visible = false
 	shop_panel.visible = false
 	photo_viewer.visible = false
+	ending_epilogue.visible = false
 	page_hint_label.text = ""
+
 	page_hint_label.visible = false
 	
 	_apply_message_box_style()
@@ -968,3 +972,7 @@ func _show_or_queue_note_toast(note_data: Dictionary, is_update: bool) -> void:
 		if _level_context and _level_context.has_node("Player"):
 			anchor = _level_context.get_node("Player")
 		show_toast(toast_text, anchor)
+
+func start_ending_epilogue() -> void:
+	if ending_epilogue:
+		ending_epilogue.start_epilogue()

@@ -162,7 +162,9 @@ func load_notebook_data() -> void:
 		overall_body += tr("UI_PROGRESS_NPC_COUNT_FMT") % [summary["npcs"]["done"], summary["npcs"]["total"]] + "\n"
 		overall_body += tr("UI_PROGRESS_QUEST_COUNT_FMT") % [summary["quests"]["done"], summary["quests"]["total"]] + "\n"
 		overall_body += tr("UI_PROGRESS_ECHO_COUNT_FMT") % [summary["echoes"]["done"], summary["echoes"]["total"]] + "\n"
-		overall_body += tr("UI_PROGRESS_ITEMS_COUNT_FMT") % [summary["special"]["done"], summary["special"]["total"]]
+		overall_body += tr("UI_PROGRESS_ITEMS_COUNT_FMT") % [summary["special"]["done"], summary["special"]["total"]] + "\n"
+		overall_body += tr("UI_PROGRESS_ENDING_COUNT_FMT") % [summary["endings"]["done"], summary["endings"]["total"]]
+
 		
 		current_list_items.append({
 			"id": "progress_overall",
@@ -229,6 +231,19 @@ func load_notebook_data() -> void:
 			"title": tr("UI_PROGRESS_SPECIAL_TITLE"),
 			"body": special_body
 		})
+		
+		# 7. Endings
+		var endings_body = tr("UI_PROGRESS_ENDINGS_TITLE_FMT") % [summary["endings"]["done"], summary["endings"]["total"]] + "\n\n"
+		for item in summary["endings"]["items"]:
+			var name = tr(item["name"]) if item["done"] else "???"
+			var check = " [✓]" if item["done"] else ""
+			endings_body += name + check + "\n"
+		current_list_items.append({
+			"id": "progress_endings",
+			"title": tr("UI_PROGRESS_ENDINGS_TITLE"),
+			"body": endings_body
+		})
+
 	else:
 		current_list_items = GameState.get_notes(category)
 

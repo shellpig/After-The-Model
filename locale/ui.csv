@@ -309,3 +309,17 @@ PROMPT_BROADCAST_UPLOAD_TERMINAL,E: █ 使用上傳終端,E: █ 使用上传�
 PROMPT_BROADCAST_TRANSMITTER,E: █ 查看發射設備,E: █ 查看发射设备,E: █ Examine the Transmitter
 PROMPT_BROADCAST_OLD_MEDIA,E: █ 查看舊錄音載體,E: █ 查看旧录音载体,E: █ Examine the Old Recordings
 PROMPT_BROADCAST_PREDECESSOR,E: █ 查看前人痕跡,E: █ 查看前人痕迹,E: █ Examine the Traces Left Behind
+UI_PROGRESS_ENDING_COUNT_FMT,"結局解鎖：%d / %d","结局解锁：%d / %d","Endings Unlocked: %d / %d"
+UI_PROGRESS_ENDINGS_TITLE_FMT,"已解鎖結局 (%d/%d)","已解锁结局 (%d/%d)","Unlocked Endings (%d/%d)"
+UI_PROGRESS_ENDINGS_TITLE,"解鎖結局","解锁结局","Unlocked Endings"
+ENDING_NAME_RECLAIM,"【回歸】重新記憶","【回归】重新记忆","[Reclaim] Re-remembered"
+ENDING_NAME_PROTECT,"【守護】日常餘溫","【守护】日常余温","[Protect] Daily Warmth"
+ENDING_NAME_EXPOSE_A,"【公開】代價","【公开】代价","[Expose A] The Implication"
+ENDING_NAME_EXPOSE_B,"【公開】匿名雜訊","【公开】匿名杂讯","[Expose B] Anonymous Noise"
+ENDING_NAME_EXPOSE_C,"【公開】系統抹除","【公开】系统抹除","[Expose C] Scrubbed by System"
+UI_CREDITS_DEVELOPER,開發團隊,开发团队,Developer
+UI_CREDITS_ENGINE,遊戲引擎,游戏引擎,Game Engine
+UI_CREDITS_MUSIC,原聲音樂,原声音乐,Original Soundtrack
+UI_CREDITS_ASSETS,視覺與生成工具,视觉与生成工具,Visuals & Generation Tools
+UI_CREDITS_SPECIAL_THANKS,特別感謝,特别感谢,Special Thanks
+

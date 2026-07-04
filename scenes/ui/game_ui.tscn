@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="9_pause_menu"]
 [ext_resource type="PackedScene" uid="uid://1j3lp1fcrxl6b" path="res://scenes/ui/shop_panel.tscn" id="10_shop_panel"]
 [ext_resource type="PackedScene" path="res://scenes/ui/photo_viewer.tscn" id="11_photo_viewer"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ending_epilogue.tscn" id="12_ending_epilogue"]
+
 
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
@@ -171,4 +173,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 theme_override_font_sizes/font_size = 16
+
+[node name="EndingEpilogue" parent="." instance=ExtResource("12_ending_epilogue")]
+
 

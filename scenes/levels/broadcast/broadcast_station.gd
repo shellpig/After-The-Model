@@ -367,3 +367,7 @@ func _finish_expose_sequence() -> void:
 		GameState.set_flag("ending_expose_b_played", true)
 	elif _expose_verdict == "c":
 		GameState.set_flag("ending_expose_c_played", true)
+		
+	if game_ui and game_ui.has_method("start_ending_epilogue"):
+		game_ui.start_ending_epilogue()
+

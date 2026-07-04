@@ -81,6 +81,8 @@ var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
 var _sonar_active: bool = false
 var _sonar_time_left: float = 10.0
+var _epilogue_home_active: bool = false
+
 var _sonar_dwell_time: float = 0.0
 var _sonar_ping_timer: float = 0.0
 var sonar_ui: PanelContainer = null
@@ -329,7 +331,10 @@ func _process(_delta: float) -> void:
 	if current_mode != UIMode.Mode.NONE:
 		if _opening_monologue_active:
 			_handle_opening_monologue_input()
+		elif _epilogue_home_active:
+			_handle_epilogue_home_input()
 		return # Block world actions when UI is open
+
 
 	_refresh_current_interactable()
 
@@ -718,6 +723,7 @@ func _skip_opening_page() -> void:
 # 不回 UIMode.NONE——序列終態靜止在這一拍上，直到 Phase 30-A 接手正式收尾。
 func _start_reclaim_epilogue_home() -> void:
 	SaveSystem.can_save_here = false
+	_epilogue_home_active = true
 	if game_ui:
 		game_ui.begin_message("MSG_EPILOGUE_RECLAIM_TRACE")
 	GameState.set_flag("ending_reclaim_played", true)
@@ -727,9 +733,25 @@ func _start_reclaim_epilogue_home() -> void:
 # ==========================================
 func _start_protect_epilogue_home() -> void:
 	SaveSystem.can_save_here = false
+	_epilogue_home_active = true
 	if game_ui:
 		game_ui.begin_message("MSG_EPILOGUE_PROTECT_HOME")
 	GameState.set_flag("ending_protect_played", true)
+
+func _handle_epilogue_home_input() -> void:
+	if game_ui and game_ui.is_message_finished():
+		var advance_pressed := (
+			Input.is_action_just_pressed("interact_primary") or
+			Input.is_action_just_pressed("ui_accept")
+		)
+		if DisplayServer.get_name() == "headless":
+			advance_pressed = true
+			
+		if advance_pressed:
+			_epilogue_home_active = false
+			game_ui.close_message()
+			game_ui.start_ending_epilogue()
+
 
 func _end_opening_monologue() -> void:
 	_opening_monologue_active = false

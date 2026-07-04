@@ -1792,7 +1792,49 @@ func get_progress_summary() -> Dictionary:
 	summary["overall_done"] = overall_done
 	summary["overall_pct"] = int(round(float(overall_done) * 100.0 / float(overall_total))) if overall_total > 0 else 0
 
+	# 6. Endings (Phase 30-A QoL, meta-only, excluded from overall_total)
+	var achieved_endings := get_achieved_endings()
+	var all_endings := ["reclaim", "protect", "expose_a", "expose_b", "expose_c"]
+	summary["endings"] = {
+		"done": achieved_endings.size(),
+		"total": all_endings.size(),
+		"items": []
+	}
+	for ending_id in all_endings:
+		var done = achieved_endings.has(ending_id)
+		var name = ""
+		match ending_id:
+			"reclaim": name = "ENDING_NAME_RECLAIM"
+			"protect": name = "ENDING_NAME_PROTECT"
+			"expose_a": name = "ENDING_NAME_EXPOSE_A"
+			"expose_b": name = "ENDING_NAME_EXPOSE_B"
+			"expose_c": name = "ENDING_NAME_EXPOSE_C"
+			_: name = ending_id
+		summary["endings"]["items"].append({
+			"id": ending_id,
+			"name": name,
+			"done": done
+		})
+
 	return summary
+
+func mark_ending_achieved(ending_id: String) -> void:
+	var config := ConfigFile.new()
+	var path := "user://meta.cfg"
+	var _err = config.load(path)
+	config.set_value("endings", ending_id, true)
+	config.save(path)
+
+func get_achieved_endings() -> Array:
+	var config := ConfigFile.new()
+	var path := "user://meta.cfg"
+	var result := []
+	if config.load(path) == OK:
+		if config.has_section("endings"):
+			for key in config.get_section_keys("endings"):
+				if config.get_value("endings", key, false):
+					result.append(key)
+	return result
 
 
 

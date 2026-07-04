@@ -71,8 +71,13 @@ func set_entry_point(entry_point_id: String, payload: Dictionary = {}) -> void:
 	player.anim.play("idle")
 	_update_camera()
 
+func _has_any_expose_ending_played() -> bool:
+	return GameState.get_flag("ending_expose_a_played", false) or \
+		GameState.get_flag("ending_expose_b_played", false) or \
+		GameState.get_flag("ending_expose_c_played", false)
+
 func _ready() -> void:
-	SaveSystem.can_save_here = true
+	SaveSystem.can_save_here = not _has_any_expose_ending_played()
 	var main = get_tree().root.find_child("Main", true, false)
 	if main and main.has_method("play_bgm"):
 		main.play_bgm(BGM_PATH)
@@ -86,7 +91,8 @@ func _ready() -> void:
 	_refresh_current_interactable()
 
 	# 進場一次性 MessageBox：只在真正走 from_backup_core 轉場時播放；讀檔 entry_point_id 為 "restore"（main.gd transition_to 慣例），天然不觸發、不需去重旗標。
-	if _entry_point_id == "from_backup_core":
+	# 若已上傳完成則不再播放（例如讀檔救援）。
+	if _entry_point_id == "from_backup_core" and not GameState.get_flag("expose_upload_done", false):
 		call_deferred("_play_arrival_message")
 
 func _play_arrival_message() -> void:
@@ -97,6 +103,9 @@ func _play_arrival_message() -> void:
 
 func _process(_delta: float) -> void:
 	_update_camera()
+
+	if _has_any_expose_ending_played():
+		return
 
 	if _expose_active:
 		_update_expose_sequence()
@@ -113,6 +122,9 @@ func _process(_delta: float) -> void:
 			_trigger_interaction()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _has_any_expose_ending_played():
+		return
+
 	if _expose_active:
 		return
 
@@ -310,8 +322,11 @@ func _advance_expose_page() -> void:
 			if _blackout_rect:
 				_blackout_rect.visible = true
 				_blackout_rect.color.a = 0.0
+				var fade_duration := 2.0
+				if DisplayServer.get_name() == "headless":
+					fade_duration = 0.0
 				var tw := create_tween()
-				tw.tween_property(_blackout_rect, "color:a", 1.0, 2.0)
+				tw.tween_property(_blackout_rect, "color:a", 1.0, fade_duration)
 				tw.tween_callback(func():
 					_advance_expose_page()
 				)

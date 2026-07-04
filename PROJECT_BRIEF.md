@@ -393,7 +393,7 @@ C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . 
 | `subdocs/主線/` | 主線劇情文本；最新定稿 `雨還沒停v2.3.md`（敘事事實來源） |
 | `subdocs/人/` | 角色設定（主角、晚、鹿其琛、三張臉…） |
 | `subdocs/地點/` | 場景專屬規格（公寓、便利商店、收藏家的店、地鐵站、聚落、夜總會…） |
-| `subdocs/歸檔/` | 歷史歸檔（Phase 進度詳表等）；除非考古不必讀 |
+| `subdocs/歸檔/` | 歷史歸檔：Phase 進度詳表 + 三份規格文件的已完成 phase 段落（同標題可 grep）；查舊 phase 細節時才讀 |
 
 ## 實作注意事項
 

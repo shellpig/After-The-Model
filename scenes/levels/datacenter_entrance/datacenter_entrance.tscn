@@ -250,6 +250,7 @@ shape = SubResource("RectangleShape2D_wan_pull_trigger")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(120, 700)
+scale = Vector2(0.54, 0.54)
 script = ExtResource("1_player")
 min_x = 50.0
 max_x = 1320.0

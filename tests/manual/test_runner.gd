@@ -14847,6 +14847,124 @@ func _ready() -> void:
 
 	print("PASS: Phase 28-D regression (Phase 1~27 core routes + the four Phase-28-touched scenes' original entry points intact) and save/load guardrails (two-flag round-trip + pre-choice save reaches all three endings end-to-end + orphan-route rescue back to station 1 + non-orphan saves unaffected) verified.")
 
+	# ===================== Phase 29: Expose 結局三判定序列 =====================
+	print("--- Phase 29: Expose 結局三判定序列 ---")
+
+	# ---- Test 1: 經濟補正與判定矩陣（獨立輕量實例）----
+	# 門檻為 3，檢驗四個判定分支組合
+	# 組合 1: 未清洗 + trace < 3 -> A
+	GameState.reset_for_new_game()
+	GameState.set_flag("expose_upload_cleaned", false)
+	GameState.set_flag("expose_upload_done", true)
+	GameState.add_trace(2)
+	var lvl_phase29_a = load("res://scenes/levels/broadcast/broadcast_station.tscn").instantiate()
+	add_child(lvl_phase29_a)
+	await get_tree().process_frame
+	if lvl_phase29_a._expose_verdict != "a":
+		printerr("FAIL 29-A: expected verdict a, got: ", lvl_phase29_a._expose_verdict)
+		get_tree().quit(1)
+		return
+	lvl_phase29_a.free()
+	await get_tree().process_frame
+
+	# 組合 2: 已清洗 + trace < 3 -> B (29-B 實作)
+	GameState.reset_for_new_game()
+	GameState.set_flag("expose_upload_cleaned", true)
+	GameState.set_flag("expose_upload_done", true)
+	GameState.add_trace(2)
+	var lvl_phase29_b = load("res://scenes/levels/broadcast/broadcast_station.tscn").instantiate()
+	add_child(lvl_phase29_b)
+	await get_tree().process_frame
+	if lvl_phase29_b._expose_verdict != "b":
+		printerr("FAIL 29-B: expected verdict b, got: ", lvl_phase29_b._expose_verdict)
+		get_tree().quit(1)
+		return
+	lvl_phase29_b.free()
+	await get_tree().process_frame
+
+	# 組合 3: 未清洗 + trace >= 3 -> C
+	GameState.reset_for_new_game()
+	GameState.set_flag("expose_upload_cleaned", false)
+	GameState.set_flag("expose_upload_done", true)
+	GameState.add_trace(3)
+	var lvl_phase29_c1 = load("res://scenes/levels/broadcast/broadcast_station.tscn").instantiate()
+	add_child(lvl_phase29_c1)
+	await get_tree().process_frame
+	if lvl_phase29_c1._expose_verdict != "c":
+		printerr("FAIL 29-C: expected verdict c for dirty+trace>=3, got: ", lvl_phase29_c1._expose_verdict)
+		get_tree().quit(1)
+		return
+	lvl_phase29_c1.free()
+	await get_tree().process_frame
+
+	# 組合 4: 已清洗 + trace >= 3 -> C
+	GameState.reset_for_new_game()
+	GameState.set_flag("expose_upload_cleaned", true)
+	GameState.set_flag("expose_upload_done", true)
+	GameState.add_trace(3)
+	var lvl_phase29_c2 = load("res://scenes/levels/broadcast/broadcast_station.tscn").instantiate()
+	add_child(lvl_phase29_c2)
+	await get_tree().process_frame
+	if lvl_phase29_c2._expose_verdict != "c":
+		printerr("FAIL 29-C: expected verdict c for cleaned+trace>=3, got: ", lvl_phase29_c2._expose_verdict)
+		get_tree().quit(1)
+		return
+	lvl_phase29_c2.free()
+	await get_tree().process_frame
+	print("PASS 29: four-combination verdict matrix correct.")
+
+	# ---- Test 2: B 分支全自動跑完演出與 played 旗標 ----
+	GameState.reset_for_new_game()
+	GameState.set_flag("expose_upload_cleaned", true)
+	
+	var main_inst_phase29 = load("res://scenes/main/main.tscn").instantiate()
+	add_child(main_inst_phase29)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
+	main_inst_phase29.transition_to("broadcast_station", "restore")
+	var lvl_inst_phase29 = main_inst_phase29.world_root.get_children()[-1]
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	if lvl_inst_phase29._expose_active:
+		printerr("FAIL 29-B: expose sequence should not start before expose_upload_done is set!")
+		get_tree().quit(1)
+		return
+
+	GameState.set_flag("expose_upload_done", true)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	if not lvl_inst_phase29._expose_active:
+		printerr("FAIL 29-B: expose sequence did not start automatically!")
+		get_tree().quit(1)
+		return
+	if SaveSystem.can_save_here:
+		printerr("FAIL 29-B: SaveSystem should be locked during the sequence!")
+		get_tree().quit(1)
+		return
+
+	var frames_phase29 := 0
+	while lvl_inst_phase29._expose_active and frames_phase29 < 100:
+		await get_tree().process_frame
+		frames_phase29 += 1
+
+	if lvl_inst_phase29._expose_active:
+		printerr("FAIL 29-B: expose sequence did not finish after 100 frames!")
+		get_tree().quit(1)
+		return
+
+	if not GameState.get_flag("ending_expose_b_played", false):
+		printerr("FAIL 29-B: ending_expose_b_played flag not set after B sequence finished!")
+		get_tree().quit(1)
+		return
+	print("PASS 29-B: Verdict B sequence auto-runs, locks save, and sets ending_expose_b_played.")
+
+	if is_instance_valid(main_inst_phase29):
+		main_inst_phase29.free()
+	await get_tree().process_frame
+
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")

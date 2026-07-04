@@ -4,7 +4,7 @@
 
 最後更新：2026-07-04
 
-> **當前進度**：Phase 28（Reclaim / Protect 結局演出）與 Phase 29（Edited Expose 三判定）程式均已實作、headless 440+ PASS，GUI / 真機走查待驗收。M1（進度頁）/ M2（i18n）已完成。
+> **當前進度**：Phase 28（Reclaim / Protect 結局演出）已完成；Phase 29（Edited Expose 三判定）程式已實作、headless 440+ PASS，GUI / 真機走查待驗收；Phase 30（三結局收尾 + 全主線回歸）規格已寫（2026-07-04 拍板）、程式未開工。M1（進度頁）/ M2（i18n）已完成。
 
 ---
 
@@ -308,14 +308,17 @@ note_id
 | 27-B | ✅ | 三結局路由（Reclaim / Protect / Expose 互斥鎖點；三選無條件全開） |
 | 27-C | ✅ | 上傳前清洗閘五拍（11-D 兌現；`echo_count` condition） |
 | 27-D | ✅ | Phase 27 回歸 + 同檔三路可達驗證 |
-| 28-A | 🟦 待驗收 | Reclaim 三站序列（backup_core 灌回 → 晚訣別 CG 永久消失 → 公寓痕跡拍） |
-| 28-B | 🟦 待驗收 | Protect 序列（短刪除演出、與 Reclaim 刻意不對稱；晚不消失） |
-| 28-C | 🟦 待驗收 | 小岑條件式回收中間站（not-B 地鐵復駛 + 過閘 CG / B 空帳篷 + 伍姐搖頭） |
-| 28-D | 🟦 待驗收 | Phase 28 回歸 + 孤兒檔救援（headless 435 PASS / 0 FAIL） |
+| 28-A | ✅ | Reclaim 三站序列（backup_core 灌回 → 晚訣別 CG 永久消失 → 公寓痕跡拍） |
+| 28-B | ✅ | Protect 序列（短刪除演出、與 Reclaim 刻意不對稱；晚不消失） |
+| 28-C | ✅ | 小岑條件式回收中間站（not-B 地鐵復駛 + 過閘 CG / B 空帳篷 + 伍姐搖頭） |
+| 28-D | ✅ | Phase 28 回歸 + 孤兒檔救援（headless 435 PASS / 0 FAIL） |
 | 29-A | 🟦 待驗收 | Trace 經濟補正 + 判定框架 + Expose A 分支（警報 + 聚落火光 CG） |
 | 29-B | 🟦 待驗收 | Expose B 分支（已清洗 → 雜訊收尾拍） |
 | 29-C | 🟦 待驗收 | Expose C 分支（trace ≥ 臨界 → 攔截抹除，優先於 A/B） |
 | 29-D | 🟦 待驗收 | 四組合判定矩陣回歸 + 孤兒檔救援 |
+| 30-A | 📐 | 共用收尾三拍（11 CG）＋《雨還沒停》＋credits→回標題＋M1 結局記錄（meta 檔）；程式未開工 |
+| 30-B | 📐 | 全主線脊椎回歸（wake_bed 起真實路徑、五終點全跑）；程式未開工 |
+| 30-C | 📐 | 三結局 × 存讀檔矩陣 + GUI / 純觸控 / i18n 走查；程式未開工 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless PASS，互動 / 視覺 / 真機驗收未執行；🟧 待 headless = 程式完成、headless 未跑；📐 規格可實作 = 三份文件規格已寫到可動工、程式未開工；⬜ 待開工 / 待規劃。
 >
@@ -411,5 +414,5 @@ C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . 
 
 ## 下一步建議
 
-- **Phase 28 & 29（結局演出與三判定）程式已實作、headless 440+ PASS / 0 FAIL**：剩 GUI / 真機走查驗收（Reclaim / Protect / Expose 各結局分支演出與讀檔救援）。
-- **Phase 30（三結局收尾 + 全主線回歸）**：為下一個開發階段；規格已就位，等待 Phase 28 / 29 驗收完成後動工。
+- **Phase 29（Edited Expose 三判定）程式已實作、headless 440+ PASS / 0 FAIL**：剩 GUI / 真機走查驗收（Expose A / B / C 分支演出與孤兒檔救援）。
+- **Phase 30（三結局收尾 + 全主線回歸）規格已寫入三份文件（2026-07-04 拍板）、程式未開工**：依賴 28（✅）/ 29；契約見 `開發設計方針.md > 三結局共用收尾 + 全主線回歸（Phase 30，實作契約）`。外部素材：情境圖 CG ×11（30-A 動工前 g2d 生成）。

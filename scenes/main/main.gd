@@ -271,22 +271,36 @@ func load_game_slot(slot: int) -> bool:
 	if not SaveSystem.validate(payload):
 		push_error("Main: Save validation failed (invalid shape or version).")
 		return false
-	
+
 	var data = payload.get("data", {})
 	var scene_id = data.get("current_scene_id", "")
 	if not SCENES.has(scene_id):
 		push_error("Main: Save validation failed (scene ID not in registry: " + scene_id + ").")
 		return false
-	
+
 	# Apply state and transition
 	SaveSystem.apply(payload)
-	
+
+	# Phase 28-D：孤兒檔救援——27 期玩家鎖定 R / P route 後、28 序列落地前存的檔，
+	# 場景 / 座標可能落在序列站之外；讀檔後一律無視存檔場景，強制回站 1 重演
+	# （datacenter_backup_core 會依旗標自動接手，結局不可懸空）。
+	if _has_orphaned_ending_route():
+		transition_to("datacenter_backup_core", "from_backup")
+		return true
+
 	var restore_data = {
 		"player_x": data.get("player_x", 0.0),
 		"player_facing": data.get("player_facing", 1)
 	}
 	transition_to(scene_id, "", restore_data)
 	return true
+
+func _has_orphaned_ending_route() -> bool:
+	if GameState.get_flag("ending_route_reclaim", false) and not GameState.get_flag("ending_reclaim_played", false):
+		return true
+	if GameState.get_flag("ending_route_protect", false) and not GameState.get_flag("ending_protect_played", false):
+		return true
+	return false
 
 func reload_current_scene(entry_point_id: String = "") -> void:
 	var target_entry := entry_point_id

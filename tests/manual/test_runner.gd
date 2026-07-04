@@ -13964,9 +13964,10 @@ func _ready() -> void:
 	print("--- Phase 28-A: Reclaim 結局三站序列 ---")
 
 	# ---- Test 1: trace 高檔壓垮拍（獨立輕量實例，僅驗證 _reclaim_pages 選字）----
+	# 門檻 2026-07-04 拍板 3；取恰等於門檻的邊界值驗 >= 判斷。
 	GameState.reset_for_new_game()
 	GameState.set_flag("ending_route_reclaim", true)
-	GameState.add_trace(1)
+	GameState.add_trace(3)
 	var core_inst_hi_phase28a = load("res://scenes/levels/datacenter_backup_core/datacenter_backup_core.tscn").instantiate()
 	add_child(core_inst_hi_phase28a)
 	await get_tree().process_frame

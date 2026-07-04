@@ -23,8 +23,9 @@ const MAP_WIDTH := 4768.0
 
 const BGM_PATH := "res://assets/bgm/The Cold Mirror (Loop).mp3"
 
-# Phase 28-A：Reclaim 站 1 灌回演出。門檻獨立於 Phase 29-C 的 EXPOSE_TRACE_THRESHOLD，開工校。
-const RECLAIM_CRUSH_TRACE_THRESHOLD := 1
+# Phase 28-A：Reclaim 站 1 灌回演出。門檻獨立於 Phase 29-C 的 EXPOSE_TRACE_THRESHOLD（2026-07-04 拍板 3，
+# 語意各自獨立、數值恰同；與 24 TRACE_BETRAYAL_THRESHOLD 的「危險程度」尺度一致）。
+const RECLAIM_CRUSH_TRACE_THRESHOLD := 3
 const RECLAIM_FRAGMENT_PAGES := [
 	"MSG_EPILOGUE_RECLAIM_P1",
 	"MSG_EPILOGUE_RECLAIM_P2",

@@ -164,7 +164,7 @@ func _update_reclaim_sequence() -> void:
 		if game_ui and game_ui.is_message_finished():
 			_reclaim_page_done = true
 			if game_ui:
-				game_ui.set_message_page_hint("▼ 繼續", true)
+				game_ui.set_message_page_hint(tr("UI_MSG_CONTINUE_HINT"), true)
 		return
 
 	var advance_pressed := (
@@ -222,7 +222,7 @@ func _update_protect_sequence() -> void:
 		if game_ui and game_ui.is_message_finished():
 			_protect_page_done = true
 			if game_ui:
-				game_ui.set_message_page_hint("▼ 繼續", true)
+				game_ui.set_message_page_hint(tr("UI_MSG_CONTINUE_HINT"), true)
 		return
 
 	var advance_pressed := (

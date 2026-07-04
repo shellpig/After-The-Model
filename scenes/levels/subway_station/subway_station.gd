@@ -134,7 +134,7 @@ func _update_cen_epilogue() -> void:
 		if game_ui and game_ui.is_message_finished():
 			_cen_epilogue_page_done = true
 			if game_ui:
-				game_ui.set_message_page_hint("▼ 繼續", true)
+				game_ui.set_message_page_hint(tr("UI_MSG_CONTINUE_HINT"), true)
 		return
 
 	var advance_pressed := (
@@ -159,6 +159,9 @@ func _advance_cen_epilogue() -> void:
 		_cen_epilogue_stage = 2
 		if game_ui:
 			game_ui.close_message()
+			UIMode.set_mode(UIMode.Mode.NONE)
+			player.min_x = player.global_position.x
+			player.max_x = player.global_position.x
 			game_ui.open_photo_viewer(CEN_CG_GATE_PASS_PATH, null)
 
 func _finish_cen_epilogue() -> void:

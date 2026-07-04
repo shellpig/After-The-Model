@@ -10,7 +10,7 @@ const CAMERA_Y := 600.0
 const MAP_WIDTH := 4352.0
 
 const MESSAGES := {
-	"empty_tent": "空帳篷的拉鍊沒拉好，裡面只剩一條折到一半的毯子和幾個被踩扁的濾水包。這裡有人住過，而且離開得很急。",
+	"empty_tent": "MSG_SETTLEMENT_EMPTY_TENT",
 	"settlement_center": "聚落中央空出一圈位置，沒有招牌，也沒有正式邊界。人們用破布、延長線和沉默把這裡劃成了可以暫時活下去的地方。"
 }
 
@@ -143,7 +143,7 @@ func _update_wu_epilogue() -> void:
 		if game_ui and game_ui.is_message_finished():
 			_wu_epilogue_page_done = true
 			if game_ui:
-				game_ui.set_message_page_hint("▼ 繼續", true)
+				game_ui.set_message_page_hint(tr("UI_MSG_CONTINUE_HINT"), true)
 		return
 
 	var advance_pressed := (

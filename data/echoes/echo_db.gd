@@ -14,7 +14,8 @@ static var ECHOES := {
 		],
 		"audio_path": "res://assets/audio/echoes/echo_clerk.ogg",
 		"sell_price": 300,
-		"comment": "ECHO_CLERK_COMMENT"
+		"comment": "ECHO_CLERK_COMMENT",
+		"trace_on_collect": 1
 	},
 	"echo_room401_tenant": {
 		"title": "ECHO_ROOM401_TENANT_TITLE",
@@ -54,7 +55,8 @@ static var ECHOES := {
 		],
 		"audio_path": "res://assets/audio/echoes/echo_song_rain_doesnt_stop.mp3",
 		"sell_price": 150,
-		"comment": "ECHO_SONG_RAIN_DOESNT_STOP_COMMENT"
+		"comment": "ECHO_SONG_RAIN_DOESNT_STOP_COMMENT",
+		"trace_on_collect": 1
 	},
 	"echo_lu_family": {
 		"title": "ECHO_LU_FAMILY_TITLE",
@@ -66,7 +68,8 @@ static var ECHOES := {
 			}
 		],
 		"sell_price": 0,
-		"comment": "ECHO_LU_FAMILY_COMMENT"
+		"comment": "ECHO_LU_FAMILY_COMMENT",
+		"trace_on_collect": 1
 	},
 	"echo_settlement_erased": {
 		"title": "ECHO_SETTLEMENT_ERASED_TITLE",
@@ -81,7 +84,8 @@ static var ECHOES := {
 			}
 		],
 		"sell_price": 250,
-		"comment": "ECHO_SETTLEMENT_ERASED_COMMENT"
+		"comment": "ECHO_SETTLEMENT_ERASED_COMMENT",
+		"trace_on_collect": 1
 	},
 	"echo_ada_reset": {
 		"title": "ECHO_ADA_RESET_TITLE",

@@ -288,6 +288,16 @@ func load_game_slot(slot: int) -> bool:
 		transition_to("datacenter_backup_core", "from_backup")
 		return true
 
+	# Phase 29-A/D：Expose 結局讀檔救援
+	# 當已上傳完成且 Expose 的 A/B/C 三結局均未播放完成時，
+	# 讀檔後無視原場景與座標，強制載入廣播站以直接重新演判定序列。
+	if GameState.get_flag("expose_upload_done", false) and \
+		not GameState.get_flag("ending_expose_a_played", false) and \
+		not GameState.get_flag("ending_expose_b_played", false) and \
+		not GameState.get_flag("ending_expose_c_played", false):
+		transition_to("broadcast_station", "from_backup_core")
+		return true
+
 	var restore_data = {
 		"player_x": data.get("player_x", 0.0),
 		"player_facing": data.get("player_facing", 1)

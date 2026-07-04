@@ -16,6 +16,43 @@ const BGM_PATH := "res://assets/bgm/The Yellow Light Tape.mp3"
 
 @onready var player: CharacterBody2D = $Player
 @onready var camera: Camera2D = $Camera2D
+@onready var game_ui: CanvasLayer = _find_game_ui()
+
+# Phase 29-A: Expose 三判定結局演出
+const EXPOSE_TRACE_THRESHOLD := 3
+const EXPOSE_UPLOAD_PAGES := [
+	"MSG_EPILOGUE_EXPOSE_UPLOAD_P1",
+	"MSG_EPILOGUE_EXPOSE_UPLOAD_P2"
+]
+
+var _expose_active: bool = false
+var _expose_verdict: String = "" # "a", "b", "c"
+var _expose_pages: Array = []
+var _expose_page_index: int = 0
+var _expose_page_done: bool = false
+
+var _blackout_canvas: CanvasLayer = null
+var _blackout_rect: ColorRect = null
+
+func _find_game_ui() -> CanvasLayer:
+	var root := get_tree().root if is_inside_tree() else null
+	if root:
+		var gu = root.find_child("GameUI", true, false)
+		if gu:
+			return gu
+	return null
+
+func _setup_blackout() -> void:
+	_blackout_canvas = CanvasLayer.new()
+	_blackout_canvas.layer = 5 # 覆蓋在 2D 場景最前面
+	add_child(_blackout_canvas)
+	
+	_blackout_rect = ColorRect.new()
+	_blackout_rect.color = Color(0.0, 0.0, 0.0, 0.0)
+	_blackout_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_blackout_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_blackout_rect.visible = false
+	_blackout_canvas.add_child(_blackout_rect)
 
 var current_interactable: Area2D = null
 var nearby_interactables: Array[Area2D] = []
@@ -40,6 +77,8 @@ func _ready() -> void:
 	if main and main.has_method("play_bgm"):
 		main.play_bgm(BGM_PATH)
 
+	_setup_blackout()
+
 	for interactable in $Interactables.get_children():
 		interactable.player_entered.connect(_on_interactable_entered)
 		interactable.player_exited.connect(_on_interactable_exited)
@@ -59,16 +98,24 @@ func _play_arrival_message() -> void:
 func _process(_delta: float) -> void:
 	_update_camera()
 
+	if _expose_active:
+		_update_expose_sequence()
+		return
+
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
 
 	_refresh_current_interactable()
+	_maybe_start_expose_sequence()
 
 	if DisplayServer.get_name() == "headless":
 		if current_interactable != null and Input.is_action_just_pressed("interact_primary"):
 			_trigger_interaction()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _expose_active:
+		return
+
 	if UIMode.get_mode() != UIMode.Mode.NONE:
 		return
 
@@ -172,3 +219,136 @@ func _get_interactable_position(interactable: Area2D) -> Vector2:
 		return collision_shape.global_position
 
 	return interactable.global_position
+
+
+# ==========================================
+# Phase 29-A: Expose 三判定結局演出序列
+# ==========================================
+func _maybe_start_expose_sequence() -> void:
+	if not GameState.get_flag("expose_upload_done", false):
+		return
+	if GameState.get_flag("ending_expose_a_played", false) or GameState.get_flag("ending_expose_b_played", false) or GameState.get_flag("ending_expose_c_played", false):
+		return
+	_start_expose_sequence()
+
+func _start_expose_sequence() -> void:
+	_expose_active = true
+	SaveSystem.can_save_here = false
+	current_interactable = null
+	current_interactable_changed.emit({})
+
+	player.min_x = player.global_position.x
+	player.max_x = player.global_position.x
+	player.anim.play("idle")
+
+	# 判定分派
+	if GameState.get_trace() >= EXPOSE_TRACE_THRESHOLD:
+		_expose_verdict = "c"
+	elif not GameState.get_flag("expose_upload_cleaned", false):
+		_expose_verdict = "a"
+	else:
+		_expose_verdict = "b"
+
+	_expose_pages = EXPOSE_UPLOAD_PAGES.duplicate()
+	_expose_page_index = 0
+	_show_expose_page()
+
+func _show_expose_page() -> void:
+	_expose_page_done = false
+	if game_ui:
+		game_ui.begin_message(_expose_pages[_expose_page_index])
+		game_ui.set_message_page_hint("", false)
+
+func _update_expose_sequence() -> void:
+	if _expose_pages.size() > 0 and _expose_page_index < _expose_pages.size() and _expose_pages[_expose_page_index] == "CG_PLAY":
+		if game_ui and not game_ui.is_photo_viewer_open():
+			_advance_expose_page()
+		return
+
+	if _expose_pages.size() > 0 and _expose_page_index < _expose_pages.size() and _expose_pages[_expose_page_index] == "BLACKOUT_FADE":
+		return
+
+	if not _expose_page_done:
+		if game_ui and game_ui.is_message_finished():
+			_expose_page_done = true
+			if game_ui:
+				game_ui.set_message_page_hint(tr("UI_MSG_CONTINUE_HINT"), true)
+		return
+
+	var advance_pressed := (
+		Input.is_action_just_pressed("interact_primary") or
+		Input.is_action_just_pressed("ui_accept") or
+		Input.is_action_just_pressed("ui_cancel")
+	)
+	if DisplayServer.get_name() == "headless":
+		advance_pressed = true
+
+	if advance_pressed:
+		_advance_expose_page()
+
+func _advance_expose_page() -> void:
+	_expose_page_index += 1
+	
+	if _expose_pages == EXPOSE_UPLOAD_PAGES and _expose_page_index >= EXPOSE_UPLOAD_PAGES.size():
+		_finish_upload_and_dispatch()
+		return
+
+	if _expose_page_index >= _expose_pages.size():
+		_finish_expose_sequence()
+	else:
+		var next_item = _expose_pages[_expose_page_index]
+		if next_item == "CG_PLAY":
+			if game_ui:
+				game_ui.close_message()
+				UIMode.set_mode(UIMode.Mode.NONE)
+				game_ui.open_photo_viewer("res://assets/generated/maps/cg_settlement_burning/cg_settlement_burning.png", null)
+		elif next_item == "BLACKOUT_FADE":
+			if game_ui:
+				game_ui.close_message()
+				UIMode.set_mode(UIMode.Mode.NONE)
+			
+			if _blackout_rect:
+				_blackout_rect.visible = true
+				_blackout_rect.color.a = 0.0
+				var tw := create_tween()
+				tw.tween_property(_blackout_rect, "color:a", 1.0, 2.0)
+				tw.tween_callback(func():
+					_advance_expose_page()
+				)
+		else:
+			_show_expose_page()
+
+func _finish_upload_and_dispatch() -> void:
+	_expose_pages.clear()
+	_expose_page_index = 0
+	
+	if _expose_verdict == "a":
+		_expose_pages = [
+			"MSG_EPILOGUE_EXPOSE_A_ALARM",
+			"CG_PLAY",
+			"MSG_EPILOGUE_EXPOSE_A_AFTER"
+		]
+	elif _expose_verdict == "b":
+		_expose_pages = [
+			"MSG_EPILOGUE_EXPOSE_B_P1"
+		]
+	elif _expose_verdict == "c":
+		_expose_pages = [
+			"MSG_EPILOGUE_EXPOSE_C_INTERCEPT",
+			"MSG_EPILOGUE_EXPOSE_C_ERASE",
+			"BLACKOUT_FADE"
+		]
+		
+	_show_expose_page()
+
+func _finish_expose_sequence() -> void:
+	_expose_active = false
+	if game_ui:
+		game_ui.close_message()
+		
+	if _expose_verdict == "a":
+		GameState.set_flag("ending_expose_a_played", true)
+	elif _expose_verdict == "b":
+		GameState.set_flag("ending_expose_b_played", true)
+	elif _expose_verdict == "c":
+		GameState.set_flag("ending_expose_c_played", true)

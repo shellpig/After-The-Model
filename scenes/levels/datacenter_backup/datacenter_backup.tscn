@@ -345,8 +345,8 @@ speed = 110.0
 ground_y = 780.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SecurityGuard"]
-position = Vector2(0, -140)
-scale = Vector2(0.28, 0.28)
+position = Vector2(0, -133)
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_security_guard")
 animation = &"idle"
 

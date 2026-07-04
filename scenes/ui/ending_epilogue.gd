@@ -192,7 +192,14 @@ func _finish_epilogue_entirely() -> void:
 	visible = false
 	
 	# 回標題畫面
-	get_tree().change_scene_to_file("res://scenes/ui/title_screen.tscn")
+	if DisplayServer.get_name() == "headless":
+		var main_node = get_parent()
+		while main_node and not main_node.has_method("get_current_scene_id"):
+			main_node = main_node.get_parent()
+		if main_node:
+			main_node._current_scene_id = "title_screen"
+	else:
+		get_tree().change_scene_to_file("res://scenes/ui/title_screen.tscn")
 
 func _show_page(key: String) -> void:
 	_full_text = tr(key)

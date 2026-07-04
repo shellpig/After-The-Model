@@ -311,9 +311,9 @@ func _update_dynamic_button_visibility() -> void:
 
 	# 右上角選單快捷鍵與「X 返回」按鈕之動態切換顯示
 	if mode == UIMode.Mode.NONE:
-		btn_bag.visible = true
-		btn_note.visible = true
-		btn_pause.visible = true
+		btn_bag.visible = not monologue_active
+		btn_note.visible = not monologue_active
+		btn_pause.visible = not monologue_active
 		btn_close.visible = false
 	elif mode == UIMode.Mode.DIALOGUE:
 		btn_bag.visible = false

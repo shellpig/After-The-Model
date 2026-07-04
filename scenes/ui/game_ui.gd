@@ -152,7 +152,7 @@ func _process(delta: float) -> void:
 	# UI Hotkey Navigation Handling
 	if current_mode == UIMode.Mode.NONE:
 		# Only allow opening UI if monologue is not active
-		if not _monologue_active:
+		if not is_touch_toggle_blocked():
 			if Input.is_action_just_pressed("open_inventory"):
 				open_inventory()
 				return
@@ -249,13 +249,23 @@ func has_current_interactable() -> bool:
 	return not _current_prompt_data.is_empty()
 
 func is_touch_toggle_blocked() -> bool:
-	# Block touch controls toggle during monologue or message screens
-	return _monologue_active
+	if _monologue_active:
+		return true
+	# Block touch controls toggle during endings/monologue mode
+	if GameState.get_flag("ending_route_reclaim", false) or \
+		GameState.get_flag("ending_route_protect", false) or \
+		GameState.get_flag("ending_route_expose", false) or \
+		GameState.get_flag("expose_upload_done", false) or \
+		GameState.get_flag("ending_expose_a_played", false) or \
+		GameState.get_flag("ending_expose_b_played", false) or \
+		GameState.get_flag("ending_expose_c_played", false):
+		return true
+	return false
 
 func set_monologue_active(active: bool) -> void:
 	_monologue_active = active
 	if world_hud_label:
-		world_hud_label.visible = (UIMode.get_mode() == UIMode.Mode.NONE and not _monologue_active)
+		world_hud_label.visible = (UIMode.get_mode() == UIMode.Mode.NONE and not is_touch_toggle_blocked())
 
 func show_message(text: String, on_closed: Callable = Callable(), note_title: String = "") -> void:
 	_is_simple_message = true
@@ -541,7 +551,7 @@ func _on_ui_mode_changed(new_mode: int) -> void:
 		shop_panel.visible = (new_mode == UIMode.Mode.SHOP) or (new_mode == UIMode.Mode.MESSAGE and _mode_before_message == UIMode.Mode.SHOP)
 
 	if is_instance_valid(world_hud_label):
-		world_hud_label.visible = (new_mode == UIMode.Mode.NONE and not _monologue_active)
+		world_hud_label.visible = (new_mode == UIMode.Mode.NONE and not is_touch_toggle_blocked())
 
 	bag_grid.set_input_active(new_mode == UIMode.Mode.INVENTORY)
 	notebook_panel.set_input_active(new_mode == UIMode.Mode.NOTEBOOK)

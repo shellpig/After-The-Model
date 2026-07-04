@@ -14944,6 +14944,19 @@ func _ready() -> void:
 		printerr("FAIL 29-B: SaveSystem should be locked during the sequence!")
 		get_tree().quit(1)
 		return
+	if not main_inst_phase29.game_ui.is_touch_toggle_blocked():
+		printerr("FAIL 29-B: is_touch_toggle_blocked should be true during endings!")
+		get_tree().quit(1)
+		return
+	var old_touch_enabled_phase29 = TouchControls.touch_buttons_enabled
+	TouchControls.touch_buttons_enabled = true
+	TouchControls._update_dynamic_button_visibility()
+	if TouchControls.get_node("Control/Menus/BtnBag").visible:
+		printerr("FAIL 29-B: Bag button should not be visible when touch toggle is blocked!")
+		get_tree().quit(1)
+		return
+	TouchControls.touch_buttons_enabled = old_touch_enabled_phase29
+	TouchControls._update_dynamic_button_visibility()
 
 	var frames_phase29 := 0
 	while lvl_inst_phase29._expose_active and frames_phase29 < 100:
@@ -14995,6 +15008,19 @@ func _ready() -> void:
 		printerr("FAIL 29-A: SaveSystem should be locked during the sequence!")
 		get_tree().quit(1)
 		return
+	if not main_inst_phase29_a.game_ui.is_touch_toggle_blocked():
+		printerr("FAIL 29-A: is_touch_toggle_blocked should be true during endings!")
+		get_tree().quit(1)
+		return
+	var old_touch_enabled_phase29_a = TouchControls.touch_buttons_enabled
+	TouchControls.touch_buttons_enabled = true
+	TouchControls._update_dynamic_button_visibility()
+	if TouchControls.get_node("Control/Menus/BtnBag").visible:
+		printerr("FAIL 29-A: Bag button should not be visible when touch toggle is blocked!")
+		get_tree().quit(1)
+		return
+	TouchControls.touch_buttons_enabled = old_touch_enabled_phase29_a
+	TouchControls._update_dynamic_button_visibility()
 
 	var frames_phase29_a := 0
 	while lvl_inst_phase29_a._expose_active and frames_phase29_a < 150:
@@ -15048,6 +15074,19 @@ func _ready() -> void:
 		printerr("FAIL 29-C: SaveSystem should be locked during the sequence!")
 		get_tree().quit(1)
 		return
+	if not main_inst_phase29_c.game_ui.is_touch_toggle_blocked():
+		printerr("FAIL 29-C: is_touch_toggle_blocked should be true during endings!")
+		get_tree().quit(1)
+		return
+	var old_touch_enabled_phase29_c = TouchControls.touch_buttons_enabled
+	TouchControls.touch_buttons_enabled = true
+	TouchControls._update_dynamic_button_visibility()
+	if TouchControls.get_node("Control/Menus/BtnBag").visible:
+		printerr("FAIL 29-C: Bag button should not be visible when touch toggle is blocked!")
+		get_tree().quit(1)
+		return
+	TouchControls.touch_buttons_enabled = old_touch_enabled_phase29_c
+	TouchControls._update_dynamic_button_visibility()
 
 	var frames_phase29_c := 0
 	while lvl_inst_phase29_c._expose_active and frames_phase29_c < 250:

@@ -1,4 +1,4 @@
-extends "res://tests/manual/phases/test_phases_base.gd"
+extends "res://tests/manual/phases/phase_scene_lint.gd"
 
 func _run_phase_30c() -> void:
 	# ===================== Phase 30-C: 三結局存讀檔矩陣與 i18n 驗證 =====================

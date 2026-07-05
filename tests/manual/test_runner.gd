@@ -301,6 +301,9 @@ func _ready() -> void:
 	await _run_phase_30c()
 	await get_tree().process_frame
 
+	await _run_phase_scene_lint()
+	await get_tree().process_frame
+
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")

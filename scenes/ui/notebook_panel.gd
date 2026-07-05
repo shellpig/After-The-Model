@@ -109,7 +109,7 @@ func load_notebook_data() -> void:
 
 	var category: String = CATEGORIES[active_category_index]
 	current_list_items.clear()
-	
+
 	if category == "殘響":
 		for echo_id in EchoDB.ECHOES:
 			if GameState.is_echo_known(echo_id):
@@ -118,12 +118,12 @@ func load_notebook_data() -> void:
 				var collected_count = GameState.echo_progress.get(echo_id, {}).get("collected", []).size()
 				var total_segments = EchoDB.get_segment_count(echo_id)
 				var sold = GameState.is_echo_sold(echo_id)
-				
+
 				var unknown_total = echo_data.get("unknown_total", false)
 				var display_title = tr("UI_NOTEBOOK_ECHO_TITLE_FMT") % [title, str(collected_count), ( "?" if unknown_total else str(total_segments) )]
 				if sold:
 					display_title += " " + tr("UI_NOTEBOOK_SOLD_TAG")
-				
+
 				var body_segments = []
 				var segments_list = echo_data.get("segments", [])
 				for idx in range(segments_list.size()):
@@ -146,7 +146,7 @@ func load_notebook_data() -> void:
 						body_text += "\n\n" + tr("UI_NOTEBOOK_MEDIA_SONG")
 					elif echo_id == "echo_clerk":
 						body_text += "\n\n" + tr("UI_NOTEBOOK_MEDIA_AUDIO")
-				
+
 				current_list_items.append({
 					"id": echo_id,
 					"title": display_title,
@@ -155,7 +155,7 @@ func load_notebook_data() -> void:
 				})
 	elif category == "進度":
 		var summary = GameState.get_progress_summary()
-		
+
 		# 1. Overall Progress
 		var overall_body = tr("UI_PROGRESS_OVERALL_PCT_FMT") % summary["overall_pct"] + "\n\n"
 		overall_body += tr("UI_PROGRESS_SCENE_COUNT_FMT") % [summary["scenes"]["done"], summary["scenes"]["total"]] + "\n"
@@ -165,13 +165,13 @@ func load_notebook_data() -> void:
 		overall_body += tr("UI_PROGRESS_ITEMS_COUNT_FMT") % [summary["special"]["done"], summary["special"]["total"]] + "\n"
 		overall_body += tr("UI_PROGRESS_ENDING_COUNT_FMT") % [summary["endings"]["done"], summary["endings"]["total"]]
 
-		
+
 		current_list_items.append({
 			"id": "progress_overall",
 			"title": tr("UI_PROGRESS_TOTAL_TITLE"),
 			"body": overall_body
 		})
-		
+
 		# 2. Scenes
 		var scenes_body = tr("UI_PROGRESS_SCENES_TITLE_FMT") % [summary["scenes"]["done"], summary["scenes"]["total"]] + "\n\n"
 		for item in summary["scenes"]["items"]:
@@ -183,7 +183,7 @@ func load_notebook_data() -> void:
 			"title": tr("UI_PROGRESS_SCENES_TITLE"),
 			"body": scenes_body
 		})
-		
+
 		# 3. NPCs
 		var npcs_body = tr("UI_PROGRESS_NPCS_TITLE_FMT") % [summary["npcs"]["done"], summary["npcs"]["total"]] + "\n\n"
 		for item in summary["npcs"]["items"]:
@@ -195,7 +195,7 @@ func load_notebook_data() -> void:
 			"title": tr("UI_PROGRESS_NPCS_TITLE"),
 			"body": npcs_body
 		})
-		
+
 		# 4. Quests
 		var quests_body = tr("UI_PROGRESS_QUESTS_TITLE_FMT") % [summary["quests"]["done"], summary["quests"]["total"]] + "\n\n"
 		for item in summary["quests"]["items"]:
@@ -207,7 +207,7 @@ func load_notebook_data() -> void:
 			"title": tr("UI_PROGRESS_QUESTS_TITLE"),
 			"body": quests_body
 		})
-		
+
 		# 5. Echoes
 		var echoes_body = tr("UI_PROGRESS_ECHOES_TITLE_FMT") % [summary["echoes"]["done"], summary["echoes"]["total"]] + "\n\n"
 		for item in summary["echoes"]["items"]:
@@ -219,7 +219,7 @@ func load_notebook_data() -> void:
 			"title": tr("UI_PROGRESS_ECHOES_TITLE"),
 			"body": echoes_body
 		})
-		
+
 		# 6. Special Items
 		var special_body = tr("UI_PROGRESS_SPECIAL_TITLE_FMT") % [summary["special"]["done"], summary["special"]["total"]] + "\n\n"
 		for item in summary["special"]["items"]:
@@ -231,7 +231,7 @@ func load_notebook_data() -> void:
 			"title": tr("UI_PROGRESS_SPECIAL_TITLE"),
 			"body": special_body
 		})
-		
+
 		# 7. Endings
 		var endings_body = tr("UI_PROGRESS_ENDINGS_TITLE_FMT") % [summary["endings"]["done"], summary["endings"]["total"]] + "\n\n"
 		for item in summary["endings"]["items"]:
@@ -331,7 +331,7 @@ func _update_footer_hints(note: Dictionary) -> void:
 		"I: 背包",
 		"Esc/J: 關閉"
 	]
-	
+
 	if note.get("is_echo", false):
 		var echo_id = note.get("id", "")
 		if not GameState.is_echo_sold(echo_id):
@@ -339,7 +339,7 @@ func _update_footer_hints(note: Dictionary) -> void:
 			var has_audio = GameState.is_echo_audio_unlocked(echo_id)
 			var image_path = GameState.get_echo_image_path(echo_id) if has_image else ""
 			var audio_path = GameState.get_echo_audio_path(echo_id) if has_audio else ""
-			
+
 			if has_image and has_audio:
 				hints.insert(0, "R: 播放錄音")
 				hints.insert(0, "E: 看照片")
@@ -425,7 +425,7 @@ func _get_tab_button(index: int) -> Button:
 func get_media_actions() -> Dictionary:
 	if active_category_index != 3:
 		return {}
-	
+
 	var current_focus = get_viewport().gui_get_focus_owner()
 	if current_focus != null and current_focus.get_parent() == list_vbox:
 		var idx = current_focus.get_index()
@@ -438,7 +438,7 @@ func get_media_actions() -> Dictionary:
 					var has_audio = GameState.is_echo_audio_unlocked(echo_id)
 					var image_path = GameState.get_echo_image_path(echo_id) if has_image else ""
 					var audio_path = GameState.get_echo_audio_path(echo_id) if has_audio else ""
-					
+
 					if has_image and has_audio:
 						return {"primary": "view_photo", "secondary": "play_audio"}
 					elif has_image:

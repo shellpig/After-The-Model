@@ -317,7 +317,7 @@ note_id
 | 29-C | 🟦 待驗收 | Expose C 分支（trace ≥ 臨界 → 攔截抹除，優先於 A/B） |
 | 29-D | 🟦 待驗收 | 四組合判定矩陣回歸 + 孤兒檔救援 |
 | 30-A | 🟦 | 共用收尾三拍（11 CG）＋《雨還沒停》＋credits→回標題＋M1 結局記錄（meta 檔）；程式已實作、headless PASS，GUI 走查待驗收 |
-| 30-B | 🟦 待驗收 | 全主線脊椎回歸（wake_bed 起真實路徑、五終點全跑）；程式已實作、headless PASS，GUI 走查待驗收 |
+| 30-B | 🟦 待驗收 | 全主線脊椎回歸（wake_bed 起真實路徑、五終點全跑；spine 6 case，Protect 拆 B / not-B 兩變體）；程式已實作、headless PASS，GUI 走查待驗收 |
 | 30-C | 🟦 待驗收 | 三結局 × 存讀檔矩陣 + GUI / 純觸控 / i18n 走查；程式已實作、headless PASS，GUI / 真機走查待驗收 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless PASS，互動 / 視覺 / 真機驗收未執行；🟧 待 headless = 程式完成、headless 未跑；📐 規格可實作 = 三份文件規格已寫到可動工、程式未開工；⬜ 待開工 / 待規劃。

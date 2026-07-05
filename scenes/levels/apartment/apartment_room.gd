@@ -144,7 +144,7 @@ func _ready() -> void:
 	sonar_ui.name = "SonarUI"
 	sonar_ui.visible = false
 	sonar_ui.custom_minimum_size = Vector2(300, 100)
-	
+
 	var sonar_style := StyleBoxFlat.new()
 	sonar_style.bg_color = Color(0.08, 0.10, 0.12, 0.85)
 	sonar_style.border_color = Color(0.78, 0.42, 0.20, 1.0)
@@ -157,25 +157,25 @@ func _ready() -> void:
 	sonar_style.corner_radius_bottom_left = 4
 	sonar_style.corner_radius_bottom_right = 4
 	sonar_ui.add_theme_stylebox_override("panel", sonar_style)
-	
+
 	var margin_c := MarginContainer.new()
 	margin_c.add_theme_constant_override("margin_left", 16)
 	margin_c.add_theme_constant_override("margin_top", 16)
 	margin_c.add_theme_constant_override("margin_right", 16)
 	margin_c.add_theme_constant_override("margin_bottom", 16)
 	sonar_ui.add_child(margin_c)
-	
+
 	sonar_label = Label.new()
 	sonar_label.name = "SonarLabel"
 	sonar_label.add_theme_color_override("font_color", Color(0.94, 0.92, 0.84, 1.0))
 	margin_c.add_child(sonar_label)
-	
+
 	# Create a local canvas layer for sonar UI so it doesn't shift with camera and doesn't pollute GameUI
 	var local_canvas := CanvasLayer.new()
 	local_canvas.name = "SonarLocalCanvas"
 	add_child(local_canvas)
 	local_canvas.add_child(sonar_ui)
-	
+
 	sonar_ui.anchors_preset = Control.PRESET_CENTER_TOP
 	sonar_ui.anchor_left = 0.5
 	sonar_ui.anchor_right = 0.5
@@ -231,10 +231,10 @@ func _ready() -> void:
 			else:
 				clock.prompt_text = "PROMPT_APARTMENT_CLOCK_EXAMINE"
 
-		
+
 		# Ensure the slot container configuration is registered in GameState
 		GameState.configure_container("apartment_slot", 1, ["decoder_cube"], true)
-		
+
 		CONTAINERS["apartment_slot"] = {
 			"title": "隱藏插槽",
 			"cols": 1,
@@ -242,7 +242,7 @@ func _ready() -> void:
 			"skin": "cabinet",
 			"panel_position": Vector2(782.0, 64.0)
 		}
-		
+
 		if GameState.apartment_slot_unlocked:
 			var slot_area = $Interactables.get_node_or_null("ApartmentSlotArea")
 			if slot_area:
@@ -304,7 +304,7 @@ func _process(_delta: float) -> void:
 				if _sonar_ping_timer >= ping_interval:
 					_sonar_ping_timer = 0.0
 					_play_sonar_ping()
-				
+
 				var strength: float
 				if dx <= 30.0:
 					strength = 100.0
@@ -318,7 +318,7 @@ func _process(_delta: float) -> void:
 						return
 				else:
 					_sonar_dwell_time = 0.0
-				
+
 				sonar_label.text = "聲納探測中...\n強度: %d%%\n定位鎖定: %d%%\n剩餘時間: %.1fs" % [
 					int(strength),
 					int(clamp((_sonar_dwell_time / 4.0) * 100.0, 0.0, 100.0)),
@@ -433,7 +433,7 @@ func _trigger_interaction() -> void:
 							updated_note.body = "NOTE_IDENTITY_DOOR_UNLOCK_METHOD_OUTRO_BODY"
 							GameState.add_knowledge(updated_note)
 							_pending_toast_title = "UI_TOAST_UPDATED_DOOR"
-						
+
 						interaction_requested.emit({
 							"type": "message",
 							"message_text": MESSAGES.get("door_opened", ""),
@@ -662,10 +662,10 @@ func _reveal_hidden_slot() -> void:
 			nearby_interactables.erase(clock)
 			clock.queue_free()
 
-	
+
 	# Configure slot container in GameState
 	GameState.configure_container("apartment_slot", 1, ["decoder_cube"], true)
-	
+
 	# Dynamic insertion in CONTAINERS DB
 	CONTAINERS["apartment_slot"] = {
 		"title": "隱藏插槽",
@@ -677,7 +677,7 @@ func _reveal_hidden_slot() -> void:
 
 	# Force prompt update
 	_refresh_current_interactable()
-	
+
 	FloatingToast.show_toast("成功鎖定！牆內滑動插槽已開啟。", player)
 
 func _on_player_animation_finished() -> void:
@@ -686,10 +686,10 @@ func _on_player_animation_finished() -> void:
 
 func _start_opening_page() -> void:
 	_opening_page_done = false
-	
+
 	if _opening_page_index == 2:
 		player.anim.play("get_up")
-	
+
 	var text = OPENING_MONOLOGUES[_opening_page_index]
 	if game_ui:
 		game_ui.begin_message(text, {"chars_per_second": OPENING_CHARS_PER_SECOND})
@@ -710,7 +710,7 @@ func _advance_opening_page() -> void:
 func _skip_opening_page() -> void:
 	if not _opening_monologue_active:
 		return
-	
+
 	_opening_page_done = true
 	if game_ui:
 		game_ui.force_finish_message()
@@ -746,7 +746,7 @@ func _handle_epilogue_home_input() -> void:
 		)
 		if DisplayServer.get_name() == "headless":
 			advance_pressed = true
-			
+
 		if advance_pressed:
 			_epilogue_home_active = false
 			game_ui.close_message()
@@ -770,9 +770,9 @@ func _handle_opening_monologue_input() -> void:
 			_dev_skip_count = 1
 		else:
 			_dev_skip_count += 1
-		
+
 		_dev_skip_timer = now
-		
+
 		if _dev_skip_count >= 3:
 			_dev_skip_count = 0
 			_skip_opening_page()

@@ -46,7 +46,7 @@ func _setup_blackout() -> void:
 	_blackout_canvas = CanvasLayer.new()
 	_blackout_canvas.layer = 5 # 覆蓋在 2D 場景最前面
 	add_child(_blackout_canvas)
-	
+
 	_blackout_rect = ColorRect.new()
 	_blackout_rect.color = Color(0.0, 0.0, 0.0, 0.0)
 	_blackout_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -300,7 +300,7 @@ func _update_expose_sequence() -> void:
 
 func _advance_expose_page() -> void:
 	_expose_page_index += 1
-	
+
 	if _expose_pages == EXPOSE_UPLOAD_PAGES and _expose_page_index >= EXPOSE_UPLOAD_PAGES.size():
 		_finish_upload_and_dispatch()
 		return
@@ -318,7 +318,7 @@ func _advance_expose_page() -> void:
 			if game_ui:
 				game_ui.close_message()
 				UIMode.set_mode(UIMode.Mode.NONE)
-			
+
 			if _blackout_rect:
 				_blackout_rect.visible = true
 				_blackout_rect.color.a = 0.0
@@ -336,7 +336,7 @@ func _advance_expose_page() -> void:
 func _finish_upload_and_dispatch() -> void:
 	_expose_pages.clear()
 	_expose_page_index = 0
-	
+
 	if _expose_verdict == "a":
 		_expose_pages = [
 			"MSG_EPILOGUE_EXPOSE_A_ALARM",
@@ -353,21 +353,20 @@ func _finish_upload_and_dispatch() -> void:
 			"MSG_EPILOGUE_EXPOSE_C_ERASE",
 			"BLACKOUT_FADE"
 		]
-		
+
 	_show_expose_page()
 
 func _finish_expose_sequence() -> void:
 	_expose_active = false
 	if game_ui:
 		game_ui.close_message()
-		
+
 	if _expose_verdict == "a":
 		GameState.set_flag("ending_expose_a_played", true)
 	elif _expose_verdict == "b":
 		GameState.set_flag("ending_expose_b_played", true)
 	elif _expose_verdict == "c":
 		GameState.set_flag("ending_expose_c_played", true)
-		
+
 	if game_ui and game_ui.has_method("start_ending_epilogue"):
 		game_ui.start_ending_epilogue()
-

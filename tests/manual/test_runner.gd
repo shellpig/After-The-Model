@@ -842,31 +842,31 @@ func _ready() -> void:
 		printerr("FAIL: Condition quest_status=active should evaluate to true!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. Test condition: type = quest_step, op = ==, value = checked_alley (not reached yet)
 	var test_cond_checked = {"type": "quest_step", "quest_id": "alley_backrooms_3f", "op": "==", "value": "checked_alley"}
 	if runner._eval_condition(test_cond_checked):
 		printerr("FAIL: Condition quest_step=checked_alley should evaluate to false!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. Test condition: type = has_item, item_id = canned_food, op = ==, value = true (not owned yet)
 	var test_cond_item = {"type": "has_item", "item_id": "canned_food", "op": "==", "value": true}
 	if runner._eval_condition(test_cond_item):
 		printerr("FAIL: Condition has_item=true should evaluate to false when item is not owned!")
 		get_tree().quit(1)
 		return
-		
+
 	# Add item and verify has_item condition
 	GameState.add_item("canned_food", 1)
 	if not runner._eval_condition(test_cond_item):
 		printerr("FAIL: Condition has_item=true should evaluate to true after adding item!")
 		get_tree().quit(1)
 		return
-		
+
 	# Clean up item
 	GameState.remove_item("canned_food", 1)
-	
+
 	# 4. Test condition array (AND evaluation)
 	var test_cond_arr = [
 		{"type": "quest_status", "quest_id": "alley_backrooms_3f", "op": "==", "value": "active"},
@@ -876,7 +876,7 @@ func _ready() -> void:
 		printerr("FAIL: Condition array AND evaluation failed!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify retalk with active quest routes to intel_already_given
 	runner.start(wan_tree)
 	curr = runner.current()
@@ -885,7 +885,7 @@ func _ready() -> void:
 		if tr(ch.get("label")) == "有新消息嗎？":
 			idx_news_retalk = ch.get("index")
 			break
-	
+
 	runner.choose(idx_news_retalk)
 	curr = runner.current()
 	if not tr(curr.get("text")).contains("不是跟你說過了"):
@@ -1009,7 +1009,7 @@ func _ready() -> void:
 		printerr("FAIL: Keyboard S / move_down did not move focus to second choice!")
 		get_tree().quit(1)
 		return
-	
+
 	# Move back up using W / move_up
 	var event_up := InputEventAction.new()
 	event_up.action = "move_up"
@@ -1118,27 +1118,27 @@ func _ready() -> void:
 
 	# 15. Verify Phase 6-A SaveSystem Autoload & State Serialization
 	print("Verifying Phase 6-A SaveSystem Autoload & State Serialization...")
-	
+
 	# Prepare some state changes
 	GameState.reset_for_new_game()
 	if GameState.get_credits() != 300:
 		printerr("FAIL: GameState reset_for_new_game did not set default credits!")
 		get_tree().quit(1)
 		return
-	
+
 	GameState.set_credits(500)
 	GameState.set_flag("test_story_flag", 42)
 	GameState.apartment_sonar_revealed = true
-	
+
 	# Add item and verify it exists
 	if not GameState.add_item("canned_food", 3):
 		printerr("FAIL: Could not add canned_food for test!")
 		get_tree().quit(1)
 		return
-	
+
 	var inventory_before = GameState.get_inventory()
 	var credits_before = GameState.get_credits()
-	
+
 	# Capture state
 	var save_data = SaveSystem.capture("apartment", 425.0, -1)
 	if not SaveSystem.validate(save_data):
@@ -1146,32 +1146,32 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Capture and validate verified.")
-	
+
 	# Write slot and read back
 	var slot_idx := TEST_VALID_SAVE_SLOT
 	var dir = DirAccess.open("user://")
 	if dir and dir.file_exists(TEST_VALID_SAVE_FILE):
 		dir.remove(TEST_VALID_SAVE_FILE)
-	
+
 	var slots_list_before = SaveSystem.list_slots()
 	if not slots_list_before[0]["empty"]:
 		printerr("FAIL: Slot 1 should be empty before writing!")
 		get_tree().quit(1)
 		return
-	
+
 	if not SaveSystem.write_slot(slot_idx, save_data):
 		printerr("FAIL: Failed to write to slot 1!")
 		get_tree().quit(1)
 		return
 	print("PASS: Write slot verified.")
-	
+
 	var slots_list_after = SaveSystem.list_slots()
 	if slots_list_after[0]["empty"] or slots_list_after[0]["meta"]["credits"] != 500:
 		printerr("FAIL: list_slots did not report written slot 1 metadata correctly!")
 		get_tree().quit(1)
 		return
 	print("PASS: list_slots verified with active slot.")
-	
+
 	# Read slot
 	var read_data = SaveSystem.read_slot(slot_idx)
 	if not SaveSystem.validate(read_data):
@@ -1183,38 +1183,38 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Read slot and validation verified.")
-	
+
 	# Corrupt slot simulation
 	var corrupt_slot_idx := TEST_SCRATCH_SAVE_SLOT
 	var corrupt_file = FileAccess.open("user://%s" % TEST_SCRATCH_SAVE_FILE, FileAccess.WRITE)
 	if corrupt_file:
 		corrupt_file.store_string("THIS IS NOT A VALID SAV OBJECT")
 		corrupt_file.close()
-	
+
 	var slots_list_corrupt = SaveSystem.list_slots()
 	if slots_list_corrupt[1]["empty"] or not slots_list_corrupt[1].get("corrupt", false):
 		printerr("FAIL: list_slots did not identify corrupt slot 2!")
 		get_tree().quit(1)
 		return
 	print("PASS: list_slots corrupt detection verified.")
-	
+
 	# Clean up corrupt file
 	if dir:
 		dir.remove(TEST_SCRATCH_SAVE_FILE)
-	
+
 	# Reset state and apply read data
 	GameState.reset_for_new_game()
 	if GameState.get_credits() != 300 or GameState.story_flags.has("test_story_flag"):
 		printerr("FAIL: reset_for_new_game failed to clear state before load!")
 		get_tree().quit(1)
 		return
-	
+
 	SaveSystem.apply(read_data)
-	
+
 	# Verify restored state
 	var inventory_after = GameState.get_inventory()
 	var credits_after = GameState.get_credits()
-	
+
 	if credits_after != credits_before:
 		printerr("FAIL: Credits mismatch after applying save!")
 		get_tree().quit(1)
@@ -1227,7 +1227,7 @@ func _ready() -> void:
 		printerr("FAIL: Apartment sonar state mismatch after applying save!")
 		get_tree().quit(1)
 		return
-		
+
 	# Compare inventory arrays
 	if inventory_after.size() != inventory_before.size():
 		printerr("FAIL: Inventory slot count mismatch after applying save!")
@@ -1246,17 +1246,17 @@ func _ready() -> void:
 
 	# 16. Verify Phase 6-B Load Game Entry Path & Dual Validation
 	print("Verifying Phase 6-B Load Game Entry Path & Dual Validation...")
-	
+
 	# Reset state first
 	GameState.reset_for_new_game()
-	
+
 	# Load slot 1 (which we saved in 6-A with player_x = 425.0, facing = -1)
 	var load_success = main_instance.load_game_slot(TEST_VALID_SAVE_SLOT)
 	if not load_success:
 		printerr("FAIL: load_game_slot(1) failed to load valid slot!")
 		get_tree().quit(1)
 		return
-	
+
 	var active_level = null
 	for child in main_instance.get_node("WorldRoot").get_children():
 		if not child.is_queued_for_deletion():
@@ -1266,13 +1266,13 @@ func _ready() -> void:
 		printerr("FAIL: Restored scene is not ApartmentRoom! Script was: ", active_level.get_script().resource_path if active_level and active_level.get_script() else "null")
 		get_tree().quit(1)
 		return
-	
+
 	if active_level.get("_opening_monologue_active"):
 		printerr("FAIL: Monologue was not bypassed during restore load!")
 		get_tree().quit(1)
 		return
 	print("PASS: Monologue bypass verified.")
-	
+
 	var active_player = active_level.get_node("Player")
 	if active_player.get_save_x() != 425.0:
 		printerr("FAIL: Restored player position is wrong! Got: ", active_player.get_save_x())
@@ -1283,7 +1283,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Player position and facing restore verified.")
-	
+
 	# Verify dual stage validation failures
 	# 1. Validation fail due to invalid scene registry on Main
 	var invalid_scene_payload = SaveSystem.capture("apartment", 425.0, -1)
@@ -1292,7 +1292,7 @@ func _ready() -> void:
 		printerr("FAIL: Failed to write test payload to scratch slot!")
 		get_tree().quit(1)
 		return
-	
+
 	# Set some check value in GameState
 	GameState.set_credits(9999)
 	var load_invalid_success = main_instance.load_game_slot(TEST_SCRATCH_SAVE_SLOT)
@@ -1305,11 +1305,11 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Scene registry validation failure correctly aborted load and left GameState intact.")
-	
+
 	# Clean up scratch slot
 	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
 		dir.remove(TEST_SCRATCH_SAVE_FILE)
-		
+
 	# 2. Validation fail due to corrupted payload (validate() check)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, {}): # Empty payload
 		printerr("FAIL: Failed to write empty dict to scratch slot!")
@@ -1321,11 +1321,11 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Payload validation failure correctly aborted load.")
-	
+
 	# Clean up scratch slot
 	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
 		dir.remove(TEST_SCRATCH_SAVE_FILE)
-		
+
 	# Verify start_new_game resets state and plays monologue
 	main_instance.start_new_game()
 	var new_level = null
@@ -1349,14 +1349,14 @@ func _ready() -> void:
 
 	# 17. Verify Phase 6-D & 6-E GUI components (TitleScreen & PauseMenu)
 	print("Verifying Phase 6-D & 6-E Title Screen, Pause Menu, & Save/Load UI...")
-	
+
 	# Verify TitleScreen Isolation
 	var title_scene = load("res://scenes/ui/title_screen.tscn")
 	if not title_scene:
 		printerr("FAIL: Could not load title_screen.tscn!")
 		get_tree().quit(1)
 		return
-		
+
 	var title_instance = title_scene.instantiate()
 	main_instance.add_child(title_instance)
 	if not TouchControls.force_hidden:
@@ -1364,10 +1364,10 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Title Screen TouchControls isolation verified.")
-	
+
 	title_instance.queue_free()
 	TouchControls.set_force_hidden(false)
-	
+
 	# Verify PauseMenu integration inside GameUI
 	var game_ui = main_instance.get_node("GameUI")
 	var pause_menu = game_ui.get_node("PauseMenu")
@@ -1375,7 +1375,7 @@ func _ready() -> void:
 		printerr("FAIL: PauseMenu not found under GameUI!")
 		get_tree().quit(1)
 		return
-		
+
 	# Trigger pause menu
 	UIMode.set_mode(UIMode.Mode.NONE)
 	game_ui.open_pause_menu()
@@ -1388,7 +1388,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: PauseMenu opening and UIMode.PAUSE verified.")
-	
+
 	# Check TouchControls visibility in PAUSE mode
 	TouchControls.touch_buttons_enabled = true
 	TouchControls._update_dynamic_button_visibility()
@@ -1401,10 +1401,10 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: TouchControls visibility in PAUSE mode verified.")
-	
+
 	# Reset touch_buttons_enabled
 	TouchControls.touch_buttons_enabled = false
-	
+
 	# Test Resume option
 	pause_menu._on_resume_pressed()
 	if UIMode.get_mode() != UIMode.Mode.NONE or pause_menu.visible:
@@ -1412,7 +1412,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: PauseMenu Resume verified.")
-	
+
 	# Test Slot List rendering inside PauseMenu
 	game_ui.open_pause_menu()
 	pause_menu._on_save_pressed()
@@ -1421,7 +1421,7 @@ func _ready() -> void:
 		printerr("FAIL: SaveSlotList was not displayed after clicking Save!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify list slot contents (7 buttons populated)
 	var slots = slot_list.get_node("Panel/VBoxContainer/SlotsVBox")
 	var buttons_count := 0
@@ -1432,7 +1432,7 @@ func _ready() -> void:
 		printerr("FAIL: SaveSlotList did not contain exactly 7 slots! Got: ", buttons_count)
 		get_tree().quit(1)
 		return
-		
+
 	# Verify slot 1 text is populated (we saved to it in 6-A/6-B)
 	var slot1_btn = slots.get_child(0) as Button
 	if "空白" in slot1_btn.text or slot1_btn.text.is_empty():
@@ -1440,21 +1440,21 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: SaveSlotList metadata population verified.")
-	
+
 	# Verify ConfirmDialog Overwrite & Title Return behavior (Guard against Button restore crashes & UIMode exit issues)
 	var confirm_dialog = game_ui.get_node("ConfirmDialog")
 	if not confirm_dialog:
 		printerr("FAIL: ConfirmDialog not found inside GameUI!")
 		get_tree().quit(1)
 		return
-		
+
 	# 1. Overwrite confirm simulation (triggers ConfirmDialog, restores to Slot Button)
 	slot_list._on_slot_button_pressed(1) # Slot 1 is active, should trigger overwrite warning
 	if UIMode.get_mode() != UIMode.Mode.CONFIRM or not confirm_dialog.visible:
 		printerr("FAIL: Overwriting active slot did not open ConfirmDialog!")
 		get_tree().quit(1)
 		return
-		
+
 	# Simulate Cancel: close_dialog should restore state to PAUSE without crashing on Button restore
 	confirm_dialog.close_dialog()
 	if UIMode.get_mode() != UIMode.Mode.PAUSE or confirm_dialog.visible:
@@ -1462,7 +1462,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Overwrite confirmation Cancel & UIMode restore verified.")
-	
+
 	# Simulate Confirm: confirm execution should perform save and return back to PAUSE (single exit_confirm)
 	slot_list._on_slot_button_pressed(1)
 	if confirm_dialog._on_confirm.is_valid():
@@ -1473,14 +1473,14 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Overwrite confirmation Confirm & single exit_confirm verified.")
-	
+
 	# 2. Return to Title confirmation simulation (triggers ConfirmDialog, restores to btn_title)
 	pause_menu._on_title_pressed()
 	if UIMode.get_mode() != UIMode.Mode.CONFIRM or not confirm_dialog.visible:
 		printerr("FAIL: Clicking Return to Title did not show ConfirmDialog!")
 		get_tree().quit(1)
 		return
-		
+
 	# Simulate Cancel: should return to PAUSE
 	confirm_dialog.close_dialog()
 	if UIMode.get_mode() != UIMode.Mode.PAUSE or confirm_dialog.visible:
@@ -1488,16 +1488,16 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Title return confirmation Cancel & UIMode restore verified.")
-	
+
 	# Close pause menu
 	UIMode.set_mode(UIMode.Mode.NONE)
 
 	# 18. Verify Phase 7-A QuestManager & QuestState
 	print("Verifying Phase 7-A QuestManager & QuestState...")
-	
+
 	# Reset state first
 	GameState.reset_for_new_game()
-	
+
 	# Verify initial state
 	if QuestManager.get_status("alley_backrooms_3f") != "":
 		printerr("FAIL: Initial quest status should be empty string!")
@@ -1507,7 +1507,7 @@ func _ready() -> void:
 		printerr("FAIL: Initial quest step should be empty string!")
 		get_tree().quit(1)
 		return
-	
+
 	# Start quest
 	var start_ok = QuestManager.start("alley_backrooms_3f")
 	if not start_ok:
@@ -1526,7 +1526,7 @@ func _ready() -> void:
 		printerr("FAIL: Quest step is not 'started' after start!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify note sync
 	var notes_started = GameState.get_notes("工作")
 	if notes_started.size() != 1:
@@ -1543,7 +1543,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Quest start and initial note sync verified.")
-	
+
 	# Advance quest
 	var adv_ok = QuestManager.advance("alley_backrooms_3f", "checked_alley", {"checked": true})
 	if not adv_ok:
@@ -1558,7 +1558,7 @@ func _ready() -> void:
 		printerr("FAIL: Quest flag 'checked' was not set!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify advanced note body
 	var notes_checked = GameState.get_notes("工作")
 	if notes_checked.size() != 1:
@@ -1570,7 +1570,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Quest advance and note updating verified.")
-	
+
 	# Verify invalid step transition
 	var adv_invalid = QuestManager.advance("alley_backrooms_3f", "nonexistent_step")
 	if adv_invalid:
@@ -1578,7 +1578,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Invalid quest step transition correctly blocked.")
-	
+
 	# Verify Quest states are NOT stored in GameState.knowledge (should remain empty)
 	if GameState.knowledge.has("quest_alley_backrooms_3f"):
 		printerr("FAIL: Quest notes must not be stored in GameState.knowledge!")
@@ -1606,7 +1606,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Quest completion and note status update verified.")
-	
+
 	# Verify Save/Load Serialization of quest_states
 	var save_dict = GameState.to_save_dict()
 	if not save_dict.has("quest_states"):
@@ -1618,14 +1618,14 @@ func _ready() -> void:
 		printerr("FAIL: Saved quest status is wrong! Got: ", saved_quest_state.get("status"))
 		get_tree().quit(1)
 		return
-		
+
 	# Reset state and restore from save dict
 	GameState.reset_for_new_game()
 	if QuestManager.get_status("alley_backrooms_3f") != "":
 		printerr("FAIL: Quest states not cleared after reset_for_new_game!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.load_save_dict(save_dict)
 	if QuestManager.get_status("alley_backrooms_3f") != "completed":
 		printerr("FAIL: Quest states not restored correctly from load_save_dict!")
@@ -1635,42 +1635,42 @@ func _ready() -> void:
 
 	# 19. Verify Phase 7-C apartment_entrance alley_view quest event
 	print("Verifying Phase 7-C apartment_entrance alley_view quest event...")
-	
+
 	# Reset state first
 	GameState.reset_for_new_game()
-	
+
 	# Transition into apartment_entrance
 	main_instance.transition_to("apartment_entrance", "from_apartment")
 	await get_tree().process_frame
-	
+
 	var active_street = null
 	for child in main_instance.get_node("WorldRoot").get_children():
 		if not child.is_queued_for_deletion() and child.get_script() and child.get_script().resource_path.contains("apartment_entrance.gd"):
 			active_street = child
 			break
-			
+
 	if not active_street:
 		printerr("FAIL: Current scene is not apartment_entrance after transition!")
 		get_tree().quit(1)
 		return
-		
+
 	# Find alley_view interactable node in active_street
 	var alley_area = active_street.get_node_or_null("Interactables/AlleyViewArea")
 	if not alley_area:
 		printerr("FAIL: AlleyViewArea not found under active_street/Interactables!")
 		get_tree().quit(1)
 		return
-		
+
 	# Test BEFORE quest is started (should return default message)
 	var last_interaction_data = {}
 	_temp_callable = func(data):
 		last_interaction_data.clear()
 		last_interaction_data.merge(data)
 	active_street.interaction_requested.connect(_temp_callable)
-	
+
 	active_street.current_interactable = alley_area
 	active_street._trigger_interaction()
-	
+
 	if last_interaction_data.get("type") != "message":
 		printerr("FAIL: Interaction type is not 'message' before quest started! Got data: ", last_interaction_data)
 		get_tree().quit(1)
@@ -1680,17 +1680,17 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Default alley_view message verified when quest is not active.")
-	
+
 	# Test AFTER quest is started (should advance quest and show danger message)
 	QuestManager.start("alley_backrooms_3f")
 	if QuestManager.get_status("alley_backrooms_3f") != "active" or QuestManager.get_step("alley_backrooms_3f") != "started":
 		printerr("FAIL: Failed to initialize quest state to started!")
 		get_tree().quit(1)
 		return
-		
+
 	last_interaction_data.clear()
 	active_street._trigger_interaction()
-	
+
 	if not "暗巷深處有幾具損毀" in last_interaction_data.get("message_text", ""):
 		printerr("FAIL: Danger alley_view message is wrong! Got: ", last_interaction_data.get("message_text"))
 		get_tree().quit(1)
@@ -1699,18 +1699,18 @@ func _ready() -> void:
 		printerr("FAIL: note_title should be present to show note update toast!")
 		get_tree().quit(1)
 		return
-		
+
 	# Check if quest stepped advanced
 	if QuestManager.get_step("alley_backrooms_3f") != "checked_alley":
 		printerr("FAIL: Quest step did not advance to 'checked_alley' after interaction!")
 		get_tree().quit(1)
 		return
 	print("PASS: Quest advanced and danger message shown on first active interaction.")
-	
+
 	# Test SECOND interaction when quest step is checked_alley (should show danger message but NOT change state)
 	last_interaction_data.clear()
 	active_street._trigger_interaction()
-	
+
 	if not "暗巷深處有幾具損毀" in last_interaction_data.get("message_text", ""):
 		printerr("FAIL: Danger message should be shown on subsequent active interactions!")
 		get_tree().quit(1)
@@ -1720,58 +1720,58 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Duplicate interaction does not alter quest step.")
-	
+
 	# Clean up signal connection
 	active_street.interaction_requested.disconnect(_temp_callable)
 
 	# 20. Verify Phase 7-D Apartment Window conditional entry
 	print("Verifying Phase 7-D Apartment Window conditional entry...")
-	
+
 	# Reset state first
 	GameState.reset_for_new_game()
-	
+
 	# Transition into apartment
 	main_instance.transition_to("apartment", "wake_bed")
 	await get_tree().process_frame
-	
+
 	var active_apartment = null
 	for child in main_instance.get_node("WorldRoot").get_children():
 		if not child.is_queued_for_deletion() and child.get_script() and child.get_script().resource_path.contains("apartment_room.gd"):
 			active_apartment = child
 			break
-			
+
 	if not active_apartment:
 		printerr("FAIL: Current scene is not apartment after transition!")
 		get_tree().quit(1)
 		return
-		
+
 	# Find ApartmentWindow interactable node in active_apartment
 	var window_area = active_apartment.get_node_or_null("Interactables/ApartmentWindow")
 	if not window_area:
 		printerr("FAIL: ApartmentWindow not found under active_apartment/Interactables!")
 		get_tree().quit(1)
 		return
-		
+
 	# Test 20.1: Window NOT available before checked_alley (not started, or active but started step)
 	# Case A: status = "" (not started)
 	active_apartment._on_interactable_entered(window_area)
-	
+
 	active_apartment._refresh_current_interactable()
 	if active_apartment.current_interactable == window_area:
 		printerr("FAIL: Window should not be interactable when quest is not started!")
 		get_tree().quit(1)
 		return
 	print("PASS: Window interaction correctly disabled when quest is not started.")
-	
+
 	active_apartment._on_interactable_exited(window_area)
-	
+
 	# Case B: active + step=started (started, but not yet checked_alley)
 	QuestManager.start("alley_backrooms_3f")
 	if QuestManager.get_status("alley_backrooms_3f") != "active" or QuestManager.get_step("alley_backrooms_3f") != "started":
 		printerr("FAIL: Quest not correctly initialized to started state!")
 		get_tree().quit(1)
 		return
-		
+
 	active_apartment._on_interactable_entered(window_area)
 	active_apartment._refresh_current_interactable()
 	if active_apartment.current_interactable == window_area:
@@ -1779,16 +1779,16 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Window interaction correctly disabled when quest step is started.")
-	
+
 	active_apartment._on_interactable_exited(window_area)
-	
+
 	# Test 20.2: Start quest and advance to checked_alley
 	QuestManager.advance("alley_backrooms_3f", "checked_alley")
 	if QuestManager.get_step("alley_backrooms_3f") != "checked_alley":
 		printerr("FAIL: Quest step is not checked_alley!")
 		get_tree().quit(1)
 		return
-		
+
 	active_apartment._on_interactable_entered(window_area)
 	active_apartment._refresh_current_interactable()
 	if active_apartment.current_interactable != window_area:
@@ -1800,7 +1800,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Window interaction enabled with correct prompt after checked_alley.")
-	
+
 	# Test 20.3: Interact with window and verify transition request
 	var last_transition_data = {}
 	_temp_callable = func(scene_id, entry_point_id, payload):
@@ -1808,9 +1808,9 @@ func _ready() -> void:
 		last_transition_data["entry_point_id"] = entry_point_id
 		last_transition_data["payload"] = payload
 	active_apartment.scene_transition_requested.connect(_temp_callable)
-	
+
 	active_apartment._trigger_interaction()
-	
+
 	if last_transition_data.get("scene_id") != "apartment_fire_escape":
 		printerr("FAIL: Transition scene_id is not apartment_fire_escape! Got: ", last_transition_data)
 		get_tree().quit(1)
@@ -1820,40 +1820,40 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Window interaction correctly emits scene_transition_requested to fire escape.")
-	
+
 	active_apartment.scene_transition_requested.disconnect(_temp_callable)
 	active_apartment._on_interactable_exited(window_area)
-	
+
 	# Test 20.4: Verify from_fire_escape entry point positioning and monologue suppression
 	GameState.reset_for_new_game()
-	
+
 	main_instance.transition_to("apartment", "from_fire_escape")
 	await get_tree().process_frame
-	
+
 	var active_apartment_from_escape = null
 	for child in main_instance.get_node("WorldRoot").get_children():
 		if not child.is_queued_for_deletion() and child.get_script() and child.get_script().resource_path.contains("apartment_room.gd"):
 			active_apartment_from_escape = child
 			break
-			
+
 	if not active_apartment_from_escape:
 		printerr("FAIL: Current scene is not apartment after transition from fire escape!")
 		get_tree().quit(1)
 		return
-		
+
 	var player_node = active_apartment_from_escape.get_node("Player")
 	if abs(player_node.global_position.x - 1000.0) > 1.0 or abs(player_node.global_position.y - 700.0) > 1.0:
 		printerr("FAIL: Player position is not near window at (1000, 700)! Got: ", player_node.global_position)
 		get_tree().quit(1)
 		return
-		
+
 	if active_apartment_from_escape._opening_monologue_active:
 		printerr("FAIL: Opening monologue should be suppressed when entering from_fire_escape!")
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS: from_fire_escape entry point positioning and monologue suppression verified.")
-	
+
 	# Test 21: Verify 7-G Fire Escape Target Box Search & Activation Box Retrieval
 	print("Verifying Phase 7-G Fire Escape Target Box Search & Retrieval...")
 	# 1. Load fire escape scene
@@ -1864,19 +1864,19 @@ func _ready() -> void:
 		return
 	var escape_instance = escape_scene.instantiate()
 	add_child(escape_instance)
-	
+
 	# 2. Reset quest states and inventory
 	GameState.reset_for_new_game()
-	
+
 	# 3. Initially, when quest not started, target box interaction should show locked message
 	var box_area = escape_instance.get_node("Interactables/QuestBox")
 	if not box_area:
 		printerr("FAIL: QuestBox interactable not found in fire escape scene!")
 		get_tree().quit(1)
 		return
-	
+
 	escape_instance._on_interactable_entered(box_area)
-	
+
 	var test_state = {
 		"message_text": "",
 		"on_closed": Callable()
@@ -1886,7 +1886,7 @@ func _ready() -> void:
 			test_state["message_text"] = data.get("message_text", "")
 			test_state["on_closed"] = data.get("on_closed", Callable())
 	escape_instance.interaction_requested.connect(test_callback)
-	
+
 	# Trigger E interaction when quest is not started
 	escape_instance._handle_primary_interaction()
 	if test_state["message_text"] != escape_instance.MESSAGES["quest_box_locked"]:
@@ -1894,7 +1894,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Locked message shown correctly when quest is not started.")
-	
+
 	# 4. Start quest, but step is not checked_alley (it's started)
 	QuestManager.start("alley_backrooms_3f")
 	test_state["message_text"] = ""
@@ -1905,10 +1905,10 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Locked message shown correctly when quest step is started.")
-	
+
 	# 5. Advance quest to checked_alley, but fill player inventory (so item add fails)
 	QuestManager.advance("alley_backrooms_3f", "checked_alley")
-	
+
 	# Fill all inventory slots (simulate bag full)
 	for i in range(GameState.inventory_slots):
 		GameState.inventory[i] = {
@@ -1916,86 +1916,86 @@ func _ready() -> void:
 			"item_id": "canned_food",
 			"quantity": 5
 		}
-	
+
 	test_state["message_text"] = ""
 	test_state["on_closed"] = Callable()
 	escape_instance._handle_primary_interaction()
-	
+
 	if test_state["message_text"] != escape_instance.MESSAGES["quest_box_search_quiet"]:
 		printerr("FAIL: Box search message should be shown when step is checked_alley! Got: ", test_state["message_text"])
 		get_tree().quit(1)
 		return
-		
+
 	# Call on_closed to simulate search complete
 	if test_state["on_closed"].is_null():
 		printerr("FAIL: on_closed callback is null when searching box!")
 		get_tree().quit(1)
 		return
-		
+
 	var on_closed_callback_full = test_state["on_closed"]
 	test_state["message_text"] = ""
 	test_state["on_closed"] = Callable()
-	
+
 	on_closed_callback_full.call()
-	
+
 	if test_state["message_text"] != escape_instance.MESSAGES["inventory_full_for_activation_box"]:
 		printerr("FAIL: Inventory full warning not shown! Got: ", test_state["message_text"])
 		get_tree().quit(1)
 		return
-		
+
 	# Quest state and flag should remain unchanged
 	if QuestManager.get_step("alley_backrooms_3f") != "checked_alley" or QuestManager.get_flag("alley_backrooms_3f", "found_activation_box", false):
 		printerr("FAIL: Quest state advanced even when inventory was full!")
 		get_tree().quit(1)
 		return
 	print("PASS: Box search correctly handles inventory full state without changing quest flags.")
-	
+
 	# 6. Clear inventory space and try again
 	GameState.inventory.clear()
 	for i in range(GameState.inventory_slots):
 		GameState.inventory.append({})
-		
+
 	test_state["message_text"] = ""
 	test_state["on_closed"] = Callable()
 	escape_instance._handle_primary_interaction()
-	
+
 	if test_state["message_text"] != escape_instance.MESSAGES["quest_box_search_quiet"]:
 		printerr("FAIL: Box search message should be shown again! Got: ", test_state["message_text"])
 		get_tree().quit(1)
 		return
-		
+
 	# Call on_closed again (now bag has space)
 	var on_closed_callback_ok = test_state["on_closed"]
 	test_state["message_text"] = ""
 	test_state["on_closed"] = Callable()
-	
+
 	on_closed_callback_ok.call()
-	
+
 	# Item should be in inventory
 	if not GameState.has_item("early_ai_assistant_activation_box", 1):
 		printerr("FAIL: activation box item was not added to inventory!")
 		get_tree().quit(1)
 		return
-		
+
 	# Quest state should be advanced to found_activation_box
 	if QuestManager.get_step("alley_backrooms_3f") != "found_activation_box":
 		printerr("FAIL: Quest step did not advance to found_activation_box! Got: ", QuestManager.get_step("alley_backrooms_3f"))
 		get_tree().quit(1)
 		return
-		
+
 	if not QuestManager.get_flag("alley_backrooms_3f", "found_activation_box", false):
 		printerr("FAIL: found_activation_box flag was not set on quest!")
 		get_tree().quit(1)
 		return
-		
+
 	# The final box obtained message should be shown
 	if test_state["message_text"] != escape_instance.MESSAGES["quest_box_obtained_box"]:
 		printerr("FAIL: Box obtained message was incorrect! Got: ", test_state["message_text"])
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS: Box search correctly advanced and final message shown.")
-	
+
 	# 7. Once found, closest interactable check should ignore the quest box
 	escape_instance.interaction_requested.disconnect(test_callback)
 	escape_instance._refresh_current_interactable()
@@ -2004,33 +2004,33 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Quest box ignored once item has been retrieved.")
-	
+
 	# Test 22: Verify 7-H R Inspect Grants Item Flow
 	print("Verifying Phase 7-H R Inspect Grants Item Flow...")
-	
+
 	# 1. Reset for clean test state with active quest at found_activation_box
 	GameState.reset_for_new_game()
 	QuestManager.start("alley_backrooms_3f")
 	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
 	QuestManager.set_flag("alley_backrooms_3f", "found_old_ai_authorization_module", false)
-	
+
 	# 2. Add activation box (A) to inventory
 	GameState.inventory.clear()
 	for i in range(GameState.inventory_slots):
 		GameState.inventory.append({})
 	GameState.add_item("early_ai_assistant_activation_box", 1)
-	
+
 	var box_instance_id := ""
 	for slot in GameState.get_inventory():
 		if slot.get("item_id", "") == "early_ai_assistant_activation_box":
 			box_instance_id = slot.get("instance_id", "")
 			break
-			
+
 	if box_instance_id.is_empty():
 		printerr("FAIL: Could not add activation box to inventory!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. Fill remaining slots to simulate bag full
 	for i in range(GameState.inventory_slots):
 		if GameState.inventory[i].is_empty():
@@ -2039,20 +2039,20 @@ func _ready() -> void:
 				"item_id": "canned_food",
 				"quantity": 5
 			}
-			
+
 	# 4. Open inventory UI to put UI in correct mode/state
 	ui_instance.open_inventory()
-	
+
 	# 5. Trigger view action (R inspect) on A while bag is full
 	ui_instance._on_bag_item_action("view", box_instance_id)
-	
+
 	# Force message to finish writing, and verify message contents
 	ui_instance.force_finish_message()
 	if not ui_instance.message_label.text.contains("你仔細端詳啟用盒的底部"):
 		printerr("FAIL: First inspect message did not show! Got: ", ui_instance.message_label.text)
 		get_tree().quit(1)
 		return
-		
+
 	# Simulate closing the first message box
 	var first_callback = ui_instance._message_on_closed
 	if first_callback.is_null():
@@ -2061,14 +2061,14 @@ func _ready() -> void:
 		return
 	ui_instance.close_message()
 	first_callback.call()
-	
+
 	# Since bag is full, warning message should be shown next
 	ui_instance.force_finish_message()
 	if not ui_instance.message_label.text.contains("你發現了啟用盒底部的夾層") or not ui_instance.message_label.text.contains("但你的背包太滿了"):
 		printerr("FAIL: Inventory full warning message did not show! Got: ", ui_instance.message_label.text)
 		get_tree().quit(1)
 		return
-		
+
 	# Flags and items should remain unchanged
 	if QuestManager.get_flag("alley_backrooms_3f", "found_old_ai_authorization_module", false):
 		printerr("FAIL: flag set even when inventory is full!")
@@ -2078,7 +2078,7 @@ func _ready() -> void:
 		printerr("FAIL: old_ai_authorization_module added even when inventory is full!")
 		get_tree().quit(1)
 		return
-		
+
 	# Simulate closing the warning message box, which should restore the detail modal
 	var warning_callback = ui_instance._message_on_closed
 	if warning_callback.is_null():
@@ -2087,27 +2087,27 @@ func _ready() -> void:
 		return
 	ui_instance.close_message()
 	warning_callback.call()
-	
+
 	if not ui_instance.item_detail_modal.visible:
 		printerr("FAIL: Item detail modal not opened after warning closed!")
 		get_tree().quit(1)
 		return
-		
+
 	# Close the detail modal
 	ui_instance.item_detail_modal.close_modal()
 	if ui_instance.item_detail_modal.visible:
 		printerr("FAIL: Detail modal did not close!")
 		get_tree().quit(1)
 		return
-		
+
 	# 6. Clear space and test successful retrieval
 	for i in range(1, GameState.inventory_slots):
 		GameState.inventory[i] = {}
-		
+
 	# Trigger view action (R inspect) again
 	ui_instance._on_bag_item_action("view", box_instance_id)
 	ui_instance.force_finish_message()
-	
+
 	var success_callback = ui_instance._message_on_closed
 	if success_callback.is_null():
 		printerr("FAIL: success_callback is null!")
@@ -2115,7 +2115,7 @@ func _ready() -> void:
 		return
 	ui_instance.close_message()
 	success_callback.call()
-	
+
 	# Verify flag is set, and old_ai_authorization_module (B) is added to inventory, and A remains
 	if not QuestManager.get_flag("alley_backrooms_3f", "found_old_ai_authorization_module", false):
 		printerr("FAIL: flag not set on successful inspect!")
@@ -2129,45 +2129,45 @@ func _ready() -> void:
 		printerr("FAIL: early_ai_assistant_activation_box consumed on successful inspect!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify detail modal is now open
 	if not ui_instance.item_detail_modal.visible:
 		printerr("FAIL: Detail modal not opened after successful inspect message closed!")
 		get_tree().quit(1)
 		return
-		
+
 	# Close the detail modal
 	ui_instance.item_detail_modal.close_modal()
-	
+
 	# 7. Test subsequent inspections of A (should open detail modal directly without messages)
 	ui_instance._message_on_closed = Callable()
 	ui_instance._on_bag_item_action("view", box_instance_id)
-	
+
 	if ui_instance._message_on_closed.is_valid():
 		printerr("FAIL: Subsequent inspect triggered message box flow!")
 		get_tree().quit(1)
 		return
-		
+
 	if not ui_instance.item_detail_modal.visible:
 		printerr("FAIL: Detail modal not opened directly on subsequent inspect!")
 		get_tree().quit(1)
 		return
-		
+
 	ui_instance.item_detail_modal.close_modal()
 	ui_instance.close_all_ui()
-	
+
 	print("PASS: Phase 7-H R Inspect Grants Item Flow verified successfully.")
-	
+
 	# 23. Verify Phase 7-I Turn-in Quest to Wan
 	print("Verifying Phase 7-I Turn-in Quest to Wan...")
-	
+
 	# 1. Reset state
 	GameState.reset_for_new_game()
-	
+
 	# 2. Start quest and advance to found_activation_box
 	QuestManager.start("alley_backrooms_3f")
 	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
-	
+
 	# 3. Add item A and B to inventory
 	GameState.inventory.clear()
 	for i in range(GameState.inventory_slots):
@@ -2175,29 +2175,29 @@ func _ready() -> void:
 	GameState.add_item("early_ai_assistant_activation_box", 1)
 	GameState.add_item("old_ai_authorization_module", 1)
 	QuestManager.set_flag("alley_backrooms_3f", "found_old_ai_authorization_module", true)
-	
+
 	# Verify items exist
 	if not GameState.has_item("early_ai_assistant_activation_box", 1) or not GameState.has_item("old_ai_authorization_module", 1):
 		printerr("FAIL: Failed to populate items A and B for turn-in test!")
 		get_tree().quit(1)
 		return
-		
+
 	# 4. Instantiate dialogue tree for Wan and verify options in retalk node
 	runner = DialogueRunner.new()
 	DialogueDB = load("res://data/dialogue/dialogue_db.gd")
 	wan_tree = DialogueDB.get_tree_for("wan")
-	
+
 	# Set met_wan flag so start goes to retalk
 	GameState.set_flag("met_wan", true)
 	runner.start(wan_tree)
-	
+
 	var cur = runner.current()
 	# Current should be retalk
 	if cur.get("text", "") == "":
 		printerr("FAIL: Dialogue tree failed to start on Wan tree!")
 		get_tree().quit(1)
 		return
-		
+
 	# Check retalk choices to ensure choice index 3 is '我找到那個啟用盒了。'
 	choices = cur.get("choices", [])
 	var turn_in_choice = null
@@ -2205,42 +2205,42 @@ func _ready() -> void:
 		if tr(choice.get("label", "")) == "我找到那個啟用盒了。":
 			turn_in_choice = choice
 			break
-			
+
 	if not turn_in_choice:
 		printerr("FAIL: Turn-in choice '我找到那個啟用盒了。' not visible in retalk node!")
 		get_tree().quit(1)
 		return
-		
+
 	# 5. Choose turn-in option (we have B, so this routes to turn_in_found_module choice node)
 	runner.choose(turn_in_choice.get("index"))
-	
+
 	# 6. Verify transition to turn_in_found_module
 	var after_choice = runner.current()
 	if not tr(after_choice.get("text", "")).contains("底下還藏了什麼寶貝"):
 		printerr("FAIL: Choice did not transition to turn_in_found_module node! Text got: ", tr(after_choice.get("text")))
 		get_tree().quit(1)
 		return
-		
+
 	# Verify two choices present
 	var end_choices = after_choice.get("choices", [])
 	if end_choices.size() != 2:
 		printerr("FAIL: turn_in_found_module should have 2 choices, got: ", end_choices.size())
 		get_tree().quit(1)
 		return
-		
+
 	# Choose Choice 0: Only turn in plain box (Ending B)
 	var idx_plain = end_choices[0].get("index")
 	runner.choose(idx_plain)
-	
+
 	var plain_node = runner.current()
 	if not tr(plain_node.get("text", "")).contains("開玩笑的啦"):
 		printerr("FAIL: turn_in_plain text incorrect! Got: ", tr(plain_node.get("text")))
 		get_tree().quit(1)
 		return
-		
+
 	# Advance to trigger effects
 	runner.advance()
-	
+
 	# Verify Ending B state: A removed, B retained, completed, credits = 800 (300 + 500), note B
 	if GameState.has_item("early_ai_assistant_activation_box", 1):
 		printerr("FAIL: early_ai_assistant_activation_box (A) was not removed in Ending B!")
@@ -2281,20 +2281,20 @@ func _ready() -> void:
 	GameState.set_flag("met_wan", true)
 	runner.start(wan_tree)
 	runner.choose(turn_in_choice.get("index"))
-	
+
 	# Select Choice 1: 連舊模組也一起遞過去 (Ending C)
 	end_choices = runner.current().get("choices", [])
 	runner.choose(end_choices[1].get("index"))
-	
+
 	var full_node = runner.current()
 	if not tr(full_node.get("text", "")).contains("舊式授權晶片"):
 		printerr("FAIL: turn_in_full text incorrect! Got: ", tr(full_node.get("text")))
 		get_tree().quit(1)
 		return
-		
+
 	# Advance to trigger effects
 	runner.advance()
-	
+
 	# Verify Ending C state: A and B removed, completed, credits = 1300 (300 + 1000), affinity_wan = 2, gave_wan_old_module = true, note C
 	if GameState.has_item("early_ai_assistant_activation_box", 1) or GameState.has_item("old_ai_authorization_module", 1):
 		printerr("FAIL: Items A or B not removed in Ending C!")
@@ -2327,11 +2327,11 @@ func _ready() -> void:
 		printerr("FAIL: Start did not route to retalk_close after Ending C! Got: ", tr(close_node.get("text")))
 		get_tree().quit(1)
 		return
-	
+
 	# Select choice 0: "陪妳站會兒。"
 	var close_choices = close_node.get("choices", [])
 	runner.choose(close_choices[0].get("index"))
-	
+
 	# Verify affinity increment and transition to end_close
 	if GameState.get_flag("affinity_wan") != 3:
 		printerr("FAIL: retalk_close choice 0 did not increment affinity_wan! Got: ", GameState.get_flag("affinity_wan"))
@@ -2358,19 +2358,19 @@ func _ready() -> void:
 	runner = DialogueRunner.new()
 	GameState.set_flag("met_wan", true)
 	runner.start(wan_tree)
-	
+
 	# Select turn-in option (routes to turn_in_plain since we don't have B)
 	runner.choose(turn_in_choice.get("index"))
-	
+
 	var plain_node_a = runner.current()
 	if not tr(plain_node_a.get("text", "")).contains("開玩笑的啦"):
 		printerr("FAIL: Ending A did not route directly to turn_in_plain! Got text: ", tr(plain_node_a.get("text")))
 		get_tree().quit(1)
 		return
-		
+
 	# Advance to trigger effects
 	runner.advance()
-	
+
 	# Verify Ending A state: A removed, completed, credits = 800 (+500), note A, gave_wan_old_module false
 	if GameState.has_item("early_ai_assistant_activation_box", 1):
 		printerr("FAIL: early_ai_assistant_activation_box was not removed in Ending A!")
@@ -2400,64 +2400,64 @@ func _ready() -> void:
 	GameState.reset_for_new_game()
 	QuestManager.start("alley_backrooms_3f")
 	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
-	
+
 	# Clear inventory (ensure NO activation box A is present)
 	GameState.inventory.clear()
 	for i in range(GameState.inventory_slots):
 		GameState.inventory.append({})
-		
+
 	# Instantiate tree and force enter turn-in node directly (routes to turn_in_plain since no B)
 	runner = DialogueRunner.new()
 	wan_tree = DialogueDB.get_tree_for("wan")
 	runner.start(wan_tree, "alley_backrooms_turn_in")
-	
+
 	# Advance dialogue to trigger effects
 	runner.advance()
-	
+
 	# Since A was missing, remove_item effect should fail and abort completion
 	if QuestManager.get_status("alley_backrooms_3f") == "completed":
 		printerr("FAIL: Quest status was marked completed even when A was missing during turn-in!")
 		get_tree().quit(1)
 		return
-		
+
 	var notes_defensive = GameState.get_notes("工作")
 	if notes_defensive.is_empty() or notes_defensive[0].get("status") == "completed":
 		printerr("FAIL: Work note status was marked completed even when A was missing during turn-in!")
 		get_tree().quit(1)
 		return
 	print("PASS: Turn-in defensive constraint verified (missing item aborts quest completion).")
-		
+
 	print("PASS: Phase 7-I Turn-in Quest to Wan verified successfully.")
-	
+
 	# 24. Verify Phase 7-J Regression & Save/Restore
 	print("Verifying Phase 7-J Regression & Save/Restore...")
-	
+
 	# 1. Quest Started Save/Load Check
 	GameState.reset_for_new_game()
 	QuestManager.start("alley_backrooms_3f")
-	
+
 	var save_p1 = SaveSystem.capture("apartment", 100.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p1):
 		printerr("FAIL: Failed to write save_p1 to scratch slot!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	var loaded_p1 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p1)
-	
+
 	if QuestManager.get_status("alley_backrooms_3f") != "active" or QuestManager.get_step("alley_backrooms_3f") != "started":
 		printerr("FAIL: Quest status/step was not restored correctly in started check!")
 		get_tree().quit(1)
 		return
-		
+
 	var notes_p1 = GameState.get_notes("工作")
 	if notes_p1.is_empty() or notes_p1[0].get("id") != "quest_alley_backrooms_3f":
 		printerr("FAIL: Quest work note not restored correctly in started check!")
 		get_tree().quit(1)
 		return
 	print("PASS: Quest started state successfully saved and restored.")
-	
+
 	# 2. Alley Checked Save/Load Check
 	QuestManager.advance("alley_backrooms_3f", "checked_alley")
 	var save_p2 = SaveSystem.capture("apartment", 100.0, 1)
@@ -2465,16 +2465,16 @@ func _ready() -> void:
 		printerr("FAIL: Failed to write save_p2 to scratch slot!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	var loaded_p2 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p2)
-	
+
 	if QuestManager.get_step("alley_backrooms_3f") != "checked_alley":
 		printerr("FAIL: Quest step was not restored to checked_alley!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify window interaction gate in apartment_room
 	var room_instance_j = room_scene.instantiate()
 	add_child(room_instance_j)
@@ -2491,36 +2491,36 @@ func _ready() -> void:
 		return
 	room_instance_j.queue_free()
 	print("PASS: Checked_alley state and window interaction gate successfully saved and restored.")
-	
+
 	# 3. Activation Box Found Save/Load Check (Inspectable A)
 	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
 	GameState.inventory.clear()
 	for i in range(GameState.inventory_slots):
 		GameState.inventory.append({})
 	GameState.add_item("early_ai_assistant_activation_box", 1)
-	
+
 	var save_p3 = SaveSystem.capture("apartment", 100.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p3):
 		printerr("FAIL: Failed to write save_p3 to scratch slot!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	var loaded_p3 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p3)
-	
+
 	if not GameState.has_item("early_ai_assistant_activation_box", 1) or GameState.has_item("old_ai_authorization_module", 1):
 		printerr("FAIL: Items not restored correctly in found_activation_box check!")
 		get_tree().quit(1)
 		return
-		
+
 	# Retrieve box instance id and verify we can inspect A to get B
 	var box_inst_id := ""
 	for slot in GameState.get_inventory():
 		if slot.get("item_id", "") == "early_ai_assistant_activation_box":
 			box_inst_id = slot.get("instance_id", "")
 			break
-			
+
 	# Instantiate UI for modal check
 	var ui_instance_j = ui_scene.instantiate()
 	add_child(ui_instance_j)
@@ -2530,29 +2530,29 @@ func _ready() -> void:
 	var view_callback = ui_instance_j._message_on_closed
 	ui_instance_j.close_message()
 	view_callback.call()
-	
+
 	if not GameState.has_item("old_ai_authorization_module", 1):
 		printerr("FAIL: old_ai_authorization_module (B) was not obtained on inspect after load!")
 		get_tree().quit(1)
 		return
 	print("PASS: Item A state restored, and inspect-to-obtain-B functionality verified after load.")
-	
+
 	# 4. Authorization Module Obtained Save/Load Check
 	var save_p4 = SaveSystem.capture("apartment", 100.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p4):
 		printerr("FAIL: Failed to write save_p4 to scratch slot!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	var loaded_p4 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p4)
-	
+
 	if not GameState.has_item("early_ai_assistant_activation_box", 1) or not GameState.has_item("old_ai_authorization_module", 1):
 		printerr("FAIL: Items A/B not restored in authorization module obtained check!")
 		get_tree().quit(1)
 		return
-		
+
 	# Try inspect A again and check it doesn't give duplicate B
 	var box_inst_id_p4 := ""
 	for slot in GameState.get_inventory():
@@ -2566,41 +2566,41 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Item A and B state, and single-inspect constraint successfully saved and restored.")
-	
+
 	# 5. Quest Completed Save/Load Check
 	GameState.remove_item("early_ai_assistant_activation_box", 1)
 	QuestManager.complete("alley_backrooms_3f")
-	
+
 	var save_p5 = SaveSystem.capture("apartment", 100.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p5):
 		printerr("FAIL: Failed to write save_p5 to scratch slot!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	var loaded_p5 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p5)
-	
+
 	if GameState.has_item("early_ai_assistant_activation_box", 1) or not GameState.has_item("old_ai_authorization_module", 1):
 		printerr("FAIL: Item states incorrect after load in completed check!")
 		get_tree().quit(1)
 		return
-		
+
 	if QuestManager.get_status("alley_backrooms_3f") != "completed":
 		printerr("FAIL: Quest status not 'completed' after load in completed check!")
 		get_tree().quit(1)
 		return
-		
+
 	var notes_p5 = GameState.get_notes("工作")
 	if notes_p5.is_empty() or notes_p5[0].get("status") != "completed":
 		printerr("FAIL: Work note status not 'completed' after load in completed check!")
 		get_tree().quit(1)
 		return
 	print("PASS: Quest completed state, item states, and work note states successfully saved and restored.")
-	
+
 	# 25. Verify Quest Ending Message Boxes Triggering
 	print("Verifying Quest Ending Message Boxes Triggering...")
-	
+
 	# Test case 1: Ending 1 (Did not retrieve the hidden module)
 	GameState.reset_for_new_game()
 	QuestManager.start("alley_backrooms_3f")
@@ -2608,11 +2608,11 @@ func _ready() -> void:
 	QuestManager.complete("alley_backrooms_3f")
 	QuestManager.set_flag("alley_backrooms_3f", "found_old_ai_authorization_module", false)
 	GameState.story_flags.erase("alley_backrooms_ended")
-	
+
 	UIMode.set_mode(UIMode.Mode.DIALOGUE)
 	UIMode.set_mode(UIMode.Mode.NONE)
 	await get_tree().process_frame
-	
+
 	if UIMode.get_mode() != UIMode.Mode.MESSAGE:
 		printerr("FAIL: Ending 1 did not trigger MESSAGE mode!")
 		get_tree().quit(1)
@@ -2626,11 +2626,11 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Ending 1 messagebox triggered successfully.")
-	
+
 	# Close the message box
 	ui_instance.close_message()
 	await get_tree().process_frame
-	
+
 	# Verify it doesn't trigger again
 	UIMode.set_mode(UIMode.Mode.DIALOGUE)
 	UIMode.set_mode(UIMode.Mode.NONE)
@@ -2640,7 +2640,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Ending single-trigger constraint verified.")
-	
+
 	# Test case 2: Ending 2 (Retrieved the hidden module)
 	GameState.reset_for_new_game()
 	QuestManager.start("alley_backrooms_3f")
@@ -2652,7 +2652,7 @@ func _ready() -> void:
 	UIMode.set_mode(UIMode.Mode.DIALOGUE)
 	UIMode.set_mode(UIMode.Mode.NONE)
 	await get_tree().process_frame
-	
+
 	if UIMode.get_mode() != UIMode.Mode.MESSAGE:
 		printerr("FAIL: Ending 2 did not trigger MESSAGE mode!")
 		get_tree().quit(1)
@@ -2666,11 +2666,11 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Ending 2 messagebox triggered successfully.")
-	
+
 	# Close the message box
 	ui_instance.close_message()
 	await get_tree().process_frame
-	
+
 	# Test case 3: Ending 3 (Gave the module)
 	GameState.reset_for_new_game()
 	QuestManager.start("alley_backrooms_3f")
@@ -2682,7 +2682,7 @@ func _ready() -> void:
 	UIMode.set_mode(UIMode.Mode.DIALOGUE)
 	UIMode.set_mode(UIMode.Mode.NONE)
 	await get_tree().process_frame
-	
+
 	if UIMode.get_mode() != UIMode.Mode.MESSAGE:
 		printerr("FAIL: Ending 3 did not trigger MESSAGE mode!")
 		get_tree().quit(1)
@@ -2707,11 +2707,11 @@ func _ready() -> void:
 	QuestManager.complete("repair_vendor_bot")
 	GameState.set_flag("store_robot_resolution", "reset")
 	GameState.story_flags.erase("repair_vendor_bot_ended")
-	
+
 	UIMode.set_mode(UIMode.Mode.DIALOGUE)
 	UIMode.set_mode(UIMode.Mode.NONE)
 	await get_tree().process_frame
-	
+
 	if UIMode.get_mode() != UIMode.Mode.MESSAGE:
 		printerr("FAIL: Convenience Ending 1 did not trigger MESSAGE mode!")
 		get_tree().quit(1)
@@ -2725,11 +2725,11 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Convenience store Ending 1 messagebox triggered successfully.")
-	
+
 	# Close the message box
 	ui_instance.close_message()
 	await get_tree().process_frame
-	
+
 	# Verify it doesn't trigger again
 	UIMode.set_mode(UIMode.Mode.DIALOGUE)
 	UIMode.set_mode(UIMode.Mode.NONE)
@@ -2739,18 +2739,18 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS: Convenience store Ending single-trigger constraint verified.")
-	
+
 	# Test case 5: Convenience Store Ending 2 (Glean recording / "gleaned" resolution)
 	GameState.reset_for_new_game()
 	QuestManager.start("repair_vendor_bot")
 	QuestManager.complete("repair_vendor_bot")
 	GameState.set_flag("store_robot_resolution", "gleaned")
 	GameState.story_flags.erase("repair_vendor_bot_ended")
-	
+
 	UIMode.set_mode(UIMode.Mode.DIALOGUE)
 	UIMode.set_mode(UIMode.Mode.NONE)
 	await get_tree().process_frame
-	
+
 	if UIMode.get_mode() != UIMode.Mode.MESSAGE:
 		printerr("FAIL: Convenience Ending 2 did not trigger MESSAGE mode!")
 		get_tree().quit(1)
@@ -3407,24 +3407,24 @@ func _ready() -> void:
 
 	# ---- Phase 8-D: 蒐證 + 診斷對話樹 ----
 	print("Verifying Phase 8-D: clues examine & store robot diagnostic tree...")
-	
+
 	store_scene = load("res://scenes/levels/convenience_store/convenience_store.tscn")
 	if not store_scene:
 		printerr("FAIL 8-D: Could not load convenience_store.tscn!")
 		get_tree().quit(1)
 		return
-	
+
 	store_instance = store_scene.instantiate()
 	add_child(store_instance)
 	await get_tree().process_frame
-	
+
 	var locker_area = store_instance.get_node_or_null("Interactables/ClerkLockerArea")
 	var diary_area = store_instance.get_node_or_null("Interactables/ClerkDiaryArea")
 	var notice_area = store_instance.get_node_or_null("Interactables/TerminationNoticeArea")
 	var photo_area = store_instance.get_node_or_null("Interactables/CounterPhotoArea")
 	var plate_area = store_instance.get_node_or_null("Interactables/RobotPlateArea")
 	var host_area = store_instance.get_node_or_null("Interactables/StoreRegistryHostArea")
-	
+
 	if not locker_area or not diary_area or not notice_area or not photo_area or not plate_area or not host_area:
 		printerr("FAIL 8-D: Clue areas or host area not found in convenience_store.tscn!")
 		get_tree().quit(1)
@@ -3434,7 +3434,7 @@ func _ready() -> void:
 	# ---- Test 1: Gating before quest is active ----
 	if GameState.quest_states.has("repair_vendor_bot"):
 		GameState.quest_states.erase("repair_vendor_bot")
-	
+
 	store_instance.nearby_interactables.clear()
 	for area in [locker_area, diary_area, notice_area, photo_area, plate_area, host_area]:
 		store_instance.nearby_interactables.append(area)
@@ -3455,7 +3455,7 @@ func _ready() -> void:
 		printerr("FAIL 8-D: locker_area should be accessible after quest is active!")
 		get_tree().quit(1)
 		return
-	
+
 	store_instance.nearby_interactables.clear()
 	store_instance.nearby_interactables.append(host_area)
 	var closest_after_host = store_instance._get_closest_interactable()
@@ -3472,28 +3472,28 @@ func _ready() -> void:
 		clue_emit_data.clear()
 		clue_emit_data.merge(data)
 	store_instance.interaction_requested.connect(_temp_callable)
-	
+
 	var clue_areas = [locker_area, diary_area, notice_area, photo_area, plate_area]
 	var expected_note_ids = ["clue_clerk_locker", "clue_clerk_diary", "clue_termination_notice", "clue_counter_photo", "clue_robot_plate"]
-	
+
 	for i in range(clue_areas.size()):
 		var area = clue_areas[i]
 		var note_id = expected_note_ids[i]
-		
+
 		# First examine
 		store_instance.current_interactable = area
 		store_instance._trigger_interaction()
-		
+
 		if clue_emit_data.get("type") != "message" or clue_emit_data.get("note_title", "") == "":
 			printerr("FAIL 8-D: First examine on " + area.name + " should show message and note_title toast! Got: ", clue_emit_data)
 			get_tree().quit(1)
 			return
-		
+
 		if not GameState.has_note(note_id):
 			printerr("FAIL 8-D: GameState should have note: " + note_id)
 			get_tree().quit(1)
 			return
-		
+
 		# Second examine: toast should be empty (no duplicate note notification)
 		clue_emit_data.clear()
 		store_instance._trigger_interaction()
@@ -3501,7 +3501,7 @@ func _ready() -> void:
 			printerr("FAIL 8-D: Repeated examine on " + area.name + " should not toast note_title!")
 			get_tree().quit(1)
 			return
-		
+
 		var notes_list = GameState.get_notes("線索")
 		var note_count = 0
 		for n in notes_list:
@@ -3511,7 +3511,7 @@ func _ready() -> void:
 			printerr("FAIL 8-D: Note " + note_id + " should not be duplicated! Got count: ", note_count)
 			get_tree().quit(1)
 			return
-	
+
 	print("PASS 8-D: All 5 clues successfully examined, notes created and deduplicated.")
 
 	# ---- Test 4: Dialogue option gating depending on note presence ----
@@ -3520,17 +3520,17 @@ func _ready() -> void:
 		printerr("FAIL 8-D: DialogueDB store_robot tree not found!")
 		get_tree().quit(1)
 		return
-	
+
 	var diag_runner = DialogueRunner.new()
-	
+
 	# Clear clue notes temporarily to test gating
 	GameState.notes.clear()
 	diag_runner.start(robot_tree, "diagnose_intro")
-	
+
 	var node_identity = robot_tree["diagnose_identity"]
 	diag_runner._enter_node("diagnose_identity")
 	var curr_identity = diag_runner.current()
-	
+
 	var choices_identity = curr_identity.get("choices", [])
 	# Without clues, correct option (index 1) should be hidden, leaving only index 0 and 2
 	var found_correct_identity := false
@@ -3548,24 +3548,24 @@ func _ready() -> void:
 	for note_id in expected_note_ids:
 		var note_data = store_instance.NOTES[note_id]
 		GameState.add_knowledge(note_data)
-		
+
 	# Start dialogue from diagnose_intro
 	diag_runner.start(robot_tree, "diagnose_intro")
-	
+
 	# Intro choices: index 0 (進行診斷) -> diagnose_identity
 	var curr_node = diag_runner.current()
 	if curr_node.choices.size() != 2:
 		printerr("FAIL 8-D: diagnose_intro choices size mismatch! Got: ", curr_node.choices.size())
 		get_tree().quit(1)
 		return
-	
+
 	diag_runner.choose(0) # We go to diagnose_identity
 	curr_node = diag_runner.current()
 	if diag_runner._current_node_id != "diagnose_identity":
 		printerr("FAIL 8-D: Should enter diagnose_identity! Got: ", diag_runner._current_node_id)
 		get_tree().quit(1)
 		return
-	
+
 	# Identity choices: correct option (index 1) must be visible now
 	var found_correct_id_now := false
 	for choice in curr_node.choices:
@@ -3575,14 +3575,14 @@ func _ready() -> void:
 		printerr("FAIL 8-D: Correct identity choice should be visible with all clues!")
 		get_tree().quit(1)
 		return
-		
+
 	diag_runner.choose(1) # Go to diagnose_identity_correct
 	curr_node = diag_runner.current()
 	if diag_runner._current_node_id != "diagnose_identity_correct":
 		printerr("FAIL 8-D: Should enter diagnose_identity_correct! Got: ", diag_runner._current_node_id)
 		get_tree().quit(1)
 		return
-	
+
 	# Identity correct choices: correct option (index 2) must be visible
 	var found_correct_reason := false
 	for choice in curr_node.choices:
@@ -3592,14 +3592,14 @@ func _ready() -> void:
 		printerr("FAIL 8-D: Correct reason choice should be visible with clues!")
 		get_tree().quit(1)
 		return
-		
+
 	diag_runner.choose(2) # Go to diagnose_reason_correct
 	curr_node = diag_runner.current()
 	if diag_runner._current_node_id != "diagnose_reason_correct":
 		printerr("FAIL 8-D: Should enter diagnose_reason_correct! Got: ", diag_runner._current_node_id)
 		get_tree().quit(1)
 		return
-	
+
 	# Reason correct choices: correct option (index 1) must be visible
 	var found_correct_truth := false
 	for choice in curr_node.choices:
@@ -3609,14 +3609,14 @@ func _ready() -> void:
 		printerr("FAIL 8-D: Correct truth choice should be visible with clues!")
 		get_tree().quit(1)
 		return
-		
+
 	diag_runner.choose(1) # Go to diagnose_truth_leaf
 	curr_node = diag_runner.current()
 	if diag_runner._current_node_id != "diagnose_truth_leaf":
 		printerr("FAIL 8-D: Should enter diagnose_truth_leaf! Got: ", diag_runner._current_node_id)
 		get_tree().quit(1)
 		return
-		
+
 	# Check quest flags after truth leaf
 	if not QuestManager.get_flag("repair_vendor_bot", "mainframe_revealed", false):
 		printerr("FAIL 8-D: mainframe_revealed quest flag not set on truth leaf!")
@@ -3630,7 +3630,7 @@ func _ready() -> void:
 		printerr("FAIL 8-D: understood_robot_truth quest flag not set on truth leaf!")
 		get_tree().quit(1)
 		return
-	
+
 	# Test host gating after mainframe_revealed is true
 	store_instance.nearby_interactables.clear()
 	store_instance.nearby_interactables.append(host_area)
@@ -3646,7 +3646,7 @@ func _ready() -> void:
 	QuestManager.set_flag("repair_vendor_bot", "mainframe_revealed", false)
 	QuestManager.set_flag("repair_vendor_bot", "diagnosed", false)
 	QuestManager.set_flag("repair_vendor_bot", "understood_robot_truth", false)
-	
+
 	diag_runner.start(robot_tree, "diagnose_intro")
 	diag_runner.choose(1) # We choose index 1: (不工作) -> diagnose_partial_intro
 	curr_node = diag_runner.current()
@@ -3654,7 +3654,7 @@ func _ready() -> void:
 		printerr("FAIL 8-D: Should enter diagnose_partial_intro! Got: ", diag_runner._current_node_id)
 		get_tree().quit(1)
 		return
-		
+
 	# Check quest flags after partial leaf
 	if not QuestManager.get_flag("repair_vendor_bot", "mainframe_revealed", false):
 		printerr("FAIL 8-D: mainframe_revealed quest flag not set on partial leaf!")
@@ -3680,7 +3680,7 @@ func _ready() -> void:
 		GameState.quest_states.erase("repair_vendor_bot")
 	GameState.notes.clear()
 	await get_tree().process_frame
-	
+
 	print("PASS: Phase 8-D clues & store robot diagnostic tree verified successfully.")
 
 	# ============================================================
@@ -4429,17 +4429,17 @@ func _ready() -> void:
 	GameState.set_flag("talked_store_robot", true)
 	GameState._maybe_set_discovered_vendor_error()
 	GameState.set_flag("used_room_computer_once", true)
-	
+
 	var save_8h_p1 = SaveSystem.capture("apartment", 200.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_8h_p1):
 		printerr("FAIL 8-H: Failed to write save_8h_p1 to scratch slot!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	var loaded_8h_p1 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_8h_p1)
-	
+
 	if not GameState.get_flag("discovered_vendor_error", false) or not GameState.get_flag("used_room_computer_once", false) or not GameState.has_note("clue_vendor_error_lead"):
 		printerr("FAIL 8-H: Pre-quest flags or lead note not restored correctly!")
 		get_tree().quit(1)
@@ -4457,17 +4457,17 @@ func _ready() -> void:
 	})
 	QuestManager.set_flag("repair_vendor_bot", "mainframe_revealed", true)
 	QuestManager.set_flag("repair_vendor_bot", "understood_robot_truth", true)
-	
+
 	var save_8h_p2 = SaveSystem.capture("convenience_store", 500.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_8h_p2):
 		printerr("FAIL 8-H: Failed to write save_8h_p2 to scratch slot!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	var loaded_8h_p2 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_8h_p2)
-	
+
 	if QuestManager.get_status("repair_vendor_bot") != "active":
 		printerr("FAIL 8-H: Quest state not restored correctly!")
 		get_tree().quit(1)
@@ -4488,17 +4488,17 @@ func _ready() -> void:
 	GameState.set_flag("store_robot_resolution", "reset")
 	QuestManager.start("repair_vendor_bot")
 	QuestManager.complete("repair_vendor_bot")
-	
+
 	var save_8h_p3 = SaveSystem.capture("convenience_store", 500.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_8h_p3):
 		printerr("FAIL 8-H: Failed to write save_8h_p3 to scratch slot!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	var loaded_8h_p3 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_8h_p3)
-	
+
 	if not GameState.get_flag("vendor_bot_repaired", false) or GameState.get_flag("store_robot_resolution", "") != "reset":
 		printerr("FAIL 8-H: Repaired reset flags not restored correctly!")
 		get_tree().quit(1)
@@ -4507,7 +4507,7 @@ func _ready() -> void:
 		printerr("FAIL 8-H: Quest completed state not restored correctly for reset ending!")
 		get_tree().quit(1)
 		return
-	
+
 	var note_reset_8h = GameState.get_notes("工作")
 	if note_reset_8h.is_empty() or not _tr_body(note_reset_8h[0].get("body", "")).contains("直接重置"):
 		printerr("FAIL 8-H: Reset work note not restored correctly!")
@@ -4522,17 +4522,17 @@ func _ready() -> void:
 	QuestManager.start("repair_vendor_bot")
 	QuestManager.complete("repair_vendor_bot")
 	GameState.add_item("clerk_echo_recording", 1)
-	
+
 	var save_8h_p4 = SaveSystem.capture("convenience_store", 500.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_8h_p4):
 		printerr("FAIL 8-H: Failed to write save_8h_p4 to scratch slot!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	var loaded_8h_p4 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_8h_p4)
-	
+
 	if not GameState.get_flag("vendor_bot_repaired", false) or GameState.get_flag("store_robot_resolution", "") != "gleaned":
 		printerr("FAIL 8-H: Repaired gleaned flags not restored correctly!")
 		get_tree().quit(1)
@@ -4541,7 +4541,7 @@ func _ready() -> void:
 		printerr("FAIL 8-H: clerk_echo_recording not restored correctly!")
 		get_tree().quit(1)
 		return
-	
+
 	var note_gleaned_8h = GameState.get_notes("工作")
 	if note_gleaned_8h.is_empty() or not _tr_body(note_gleaned_8h[0].get("body", "")).contains("殘響"):
 		printerr("FAIL 8-H: Gleaned work note not restored correctly!")
@@ -4860,7 +4860,7 @@ func _ready() -> void:
 		printerr("FAIL 9-B: Clock should be interactable once clue_projection_clock note is acquired!")
 		get_tree().quit(1)
 		return
-	
+
 	# Interact should start sonar but NOT give 9-B module
 	room_inst_9b._trigger_interaction()
 	if GameState.has_item("old_probe_module") or GameState.get_flag("probe_module_taken", false):
@@ -5028,21 +5028,21 @@ func _ready() -> void:
 	# Phase 9-C Verification
 	# ----------------------------------------------------
 	print("Running 9-C Integration tests...")
-	
+
 	# Regression checks for discovered fixes
 	# Issue 1: gleaner_gloves can_decode capability
 	if not GameState.ITEMS_DB["gleaner_gloves"].get("can_decode", false):
 		printerr("FAIL 9-C: gleaner_gloves metadata is missing can_decode: true!")
 		get_tree().quit(1)
 		return
-		
+
 	# Issue 2: entry_points registry check
 	var MainClass = load("res://scenes/main/main.gd")
 	if not MainClass.SCENES["apartment_entrance"]["entry_points"].has("from_collector_shop"):
 		printerr("FAIL 9-C: apartment_entrance is missing from_collector_shop entry point!")
 		get_tree().quit(1)
 		return
-		
+
 	# Issue 3: DialogueRunner echo_complete and echo_unsold condition evaluation
 	var runner_test = DialogueRunner.new()
 	GameState.reset_for_new_game()
@@ -5051,19 +5051,19 @@ func _ready() -> void:
 		printerr("FAIL 9-C: echo_complete condition should evaluate to false when echo is not complete!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.record_full_echo("echo_clerk")
 	if not runner_test._eval_condition_dict(cond_complete):
 		printerr("FAIL 9-C: echo_complete condition should evaluate to true when echo is complete!")
 		get_tree().quit(1)
 		return
-		
+
 	var cond_unsold = {"type": "echo_unsold", "value": "echo_clerk"}
 	if not runner_test._eval_condition_dict(cond_unsold):
 		printerr("FAIL 9-C: echo_unsold condition should evaluate to true when echo is unsold!")
 		get_tree().quit(1)
 		return
-		
+
 	# Issue 4: DialogueRunner sell_echo effect application
 	var eff_sell = {"op": "sell_echo", "value": "echo_clerk"}
 	var old_credits_sell = GameState.get_credits()
@@ -5075,12 +5075,12 @@ func _ready() -> void:
 		printerr("FAIL 9-C: sell_echo effect did not sell the echo or reward credits!")
 		get_tree().quit(1)
 		return
-		
+
 	if runner_test._eval_condition_dict(cond_unsold):
 		printerr("FAIL 9-C: echo_unsold condition should evaluate to false after echo is sold!")
 		get_tree().quit(1)
 		return
-		
+
 	# Issue 5: lu_qichen hub appraise condition includes fingerless_gloves check
 	var lu_tree_check = DialogueDB.get_tree_for("lu_qichen")
 	var appraise_choices = lu_tree_check["hub"]["choices"]
@@ -5103,36 +5103,36 @@ func _ready() -> void:
 		printerr("FAIL 9-C: lu_qichen hub appraise choice is missing fingerless_gloves condition check!")
 		get_tree().quit(1)
 		return
-	
+
 	# 1. Glove Upgrade Mechanics
 	# Case A: fingerless_gloves is in inventory (not equipped)
 	GameState.reset_for_new_game()
 	GameState.add_item("old_probe_module", 1)
 	GameState.add_item("fingerless_gloves", 1)
-	
+
 	# Find fingerless_gloves instance ID
 	var gloves_inst_id := ""
 	for slot in GameState.get_inventory():
 		if not slot.is_empty() and slot.get("item_id") == "fingerless_gloves":
 			gloves_inst_id = slot.get("instance_id", "")
 			break
-			
+
 	if gloves_inst_id.is_empty():
 		printerr("FAIL 9-C: fingerless_gloves not found in inventory!")
 		get_tree().quit(1)
 		return
-		
+
 	var upgrade_success = GameState.install_probe_module()
 	if not upgrade_success:
 		printerr("FAIL 9-C: install_probe_module failed when gloves are in inventory!")
 		get_tree().quit(1)
 		return
-		
+
 	if GameState.has_item("old_probe_module"):
 		printerr("FAIL 9-C: old_probe_module should be removed after upgrade!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify in-place replacement
 	var found_gleaner := false
 	for slot in GameState.get_inventory():
@@ -5147,7 +5147,7 @@ func _ready() -> void:
 		printerr("FAIL 9-C: gleaner_gloves not found with matching instance ID!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.get_flag("gleaner_gloves_installed", false):
 		printerr("FAIL 9-C: gleaner_gloves_installed story flag should be true!")
 		get_tree().quit(1)
@@ -5157,31 +5157,31 @@ func _ready() -> void:
 	GameState.reset_for_new_game()
 	GameState.add_item("old_probe_module", 1)
 	GameState.add_item("fingerless_gloves", 1)
-	
+
 	# Find gloves instance ID and equip it
 	var gloves_inst_id_b := ""
 	for slot in GameState.get_inventory():
 		if not slot.is_empty() and slot.get("item_id") == "fingerless_gloves":
 			gloves_inst_id_b = slot.get("instance_id", "")
 			break
-	
+
 	GameState.equip(gloves_inst_id_b)
 	if not GameState.is_equipped(gloves_inst_id_b):
 		printerr("FAIL 9-C: failed to equip fingerless_gloves for test case B!")
 		get_tree().quit(1)
 		return
-		
+
 	var upgrade_success_b = GameState.install_probe_module()
 	if not upgrade_success_b:
 		printerr("FAIL 9-C: install_probe_module failed when gloves are equipped!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.is_equipped(gloves_inst_id_b):
 		printerr("FAIL 9-C: gleaner_gloves should remain equipped with same instance ID!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify in-place replacement in inventory slots
 	var found_gleaner_b := false
 	for slot in GameState.get_inventory():
@@ -5196,7 +5196,7 @@ func _ready() -> void:
 		printerr("FAIL 9-C: equipped gleaner_gloves not found with matching instance ID!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. Dialogue Transitions
 	# Dialogue A: travel_street_east choice
 	var travel_tree = DialogueDB.get_tree_for("travel_street_east")
@@ -5204,28 +5204,28 @@ func _ready() -> void:
 		printerr("FAIL 9-C: DialogueDB could not fetch travel_street_east tree!")
 		get_tree().quit(1)
 		return
-		
+
 	var travel_runner = DialogueRunner.new()
 	travel_runner.start(travel_tree)
 	travel_runner.choose(0) # Choose "前往收藏家的店"
-	
+
 	var travel_payload = travel_runner.pending_travel
 	if travel_payload.get("scene_id") != "collector_shop" or travel_payload.get("entry_point_id") != "from_street":
 		printerr("FAIL 9-C: pending_travel mismatch! Got: ", travel_payload)
 		get_tree().quit(1)
 		return
-		
+
 	# Dialogue B: lu_qichen appraisal and install_module effect
 	var lu_tree = DialogueDB.get_tree_for("lu_qichen")
 	if lu_tree.is_empty() or not lu_tree.has("appraise_gloves"):
 		printerr("FAIL 9-C: DialogueDB could not fetch lu_qichen tree!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	GameState.add_item("old_probe_module", 1)
 	GameState.add_item("fingerless_gloves", 1)
-	
+
 	var lu_runner = DialogueRunner.new()
 	lu_runner.start(lu_tree, "appraise_gloves") # Start at appraise_gloves node
 	# Node entry automatically triggers effect "install_module"
@@ -5233,7 +5233,7 @@ func _ready() -> void:
 		printerr("FAIL 9-C: Dialogue install_module effect did not install glove module!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. Scene Load Verification
 	print("Loading res://scenes/levels/collector_shop/collector_shop.tscn...")
 	var shop_scene = load("res://scenes/levels/collector_shop/collector_shop.tscn")
@@ -5241,48 +5241,48 @@ func _ready() -> void:
 		printerr("FAIL 9-C: Could not load collector_shop.tscn!")
 		get_tree().quit(1)
 		return
-		
+
 	var shop_instance = shop_scene.instantiate()
 	if not shop_instance:
 		printerr("FAIL 9-C: Could not instantiate collector_shop.tscn!")
 		get_tree().quit(1)
 		return
-		
+
 	var shop_camera = shop_instance.get_node_or_null("Camera2D")
 	if not shop_camera or shop_camera.limit_left != 0 or shop_camera.limit_right != 2560 or shop_camera.limit_top != 0 or shop_camera.limit_bottom != 720:
 		printerr("FAIL 9-C: Camera bounds in collector_shop are not 0-2560 x 0-720!")
 		get_tree().quit(1)
 		return
-		
+
 	var shop_spawn = shop_instance.get_node_or_null("SpawnPoints/from_street")
 	if not shop_spawn or shop_spawn.position != Vector2(190, 665):
 		printerr("FAIL 9-C: SpawnPoint from_street is wrong or missing!")
 		get_tree().quit(1)
 		return
-		
+
 	var interactables_parent = shop_instance.get_node_or_null("Interactables")
 	if not interactables_parent:
 		printerr("FAIL 9-C: Interactables container missing in collector_shop!")
 		get_tree().quit(1)
 		return
-		
+
 	var lu_area = interactables_parent.get_node_or_null("LuQichenArea")
 	if not lu_area or lu_area.dialogue_id != "lu_qichen" or lu_area.prompt_text != "PROMPT_TALK":
 		printerr("FAIL 9-C: LuQichenArea interaction properties are incorrect!")
 		get_tree().quit(1)
 		return
-		
+
 	var lu_sprite = lu_area.get_node_or_null("Sprite2D")
 	if not lu_sprite or lu_sprite.texture == null:
 		printerr("FAIL 9-C: Lu Qichen NPC sprite is missing or texture is empty!")
 		get_tree().quit(1)
 		return
-		
+
 	if lu_sprite.position != Vector2(1870.9995, 355):
 		printerr("FAIL 9-C: Lu Qichen NPC sprite position should be [1870.9995, 355]! Got: ", lu_sprite.position)
 		get_tree().quit(1)
 		return
-		
+
 	shop_instance.free()
 	print("PASS 9-C: Glove upgrade mechanics, dialogue transitions, and collector shop scene load verified.")
 
@@ -5290,7 +5290,7 @@ func _ready() -> void:
 	# Phase 9-D Verification
 	# ----------------------------------------------------
 	print("Running 9-D Integration tests...")
-	
+
 	# Instantiate EchoPoint
 	var EchoPointClass = load("res://scripts/components/echo_point.gd")
 	var ep = EchoPointClass.new()
@@ -5310,10 +5310,10 @@ func _ready() -> void:
 		printerr("FAIL 9-D: EchoPoint should not mutate slot_electromagnetic.wav into a loop!")
 		get_tree().quit(1)
 		return
-	
+
 	# Reset state
 	GameState.reset_for_new_game()
-	
+
 	# 1. Verification of Gating & Proximity Sound Playback
 	# Under Case A: glove not equipped, should be inactive
 	ep._update_active_state()
@@ -5325,7 +5325,7 @@ func _ready() -> void:
 		printerr("FAIL 9-D: Proximity sound should not play when inactive!")
 		get_tree().quit(1)
 		return
-		
+
 	# Equip gleaner_gloves
 	GameState.add_item("gleaner_gloves", 1)
 	var gleaner_id := ""
@@ -5334,7 +5334,7 @@ func _ready() -> void:
 			gleaner_id = slot.get("instance_id", "")
 			break
 	GameState.equip(gleaner_id)
-	
+
 	# Update state, should become active
 	ep._update_active_state()
 	if not ep.active:
@@ -5345,38 +5345,38 @@ func _ready() -> void:
 		printerr("FAIL 9-D: Proximity sound should play when active!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. Verification of Proximity Dwell Timer (Static Player detection)
 	var mock_player = CharacterBody2D.new()
 	mock_player.name = "Player"
 	mock_player.global_position = Vector2(0, 0)
 	add_child(mock_player)
-	
+
 	var sig_tracker = {"entered": false, "exited": false}
 	ep.player_entered.connect(func(_x): sig_tracker["entered"] = true)
 	ep.player_exited.connect(func(_x): sig_tracker["exited"] = true)
-	
+
 	# Enter area
 	ep._on_body_entered(mock_player)
 	if not ep.player_inside:
 		printerr("FAIL 9-D: player_inside should be true after entering body!")
 		get_tree().quit(1)
 		return
-		
+
 	# Process 0.5s (static), entered should not be emitted yet
 	ep._process(0.5)
 	if sig_tracker["entered"] or ep.dwell_timer != 0.5:
 		printerr("FAIL 9-D: Dwell timer should accumulate but not trigger before 1 second!")
 		get_tree().quit(1)
 		return
-		
+
 	# Process 0.6s (total 1.1s static), entered should be emitted
 	ep._process(0.6)
 	if not sig_tracker["entered"] or not ep.has_emitted_entered:
 		printerr("FAIL 9-D: player_entered should be emitted after 1 second of static dwell!")
 		get_tree().quit(1)
 		return
-		
+
 	# Simulate player movement (position change)
 	mock_player.global_position = Vector2(20, 20)
 	ep._process(0.1)
@@ -5384,7 +5384,7 @@ func _ready() -> void:
 		printerr("FAIL 9-D: player_exited should be emitted immediately upon player movement!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. Verification of collection mechanics
 	# Return player to static and let it dwell for 1.1 seconds again
 	sig_tracker["entered"] = false
@@ -5395,7 +5395,7 @@ func _ready() -> void:
 		printerr("FAIL 9-D: failed to re-dwell player!")
 		get_tree().quit(1)
 		return
-		
+
 	# Call collect()
 	ep.collect()
 	var collect_sfx := get_tree().root.find_child("EchoCollectSFX", true, false)
@@ -5408,13 +5408,13 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	collect_sfx.queue_free()
-	
+
 	# Verify GameState segment registered
 	if not GameState.has_echo_segment("echo_room401_tenant", "s1"):
 		printerr("FAIL 9-D: collect() did not register segment in GameState!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify EchoPoint deactivated automatically
 	if ep.active:
 		printerr("FAIL 9-D: EchoPoint should become inactive after collection!")
@@ -5424,7 +5424,7 @@ func _ready() -> void:
 		printerr("FAIL 9-D: Proximity sound should stop playing after collection!")
 		get_tree().quit(1)
 		return
-		
+
 	# Cleanup mock instances
 	ep.free()
 	mock_player.free()
@@ -5434,70 +5434,70 @@ func _ready() -> void:
 	# Phase 9-E Verification
 	# ----------------------------------------------------
 	print("Running 9-E Integration tests...")
-	
+
 	# Reset state
 	GameState.reset_for_new_game()
-	
+
 	var db_echoes: Dictionary = EchoDB.ECHOES
 	var db_tenant: Dictionary = db_echoes["echo_room401_tenant"]
 	var db_clerk: Dictionary = db_echoes["echo_clerk"]
-	
+
 	# Open Notebook
 	UIMode.set_mode(UIMode.Mode.NOTEBOOK)
 	# Switch to "殘響" (index 3)
 	ui_instance.notebook_panel._select_tab_index(3)
 	await get_tree().process_frame
-	
+
 	# 1. Uncollected Echoes: should have no media footer hints
 	# Collect s1 of echo_room401_tenant so it shows up in list but is incomplete (1/3)
 	GameState.collect_echo_segment("echo_room401_tenant", "s1")
 	ui_instance.notebook_panel.load_notebook_data()
 	await get_tree().process_frame
-	
+
 	var notebook_list = ui_instance.notebook_panel.list_vbox
 	var note_button_401 = notebook_list.get_child(0) as Button
 	note_button_401.grab_focus()
 	await get_tree().process_frame
-	
+
 	var actions_uncollected = ui_instance.notebook_panel.get_media_actions()
 	if not actions_uncollected.is_empty():
 		printerr("FAIL 9-E: Incomplete Echo should not have media actions, got: ", actions_uncollected)
 		get_tree().quit(1)
 		return
-		
+
 	# 2. Image-only Echo: collect all segments for echo_room401_tenant
 	GameState.collect_echo_segment("echo_room401_tenant", "s2")
 	GameState.collect_echo_segment("echo_room401_tenant", "s3")
 	# Set a valid image path dynamically to avoid load errors
 	db_tenant["image_path"] = "res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview.png"
-	
+
 	ui_instance.notebook_panel.load_notebook_data()
 	await get_tree().process_frame
 	note_button_401 = notebook_list.get_child(0) as Button
 	note_button_401.grab_focus()
 	await get_tree().process_frame
-	
+
 	var actions_image_only = ui_instance.notebook_panel.get_media_actions()
 	if actions_image_only.get("primary") != "view_photo" or actions_image_only.has("secondary"):
 		printerr("FAIL 9-E: Completed image-only Echo should have primary action 'view_photo' and no secondary action! Got: ", actions_image_only)
 		get_tree().quit(1)
 		return
-		
+
 	if not ui_instance.can_primary_action() or ui_instance.can_secondary_action():
 		printerr("FAIL 9-E: Completed image-only Echo action visibility flags are wrong!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify footer hints contain "E: 看照片"
 	var footer_text = ui_instance.notebook_panel.panel_footer_hint.text
 	if not "E: 看照片" in footer_text:
 		printerr("FAIL 9-E: Footer hint for image-only Echo should contain 'E: 看照片', got: ", footer_text)
 		get_tree().quit(1)
 		return
-		
+
 	# 3. Audio-only Echo: collect all segments for echo_clerk
 	GameState.collect_echo_segment("echo_clerk", "s1")
-	
+
 	ui_instance.notebook_panel.load_notebook_data()
 	await get_tree().process_frame
 	var note_button_clerk: Button = null
@@ -5509,110 +5509,110 @@ func _ready() -> void:
 		printerr("FAIL 9-E: Could not find clerk echo in notebook list!")
 		get_tree().quit(1)
 		return
-		
+
 	note_button_clerk.grab_focus()
 	await get_tree().process_frame
-	
+
 	var actions_audio_only = ui_instance.notebook_panel.get_media_actions()
 	if actions_audio_only.get("primary") != "play_audio" or actions_audio_only.has("secondary"):
 		printerr("FAIL 9-E: Completed audio-only Echo should have primary action 'play_audio' and no secondary action! Got: ", actions_audio_only)
 		get_tree().quit(1)
 		return
-		
+
 	if not ui_instance.can_primary_action() or ui_instance.can_secondary_action():
 		printerr("FAIL 9-E: Completed audio-only Echo action visibility flags are wrong!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify footer hints contain "E: 播放錄音"
 	footer_text = ui_instance.notebook_panel.panel_footer_hint.text
 	if not "E: 播放錄音" in footer_text:
 		printerr("FAIL 9-E: Footer hint for audio-only Echo should contain 'E: 播放錄音', got: ", footer_text)
 		get_tree().quit(1)
 		return
-		
+
 	# 4. Both Image and Audio Echo
 	# Temporarily give echo_clerk an image path as well
 	db_clerk["image_path"] = "res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview.png"
 	ui_instance.notebook_panel.load_notebook_data()
 	await get_tree().process_frame
-	
+
 	for child in notebook_list.get_children():
 		if child is Button and child.text.contains("店員"):
 			note_button_clerk = child
 			break
 	note_button_clerk.grab_focus()
 	await get_tree().process_frame
-	
+
 	var actions_both = ui_instance.notebook_panel.get_media_actions()
 	if actions_both.get("primary") != "view_photo" or actions_both.get("secondary") != "play_audio":
 		printerr("FAIL 9-E: Completed both-media Echo should have primary 'view_photo' and secondary 'play_audio'! Got: ", actions_both)
 		get_tree().quit(1)
 		return
-		
+
 	if not ui_instance.can_primary_action() or not ui_instance.can_secondary_action():
 		printerr("FAIL 9-E: Completed both-media Echo action visibility flags are wrong!")
 		get_tree().quit(1)
 		return
-		
+
 	footer_text = ui_instance.notebook_panel.panel_footer_hint.text
 	if not "E: 看照片" in footer_text or not "R: 播放錄音" in footer_text:
 		printerr("FAIL 9-E: Footer hints for both-media Echo should contain 'E: 看照片' and 'R: 播放錄音', got: ", footer_text)
 		get_tree().quit(1)
 		return
-		
+
 	# Clean up clerk image path
 	db_clerk.erase("image_path")
-	
+
 	# 5. Sold Echo: sell echo_room401_tenant and check hints
 	GameState.sell_echo("echo_room401_tenant")
 	ui_instance.notebook_panel.load_notebook_data()
 	await get_tree().process_frame
-	
+
 	for child in notebook_list.get_children():
 		if child is Button and child.text.contains("401"):
 			note_button_401 = child
 			break
 	note_button_401.grab_focus()
 	await get_tree().process_frame
-	
+
 	var actions_sold = ui_instance.notebook_panel.get_media_actions()
 	if not actions_sold.is_empty():
 		printerr("FAIL 9-E: Sold Echo should not have media actions, got: ", actions_sold)
 		get_tree().quit(1)
 		return
-		
+
 	footer_text = ui_instance.notebook_panel.panel_footer_hint.text
 	if "看照片" in footer_text or "播放錄音" in footer_text:
 		printerr("FAIL 9-E: Footer hints for sold Echo should not contain media hints, got: ", footer_text)
 		get_tree().quit(1)
 		return
-		
+
 	# Restore original database values
 	db_tenant["image_path"] = "res://assets/images/echoes/echo_room401_tenant.png"
 	db_clerk["audio_path"] = "res://assets/audio/echoes/echo_clerk.ogg"
-	
+
 	# 6. Photo Viewer Overlay & Focus/Input active transitions
 	# Give clerk a valid image temporarily again to test viewing
 	db_clerk["image_path"] = "res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview.png"
 	GameState.echo_progress["echo_clerk"]["sold"] = false
 	ui_instance.notebook_panel.load_notebook_data()
 	await get_tree().process_frame
-	
+
 	for child in notebook_list.get_children():
 		if child is Button and child.text.contains("店員"):
 			note_button_clerk = child
 			break
 	note_button_clerk.grab_focus()
 	await get_tree().process_frame
-	
+
 	if not ui_instance.notebook_panel.is_input_active:
 		printerr("FAIL 9-E: Notebook panel input should be active initially!")
 		get_tree().quit(1)
 		return
-		
+
 	ui_instance.open_photo_viewer("res://assets/generated/maps/alley_backrooms_3f/alley-backrooms-3f-stage-preview.png", note_button_clerk)
-	
+
 	if not ui_instance.is_photo_viewer_open():
 		printerr("FAIL 9-E: Photo viewer should be open!")
 		get_tree().quit(1)
@@ -5621,14 +5621,14 @@ func _ready() -> void:
 		printerr("FAIL 9-E: Notebook panel input should be inactive when photo viewer is open!")
 		get_tree().quit(1)
 		return
-		
+
 	if not ui_instance.can_primary_action() or ui_instance.can_secondary_action():
 		printerr("FAIL 9-E: Action visibility flags when photo viewer is open are incorrect!")
 		get_tree().quit(1)
 		return
-		
+
 	ui_instance.close_photo_viewer()
-	
+
 	if ui_instance.is_photo_viewer_open():
 		printerr("FAIL 9-E: Photo viewer should be closed!")
 		get_tree().quit(1)
@@ -5637,14 +5637,14 @@ func _ready() -> void:
 		printerr("FAIL 9-E: Notebook panel input should be active after photo viewer is closed!")
 		get_tree().quit(1)
 		return
-		
+
 	db_clerk.erase("image_path")
-	
+
 	# 7. Audio Playback Toggling & Interruption Cases
 	note_button_clerk.grab_focus()
 	await get_tree().process_frame
 	var test_audio = "res://assets/audio/echoes/echo_song_rain_doesnt_stop.mp3"
-	
+
 	var ambient_bus_idx_9e := AudioServer.get_bus_index("Ambient")
 	ui_instance.toggle_echo_audio(test_audio)
 	if not ui_instance._audio_echo.playing:
@@ -5671,7 +5671,7 @@ func _ready() -> void:
 		printerr("FAIL 10-A: Ambient bus should fade back to baseline after echo audio stops!")
 		get_tree().quit(1)
 		return
-		
+
 	# Case A: Selection change does NOT stop audio
 	ui_instance.toggle_echo_audio(test_audio)
 	# focus 401
@@ -5686,7 +5686,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	ui_instance.stop_echo_audio()
-		
+
 	# Case B: Tab change does NOT stop audio
 	for child in notebook_list.get_children():
 		if child is Button and child.text.contains("店員"):
@@ -5702,7 +5702,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	ui_instance.stop_echo_audio()
-		
+
 	# Case C: Closing notebook does NOT stop audio (it plays out fully in background)
 	ui_instance.notebook_panel._select_tab_index(3)
 	await get_tree().process_frame
@@ -5719,10 +5719,10 @@ func _ready() -> void:
 		printerr("FAIL 9-E: Closing notebook mode should NOT stop audio playback!")
 		get_tree().quit(1)
 		return
-	
+
 	# Stop echo audio manually to clean up for subsequent tests
 	ui_instance.stop_echo_audio()
-		
+
 	GameState.reset_for_new_game()
 	print("PASS 9-E: Dynamic media control hints, photo viewer overlay input gating, and audio interruption behavior verified.")
 
@@ -5730,18 +5730,18 @@ func _ready() -> void:
 	# Phase 9-F Verification
 	# ----------------------------------------------------
 	print("Running 9-F Integration tests...")
-	
+
 	# 1. Verify files exist
 	if not FileAccess.file_exists("res://assets/images/echoes/echo_room401_tenant.png"):
 		printerr("FAIL 9-F: echo_room401_tenant.png is missing!")
 		get_tree().quit(1)
 		return
-		
+
 	if not FileAccess.file_exists("res://assets/bgm/Vintage Media Shop.mp3"):
 		printerr("FAIL 9-F: Vintage Media Shop.mp3 is missing!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. Verify EchoPoints in scenes
 	var scene_tests = [
 		{
@@ -5772,7 +5772,7 @@ func _ready() -> void:
 			]
 		}
 	]
-	
+
 	for s_info in scene_tests:
 		var scene_path = s_info["path"]
 		var scene_res = load(scene_path)
@@ -5794,7 +5794,7 @@ func _ready() -> void:
 				inst.free()
 				get_tree().quit(1)
 				return
-				
+
 			# Verify that it has a CollisionShape2D with a CircleShape2D shape
 			var col = pt.get_node_or_null("CollisionShape2D")
 			if not col or not col.shape is CircleShape2D:
@@ -5803,7 +5803,7 @@ func _ready() -> void:
 				get_tree().quit(1)
 				return
 		inst.free()
-		
+
 	# Verify collector_shop plays the new BGM by checking the script source directly
 	var shop_script = load("res://scenes/levels/collector_shop/collector_shop.gd")
 	var script_src = shop_script.source_code
@@ -5811,22 +5811,22 @@ func _ready() -> void:
 		printerr("FAIL 9-F: collector_shop.gd does not reference 'res://assets/bgm/Vintage Media Shop.mp3'!")
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS 9-F: All 7 EchoPoints configured across level scenes, BGM path and old-photo asset presence verified.")
-	
+
 	# ----------------------------------------------------
 	# Phase 9-G Verification
 	# ----------------------------------------------------
 	print("Running 9-G Integration tests...")
 	runner = DialogueRunner.new()
 	GameState.reset_for_new_game()
-	
+
 	# 1. Direct call validation: sell_echo on incomplete echo should fail
 	if GameState.sell_echo("echo_room401_tenant"):
 		printerr("FAIL 9-G: GameState.sell_echo should return false on incomplete echo!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. Dialogue Routing - Empty Case: routes to sell_empty
 	lu_tree = DialogueDB.get_tree_for("lu_qichen")
 	runner.start(lu_tree, "sell_gate")
@@ -5835,7 +5835,7 @@ func _ready() -> void:
 		printerr("FAIL 9-G: sell_gate should route to sell_empty when no echoes are complete! Got: ", curr)
 		get_tree().quit(1)
 		return
-		
+
 	# 3. Dialogue Routing - Sale Selection & Exclusions
 	# Complete echo_room401_tenant
 	GameState.collect_echo_segment("echo_room401_tenant", "s1")
@@ -5845,7 +5845,7 @@ func _ready() -> void:
 		printerr("FAIL 9-G: echo_room401_tenant failed to be marked complete!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify that only completed unsold echoes appear in sell_menu
 	runner.start(lu_tree, "sell_gate")
 	curr = runner.current()
@@ -5853,7 +5853,7 @@ func _ready() -> void:
 		printerr("FAIL 9-G: sell_gate should route to sell_menu when there are completed unsold echoes! Got: ", curr)
 		get_tree().quit(1)
 		return
-		
+
 	choices = curr.get("choices", [])
 	var room401_choice = null
 	var clerk_choice = null
@@ -5866,7 +5866,7 @@ func _ready() -> void:
 			clerk_choice = choice
 		elif "鹿家" in label:
 			lu_family_choice = choice
-			
+
 	if room401_choice == null:
 		printerr("FAIL 9-G: Room 401 echo choice not found in sell_menu! Got choices: ", choices)
 		get_tree().quit(1)
@@ -5879,7 +5879,7 @@ func _ready() -> void:
 		printerr("FAIL 9-G: echo_lu_family choice should NOT be visible in sell_menu!")
 		get_tree().quit(1)
 		return
-		
+
 	# 4. Confirmation & Keep Path: routes back to sell_menu
 	runner.choose(room401_choice.get("index"))
 	curr = runner.current()
@@ -5887,7 +5887,7 @@ func _ready() -> void:
 		printerr("FAIL 9-G: Selecting echo should route to confirmation node! Got: ", curr)
 		get_tree().quit(1)
 		return
-		
+
 	var conf_choices = curr.get("choices", [])
 	var sell_choice = null
 	var keep_choice = null
@@ -5897,12 +5897,12 @@ func _ready() -> void:
 			sell_choice = choice
 		elif "留" in label:
 			keep_choice = choice
-			
+
 	if sell_choice == null or keep_choice == null:
 		printerr("FAIL 9-G: Confirmation choices (sell/keep) missing! Got: ", conf_choices)
 		get_tree().quit(1)
 		return
-		
+
 	# Choose to keep
 	runner.choose(keep_choice.get("index"))
 	curr = runner.current()
@@ -5910,7 +5910,7 @@ func _ready() -> void:
 		printerr("FAIL 9-G: Keeping echo should route back to sell_menu! Got: ", curr)
 		get_tree().quit(1)
 		return
-		
+
 	# 5. Confirmation & Sell Path
 	# Re-select room 401
 	room401_choice = null
@@ -5919,7 +5919,7 @@ func _ready() -> void:
 			room401_choice = choice
 			break
 	runner.choose(room401_choice.get("index"))
-	
+
 	# Select to sell
 	conf_choices = runner.current().get("choices", [])
 	sell_choice = null
@@ -5927,35 +5927,35 @@ func _ready() -> void:
 		if "賣" in tr(choice.get("label", "")):
 			sell_choice = choice
 			break
-	
+
 	var old_credits = GameState.get_credits()
 	runner.choose(sell_choice.get("index"))
-	
+
 	# Verify that credits increased by 200 (selling price of room 401 echo)
 	if GameState.get_credits() != old_credits + 200:
 		printerr("FAIL 9-G: Selling Room 401 echo did not reward correct credits! Expected: ", old_credits + 200, ", got: ", GameState.get_credits())
 		get_tree().quit(1)
 		return
-		
+
 	# Verify sold state
 	if not GameState.is_echo_sold("echo_room401_tenant"):
 		printerr("FAIL 9-G: Room 401 echo should be marked as sold!")
 		get_tree().quit(1)
 		return
-		
+
 	curr = runner.current()
 	if curr.get("text", "") == "" or not tr(curr.get("text", "")).contains("獲得了 200 credits"):
 		printerr("FAIL 9-G: Sold confirmation text incorrect! Got: ", curr)
 		get_tree().quit(1)
 		return
-		
+
 	runner.advance()
 	curr = runner.current()
 	if curr.get("text", "") == "" or not tr(curr.get("text", "")).contains("感謝你的回報"):
 		printerr("FAIL 9-G: Should route to sell_done! Got: ", curr)
 		get_tree().quit(1)
 		return
-		
+
 	# 6. Sold Status & Exclusivity: routes to sell_empty if no completed echoes remain
 	runner.advance()
 	curr = runner.current()
@@ -5963,63 +5963,63 @@ func _ready() -> void:
 		printerr("FAIL 9-G: After selling, sell_gate should route to sell_empty! Got: ", curr)
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS 9-G: Dialogue-based sell menu, exclusions, confirmation, keeping, selling rewards, and sold status verified.")
-	
+
 	# ----------------------------------------------------
 	# Phase 9-H Verification
 	# ----------------------------------------------------
 	print("Running 9-H Integration tests...")
-	
+
 	# We will verify save/load round-trip across 5 checkpoints:
 	# Checkpoint 1: Before taking module (取模組前)
 	GameState.reset_for_new_game()
 	GameState.set_flag("apartment_initialized", true)
 	GameState.add_item("fingerless_gloves", 1)
-	
+
 	var checkpoint1_save = GameState.to_save_dict()
-	
+
 	# Verify Checkpoint 1 state
 	if GameState.get_flag("probe_module_taken", false) or GameState.has_item("old_probe_module") or GameState.get_flag("gleaner_gloves_installed", false):
 		printerr("FAIL 9-H Checkpoint 1: Initial state is incorrect!")
 		get_tree().quit(1)
 		return
-		
+
 	# Checkpoint 2: Before appraisal (鑑定前)
 	GameState.set_flag("probe_module_taken", true)
 	GameState.add_item("old_probe_module", 1)
-	
+
 	var checkpoint2_save = GameState.to_save_dict()
-	
+
 	# Checkpoint 3: During collection (採集中)
 	# Install glove upgrade
 	if not GameState.install_probe_module():
 		printerr("FAIL 9-H Checkpoint 3: install_probe_module failed during state transition!")
 		get_tree().quit(1)
 		return
-	
+
 	# Collect some segments (not complete)
 	GameState.collect_echo_segment("echo_room401_tenant", "s1")
 	GameState.collect_echo_segment("echo_room401_tenant", "s2")
-	
+
 	var checkpoint3_save = GameState.to_save_dict()
-	
+
 	# Checkpoint 4: Completed but unsold (集滿未賣)
 	GameState.collect_echo_segment("echo_room401_tenant", "s3")
-	
+
 	var checkpoint4_save = GameState.to_save_dict()
-	
+
 	# Checkpoint 5: Sold (賣出後)
 	var old_credits_9h = GameState.get_credits()
 	if not GameState.sell_echo("echo_room401_tenant"):
 		printerr("FAIL 9-H Checkpoint 5: sell_echo failed during state transition!")
 		get_tree().quit(1)
 		return
-		
+
 	var checkpoint5_save = GameState.to_save_dict()
-	
+
 	# Now, we will load and verify each checkpoint save dict one by one to ensure exact state restoration.
-	
+
 	# Restore Checkpoint 5
 	GameState.reset_for_new_game()
 	GameState.load_save_dict(checkpoint5_save)
@@ -6031,7 +6031,7 @@ func _ready() -> void:
 		printerr("FAIL 9-H restore: Checkpoint 5 glove install status failed to restore!")
 		get_tree().quit(1)
 		return
-		
+
 	# Restore Checkpoint 4
 	GameState.reset_for_new_game()
 	GameState.load_save_dict(checkpoint4_save)
@@ -6043,7 +6043,7 @@ func _ready() -> void:
 		printerr("FAIL 9-H restore: Checkpoint 4 credits failed to restore!")
 		get_tree().quit(1)
 		return
-		
+
 	# Restore Checkpoint 3
 	GameState.reset_for_new_game()
 	GameState.load_save_dict(checkpoint3_save)
@@ -6055,7 +6055,7 @@ func _ready() -> void:
 		printerr("FAIL 9-H restore: Checkpoint 3 glove install status failed to restore!")
 		get_tree().quit(1)
 		return
-		
+
 	# Restore Checkpoint 2
 	GameState.reset_for_new_game()
 	GameState.load_save_dict(checkpoint2_save)
@@ -6063,7 +6063,7 @@ func _ready() -> void:
 		printerr("FAIL 9-H restore: Checkpoint 2 probe module or glove status failed to restore!")
 		get_tree().quit(1)
 		return
-		
+
 	# Restore Checkpoint 1
 	GameState.reset_for_new_game()
 	GameState.load_save_dict(checkpoint1_save)
@@ -6071,7 +6071,7 @@ func _ready() -> void:
 		printerr("FAIL 9-H restore: Checkpoint 1 initial flags failed to restore!")
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS 9-H: Save/load round-trip across 5 checkpoints verified successfully.")
 
 	# ============================================================
@@ -6846,7 +6846,7 @@ func _ready() -> void:
 
 	# Simulate collision while active
 	combat_loss_node._on_body_entered(test_player)
-	
+
 	# Verify flag
 	if not GameState.get_flag("combat_proto_failed", false):
 		printerr("FAIL 13-D: combat_proto_failed flag not set to true after contact!")
@@ -6932,7 +6932,7 @@ func _ready() -> void:
 		printerr("FAIL: MemoryFragmentArea node not found in apartment_entrance.tscn!")
 		get_tree().quit(1)
 		return
-	
+
 	if mem_area.fragment_flag != "mem_frag_linfei_1" or mem_area.message_id != "mem_frag_linfei_1":
 		printerr("FAIL: MemoryFragmentArea properties mismatch!")
 		get_tree().quit(1)
@@ -6981,12 +6981,12 @@ func _ready() -> void:
 	street_inst_14.free()
 	street_scene_14 = null
 	p14_player = null
-	
+
 	print("PASS: Phase 14-A memory_fragment_area verified.")
 
 	# ===================== Phase 14-B: Dialogue Hooks =====================
 	print("--- Phase 14-B: Dialogue Hooks ---")
-	
+
 	# Lu Qichen test cases
 	# Case 1: mem_frag_linfei_1 = false
 	GameState.reset_for_new_game()
@@ -7011,7 +7011,7 @@ func _ready() -> void:
 		printerr("FAIL 14-B: Lu Qichen tree did not route to lu_daze_hook when mem_frag_linfei_1 is true and lu_hinted_topside is false! Got: ", lu_runner_2._current_node_id)
 		get_tree().quit(1)
 		return
-	
+
 	if not GameState.get_flag("lu_hinted_topside", false):
 		printerr("FAIL 14-B: lu_hinted_topside flag not set after entering lu_daze_hook!")
 		get_tree().quit(1)
@@ -7049,7 +7049,7 @@ func _ready() -> void:
 		printerr("FAIL 14-B: Wan tree did not route to wan_daze_hook when mem_frag_linfei_1 is true and wan_noticed_daze is false! Got: ", wan_runner_2._current_node_id)
 		get_tree().quit(1)
 		return
-	
+
 	if not GameState.get_flag("wan_noticed_daze", false):
 		printerr("FAIL 14-B: wan_noticed_daze flag not set after entering wan_daze_hook!")
 		get_tree().quit(1)
@@ -7067,7 +7067,7 @@ func _ready() -> void:
 
 	# ===================== Phase 14-C: Store Robot Hook =====================
 	print("--- Phase 14-C: Store Robot Hook ---")
-	
+
 	# Case 1: mem_frag_linfei_1 = false
 	GameState.reset_for_new_game()
 	GameState.set_flag("vendor_bot_repaired", false)
@@ -7091,12 +7091,12 @@ func _ready() -> void:
 		printerr("FAIL 14-C: Store robot tree did not route to ada_misrecognized_hook when mem_frag_linfei_1 is true! Got: ", robot_runner_2._current_node_id)
 		get_tree().quit(1)
 		return
-	
+
 	if not GameState.get_flag("ada_misrecognized", false):
 		printerr("FAIL 14-C: ada_misrecognized flag not set after entering ada_misrecognized_hook!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.get_flag("talked_store_robot", false):
 		printerr("FAIL 14-C: talked_store_robot flag not set after entering ada_misrecognized_hook!")
 		get_tree().quit(1)
@@ -7139,37 +7139,37 @@ func _ready() -> void:
 
 	# ===================== Phase 14-D: Regression + Save/Load + GUI =====================
 	print("--- Phase 14-D: Regression + Save/Load + GUI ---")
-	
+
 	# Test 1: Reset and initial state defaults (default to false if missing, or after reset)
 	GameState.reset_for_new_game()
 	if GameState.get_flag("mem_frag_linfei_1", false) or GameState.get_flag("lu_hinted_topside", false) or GameState.get_flag("wan_noticed_daze", false) or GameState.get_flag("ada_misrecognized", false):
 		printerr("FAIL 14-D: Phase 14 flags not default to false after reset!")
 		get_tree().quit(1)
 		return
-		
+
 	# Test 2: Set flags to true, capture, apply, check they are preserved
 	GameState.set_flag("mem_frag_linfei_1", true)
 	GameState.set_flag("lu_hinted_topside", true)
 	GameState.set_flag("wan_noticed_daze", true)
 	GameState.set_flag("ada_misrecognized", true)
-	
+
 	var save_p14 = SaveSystem.capture("apartment_entrance", 1500.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p14):
 		printerr("FAIL 14-D: SaveSystem.write_slot failed for Phase 14 flags!")
 		get_tree().quit(1)
 		return
-		
+
 	# Reset state to clear flags
 	GameState.reset_for_new_game()
 	if GameState.get_flag("mem_frag_linfei_1", false) or GameState.get_flag("lu_hinted_topside", false) or GameState.get_flag("wan_noticed_daze", false) or GameState.get_flag("ada_misrecognized", false):
 		printerr("FAIL 14-D: Phase 14 flags not cleared on reset prior to load!")
 		get_tree().quit(1)
 		return
-		
+
 	# Load and check applied flags
 	var loaded_p14 = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	SaveSystem.apply(loaded_p14)
-	
+
 	if not GameState.get_flag("mem_frag_linfei_1", false):
 		printerr("FAIL 14-D: mem_frag_linfei_1 not loaded from save!")
 		get_tree().quit(1)
@@ -7362,7 +7362,7 @@ func _ready() -> void:
 		printerr("FAIL 16: Dialogue tree 'cen' not found or empty!")
 		get_tree().quit(1)
 		return
-	
+
 	for node_name in cen_tree:
 		var node = cen_tree[node_name]
 		var text = node.get("text", "")
@@ -7374,32 +7374,32 @@ func _ready() -> void:
 	GameState.reset_for_new_game()
 	var runner_cen := DialogueRunner.new()
 	runner_cen.start(cen_tree)
-	
+
 	curr_node = runner_cen.current()
 	if tr(curr_node.get("speaker", "")) != "小岑" or not "新來的？" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Initial routing should go to first_meet! Got: ", curr_node)
 		get_tree().quit(1)
 		return
-		
+
 	runner_cen.choose(0) # goto intro
 	curr_node = runner_cen.current()
 	if not "叫我小岑" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Choice 0 should route to intro! Got: ", curr_node)
 		get_tree().quit(1)
 		return
-	
+
 	if not GameState.get_flag("met_cen", false) or GameState.get_flag("affinity_cen", 0) != 1:
 		printerr("FAIL 16: intro effects failed! met_cen: ", GameState.get_flag("met_cen", false), " affinity_cen: ", GameState.get_flag("affinity_cen", 0))
 		get_tree().quit(1)
 		return
-		
+
 	runner_cen.advance()
 	curr_node = runner_cen.current()
 	if not "真撿到吃的" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: intro should goto end_warm! Got: ", curr_node)
 		get_tree().quit(1)
 		return
-		
+
 	# Path B: pickpocket_caught
 	GameState.reset_for_new_game()
 	runner_cen = DialogueRunner.new()
@@ -7414,7 +7414,7 @@ func _ready() -> void:
 		printerr("FAIL 16: pickpocket_caught should set met_cen = true!")
 		get_tree().quit(1)
 		return
-		
+
 	# Path C: retalk
 	runner_cen = DialogueRunner.new()
 	runner_cen.start(cen_tree)
@@ -7423,7 +7423,7 @@ func _ready() -> void:
 		printerr("FAIL 16: routing with met_cen=true should go to retalk! Got: ", curr_node)
 		get_tree().quit(1)
 		return
-		
+
 	var prev_affinity = GameState.get_flag("affinity_cen", 0)
 	runner_cen.choose(0) # 來看看你
 	curr_node = runner_cen.current()
@@ -7460,7 +7460,7 @@ func _ready() -> void:
 		printerr("FAIL 16: NpcCen node properties wrong! ID: ", npc_cen.interaction_id, " Dialogue: ", npc_cen.dialogue_id)
 		get_tree().quit(1)
 		return
-	
+
 	if npc_cen.get_node_or_null("CollisionShape2D") == null:
 		printerr("FAIL 16: NpcCen missing CollisionShape2D!")
 		get_tree().quit(1)
@@ -7483,7 +7483,7 @@ func _ready() -> void:
 		printerr("FAIL 16: Dialogue tree 'wu' not found or empty!")
 		get_tree().quit(1)
 		return
-	
+
 	for node_name in wu_tree:
 		var node = wu_tree[node_name]
 		var text = node.get("text", "")
@@ -7496,25 +7496,25 @@ func _ready() -> void:
 	GameState.reset_for_new_game()
 	var runner_wu := DialogueRunner.new()
 	runner_wu.start(wu_tree)
-	
+
 	curr_node = runner_wu.current()
 	if tr(curr_node.get("speaker", "")) != "伍姐" or not "別站光裡" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Wu initial routing should go to first_meet! Got: ", curr_node)
 		get_tree().quit(1)
 		return
-		
+
 	runner_wu.choose(0) # goto repairer
 	curr_node = runner_wu.current()
 	if not "電力、淨水" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Choice 0 should route to repairer! Got: ", curr_node)
 		get_tree().quit(1)
 		return
-	
+
 	if not GameState.get_flag("met_wu", false) or GameState.get_flag("affinity_wu", 0) != 1:
 		printerr("FAIL 16: repairer effects failed! met_wu: ", GameState.get_flag("met_wu", false), " affinity_wu: ", GameState.get_flag("affinity_wu", 0))
 		get_tree().quit(1)
 		return
-		
+
 	runner_wu.advance()
 	curr_node = runner_wu.current()
 	if not "多搬兩趟水" in tr(curr_node.get("text", "")):
@@ -7540,7 +7540,7 @@ func _ready() -> void:
 		printerr("FAIL 16: maker should increase affinity_wu! Got: ", GameState.get_flag("affinity_wu", 0))
 		get_tree().quit(1)
 		return
-		
+
 	runner_wu.advance()
 	curr_node = runner_wu.current()
 	if not "多搬兩趟水" in tr(curr_node.get("text", "")):
@@ -7584,7 +7584,7 @@ func _ready() -> void:
 		printerr("FAIL 16: ask_maker_more option missing from retalk with knows_settlement_had_maker=true!")
 		get_tree().quit(1)
 		return
-		
+
 	# Choose ask_maker_more
 	runner_wu.choose(ask_maker_index)
 	curr_node = runner_wu.current()
@@ -7616,7 +7616,7 @@ func _ready() -> void:
 		printerr("FAIL 16: NpcWu node properties wrong! ID: ", npc_wu.interaction_id, " Dialogue: ", npc_wu.dialogue_id)
 		get_tree().quit(1)
 		return
-	
+
 	if npc_wu.get_node_or_null("CollisionShape2D") == null:
 		printerr("FAIL 16: NpcWu missing CollisionShape2D!")
 		get_tree().quit(1)
@@ -7639,7 +7639,7 @@ func _ready() -> void:
 		printerr("FAIL 16: Dialogue tree 'seven' not found or empty!")
 		get_tree().quit(1)
 		return
-	
+
 	for node_name in seven_tree:
 		var node = seven_tree[node_name]
 		var text = node.get("text", "")
@@ -7652,32 +7652,32 @@ func _ready() -> void:
 	GameState.reset_for_new_game()
 	var runner_seven := DialogueRunner.new()
 	runner_seven.start(seven_tree)
-	
+
 	curr_node = runner_seven.current()
 	if tr(curr_node.get("speaker", "")) != "七號" or not "躲下來的" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Seven initial routing should go to first_meet! Got: ", curr_node)
 		get_tree().quit(1)
 		return
-		
+
 	runner_seven.choose(0) # goto ask_who
 	curr_node = runner_seven.current()
 	if not "大家叫我七號" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: Choice 0 should route to ask_who! Got: ", curr_node)
 		get_tree().quit(1)
 		return
-		
+
 	runner_seven.advance() # goto hook
 	curr_node = runner_seven.current()
 	if not "我有一個名字" in tr(curr_node.get("text", "")):
 		printerr("FAIL 16: ask_who should goto hook! Got: ", curr_node)
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.get_flag("met_seven", false) or not GameState.get_flag("seven_hinted_name_topside", false):
 		printerr("FAIL 16: hook effects failed! met_seven: ", GameState.get_flag("met_seven", false), " seven_hinted_name_topside: ", GameState.get_flag("seven_hinted_name_topside", false))
 		get_tree().quit(1)
 		return
-		
+
 	runner_seven.advance() # goto end_cold
 	curr_node = runner_seven.current()
 	if not "目光沉進更深" in tr(curr_node.get("text", "")):
@@ -7695,7 +7695,7 @@ func _ready() -> void:
 		printerr("FAIL 16: Choice 1 should route to hook! Got: ", curr_node)
 		get_tree().quit(1)
 		return
-		
+
 	# Path C: retalk with seven_hinted_name_topside = false
 	GameState.reset_for_new_game()
 	GameState.set_flag("met_seven", true)
@@ -7732,7 +7732,7 @@ func _ready() -> void:
 		printerr("FAIL 16: ask_name option missing from retalk with seven_hinted_name_topside=true!")
 		get_tree().quit(1)
 		return
-		
+
 	# Choose ask_name
 	runner_seven.choose(ask_name_index)
 	curr_node = runner_seven.current()
@@ -7763,7 +7763,7 @@ func _ready() -> void:
 		printerr("FAIL 16: NpcSeven node properties wrong! ID: ", npc_seven.interaction_id, " Dialogue: ", npc_seven.dialogue_id)
 		get_tree().quit(1)
 		return
-	
+
 	if npc_seven.get_node_or_null("CollisionShape2D") == null:
 		printerr("FAIL 16: NpcSeven missing CollisionShape2D!")
 		get_tree().quit(1)
@@ -7781,7 +7781,7 @@ func _ready() -> void:
 	# Phase 16 Verification (16-D)
 	# ----------------------------------------------------
 	print("Running Phase 16 NPC dialogue verification (16-D)...")
-	
+
 	# Set 8 flags to unique values
 	GameState.set_flag("met_cen", true)
 	GameState.set_flag("met_wu", true)
@@ -7876,7 +7876,7 @@ func _ready() -> void:
 		printerr("FAIL 17-A: MemoryFragmentArea node not found in subway_station_platform.tscn!")
 		get_tree().quit(1)
 		return
-	
+
 	if mem_area_17.fragment_flag != "mem_frag_commute_topside" or mem_area_17.message_id != "mem_frag_commute_topside":
 		printerr("FAIL 17-A: MemoryFragmentArea properties mismatch! Got: flag=", mem_area_17.fragment_flag, " msg=", mem_area_17.message_id)
 		get_tree().quit(1)
@@ -7976,7 +7976,7 @@ func _ready() -> void:
 
 	# ===================== Phase 17-B: EchoPoint in underground_settlement_right =====================
 	print("--- Phase 17-B: EchoPoint in underground_settlement_right ---")
-	
+
 	# 1. Verify EchoDB registry and data constraints
 	if not EchoDB.has_echo("echo_settlement_erased"):
 		printerr("FAIL 17-B: EchoDB missing 'echo_settlement_erased' record!")
@@ -8021,7 +8021,7 @@ func _ready() -> void:
 	# 3. Simulate equipment active state & collection mechanics
 	# Set up environment
 	GameState.reset_for_new_game()
-	
+
 	# Verify inactive without gloves
 	echo_point_node._update_active_state()
 	if echo_point_node.active:
@@ -8039,7 +8039,7 @@ func _ready() -> void:
 			break
 	GameState.equip(gloves_instance_id_17b)
 	echo_point_node._update_active_state()
-	
+
 	if not echo_point_node.active:
 		printerr("FAIL 17-B: EchoPoint should be active when gleaner_gloves are equipped!")
 		get_tree().quit(1)
@@ -8091,7 +8091,7 @@ func _ready() -> void:
 	get_tree().root.remove_child(settlement_right_inst)
 	settlement_right_inst.free()
 	settlement_right_scene = null
-	
+
 	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
 		dir.remove(TEST_SCRATCH_SAVE_FILE)
 
@@ -8099,7 +8099,7 @@ func _ready() -> void:
 
 	# ===================== Phase 17-C: Regression and Save/Load Guards =====================
 	print("--- Phase 17-C: Regression and Save/Load Guards ---")
-	
+
 	# 1. Verify duplicate collection safety
 	GameState.reset_for_new_game()
 	var collect1 = GameState.collect_echo_segment("echo_settlement_erased", "s1")
@@ -8112,14 +8112,14 @@ func _ready() -> void:
 		printerr("FAIL 17-C: Second collect_echo_segment should fail (no-op)!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. Verify media layer optionality (no crash when fields are absent)
 	var echo_rec_17 = EchoDB.get_echo("echo_settlement_erased")
 	if echo_rec_17.has("image_path") or echo_rec_17.has("audio_path"):
 		printerr("FAIL 17-C: echo_settlement_erased should not have hardcoded image_path or audio_path (media layer must be optional)!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. Verify echo_progress round-trip with collection completion & sold status
 	GameState.reset_for_new_game()
 	GameState.collect_echo_segment("echo_settlement_erased", "s1")
@@ -8128,48 +8128,48 @@ func _ready() -> void:
 		printerr("FAIL 17-C: echo_settlement_erased should be complete after collecting s1 and s2!")
 		get_tree().quit(1)
 		return
-		
+
 	var sell_res = GameState.sell_echo("echo_settlement_erased")
 	if not sell_res:
 		printerr("FAIL 17-C: sell_echo failed on completed echo_settlement_erased!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.is_echo_sold("echo_settlement_erased"):
 		printerr("FAIL 17-C: echo_settlement_erased sold flag should be true!")
 		get_tree().quit(1)
 		return
-		
+
 	# Round-trip save/load for sold status
 	var save_p17c = SaveSystem.capture("underground_settlement_right", 100.0, 1)
 	if not save_p17c or save_p17c.is_empty():
 		printerr("FAIL 17-C: Failed to capture save for Phase 17-C!")
 		get_tree().quit(1)
 		return
-		
+
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_p17c):
 		printerr("FAIL 17-C: Failed to write save to scratch slot!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.reset_for_new_game()
 	if GameState.is_echo_sold("echo_settlement_erased"):
 		printerr("FAIL 17-C: Sold status did not reset after new game!")
 		get_tree().quit(1)
 		return
-		
+
 	var load_p17c = SaveSystem.read_slot(TEST_SCRATCH_SAVE_SLOT)
 	if load_p17c.is_empty():
 		printerr("FAIL 17-C: Failed to read save from scratch slot!")
 		get_tree().quit(1)
 		return
 	SaveSystem.apply(load_p17c)
-	
+
 	if not GameState.is_echo_sold("echo_settlement_erased"):
 		printerr("FAIL 17-C: Sold status not restored from save!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.has_echo_segment("echo_settlement_erased", "s1") or not GameState.has_echo_segment("echo_settlement_erased", "s2"):
 		printerr("FAIL 17-C: Echo segments not restored after save load!")
 		get_tree().quit(1)
@@ -8181,25 +8181,25 @@ func _ready() -> void:
 			printerr("FAIL 17-C: Forbidden word '林霏' found in segment!")
 			get_tree().quit(1)
 			return
-			
+
 	var msg_p17 = GameState.STORY_MESSAGES.get("mem_frag_commute_topside", "")
 	if "林霏" in msg_p17:
 		printerr("FAIL 17-C: Forbidden word '林霏' found in mem_frag_commute_topside!")
 		get_tree().quit(1)
 		return
-		
+
 	# Clean up scratch slot
 	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
 		dir.remove(TEST_SCRATCH_SAVE_FILE)
-		
+
 	print("PASS: Phase 17-C Regression and Save/Load Guards verified.")
 
 	# ===================== Phase 18: Act 2B Combat Encounter & Receipt Retrieval =====================
 	print("--- Phase 18: Act 2B Combat Encounter & Receipt Retrieval ---")
-	
+
 	# Reset states
 	GameState.reset_for_new_game()
-	
+
 	# Load combat scene
 	var p18_combat_scene = load("res://scenes/levels/tunnel_combat/tunnel_combat.tscn")
 	if p18_combat_scene == null:
@@ -8207,40 +8207,40 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS 18-A: tunnel_combat.tscn loaded.")
-	
+
 	var p18_arena = p18_combat_scene.instantiate()
 	add_child(p18_arena)
 	await get_tree().process_frame
-	
+
 	var p18_player = p18_arena.find_child("Player", true, false)
 	var p18_walker = p18_arena.find_child("Walker01", true, false)
 	var p18_loot_box = p18_arena.find_child("LootBoxArea", true, false)
 	var p18_exit = p18_arena.find_child("ExitToSettlementArea", true, false)
-	
+
 	if p18_player == null or p18_walker == null or p18_loot_box == null or p18_exit == null:
 		printerr("FAIL 18-A: tunnel_combat scene missing required nodes!")
 		get_tree().quit(1)
 		return
 	print("PASS 18-A: tunnel_combat scene contains all required nodes.")
-	
+
 	# Verify combat mode
 	if not p18_player.combat_mode:
 		printerr("FAIL 18-A: Player in tunnel_combat must have combat_mode = true!")
 		get_tree().quit(1)
 		return
 	print("PASS 18-A: Player combat_mode is true in combat scene.")
-	
+
 	# Verify E key priority: player mock setup
 	# Set player's parent to p18_arena so it can get tree if needed
 	if p18_player.get_parent() == null:
 		p18_arena.add_child(p18_player)
-	
+
 	# 1. format zone suppresses attack
 	var existing_fmt = p18_player.get_node_or_null("FormatReset")
 	if existing_fmt:
 		p18_player.remove_child(existing_fmt)
 		existing_fmt.free()
-		
+
 	# We can mock _in_format_zone returning true by mocking FormatReset node
 	var mock_fmt = Node.new()
 	mock_fmt.name = "FormatReset"
@@ -8249,7 +8249,7 @@ func _ready() -> void:
 	mock_script.reload()
 	mock_fmt.set_script(mock_script)
 	p18_player.add_child(mock_fmt)
-	
+
 	if not p18_player._in_format_zone():
 		printerr("FAIL 18-A: mock _in_format_zone failed!")
 		get_tree().quit(1)
@@ -8260,13 +8260,13 @@ func _ready() -> void:
 		return
 	print("PASS 18-A: format zone correctly reserves E key.")
 	mock_fmt.free()
-	
+
 	# Verify flag setting on walker defeat
 	if GameState.get_flag("tunnel_machine_defeated", false):
 		printerr("FAIL 18-A: tunnel_machine_defeated should start as false!")
 		get_tree().quit(1)
 		return
-		
+
 	# Call defeated on walker
 	p18_walker.defeated()
 	# Run process to let polling capture it
@@ -8276,11 +8276,11 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS 18-A: walker defeat sets tunnel_machine_defeated flag.")
-	
+
 	# Loot box check before and after defeat
 	# Let's reset the flag first
 	GameState.set_flag("tunnel_machine_defeated", false)
-	
+
 	var p18_sig_tracker = {"msg": "", "toast": ""}
 	p18_arena.interaction_requested.connect(func(d):
 		if d.get("type") == "message":
@@ -8288,7 +8288,7 @@ func _ready() -> void:
 		elif d.get("type") == "toast":
 			p18_sig_tracker["toast"] = d.get("message_text", "")
 	)
-	
+
 	p18_arena.current_interactable = p18_loot_box
 	p18_arena._trigger_interaction()
 	if not "清潔機還在運運" in p18_sig_tracker["msg"] and not "清潔機還在運轉" in p18_sig_tracker["msg"]:
@@ -8296,16 +8296,16 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS 18-B: looting before defeat is blocked.")
-	
+
 	# Set defeated again
 	GameState.set_flag("tunnel_machine_defeated", true)
 	p18_sig_tracker["msg"] = ""
-	
+
 	# Backpack full test
 	# Fill inventory: Max inventory capacity is 5x3 = 15 slots in GameState.
 	for i in range(15):
 		GameState.add_item("faded_jacket", 1)
-	
+
 	p18_arena._trigger_interaction()
 	if not GameState.has_item("childcare_supply_receipt") and p18_sig_tracker["toast"] == "背包空間不足，無法放入。":
 		print("PASS 18-B: looting with full backpack triggers toast and doesn't drop item.")
@@ -8313,13 +8313,13 @@ func _ready() -> void:
 		printerr("FAIL 18-B: full backpack should block receipt acquisition! Got p18_sig_tracker: ", p18_sig_tracker)
 		get_tree().quit(1)
 		return
-		
+
 	# Free inventory slots
 	GameState.reset_for_new_game()
 	GameState.set_flag("tunnel_machine_defeated", true)
 	p18_sig_tracker["toast"] = ""
 	p18_sig_tracker["msg"] = ""
-	
+
 	p18_arena._trigger_interaction()
 	if not GameState.has_item("childcare_supply_receipt"):
 		printerr("FAIL 18-B: looting should award childcare_supply_receipt!")
@@ -8330,7 +8330,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS 18-B: looting awards childcare_supply_receipt successfully.")
-	
+
 	# Check description constraints
 	var receipt_meta = GameState.ITEMS_DB.get("childcare_supply_receipt", {})
 	var r_desc = receipt_meta.get("description", "")
@@ -8339,20 +8339,20 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS 18-B: receipt description conforms to narrative constraints.")
-	
+
 	# Verify dialogue branch for selling receipt to Wan
 	GameState.reset_for_new_game()
 	GameState.add_item("childcare_supply_receipt", 1)
 	GameState.set_flag("affinity_wan", 2)
 	GameState.add_trace(5)
-	
+
 	var d_runner = DialogueRunner.new()
-	
+
 	# We expect starting node to goto retalk
 	GameState.set_flag("met_wan", true)
 	var tree = DialogueDB.get_tree_for("wan")
 	d_runner.start(tree)
-	
+
 	var p18_curr = d_runner.current()
 	var p18_choices = p18_curr.get("choices", [])
 	var found_sell_option = false
@@ -8366,7 +8366,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	print("PASS 18-C: sell option found and chosen under retalk.")
-	
+
 	p18_curr = d_runner.current()
 	p18_choices = p18_curr.get("choices", [])
 	var found_do_sell = false
@@ -8379,7 +8379,7 @@ func _ready() -> void:
 		printerr("FAIL 18-C: do_sell option not found in sell_receipt node! Available choices: ", p18_choices)
 		get_tree().quit(1)
 		return
-		
+
 	# Now sell dialogue completes, effects should execute
 	if GameState.has_item("childcare_supply_receipt"):
 		printerr("FAIL 18-C: receipt should be removed after selling!")
@@ -8403,19 +8403,19 @@ func _ready() -> void:
 		return
 	print("PASS 18-C: selling effects executed correctly (credits +200, trace -1, trust -1, peace line locked).")
 	d_runner = null
-	
+
 	# Verify Save/Load Round-trip for Phase 18 flags
 	GameState.reset_for_new_game()
 	GameState.set_flag("tunnel_machine_defeated", true)
 	GameState.set_flag("peace_line_locked", true)
 	GameState.add_item("childcare_supply_receipt", 1)
-	
+
 	var p18_save_dict = SaveSystem.capture("tunnel_combat", 100.0, 1)
 	GameState.reset_for_new_game()
-	
+
 	SaveSystem.apply(p18_save_dict)
-	
-		
+
+
 	if not GameState.get_flag("tunnel_machine_defeated", false):
 		printerr("FAIL 18-D: tunnel_machine_defeated flag not restored!")
 		get_tree().quit(1)
@@ -8432,19 +8432,19 @@ func _ready() -> void:
 
 	# ===================== Phase 19-A: Ada's Echo in Underground Settlement Left =====================
 	print("--- Phase 19-A: Ada's Echo in Underground Settlement Left ---")
-	
+
 	# Verify EchoDB config
 	if not EchoDB.has_echo("echo_ada_reset"):
 		printerr("FAIL 19-A: EchoDB missing 'echo_ada_reset' record!")
 		get_tree().quit(1)
 		return
-	
+
 	var seg_count_19a = EchoDB.get_segment_count("echo_ada_reset")
 	if seg_count_19a != 1:
 		printerr("FAIL 19-A: Expected 1 segment for 'echo_ada_reset', got: ", seg_count_19a)
 		get_tree().quit(1)
 		return
-		
+
 	var echo_data_19a = EchoDB.get_echo("echo_ada_reset")
 	if echo_data_19a.get("trace_on_collect", 0) != 1:
 		printerr("FAIL 19-A: echo_ada_reset missing trace_on_collect = 1!")
@@ -8463,24 +8463,24 @@ func _ready() -> void:
 		printerr("FAIL 19-A: could not load underground_settlement.tscn!")
 		get_tree().quit(1)
 		return
-		
+
 	var left_instance = settlement_left_scene.instantiate()
 	var echo_point_node_19a = left_instance.find_child("EchoPoint", true, false)
 	if echo_point_node_19a == null:
 		printerr("FAIL 19-A: EchoPoint node not found in underground_settlement.tscn!")
 		get_tree().quit(1)
 		return
-		
+
 	if echo_point_node_19a.echo_id != "echo_ada_reset" or echo_point_node_19a.segment_id != "s1":
 		printerr("FAIL 19-A: EchoPoint properties mismatch in underground_settlement.tscn!")
 		get_tree().quit(1)
 		return
 	left_instance.free()
-	
+
 	# Verify collection mechanics
 	GameState.reset_for_new_game()
 	GameState.add_item("gleaner_gloves")
-	
+
 	# Find gloves instance ID
 	var gloves_inst := ""
 	for slot in GameState.inventory:
@@ -8492,72 +8492,72 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	GameState.equip(gloves_inst)
-	
+
 	var initial_trace = GameState.get_trace()
 	if initial_trace != 0:
 		printerr("FAIL 19-A: Initial trace is not 0!")
 		get_tree().quit(1)
 		return
-		
+
 	var collect_success = GameState.collect_echo_segment("echo_ada_reset", "s1")
 	if not collect_success:
 		printerr("FAIL 19-A: collect_echo_segment failed for echo_ada_reset!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.has_echo_segment("echo_ada_reset", "s1"):
 		printerr("FAIL 19-A: segment not marked collected after collect!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.is_echo_complete("echo_ada_reset"):
 		printerr("FAIL 19-A: echo_ada_reset not complete after segment collect!")
 		get_tree().quit(1)
 		return
-		
+
 	var post_collect_trace = GameState.get_trace()
 	if post_collect_trace != 1:
 		printerr("FAIL 19-A: trace did not increment by 1 after complete! Got: ", post_collect_trace)
 		get_tree().quit(1)
 		return
-		
+
 	# Try double collect
 	var double_collect = GameState.collect_echo_segment("echo_ada_reset", "s1")
 	if double_collect:
 		printerr("FAIL 19-A: collect_echo_segment returned true for already collected segment!")
 		get_tree().quit(1)
 		return
-		
+
 	if GameState.get_trace() != 1:
 		printerr("FAIL 19-A: trace changed on double collect attempt!")
 		get_tree().quit(1)
 		return
-		
+
 	# Verify selling echo reduces trace
 	var sell_res_19a = GameState.sell_echo("echo_ada_reset")
 	if not sell_res_19a:
 		printerr("FAIL 19-A: sell_echo failed for echo_ada_reset!")
 		get_tree().quit(1)
 		return
-		
+
 	if GameState.get_trace() != 0:
 		printerr("FAIL 19-A: trace did not decrease by 1 after sell! Got: ", GameState.get_trace())
 		get_tree().quit(1)
 		return
-		
+
 	# Verification of forbidden words
 	LocaleManager.set_locale("zh_TW")
 	if "林霏" in tr("ECHO_ADA_RESET_TITLE") or "林霏" in tr("ECHO_ADA_RESET_SEG_S1") or "林霏" in tr("ECHO_ADA_RESET_COMMENT"):
 		printerr("FAIL 19-A: Forbidden word '林霏' found in zh_TW!")
 		get_tree().quit(1)
 		return
-		
+
 	LocaleManager.set_locale("zh_CN")
 	if "林霏" in tr("ECHO_ADA_RESET_TITLE") or "林霏" in tr("ECHO_ADA_RESET_SEG_S1") or "林霏" in tr("ECHO_ADA_RESET_COMMENT"):
 		printerr("FAIL 19-A: Forbidden word '林霏' found in zh_CN!")
 		get_tree().quit(1)
 		return
-		
+
 	LocaleManager.set_locale("en")
 	var lower_en_title = tr("ECHO_ADA_RESET_TITLE").to_lower()
 	var lower_en_seg = tr("ECHO_ADA_RESET_SEG_S1").to_lower()
@@ -8568,7 +8568,7 @@ func _ready() -> void:
 		printerr("FAIL 19-A: Forbidden word 'Lin Fei/Linfei' found in en!")
 		get_tree().quit(1)
 		return
-		
+
 	LocaleManager.set_locale("zh_TW")
 	print("PASS: Phase 19-A Ada's Echo and trace_on_collect verified.")
 
@@ -8581,39 +8581,39 @@ func _ready() -> void:
 		printerr("FAIL 19-B: could not load underground_settlement.tscn!")
 		get_tree().quit(1)
 		return
-		
+
 	var settlement_inst = settlement_scene.instantiate()
 	var order_node = settlement_inst.find_child("OldWorkOrderArea", true, false)
 	if order_node == null:
 		printerr("FAIL 19-B: OldWorkOrderArea node not found in underground_settlement.tscn!")
 		get_tree().quit(1)
 		return
-		
+
 	if order_node.interaction_id != "examine_old_work_order" or order_node.prompt_text != "PROMPT_EXAMINE_OLD_WORK_ORDER":
 		printerr("FAIL 19-B: OldWorkOrderArea properties mismatch!")
 		get_tree().quit(1)
 		return
-		
+
 	print("DEBUG: order_node interaction_id='", order_node.interaction_id, "' dialogue_id='", order_node.dialogue_id, "'")
-		
+
 	# 2. Test interaction before collecting Ada's echo
 	GameState.reset_for_new_game()
 	GameState.add_item("old_work_badge", 1)
-	
+
 	var last_msg = {"text": ""}
 	var on_msg = func(data: Dictionary):
 		if data.get("type") == "message":
 			last_msg["text"] = data.get("message_text", "")
 	settlement_inst.interaction_requested.connect(on_msg)
-	
+
 	settlement_inst.current_interactable = order_node
 	settlement_inst._trigger_interaction()
-	
+
 	if last_msg["text"] != "MSG_OLD_WORK_ORDER_NEUTRAL":
 		printerr("FAIL 19-B: Expected MSG_OLD_WORK_ORDER_NEUTRAL when echo is incomplete, got: ", last_msg["text"])
 		get_tree().quit(1)
 		return
-		
+
 	if GameState.get_flag("read_old_work_order", false) or GameState.has_note("clue_old_work_order"):
 		printerr("FAIL 19-B: States modified before echo collection!")
 		get_tree().quit(1)
@@ -8623,25 +8623,25 @@ func _ready() -> void:
 	GameState.reset_for_new_game()
 	GameState.add_item("old_work_badge", 1)
 	GameState.collect_echo_segment("echo_ada_reset", "s1")
-	
+
 	last_msg["text"] = ""
 	settlement_inst._trigger_interaction()
-	
+
 	if last_msg["text"] != "MSG_OLD_WORK_ORDER_REVEALED":
 		printerr("FAIL 19-B: Expected MSG_OLD_WORK_ORDER_REVEALED on first success, got: ", last_msg["text"])
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.get_flag("read_old_work_order", false):
 		printerr("FAIL 19-B: read_old_work_order flag not set on success!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.has_item("old_work_badge"):
 		printerr("FAIL 19-B: old_work_badge not in inventory!")
 		get_tree().quit(1)
 		return
-		
+
 	var badge_count_success = 0
 	for slot in GameState.inventory:
 		if not slot.is_empty() and slot.get("item_id") == "old_work_badge":
@@ -8650,12 +8650,12 @@ func _ready() -> void:
 		printerr("FAIL 19-B: old_work_badge count is not 1, got: ", badge_count_success)
 		get_tree().quit(1)
 		return
-		
+
 	if GameState.get_item_description("old_work_badge") != "ITEM_OLD_WORK_BADGE_DESC_REVEALED":
 		printerr("FAIL 19-B: old_work_badge description was not updated dynamically!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.has_note("clue_old_work_order"):
 		printerr("FAIL 19-B: clue_old_work_order note not registered!")
 		get_tree().quit(1)
@@ -8667,19 +8667,19 @@ func _ready() -> void:
 	for slot in GameState.inventory:
 		if not slot.is_empty() and slot.get("item_id") == "old_work_badge":
 			badge_count_before += slot.get("quantity", 0)
-			
+
 	settlement_inst._trigger_interaction()
-	
+
 	if last_msg["text"] != "MSG_OLD_WORK_ORDER_READ":
 		printerr("FAIL 19-B: Expected MSG_OLD_WORK_ORDER_READ on repeat exam, got: ", last_msg["text"])
 		get_tree().quit(1)
 		return
-		
+
 	var badge_count_after = 0
 	for slot in GameState.inventory:
 		if not slot.is_empty() and slot.get("item_id") == "old_work_badge":
 			badge_count_after += slot.get("quantity", 0)
-			
+
 	if badge_count_after != badge_count_before:
 		printerr("FAIL 19-B: Re-granted old_work_badge on repeat exam!")
 		get_tree().quit(1)
@@ -8695,7 +8695,7 @@ func _ready() -> void:
 		"PROMPT_EXAMINE_OLD_WORK_ORDER",
 		"ITEM_OLD_WORK_BADGE_DESC_REVEALED"
 	]
-	
+
 	for lang in ["zh_TW", "zh_CN", "en"]:
 		LocaleManager.set_locale(lang)
 		for key in i18n_keys:
@@ -8711,7 +8711,7 @@ func _ready() -> void:
 					printerr("FAIL 19-B: Forbidden word 林霏 found in key: ", key, " for lang: ", lang)
 					get_tree().quit(1)
 					return
-					
+
 	LocaleManager.set_locale("zh_TW")
 	settlement_inst.free()
 	print("PASS: Phase 19-B Old Work Order examine & old_work_badge acquisition verified.")
@@ -8725,14 +8725,14 @@ func _ready() -> void:
 		printerr("FAIL 19-C: could not load underground_settlement.tscn!")
 		get_tree().quit(1)
 		return
-		
+
 	var settlement_inst_19c = settlement_scene_19c.instantiate()
 	var fragment_node = settlement_inst_19c.find_child("MemoryFragmentErasedAda", true, false)
 	if fragment_node == null:
 		printerr("FAIL 19-C: MemoryFragmentErasedAda node not found in underground_settlement.tscn!")
 		get_tree().quit(1)
 		return
-		
+
 	if fragment_node.fragment_flag != "mem_frag_erased_ada" or \
 	   fragment_node.message_id != "mem_frag_erased_ada" or \
 	   fragment_node.require_flag != "read_old_work_order":
@@ -8742,21 +8742,21 @@ func _ready() -> void:
 
 	# 2. Test trigger before read_old_work_order is true
 	GameState.reset_for_new_game()
-	
+
 	var last_frag_msg = {"text": ""}
 	var on_frag_msg = func(data: Dictionary):
 		if data.get("type") == "message":
 			last_frag_msg["text"] = data.get("message_text", "")
 	settlement_inst_19c.interaction_requested.connect(on_frag_msg)
-	
+
 	var player_node_phase19c_frag = settlement_inst_19c.find_child("Player", true, false)
 	fragment_node._on_body_entered(player_node_phase19c_frag)
-	
+
 	if last_frag_msg["text"] != "":
 		printerr("FAIL 19-C: Fragment triggered before read_old_work_order flag is true!")
 		get_tree().quit(1)
 		return
-		
+
 	if GameState.get_flag("mem_frag_erased_ada", false):
 		printerr("FAIL 19-C: mem_frag_erased_ada flag set prematurely!")
 		get_tree().quit(1)
@@ -8765,12 +8765,12 @@ func _ready() -> void:
 	# 3. Test trigger after read_old_work_order is true
 	GameState.set_flag("read_old_work_order", true)
 	fragment_node._on_body_entered(player_node_phase19c_frag)
-	
+
 	if last_frag_msg["text"] != "MSG_MEM_FRAG_ERASED_ADA":
 		printerr("FAIL 19-C: Expected MSG_MEM_FRAG_ERASED_ADA, got: ", last_frag_msg["text"])
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.get_flag("mem_frag_erased_ada", false):
 		printerr("FAIL 19-C: mem_frag_erased_ada flag not set to true after trigger!")
 		get_tree().quit(1)
@@ -8779,7 +8779,7 @@ func _ready() -> void:
 	# 4. Test one-shot guard (does not trigger again)
 	last_frag_msg["text"] = ""
 	fragment_node._on_body_entered(player_node_phase19c_frag)
-	
+
 	if last_frag_msg["text"] != "":
 		printerr("FAIL 19-C: Fragment triggered twice!")
 		get_tree().quit(1)
@@ -8800,16 +8800,16 @@ func _ready() -> void:
 				printerr("FAIL 19-C: Forbidden word 林霏 found in MSG_MEM_FRAG_ERASED_ADA for lang: ", lang)
 				get_tree().quit(1)
 				return
-				
+
 	LocaleManager.set_locale("zh_TW")
 	settlement_inst_19c.free()
 	print("PASS: Phase 19-C Memory Fragment 'You Erased Ada' verified.")
 
 	# ===================== Phase M1: Progress Page Integration Verification =====================
 	print("--- Phase M1: Progress Page Integration Verification ---")
-	
+
 	GameState.reset_for_new_game()
-	
+
 	# 1. Verify initial empty status
 	var summary = GameState.get_progress_summary()
 	if summary["scenes"]["done"] != 0 or summary["scenes"]["total"] != 10:
@@ -8836,7 +8836,7 @@ func _ready() -> void:
 		printerr("FAIL M1: Initial overall counts mismatch")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. Scene visiting
 	GameState.mark_scene_visited("apartment")
 	summary = GameState.get_progress_summary()
@@ -8851,7 +8851,7 @@ func _ready() -> void:
 		printerr("FAIL M1: mark_scene_visited is not idempotent")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. NPC talking
 	GameState.mark_npc_talked("wan")
 	summary = GameState.get_progress_summary()
@@ -8866,7 +8866,7 @@ func _ready() -> void:
 		printerr("FAIL M1: mark_npc_talked whitelist guard failed")
 		get_tree().quit(1)
 		return
-		
+
 	# 4. Quest completion
 	GameState.set_flag("left_apartment_once", true)
 	summary = GameState.get_progress_summary()
@@ -8880,7 +8880,7 @@ func _ready() -> void:
 		printerr("FAIL M1: quest completed status did not increment quests.done")
 		get_tree().quit(1)
 		return
-		
+
 	# 5. Echoes
 	GameState.record_full_echo("echo_clerk")
 	summary = GameState.get_progress_summary()
@@ -8888,7 +8888,7 @@ func _ready() -> void:
 		printerr("FAIL M1: record_full_echo did not increment echoes.done")
 		get_tree().quit(1)
 		return
-		
+
 	# 6. Special Items collection & retention
 	GameState.add_item("childcare_supply_receipt", 1)
 	summary = GameState.get_progress_summary()
@@ -8903,7 +8903,7 @@ func _ready() -> void:
 		printerr("FAIL M1: remove_item unticked progress")
 		get_tree().quit(1)
 		return
-		
+
 	# 7. Non-whitelist special item check
 	GameState.add_item("old_work_badge", 1)
 	summary = GameState.get_progress_summary()
@@ -8911,30 +8911,30 @@ func _ready() -> void:
 		printerr("FAIL M1: non-whitelist special item added to progress")
 		get_tree().quit(1)
 		return
-		
+
 	# 8. Overall percentage calculation
 	if summary["overall_done"] != 6 or summary["overall_pct"] != 19:
 		printerr("FAIL M1: overall calculations mismatch, done: ", summary["overall_done"], " pct: ", summary["overall_pct"])
 		get_tree().quit(1)
 		return
-		
+
 	# 9. Save/Load round-trip & backward compatibility
 	var pM1_save_dict = SaveSystem.capture("apartment", 200.0, 1)
 	GameState.reset_for_new_game()
-	
+
 	# Load compatibility check
 	var m1_compat_save_dict = p18_save_dict.duplicate(true)
 	m1_compat_save_dict["data"].erase("visited_scenes")
 	m1_compat_save_dict["data"].erase("talked_npcs")
 	m1_compat_save_dict["data"].erase("collected_special_items")
-	
+
 	SaveSystem.apply(m1_compat_save_dict)
 	summary = GameState.get_progress_summary()
 	if summary["scenes"]["done"] != 0 or summary["npcs"]["done"] != 0 or summary["special"]["done"] != 0:
 		printerr("FAIL M1: Backward compatibility loading failed to clear progress")
 		get_tree().quit(1)
 		return
-		
+
 	# Restore to M1 state
 	SaveSystem.apply(pM1_save_dict)
 	summary = GameState.get_progress_summary()
@@ -8942,7 +8942,7 @@ func _ready() -> void:
 		printerr("FAIL M1: Save/Load round-trip did not restore progress values")
 		get_tree().quit(1)
 		return
-		
+
 	# 10. change_item_id marks special items (transform path: worn_rubiks_cube -> decoder_cube)
 	var special_before = GameState.get_progress_summary()["special"]["done"]
 	GameState.add_item("worn_rubiks_cube", 1)
@@ -8982,10 +8982,10 @@ func _ready() -> void:
 	# Clean up scratch slot
 	if dir and dir.file_exists(TEST_SCRATCH_SAVE_FILE):
 		dir.remove(TEST_SCRATCH_SAVE_FILE)
-		
+
 	# Clean up temporary instances
 	ui_instance_j.free()
-	
+
 	# Clean up fire escape test instance
 	escape_instance.free()
 	escape_scene = null
@@ -9573,7 +9573,7 @@ func _ready() -> void:
 		var dlg_tree: Dictionary = dlg_db.TREES[tree_id]
 		for node_id in dlg_tree:
 			var node: Dictionary = dlg_tree[node_id]
-			
+
 			# Check speaker
 			if node.has("speaker"):
 				var sp: String = str(node["speaker"])
@@ -9584,7 +9584,7 @@ func _ready() -> void:
 					elif not dialogue_keyset.has(sp):
 						printerr("FAIL M2-D: Dialogue tree '%s' node '%s' speaker key '%s' missing from dialogue.csv." % [tree_id, node_id, sp])
 						m2d_coverage_fail = true
-					
+
 			# Check text
 			if node.has("text"):
 				var txt: String = str(node["text"])
@@ -9594,7 +9594,7 @@ func _ready() -> void:
 				elif not dialogue_keyset.has(txt):
 					printerr("FAIL M2-D: Dialogue tree '%s' node '%s' text key '%s' missing from dialogue.csv." % [tree_id, node_id, txt])
 					m2d_coverage_fail = true
-					
+
 			# Check choices
 			if node.has("choices"):
 				var node_choices = node["choices"]
@@ -9612,7 +9612,7 @@ func _ready() -> void:
 	# 2. echoes (EchoDB.ECHOES)
 	for echo_id in EchoDB.ECHOES:
 		var echo: Dictionary = EchoDB.ECHOES[echo_id]
-		
+
 		# Check title
 		var title: String = str(echo.get("title", ""))
 		if not _m2c_is_translation_key(title):
@@ -9621,7 +9621,7 @@ func _ready() -> void:
 		elif not data_keyset.has(title):
 			printerr("FAIL M2-D: Echo '%s' title key '%s' missing from data.csv." % [echo_id, title])
 			m2d_coverage_fail = true
-			
+
 		# Check comment
 		if echo.has("comment"):
 			var comment: String = str(echo["comment"])
@@ -9631,7 +9631,7 @@ func _ready() -> void:
 			elif not data_keyset.has(comment):
 				printerr("FAIL M2-D: Echo '%s' comment key '%s' missing from data.csv." % [echo_id, comment])
 				m2d_coverage_fail = true
-				
+
 		# Check segments
 		if echo.has("segments"):
 			var segments = echo["segments"]
@@ -9660,7 +9660,7 @@ func _ready() -> void:
 	# 4. quests (QuestDB.QUESTS)
 	for quest_id in quest_db.QUESTS:
 		var quest_data = quest_db.QUESTS[quest_id]
-		
+
 		# WORK_NOTES_BY_STEP
 		if "WORK_NOTES_BY_STEP" in quest_data:
 			var steps: Dictionary = quest_data.WORK_NOTES_BY_STEP
@@ -9668,14 +9668,14 @@ func _ready() -> void:
 				var note: Dictionary = steps[step_id]
 				var q_title: String = str(note.get("title", ""))
 				var q_body: String = str(note.get("body", ""))
-				
+
 				if not _m2c_is_translation_key(q_title):
 					printerr("FAIL M2-D: Quest '%s' step '%s' note title is not a translation key: %s" % [quest_id, step_id, q_title])
 					m2d_coverage_fail = true
 				elif not data_keyset.has(q_title):
 					printerr("FAIL M2-D: Quest '%s' step '%s' note title key '%s' missing from data.csv." % [quest_id, step_id, q_title])
 					m2d_coverage_fail = true
-					
+
 				if not _m2c_is_translation_key(q_body):
 					printerr("FAIL M2-D: Quest '%s' step '%s' note body is not a translation key: %s" % [quest_id, step_id, q_body])
 					m2d_coverage_fail = true
@@ -9690,14 +9690,14 @@ func _ready() -> void:
 				var note: Dictionary = statuses[status_id]
 				var q_title: String = str(note.get("title", ""))
 				var q_body: String = str(note.get("body", ""))
-				
+
 				if not _m2c_is_translation_key(q_title):
 					printerr("FAIL M2-D: Quest '%s' status '%s' note title is not a translation key: %s" % [quest_id, status_id, q_title])
 					m2d_coverage_fail = true
 				elif not data_keyset.has(q_title):
 					printerr("FAIL M2-D: Quest '%s' status '%s' note title key '%s' missing from data.csv." % [quest_id, status_id, q_title])
 					m2d_coverage_fail = true
-					
+
 				if not _m2c_is_translation_key(q_body):
 					printerr("FAIL M2-D: Quest '%s' status '%s' note body is not a translation key: %s" % [quest_id, status_id, q_body])
 					m2d_coverage_fail = true
@@ -9712,14 +9712,14 @@ func _ready() -> void:
 				var note: Dictionary = completed[comp_id]
 				var q_title: String = str(note.get("title", ""))
 				var q_body: String = str(note.get("body", ""))
-				
+
 				if not _m2c_is_translation_key(q_title):
 					printerr("FAIL M2-D: Quest '%s' completed variant '%s' note title is not a translation key: %s" % [quest_id, comp_id, q_title])
 					m2d_coverage_fail = true
 				elif not data_keyset.has(q_title):
 					printerr("FAIL M2-D: Quest '%s' completed variant '%s' note title key '%s' missing from data.csv." % [quest_id, comp_id, q_title])
 					m2d_coverage_fail = true
-					
+
 				if not _m2c_is_translation_key(q_body):
 					printerr("FAIL M2-D: Quest '%s' completed variant '%s' note body is not a translation key: %s" % [quest_id, comp_id, q_body])
 					m2d_coverage_fail = true
@@ -9760,7 +9760,7 @@ func _ready() -> void:
 	var forbidden_fail_d := false
 	for loc2 in ["zh_TW", "zh_CN", "en"]:
 		LocaleManager.set_locale(loc2)
-		
+
 		# Check dialogue.csv keys
 		for key_f in dialogue_keyset:
 			var txt := tr(key_f)
@@ -10103,10 +10103,10 @@ func _ready() -> void:
 	GameState.reset_for_new_game()
 	GameState.set_flag("met_seven", true)
 	GameState.add_item("childcare_supply_receipt", 1)
-	
+
 	var initial_affinity_phase20 = GameState.get_trust("seven")
 	var initial_trace_phase20 = GameState.get_trace()
-	
+
 	runner_20 = DialogueRunner.new()
 	runner_20.start(seven_tree_20)
 	curr_20 = runner_20.current()
@@ -10125,21 +10125,21 @@ func _ready() -> void:
 		printerr("FAIL 20: Expected receipt_return, got: ", curr_20)
 		get_tree().quit(1)
 		return
-		
+
 	runner_20.advance()
 	curr_20 = runner_20.current()
 	if not "那我不能回去" in tr(curr_20.get("text", "")):
 		printerr("FAIL 20: Expected receipt_recognized, got: ", curr_20)
 		get_tree().quit(1)
 		return
-		
+
 	runner_20.advance()
 	curr_20 = runner_20.current()
 	if not "我欠你一次" in tr(curr_20.get("text", "")):
 		printerr("FAIL 20: Expected peace_branch_d_done, got: ", curr_20)
 		get_tree().quit(1)
 		return
-		
+
 	if GameState.has_item("childcare_supply_receipt", 1):
 		printerr("FAIL 20: receipt item was NOT removed on success path!")
 		get_tree().quit(1)
@@ -10282,7 +10282,7 @@ func _ready() -> void:
 
 	# ===================== Phase 21-A: Act 3 夜總會場景骨架與轉場 =====================
 	print("--- Phase 21-A: Act 3 夜總會場景骨架與轉場 ---")
-	
+
 	# 重新實例化一個 main 供 Phase 21-A 測試使用
 	var nightclub_main_scene = load("res://scenes/main/main.tscn")
 	main_instance = nightclub_main_scene.instantiate()
@@ -10295,7 +10295,7 @@ func _ready() -> void:
 		printerr("FAIL 21-A: SceneRegistry missing nightclub scenes!")
 		get_tree().quit(1)
 		return
-		
+
 	if not "from_topside" in scenes21["apartment_entrance"].get("entry_points", []):
 		printerr("FAIL 21-A: apartment_entrance entry points missing from_topside!")
 		get_tree().quit(1)
@@ -10312,7 +10312,7 @@ func _ready() -> void:
 		printerr("FAIL 21-A: learned_topside_shortcut should default to false!")
 		get_tree().quit(1)
 		return
-		
+
 	GameState.set_flag("learned_topside_shortcut", true)
 	var captured_save = SaveSystem.capture("nightclub", 200.0)
 	GameState.reset_for_new_game()
@@ -10363,7 +10363,7 @@ func _ready() -> void:
 	# 4. 驗證 travel_street_west 對話樹分流
 	DialogueDB = load("res://data/dialogue/dialogue_db.gd")
 	var travel_tree21 = DialogueDB.get_tree_for("travel_street_west")
-	
+
 	# Case A: learned_topside_shortcut = false, lu_hinted_topside = true (地鐵解鎖但捷徑未解鎖)
 	GameState.reset_for_new_game()
 	GameState.set_flag("lu_hinted_topside", true)
@@ -10376,7 +10376,7 @@ func _ready() -> void:
 		printerr("FAIL 21-A: Go to Upper District choice should be hidden when learned_topside_shortcut is false!")
 		get_tree().quit(1)
 		return
-		
+
 	# Case B: learned_topside_shortcut = true, lu_hinted_topside = true (兩者皆解鎖)
 	GameState.set_flag("learned_topside_shortcut", true)
 	var travel_runner_has_shortcut = DialogueRunner.new()
@@ -10391,7 +10391,7 @@ func _ready() -> void:
 		printerr("FAIL 21-A: Go to Upper District choice not found in choices when learned_topside_shortcut is true!")
 		get_tree().quit(1)
 		return
-		
+
 	travel_runner_has_shortcut.choose(upper_district_choice_idx)
 	if travel_runner_has_shortcut.pending_travel.get("scene_id", "") != "nightclub_entrance" or travel_runner_has_shortcut.pending_travel.get("entry_point_id", "") != "from_street":
 		printerr("FAIL 21-A: travel payload incorrect for nightclub transition: ", travel_runner_has_shortcut.pending_travel)
@@ -10427,10 +10427,10 @@ func _ready() -> void:
 			]
 		}
 	}
-	
+
 	# Pre-set passed_nightclub_security so that back_door transition check succeeds
 	GameState.set_flag("passed_nightclub_security", true)
-	
+
 	for scene_id in nightclub_specs:
 		var spec = nightclub_specs[scene_id]
 		var packed = load(spec["path"])
@@ -10438,25 +10438,25 @@ func _ready() -> void:
 			printerr("FAIL 21-A: Could not load scene ", spec["path"])
 			get_tree().quit(1)
 			return
-		
+
 		var inst = packed.instantiate()
 		add_child(inst)
 		await get_tree().process_frame
-		
+
 		# 檢查相機邊界
 		var camera = inst.get_node("Camera2D")
 		if not camera or camera.limit_right != spec["limit_right"]:
 			printerr("FAIL 21-A: Camera limit_right incorrect for ", scene_id)
 			get_tree().quit(1)
 			return
-			
+
 		# 檢查 spawn points
 		for spawn in spec["spawns"]:
 			if not inst.has_node("SpawnPoints/" + spawn):
 				printerr("FAIL 21-A: Missing spawn point ", spawn, " in ", scene_id)
 				get_tree().quit(1)
 				return
-				
+
 		# 檢查轉場 Area2D
 		for trans in spec["transitions"]:
 			var captured_trans := {}
@@ -10475,7 +10475,7 @@ func _ready() -> void:
 				printerr("FAIL 21-A: Transition target mismatch for area ", trans["area"], " in ", scene_id, ": ", captured_trans)
 				get_tree().quit(1)
 				return
-				
+
 		inst.free()
 
 	# 6. 驗證 BGM 播放與過門換曲
@@ -10486,7 +10486,7 @@ func _ready() -> void:
 		printerr("FAIL 21-A: nightclub_entrance BGM should be nightclub-1.mp3, got: ", main_instance._current_bgm_path)
 		get_tree().quit(1)
 		return
-		
+
 	# 大門口 -> 門面廳 (依然是 nightclub-1.mp3)
 	main_instance.transition_to("nightclub", "from_entrance")
 	await get_tree().process_frame
@@ -10494,7 +10494,7 @@ func _ready() -> void:
 		printerr("FAIL 21-A: nightclub lobby BGM should be nightclub-1.mp3, got: ", main_instance._current_bgm_path)
 		get_tree().quit(1)
 		return
-		
+
 	# 門面廳 -> 後場包廂 (過門換曲成 nightclub-2.mp3)
 	main_instance.transition_to("nightclub_back", "from_lobby")
 	await get_tree().process_frame
@@ -10530,13 +10530,13 @@ func _ready() -> void:
 
 	# ===================== Phase 21-B: 林霏核心殘響資料與分段媒體 =====================
 	print("--- Phase 21-B: 林霏核心殘響資料與分段媒體 ---")
-	
+
 	# 1. 登記與翻譯驗證
 	if not EchoDB.has_echo("echo_linfei"):
 		printerr("FAIL 21-B: EchoDB registry missing echo_linfei!")
 		get_tree().quit(1)
 		return
-		
+
 	if EchoDB.get_segment_count("echo_linfei") != 6:
 		printerr("FAIL 21-B: echo_linfei segments size incorrect (expected 6, got ", EchoDB.get_segment_count("echo_linfei"), ")")
 		get_tree().quit(1)
@@ -10609,7 +10609,7 @@ func _ready() -> void:
 		printerr("FAIL 21-B: echo_linfei media unlocked at 0 segments collected!")
 		get_tree().quit(1)
 		return
-		
+
 	# 1~2 段
 	GameState.collect_echo_segment("echo_linfei", "s1")
 	GameState.collect_echo_segment("echo_linfei", "s2")
@@ -10617,7 +10617,7 @@ func _ready() -> void:
 		printerr("FAIL 21-B: echo_linfei media unlocked at 2 segments collected!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3 段（達半數門檻）
 	GameState.collect_echo_segment("echo_linfei", "s3")
 	if not GameState.is_echo_audio_unlocked("echo_linfei"):
@@ -10632,7 +10632,7 @@ func _ready() -> void:
 		printerr("FAIL 21-B: echo_linfei audio path mismatch: ", GameState.get_echo_audio_path("echo_linfei"))
 		get_tree().quit(1)
 		return
-		
+
 	# 4~5 段
 	GameState.collect_echo_segment("echo_linfei", "s4")
 	GameState.collect_echo_segment("echo_linfei", "s5")
@@ -10644,7 +10644,7 @@ func _ready() -> void:
 		printerr("FAIL 21-B: echo_linfei image should NOT unlock at 5 segments!")
 		get_tree().quit(1)
 		return
-		
+
 	# 6 段（全收集）
 	GameState.collect_echo_segment("echo_linfei", "s6")
 	if not GameState.is_echo_audio_unlocked("echo_linfei") or not GameState.is_echo_image_unlocked("echo_linfei"):
@@ -10690,12 +10690,12 @@ func _ready() -> void:
 		printerr("FAIL 21-B: echo_linfei media unlock states not restored correctly after load!")
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS: Phase 21-B linfei echo database registration and segmented media verified.")
 
 	# ===================== Phase 21-C: 收束碎片「黑戶藏身方式」 =====================
 	print("--- Phase 21-C: 收束碎片「黑戶藏身方式」 ---")
-	
+
 	# 1. 驗證節點存在與屬性
 	var back_inst_21c = load("res://scenes/levels/nightclub/nightclub_back.tscn").instantiate()
 	var mem_area_21c = back_inst_21c.find_child("MemoryFragmentArea", true, false)
@@ -10703,18 +10703,18 @@ func _ready() -> void:
 		printerr("FAIL 21-C: MemoryFragmentArea node not found in nightclub_back.tscn!")
 		get_tree().quit(1)
 		return
-		
+
 	if mem_area_21c.fragment_flag != "mem_frag_hideout" or mem_area_21c.message_id != "mem_frag_hideout" or mem_area_21c.require_flag != "echo_linfei":
 		printerr("FAIL 21-C: MemoryFragmentArea attributes incorrect!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. 驗證 STORY_MESSAGES 鍵存在且翻譯合規（不含禁字「林霏」）
 	if not GameState.STORY_MESSAGES.has("mem_frag_hideout"):
 		printerr("FAIL 21-C: STORY_MESSAGES missing 'mem_frag_hideout'!")
 		get_tree().quit(1)
 		return
-		
+
 	var forbidden_check_21c = "林霏"
 	for lang in ["zh_TW", "zh_CN", "en"]:
 		LocaleManager.set_locale(lang)
@@ -10728,13 +10728,13 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 	LocaleManager.set_locale("zh_TW")
-	
+
 	# 3. 模擬觸發：未滿 6 段殘響時進區，旗標不應該被設為 true
 	GameState.reset_for_new_game()
 	# 採集 5 段
 	for i in range(1, 6):
 		GameState.collect_echo_segment("echo_linfei", "s%d" % i)
-		
+
 	# 模擬 player body entered 訊號
 	var player_node_21c = back_inst_21c.find_child("Player", true, false)
 	mem_area_21c._on_body_entered(player_node_21c)
@@ -10742,28 +10742,28 @@ func _ready() -> void:
 		printerr("FAIL 21-C: mem_frag_hideout triggered before linfei echo is complete!")
 		get_tree().quit(1)
 		return
-		
+
 	# 4. 模擬觸發：滿 6 段殘響後進區，成功觸發，設 flag
 	# 採集第 6 段以集滿
 	GameState.collect_echo_segment("echo_linfei", "s6")
-	
+
 	# 接聽事件以確定有發出 interaction_requested 訊號
 	var interaction_received_21c = {"message_text": ""}
 	back_inst_21c.interaction_requested.connect(func(data):
 		interaction_received_21c["message_text"] = data.get("message_text", "")
 	)
-	
+
 	mem_area_21c._on_body_entered(player_node_21c)
 	if not GameState.get_flag("mem_frag_hideout", false):
 		printerr("FAIL 21-C: mem_frag_hideout not triggered after linfei echo complete!")
 		get_tree().quit(1)
 		return
-		
+
 	if interaction_received_21c["message_text"] == "":
 		printerr("FAIL 21-C: interaction_requested signal not correctly emitted on trigger!")
 		get_tree().quit(1)
 		return
-		
+
 	# 5. 二次進區不重觸
 	interaction_received_21c["message_text"] = ""
 	mem_area_21c._on_body_entered(player_node_21c)
@@ -10771,7 +10771,7 @@ func _ready() -> void:
 		printerr("FAIL 21-C: MemoryFragmentArea triggered repeatedly!")
 		get_tree().quit(1)
 		return
-		
+
 	# 6. 存讀檔 persistence round-trip
 	var save_data_21c = SaveSystem.capture("nightclub_back", 800.0)
 	GameState.reset_for_new_game()
@@ -10779,45 +10779,45 @@ func _ready() -> void:
 		printerr("FAIL 21-C: mem_frag_hideout flag not reset on new game!")
 		get_tree().quit(1)
 		return
-		
+
 	SaveSystem.apply(save_data_21c)
 	if not GameState.get_flag("mem_frag_hideout", false):
 		printerr("FAIL 21-C: mem_frag_hideout flag not restored after load!")
 		get_tree().quit(1)
 		return
-		
+
 	back_inst_21c.free()
 	print("PASS: Phase 21-C linfei memory fragment hideout verified.")
 
 	# ===================== Phase 21-D: 女聲主題歌掛載 =====================
 	print("--- Phase 21-D: 女聲主題歌掛載 ---")
-	
+
 	# 1. 驗證資料庫設定的路徑
 	var song_path_21d = GameState.get_echo_audio_path("echo_linfei")
 	if song_path_21d != "res://assets/audio/echoes/echo_linfei_song.mp3":
 		printerr("FAIL 21-D: echo_linfei audio path incorrect, got: ", song_path_21d)
 		get_tree().quit(1)
 		return
-		
+
 	# 2. 驗證資產存在且為有效 AudioStream
 	var song_stream_21d = load(song_path_21d)
 	if song_stream_21d == null or not song_stream_21d is AudioStream:
 		printerr("FAIL 21-D: Failed to load Lin Fei song asset as AudioStream!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. 驗證門檻值設定為 3 (半收集)
 	var echo_data_21d = EchoDB.get_echo("echo_linfei")
 	if echo_data_21d.get("media_slots", {}).get("audio", {}).get("threshold", 0) != 3:
 		printerr("FAIL 21-D: Lin Fei audio unlock threshold is not 3!")
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS: Phase 21-D linfei vocal theme song mount verified.")
 
 	# ===================== Phase 21-E: 《雨還沒停》環境母題 =====================
 	print("--- Phase 21-E: 《雨還沒停》環境母題 ---")
-	
+
 	# 1. 驗證地鐵月台與地下道聚落中均存在環境播放點
 	var platform_scene = load("res://scenes/levels/subway_station/subway_station_platform.tscn").instantiate()
 	var plat_motif = platform_scene.get_node_or_null("ThemeMotifPlayer")
@@ -10850,28 +10850,28 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	settlement_scene_21e.free()
-	
+
 	print("PASS: Phase 21-E ambient play points verified.")
 
 	# ===================== Phase 21-F: 可賣 + 回歸 + 存讀檔 =====================
 	print("--- Phase 21-F: 可賣 + 回歸 + 存讀檔 ---")
-	
+
 	# 重置狀態
 	GameState.reset_for_new_game()
-	
+
 	# 1. 驗證未集滿時不可賣
 	if GameState.sell_echo("echo_linfei"):
 		printerr("FAIL 21-F: sell_echo should return false on incomplete echo_linfei!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. 採集完畢
 	GameState.record_full_echo("echo_linfei")
 	if not GameState.is_echo_complete("echo_linfei"):
 		printerr("FAIL 21-F: echo_linfei should be complete after record_full_echo!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. 驗證可賣
 	var initial_credits_phase21 = GameState.get_credits()
 	var initial_trace_phase21 = GameState.get_trace()
@@ -10879,7 +10879,7 @@ func _ready() -> void:
 		printerr("FAIL 21-F: sell_echo failed on completed echo_linfei!")
 		get_tree().quit(1)
 		return
-		
+
 	# 4. 驗證 credits 增加 (400) 且 trace 減少 (TRACE_DELTA_SELL = -1)
 	if GameState.get_credits() != initial_credits_phase21 + 400:
 		printerr("FAIL 21-F: Wrong credits rewarded: ", GameState.get_credits())
@@ -10889,13 +10889,13 @@ func _ready() -> void:
 		printerr("FAIL 21-F: Wrong trace change: ", GameState.get_trace())
 		get_tree().quit(1)
 		return
-		
+
 	# 5. 驗證 sold_linfei_echo 旗標已設為 true
 	if not GameState.get_flag("sold_linfei_echo", false):
 		printerr("FAIL 21-F: sold_linfei_echo flag is not set after selling echo_linfei!")
 		get_tree().quit(1)
 		return
-		
+
 	# 6. 存讀檔 round-trip 驗證
 	var save_dict_phase21 = SaveSystem.capture("nightclub", 100.0, 1)
 	GameState.reset_for_new_game()
@@ -10903,7 +10903,7 @@ func _ready() -> void:
 		printerr("FAIL 21-F: sold_linfei_echo should be reset on new game!")
 		get_tree().quit(1)
 		return
-		
+
 	SaveSystem.apply(save_dict_phase21)
 	if not GameState.get_flag("sold_linfei_echo", false):
 		printerr("FAIL 21-F: sold_linfei_echo flag was not restored after save load!")
@@ -10926,79 +10926,79 @@ func _ready() -> void:
 		printerr("FAIL 21-F: sell_echo effect did not sell the echo or set flag in dialogue runner!")
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS: Phase 21-F sellable, regression, and save/load verified.")
 
 	# ===================== Phase 23-A: Act 3 夜總會保全四解小解謎骨架 =====================
 	print("--- Phase 23-A: Act 3 夜總會保全四解小解謎骨架 ---")
-	
+
 	# 重置狀態
 	GameState.reset_for_new_game()
-	
+
 	# 1. 驗證 biometric_gate 劇情拍子（不設 flag、不扣款）
 	var inst_entrance = load("res://scenes/levels/nightclub/nightclub_entrance.tscn").instantiate()
 	var gate_node = inst_entrance.get_node("Interactables/BiometricGateArea")
 	inst_entrance.current_interactable = gate_node
-	
+
 	print("DEBUG: gate_node.interaction_id = ", gate_node.interaction_id)
 	print("DEBUG: current_interactable = ", inst_entrance.current_interactable)
-	
+
 	var captured_msg_p23a: Dictionary = {}
 	inst_entrance.interaction_requested.connect(func(data):
 		print("DEBUG: interaction_requested received: ", data)
 		captured_msg_p23a.merge(data, true)
 	)
 	inst_entrance._trigger_interaction()
-	
+
 	print("DEBUG: captured_msg_p23a = ", captured_msg_p23a)
-	
+
 	if captured_msg_p23a.get("type", "") != "message":
 		printerr("FAIL 23-A: biometric_gate should trigger message!")
 		get_tree().quit(1)
 		return
-		
+
 	var gate_msg_key = inst_entrance.MESSAGES.get("biometric_gate", "")
 	if captured_msg_p23a.get("message_text", "") != gate_msg_key:
 		printerr("FAIL 23-A: biometric_gate message text mismatch!")
 		get_tree().quit(1)
 		return
-		
+
 	if GameState.get_flag("found_staff_pass", false) or GameState.get_flag("passed_nightclub_security", false):
 		printerr("FAIL 23-A: biometric_gate should not set flags!")
 		get_tree().quit(1)
 		return
-		
+
 	inst_entrance.free()
-	
+
 	# 2. 驗證未通過安全檢驗時 back_door 被擋
 	var inst_nightclub = load("res://scenes/levels/nightclub/nightclub.tscn").instantiate()
 	var door_node = inst_nightclub.get_node("Interactables/BackDoorArea")
 	inst_nightclub.current_interactable = door_node
-	
+
 	var captured_door_msg: Dictionary = {}
 	inst_nightclub.interaction_requested.connect(func(data):
 		captured_door_msg.merge(data, true)
 	)
 	inst_nightclub._trigger_interaction()
-	
+
 	if captured_door_msg.get("type", "") != "message":
 		printerr("FAIL 23-A: back_door should trigger message when blocked!")
 		get_tree().quit(1)
 		return
-		
+
 	if captured_door_msg.get("message_text", "") != GameState.STORY_MESSAGES["nightclub_security_blocked"]:
 		printerr("FAIL 23-A: Blocked message text mismatch!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. 驗證工牌 examine 與背包滿防呆
 	# 塞滿背包
 	while GameState.add_item("canned_food", 1):
 		pass
-		
+
 	var pass_node = inst_nightclub.get_node("Interactables/StaffPassExamine")
 	inst_nightclub.current_interactable = pass_node
-	
+
 	var captured_pass_msg: Dictionary = {}
 	# 重新連結 interaction_requested 訊號
 	for conn in inst_nightclub.interaction_requested.get_connections():
@@ -11006,58 +11006,58 @@ func _ready() -> void:
 	inst_nightclub.interaction_requested.connect(func(data):
 		captured_pass_msg.merge(data, true)
 	)
-	
+
 	inst_nightclub._trigger_interaction()
-	
+
 	if captured_pass_msg.get("message_text", "") != GameState.STORY_MESSAGES["nightclub_examine_pass_bag_full"]:
 		printerr("FAIL 23-A: Should show bag full message when picking staff pass with full inventory!")
 		get_tree().quit(1)
 		return
-		
+
 	if GameState.get_flag("found_staff_pass", false):
 		printerr("FAIL 23-A: found_staff_pass flag should not be set when bag is full!")
 		get_tree().quit(1)
 		return
-		
+
 	# 清空背包第一格
 	GameState.inventory[0] = {}
-	
+
 	# 重置 captured_pass_msg
 	captured_pass_msg.clear()
-	
+
 	inst_nightclub._trigger_interaction()
-	
+
 	if not GameState.get_flag("found_staff_pass", false):
 		printerr("FAIL 23-A: found_staff_pass flag should be set after successful picking!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.has_item("nightclub_staff_pass"):
 		printerr("FAIL 23-A: nightclub_staff_pass item should be in inventory!")
 		get_tree().quit(1)
 		return
-		
+
 	if captured_pass_msg.get("message_text", "") != GameState.STORY_MESSAGES["nightclub_staff_pass_found"]:
 		printerr("FAIL 23-A: Staff pass found message text mismatch!")
 		get_tree().quit(1)
 		return
-		
+
 	# 驗證物件被隱藏
 	if pass_node.visible or pass_node.process_mode != ProcessMode.PROCESS_MODE_DISABLED:
 		printerr("FAIL 23-A: StaffPassExamine node should be hidden and disabled!")
 		get_tree().quit(1)
 		return
-		
+
 	# 4. 驗證通過安全檢驗後 back_door 轉場正常
 	GameState.set_flag("passed_nightclub_security", true)
 	inst_nightclub.current_interactable = door_node
-	
+
 	var captured_trans: Dictionary = {}
 	inst_nightclub.scene_transition_requested.connect(func(scene_id, entry_point_id, payload):
 		captured_trans.merge({"scene": scene_id, "entry": entry_point_id}, true)
 	)
 	inst_nightclub._trigger_interaction()
-	
+
 	if captured_trans.get("scene", "") != "nightclub_back" or captured_trans.get("entry", "") != "from_lobby":
 		printerr("FAIL 23-A: Should transition to nightclub_back after security passed!")
 		get_tree().quit(1)
@@ -11087,24 +11087,24 @@ func _ready() -> void:
 
 	# ===================== Phase 23-B: Act 3 夜總會保全對話與智取 =====================
 	print("--- Phase 23-B: Act 3 夜總會保全對話與智取 ---")
-	
+
 	var dialogue_runner_script = load("res://scripts/dialogue/dialogue_runner.gd")
 	if not dialogue_runner_script:
 		printerr("FAIL 23-B: Could not load dialogue_runner.gd")
 		get_tree().quit(1)
 		return
-		
+
 	# 1. 驗證 credits condition (op >= 500) 在 DialogueRunner 中正常評估
 	GameState.reset_for_new_game()
 	GameState.set_credits(499)
-	
+
 	var runner_p23b = dialogue_runner_script.new()
 	var bodyguard_tree = DialogueDB.get_tree_for("nightclub_bodyguard")
 	if bodyguard_tree.is_empty():
 		printerr("FAIL 23-B: nightclub_bodyguard tree not found in DialogueDB!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. 測試：Credits 不足時，賄賂分流走向 bribe_fail
 	runner_p23b.start(bodyguard_tree, "lobby")
 	# 選擇 0 (賄賂)
@@ -11118,7 +11118,7 @@ func _ready() -> void:
 		printerr("FAIL 23-B: Failed bribe should not deduct credits or set security flag!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. 測試：Credits 足夠時，賄賂成功走向 bribe_success
 	GameState.reset_for_new_game()
 	GameState.set_credits(500)
@@ -11134,7 +11134,7 @@ func _ready() -> void:
 		printerr("FAIL 23-B: Bribe success should deduct 500 credits and set security flag!")
 		get_tree().quit(1)
 		return
-		
+
 	# 4. 測試：無工牌時，假裝身份走向 fake_identity_fail
 	GameState.reset_for_new_game()
 	var runner_fake_fail = dialogue_runner_script.new()
@@ -11149,7 +11149,7 @@ func _ready() -> void:
 		printerr("FAIL 23-B: Failed fake identity should not set security flag!")
 		get_tree().quit(1)
 		return
-		
+
 	# 5. 測試：有工牌時，假裝身份走向 fake_identity_success
 	GameState.reset_for_new_game()
 	GameState.set_flag("found_staff_pass", true)
@@ -11165,7 +11165,7 @@ func _ready() -> void:
 		printerr("FAIL 23-B: Fake identity success should set security flag!")
 		get_tree().quit(1)
 		return
-		
+
 	# 6. 測試：已通關狀態下，對話會直接進入 already_passed
 	GameState.reset_for_new_game()
 	GameState.set_flag("passed_nightclub_security", true)
@@ -11176,30 +11176,30 @@ func _ready() -> void:
 		printerr("FAIL 23-B: Start when already passed should go to already_passed node, got text: ", state_passed.get("text"))
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS: Phase 23-B bodyguard dialogue, bribe logic, fake identity, and credits condition verified.")
 
 	# ===================== Phase 23-C: Act 3 夜總會保全引開與潛行 =====================
 	print("--- Phase 23-C: Act 3 夜總會保全引開與潛行 ---")
 	GameState.reset_for_new_game()
-	
+
 	# 載入門面廳場景
 	var nightclub_scene = load("res://scenes/levels/nightclub/nightclub.tscn")
 	if nightclub_scene == null:
 		printerr("FAIL 23-C: Could not load nightclub.tscn")
 		get_tree().quit(1)
 		return
-		
+
 	var nightclub_node = nightclub_scene.instantiate()
 	get_tree().root.add_child(nightclub_node)
-	
+
 	# 初始化場景入口
 	nightclub_node.set_entry_point("from_entrance")
-	
+
 	# 準備捕捉 interaction_requested 與 scene_transition_requested
 	var captured_transition_p23c: Dictionary = {}
 	var captured_msg_p23c: Dictionary = {}
-	
+
 	nightclub_node.scene_transition_requested.connect(func(scene_id, entry_point, payload):
 		captured_transition_p23c["scene_id"] = scene_id
 		captured_transition_p23c["entry_point"] = entry_point
@@ -11207,17 +11207,17 @@ func _ready() -> void:
 	nightclub_node.interaction_requested.connect(func(data):
 		captured_msg_p23c.merge(data, true)
 	)
-	
+
 	# 1. 測試：未引開保全時，互動 back_door 應該被阻擋
 	var back_door = nightclub_node.get_node_or_null("Interactables/BackDoorArea")
 	if back_door == null:
 		printerr("FAIL 23-C: BackDoorArea interactable not found!")
 		get_tree().quit(1)
 		return
-		
+
 	nightclub_node.current_interactable = back_door
 	nightclub_node._trigger_interaction()
-	
+
 	if not captured_msg_p23c.has("message_text") or captured_msg_p23c.get("message_text", "") != "MSG_NIGHTCLUB_SECURITY_BLOCKED":
 		printerr("FAIL 23-C: back_door should be blocked when bodyguard is on post, got msg: ", captured_msg_p23c)
 		get_tree().quit(1)
@@ -11226,7 +11226,7 @@ func _ready() -> void:
 		printerr("FAIL 23-C: passed_nightclub_security should not be set yet!")
 		get_tree().quit(1)
 		return
-		
+
 	# 清空捕捉的資訊
 	captured_msg_p23c.clear()
 
@@ -11301,7 +11301,7 @@ func _ready() -> void:
 	# 3. 測試：引開保全後，此時互動 back_door 應該可以潛行通過 (set passed_nightclub_security=true 且 transition to nightclub_back)
 	nightclub_node.current_interactable = back_door
 	nightclub_node._trigger_interaction()
-	
+
 	if not GameState.get_flag("passed_nightclub_security", false):
 		printerr("FAIL 23-C: passed_nightclub_security should be set to true after sneak in!")
 		get_tree().quit(1)
@@ -11310,24 +11310,24 @@ func _ready() -> void:
 		printerr("FAIL 23-C: Should transition to nightclub_back, got: ", captured_transition_p23c)
 		get_tree().quit(1)
 		return
-		
+
 	# 4. 測試：場景 transient 變數且重新加載時保全歸位
 	# 在 passed_nightclub_security 仍為 false 情況下
 	get_tree().root.remove_child(nightclub_node)
 	nightclub_node.queue_free()
-	
+
 	GameState.reset_for_new_game()
 	# 此時 passed_nightclub_security 應為 false
 	nightclub_node = nightclub_scene.instantiate()
 	get_tree().root.add_child(nightclub_node)
-	
+
 	# 重進場景後，保全應重新歸位 (visible=true, process_mode=INHERIT)
 	bodyguard_node = nightclub_node.get_node_or_null("Interactables/Bodyguard")
 	if bodyguard_node == null or not bodyguard_node.visible or bodyguard_node.process_mode != Node.PROCESS_MODE_INHERIT:
 		printerr("FAIL 23-C: Bodyguard should reset to visible and inheriting process mode when passed_nightclub_security is false!")
 		get_tree().quit(1)
 		return
-		
+
 	# 5. 測試：即使 passed_nightclub_security 已為 true，保全仍永遠在崗（可見、INHERIT），只是後場門放行
 	get_tree().root.remove_child(nightclub_node)
 	nightclub_node.queue_free()
@@ -11343,7 +11343,7 @@ func _ready() -> void:
 		printerr("FAIL 23-C: Bodyguard should stay visible and at post even when passed_nightclub_security is true!")
 		get_tree().quit(1)
 		return
-		
+
 	# 6. 測試：未在空窗內潛入 → 視窗到期保全歸位；引開為永久一次性
 	get_tree().root.remove_child(nightclub_node)
 	nightclub_node.queue_free()
@@ -11412,27 +11412,27 @@ func _ready() -> void:
 	# ===================== Phase 23-D: Act 3 夜總會回歸、存讀檔與進度驗證 =====================
 	print("--- Phase 23-D: Act 3 夜總會回歸、存讀檔與進度驗證 ---")
 	GameState.reset_for_new_game()
-	
+
 	# 1. 測試：在新遊戲重置狀態下，各旗標應為 false/空，進度為 0
 	if GameState.get_flag("passed_nightclub_security", false) or GameState.get_flag("found_staff_pass", false) or GameState.has_item("nightclub_staff_pass"):
 		printerr("FAIL 23-D: New game reset failed to clear Phase 23 states!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. 測試：特殊道具進度因取得工牌打勾，且不退勾
 	var added_pass_p23d := GameState.add_item("nightclub_staff_pass", 1)
 	if not added_pass_p23d:
 		printerr("FAIL 23-D: Could not add nightclub_staff_pass during progress check!")
 		get_tree().quit(1)
 		return
-		
+
 	var progress_summary_p23d = GameState.get_progress_summary()
 	var collected_items_p23d = GameState.collected_special_items
 	if not collected_items_p23d.get("nightclub_staff_pass", false):
 		printerr("FAIL 23-D: nightclub_staff_pass should mark progress special items collected!")
 		get_tree().quit(1)
 		return
-		
+
 	var badge_instance_id_p23d = ""
 	for item in GameState.get_inventory():
 		if item != null and item.get("item_id", "") == "nightclub_staff_pass":
@@ -11440,12 +11440,12 @@ func _ready() -> void:
 			break
 	if badge_instance_id_p23d != "":
 		GameState.remove_item(badge_instance_id_p23d)
-		
+
 	if not GameState.collected_special_items.get("nightclub_staff_pass", false):
 		printerr("FAIL 23-D: progress special items should remain marked after item removal (no unticking)!")
 		get_tree().quit(1)
 		return
-		
+
 	# 3. 測試：存讀檔 round-trip
 	GameState.reset_for_new_game()
 	GameState.set_flag("passed_nightclub_security", true)
@@ -11455,21 +11455,21 @@ func _ready() -> void:
 		printerr("FAIL 23-D: Setup failed for save/load test!")
 		get_tree().quit(1)
 		return
-		
+
 	var save_dict_p23d = SaveSystem.capture("nightclub", 100.0, 1)
-	
+
 	GameState.reset_for_new_game()
 	if GameState.get_flag("passed_nightclub_security", false) or GameState.get_flag("found_staff_pass", false) or GameState.has_item("nightclub_staff_pass"):
 		printerr("FAIL 23-D: State reset failed during save/load check!")
 		get_tree().quit(1)
 		return
-		
+
 	if not SaveSystem.validate(save_dict_p23d):
 		printerr("FAIL 23-D: SaveSystem.validate() failed for save_dict_p23d!")
 		get_tree().quit(1)
 		return
 	SaveSystem.apply(save_dict_p23d)
-		
+
 	if not GameState.get_flag("passed_nightclub_security", false) or not GameState.get_flag("found_staff_pass", false):
 		printerr("FAIL 23-D: Save/load failed to restore story flags!")
 		get_tree().quit(1)
@@ -11482,7 +11482,7 @@ func _ready() -> void:
 		printerr("FAIL 23-D: Save/load failed to restore special item progress!")
 		get_tree().quit(1)
 		return
-		
+
 	# 4. 測試：缺鍵/歷史存檔相容性
 	var compat_dict_p23d = save_dict_p23d.duplicate(true)
 	var data_dict_p23d = compat_dict_p23d.get("data", {})
@@ -11491,7 +11491,7 @@ func _ready() -> void:
 		data_dict_p23d["story_flags"].erase("found_staff_pass")
 	if data_dict_p23d.has("collected_special_items"):
 		data_dict_p23d["collected_special_items"].erase("nightclub_staff_pass")
-		
+
 	GameState.reset_for_new_game()
 	if not SaveSystem.validate(compat_dict_p23d):
 		printerr("FAIL 23-D: SaveSystem.validate() failed for compat_dict_p23d!")
@@ -11502,12 +11502,12 @@ func _ready() -> void:
 		printerr("FAIL 23-D: Compatibility load should restore missing keys to false!")
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS: Phase 23-D regression, save/load, and M1 progress integration verified.")
 
 	# ===================== Phase 24-A: 七號事件 quest 化 + 爆發 gate =====================
 	print("--- Phase 24-A: 七號事件 quest 化 + 爆發 gate ---")
-	
+
 	# 1. 測試任務資料與 resolver 預設分流
 	var QuestDB_p24a = load("res://data/quests/quest_db.gd")
 	var quest_data_p24a = QuestDB_p24a.get_quest_data("seven_betrayal")
@@ -11515,7 +11515,7 @@ func _ready() -> void:
 		printerr("FAIL 24-A: seven_betrayal quest data not registered in QuestDB!")
 		get_tree().quit(1)
 		return
-	
+
 	# 模擬 resolve_completed_note 分支
 	# A: 預設/成功攔下
 	GameState.reset_for_new_game()
@@ -11524,7 +11524,7 @@ func _ready() -> void:
 		printerr("FAIL 24-A: resolve_completed_note() should return full completion note by default!")
 		get_tree().quit(1)
 		return
-		
+
 	# B: 部分攔下
 	GameState.set_flag("seven_stopped_partial", true)
 	var note_partial_p24a = quest_data_p24a.resolve_completed_note()
@@ -11532,7 +11532,7 @@ func _ready() -> void:
 		printerr("FAIL 24-A: resolve_completed_note() should return partial completion note when seven_stopped_partial is true!")
 		get_tree().quit(1)
 		return
-		
+
 	# D: 和平線
 	GameState.set_flag("seven_stopped_partial", false)
 	GameState.set_flag("seven_peace_branch_d", true)
@@ -11541,7 +11541,7 @@ func _ready() -> void:
 		printerr("FAIL 24-A: resolve_completed_note() should return peace completion note when seven_peace_branch_d is true!")
 		get_tree().quit(1)
 		return
-	
+
 	# 2. 測試爆發 gate
 	# A: 未通關夜總會 -> 不爆發
 	GameState.reset_for_new_game()
@@ -11554,7 +11554,7 @@ func _ready() -> void:
 		return
 	remove_child(level_p24a)
 	level_p24a.free()
-	
+
 	# B: 已通關夜總會，未走 D -> 爆發
 	GameState.reset_for_new_game()
 	GameState.set_flag("passed_nightclub_security", true)
@@ -11571,7 +11571,7 @@ func _ready() -> void:
 		return
 	remove_child(level_p24a)
 	level_p24a.free()
-	
+
 	# C: 已通關夜總會，已走 D -> 不爆發
 	GameState.reset_for_new_game()
 	GameState.set_flag("passed_nightclub_security", true)
@@ -11585,7 +11585,7 @@ func _ready() -> void:
 		return
 	remove_child(level_p24a)
 	level_p24a.free()
-	
+
 	# 3. 驗證 i18n 翻譯（測試 M2 系統是否可正確 resolve）
 	for loc_p24a in ["zh_TW", "zh_CN", "en"]:
 		TranslationServer.set_locale(loc_p24a)
@@ -11594,15 +11594,15 @@ func _ready() -> void:
 			printerr("FAIL 24-A: missing translation for QUEST_SEVEN_BETRAYAL_STEP_STARTED_TITLE in locale: " + loc_p24a)
 			get_tree().quit(1)
 			return
-	
+
 	# 還原 locale 到 zh_TW
 	TranslationServer.set_locale("zh_TW")
-	
+
 	print("PASS: Phase 24-A questification and trigger gate verified.")
 
 	# ===================== Phase 24-B: 分支判定 + 伍姐 / 小岑提前警告 =====================
 	print("--- Phase 24-B: 分支判定 + 伍姐 / 小岑提前警告 ---")
-	
+
 	# 1. 驗證對話樹是否有 warning 節點
 	var wu_tree_p24b = load("res://data/dialogue/wu.gd").TREE
 	if not wu_tree_p24b.has("warning"):
@@ -11614,7 +11614,7 @@ func _ready() -> void:
 		printerr("FAIL 24-B: cen.gd missing 'warning' node!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. 模擬 DialogueRunner 評估警告條件 (Wu)
 	var runner_wu_p24b = load("res://scripts/dialogue/dialogue_runner.gd").new()
 	# Case 24B-1: met_wu=true, affinity_wu=2, heard_wu_warning=false -> goto warning
@@ -11626,14 +11626,14 @@ func _ready() -> void:
 		printerr("FAIL 24-B: Wu dialogue should route to 'warning' when met_wu=true and affinity_wu=2!")
 		get_tree().quit(1)
 		return
-	
+
 	# 推進對話，確認設了 heard_wu_warning 並進入 retalk
 	runner_wu_p24b.advance() # 進入 warning node 會執行 set_flag heard_wu_warning
 	if GameState.get_flag("heard_wu_warning", false) != true:
 		printerr("FAIL 24-B: heard_wu_warning flag not set after warning node!")
 		get_tree().quit(1)
 		return
-		
+
 	# Case 24B-2: met_wu=true, affinity_wu=2, heard_wu_warning=true -> goto retalk
 	var runner_wu_retalk_p24b = load("res://scripts/dialogue/dialogue_runner.gd").new()
 	runner_wu_retalk_p24b.start(wu_tree_p24b)
@@ -11667,13 +11667,13 @@ func _ready() -> void:
 				printerr("FAIL 24-B: missing translation for " + key_p24b + " in locale: " + loc_p24b)
 				get_tree().quit(1)
 				return
-				
+
 	# 還原 locale
 	TranslationServer.set_locale("zh_TW")
-	
+
 	# 5. 驗證 24-B 分支判定公式與攔截結算
 	var SevenBetrayal_p24b = load("res://data/quests/seven_betrayal.gd")
-	
+
 	# Case 24B-3: trace = 2, no warning -> Branch A (stopped_full)
 	GameState.reset_for_new_game()
 	GameState.add_trace(2)
@@ -11683,24 +11683,24 @@ func _ready() -> void:
 		printerr("FAIL 24-B: trace=2 should result in stopped_full!")
 		get_tree().quit(1)
 		return
-		
+
 	# Settle Case 24B-3 and check outputs (Idempotency test)
 	QuestManager.start("seven_betrayal")
 	var initial_seven_aff_p24b = GameState.get_flag("affinity_seven", 0)
 	var initial_wu_aff_p24b = GameState.get_flag("affinity_wu", 0)
-	
+
 	var res_first_p24b = SevenBetrayal_p24b.resolve_betrayal_results()
 	if not res_first_p24b:
 		printerr("FAIL 24-B: first resolve_betrayal_results() call should return true!")
 		get_tree().quit(1)
 		return
-		
+
 	var res_second_p24b = SevenBetrayal_p24b.resolve_betrayal_results()
 	if res_second_p24b:
 		printerr("FAIL 24-B: second resolve_betrayal_results() call should return false (not idempotent)!")
 		get_tree().quit(1)
 		return
-		
+
 	if GameState.get_flag("seven_stopped_full", false) != true or GameState.get_flag("seven_stopped_partial", false) == true:
 		printerr("FAIL 24-B: Settle trace=2 failed stopped_full or mutual exclusion failed!")
 		get_tree().quit(1)
@@ -11721,7 +11721,7 @@ func _ready() -> void:
 		printerr("FAIL 24-B: seven_betrayal quest should be completed after resolution!")
 		get_tree().quit(1)
 		return
-		
+
 	# Case 24B-4: trace = 3, no warning -> Branch B (stopped_partial)
 	GameState.reset_for_new_game()
 	GameState.add_trace(3)
@@ -11731,7 +11731,7 @@ func _ready() -> void:
 		printerr("FAIL 24-B: trace=3 without warnings should result in stopped_partial!")
 		get_tree().quit(1)
 		return
-		
+
 	# Settle Case 24B-4 and check outputs
 	QuestManager.start("seven_betrayal")
 	initial_seven_aff_p24b = GameState.get_flag("affinity_seven", 0)
@@ -11773,20 +11773,20 @@ func _ready() -> void:
 		printerr("FAIL 24-B: trace=3 with cen warning should result in stopped_full!")
 		get_tree().quit(1)
 		return
-	
+
 	print("PASS: Phase 24-B warning dialogues and routing verified.")
 	print("PASS: Phase 24-B branch formula boundary and settlement verified.")
 
 	# ===================== Phase 24-C: 深隧道追逐 + 兩去處選單接線 =====================
 	print("--- Phase 24-C: 深隧道追逐 + 兩去處選單接線 ---")
-	
+
 	# 1. 目的地選單對話樹加載
 	var travel_tree_p24c = DialogueDB.get_tree_for("travel_deep_tunnel")
 	if travel_tree_p24c == null or not travel_tree_p24c.has("start"):
 		printerr("FAIL 24-C: travel_deep_tunnel dialogue tree missing or empty!")
 		get_tree().quit(1)
 		return
-		
+
 	# 2. 測試場景加載與結構
 	var chase1_scene_p24c = load("res://scenes/levels/tunnel_chase/tunnel_chase.tscn")
 	if chase1_scene_p24c == null:
@@ -11836,7 +11836,7 @@ func _ready() -> void:
 	GameState.set_flag("deep_tunnel_opened", true)
 	GameState.tunnel_chase_true_exit = 1
 	var save_data_p24c = SaveSystem.capture("underground_settlement_right", 100.0, 1)
-	
+
 	GameState.reset_for_new_game()
 	SaveSystem.apply(save_data_p24c)
 	if not GameState.get_flag("deep_tunnel_opened", false) or GameState.tunnel_chase_true_exit != 1:
@@ -11848,12 +11848,12 @@ func _ready() -> void:
 	var settlement_r_scene_p24c = load("res://scenes/levels/underground_settlement/underground_settlement_right.tscn")
 	var settlement_r_inst_p24c = settlement_r_scene_p24c.instantiate()
 	add_child(settlement_r_inst_p24c)
-	
+
 	# Case A: deep_tunnel_opened = false
 	GameState.set_flag("deep_tunnel_opened", false)
 	var deep_tunnel_node_p24c = settlement_r_inst_p24c.get_node("Interactables/DeepTunnelArea")
 	settlement_r_inst_p24c.current_interactable = deep_tunnel_node_p24c
-	
+
 	# Hook transition requested signal to verify target
 	var transition_result_p24c := {"target": ""}
 	settlement_r_inst_p24c.scene_transition_requested.connect(func(scene_id, _entry, _payload):
@@ -11864,13 +11864,13 @@ func _ready() -> void:
 		if data.get("type") == "dialogue":
 			interaction_result_p24c["dialogue_id"] = data.get("dialogue_id")
 	)
-	
+
 	settlement_r_inst_p24c._trigger_interaction()
 	if transition_result_p24c["target"] != "tunnel_combat":
 		printerr("FAIL 24-C: when deep_tunnel_opened=false, deep_tunnel interaction must route to tunnel_combat transition! Got: ", transition_result_p24c["target"])
 		get_tree().quit(1)
 		return
-		
+
 	# Case B: deep_tunnel_opened = true
 	GameState.set_flag("deep_tunnel_opened", true)
 	settlement_r_inst_p24c._trigger_interaction()
@@ -11878,13 +11878,13 @@ func _ready() -> void:
 		printerr("FAIL 24-C: when deep_tunnel_opened=true, deep_tunnel interaction must route to travel_deep_tunnel dialogue! Got: ", interaction_result_p24c["dialogue_id"])
 		get_tree().quit(1)
 		return
-		
+
 	remove_child(settlement_r_inst_p24c)
 	settlement_r_inst_p24c.free()
 
 	# 6. 測試 undergound_settlement 小岑條件式移除
 	var settlement_l_scene_p24c = load("res://scenes/levels/underground_settlement/underground_settlement.tscn")
-	
+
 	# Case A: cen_voiceprint_exposed = false
 	GameState.set_flag("cen_voiceprint_exposed", false)
 	var settlement_l_inst_a_p24c = settlement_l_scene_p24c.instantiate()
@@ -11902,7 +11902,7 @@ func _ready() -> void:
 		return
 	remove_child(settlement_l_inst_a_p24c)
 	settlement_l_inst_a_p24c.free()
-	
+
 	# Case B: cen_voiceprint_exposed = true
 	GameState.set_flag("cen_voiceprint_exposed", true)
 	var settlement_l_inst_b_p24c = settlement_l_scene_p24c.instantiate()
@@ -11920,7 +11920,7 @@ func _ready() -> void:
 		return
 	remove_child(settlement_l_inst_b_p24c)
 	settlement_l_inst_b_p24c.free()
-	
+
 	# 7. 測試結算後 retalk 不進追逐
 	GameState.reset_for_new_game()
 	GameState.set_flag("seven_betrayal_triggered", true)
@@ -11954,11 +11954,11 @@ func _ready() -> void:
 				matched = false
 		else:
 			matched = true
-		
+
 		if matched:
 			target_node_p24c = branch.get("target")
 			break
-			
+
 	if target_node_p24c == "betrayal_start":
 		printerr("FAIL 24-C: Seven dialogue should not route to betrayal_start after quest completes!")
 		get_tree().quit(1)
@@ -11967,7 +11967,7 @@ func _ready() -> void:
 		printerr("FAIL 24-C: Seven dialogue should route to retalk when seven_betrayal_pending=false and met_seven=true! Got: ", target_node_p24c)
 		get_tree().quit(1)
 		return
-	
+
 	print("PASS: Phase 24-C deep tunnel chase & travel menu verified.")
 
 	# ===================== Phase 25-A: Act 4 備份區三場景骨架 =====================
@@ -14916,12 +14916,12 @@ func _ready() -> void:
 	# ---- Test 2: B 分支全自動跑完演出與 played 旗標 ----
 	GameState.reset_for_new_game()
 	GameState.set_flag("expose_upload_cleaned", true)
-	
+
 	var main_inst_phase29 = load("res://scenes/main/main.tscn").instantiate()
 	add_child(main_inst_phase29)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	main_inst_phase29.transition_to("broadcast_station", "restore")
 	var lvl_inst_phase29 = main_inst_phase29.world_root.get_children()[-1]
 	await get_tree().process_frame
@@ -14985,12 +14985,12 @@ func _ready() -> void:
 	# ---- Test 3: A 分支全自動跑完演出與 played 旗標 ----
 	GameState.reset_for_new_game()
 	GameState.set_flag("expose_upload_cleaned", false)
-	
+
 	var main_inst_phase29_a = load("res://scenes/main/main.tscn").instantiate()
 	add_child(main_inst_phase29_a)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	main_inst_phase29_a.transition_to("broadcast_station", "restore")
 	var lvl_inst_phase29_a = main_inst_phase29_a.world_root.get_children()[-1]
 	await get_tree().process_frame
@@ -15051,12 +15051,12 @@ func _ready() -> void:
 	# ---- Test 4: C 分支全自動跑完演出與 played 旗標 ----
 	GameState.reset_for_new_game()
 	GameState.add_trace(3)
-	
+
 	var main_inst_phase29_c = load("res://scenes/main/main.tscn").instantiate()
 	add_child(main_inst_phase29_c)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	main_inst_phase29_c.transition_to("broadcast_station", "restore")
 	var lvl_inst_phase29_c = main_inst_phase29_c.world_root.get_children()[-1]
 	await get_tree().process_frame
@@ -15117,31 +15117,31 @@ func _ready() -> void:
 	GameState.set_flag("expose_upload_done", true)
 	GameState.set_flag("expose_upload_cleaned", false)
 	GameState.add_trace(2) # Verdict A
-	
+
 	var save_orphan_phase29 = SaveSystem.capture("convenience_store", 300.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_orphan_phase29):
 		printerr("FAIL 29-D: write_slot failed for the Expose orphan save!")
 		get_tree().quit(1)
 		return
-		
+
 	var main_orphan_phase29 = load("res://scenes/main/main.tscn").instantiate()
 	add_child(main_orphan_phase29)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	if not main_orphan_phase29.load_game_slot(TEST_SCRATCH_SAVE_SLOT):
 		printerr("FAIL 29-D: load_game_slot failed for the Expose orphan save!")
 		get_tree().quit(1)
 		return
-		
+
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	if main_orphan_phase29.get_current_scene_id() != "broadcast_station":
 		printerr("FAIL 29-D: an orphaned expose_upload_done save should be rescued to broadcast_station, got: ", main_orphan_phase29.get_current_scene_id())
 		get_tree().quit(1)
 		return
-		
+
 	var orphan_lvl_phase29 = main_orphan_phase29.world_root.get_children()[-1]
 	if not orphan_lvl_phase29._expose_active:
 		printerr("FAIL 29-D: orphan rescue should auto-resume the Expose sequence!")
@@ -15151,9 +15151,9 @@ func _ready() -> void:
 		printerr("FAIL 29-D: expected verdict a, got: ", orphan_lvl_phase29._expose_verdict)
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS 29-D: orphan Expose save is rescued back to broadcast_station and auto-resumes sequence.")
-	
+
 	if is_instance_valid(main_orphan_phase29):
 		main_orphan_phase29.free()
 	await get_tree().process_frame
@@ -15172,16 +15172,16 @@ func _ready() -> void:
 		printerr("FAIL 29-A: trace should be 0 on new game!")
 		get_tree().quit(1)
 		return
-		
+
 	var clerk_echo_phase29 = EchoDB.get_echo("echo_clerk")
 	for seg in clerk_echo_phase29.get("segments", []):
 		GameState.collect_echo_segment("echo_clerk", seg.get("id", ""))
-	
+
 	if GameState.get_trace() != 1:
 		printerr("FAIL 29-A: trace should be 1 after collecting echo_clerk, got: ", GameState.get_trace())
 		get_tree().quit(1)
 		return
-		
+
 	for seg in clerk_echo_phase29.get("segments", []):
 		GameState.collect_echo_segment("echo_clerk", seg.get("id", ""))
 	if GameState.get_trace() != 1:
@@ -15192,42 +15192,42 @@ func _ready() -> void:
 
 	# ===================== Phase 30-A: 三結局共用收尾 =====================
 	print("--- Phase 30-A: 三結局共用收尾 ---")
-	
+
 	# 1. 驗證 meta 讀寫與 endings progress summary
 	GameState.reset_for_new_game()
-	
+
 	# 清除現有 meta.cfg 便於乾淨測試
 	var config_phase30 := ConfigFile.new()
 	var path_phase30 := "user://meta.cfg"
 	config_phase30.clear()
 	config_phase30.save(path_phase30)
-	
+
 	var achieved_before = GameState.get_achieved_endings()
 	if achieved_before.size() != 0:
 		printerr("FAIL 30-A: meta endings should be empty on reset, got: ", achieved_before)
 		get_tree().quit(1)
 		return
-		
+
 	GameState.mark_ending_achieved("reclaim")
 	GameState.mark_ending_achieved("protect")
-	
+
 	var achieved_after = GameState.get_achieved_endings()
 	if achieved_after.size() != 2 or not achieved_after.has("reclaim") or not achieved_after.has("protect"):
 		printerr("FAIL 30-A: meta endings mismatch after marking: ", achieved_after)
 		get_tree().quit(1)
 		return
-		
+
 	var summary_phase30 = GameState.get_progress_summary()
 	if not summary_phase30.has("endings"):
 		printerr("FAIL 30-A: progress summary should contain endings field!")
 		get_tree().quit(1)
 		return
-		
+
 	if summary_phase30["endings"]["done"] != 2 or summary_phase30["endings"]["total"] != 5:
 		printerr("FAIL 30-A: summary endings counts mismatch: ", summary_phase30["endings"])
 		get_tree().quit(1)
 		return
-		
+
 	# 確保 overall_total 與 overall_done 依然相容於舊的 M1 統計（即 32 件）
 	if summary_phase30["overall_total"] != 32:
 		printerr("FAIL 30-A: overall_total should not include endings, expected 32, got: ", summary_phase30["overall_total"])
@@ -15238,29 +15238,29 @@ func _ready() -> void:
 	var main_inst_phase30 = load("res://scenes/main/main.tscn").instantiate()
 	add_child(main_inst_phase30)
 	await get_tree().process_frame
-	
+
 	# 設定 reclaim 結局並觸發
 	GameState.set_flag("ending_route_reclaim", true)
 	GameState.set_flag("ending_reclaim_played", false)
-	
+
 	# 載入 apartment 並驅動它推進至結局 epilogue
 	main_inst_phase30.transition_to("apartment", "epilogue_home")
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	var frames_phase30 := 0
 	while main_inst_phase30.get_current_scene_id() != "title_screen" and frames_phase30 < 100:
 		await get_tree().process_frame
 		frames_phase30 += 1
-		
+
 	if main_inst_phase30.get_current_scene_id() == "apartment":
 		if not main_inst_phase30.game_ui.ending_epilogue.visible:
 			printerr("FAIL 30-A: EndingEpilogue did not start!")
 			get_tree().quit(1)
 			return
-		
+
 	print("PASS 30-A: EndingEpilogue component verified. Meta write/read, progress summary, and automatic flow transition PASS.")
-	
+
 	if is_instance_valid(main_inst_phase30):
 		main_inst_phase30.free()
 	await get_tree().process_frame
@@ -15278,7 +15278,7 @@ func _ready() -> void:
 
 	# ===================== Phase 30-C: 三結局存讀檔矩陣與 i18n 驗證 =====================
 	print("--- Phase 30-C: 三結局存讀檔矩陣與 i18n 驗證 ---")
-	
+
 	# 1. 驗證 10 種結局與和平線組合的文字選中與 epilogue 元件正確渲染
 	var ending_variants_30c = ["reclaim", "protect", "expose_a", "expose_b", "expose_c"]
 	var peace_variants_30c = [false, true]
@@ -15288,12 +15288,12 @@ func _ready() -> void:
 			# 設定 played 旗標
 			GameState.set_flag("ending_%s_played" % ev_30c, true)
 			GameState.set_flag("seven_peace_branch_d", pv_30c)
-			
+
 			var ep_inst_30c = load("res://scenes/ui/ending_epilogue.tscn").instantiate()
 			add_child(ep_inst_30c)
 			ep_inst_30c.start_epilogue()
 			ep_inst_30c._start_beat_1()
-			
+
 			# 斷言 _ending_id 與 _is_peace
 			if ep_inst_30c._ending_id != ev_30c:
 				printerr("FAIL 30-C: expected epilogue _ending_id: ", ev_30c, ", got: ", ep_inst_30c._ending_id)
@@ -15303,20 +15303,20 @@ func _ready() -> void:
 				printerr("FAIL 30-C: expected epilogue _is_peace: ", pv_30c, ", got: ", ep_inst_30c._is_peace)
 				get_tree().quit(1)
 				return
-				
+
 			# 拍 1: MSG_ENDING_SHARED_P1
 			if ep_inst_30c._full_text != tr("MSG_ENDING_SHARED_P1"):
 				printerr("FAIL 30-C: page 1 shared P1 mismatch for variant ", ev_30c, " peace ", pv_30c)
 				get_tree().quit(1)
 				return
-				
+
 			# 推進到 P2
 			ep_inst_30c._advance_page()
 			if ep_inst_30c._full_text != tr("MSG_ENDING_SHARED_P2"):
 				printerr("FAIL 30-C: page 1 shared P2 mismatch")
 				get_tree().quit(1)
 				return
-				
+
 			# 推進到 拍 2
 			ep_inst_30c._advance_page()
 			var expected_key_30c = "MSG_ENDING_ORANGE_%s" % ev_30c.to_upper()
@@ -15326,35 +15326,35 @@ func _ready() -> void:
 				printerr("FAIL 30-C: page 2 orange mismatch, expected key: ", expected_key_30c, ", got text: ", ep_inst_30c._full_text)
 				get_tree().quit(1)
 				return
-				
+
 			# 推進到 拍 3
 			ep_inst_30c._advance_page()
 			if ep_inst_30c._full_text != tr("MSG_ENDING_FINAL_LINE"):
 				printerr("FAIL 30-C: page 3 final line mismatch")
 				get_tree().quit(1)
 				return
-				
+
 			ep_inst_30c.free()
 	print("PASS 30-C: 10 ending-epilogue text combinations verified successfully.")
-	
+
 	# 2. 驗證 meta 結局記錄隔離與 reset 不清
 	GameState.reset_for_new_game()
-	
+
 	# 清除現有 meta.cfg 便於測試
 	var conf_30c := ConfigFile.new()
 	conf_30c.clear()
 	conf_30c.save("user://meta.cfg")
-	
+
 	# 寫入結局成就
 	GameState.mark_ending_achieved("expose_c")
-	
+
 	# 抓取 SaveSystem state dict
 	var save_dict_30c = SaveSystem.capture("apartment", 100.0, 1)
 	if save_dict_30c.has("endings") or save_dict_30c.get("data", {}).has("endings"):
 		printerr("FAIL 30-C: SaveSystem state dict should NOT contain endings meta, got data keys: ", save_dict_30c.get("data", {}).keys())
 		get_tree().quit(1)
 		return
-		
+
 	# 測試 reset_for_new_game 不清 meta
 	GameState.reset_for_new_game()
 	var achieved_after_reset_30c = GameState.get_achieved_endings()
@@ -15362,7 +15362,7 @@ func _ready() -> void:
 		printerr("FAIL 30-C: meta endings should survive reset_for_new_game, got: ", achieved_after_reset_30c)
 		get_tree().quit(1)
 		return
-		
+
 	# 清理 meta 避免影響後續
 	conf_30c.clear()
 	conf_30c.save("user://meta.cfg")
@@ -15378,24 +15378,24 @@ func _ready() -> void:
 		printerr("FAIL 30-C: write_slot failed for 28 orphan save!")
 		get_tree().quit(1)
 		return
-		
+
 	var main_orphan_28_30c = load("res://scenes/main/main.tscn").instantiate()
 	add_child(main_orphan_28_30c)
 	await get_tree().process_frame
-	
+
 	if not main_orphan_28_30c.load_game_slot(TEST_SCRATCH_SAVE_SLOT):
 		printerr("FAIL 30-C: load_game_slot failed for 28 orphan save!")
 		get_tree().quit(1)
 		return
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	# 斷言已被救援回 datacenter_backup_core 並且自動前進
 	if main_orphan_28_30c.get_current_scene_id() != "datacenter_backup_core":
 		printerr("FAIL 30-C: 28 orphan save should load back into datacenter_backup_core, got: ", main_orphan_28_30c.get_current_scene_id())
 		get_tree().quit(1)
 		return
-		
+
 	# 驅動它直通結局到標題
 	var frames_orphan_28 := 0
 	while main_orphan_28_30c.get_current_scene_id() != "title_screen" and frames_orphan_28 < 1000:
@@ -15403,24 +15403,24 @@ func _ready() -> void:
 			main_orphan_28_30c.game_ui.close_photo_viewer()
 		if UIMode.get_mode() == UIMode.Mode.DIALOGUE:
 			main_orphan_28_30c.game_ui.dialogue_confirm()
-			
+
 		var ep_node_28 = main_orphan_28_30c.game_ui.ending_epilogue
 		if ep_node_28.visible:
 			if frames_orphan_28 % 10 == 0:
 				ep_node_28._advance_page()
 		await get_tree().process_frame
 		frames_orphan_28 += 1
-		
+
 	if main_orphan_28_30c.get_current_scene_id() != "title_screen":
 		printerr("FAIL 30-C: 28 orphan save did not drive end-to-end to title screen!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.get_flag("ending_reclaim_played", false):
 		printerr("FAIL 30-C: 28 orphan rescue did not set ending_reclaim_played!")
 		get_tree().quit(1)
 		return
-		
+
 	main_orphan_28_30c.free()
 	await get_tree().process_frame
 	print("PASS 30-C: 28 orphan save rescue end-to-end verified.")
@@ -15439,24 +15439,24 @@ func _ready() -> void:
 		printerr("FAIL 30-C: write_slot failed for 29 orphan save!")
 		get_tree().quit(1)
 		return
-		
+
 	var main_orphan_29_30c = load("res://scenes/main/main.tscn").instantiate()
 	add_child(main_orphan_29_30c)
 	await get_tree().process_frame
-	
+
 	if not main_orphan_29_30c.load_game_slot(TEST_SCRATCH_SAVE_SLOT):
 		printerr("FAIL 30-C: load_game_slot failed for 29 orphan save!")
 		get_tree().quit(1)
 		return
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	# 斷言已被救援回 broadcast_station
 	if main_orphan_29_30c.get_current_scene_id() != "broadcast_station":
 		printerr("FAIL 30-C: 29 orphan save should load back into broadcast_station, got: ", main_orphan_29_30c.get_current_scene_id())
 		get_tree().quit(1)
 		return
-		
+
 	# 驅動它直通結局到標題
 	var frames_orphan_29 := 0
 	while main_orphan_29_30c.get_current_scene_id() != "title_screen" and frames_orphan_29 < 1000:
@@ -15464,24 +15464,24 @@ func _ready() -> void:
 			main_orphan_29_30c.game_ui.close_photo_viewer()
 		if UIMode.get_mode() == UIMode.Mode.DIALOGUE:
 			main_orphan_29_30c.game_ui.dialogue_confirm()
-			
+
 		var ep_node_29 = main_orphan_29_30c.game_ui.ending_epilogue
 		if ep_node_29.visible:
 			if frames_orphan_29 % 10 == 0:
 				ep_node_29._advance_page()
 		await get_tree().process_frame
 		frames_orphan_29 += 1
-		
+
 	if main_orphan_29_30c.get_current_scene_id() != "title_screen":
 		printerr("FAIL 30-C: 29 orphan save did not drive end-to-end to title screen!")
 		get_tree().quit(1)
 		return
-		
+
 	if not GameState.get_flag("ending_expose_a_played", false):
 		printerr("FAIL 30-C: 29 orphan rescue did not set ending_expose_a_played!")
 		get_tree().quit(1)
 		return
-		
+
 	main_orphan_29_30c.free()
 	await get_tree().process_frame
 	print("PASS 30-C: 29 orphan save rescue end-to-end verified.")
@@ -15489,12 +15489,12 @@ func _ready() -> void:
 	# 5. 驗證新 key 三語 CSV lint
 	var keys_to_check_30c = [
 		"MSG_ENDING_SHARED_P1", "MSG_ENDING_SHARED_P2", "MSG_ENDING_FINAL_LINE",
-		"MSG_ENDING_ORANGE_RECLAIM", "MSG_ENDING_ORANGE_PROTECT", 
+		"MSG_ENDING_ORANGE_RECLAIM", "MSG_ENDING_ORANGE_PROTECT",
 		"MSG_ENDING_ORANGE_EXPOSE_A", "MSG_ENDING_ORANGE_EXPOSE_B", "MSG_ENDING_ORANGE_EXPOSE_C",
 		"MSG_ENDING_ORANGE_RECLAIM_PEACE", "MSG_ENDING_ORANGE_PROTECT_PEACE",
 		"MSG_ENDING_ORANGE_EXPOSE_A_PEACE", "MSG_ENDING_ORANGE_EXPOSE_B_PEACE", "MSG_ENDING_ORANGE_EXPOSE_C_PEACE"
 	]
-	
+
 	for target_lang_30c in ["zh_TW", "zh_CN", "en"]:
 		LocaleManager.set_locale(target_lang_30c)
 		for key_30c in keys_to_check_30c:
@@ -15511,7 +15511,7 @@ func _ready() -> void:
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")
 	print("==================================================")
 
-	
+
 	# Defer quit so that this ready function can return and pop stack frame, clearing references
 	get_tree().call_deferred("quit", 0)
 
@@ -15651,30 +15651,30 @@ func _drive_ending_sequence_phase28d(main_inst: Node) -> Dictionary:
 # Phase 30-B: 全主線脊椎回歸測試推進核心 helper
 func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 	print("--- Spine Regression Test: ", ending_variant_phase30, " ---")
-	
+
 	# 1. 重設與初始化
 	GameState.reset_for_new_game()
-	
+
 	# 清除現有 meta.cfg 便於乾淨測試
 	var config_phase30 := ConfigFile.new()
 	var path_phase30 := "user://meta.cfg"
 	config_phase30.clear()
 	config_phase30.save(path_phase30)
-	
+
 	# 2. 建立 Main 實例並轉場到 apartment
 	var main_phase30 = load("res://scenes/main/main.tscn").instantiate()
 	add_child(main_phase30)
 	await get_tree().process_frame
-	
+
 	main_phase30.transition_to("apartment", "wake_bed")
 	await get_tree().process_frame
-	
+
 	# 模擬公寓開場
 	var apt_phase30 = main_phase30.world_root.get_children()[-1]
 	# 模擬公寓解謎：手套、方塊解密、大門解鎖
 	GameState.add_item("fingerless_gloves")
 	GameState.add_item("decoder_cube")
-	
+
 	# 手套裝備
 	var gloves_instance_id_phase30 := ""
 	for item_phase30 in GameState.get_inventory():
@@ -15683,24 +15683,24 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 			break
 	if not gloves_instance_id_phase30.is_empty():
 		GameState.equip(gloves_instance_id_phase30)
-	
+
 	# 插槽解鎖
 	GameState.apartment_sonar_revealed = true
 	GameState.apartment_slot_unlocked = true
 	GameState.add_knowledge(GameState.STORY_NOTES["identity_door_unlock_method"])
-	
+
 	# 模擬與大門互動，轉場到街道
 	var door_area_phase30 = apt_phase30.get_node("Interactables/DoorExitArea")
 	apt_phase30._on_interactable_entered(door_area_phase30)
 	apt_phase30._trigger_interaction()
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	if main_phase30.get_current_scene_id() != "apartment_entrance":
 		printerr("FAIL Spine [", ending_variant_phase30, "]: failed to travel to apartment_entrance, got: ", main_phase30.get_current_scene_id())
 		get_tree().quit(1)
 		return
-		
+
 	# 3. 街道：與晚互動接任務
 	var street_phase30 = main_phase30.world_root.get_children()[-1]
 	# 模擬與晚對話接任務：對話三次以湊足好感度接下任務
@@ -15713,13 +15713,13 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 					return choice_phase30.get("index", 0)
 			return -1
 		await _advance_dialogue_to_end_phase30(main_phase30, first_meet_selector_phase30)
-	
+
 	# 驗證任務 alley_backrooms_3f 已啟動
 	if QuestManager.get_status("alley_backrooms_3f") != "active":
 		printerr("FAIL Spine [", ending_variant_phase30, "]: quest alley_backrooms_3f not started!")
 		get_tree().quit(1)
 		return
-		
+
 	# 4. 防火梯：取得物品 A 推進任務
 	main_phase30.transition_to("apartment_fire_escape", "from_window")
 	await get_tree().process_frame
@@ -15728,11 +15728,11 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 	QuestManager.advance("alley_backrooms_3f", "found_activation_box")
 	GameState.add_item("old_ai_authorization_module")
 	QuestManager.set_flag("alley_backrooms_3f", "found_old_ai_authorization_module", true)
-	
+
 	# 5. 回到街道：向晚交任務，交回物品以推進
 	main_phase30.transition_to("apartment_entrance", "from_apartment")
 	await get_tree().process_frame
-	
+
 	# 模擬與晚交還對話
 	main_phase30.game_ui.start_dialogue("wan")
 	var report_selector_phase30 = func(node_phase30):
@@ -15743,24 +15743,24 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 				return i_choice_phase30
 		return -1
 	await _advance_dialogue_to_end_phase30(main_phase30, report_selector_phase30)
-	
+
 	# 6. 地鐵與聚落推進，準備回執相關分岔
 	main_phase30.transition_to("subway_station", "from_street")
 	await get_tree().process_frame
 	main_phase30.transition_to("underground_settlement", "from_subway")
 	await get_tree().process_frame
-	
+
 	# 模擬戰鬥與取得回執
 	main_phase30.transition_to("tunnel_combat", "from_settlement")
 	await get_tree().process_frame
 	GameState.set_flag("tunnel_combat_won", true)
 	# 取得回執
 	GameState.add_item("childcare_supply_receipt")
-	
+
 	# 再次回到地鐵月台與晚對話，決定賣回執以鎖死和平線，或交回給七號以解鎖和平分支
 	main_phase30.transition_to("subway_station", "from_street")
 	await get_tree().process_frame
-	
+
 	if ending_variant_phase30 == "protect_b":
 		# 選擇賣掉回執鎖死和平線
 		main_phase30.game_ui.start_dialogue("wan")
@@ -15777,7 +15777,7 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 		# 和平線：交還給七號
 		main_phase30.transition_to("underground_settlement", "from_subway")
 		await get_tree().process_frame
-		
+
 		# 模擬與七號對話交付回執
 		main_phase30.game_ui.start_dialogue("seven")
 		var seven_selector_phase30 = func(node_phase30):
@@ -15792,13 +15792,13 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 			return -1
 		await _advance_dialogue_to_end_phase30(main_phase30, seven_selector_phase30)
 		# 這會設定 seven_peace_branch_d = true 且 peace_line_locked = false
-		
+
 	# 7. 深隧道追逐與岑的暴露
 	if ending_variant_phase30 == "protect_b":
 		GameState.set_flag("cen_voiceprint_exposed", true)
 	else:
 		GameState.set_flag("cen_voiceprint_exposed", false)
-		
+
 	# 8. 殘響採集與 Trace 湊分岔
 	if ending_variant_phase30 == "expose_c":
 		# 採集三個殘響，使 trace >= 3
@@ -15814,13 +15814,13 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 		var echo_data_phase30 = EchoDB.get_echo("echo_clerk")
 		for seg_phase30 in echo_data_phase30.get("segments", []):
 			GameState.collect_echo_segment("echo_clerk", seg_phase30.get("id", ""))
-			
+
 	# 設定晚的好感度
 	if ending_variant_phase30 == "reclaim":
 		GameState.set_flag("affinity_wan", 2) # warm ending
 	else:
 		GameState.set_flag("affinity_wan", 1)
-		
+
 	# 9. 前往夜總會與資料中心 core
 	main_phase30.transition_to("nightclub_entrance", "from_street")
 	await get_tree().process_frame
@@ -15828,7 +15828,7 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 	await get_tree().process_frame
 	main_phase30.transition_to("nightclub_back", "from_lobby")
 	await get_tree().process_frame
-	
+
 	# 進入資料中心
 	main_phase30.transition_to("datacenter_entrance", "from_nightclub")
 	await get_tree().process_frame
@@ -15836,35 +15836,35 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 	await get_tree().process_frame
 	main_phase30.transition_to("datacenter_backup_core", "from_backup")
 	await get_tree().process_frame
-	
+
 	# 10. 在 core 觸發 endings 結局路由
 	# 30-C: 最後可存點留檔 -> 讀回 -> 繼續走完結局 (Reclaim / Protect)
 	if not SaveSystem.can_save_here:
 		printerr("FAIL 30-C Spine [", ending_variant_phase30, "]: SaveSystem.can_save_here should be true before own_backup!")
 		get_tree().quit(1)
 		return
-		
+
 	var save_data_own_backup_phase30 = SaveSystem.capture(main_phase30.get_current_scene_id(), 100.0, 1)
 	if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_data_own_backup_phase30):
 		printerr("FAIL 30-C Spine [", ending_variant_phase30, "]: failed to write pre-choice save slot!")
 		get_tree().quit(1)
 		return
-		
+
 	main_phase30.free()
 	await get_tree().process_frame
 	GameState.reset_for_new_game()
-	
+
 	main_phase30 = load("res://scenes/main/main.tscn").instantiate()
 	add_child(main_phase30)
 	await get_tree().process_frame
-	
+
 	if not main_phase30.load_game_slot(TEST_SCRATCH_SAVE_SLOT):
 		printerr("FAIL 30-C Spine [", ending_variant_phase30, "]: load_game_slot failed in own_backup round-trip!")
 		get_tree().quit(1)
 		return
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+
 	# 模擬觸發 own_backup 結局路由對話
 	main_phase30.game_ui.start_dialogue("own_backup")
 	var core_selector_phase30 = func(node_phase30):
@@ -15875,7 +15875,7 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 			search_text_phase30 = "刪"
 		else:
 			search_text_phase30 = "拷"
-		
+
 		var choices_phase30 = node_phase30.get("choices", [])
 		for i_choice_phase30 in range(choices_phase30.size()):
 			var lbl_phase30 = tr(choices_phase30[i_choice_phase30].get("label", ""))
@@ -15887,7 +15887,7 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 				return i_choice_phase30
 		return -1
 	await _advance_dialogue_to_end_phase30(main_phase30, core_selector_phase30)
-		
+
 	# 11. 驅動結局演出推進
 	if ending_variant_phase30.begins_with("expose"):
 		# Expose 進入廣播站，觸發清洗閘
@@ -15895,34 +15895,34 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 			printerr("FAIL Spine [", ending_variant_phase30, "]: failed to travel to broadcast_station, got: ", main_phase30.get_current_scene_id())
 			get_tree().quit(1)
 			return
-			
+
 		# 30-C: 最後可存點留檔 -> 讀回 -> 繼續走完結局 (Expose)
 		if not SaveSystem.can_save_here:
 			printerr("FAIL 30-C Spine [", ending_variant_phase30, "]: SaveSystem.can_save_here should be true before broadcast_upload!")
 			get_tree().quit(1)
 			return
-			
+
 		var save_data_broadcast_phase30 = SaveSystem.capture(main_phase30.get_current_scene_id(), 100.0, 1)
 		if not SaveSystem.write_slot(TEST_SCRATCH_SAVE_SLOT, save_data_broadcast_phase30):
 			printerr("FAIL 30-C Spine [", ending_variant_phase30, "]: failed to write broadcast pre-choice save slot!")
 			get_tree().quit(1)
 			return
-			
+
 		main_phase30.free()
 		await get_tree().process_frame
 		GameState.reset_for_new_game()
-		
+
 		main_phase30 = load("res://scenes/main/main.tscn").instantiate()
 		add_child(main_phase30)
 		await get_tree().process_frame
-		
+
 		if not main_phase30.load_game_slot(TEST_SCRATCH_SAVE_SLOT):
 			printerr("FAIL 30-C Spine [", ending_variant_phase30, "]: load_game_slot failed in broadcast_upload round-trip!")
 			get_tree().quit(1)
 			return
 		await get_tree().process_frame
 		await get_tree().process_frame
-		
+
 		# 觸發廣播站對話 (清洗或保留)
 		main_phase30.game_ui.start_dialogue("broadcast_upload")
 		var broadcast_selector_phase30 = func(node_phase30):
@@ -15934,12 +15934,12 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 					return i_choice_phase30
 			return -1
 		await _advance_dialogue_to_end_phase30(main_phase30, broadcast_selector_phase30)
-		
+
 		# 寫入 expose_upload_done 觸發 Expose 結局
 		GameState.set_flag("expose_upload_done", true)
 		await get_tree().process_frame
 		await get_tree().process_frame
-		
+
 	# 結局自動前進
 	# 驅動 epilogue 直到回到標題畫面
 	var frames_phase30 := 0
@@ -15953,22 +15953,22 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 			main_phase30.game_ui.close_photo_viewer()
 		if UIMode.get_mode() == UIMode.Mode.DIALOGUE:
 			main_phase30.game_ui.dialogue_confirm()
-			
+
 		var ep_phase30 = main_phase30.game_ui.ending_epilogue
-			
+
 		if ep_phase30.visible:
 			# 整合測試下，直接呼叫內部的 _advance_page() 推進 epilogue 拍數
 			if frames_phase30 % 10 == 0:
 				ep_phase30._advance_page()
 		await get_tree().process_frame
 		frames_phase30 += 1
-		
+
 	# 斷言回到標題畫面
 	if main_phase30.get_current_scene_id() != "title_screen":
 		printerr("FAIL Spine [", ending_variant_phase30, "]: failed to return to title screen after ", frames_phase30, " frames!")
 		get_tree().quit(1)
 		return
-		
+
 	# 12. 斷言 endings played 旗標、meta.cfg、Notebook summary endings 欄位
 	var expected_played_flag_phase30 := ""
 	var expected_meta_key_phase30 := ""
@@ -15988,26 +15988,26 @@ func _run_mainline_spine_phase30(ending_variant_phase30: String) -> void:
 		"expose_c":
 			expected_played_flag_phase30 = "ending_expose_c_played"
 			expected_meta_key_phase30 = "expose_c"
-			
+
 	if not GameState.get_flag(expected_played_flag_phase30, false):
 		printerr("FAIL Spine [", ending_variant_phase30, "]: expected played flag ", expected_played_flag_phase30, " not set!")
 		get_tree().quit(1)
 		return
-		
+
 	var achieved_phase30 = GameState.get_achieved_endings()
 	if not achieved_phase30.has(expected_meta_key_phase30):
 		printerr("FAIL Spine [", ending_variant_phase30, "]: expected meta key ", expected_meta_key_phase30, " not in achieved list: ", achieved_phase30)
 		get_tree().quit(1)
 		return
-		
+
 	var summary_phase30 = GameState.get_progress_summary()
 	if summary_phase30["endings"]["done"] != 1:
 		printerr("FAIL Spine [", ending_variant_phase30, "]: expected endings.done == 1, got: ", summary_phase30["endings"])
 		get_tree().quit(1)
 		return
-		
+
 	print("PASS Spine [", ending_variant_phase30, "]: successfully driven end-to-end and verified in meta!")
-	
+
 	if is_instance_valid(main_phase30):
 		main_phase30.free()
 	await get_tree().process_frame

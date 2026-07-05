@@ -68,7 +68,7 @@ func _ready() -> void:
 	credits_container.visible = false
 	audio_rain.stream = load("res://assets/audio/ambient/street_rain_loop.mp3")
 	audio_song.stream = load("res://assets/audio/echoes/echo_song_rain_doesnt_stop.mp3")
-	
+
 func start_epilogue() -> void:
 	# 讀取結局狀態
 	if GameState.get_flag("ending_reclaim_played", false):
@@ -88,28 +88,28 @@ func start_epilogue() -> void:
 	_step = 0
 	_sub_page = 0
 	visible = true
-	
+
 	# 音訊播放
 	audio_rain.play()
 	audio_song.play()
-	
+
 	# BGM fade out
 	var main = get_tree().root.find_child("Main", true, false)
 	if main and main.has_method("fade_out_bgm"):
 		main.fade_out_bgm(1.5)
-	
+
 	# 淡黑接手
 	blackout_rect.visible = true
 	blackout_rect.color = Color(0.0, 0.0, 0.0, 0.0)
 	text_overlay.visible = false
 	cg_texture.texture = null
-	
+
 	UIMode.set_mode(UIMode.Mode.MESSAGE) # 全程鎖定輸入狀態
-	
+
 	var fade_time := 2.0
 	if DisplayServer.get_name() == "headless":
 		fade_time = 0.0
-		
+
 	var tw := create_tween()
 	tw.tween_property(blackout_rect, "color:a", 1.0, fade_time)
 	tw.tween_callback(func():
@@ -121,7 +121,7 @@ func _start_beat_1() -> void:
 	_sub_page = 0
 	blackout_rect.visible = false
 	text_overlay.visible = true
-	
+
 	var path := "res://assets/generated/maps/cg_ending_street_wide/cg_ending_street_wide.png"
 	cg_texture.texture = load(path)
 	_show_page("MSG_ENDING_SHARED_P1")
@@ -130,7 +130,7 @@ func _start_beat_2() -> void:
 	_step = 2
 	var path := "res://assets/generated/maps/cg_ending_orange_%s/cg_ending_orange_%s.png" % [_ending_id, _ending_id]
 	cg_texture.texture = load(path)
-	
+
 	var key := ""
 	if _is_peace:
 		key = "MSG_ENDING_ORANGE_%s_PEACE" % [_ending_id.to_upper()]
@@ -149,7 +149,7 @@ func _start_credits() -> void:
 	text_overlay.visible = false
 	cg_texture.texture = null
 	credits_container.visible = true
-	
+
 	# 歌 fade out，雨聲墊底
 	var song_tween := create_tween()
 	var fade_time := 1.5
@@ -159,29 +159,29 @@ func _start_credits() -> void:
 	song_tween.tween_callback(func():
 		audio_song.stop()
 	)
-	
+
 	# 建立 credits bbcode 文字
 	var text_lines := []
 	text_lines.append("[center]")
 	text_lines.append("[font_size=40][b]After-The-Model[/b][/font_size]")
 	text_lines.append("\n\n\n\n")
-	
+
 	for section in CREDITS_SECTIONS:
 		text_lines.append("[font_size=24][color=#c76b33][b]%s[/b][/color][/font_size]" % tr(section.title))
 		text_lines.append("")
 		for name in section.names:
 			text_lines.append("[font_size=20]%s[/font_size]" % name)
 		text_lines.append("\n\n\n")
-		
+
 	text_lines.append("\n\n\n\n")
 	text_lines.append("[font_size=24][i]Thank You For Playing[/i][/font_size]")
 	text_lines.append("[/center]")
-	
+
 	credits_label.text = "\n".join(text_lines)
 	credits_label.position.y = size.y
 	_credits_scroll_y = size.y
 	_credits_finished = false
-	
+
 	if DisplayServer.get_name() == "headless":
 		_finish_epilogue_entirely()
 
@@ -190,7 +190,7 @@ func _finish_epilogue_entirely() -> void:
 	audio_song.stop()
 	credits_container.visible = false
 	visible = false
-	
+
 	# 回標題畫面
 	if DisplayServer.get_name() == "headless":
 		var main_node = get_parent()
@@ -208,7 +208,7 @@ func _show_page(key: String) -> void:
 	_typewriter_finished = false
 	dialogue_label.text = ""
 	page_hint_label.text = ""
-	
+
 	if DisplayServer.get_name() == "headless":
 		_typewriter_finished = true
 		dialogue_label.text = _full_text
@@ -217,7 +217,7 @@ func _show_page(key: String) -> void:
 func _process(delta: float) -> void:
 	if not visible:
 		return
-		
+
 	if _step in [1, 2, 3]:
 		if not _typewriter_finished:
 			_typewriter_elapsed += delta
@@ -229,7 +229,7 @@ func _process(delta: float) -> void:
 					_typewriter_finished = true
 					page_hint_label.text = tr("UI_MSG_CONTINUE_HINT")
 				dialogue_label.text = _full_text.substr(0, _char_index)
-				
+
 		# 推進輸入
 		var advance_pressed := (
 			Input.is_action_just_pressed("interact_primary") or
@@ -244,24 +244,24 @@ func _process(delta: float) -> void:
 				page_hint_label.text = tr("UI_MSG_CONTINUE_HINT")
 			else:
 				_advance_page()
-				
+
 	elif _step == 4:
 		# Credits 滾動
 		_credits_speed_mult = 4.0 if (
 			Input.is_action_pressed("interact_primary") or
 			Input.is_action_pressed("ui_accept")
 		) else 1.0
-		
+
 		# 每一秒上移 50 像素
 		var scroll_speed = 50.0 * _credits_speed_mult * delta
 		_credits_scroll_y -= scroll_speed
 		credits_label.position.y = _credits_scroll_y
-		
+
 		# 檢查是否滾完 (文字高度 + label 座標都跑出了螢幕)
 		var label_size = credits_label.get_minimum_size()
 		if _credits_scroll_y + label_size.y < 0:
 			_credits_finished = true
-			
+
 		# 若已經滾動完，或者玩家在滾完後再次點擊即可結束
 		var click_to_skip := (
 			Input.is_action_just_pressed("interact_primary") or

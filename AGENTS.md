@@ -182,7 +182,7 @@ cmd /c "C:\Users\User\AppData\Local\agy\bin\agy.exe -p `"<任務>`" --model `"<�
 - `--add-dir <專案路徑>`：不加的話 agy 只在自己的 sandbox 暫存區 `C:\Users\User\.gemini\antigravity-cli\scratch\` 活動，cwd 不算數——它會回報成功但專案裡什麼都沒發生。
 - `--dangerously-skip-permissions`：單次生效，不動持久設定，手動互動使用不受影響。
 
-Model selection: `--model` 吃 `agy models` 列出的**完整顯示字串**（含括號內專注程度），例如 `"Gemini 3.5 Flash (High)"`、`"Gemini 3.1 Pro (High)"`。審查 / 驗證任務未指定時預設 `"Gemini 3.5 Flash (High)"`。
+Model selection: `--model` 吃 `agy models` 列出的**完整顯示字串**（含括號內專注程度），例如 `"Gemini 3.5 Flash (High)"`、`"Gemini 3.1 Pro (High)"`。所有 agy 任務未指定模型時，一律預設 `"Gemini 3.5 Flash (High)"`。
 
 Default mode: read-only reviewer.
 - 任務 prompt 內明確要求：不建立 / 修改 / 刪除任何檔案、不跑 Godot 或任何會寫檔的命令、輸出純文字報告。

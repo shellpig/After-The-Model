@@ -164,6 +164,7 @@ Default mode: read-only reviewer.
 - No file writes, deletes, staging, commits, or pushes.
 - Do not read `.env`, `data/`, `舊文件/`, or `C:\_work\AI_Work\Tools\`.
 - Treat output as second opinion; review it before reporting.
+- 非互動呼叫（`codex exec`）同樣必須 `< NUL` 關閉 stdin，否則會停在 `Reading additional input from stdin...` 永久卡死（配方見下方 Codex CLI (OpenAI) Reviewer 段）。
 
 ### Antigravity CLI (agy) Reviewer
 
@@ -188,4 +189,26 @@ Default mode: read-only reviewer.
 - 任務 prompt 內明確要求：不建立 / 修改 / 刪除任何檔案、不跑 Godot 或任何會寫檔的命令、輸出純文字報告。
 - 每次跑完必以 `git status` / `git diff` 比對確認實際改動；agy 的 stdout 口頭回報僅供參考（可能混入 session 殘留雜訊），不可作為改動依據。
 - 給它寫入任務時：clean tree 起跑、小範圍具體指令、跑完看 diff 再決定去留。
+- Treat output as second opinion; review it before reporting.
+
+### Codex CLI (OpenAI) Reviewer
+
+When the user says "要 codex 做 XXX", "用 codex 審 / 驗證 XXX"（不帶 `ds4` 字樣）, run the task through `codex exec` with the default `CODEX_HOME`（原生 OpenAI / ChatGPT 帳號；帶 `ds4` 時走上方 DeepSeek 段落，兩者帳號設定互不影響）。
+
+Invocation recipe:
+
+```powershell
+cmd /c "codex exec `"<任務>`" --sandbox read-only -C `"C:\_work\AI_Work\Projects\AfterTheModel`" --ephemeral -o `"<結果檔>`" < NUL > `"<過程log檔>`" 2>&1"
+```
+
+- `< NUL`（關閉 stdin）：非 TTY 下 `codex exec` 會停在 `Reading additional input from stdin...` 永久卡死；與 agy 同族病因。
+- `--sandbox read-only`：引擎層強制唯讀（比 agy 的 prompt 口頭約束可靠）；寫入任務改 `--sandbox workspace-write`，不需要用 `--dangerously-bypass-approvals-and-sandbox`。
+- `-o <結果檔>`：只寫最終回覆，與 stdout 的完整過程 log 分離，結果乾淨。
+- `-C <專案路徑>`：指定工作根目錄；`--ephemeral` 不在本機留 session 檔。
+
+Model selection: 預設 `gpt-5.5` + `model_reasoning_effort = "high"`（來自 `~/.codex/config.toml`，所有 codex 任務未特別指定時一律用此組）。要換模型用 `-m <model>`，專注程度用 `-c model_reasoning_effort="low/medium/high"` 覆蓋。
+
+Default mode: read-only reviewer.
+- 審查 / 驗證任務一律 `--sandbox read-only`。
+- 寫入任務：clean tree 起跑、小範圍具體指令、跑完以 `git status` / `git diff` 確認實際改動再決定去留。
 - Treat output as second opinion; review it before reporting.

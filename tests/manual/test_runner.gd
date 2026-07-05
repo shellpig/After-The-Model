@@ -41,7 +41,7 @@ func _ready() -> void:
 
 	# Instantiate GameUI so that apartment_room.gd can retrieve its UI references
 	var ui_scene = load("res://scenes/ui/game_ui.tscn")
-	var ui_instance = ui_scene.instantiate()
+	ui_instance = ui_scene.instantiate()
 	add_child(ui_instance)
 	print("PASS: game_ui.tscn instantiated in scene tree.")
 
@@ -291,7 +291,7 @@ func _ready() -> void:
 		return
 	print("PASS: main.tscn loaded successfully.")
 
-	var main_instance = main_scene.instantiate()
+	main_instance = main_scene.instantiate()
 	add_child(main_instance)
 	print("PASS: main.tscn instantiated in scene tree.")
 
@@ -351,7 +351,7 @@ func _ready() -> void:
 		return
 	print("PASS: apartment_entrance.tscn loaded successfully.")
 
-	var street_instance = street_scene.instantiate()
+	street_instance = street_scene.instantiate()
 	add_child(street_instance)
 	print("PASS: apartment_entrance.tscn instantiated in scene tree.")
 	UIMode.set_mode(UIMode.Mode.NONE)
@@ -650,7 +650,7 @@ func _ready() -> void:
 	print("PASS: GameState Story Flags APIs verified.")
 
 	print("Verifying DialogueDB lookup...")
-	var DialogueDB = load("res://data/dialogue/dialogue_db.gd")
+	DialogueDB = load("res://data/dialogue/dialogue_db.gd")
 	var wan_tree = DialogueDB.get_tree_for("wan")
 	if wan_tree.is_empty() or not wan_tree.has("start"):
 		printerr("FAIL: DialogueDB could not fetch wan tree!")
@@ -1142,7 +1142,7 @@ func _ready() -> void:
 
 	# Write slot and read back
 	var slot_idx := TEST_VALID_SAVE_SLOT
-	var dir = DirAccess.open("user://")
+	dir = DirAccess.open("user://")
 	if dir and dir.file_exists(TEST_VALID_SAVE_FILE):
 		dir.remove(TEST_VALID_SAVE_FILE)
 
@@ -1855,7 +1855,7 @@ func _ready() -> void:
 		printerr("FAIL: Could not load apartment_fire_escape.tscn!")
 		get_tree().quit(1)
 		return
-	var escape_instance = escape_scene.instantiate()
+	escape_instance = escape_scene.instantiate()
 	add_child(escape_instance)
 
 	# 2. Reset quest states and inventory
@@ -2515,7 +2515,7 @@ func _ready() -> void:
 			break
 
 	# Instantiate UI for modal check
-	var ui_instance_j = ui_scene.instantiate()
+	ui_instance_j = ui_scene.instantiate()
 	add_child(ui_instance_j)
 	ui_instance_j.open_inventory()
 	ui_instance_j._on_bag_item_action("view", box_inst_id)
@@ -8201,7 +8201,7 @@ func _ready() -> void:
 		return
 	print("PASS 18-A: tunnel_combat.tscn loaded.")
 
-	var p18_arena = p18_combat_scene.instantiate()
+	p18_arena = p18_combat_scene.instantiate()
 	add_child(p18_arena)
 	await get_tree().process_frame
 
@@ -8403,7 +8403,7 @@ func _ready() -> void:
 	GameState.set_flag("peace_line_locked", true)
 	GameState.add_item("childcare_supply_receipt", 1)
 
-	var p18_save_dict = SaveSystem.capture("tunnel_combat", 100.0, 1)
+	p18_save_dict = SaveSystem.capture("tunnel_combat", 100.0, 1)
 	GameState.reset_for_new_game()
 
 	SaveSystem.apply(p18_save_dict)
@@ -9158,7 +9158,7 @@ func _ready() -> void:
 		return
 
 	# zh_CN 禁用的繁體字（取自 zh_TW 欄實際出現、且簡繁不同形的字）
-	var trad_blocklist := "丟佈來個們備儲內劇動務勞區員啟單囈圓報場塊墊夢夾寫將尋對層屬帳帶庫張後從徹憑憶應戲拋掙採換損撥擇據敗數斷時暢暫會棄標樣機檔檢櫃櫥欄權殘殺毀沒淨準溫滅滿潤無燈牆獲現產畫發確禮筆紅細組結絕給統絲經維綻緒緻總繼續聲聽與舊蓋蕩處號螢裝裡見視覺觀觸託記訝設診詳誌認語說談請謝證讓貝貨販買賣贅跡載輕轉這連進遊運過達選遺還銘錄鍵鎖鐘鐵門閃閉開間閘關陳隱雜離靜響頁順領頭題願類驚體鳴麼點"
+	trad_blocklist = "丟佈來個們備儲內劇動務勞區員啟單囈圓報場塊墊夢夾寫將尋對層屬帳帶庫張後從徹憑憶應戲拋掙採換損撥擇據敗數斷時暢暫會棄標樣機檔檢櫃櫥欄權殘殺毀沒淨準溫滅滿潤無燈牆獲現產畫發確禮筆紅細組結絕給統絲經維綻緒緻總繼續聲聽與舊蓋蕩處號螢裝裡見視覺觀觸託記訝設診詳誌認語說談請謝證讓貝貨販買賣贅跡載輕轉這連進遊運過達選遺還銘錄鍵鎖鐘鐵門閃閉開間閘關陳隱雜離靜響頁順領頭題願類驚體鳴麼點"
 
 	var lint_fail := false
 	var lint_checked := 0
@@ -9282,7 +9282,7 @@ func _ready() -> void:
 	print("--- Phase M2-C: 敘事資料 i18n ---")
 
 	# zh_CN 禁用的繁體字（沿用 M2-B 同一封鎖集）
-	var trad_blocklist_c := trad_blocklist
+	trad_blocklist_c = trad_blocklist
 
 	# (1) 品質 lint — story.csv / items.csv
 	for csv_domain in ["story", "items"]:

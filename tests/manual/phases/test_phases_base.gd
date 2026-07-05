@@ -7,6 +7,19 @@ const TEST_SCRATCH_SAVE_FILE := "save_02.sav"
 
 var _temp_callable: Callable
 
+# 跨段共用變數：原 _ready() 區域變數，拆檔時升格為成員（宣告行原文去掉 var，其餘引用不變）
+var ui_instance
+var main_instance
+var street_instance
+var escape_instance
+var ui_instance_j
+var p18_arena
+var p18_save_dict
+var DialogueDB
+var dir
+var trad_blocklist
+var trad_blocklist_c
+
 # 遞迴列出 root 下所有副檔名為 ext 的檔案（res:// 路徑）
 func _m2b_list_files(root: String, ext: String, out: Array) -> void:
 	var da := DirAccess.open(root)

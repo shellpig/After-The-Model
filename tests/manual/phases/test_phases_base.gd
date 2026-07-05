@@ -19,6 +19,15 @@ var DialogueDB
 var dir
 var trad_blocklist
 var trad_blocklist_c
+var room_scene
+var room_instance
+var ui_scene
+var room_instance2
+var wan_tree
+var runner
+var inv_backup_8f
+var credits_backup_8f
+var gate_runner_8f
 
 # 遞迴列出 root 下所有副檔名為 ext 的檔案（res:// 路徑）
 func _m2b_list_files(root: String, ext: String, out: Array) -> void:

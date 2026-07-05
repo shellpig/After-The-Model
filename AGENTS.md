@@ -164,3 +164,28 @@ Default mode: read-only reviewer.
 - No file writes, deletes, staging, commits, or pushes.
 - Do not read `.env`, `data/`, `舊文件/`, or `C:\_work\AI_Work\Tools\`.
 - Treat output as second opinion; review it before reporting.
+
+### Antigravity CLI (agy) Reviewer
+
+When the user says "要 agy 做 XXX", "用 agy 審 / 驗證 XXX", or similar wording, run the task through the Antigravity CLI (`agy`).
+
+Binary: `C:\Users\User\AppData\Local\agy\bin\agy.exe`（在 user PATH，但部分 shell 的 PATH 快照可能沒有，直接用完整路徑最穩）。
+
+Invocation recipe (all four are mandatory, each fixes a verified failure mode):
+
+```powershell
+cmd /c "C:\Users\User\AppData\Local\agy\bin\agy.exe -p `"<任務>`" --model `"<模型>`" --add-dir `"C:\_work\AI_Work\Projects\AfterTheModel`" --dangerously-skip-permissions --print-timeout 540s < NUL > <輸出檔> 2>&1"
+```
+
+- `< NUL`（關閉 stdin）：非 TTY 下 agy 會癡等 stdin 導致永久卡死（連自己的 print-timeout 都不會觸發）；卡住的主因是 stdin，不是權限確認框。
+- `> 檔案`：非 TTY 下 stdout 不導檔就看不到任何輸出。
+- `--add-dir <專案路徑>`：不加的話 agy 只在自己的 sandbox 暫存區 `C:\Users\User\.gemini\antigravity-cli\scratch\` 活動，cwd 不算數——它會回報成功但專案裡什麼都沒發生。
+- `--dangerously-skip-permissions`：單次生效，不動持久設定，手動互動使用不受影響。
+
+Model selection: `--model` 吃 `agy models` 列出的**完整顯示字串**（含括號內專注程度），例如 `"Gemini 3.5 Flash (High)"`、`"Gemini 3.1 Pro (High)"`。審查 / 驗證任務未指定時預設 `"Gemini 3.5 Flash (High)"`。
+
+Default mode: read-only reviewer.
+- 任務 prompt 內明確要求：不建立 / 修改 / 刪除任何檔案、不跑 Godot 或任何會寫檔的命令、輸出純文字報告。
+- 每次跑完必以 `git status` / `git diff` 比對確認實際改動；agy 的 stdout 口頭回報僅供參考（可能混入 session 殘留雜訊），不可作為改動依據。
+- 給它寫入任務時：clean tree 起跑、小範圍具體指令、跑完看 diff 再決定去留。
+- Treat output as second opinion; review it before reporting.

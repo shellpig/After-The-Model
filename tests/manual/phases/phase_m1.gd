@@ -2,14 +2,14 @@ extends "res://tests/manual/phases/phase_m2a.gd"
 
 func _run_phase_m1() -> void:
 	# 拆檔補宣告：原為 _ready() 早期區域變數，本段先寫後讀（scratch 重用）
-	var room_scene
-	var ui_scene
+	var room_scene_m1
+	var ui_scene_m1
 	var main_scene
 	var street_scene
 	var title_scene
 	var escape_scene
 	var p18_combat_scene
-	var runner
+	var runner_m1
 	var press_e
 	# ===================== Phase M1: Progress Page Integration Verification =====================
 	print("--- Phase M1: Progress Page Integration Verification ---")
@@ -208,13 +208,13 @@ func _run_phase_m1() -> void:
 	await get_tree().process_frame
 
 	# Release RefCounted resources explicitly to prevent exit leaks
-	room_scene = null
-	ui_scene = null
+	room_scene_m1 = null
+	ui_scene_m1 = null
 	main_scene = null
 	street_scene = null
 	DialogueDB = null
 	title_scene = null
-	runner = null
+	runner_m1 = null
 	press_e = Callable()
 	_temp_callable = Callable()
 

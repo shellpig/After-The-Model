@@ -167,17 +167,17 @@ prompt_text = "PROMPT_NIGHTCLUB_ENTRANCE_TRAVEL_DATACENTER"
 dialogue_id = "travel_datacenter"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/TravelDatacenterArea" unique_id=210100025]
-position = Vector2(850, 635)
+position = Vector2(1317, 657)
 shape = SubResource("RectangleShape2D_door")
 
 [node name="EchoPoint" type="Area2D" parent="Interactables" unique_id=210100020]
-position = Vector2(1312, 714)
+position = Vector2(1292, 714)
 script = ExtResource("ext_echo_point")
 echo_id = "echo_linfei"
 segment_id = "s1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EchoPoint" unique_id=210100021]
-position = Vector2(0, 1)
+position = Vector2(-444, 1)
 shape = SubResource("CircleShape2D_echo")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=210100017]

@@ -1,0 +1,174 @@
+{
+  "source": "walk.mp4",
+  "video_frame_indices": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35
+  ],
+  "outputs": [
+    "walk_01.png",
+    "walk_02.png",
+    "walk_03.png",
+    "walk_04.png",
+    "walk_05.png",
+    "walk_06.png",
+    "walk_07.png",
+    "walk_08.png"
+  ],
+  "sheet": "walk_8f_sheet.png",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "qc": [
+    {
+      "frame": 1,
+      "source_frame": 0,
+      "output": "walk_01.png",
+      "bg_rgb": [
+        231,
+        228,
+        225
+      ],
+      "bbox": [
+        206,
+        102,
+        811,
+        958
+      ],
+      "edge_alpha_pixels": 0,
+      "transparent_pixels": 818592
+    },
+    {
+      "frame": 2,
+      "source_frame": 5,
+      "output": "walk_02.png",
+      "bg_rgb": [
+        231,
+        228,
+        224
+      ],
+      "bbox": [
+        157,
+        98,
+        805,
+        957
+      ],
+      "edge_alpha_pixels": 0,
+      "transparent_pixels": 850515
+    },
+    {
+      "frame": 3,
+      "source_frame": 10,
+      "output": "walk_03.png",
+      "bg_rgb": [
+        231,
+        228,
+        225
+      ],
+      "bbox": [
+        159,
+        90,
+        738,
+        956
+      ],
+      "edge_alpha_pixels": 0,
+      "transparent_pixels": 891949
+    },
+    {
+      "frame": 4,
+      "source_frame": 15,
+      "output": "walk_04.png",
+      "bg_rgb": [
+        231,
+        228,
+        225
+      ],
+      "bbox": [
+        234,
+        96,
+        774,
+        958
+      ],
+      "edge_alpha_pixels": 0,
+      "transparent_pixels": 839466
+    },
+    {
+      "frame": 5,
+      "source_frame": 20,
+      "output": "walk_05.png",
+      "bg_rgb": [
+        231,
+        228,
+        225
+      ],
+      "bbox": [
+        235,
+        103,
+        819,
+        958
+      ],
+      "edge_alpha_pixels": 0,
+      "transparent_pixels": 836992
+    },
+    {
+      "frame": 6,
+      "source_frame": 25,
+      "output": "walk_06.png",
+      "bg_rgb": [
+        231,
+        228,
+        225
+      ],
+      "bbox": [
+        160,
+        96,
+        774,
+        957
+      ],
+      "edge_alpha_pixels": 0,
+      "transparent_pixels": 882403
+    },
+    {
+      "frame": 7,
+      "source_frame": 30,
+      "output": "walk_07.png",
+      "bg_rgb": [
+        231,
+        228,
+        225
+      ],
+      "bbox": [
+        146,
+        91,
+        739,
+        957
+      ],
+      "edge_alpha_pixels": 0,
+      "transparent_pixels": 861320
+    },
+    {
+      "frame": 8,
+      "source_frame": 35,
+      "output": "walk_08.png",
+      "bg_rgb": [
+        231,
+        228,
+        225
+      ],
+      "bbox": [
+        204,
+        101,
+        802,
+        958
+      ],
+      "edge_alpha_pixels": 0,
+      "transparent_pixels": 820374
+    }
+  ]
+}

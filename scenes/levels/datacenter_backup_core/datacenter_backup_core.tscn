@@ -1,9 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cp1f8wbsk60h3"]
 
 [ext_resource type="Script" uid="uid://be3d6512et52u" path="res://scenes/actors/player/player.gd" id="1_player"]
-[ext_resource type="Script" path="res://scenes/levels/datacenter_backup_core/datacenter_backup_core.gd" id="2_script"]
+[ext_resource type="Script" uid="uid://d4m1o7coba6vd" path="res://scenes/levels/datacenter_backup_core/datacenter_backup_core.gd" id="2_script"]
 [ext_resource type="Script" uid="uid://ct5g8k3tx3kq1" path="res://scripts/components/interactable_area.gd" id="3_interactable"]
-[ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="19_mem_frag_area"]
 [ext_resource type="Texture2D" uid="uid://d3j5uv2yd8qpx" path="res://assets/generated/maps/datacenter_backup_core/datacenter_backup_core-20260630-073049.png" id="4_map"]
 [ext_resource type="Texture2D" uid="uid://bhweu3uxd1dnv" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-1_upscayl_2x_upscayl-lite-4x.png" id="5_walk1"]
 [ext_resource type="Texture2D" uid="uid://0fm76w7b7l43" path="res://assets/generated/sprites/main_character/walk/main-character-walk-8f-reference-20260528-083508/main-character-walk-2_upscayl_2x_upscayl-lite-4x.png" id="6_walk2"]
@@ -19,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://cqlevyto1pcct" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-4.png" id="16_jump4"]
 [ext_resource type="Texture2D" uid="uid://dr0483468d6l7" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-5.png" id="17_jump5"]
 [ext_resource type="Texture2D" uid="uid://xvrwlgw2fiwr" path="res://assets/generated/sprites/main_character/jump/main-character-jump-20260619-191521/main-character-jump-6.png" id="18_jump6"]
+[ext_resource type="Script" uid="uid://r7mp7nd4wo1u" path="res://scripts/components/memory_fragment_area.gd" id="19_mem_frag_area"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4768, 16)
@@ -95,14 +95,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(24, 454)
 
-[node name="DatacenterBackupCore" type="Node2D"]
+[node name="DatacenterBackupCore" type="Node2D" unique_id=2127111898]
 script = ExtResource("2_script")
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="." unique_id=1750189643]
 texture = ExtResource("4_map")
 centered = false
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=469039520]
 position = Vector2(640, 536)
 limit_left = 0
 limit_top = 0
@@ -111,69 +111,69 @@ limit_bottom = 896
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
-[node name="Collision" type="Node2D" parent="."]
+[node name="Collision" type="Node2D" parent="." unique_id=80421434]
 
-[node name="Ground" type="StaticBody2D" parent="Collision"]
+[node name="Ground" type="StaticBody2D" parent="Collision" unique_id=871234956]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Ground" unique_id=1689286935]
 position = Vector2(2384, 808)
 shape = SubResource("RectangleShape2D_ground")
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=1317661084]
 
-[node name="from_backup" type="Marker2D" parent="SpawnPoints"]
+[node name="from_backup" type="Marker2D" parent="SpawnPoints" unique_id=1927773087]
 position = Vector2(150, 828)
 
-[node name="Interactables" type="Node2D" parent="."]
+[node name="Interactables" type="Node2D" parent="." unique_id=1254687463]
 
-[node name="ExitToBackupArea" type="Area2D" parent="Interactables"]
+[node name="ExitToBackupArea" type="Area2D" parent="Interactables" unique_id=1780880274]
 script = ExtResource("3_interactable")
 interaction_id = "exit_to_backup"
 prompt_text = "PROMPT_DATACENTER_CORE_EXIT_TO_BACKUP"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToBackupArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/ExitToBackupArea" unique_id=772893338]
 position = Vector2(90, 750)
 shape = SubResource("RectangleShape2D_transition")
 
-[node name="MemoryFragmentArea" type="Area2D" parent="Interactables"]
+[node name="MemoryFragmentArea" type="Area2D" parent="Interactables" unique_id=312800479]
 script = ExtResource("19_mem_frag_area")
 fragment_flag = "mem_frag_chose_deletion"
 message_id = "mem_frag_chose_deletion"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/MemoryFragmentArea" unique_id=757313029]
 position = Vector2(1200, 750)
 shape = SubResource("RectangleShape2D_flavor")
 
-[node name="OwnBackupArea" type="Area2D" parent="Interactables"]
+[node name="OwnBackupArea" type="Area2D" parent="Interactables" unique_id=1636251255]
 script = ExtResource("3_interactable")
 interaction_id = "own_backup"
 prompt_text = "PROMPT_DATACENTER_CORE_OWN_BACKUP"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/OwnBackupArea"]
-position = Vector2(2384, 750)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/OwnBackupArea" unique_id=295394270]
+position = Vector2(2267, 740)
 shape = SubResource("RectangleShape2D_flavor")
 
-[node name="FileIndexTerminalArea" type="Area2D" parent="Interactables"]
+[node name="FileIndexTerminalArea" type="Area2D" parent="Interactables" unique_id=2110322138]
 script = ExtResource("3_interactable")
 interaction_id = "file_index_terminal"
 prompt_text = "PROMPT_DATACENTER_CORE_FILE_INDEX"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FileIndexTerminalArea"]
-position = Vector2(3100, 750)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FileIndexTerminalArea" unique_id=1761296028]
+position = Vector2(4353, 726)
 shape = SubResource("RectangleShape2D_flavor")
 
-[node name="Player" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=540225112]
 position = Vector2(150, 800)
 script = ExtResource("1_player")
 min_x = 100.0
 max_x = 4680.0
-walk_line_y = 828.0
+walk_line_y = 858.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=90223530]
 position = Vector2(20, -184)
 sprite_frames = SubResource("SpriteFrames_player")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1536273413]
 position = Vector2(30, -221)
 shape = SubResource("RectangleShape2D_player")

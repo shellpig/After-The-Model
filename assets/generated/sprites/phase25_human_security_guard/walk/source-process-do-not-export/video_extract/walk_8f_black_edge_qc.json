@@ -1,0 +1,101 @@
+{
+  "ink_rgb": [
+    18,
+    14,
+    22
+  ],
+  "edge_search_px": 6,
+  "frames": [
+    {
+      "file": "walk_01.png",
+      "transparent_rgb_recolored": 818592,
+      "visible_white_edge_recolored": 44120,
+      "bbox": [
+        206,
+        102,
+        811,
+        958
+      ]
+    },
+    {
+      "file": "walk_02.png",
+      "transparent_rgb_recolored": 850515,
+      "visible_white_edge_recolored": 24676,
+      "bbox": [
+        157,
+        98,
+        805,
+        957
+      ]
+    },
+    {
+      "file": "walk_03.png",
+      "transparent_rgb_recolored": 891949,
+      "visible_white_edge_recolored": 5043,
+      "bbox": [
+        159,
+        90,
+        738,
+        956
+      ]
+    },
+    {
+      "file": "walk_04.png",
+      "transparent_rgb_recolored": 839466,
+      "visible_white_edge_recolored": 37690,
+      "bbox": [
+        234,
+        96,
+        774,
+        958
+      ]
+    },
+    {
+      "file": "walk_05.png",
+      "transparent_rgb_recolored": 836992,
+      "visible_white_edge_recolored": 39832,
+      "bbox": [
+        235,
+        103,
+        819,
+        958
+      ]
+    },
+    {
+      "file": "walk_06.png",
+      "transparent_rgb_recolored": 882403,
+      "visible_white_edge_recolored": 13371,
+      "bbox": [
+        160,
+        96,
+        774,
+        957
+      ]
+    },
+    {
+      "file": "walk_07.png",
+      "transparent_rgb_recolored": 861320,
+      "visible_white_edge_recolored": 12903,
+      "bbox": [
+        146,
+        91,
+        739,
+        957
+      ]
+    },
+    {
+      "file": "walk_08.png",
+      "transparent_rgb_recolored": 820374,
+      "visible_white_edge_recolored": 43385,
+      "bbox": [
+        204,
+        101,
+        802,
+        958
+      ]
+    }
+  ],
+  "sheet": "walk_8f_sheet.png",
+  "dark_preview": "walk_8f_preview_black_edge.gif",
+  "white_preview": "walk_8f_preview_black_edge_on_white.gif"
+}

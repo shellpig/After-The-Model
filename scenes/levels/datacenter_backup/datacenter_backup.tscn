@@ -44,7 +44,14 @@
 [ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_rack_sentinel/horizontal_move/horizontal_move.png" id="42_rack_move"]
 [ext_resource type="Script" path="res://scenes/actors/security_guard/security_guard.gd" id="43_guard_script"]
 [ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/idle/idle.png" id="44_guard_idle"]
-[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/walk/walk.png" id="45_guard_walk"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/walk/walk_01_fixed.png" id="100_gw1"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/walk/walk_02_fixed.png" id="101_gw2"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/walk/walk_03_fixed.png" id="102_gw3"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/walk/walk_04_fixed.png" id="103_gw4"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/walk/walk_05_fixed.png" id="104_gw5"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/walk/walk_06_fixed.png" id="105_gw6"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/walk/walk_07_fixed.png" id="106_gw7"]
+[ext_resource type="Texture2D" path="res://assets/generated/sprites/phase25_human_security_guard/walk/walk_08_fixed.png" id="107_gw8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(4768, 16)
@@ -233,11 +240,32 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("45_guard_walk")
+"texture": ExtResource("100_gw1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("101_gw2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("102_gw3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("103_gw4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("104_gw5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("105_gw6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("106_gw7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("107_gw8")
 }],
 "loop": true,
 "name": &"walk",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_guard_body"]

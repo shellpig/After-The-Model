@@ -2,9 +2,9 @@
 
 本文件供新 session 快速了解專案全貌，減少每次重讀全部規格文件的成本。需要深入細節時，按下方文件索引讀對應規格。
 
-最後更新：2026-07-05
+最後更新：2026-07-11
 
-> **當前進度**：Phase 29（Edited Expose 三判定）與 Phase 30（三結局共用收尾、主線脊椎回歸與存讀檔矩陣）已完成；主線結局段已收束至五結局路由、共用收尾、結局 meta 記錄與全主線回歸。M1（進度頁）/ M2（i18n）已完成。
+> **當前進度**：Phase 29（Edited Expose 三判定）與 Phase 30（三結局共用收尾、主線脊椎回歸與存讀檔矩陣）已完成；主線結局段已收束至五結局路由、共用收尾、結局 meta 記錄與全主線回歸。M1（進度頁）/ M2（i18n）已完成。Phase 31（P-00 隱藏遭遇）⬜ 暫緩不卡發行；Phase 32（Act 3→4 決意拍）📐 規格已備待實作（2026-07-11 圓桌定案）。
 
 ---
 
@@ -319,6 +319,9 @@ note_id
 | 30-A | ✅ | 共用收尾三拍（11 CG）＋《雨還沒停》＋credits→回標題＋M1 結局記錄（meta 檔） |
 | 30-B | ✅ | 全主線脊椎回歸（wake_bed 起真實路徑、六條終點全跑：Reclaim / Protect not-B / Protect Branch B / Expose A/B/C） |
 | 30-C | ✅ | 三結局 × 存讀檔矩陣 + GUI / 純觸控 / i18n 走查 |
+| 31 | ⬜ 暫緩 | P-00 隱藏遭遇（可獨立後補、不卡發行；編號保留勿挪用） |
+| 32-A | 📐 | Act 3→4 決意拍：`travel_datacenter` 樹改造（menu 線索化＋三線 prelude＋晚確認 choice＋工作筆記＋committed 短版）＋三語 CSV |
+| 32-B | 📐 | Phase 32 回歸＋i18n coverage＋GUI / 純觸控走查 |
 
 > 狀態圖例：✅ 完成（含可驗收）；🟦 待驗收 = 程式實作完成且 headless PASS，互動 / 視覺 / 真機驗收未執行；🟧 待 headless = 程式完成、headless 未跑；📐 規格可實作 = 三份文件規格已寫到可動工、程式未開工；⬜ 待開工 / 待規劃。
 >
@@ -415,4 +418,5 @@ C:\_work\Godot_v4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . 
 ## 下一步建議
 
 - **Phase 29 / Phase 30 已完成**：Edited Expose 三判定、三結局共用收尾、六條結局脊椎回歸、存讀檔矩陣、結局 meta 記錄與 i18n 驗證均已落地；最新狀態以 Phase 進度表與近期 commit / headless gate 為準。
-- **下一步**：進入結局後發行前總整理（手動遊玩紀錄、平台匯出、credits / 授權盤點、已知問題收斂）；若要新增 Phase 31，先在三份規格文件補 Phase 31 契約與驗收清單。
+- **下一步：Phase 32（Act 3→4 決意拍，2026-07-11 圓桌四席全票定案）**——修「三線完成後 travel 選項默默出現、玩家不知為何要去資料中心（和平線尤甚）」的敘事斷裂。規格已補齊可動工：驗收意圖見 `遊戲規格書.md > Phase 32`；實作契約見 `開發設計方針.md > Act 3→4 決意拍（Phase 32，實作契約）`（含末尾「32 任務分解（圓桌開發模式用）」——T1~T3 任務卡、精確 files 範圍、per-task gate 與 integration gate，供 ai-roundtable 開發模式主控照抄拆任務）；操作清單見 `測試指南.md > Phase 32`（一律標題 grep 定位，勿用行號）。範圍收在 `travel_datacenter` 對話樹＋`datacenter_travel_committed` 旗標＋i18n CSV＋`phase_25a.gd` 2c 遷移，gate 與場景 flow 不動。
+- **其後**：進入結局後發行前總整理（手動遊玩紀錄、平台匯出、credits / 授權盤點、已知問題收斂）。Phase 31（P-00 隱藏遭遇）維持 ⬜ 暫緩、編號保留。

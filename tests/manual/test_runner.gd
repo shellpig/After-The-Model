@@ -1,4 +1,5 @@
-extends "res://tests/manual/phases/phase_1abc.gd"
+extends "res://tests/manual/phases/phase_32.gd"
+
 
 func _ready() -> void:
 	LocaleManager.set_locale("zh_TW")
@@ -303,6 +304,10 @@ func _ready() -> void:
 
 	await _run_phase_scene_lint()
 	await get_tree().process_frame
+
+	await _run_phase_32()
+	await get_tree().process_frame
+
 
 	print("==================================================")
 	print("ALL INTEGRATION VERIFICATIONS PASSED SUCCESSFULLY!")

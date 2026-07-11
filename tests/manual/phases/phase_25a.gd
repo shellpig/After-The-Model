@@ -52,16 +52,29 @@ func _run_phase_25a() -> void:
 	GameState.set_flag("seven_peace_branch_d", true)
 	var runner_d_phase25 = DialogueRunner.new()
 	runner_d_phase25.start(travel_tree_phase25)
-	if runner_d_phase25.current().get("text", "") != "DLG_TRAVEL_DATACENTER_MENU_TEXT":
-		printerr("FAIL 25-A: travel_datacenter should unlock the menu when seven_peace_branch_d is true!")
+	if runner_d_phase25.current().get("text", "") != "DLG_TRAVEL_DATACENTER_MENU_PEACE_TEXT":
+		printerr("FAIL 25-A: travel_datacenter should unlock the menu_peace when seven_peace_branch_d is true!")
+		get_tree().quit(1)
+		return
+	if not GameState.has_note("note_datacenter_route"):
+		printerr("FAIL 25-A: entering menu_peace should write note_datacenter_route!")
 		get_tree().quit(1)
 		return
 	runner_d_phase25.choose(0)
-	if runner_d_phase25.current().get("speaker", "") != "SPEAKER_WAN":
-		printerr("FAIL 25-A: choosing to travel should show the Wan flavor beat first!")
+	if runner_d_phase25.current().get("text", "") != "DLG_TRAVEL_DATACENTER_PRELUDE_D_TEXT":
+		printerr("FAIL 25-A: choosing to travel in D branch should show prelude_d!")
 		get_tree().quit(1)
 		return
 	runner_d_phase25.advance()
+	if runner_d_phase25.current().get("speaker", "") != "SPEAKER_WAN" or runner_d_phase25.current().get("text", "") != "DLG_TRAVEL_DATACENTER_CONFIRM_D_TEXT":
+		printerr("FAIL 25-A: after prelude_d, should show confirm_by_wan_d!")
+		get_tree().quit(1)
+		return
+	runner_d_phase25.choose(0)
+	if not GameState.get_flag("datacenter_travel_committed"):
+		printerr("FAIL 25-A: choosing inside should set datacenter_travel_committed flag!")
+		get_tree().quit(1)
+		return
 	if runner_d_phase25.pending_travel.get("scene_id", "") != "datacenter_entrance" or runner_d_phase25.pending_travel.get("entry_point_id", "") != "from_nightclub":
 		printerr("FAIL 25-A: travel_datacenter payload incorrect: ", runner_d_phase25.pending_travel)
 		get_tree().quit(1)
@@ -319,7 +332,15 @@ func _run_phase_25a() -> void:
 	var keys_phase25 = [
 		"DLG_TRAVEL_DATACENTER_LOCKED_TEXT",
 		"DLG_TRAVEL_DATACENTER_MENU_TEXT",
-		"DLG_TRAVEL_DATACENTER_WAN_FLAVOR_TEXT",
+		"DLG_TRAVEL_DATACENTER_MENU_PEACE_TEXT",
+		"DLG_TRAVEL_DATACENTER_MENU_REPEAT_TEXT",
+		"DLG_TRAVEL_DATACENTER_PRELUDE_D_TEXT",
+		"DLG_TRAVEL_DATACENTER_PRELUDE_A_TEXT",
+		"DLG_TRAVEL_DATACENTER_PRELUDE_B_TEXT",
+		"DLG_TRAVEL_DATACENTER_CONFIRM_D_TEXT",
+		"DLG_TRAVEL_DATACENTER_CONFIRM_TRACK_TEXT",
+		"DLG_TRAVEL_DATACENTER_CONFIRM_CHOICE0",
+		"DLG_TRAVEL_DATACENTER_CONFIRM_CHOICE1",
 		"DLG_TRAVEL_DATACENTER_TRAVEL_TEXT",
 		"MSG_DATACENTER_ACCESS_DENIED",
 		"MSG_DATACENTER_OWN_BACKUP_PLACEHOLDER",

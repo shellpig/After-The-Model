@@ -8,7 +8,7 @@ func _run_phase_32() -> void:
 
 	# ===================== 1. gate 迴歸 =====================
 	print("Checking gate regression...")
-	
+
 	# 無旗標：鎖住
 	GameState.reset_for_new_game()
 	var runner_locked_phase32 = DialogueRunner.new()
@@ -109,9 +109,9 @@ func _run_phase_32() -> void:
 		return
 
 	var note_obj_phase32 = null
-	for n in GameState.get_notes("工作"):
-		if n.get("id") == "note_datacenter_route":
-			note_obj_phase32 = n
+	for note_row_phase32 in GameState.get_notes("工作"):
+		if note_row_phase32.get("id") == "note_datacenter_route":
+			note_obj_phase32 = note_row_phase32
 			break
 	if note_obj_phase32 == null or note_obj_phase32.get("category", "") != "工作":
 		printerr("FAIL 32-B: (note) note category is not '工作'!")

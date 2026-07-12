@@ -17,6 +17,21 @@ var _dialogue_full_text := ""
 var _dialogue_elapsed := 0.0
 const CHARS_PER_SECOND := 12.0
 
+# Speaker key (CSV i18n key used in the "speaker" field of data/dialogue/*.gd trees)
+# -> dialogue portrait image path. Looked up per-node in _update_ui() so a single
+# tree can mix speakers (e.g. travel_datacenter's menu/prelude nodes have no speaker,
+# its confirm nodes are SPEAKER_WAN).
+const SPEAKER_PORTRAITS := {
+	"SPEAKER_WAN": "res://assets/generated/sprites/wan/dialogue_portrait/wan-dialogue-portrait-20260607-100732/portrait.png",
+	"SPEAKER_STORE_ROBOT": "res://assets/generated/sprites/store_robot/dialogue_portrait/store-robot-dialogue-portrait-20260610-202942/portrait.png",
+	"SPEAKER_LU_QICHEN": "res://assets/generated/sprites/lu_qichen/dialogue_portrait/lu-qichen-dialogue-portrait-20260613-124451/portrait.png",
+	"SPEAKER_CEN": "res://assets/generated/sprites/cen/dialogue_portrait/cen-dialogue-portrait-20260621-141759/portrait.png",
+	"SPEAKER_WU": "res://assets/generated/sprites/wu/dialogue_portrait/wu-dialogue-portrait-20260621-143046/portrait.png",
+	"SPEAKER_SEVEN": "res://assets/generated/sprites/seven/dialogue_portrait/seven-dialogue-portrait-idle-match-right-20260621-214200/portrait.png",
+	"SPEAKER_ADA": "res://assets/generated/sprites/ada/dialogue_portrait/ada-dialogue-portrait-from-concept-20260702-201200/portrait.png",
+	"SPEAKER_BODYGUARD": "res://assets/generated/sprites/nightclub_bodyguard/dialogue_portrait/sprite.png",
+}
+
 func _ready() -> void:
 	visible = false
 	# Allow mouse clicks to pass through containers to DialoguePanel for global click advance
@@ -42,57 +57,9 @@ func start_dialogue(dialogue_id: String) -> void:
 	_runner.finished.connect(_on_dialogue_finished)
 	_runner.start(tree)
 
-	# Load character portrait dynamically
-	if dialogue_id == "wan" or dialogue_id == "wan_datacenter" or dialogue_id == "wan_epilogue":
-		var img_path = "res://assets/generated/sprites/wan/dialogue_portrait/wan-dialogue-portrait-20260607-100732/portrait.png"
-		if ResourceLoader.exists(img_path):
-			portrait_rect.texture = load(img_path)
-		else:
-			portrait_rect.texture = null
-	elif dialogue_id == "store_robot":
-		var img_path = "res://assets/generated/sprites/store_robot/dialogue_portrait/store-robot-dialogue-portrait-20260610-202942/portrait.png"
-		if ResourceLoader.exists(img_path):
-			portrait_rect.texture = load(img_path)
-		else:
-			portrait_rect.texture = null
-	elif dialogue_id == "lu_qichen":
-		var img_path = "res://assets/generated/sprites/lu_qichen/dialogue_portrait/lu-qichen-dialogue-portrait-20260613-124451/portrait.png"
-		if ResourceLoader.exists(img_path):
-			portrait_rect.texture = load(img_path)
-		else:
-			portrait_rect.texture = null
-	elif dialogue_id == "cen":
-		var img_path = "res://assets/generated/sprites/cen/dialogue_portrait/cen-dialogue-portrait-20260621-141759/portrait.png"
-		if ResourceLoader.exists(img_path):
-			portrait_rect.texture = load(img_path)
-		else:
-			portrait_rect.texture = null
-	elif dialogue_id == "wu":
-		var img_path = "res://assets/generated/sprites/wu/dialogue_portrait/wu-dialogue-portrait-20260621-143046/portrait.png"
-		if ResourceLoader.exists(img_path):
-			portrait_rect.texture = load(img_path)
-		else:
-			portrait_rect.texture = null
-	elif dialogue_id == "seven":
-		var img_path = "res://assets/generated/sprites/seven/dialogue_portrait/seven-dialogue-portrait-idle-match-right-20260621-214200/portrait.png"
-		if ResourceLoader.exists(img_path):
-			portrait_rect.texture = load(img_path)
-		else:
-			portrait_rect.texture = null
-	elif dialogue_id == "ada":
-		var ada_img_path = "res://assets/generated/sprites/ada/dialogue_portrait/ada-dialogue-portrait-from-concept-20260702-201200/portrait.png"
-		if ResourceLoader.exists(ada_img_path):
-			portrait_rect.texture = load(ada_img_path)
-		else:
-			portrait_rect.texture = null
-	elif dialogue_id == "nightclub_bodyguard":
-		var img_path = "res://assets/generated/sprites/nightclub_bodyguard/dialogue_portrait/sprite.png"
-		if ResourceLoader.exists(img_path):
-			portrait_rect.texture = load(img_path)
-		else:
-			portrait_rect.texture = null
-	else:
-		portrait_rect.texture = null
+	# Portrait is now chosen per-node by speaker key (see _update_portrait_for_current_node);
+	# reset here so a dialogue that opens on a no-speaker node doesn't inherit a stale portrait.
+	portrait_rect.texture = null
 
 	visible = true
 	_is_input_active = true
@@ -134,6 +101,8 @@ func _update_ui() -> void:
 	if curr.is_empty():
 		close_dialogue()
 		return
+
+	_update_portrait_for_current_node(curr)
 
 	name_label.text = tr(curr.get("speaker", ""))
 	_dialogue_full_text = tr(curr.get("text", ""))
@@ -197,6 +166,22 @@ func _update_ui() -> void:
 	# Bypass typewriter effect in headless testing environment to avoid test failure due to frame delay
 	if DisplayServer.get_name() == "headless":
 		_finish_text()
+
+func _update_portrait_for_current_node(curr: Dictionary) -> void:
+	var speaker: String = curr.get("speaker", "")
+	if speaker.is_empty():
+		# No speaker on this node (e.g. a menu/prelude line, or a continuation line
+		# right after the same character's line) -- leave whatever portrait is
+		# already showing rather than flicker it away.
+		return
+	if SPEAKER_PORTRAITS.has(speaker):
+		var img_path: String = SPEAKER_PORTRAITS[speaker]
+		if ResourceLoader.exists(img_path):
+			portrait_rect.texture = load(img_path)
+		else:
+			portrait_rect.texture = null
+	else:
+		portrait_rect.texture = null
 
 func _on_choice_focused(idx: int, btn: Button) -> void:
 	_focused_choice_idx = idx

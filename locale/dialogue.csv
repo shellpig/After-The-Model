@@ -499,10 +499,18 @@ DLG_SEVEN_BETRAYAL_START_TEXT,「讓開。」七號站在終端前，手指懸�
 DLG_SEVEN_BETRAYAL_CHOICE0,你這是背叛聚落的所有人！,你这是背叛聚落的所有人！,You are betraying everyone in the settlement!
 DLG_SEVEN_BETRAYAL_RESPONSE_TEXT,「你們可以一直躲。我不行！」七號吼了出來，手指重重按下，「我妹妹還在系統裡！我只想確認她還活著！」他轉身撞開你，瘋狂地跑進深邃的隧道中。,「你们可以一直躲。我不行！」七号吼了出来，手指重重按下，「我妹妹还在系统里！我只想确认她还活着！」他转身撞开你，疯狂地跑进深邃的隧道中。,"""You can keep hiding. I can't!"" Seven roars as he hits the button. ""My sister is still in the system! I just want to make sure she's alive!"" He spins around, shoulders past you, and runs wildly into the deep tunnel."
 DLG_TRAVEL_DATACENTER_LOCKED_TEXT,（那扇通往上層資料設施的門，此刻對你來說還太遙遠。）,（那扇通往上层资料设施的门，此刻对你来说还太遥远。）,(That door to the upper data facility is still out of reach for you right now.)
-DLG_TRAVEL_DATACENTER_MENU_TEXT,你想起地圖上標示的「AI 資料中心」——那是你被派去善後的地方之一。要現在過去嗎？,你想起地图上标示的「AI 数据中心」——那是你被派去善后的地方之一。要现在过去吗？,You recall the ""AI Data Center"" marked on the map — one of the places you were dispatched to clean up. Head there now?
+DLG_TRAVEL_DATACENTER_MENU_TEXT,你想起在夜總會後場找到的線索，以及手中的舊工單與舊識別證，一切都指向同一個地方——「AI 資料中心」。要現在過去嗎？,你想起在夜总会后场找到的线索，以及手中的旧工单与旧识别证，一切都指向同一个地方——「AI 数据中心」。要现在过去吗？,"You recall the clues found in the nightclub backroom, along with the old work order and badge in your hand. Everything points to the same place — the ""AI Data Center"". Head there now?"
+DLG_TRAVEL_DATACENTER_MENU_PEACE_TEXT,你想起在夜總會後場找到的線索，以及手中的舊工單與舊識別證，一切都指向同一個地方——「AI 資料中心」。有些事，似乎只能在裡面找到答案。要現在過去嗎？,你想起在夜总会后场找到的线索，以及手中的旧工单与旧识别证，一切都指向同一个地方——「AI 数据中心」。有些事，似乎只能在里面找到答案。要现在过去吗？,"You recall the clues found in the nightclub backroom, along with the old work order and badge in your hand. Everything points to the same place — the ""AI Data Center"". Some things, it seems, can only be answered inside. Head there now?"
+DLG_TRAVEL_DATACENTER_MENU_REPEAT_TEXT,你站在通往「AI 資料中心」的關卡前。要前往嗎？,你站在通往「AI 数据中心」的关卡前。要前往吗？,"You stand before the gate to the ""AI Data Center"". Do you want to head there?"
+DLG_TRAVEL_DATACENTER_PRELUDE_D_TEXT,（七號沒有背叛。沒有人逼你做任何事了，但你的內心深處，總有一股安靜的不安在蔓延。）,（七号没有背叛。没有人逼你做任何事了，但你的内心深处，总有一股安静的不安在蔓延。）,"(Seven did not betray. No one is forcing you to do anything anymore, yet a quiet unease spreads deep inside you.)"
+DLG_TRAVEL_DATACENTER_PRELUDE_A_TEXT,（裂痕已經開啟。你與他們之間已無法回頭，而資料中心就是一切的源頭，你必須去那裡做個了結。）,（裂痕已经开启。你与他们之间已无法回头，而数据中心就是一切的源头，你必须去那里做个了结。）,"(The rift has opened. There is no turning back between you and them, and the data center is the root of it all. You must go there to end it.)"
+DLG_TRAVEL_DATACENTER_PRELUDE_B_TEXT,（你已經見過「被找到」的代價。在那座龐大的資料庫裡，你會親眼看見這套抹除與重塑的系統是如何運作的。）,（你已经见过「被找到」的代价。在那座庞大的数据库里，你会亲眼看见这套抹除与重塑的系统是如何运作的。）,"(You have already seen the cost of being ""found"". Inside that massive database, you will see firsthand how this system of erasure and reshaping operates.)"
+DLG_TRAVEL_DATACENTER_CONFIRM_D_TEXT,「現在沒有人逼你了。你還要進去？」,「现在没有人逼你了。你还要进去？」,"""No one is forcing you now. Do you still want to go inside?"""
+DLG_TRAVEL_DATACENTER_CONFIRM_TRACK_TEXT,「走之前，再看一眼你的舊識別證。一旦進去，一切都回不去了。」,「走之前，再看一眼你的旧识别证。一旦进去，一切都回不去了。」,"""Before you go, look at your old badge one last time. Once you go inside, there is no turning back."""
+DLG_TRAVEL_DATACENTER_CONFIRM_CHOICE0,進去,进去,Go Inside
+DLG_TRAVEL_DATACENTER_CONFIRM_CHOICE1,先離開,先离开,Leave for now
 DLG_TRAVEL_DATACENTER_MENU_CHOICE0,前往 AI 資料中心,前往 AI 数据中心,Head to the AI Data Center
 DLG_TRAVEL_DATACENTER_MENU_CHOICE1,取消,取消,Cancel
-DLG_TRAVEL_DATACENTER_WAN_FLAVOR_TEXT,「走之前，再看一眼你那張舊識別證吧。」,「走之前，再看一眼你那张旧识别证吧。」,"""Before you go, take another look at that old badge of yours."""
 DLG_TRAVEL_DATACENTER_TRAVEL_TEXT,（你順著記憶中的路線，朝資料中心走去。）,（你顺着记忆中的路线，朝数据中心走去。）,(You follow the route from memory, heading towards the data center.)
 DLG_TRAVEL_DATACENTER_END_TEXT,（你決定先留在原地。）,（你决定先留在原地。）,(You decide to stay put for now.)
 DLG_WAN_DATACENTER_PULL_SAFE_TEXT,「你可以想起來。但你要先知道，你想起來以後，誰會被你一起拖回系統裡。」,「你可以想起来。但你要先知道，你想起来以后，谁会被你一起拖回系统里。」,"""You can remember. But you need to know first — once you remember, who gets dragged back into the system with you."""
